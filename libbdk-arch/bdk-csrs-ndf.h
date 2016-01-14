@@ -73,7 +73,8 @@
 /**
  * Register (NCB) ndf_bt_pg_info
  *
- * NAND Flash Page Information Register
+ * INTERNAL: NAND Flash Page Information Register
+ *
  * This register provides the page size and the number of column-plus-row address-cycle
  * information. Software writes to this register during a boot operation from a NAND flash
  * device.
@@ -245,19 +246,43 @@ typedef union
                                                                  NDF_INT[DMA_DONE] interrupt occurs when either the [SIZE] is exhausted (normal
                                                                  termination) or the NDF BUS_REL is issued. */
         uint64_t reserved_60           : 1;
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t cmd_be                : 1;  /**< [ 56: 56](R/W) DMA engine command-queue endian mode: 0 = little-endian, 1 = big-endian. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [CMD_BE]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [CMD_BE]. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [CMD_BE]. */
+        uint64_t cmd_be                : 1;  /**< [ 56: 56](R/W) DMA engine command-queue endian mode: 0 = little-endian, 1 = big-endian.
+                                                                 Using 0..7 to identify bytes:
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [CMD_BE]  Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
         uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). */
         uint64_t reserved_0_35         : 36;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_35         : 36;
         uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). */
-        uint64_t cmd_be                : 1;  /**< [ 56: 56](R/W) DMA engine command-queue endian mode: 0 = little-endian, 1 = big-endian. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
+        uint64_t cmd_be                : 1;  /**< [ 56: 56](R/W) DMA engine command-queue endian mode: 0 = little-endian, 1 = big-endian.
+                                                                 Using 0..7 to identify bytes:
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [CMD_BE]  Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [CMD_BE]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [CMD_BE]. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [CMD_BE]. */
         uint64_t reserved_60           : 1;
         uint64_t clr                   : 1;  /**< [ 61: 61](R/W) DMA engine clear EN. When set to 1, DMA is terminated and EN is cleared and the
                                                                  NDF_INT[DMA_DONE] interrupt occurs when either the [SIZE] is exhausted (normal
@@ -292,7 +317,7 @@ static inline uint64_t BDK_NDF_DMA_CFG_FUNC(void)
  *
  * NAND Flash Doorbell Register
  * This register is designed to control the execution of the NAND flash commands. The NDF
- * command-execution unit must arbitrate for the boot bus before it can enable a NAND flash
+ * command-execution unit must arbitrate for the pbus before it can enable a NAND flash
  * device connected to the CNXXXX, which it then does by asserting the device's chip-enable
  * signal. Therefore software must first load the NDF_CMD queue, with a full sequence of commands
  * to perform a NAND flash device task.
@@ -309,7 +334,7 @@ static inline uint64_t BDK_NDF_DMA_CFG_FUNC(void)
  * Software register-read operations return the current CNT value.
  *
  * Hardware can also modifies the value of CNT. Every time hardware executes a BUS_ACQ command to
- * arbitrate and win the boot bus, it decrements CNT by 1. If CNT is already 0 or negative, the
+ * arbitrate and win the pbus, it decrements CNT by 1. If CNT is already 0 or negative, the
  * hardware command-execution unit stalls when it fetches the new BUS_ACQ command from the
  * NDF_CMD queue. Only when the software writes to this register with a non-zero data value can
  * the execution unit come out of the stalled condition, and resume execution.
@@ -374,9 +399,9 @@ typedef union
 
                                                                  ECC_gen_byt258, ECC_gen_byt257, ECC_gen_byt256 are generated from data read out from the
                                                                  NAND flash device. */
-        uint64_t ecc_err               : 8;  /**< [  7:  0](RO/H) ECC error count. The number of single-bit errors fixed during boot. */
+        uint64_t ecc_err               : 8;  /**< [  7:  0](RO/H) ECC error count. The number of single-bit errors fixed. */
 #else /* Word 0 - Little Endian */
-        uint64_t ecc_err               : 8;  /**< [  7:  0](RO/H) ECC error count. The number of single-bit errors fixed during boot. */
+        uint64_t ecc_err               : 8;  /**< [  7:  0](RO/H) ECC error count. The number of single-bit errors fixed. */
         uint64_t xor_ecc               : 24; /**< [ 31:  8](RO/H) Result of XOR operation of ECC read bytes and ECC generated bytes. The value pertains to
                                                                  the last single-bit ECC error.
 
@@ -415,7 +440,7 @@ static inline uint64_t BDK_NDF_ECC_CNT_FUNC(void)
 /**
  * Register (NCB) ndf_eco
  *
- * INTERNAL: NDF ECO Register
+ * INTERNAL: NAND Flash ECO Register
  */
 typedef union
 {
@@ -467,8 +492,8 @@ typedef union
         uint64_t reserved_8_63         : 56;
         uint64_t dma_done              : 1;  /**< [  7:  7](R/W1C/H) DMA engine request completion interrupt. */
         uint64_t ovrf                  : 1;  /**< [  6:  6](R/W1C/H) NDF_CMD write when FIFO is full. Generally a fatal error. */
-        uint64_t ecc_mult              : 1;  /**< [  5:  5](R/W1C/H) Multibit ECC error detected during boot. */
-        uint64_t ecc_1bit              : 1;  /**< [  4:  4](R/W1C/H) Single-bit ECC error detected and fixed during boot. */
+        uint64_t ecc_mult              : 1;  /**< [  5:  5](R/W1C/H) Multibit ECC error detected. */
+        uint64_t ecc_1bit              : 1;  /**< [  4:  4](R/W1C/H) Single-bit ECC error detected and fixed. */
         uint64_t sm_bad                : 1;  /**< [  3:  3](R/W1C/H) One of the state machines is in a bad state, */
         uint64_t wdog                  : 1;  /**< [  2:  2](R/W1C/H) Watchdog timer expired during command execution. */
         uint64_t full                  : 1;  /**< [  1:  1](R/W1C/H) NDF_CMD queue is full. FULL status is updated when the NDF_CMD queue becomes full as a
@@ -482,8 +507,8 @@ typedef union
                                                                  result of software writing a new command to it. */
         uint64_t wdog                  : 1;  /**< [  2:  2](R/W1C/H) Watchdog timer expired during command execution. */
         uint64_t sm_bad                : 1;  /**< [  3:  3](R/W1C/H) One of the state machines is in a bad state, */
-        uint64_t ecc_1bit              : 1;  /**< [  4:  4](R/W1C/H) Single-bit ECC error detected and fixed during boot. */
-        uint64_t ecc_mult              : 1;  /**< [  5:  5](R/W1C/H) Multibit ECC error detected during boot. */
+        uint64_t ecc_1bit              : 1;  /**< [  4:  4](R/W1C/H) Single-bit ECC error detected and fixed. */
+        uint64_t ecc_mult              : 1;  /**< [  5:  5](R/W1C/H) Multibit ECC error detected. */
         uint64_t ovrf                  : 1;  /**< [  6:  6](R/W1C/H) NDF_CMD write when FIFO is full. Generally a fatal error. */
         uint64_t dma_done              : 1;  /**< [  7:  7](R/W1C/H) DMA engine request completion interrupt. */
         uint64_t reserved_8_63         : 56;
@@ -685,14 +710,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
-        uint64_t mb_dis                : 1;  /**< [ 27: 27](R/W) Set to disable multi-bit error hangs. Allows boot loads and boot DMAs to proceed as if no
+        uint64_t mb_dis                : 1;  /**< [ 27: 27](R/W) Set to disable multi-bit error hangs. Allows loads and DMAs to proceed as if no
                                                                  multi-bit errors occurred. Hardware fixes single bit errors as usual. */
         uint64_t nbr_hwm               : 3;  /**< [ 26: 24](R/W) High watermark for NBR FIFO or load/store operations. This field specifies the high
                                                                  watermark for the NCB outbound load/store commands receive FIFO. [NBR_HWM]+1 is used
                                                                  as the high watermark.  So a value of 0 allows 1 entry in the FIFO at a time.  The
                                                                  FIFO size is 8 entries. */
         uint64_t wait_cnt              : 6;  /**< [ 23: 18](R/W) Wait input filter count. Represents the number of coprocessor-clock cycles for glitch
-                                                                 filtering of BOOT_WAIT_L from the NAND flash device. */
+                                                                 filtering of PBUS_WAIT from the NAND flash device. */
         uint64_t fr_byt                : 11; /**< [ 17:  7](RO/H) Unfilled NDF_CMD queue bytes. This field specifies the number of unfilled bytes in the
                                                                  NDF_CMD queue. Bytes become unfilled as commands complete execution and exit. (FIFO is 256
                                                                  bytes when [BT_DIS] = 0 and 1536 bytes when [BT_DIS] = 1.) */
@@ -710,19 +735,20 @@ typedef union
                                                                  until [RD_DONE] is set to 1.
 
                                                                  This bit is cleared on any NDF_CMD software write command. */
-        uint64_t bt_dma                : 1;  /**< [  3:  3](R/W) Boot-time DMA enable. When set to 1, boot-time DMA is enabled. This indicates to the NAND
+        uint64_t bt_dma                : 1;  /**< [  3:  3](R/W) Boot-time DMA enable. Reserved.
+
+                                                                 internal: When set to 1, boot-time DMA is enabled. This indicates to the NAND
                                                                  flash boot-control state machine that boot DMA read operations can begin. Software should
                                                                  set this bit to 1 after loading the NDF_CMD queue. Hardware sets the bit to 0 when boot
                                                                  DMA command execution is complete. If chip-enable 0 is not a NAND flash device, this bit
                                                                  is permanently 0 with software write operations ignored.
-
                                                                  When [BT_DIS] = 1, this bit is 0. */
-        uint64_t bt_dis                : 1;  /**< [  2:  2](R/W) Boot disable. When the boot operation is over, software must set this field to 1, which
-                                                                 causes the boot-control state machines to sleep.
+        uint64_t bt_dis                : 1;  /**< [  2:  2](R/W) Boot disable. Typically set to 1.
 
+                                                                 internal:  When the boot operation is over, software must set this field to 1, which
+                                                                 causes the boot-control state machines to sleep.
                                                                  This bit indicates to the NAND flash boot-control state machine that boot operation has
                                                                  ended. When this bit changes from 0 -> 1, the NDF_CMD queue is emptied as a side effect.
-
                                                                  This bit must never be set when booting from NAND flash and region zero is enabled. */
         uint64_t ex_dis                : 1;  /**< [  1:  1](R/W) Execution disable. When set to 1, this bit stops command execution after completing the
                                                                  execution of all commands currently in the NDF_CMD queue. Once command execution has
@@ -745,19 +771,20 @@ typedef union
                                                                  not resume while this bit is 1.
 
                                                                  When this bit is set to 0, execution resumes if the NDF_CMD queue is not empty. */
-        uint64_t bt_dis                : 1;  /**< [  2:  2](R/W) Boot disable. When the boot operation is over, software must set this field to 1, which
-                                                                 causes the boot-control state machines to sleep.
+        uint64_t bt_dis                : 1;  /**< [  2:  2](R/W) Boot disable. Typically set to 1.
 
+                                                                 internal:  When the boot operation is over, software must set this field to 1, which
+                                                                 causes the boot-control state machines to sleep.
                                                                  This bit indicates to the NAND flash boot-control state machine that boot operation has
                                                                  ended. When this bit changes from 0 -> 1, the NDF_CMD queue is emptied as a side effect.
-
                                                                  This bit must never be set when booting from NAND flash and region zero is enabled. */
-        uint64_t bt_dma                : 1;  /**< [  3:  3](R/W) Boot-time DMA enable. When set to 1, boot-time DMA is enabled. This indicates to the NAND
+        uint64_t bt_dma                : 1;  /**< [  3:  3](R/W) Boot-time DMA enable. Reserved.
+
+                                                                 internal: When set to 1, boot-time DMA is enabled. This indicates to the NAND
                                                                  flash boot-control state machine that boot DMA read operations can begin. Software should
                                                                  set this bit to 1 after loading the NDF_CMD queue. Hardware sets the bit to 0 when boot
                                                                  DMA command execution is complete. If chip-enable 0 is not a NAND flash device, this bit
                                                                  is permanently 0 with software write operations ignored.
-
                                                                  When [BT_DIS] = 1, this bit is 0. */
         uint64_t rd_cmd                : 1;  /**< [  4:  4](R/W) Read command. When set to 1, the hardware reads the contents of the NDF_CMD queue eight
                                                                  bytes at a time and places the data into NDF_CMD. Software should first read RD_VAL to see
@@ -777,12 +804,12 @@ typedef union
                                                                  NDF_CMD queue. Bytes become unfilled as commands complete execution and exit. (FIFO is 256
                                                                  bytes when [BT_DIS] = 0 and 1536 bytes when [BT_DIS] = 1.) */
         uint64_t wait_cnt              : 6;  /**< [ 23: 18](R/W) Wait input filter count. Represents the number of coprocessor-clock cycles for glitch
-                                                                 filtering of BOOT_WAIT_L from the NAND flash device. */
+                                                                 filtering of PBUS_WAIT from the NAND flash device. */
         uint64_t nbr_hwm               : 3;  /**< [ 26: 24](R/W) High watermark for NBR FIFO or load/store operations. This field specifies the high
                                                                  watermark for the NCB outbound load/store commands receive FIFO. [NBR_HWM]+1 is used
                                                                  as the high watermark.  So a value of 0 allows 1 entry in the FIFO at a time.  The
                                                                  FIFO size is 8 entries. */
-        uint64_t mb_dis                : 1;  /**< [ 27: 27](R/W) Set to disable multi-bit error hangs. Allows boot loads and boot DMAs to proceed as if no
+        uint64_t mb_dis                : 1;  /**< [ 27: 27](R/W) Set to disable multi-bit error hangs. Allows loads and DMAs to proceed as if no
                                                                  multi-bit errors occurred. Hardware fixes single bit errors as usual. */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
@@ -966,7 +993,7 @@ typedef union
                                                                  0 = Busy.
                                                                  1 = Idle (execution of command sequence is complete and NDF_CMD queue is empty). */
         uint64_t exe_sm                : 4;  /**< [ 14: 11](RO/H) Command-execution state-machine states. */
-        uint64_t bt_sm                 : 4;  /**< [ 10:  7](RO/H) Boot-load and boot-DMA state-machine states. */
+        uint64_t bt_sm                 : 4;  /**< [ 10:  7](RO/H) Load and DMA state-machine states. */
         uint64_t rd_ff_bad             : 1;  /**< [  6:  6](RO/H) The NDF_CMD-queue read-back state machine is in a 'bad' state. */
         uint64_t rd_ff                 : 2;  /**< [  5:  4](RO/H) NDF_CMD-queue read-back state machine states. */
         uint64_t main_bad              : 1;  /**< [  3:  3](RO/H) The main state machine is in a 'bad' state. */
@@ -976,7 +1003,7 @@ typedef union
         uint64_t main_bad              : 1;  /**< [  3:  3](RO/H) The main state machine is in a 'bad' state. */
         uint64_t rd_ff                 : 2;  /**< [  5:  4](RO/H) NDF_CMD-queue read-back state machine states. */
         uint64_t rd_ff_bad             : 1;  /**< [  6:  6](RO/H) The NDF_CMD-queue read-back state machine is in a 'bad' state. */
-        uint64_t bt_sm                 : 4;  /**< [ 10:  7](RO/H) Boot-load and boot-DMA state-machine states. */
+        uint64_t bt_sm                 : 4;  /**< [ 10:  7](RO/H) Load and DMA state-machine states. */
         uint64_t exe_sm                : 4;  /**< [ 14: 11](RO/H) Command-execution state-machine states. */
         uint64_t exe_idle              : 1;  /**< [ 15: 15](RO/H) Command execution status
                                                                  0 = Busy.

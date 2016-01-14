@@ -84,7 +84,9 @@ union bdk_bch_cword_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ecc_gen               : 1;  /**< [ 63: 63] Indicates the BCH function:
                                                                    0 = Perform a block correction.
-                                                                   1 = Perform a parity generation. */
+                                                                   1 = Perform a copy operation.
+                                                                   2 = Perform a parity generation.
+                                                                   3 = Perform a copy operation. */
         uint64_t reserved_36_62        : 27;
         uint64_t ecc_level             : 4;  /**< [ 35: 32] Indicates the maximum number of errors within a data block that can be corrected.
                                                                  The number of parity bytes is equal to ceiling(15 * [ECC_LEVEL])/8.
@@ -102,7 +104,9 @@ union bdk_bch_cword_s
         uint64_t reserved_36_62        : 27;
         uint64_t ecc_gen               : 1;  /**< [ 63: 63] Indicates the BCH function:
                                                                    0 = Perform a block correction.
-                                                                   1 = Perform a parity generation. */
+                                                                   1 = Perform a copy operation.
+                                                                   2 = Perform a parity generation.
+                                                                   3 = Perform a copy operation. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_cword_s_s cn; */
@@ -492,7 +496,11 @@ typedef union
     struct bdk_bch_err_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_7_63         : 57;
+        uint64_t st_dat_err            : 1;  /**< [  6:  6](R/W1C/H) An error occured while storing data via NCBI. */
+        uint64_t st_cmd_err            : 1;  /**< [  5:  5](R/W1C/H) An error occured while storing command via NCBI. */
+        uint64_t ld_dat_err            : 1;  /**< [  4:  4](R/W1C/H) An error occured while loading data via NCBO. */
+        uint64_t ld_cmd_err            : 1;  /**< [  3:  3](R/W1C/H) An error occured while loading command via NCBO. */
         uint64_t dat_dbe               : 1;  /**< [  2:  2](R/W1C/H) An ECC uncorrectable error has occurred in the DAT RAM. */
         uint64_t dat_sbe               : 1;  /**< [  1:  1](R/W1C/H) An ECC correctable error has occurred in the DAT RAM. */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Error bit indicating a doorbell count has overflowed. */
@@ -500,7 +508,11 @@ typedef union
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Error bit indicating a doorbell count has overflowed. */
         uint64_t dat_sbe               : 1;  /**< [  1:  1](R/W1C/H) An ECC correctable error has occurred in the DAT RAM. */
         uint64_t dat_dbe               : 1;  /**< [  2:  2](R/W1C/H) An ECC uncorrectable error has occurred in the DAT RAM. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t ld_cmd_err            : 1;  /**< [  3:  3](R/W1C/H) An error occured while loading command via NCBO. */
+        uint64_t ld_dat_err            : 1;  /**< [  4:  4](R/W1C/H) An error occured while loading data via NCBO. */
+        uint64_t st_cmd_err            : 1;  /**< [  5:  5](R/W1C/H) An error occured while storing command via NCBI. */
+        uint64_t st_dat_err            : 1;  /**< [  6:  6](R/W1C/H) An error occured while storing data via NCBI. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_err_int_s cn; */
@@ -536,7 +548,11 @@ typedef union
     struct bdk_bch_err_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_7_63         : 57;
+        uint64_t st_dat_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BCH_ERR_INT[ST_DAT_ERR]. */
+        uint64_t st_cmd_err            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BCH_ERR_INT[ST_CMD_ERR]. */
+        uint64_t ld_dat_err            : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BCH_ERR_INT[LD_DAT_ERR]. */
+        uint64_t ld_cmd_err            : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BCH_ERR_INT[LD_CMD_ERR]. */
         uint64_t dat_dbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BCH_ERR_INT[DAT_DBE]. */
         uint64_t dat_sbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BCH_ERR_INT[DAT_SBE]. */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BCH_ERR_INT[DOORBELL]. */
@@ -544,7 +560,11 @@ typedef union
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BCH_ERR_INT[DOORBELL]. */
         uint64_t dat_sbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BCH_ERR_INT[DAT_SBE]. */
         uint64_t dat_dbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BCH_ERR_INT[DAT_DBE]. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t ld_cmd_err            : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BCH_ERR_INT[LD_CMD_ERR]. */
+        uint64_t ld_dat_err            : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BCH_ERR_INT[LD_DAT_ERR]. */
+        uint64_t st_cmd_err            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BCH_ERR_INT[ST_CMD_ERR]. */
+        uint64_t st_dat_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BCH_ERR_INT[ST_DAT_ERR]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_err_int_ena_w1c_s cn; */
@@ -580,7 +600,11 @@ typedef union
     struct bdk_bch_err_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_7_63         : 57;
+        uint64_t st_dat_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BCH_ERR_INT[ST_DAT_ERR]. */
+        uint64_t st_cmd_err            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BCH_ERR_INT[ST_CMD_ERR]. */
+        uint64_t ld_dat_err            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BCH_ERR_INT[LD_DAT_ERR]. */
+        uint64_t ld_cmd_err            : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BCH_ERR_INT[LD_CMD_ERR]. */
         uint64_t dat_dbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BCH_ERR_INT[DAT_DBE]. */
         uint64_t dat_sbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BCH_ERR_INT[DAT_SBE]. */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BCH_ERR_INT[DOORBELL]. */
@@ -588,7 +612,11 @@ typedef union
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BCH_ERR_INT[DOORBELL]. */
         uint64_t dat_sbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BCH_ERR_INT[DAT_SBE]. */
         uint64_t dat_dbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BCH_ERR_INT[DAT_DBE]. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t ld_cmd_err            : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BCH_ERR_INT[LD_CMD_ERR]. */
+        uint64_t ld_dat_err            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BCH_ERR_INT[LD_DAT_ERR]. */
+        uint64_t st_cmd_err            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BCH_ERR_INT[ST_CMD_ERR]. */
+        uint64_t st_dat_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BCH_ERR_INT[ST_DAT_ERR]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_err_int_ena_w1s_s cn; */
@@ -624,7 +652,11 @@ typedef union
     struct bdk_bch_err_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_7_63         : 57;
+        uint64_t st_dat_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BCH_ERR_INT[ST_DAT_ERR]. */
+        uint64_t st_cmd_err            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BCH_ERR_INT[ST_CMD_ERR]. */
+        uint64_t ld_dat_err            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BCH_ERR_INT[LD_DAT_ERR]. */
+        uint64_t ld_cmd_err            : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BCH_ERR_INT[LD_CMD_ERR]. */
         uint64_t dat_dbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BCH_ERR_INT[DAT_DBE]. */
         uint64_t dat_sbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BCH_ERR_INT[DAT_SBE]. */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BCH_ERR_INT[DOORBELL]. */
@@ -632,7 +664,11 @@ typedef union
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BCH_ERR_INT[DOORBELL]. */
         uint64_t dat_sbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BCH_ERR_INT[DAT_SBE]. */
         uint64_t dat_dbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BCH_ERR_INT[DAT_DBE]. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t ld_cmd_err            : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BCH_ERR_INT[LD_CMD_ERR]. */
+        uint64_t ld_dat_err            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BCH_ERR_INT[LD_DAT_ERR]. */
+        uint64_t st_cmd_err            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BCH_ERR_INT[ST_CMD_ERR]. */
+        uint64_t st_dat_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BCH_ERR_INT[ST_DAT_ERR]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_err_int_w1s_s cn; */

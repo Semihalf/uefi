@@ -105,9 +105,9 @@ union bdk_ocla_cap_ctl_s
         uint64_t sot0                  : 1;  /**< [ 32: 32] Start transition from no-capture to capture or duplicated data stopped while capturing for
                                                                  low data. When set, CYCLE indicates the cycle number of the next new low data, minus one
                                                                  cycle. */
-        uint64_t cycle                 : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME register. */
+        uint64_t cycle                 : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME. */
 #else /* Word 0 - Little Endian */
-        uint64_t cycle                 : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME register. */
+        uint64_t cycle                 : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME. */
         uint64_t sot0                  : 1;  /**< [ 32: 32] Start transition from no-capture to capture or duplicated data stopped while capturing for
                                                                  low data. When set, CYCLE indicates the cycle number of the next new low data, minus one
                                                                  cycle. */
@@ -126,48 +126,7 @@ union bdk_ocla_cap_ctl_s
         uint64_t reserved_38_63        : 26;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ocla_cap_ctl_s_s cn81xx; */
-    struct bdk_ocla_cap_ctl_s_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t ctl                   : 1;  /**< [ 37: 37] Indicates a control word. Always set for control structures. */
-        uint64_t sinfo                 : 1;  /**< [ 36: 36] Indicates OCLA()_FSM()_STATE()[SINFO_SET] was set for the state that led to the
-                                                                 capture state. This allows the FSM to optionally communicate its current state
-                                                                 to observing software; SINFO is otherwise opaque to reassembling the trace
-                                                                 information. */
-        uint64_t eot1                  : 1;  /**< [ 35: 35] End of duplicated capture for high data. Symmetric with EOT0 description; see [EOT0]. */
-        uint64_t eot0                  : 1;  /**< [ 34: 34] End of duplicated capture for low data. When set, CYCLE indicates the cycle at which the
-                                                                 previous entry of low data stopped being replicated. This may be set along with SOT0 to
-                                                                 indicate a repeat followed by new sequence. */
-        uint64_t sot1                  : 1;  /**< [ 33: 33] Start transition from no-capture to capture or duplicated data stopped while capturing for
-                                                                 high data. When set, CYCLE indicates the cycle number of the next new high data, minus one
-                                                                 cycle. */
-        uint64_t sot0                  : 1;  /**< [ 32: 32] Start transition from no-capture to capture or duplicated data stopped while capturing for
-                                                                 low data. When set, CYCLE indicates the cycle number of the next new low data, minus one
-                                                                 cycle. */
-        uint64_t cycle                 : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME. */
-#else /* Word 0 - Little Endian */
-        uint64_t cycle                 : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME. */
-        uint64_t sot0                  : 1;  /**< [ 32: 32] Start transition from no-capture to capture or duplicated data stopped while capturing for
-                                                                 low data. When set, CYCLE indicates the cycle number of the next new low data, minus one
-                                                                 cycle. */
-        uint64_t sot1                  : 1;  /**< [ 33: 33] Start transition from no-capture to capture or duplicated data stopped while capturing for
-                                                                 high data. When set, CYCLE indicates the cycle number of the next new high data, minus one
-                                                                 cycle. */
-        uint64_t eot0                  : 1;  /**< [ 34: 34] End of duplicated capture for low data. When set, CYCLE indicates the cycle at which the
-                                                                 previous entry of low data stopped being replicated. This may be set along with SOT0 to
-                                                                 indicate a repeat followed by new sequence. */
-        uint64_t eot1                  : 1;  /**< [ 35: 35] End of duplicated capture for high data. Symmetric with EOT0 description; see [EOT0]. */
-        uint64_t sinfo                 : 1;  /**< [ 36: 36] Indicates OCLA()_FSM()_STATE()[SINFO_SET] was set for the state that led to the
-                                                                 capture state. This allows the FSM to optionally communicate its current state
-                                                                 to observing software; SINFO is otherwise opaque to reassembling the trace
-                                                                 information. */
-        uint64_t ctl                   : 1;  /**< [ 37: 37] Indicates a control word. Always set for control structures. */
-        uint64_t reserved_38_63        : 26;
-#endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_ocla_cap_ctl_s_s cn83xx; */
+    /* struct bdk_ocla_cap_ctl_s_s cn; */
 };
 
 /**

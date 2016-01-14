@@ -2641,7 +2641,7 @@ typedef union
     struct bdk_nic_pf_bist0_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) Group 0 Block 3 memories. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) BIST status for group 0 block 3 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](RO/H) Group 0 Block 2 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](RO/H) Group 0 Block 1 memories. */
         uint64_t blk0                  : 8;  /**< [  7:  0](RO/H) Group 0 Block 0 memories. */
@@ -2649,7 +2649,7 @@ typedef union
         uint64_t blk0                  : 8;  /**< [  7:  0](RO/H) Group 0 Block 0 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](RO/H) Group 0 Block 1 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](RO/H) Group 0 Block 2 memories. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) Group 0 Block 3 memories. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) BIST status for group 0 block 3 memories. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_pf_bist0_status_cn88xxp1
@@ -2666,8 +2666,21 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_nic_pf_bist0_status_s cn81xx; */
-    /* struct bdk_nic_pf_bist0_status_s cn83xx; */
+    struct bdk_nic_pf_bist0_status_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) BIST status for group 0 block 3 memories. */
+        uint64_t blk2                  : 16; /**< [ 31: 16](RO/H) BIST status for group 0 block 2 memories. */
+        uint64_t blk1                  : 8;  /**< [ 15:  8](RO/H) BIST status for group 0 block 1 memories. */
+        uint64_t blk0                  : 8;  /**< [  7:  0](RO/H) BIST status for group 0 block 0 memories. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk0                  : 8;  /**< [  7:  0](RO/H) BIST status for group 0 block 0 memories. */
+        uint64_t blk1                  : 8;  /**< [ 15:  8](RO/H) BIST status for group 0 block 1 memories. */
+        uint64_t blk2                  : 16; /**< [ 31: 16](RO/H) BIST status for group 0 block 2 memories. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) BIST status for group 0 block 3 memories. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_bist0_status_cn81xx cn83xx; */
     struct bdk_nic_pf_bist0_status_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2713,11 +2726,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](RO/H) Group 1 Block 1 memories. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](RO/H) Group 1 Block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](RO/H) BIST status for group 1 block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](RO/H) BIST status for group 1 block 0 memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](RO/H) Group 1 Block 0 memories. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](RO/H) Group 1 Block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](RO/H) BIST status for group 1 block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](RO/H) BIST status for group 1 block 1 memories. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -2751,9 +2764,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](RO/H) Group 2 Block 0 memories. */
+        uint64_t blk0                  : 50; /**< [ 49:  0](RO/H) BIST status for group 2 block 0 memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](RO/H) Group 2 Block 0 memories. */
+        uint64_t blk0                  : 50; /**< [ 49:  0](RO/H) BIST status for group 2 block 0 memories. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
@@ -2787,11 +2800,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](RO/H) Group 3 Block 1 memories. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](RO/H) Group 3 Block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](RO/H) BIST status for group 3 block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](RO/H) BIST status for group 3 block 0 memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](RO/H) Group 3 Block 0 memories. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](RO/H) Group 3 Block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](RO/H) BIST status for group 3 block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](RO/H) BIST status for group 3 block 1 memories. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -3871,7 +3884,7 @@ typedef union
     struct bdk_nic_pf_ecc0_cdis_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -3959,7 +3972,7 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4059,7 +4072,7 @@ typedef union
     struct bdk_nic_pf_ecc0_cdis_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4074,11 +4087,11 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -4087,20 +4100,20 @@ typedef union
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -4109,11 +4122,11 @@ typedef union
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4133,7 +4146,7 @@ typedef union
     struct bdk_nic_pf_ecc0_cdis_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4150,11 +4163,11 @@ typedef union
                                                                    <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -4163,20 +4176,20 @@ typedef union
                                                                    <2>   = nic_l.nic_l2.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.nic_l2.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.nic_l2.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.nic_l2.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.nic_l2.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.nic_l2.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.nic_l2.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -4185,11 +4198,11 @@ typedef union
                                                                    <2>   = nic_l.nic_l2.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.nic_l2.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.nic_l2.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4498,7 +4511,7 @@ typedef union
     struct bdk_nic_pf_ecc0_dbe_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) RAM error on group 0 block 3 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Group 0 Block 2 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Group 0 Block 1 memories. */
         uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Group 0 Block 0 memories. */
@@ -4506,7 +4519,7 @@ typedef union
         uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Group 0 Block 0 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Group 0 Block 1 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Group 0 Block 2 memories. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) RAM error on group 0 block 3 memories. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_pf_ecc0_dbe_int_cn88xxp1
@@ -4523,8 +4536,21 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_nic_pf_ecc0_dbe_int_s cn81xx; */
-    /* struct bdk_nic_pf_ecc0_dbe_int_s cn83xx; */
+    struct bdk_nic_pf_ecc0_dbe_int_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) RAM error on group 0 block 3 memories. */
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) RAM error on group 0 block 2 memories. */
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) RAM error on group 0 block 1 memories. */
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) RAM error on group 0 block 0 memories. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) RAM error on group 0 block 0 memories. */
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) RAM error on group 0 block 1 memories. */
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) RAM error on group 0 block 2 memories. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) RAM error on group 0 block 3 memories. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_ecc0_dbe_int_cn81xx cn83xx; */
     struct bdk_nic_pf_ecc0_dbe_int_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4639,7 +4665,7 @@ typedef union
     struct bdk_nic_pf_ecc0_flip0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4727,7 +4753,7 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4827,7 +4853,7 @@ typedef union
     struct bdk_nic_pf_ecc0_flip0_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4842,11 +4868,11 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -4855,20 +4881,20 @@ typedef union
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -4877,11 +4903,11 @@ typedef union
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4901,7 +4927,7 @@ typedef union
     struct bdk_nic_pf_ecc0_flip0_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -4918,11 +4944,11 @@ typedef union
                                                                    <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -4931,20 +4957,20 @@ typedef union
                                                                    <2>   = nic_l.nic_l2.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.nic_l2.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.nic_l2.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.nic_l2.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.nic_l2.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.nic_l2.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.nic_l2.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -4953,11 +4979,11 @@ typedef union
                                                                    <2>   = nic_l.nic_l2.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.nic_l2.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.nic_l2.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -5125,7 +5151,7 @@ typedef union
     struct bdk_nic_pf_ecc0_flip1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -5213,7 +5239,7 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -5313,7 +5339,7 @@ typedef union
     struct bdk_nic_pf_ecc0_flip1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -5328,11 +5354,11 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -5341,20 +5367,20 @@ typedef union
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -5363,11 +5389,11 @@ typedef union
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -5387,7 +5413,7 @@ typedef union
     struct bdk_nic_pf_ecc0_flip1_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -5404,11 +5430,11 @@ typedef union
                                                                    <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -5417,20 +5443,20 @@ typedef union
                                                                    <2>   = nic_l.nic_l2.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.nic_l2.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.nic_l2.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.nic_l2.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.nic_l2.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Syndrome flip for group 0 block 0 memories.
                                                                  Internal:
                                                                  CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.nic_l2.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.nic_l2.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Syndrome flip for group 0 block 1 memories.
                                                                  Internal:
                                                                  CSI memories:
                                                                    <7:0> = Reserved.
@@ -5439,11 +5465,11 @@ typedef union
                                                                    <2>   = nic_l.nic_l2.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.nic_l2.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.nic_l2.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Syndrome flip for group 0 block 2 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Syndrome flip for group 0 block 3 memories.
                                                                  Internal:
                                                                  REB memories:
                                                                    <31>  =
@@ -5752,7 +5778,7 @@ typedef union
     struct bdk_nic_pf_ecc0_sbe_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) RAM error on group 0 block 3 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Group 0 Block 2 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Group 0 Block 1 memories. */
         uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Group 0 Block 0 memories. */
@@ -5760,7 +5786,7 @@ typedef union
         uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Group 0 Block 0 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Group 0 Block 1 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Group 0 Block 2 memories. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) RAM error on group 0 block 3 memories. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_pf_ecc0_sbe_int_cn88xxp1
@@ -5777,8 +5803,21 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_nic_pf_ecc0_sbe_int_s cn81xx; */
-    /* struct bdk_nic_pf_ecc0_sbe_int_s cn83xx; */
+    struct bdk_nic_pf_ecc0_sbe_int_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) RAM error on group 0 block 3 memories. */
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) RAM error on group 0 block 2 memories. */
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) RAM error on group 0 block 1 memories. */
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) RAM error on group 0 block 0 memories. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) RAM error on group 0 block 0 memories. */
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) RAM error on group 0 block 1 memories. */
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) RAM error on group 0 block 2 memories. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) RAM error on group 0 block 3 memories. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_ecc0_sbe_int_cn81xx cn83xx; */
     struct bdk_nic_pf_ecc0_sbe_int_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6015,7 +6054,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6026,7 +6065,7 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
                                                                    <23:20> = Reserved.
@@ -6043,7 +6082,7 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
                                                                    <23:20> = Reserved.
@@ -6059,7 +6098,7 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6078,7 +6117,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6089,10 +6128,11 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
-                                                                   <23:20> = Reserved.
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
                                                                    <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
@@ -6106,10 +6146,11 @@ typedef union
                                                                    <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
-                                                                   <23:20> = Reserved.
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
                                                                    <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
@@ -6122,7 +6163,7 @@ typedef union
                                                                    <2>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6245,11 +6286,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) Group 1 Block 1 memories. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) Group 1 Block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) RAM error on group 1 block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) RAM error on group 1 block 0 memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) Group 1 Block 0 memories. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) Group 1 Block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) RAM error on group 1 block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) RAM error on group 1 block 1 memories. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -6443,7 +6484,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6454,7 +6495,7 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
                                                                    <23:20> = Reserved.
@@ -6471,7 +6512,7 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
                                                                    <23:20> = Reserved.
@@ -6487,7 +6528,7 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6506,7 +6547,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6517,10 +6558,11 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
-                                                                   <23:20> = Reserved.
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
                                                                    <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
@@ -6534,10 +6576,11 @@ typedef union
                                                                    <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
-                                                                   <23:20> = Reserved.
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
                                                                    <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
@@ -6550,7 +6593,7 @@ typedef union
                                                                    <2>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6715,7 +6758,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6726,7 +6769,7 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
                                                                    <23:20> = Reserved.
@@ -6743,7 +6786,7 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
                                                                    <23:20> = Reserved.
@@ -6759,7 +6802,7 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6778,7 +6821,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6789,10 +6832,11 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
-                                                                   <23:20> = Reserved.
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
                                                                    <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
@@ -6806,10 +6850,11 @@ typedef union
                                                                    <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
                                                                  Internal:
                                                                  RQM memories:
-                                                                   <23:20> = Reserved.
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
                                                                    <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
@@ -6822,7 +6867,7 @@ typedef union
                                                                    <2>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
@@ -6945,11 +6990,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) Group 1 Block 1 memories. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) Group 1 Block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) RAM error on group 1 block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) RAM error on group 1 block 0 memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) Group 1 Block 0 memories. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) Group 1 Block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) RAM error on group 1 block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) RAM error on group 1 block 1 memories. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -7087,7 +7132,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Syndrome flip for group 2 block 0 memories.
                                                                  Internal:
                                                                  SEB memories.
                                                                  <49:22> = Reserved.
@@ -7110,7 +7155,7 @@ typedef union
                                                                  <3:2>   = nic.nic_u.nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
                                                                  <1:0>   = nic.nic_u.nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Syndrome flip for group 2 block 0 memories.
                                                                  Internal:
                                                                  SEB memories.
                                                                  <49:22> = Reserved.
@@ -7242,9 +7287,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W1C/H) Group 2 Block 0 memories. */
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W1C/H) RAM error on group 2 block 0 memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W1C/H) Group 2 Block 0 memories. */
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W1C/H) RAM error on group 2 block 0 memories. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
@@ -7380,7 +7425,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Syndrome flip for group 2 block 0 memories.
                                                                  Internal:
                                                                  SEB memories.
                                                                  <49:22> = Reserved.
@@ -7403,7 +7448,7 @@ typedef union
                                                                  <3:2>   = nic.nic_u.nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
                                                                  <1:0>   = nic.nic_u.nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Syndrome flip for group 2 block 0 memories.
                                                                  Internal:
                                                                  SEB memories.
                                                                  <49:22> = Reserved.
@@ -7525,7 +7570,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Syndrome flip for group 2 block 0 memories.
                                                                  Internal:
                                                                  SEB memories.
                                                                  <49:22> = Reserved.
@@ -7548,7 +7593,7 @@ typedef union
                                                                  <3:2>   = nic.nic_u.nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
                                                                  <1:0>   = nic.nic_u.nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Syndrome flip for group 2 block 0 memories.
                                                                  Internal:
                                                                  SEB memories.
                                                                  <49:22> = Reserved.
@@ -7680,9 +7725,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W1C/H) Group 2 Block 0 memories. */
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W1C/H) RAM error on group 2 block 0 memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W1C/H) Group 2 Block 0 memories. */
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W1C/H) RAM error on group 2 block 0 memories. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
@@ -7864,7 +7909,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 3 block 1 memories.
                                                                  Internal:
                                                                  SQM memories:
                                                                    <15:13> = Reserved.
@@ -7881,7 +7926,7 @@ typedef union
                                                                    <2>  = nic.nic_u.nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic.nic_u.nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic.nic_u.nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 3 block 0 memories.
                                                                  Internal:
                                                                  SPS memories:
 
@@ -7900,7 +7945,7 @@ typedef union
                                                                    <1>  = nic.nic_u.nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic.nic_u.nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 3 block 0 memories.
                                                                  Internal:
                                                                  SPS memories:
 
@@ -7918,7 +7963,7 @@ typedef union
                                                                    <2>  = nic.nic_u.nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic.nic_u.nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic.nic_u.nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 3 block 1 memories.
                                                                  Internal:
                                                                  SQM memories:
                                                                    <15:13> = Reserved.
@@ -8049,11 +8094,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) Group 3 Block 1 memories. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) Group 3 Block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) RAM error on group 3 block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) RAM error on group 3 block 0 memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) Group 3 Block 0 memories. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) Group 3 Block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) RAM error on group 3 block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) RAM error on group 3 block 1 memories. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -8237,7 +8282,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 3 block 1 memories.
                                                                  Internal:
                                                                  SQM memories:
                                                                    <15:13> = Reserved.
@@ -8254,7 +8299,7 @@ typedef union
                                                                    <2>  = nic.nic_u.nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic.nic_u.nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic.nic_u.nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 3 block 0 memories.
                                                                  Internal:
                                                                  SPS memories:
 
@@ -8273,7 +8318,7 @@ typedef union
                                                                    <1>  = nic.nic_u.nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic.nic_u.nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 3 block 0 memories.
                                                                  Internal:
                                                                  SPS memories:
 
@@ -8291,7 +8336,7 @@ typedef union
                                                                    <2>  = nic.nic_u.nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic.nic_u.nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic.nic_u.nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 3 block 1 memories.
                                                                  Internal:
                                                                  SQM memories:
                                                                    <15:13> = Reserved.
@@ -8454,7 +8499,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 3 block 1 memories.
                                                                  Internal:
                                                                  SQM memories:
                                                                    <15:13> = Reserved.
@@ -8471,7 +8516,7 @@ typedef union
                                                                    <2>  = nic.nic_u.nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic.nic_u.nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic.nic_u.nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 3 block 0 memories.
                                                                  Internal:
                                                                  SPS memories:
 
@@ -8490,7 +8535,7 @@ typedef union
                                                                    <1>  = nic.nic_u.nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic.nic_u.nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 3 block 0 memories.
                                                                  Internal:
                                                                  SPS memories:
 
@@ -8508,7 +8553,7 @@ typedef union
                                                                    <2>  = nic.nic_u.nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic.nic_u.nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic.nic_u.nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 3 block 1 memories.
                                                                  Internal:
                                                                  SQM memories:
                                                                    <15:13> = Reserved.
@@ -8639,11 +8684,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) Group 3 Block 1 memories. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) Group 3 Block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) RAM error on group 3 block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) RAM error on group 3 block 0 memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) Group 3 Block 0 memories. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) Group 3 Block 1 memories. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W1C/H) RAM error on group 3 block 0 memories. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W1C/H) RAM error on group 3 block 1 memories. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;

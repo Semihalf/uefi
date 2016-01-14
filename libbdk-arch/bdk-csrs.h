@@ -107,6 +107,7 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
 #include "bdk-csrs-pcierc.h"
 #include "bdk-csrs-pcm.h"
 #include "bdk-csrs-pem.h"
+#include "bdk-csrs-pemrc.h"
 #include "bdk-csrs-pki.h"
 #include "bdk-csrs-pko.h"
 #include "bdk-csrs-rad.h"

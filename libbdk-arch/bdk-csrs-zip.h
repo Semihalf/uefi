@@ -183,9 +183,9 @@
                                        
                                        ZIP calculates SHA hashes on 64-byte hash-blocks. If ZIP_INST_S[HMIF] is clear,
                                        the final hash-block will be padded and length added as required by the
-                                       algorithm to close the hash.  If ZIP_INST_S[HMIF] is set, the final up to 63
-                                       bytes that did not complete a hash-block will be stored in the ZIP_HASH_S
-                                       pointed to by ZIP_INST_S[HASH_PTR].
+                                       algorithm to close the hash.  If ZIP_INST_S[HMIF] is set, the internmediate
+                                       state of the final up to 63 bytes that did not complete a hash-block will be
+                                       stored in the ZIP_HASH_S pointed to by ZIP_INST_S[HASH_PTR].
                                        
                                        Internal:
                                        Verify this default IVs result in the proper standard hash results. */
@@ -198,9 +198,9 @@
                                        
                                        ZIP calculates SHA hashes on 64-byte hash-blocks. If ZIP_INST_S[HMIF] is clear,
                                        the final hash-block will be padded and length added as required by the
-                                       algorithm to close the hash.  If ZIP_INST_S[HMIF] is set, the final up to 63
-                                       bytes that did not complete a hash-block will be stored in the ZIP_HASH_S
-                                       pointed to by ZIP_INST_S[HASH_PTR].
+                                       algorithm to close the hash.  If ZIP_INST_S[HMIF] is set, the intermediate state
+                                       of the final up to 63 bytes that did not complete a hash-block will be stored in
+                                       the ZIP_HASH_S pointed to by ZIP_INST_S[HASH_PTR].
                                        
                                        Internal:
                                        Verify this default IVs result in the proper standard hash results. */
@@ -269,154 +269,198 @@
  * This structure contains hash state. The endianness depends on
  * ZIP_QUE()_SBUF_CTL[INST_BE].
  *
- * When ZIP_INST_S[HALG] != 0x0 (NONE), and ZIP_INST_S[IV] is set, then
+ * When ZIP_INST_S[HALG] != 0x0 (NONE), ZIP_INST_S[BF] and ZIP_INST_S[IV] are set, then
  * ZIP_INST_S[HASH_PTR] points to this structure, which will be read by ZIP at the
  * beginning of an instruction's processing to establish the hash state.
+ *
+ * When ZIP_INST_S[HALG] != 0x0 (NONE), ZIP_INST_S[BF] is clear, then
+ * ZIP_INST_S[HASH_PTR] points to this structure, which will be read by ZIP at the
+ * beginning of an instruction's processing to continue hashing chunks within a file.
  *
  * When ZIP_INST_S[HALG] != 0x0 (NONE), and ZIP_INST_S[HMIF] is set, then
  * ZIP_INST_S[HASH_PTR] points to this structure, which will be written by ZIP at the
  * end of an instruction to indicate the hash intermediate state.  This may be passed
- * to future instructions which have ZIP_INST_S[IV] clear.  If chaining hashes,
- * software must insure that instructions can not be executed by multiple instructions,
+ * to future instructions which have ZIP_INST_S[IV] clear.
+ *
+ * If chaining hashes (ZIP_INST_S[BF] is clear or ZIP_INST_S[HMIF] is set), software
+ * must insure that instructions can not be executed by multiple instructions,
  * e.g. either wait for an instruction to complete before submitting the next
  * instruction chunk on the same file, or have only a single engine assigned to the
  * queue.
  */
 union bdk_zip_hash_s
 {
-    uint64_t u[16];
+    uint64_t u[20];
     struct bdk_zip_hash_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t pbits                 : 10; /**< [  9:  0] Partial data length in bits, must be 0-512.
+        uint64_t hash0                 : 64; /**< [ 63:  0] Double-word 0 of initial value or computed intermediate hash.
 
-                                                                 When ZIP_INST_S[IV] is set, ZIP reads up to 512 bits as specified by [PBITS]
-                                                                 from the 64-byte data array in [PDATA0]..[PDATA3], and uses it as the initial
-                                                                 data bits in computing the first hash block.  This either represents
-                                                                 intermediate state written by ZIP, or header information software wants to
-                                                                 include at the front of the hash.
+                                                                 When ZIP_INST_S[BF] and ZIP_INST_S[IV] are set, software must program this field
+                                                                 with the correct hash hash initial value which is read by ZIP.
 
-                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the number of bits the instruction
-                                                                 had remaining that did not complete a 64-byte hash block; up to 511 bits.  The up
-                                                                 to 512 bits of data are written to [PDATA0]..[PDATA3].
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [HASH0] written by previous chunk's
+                                                                 instruction.
 
-                                                                 Internal:
-                                                                 If > 512, treated by hardware as 512. */
+                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the computed hash value. */
 #else /* Word 0 - Little Endian */
-        uint64_t pbits                 : 10; /**< [  9:  0] Partial data length in bits, must be 0-512.
+        uint64_t hash0                 : 64; /**< [ 63:  0] Double-word 0 of initial value or computed intermediate hash.
 
-                                                                 When ZIP_INST_S[IV] is set, ZIP reads up to 512 bits as specified by [PBITS]
-                                                                 from the 64-byte data array in [PDATA0]..[PDATA3], and uses it as the initial
-                                                                 data bits in computing the first hash block.  This either represents
-                                                                 intermediate state written by ZIP, or header information software wants to
-                                                                 include at the front of the hash.
+                                                                 When ZIP_INST_S[BF] and ZIP_INST_S[IV] are set, software must program this field
+                                                                 with the correct hash hash initial value which is read by ZIP.
 
-                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the number of bits the instruction
-                                                                 had remaining that did not complete a 64-byte hash block; up to 511 bits.  The up
-                                                                 to 512 bits of data are written to [PDATA0]..[PDATA3].
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [HASH0] written by previous chunk's
+                                                                 instruction.
 
-                                                                 Internal:
-                                                                 If > 512, treated by hardware as 512. */
-        uint64_t reserved_10_63        : 54;
+                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the computed hash value. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t prevlen               : 64; /**< [127: 64] Previous length.
-
-                                                                 When ZIP_INST_S[IV] is set, for the first chunk in a file, must be written by
-                                                                 software as 0x0.  ZIP will read as the total hash length of previous chunks,
-                                                                 excluding [PBITS] (as the partial bits have not been hashed yet).
-
-                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the sum of the [PREVLEN] at the
-                                                                 start of the instruction, plus the number of bytes hashed. */
+        uint64_t hash1                 : 64; /**< [127: 64] Double-word 1 of hash. See [HASH0]. */
 #else /* Word 1 - Little Endian */
-        uint64_t prevlen               : 64; /**< [127: 64] Previous length.
-
-                                                                 When ZIP_INST_S[IV] is set, for the first chunk in a file, must be written by
-                                                                 software as 0x0.  ZIP will read as the total hash length of previous chunks,
-                                                                 excluding [PBITS] (as the partial bits have not been hashed yet).
-
-                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the sum of the [PREVLEN] at the
-                                                                 start of the instruction, plus the number of bytes hashed. */
+        uint64_t hash1                 : 64; /**< [127: 64] Double-word 1 of hash. See [HASH0]. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_128_191      : 64;
+        uint64_t hash2                 : 64; /**< [191:128] Double-word 2 of hash. See [HASH0]. */
 #else /* Word 2 - Little Endian */
-        uint64_t reserved_128_191      : 64;
+        uint64_t hash2                 : 64; /**< [191:128] Double-word 2 of hash. See [HASH0]. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t reserved_192_255      : 64;
+        uint64_t hash3                 : 64; /**< [255:192] Double-word 3 of hash. See [HASH0]. */
 #else /* Word 3 - Little Endian */
-        uint64_t reserved_192_255      : 64;
+        uint64_t hash3                 : 64; /**< [255:192] Double-word 3 of hash. See [HASH0]. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t hash0                 : 64; /**< [319:256] Double-word 0 of initial value or computed intermediate hash.
+        uint64_t prevlen               : 64; /**< [319:256] Previous length in bytes.
 
-                                                                 When ZIP_INST_S[IV] is set, ZIP reads the hash initial value.
+                                                                 When ZIP_INST_S[BF] and ZIP_INST_S[IV] are set, for the first chunk in a file,
+                                                                 if this value is non-zero (up to 512 and must be multiple of 8), hardware will
+                                                                 read up to [PREVLEN]/8 bytes data in [PDATA0] ... [PDATA7] to use as header to
+                                                                 be hashed, otherwise softwre must write 0x0 since there is no previous hashed
+                                                                 block yet.
 
-                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the computed hash value. */
+                                                                 When ZIP_INST_S[IV] is set and [PREVLEN] is zero, [PDATA0] ... [PDATA7] are
+                                                                 ignored by hardware.
+
+                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the sum of the [PREVLEN] at the
+                                                                 start of the instruction, plus the number of bytes consumed by hash in the
+                                                                 current instruction. */
 #else /* Word 4 - Little Endian */
-        uint64_t hash0                 : 64; /**< [319:256] Double-word 0 of initial value or computed intermediate hash.
+        uint64_t prevlen               : 64; /**< [319:256] Previous length in bytes.
 
-                                                                 When ZIP_INST_S[IV] is set, ZIP reads the hash initial value.
+                                                                 When ZIP_INST_S[BF] and ZIP_INST_S[IV] are set, for the first chunk in a file,
+                                                                 if this value is non-zero (up to 512 and must be multiple of 8), hardware will
+                                                                 read up to [PREVLEN]/8 bytes data in [PDATA0] ... [PDATA7] to use as header to
+                                                                 be hashed, otherwise softwre must write 0x0 since there is no previous hashed
+                                                                 block yet.
 
-                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the computed hash value. */
+                                                                 When ZIP_INST_S[IV] is set and [PREVLEN] is zero, [PDATA0] ... [PDATA7] are
+                                                                 ignored by hardware.
+
+                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the sum of the [PREVLEN] at the
+                                                                 start of the instruction, plus the number of bytes consumed by hash in the
+                                                                 current instruction. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t hash1                 : 64; /**< [383:320] Double-word 1 of hash. See [HASH0]. */
+        uint64_t reserved_383          : 1;
+        uint64_t wcnt                  : 7;  /**< [382:376] Word count. When ZIP_INST_S[HMIF] is set, ZIP writes [WCNT].
+
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [WCNT] written by the previous chunk's
+                                                                 instruction.
+
+                                                                 When ZIP_INST_S[BF] is set, ignored by ZIP. */
+        uint64_t leftover              : 56; /**< [375:320] Left over. When ZIP_INST_S[HMIF] is set, ZIP writes [LEFTOVER].
+
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [LEFTOVER] written by previous chink's
+                                                                 instruction.
+
+                                                                 When ZIP_INST_S[BF] is set, ignored by ZIP. */
 #else /* Word 5 - Little Endian */
-        uint64_t hash1                 : 64; /**< [383:320] Double-word 1 of hash. See [HASH0]. */
+        uint64_t leftover              : 56; /**< [375:320] Left over. When ZIP_INST_S[HMIF] is set, ZIP writes [LEFTOVER].
+
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [LEFTOVER] written by previous chink's
+                                                                 instruction.
+
+                                                                 When ZIP_INST_S[BF] is set, ignored by ZIP. */
+        uint64_t wcnt                  : 7;  /**< [382:376] Word count. When ZIP_INST_S[HMIF] is set, ZIP writes [WCNT].
+
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [WCNT] written by the previous chunk's
+                                                                 instruction.
+
+                                                                 When ZIP_INST_S[BF] is set, ignored by ZIP. */
+        uint64_t reserved_383          : 1;
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t hash2                 : 64; /**< [447:384] Double-word 2 of hash. See [HASH0]. */
+        uint64_t reserved_384_447      : 64;
 #else /* Word 6 - Little Endian */
-        uint64_t hash2                 : 64; /**< [447:384] Double-word 2 of hash. See [HASH0]. */
+        uint64_t reserved_384_447      : 64;
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of hash. See [HASH0]. */
+        uint64_t reserved_448_511      : 64;
 #else /* Word 7 - Little Endian */
-        uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of hash. See [HASH0]. */
+        uint64_t reserved_448_511      : 64;
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
-        uint64_t pdata0                : 64; /**< [575:512] First 8-bytes of partial data. See [PBITS]. */
+        uint64_t pdata0                : 64; /**< [575:512] First 8-bytes of partial data. See [PREVLEN]. */
 #else /* Word 8 - Little Endian */
-        uint64_t pdata0                : 64; /**< [575:512] First 8-bytes of partial data. See [PBITS]. */
+        uint64_t pdata0                : 64; /**< [575:512] First 8-bytes of partial data. See [PREVLEN]. */
 #endif /* Word 8 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
-        uint64_t pdata1                : 64; /**< [639:576] Next 8-bytes of partial data. See [PBITS]. */
+        uint64_t pdata1                : 64; /**< [639:576] Next 8-bytes of partial data. See [PREVLEN]. */
 #else /* Word 9 - Little Endian */
-        uint64_t pdata1                : 64; /**< [639:576] Next 8-bytes of partial data. See [PBITS]. */
+        uint64_t pdata1                : 64; /**< [639:576] Next 8-bytes of partial data. See [PREVLEN]. */
 #endif /* Word 9 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
-        uint64_t pdata2                : 64; /**< [703:640] Next 8-bytes of partial data. See [PBITS]. */
+        uint64_t pdata2                : 64; /**< [703:640] Next 8-bytes of partial data. See [PREVLEN]. */
 #else /* Word 10 - Little Endian */
-        uint64_t pdata2                : 64; /**< [703:640] Next 8-bytes of partial data. See [PBITS]. */
+        uint64_t pdata2                : 64; /**< [703:640] Next 8-bytes of partial data. See [PREVLEN]. */
 #endif /* Word 10 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
-        uint64_t pdata3                : 64; /**< [767:704] Next 8-bytes of partial data. See [PBITS]. */
+        uint64_t pdata3                : 64; /**< [767:704] Next 8-bytes of partial data. See [PREVLEN]. */
 #else /* Word 11 - Little Endian */
-        uint64_t pdata3                : 64; /**< [767:704] Next 8-bytes of partial data. See [PBITS]. */
+        uint64_t pdata3                : 64; /**< [767:704] Next 8-bytes of partial data. See [PREVLEN]. */
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
-        uint64_t reserved_768_831      : 64;
+        uint64_t pdata4                : 64; /**< [831:768] First 8-bytes of partial data. See [PREVLEN]. */
 #else /* Word 12 - Little Endian */
-        uint64_t reserved_768_831      : 64;
+        uint64_t pdata4                : 64; /**< [831:768] First 8-bytes of partial data. See [PREVLEN]. */
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
-        uint64_t reserved_832_895      : 64;
+        uint64_t pdata5                : 64; /**< [895:832] Next 8-bytes of partial data. See [PREVLEN]. */
 #else /* Word 13 - Little Endian */
-        uint64_t reserved_832_895      : 64;
+        uint64_t pdata5                : 64; /**< [895:832] Next 8-bytes of partial data. See [PREVLEN]. */
 #endif /* Word 13 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
-        uint64_t reserved_896_959      : 64;
+        uint64_t pdata6                : 64; /**< [959:896] Next 8-bytes of partial data. See [PREVLEN]. */
 #else /* Word 14 - Little Endian */
-        uint64_t reserved_896_959      : 64;
+        uint64_t pdata6                : 64; /**< [959:896] Next 8-bytes of partial data. See [PREVLEN]. */
 #endif /* Word 14 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
-        uint64_t reserved_960_1023     : 64;
+        uint64_t pdata7                : 64; /**< [1023:960] Next 8-bytes of partial data. See [PREVLEN]. */
 #else /* Word 15 - Little Endian */
-        uint64_t reserved_960_1023     : 64;
+        uint64_t pdata7                : 64; /**< [1023:960] Next 8-bytes of partial data. See [PREVLEN]. */
 #endif /* Word 15 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 16 - Big Endian */
+        uint64_t sha_ab                : 64; /**< [1087:1024] Double-word 0 of hash state. Written when ZIP_INST_S[HMIF] is set and read by ZIP when
+                                                                 ZIP_INST_S[BF] is cleared. */
+#else /* Word 16 - Little Endian */
+        uint64_t sha_ab                : 64; /**< [1087:1024] Double-word 0 of hash state. Written when ZIP_INST_S[HMIF] is set and read by ZIP when
+                                                                 ZIP_INST_S[BF] is cleared. */
+#endif /* Word 16 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 17 - Big Endian */
+        uint64_t sha_cd                : 64; /**< [1151:1088] Double-word 1 of hash state. See [SHA_AB]. */
+#else /* Word 17 - Little Endian */
+        uint64_t sha_cd                : 64; /**< [1151:1088] Double-word 1 of hash state. See [SHA_AB]. */
+#endif /* Word 17 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 18 - Big Endian */
+        uint64_t sha_ef                : 64; /**< [1215:1152] Double-word 2 of hash state. See [SHA_AB]. */
+#else /* Word 18 - Little Endian */
+        uint64_t sha_ef                : 64; /**< [1215:1152] Double-word 2 of hash state. See [SHA_AB]. */
+#endif /* Word 18 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 19 - Big Endian */
+        uint64_t sha_gh                : 64; /**< [1279:1216] Double-word 3 of hash state. See [SHA_AB]. */
+#else /* Word 19 - Little Endian */
+        uint64_t sha_gh                : 64; /**< [1279:1216] Double-word 3 of hash state. See [SHA_AB]. */
+#endif /* Word 19 - End */
     } s;
     /* struct bdk_zip_hash_s_s cn; */
 };
@@ -449,7 +493,7 @@ union bdk_zip_inst_s
                                                                  1 = If hashing is performed, load hash initial values and states from
                                                                  the ZIP_HASH_S pointed to by [HASH_PTR].
 
-                                                                 If [HALG] = 0x0 (NONE), must be clear. */
+                                                                 Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
         uint64_t exbits                : 7;  /**< [ 22: 16] EXN, EXBITS are the previously-generated compressed bits beyond the last
                                                                  compressed byte written for the file. These bits are required context for partial-file
                                                                  processing because the ZIP compression algorithm produces a compressed bit
@@ -468,7 +512,7 @@ union bdk_zip_inst_s
                                                                  For decompression, [EXN], [EXBITS] must be 0x0. */
         uint64_t hmif                  : 1;  /**< [ 15: 15] Hash more-in-file (i.e. not end-of-file).
                                                                  0 = If hashing is performed, this is the final block in the file, and
-                                                                 atore hash results in ZIP_ZRES_S.
+                                                                 store hash results in ZIP_ZRES_S.
                                                                  1 = If hashing is performed, additional blocks will follow in this file,
                                                                  and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
 
@@ -535,7 +579,13 @@ union bdk_zip_inst_s
 
                                                                  For decompression:
                                                                  0 = not the beginning of the file, read context from memory.
-                                                                 1 = beginning of the file, create a new context. */
+                                                                 1 = beginning of the file, create a new context.
+
+                                                                 For hash (SHA1/SHA256):
+                                                                 0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
+                                                                 1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
+                                                                 hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
+                                                                 non-zero, and create a new context. */
         uint64_t reserved_3_4          : 2;
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
                                                                  1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
@@ -599,7 +649,13 @@ union bdk_zip_inst_s
 
                                                                  For decompression:
                                                                  0 = not the beginning of the file, read context from memory.
-                                                                 1 = beginning of the file, create a new context. */
+                                                                 1 = beginning of the file, create a new context.
+
+                                                                 For hash (SHA1/SHA256):
+                                                                 0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
+                                                                 1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
+                                                                 hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
+                                                                 non-zero, and create a new context. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
                                                                  For compression, if EF = 1, the ZIP engine always marks the last output block to be
@@ -650,7 +706,7 @@ union bdk_zip_inst_s
         uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
         uint64_t hmif                  : 1;  /**< [ 15: 15] Hash more-in-file (i.e. not end-of-file).
                                                                  0 = If hashing is performed, this is the final block in the file, and
-                                                                 atore hash results in ZIP_ZRES_S.
+                                                                 store hash results in ZIP_ZRES_S.
                                                                  1 = If hashing is performed, additional blocks will follow in this file,
                                                                  and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
 
@@ -677,7 +733,7 @@ union bdk_zip_inst_s
                                                                  1 = If hashing is performed, load hash initial values and states from
                                                                  the ZIP_HASH_S pointed to by [HASH_PTR].
 
-                                                                 If [HALG] = 0x0 (NONE), must be clear. */
+                                                                 Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
         uint64_t exn                   : 3;  /**< [ 26: 24] EXN is the number of bits produced beyond the last output byte written by
                                                                  the prior ZIP coprocessor invocation. */
         uint64_t reserved_27_31        : 5;
@@ -1317,7 +1373,7 @@ union bdk_zip_inst_s
                                                                  1 = If hashing is performed, load hash initial values and states from
                                                                  the ZIP_HASH_S pointed to by [HASH_PTR].
 
-                                                                 If [HALG] = 0x0 (NONE), must be clear. */
+                                                                 Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
         uint64_t exbits                : 7;  /**< [ 22: 16] EXN, EXBITS are the previously-generated compressed bits beyond the last
                                                                  compressed byte written for the file. These bits are required context for partial-file
                                                                  processing because the ZIP compression algorithm produces a compressed bit
@@ -1336,7 +1392,7 @@ union bdk_zip_inst_s
                                                                  For decompression, [EXN], [EXBITS] must be 0x0. */
         uint64_t hmif                  : 1;  /**< [ 15: 15] Hash more-in-file (i.e. not end-of-file).
                                                                  0 = If hashing is performed, this is the final block in the file, and
-                                                                 atore hash results in ZIP_ZRES_S.
+                                                                 store hash results in ZIP_ZRES_S.
                                                                  1 = If hashing is performed, additional blocks will follow in this file,
                                                                  and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
 
@@ -1403,7 +1459,13 @@ union bdk_zip_inst_s
 
                                                                  For decompression:
                                                                  0 = not the beginning of the file, read context from memory.
-                                                                 1 = beginning of the file, create a new context. */
+                                                                 1 = beginning of the file, create a new context.
+
+                                                                 For hash (SHA1/SHA256):
+                                                                 0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
+                                                                 1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
+                                                                 hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
+                                                                 non-zero, and create a new context. */
         uint64_t op                    : 2;  /**< [  4:  3] Compression/decompression operation. Enumerated by ZIP_OP_E. */
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
                                                                  1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
@@ -1467,7 +1529,13 @@ union bdk_zip_inst_s
 
                                                                  For decompression:
                                                                  0 = not the beginning of the file, read context from memory.
-                                                                 1 = beginning of the file, create a new context. */
+                                                                 1 = beginning of the file, create a new context.
+
+                                                                 For hash (SHA1/SHA256):
+                                                                 0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
+                                                                 1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
+                                                                 hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
+                                                                 non-zero, and create a new context. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
                                                                  For compression, if EF = 1, the ZIP engine always marks the last output block to be
@@ -1518,7 +1586,7 @@ union bdk_zip_inst_s
         uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
         uint64_t hmif                  : 1;  /**< [ 15: 15] Hash more-in-file (i.e. not end-of-file).
                                                                  0 = If hashing is performed, this is the final block in the file, and
-                                                                 atore hash results in ZIP_ZRES_S.
+                                                                 store hash results in ZIP_ZRES_S.
                                                                  1 = If hashing is performed, additional blocks will follow in this file,
                                                                  and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
 
@@ -1545,7 +1613,7 @@ union bdk_zip_inst_s
                                                                  1 = If hashing is performed, load hash initial values and states from
                                                                  the ZIP_HASH_S pointed to by [HASH_PTR].
 
-                                                                 If [HALG] = 0x0 (NONE), must be clear. */
+                                                                 Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
         uint64_t exn                   : 3;  /**< [ 26: 24] EXN is the number of bits produced beyond the last output byte written by
                                                                  the prior ZIP coprocessor invocation. */
         uint64_t reserved_27_31        : 5;

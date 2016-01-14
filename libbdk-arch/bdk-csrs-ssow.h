@@ -74,11 +74,11 @@ union bdk_ssow_clr_nsched_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t index                 : 13; /**< [ 15:  3] Index to clear. */
-        uint32_t reserved_0_2          : 3;
+        uint32_t index                 : 12; /**< [ 15:  4] Index to clear. Bits <15:14> are always zero. */
+        uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_2          : 3;
-        uint32_t index                 : 13; /**< [ 15:  3] Index to clear. */
+        uint32_t reserved_0_3          : 4;
+        uint32_t index                 : 12; /**< [ 15:  4] Index to clear. Bits <15:14> are always zero. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -188,8 +188,8 @@ typedef union
                                                                  a translated [GGRP] (see [GGRP] below). */
         uint64_t reserved_17_23        : 7;
         uint64_t mskset                : 1;  /**< [ 16: 16](WO) Set number to enable/diable membership in. */
-        uint64_t reserved_6_15         : 10;
-        uint64_t ggrp                  : 6;  /**< [  5:  0](WO) Guest-group number to enable/disable membership in.
+        uint64_t reserved_10_15        : 6;
+        uint64_t ggrp                  : 10; /**< [  9:  0](WO) Guest-group number to enable/disable membership in.
 
                                                                  * If SSO_HWS()_GMCTL[GMID] = 0x0, behavior is unpredictable.
 
@@ -201,7 +201,7 @@ typedef union
                                                                    operation is otherwise ignored (no SSO_HWS()_S()_GRPMSK() bit is set nor
                                                                    cleared). */
 #else /* Word 0 - Little Endian */
-        uint64_t ggrp                  : 6;  /**< [  5:  0](WO) Guest-group number to enable/disable membership in.
+        uint64_t ggrp                  : 10; /**< [  9:  0](WO) Guest-group number to enable/disable membership in.
 
                                                                  * If SSO_HWS()_GMCTL[GMID] = 0x0, behavior is unpredictable.
 
@@ -212,7 +212,7 @@ typedef union
                                                                    is found SSO_ERR2[WS_UNMAP] or SSO_ERR2[AW_MULTI] is set respectively and this
                                                                    operation is otherwise ignored (no SSO_HWS()_S()_GRPMSK() bit is set nor
                                                                    cleared). */
-        uint64_t reserved_6_15         : 10;
+        uint64_t reserved_10_15        : 6;
         uint64_t mskset                : 1;  /**< [ 16: 16](WO) Set number to enable/diable membership in. */
         uint64_t reserved_17_23        : 7;
         uint64_t set                   : 1;  /**< [ 24: 24](WO) Set/clear membership.
@@ -263,8 +263,8 @@ typedef union
                                                                  additional conflicts on this tag chain. */
         uint64_t reserved_58_62        : 5;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
-        uint64_t reserved_36_47        : 12;
-        uint64_t ggrp                  : 8;  /**< [ 35: 28](RO/H) The guest-group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
+        uint64_t reserved_38_47        : 10;
+        uint64_t ggrp                  : 10; /**< [ 37: 28](RO/H) The guest-group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
                                                                  Translation is as described in SSOW_VHWS()_TAG[GGRP]. */
         uint64_t head                  : 1;  /**< [ 27: 27](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t tail                  : 1;  /**< [ 26: 26](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
@@ -285,9 +285,9 @@ typedef union
         uint64_t reserved_21_25        : 5;
         uint64_t tail                  : 1;  /**< [ 26: 26](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t head                  : 1;  /**< [ 27: 27](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
-        uint64_t ggrp                  : 8;  /**< [ 35: 28](RO/H) The guest-group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
+        uint64_t ggrp                  : 10; /**< [ 37: 28](RO/H) The guest-group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
                                                                  Translation is as described in SSOW_VHWS()_TAG[GGRP]. */
-        uint64_t reserved_36_47        : 12;
+        uint64_t reserved_38_47        : 10;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_58_62        : 5;
         uint64_t tailc                 : 1;  /**< [ 63: 63](RO/H) Set when this SSO entry is the tail of the conflicted tail chain, and so there are no
@@ -1156,8 +1156,8 @@ typedef union
                                                                  additional conflicts on this tag chain. */
         uint64_t reserved_58_62        : 5;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
-        uint64_t reserved_44_47        : 4;
-        uint64_t ggrp                  : 8;  /**< [ 43: 36](RO/H) The guest-group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
+        uint64_t reserved_46_47        : 2;
+        uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest-group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
 
                                                                  * If SSO_HWS()_GMCTL[GMID] = 0x0, behavior is unpredictable.
 
@@ -1178,7 +1178,7 @@ typedef union
                                                                  or SWTAG_DESCHED.) */
         uint64_t tail                  : 1;  /**< [ 34: 34](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
-        uint64_t ggrp                  : 8;  /**< [ 43: 36](RO/H) The guest-group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
+        uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest-group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
 
                                                                  * If SSO_HWS()_GMCTL[GMID] = 0x0, behavior is unpredictable.
 
@@ -1186,7 +1186,7 @@ typedef union
 
                                                                  * else the [GGRP] is in the context of SSO_HWS()_GMCTL[GMID].  The return value
                                                                    is translated into a guest-group as described in SSO_PF_MAP(). */
-        uint64_t reserved_44_47        : 4;
+        uint64_t reserved_46_47        : 2;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_58_62        : 5;
         uint64_t tailc                 : 1;  /**< [ 63: 63](RO/H) Set when this SSO entry is the tail of the conflicted tail chain, and so there are no

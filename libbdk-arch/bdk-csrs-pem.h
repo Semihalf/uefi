@@ -235,12 +235,12 @@ typedef union
         uint64_t reserved_7_63         : 57;
         uint64_t bar1_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 Bar1 Size.
                                                                  0x0 = Reserved.
-                                                                 0x1 = 64 MB.
-                                                                 0x2 = 128 MB.
-                                                                 0x3 = 256 MB.
-                                                                 0x4 = 512 MB.
-                                                                 0x5 = 1024 MB.
-                                                                 0x6 = 2048 MB.
+                                                                 0x1 = 64 MB; 2^26.
+                                                                 0x2 = 128 MB; 2^27.
+                                                                 0x3 = 256 MB; 2^28.
+                                                                 0x4 = 512 MB; 2^29.
+                                                                 0x5 = 1024 MB; 2^30.
+                                                                 0x6 = 2048 MB; 2^31.
                                                                  0x7 = Reserved. */
         uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
         uint64_t bar2_esx              : 2;  /**< [  2:  1](R/W) Value is XORed with PCIe address [48:47] to determine the endian swap mode. */
@@ -253,12 +253,12 @@ typedef union
         uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
         uint64_t bar1_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 Bar1 Size.
                                                                  0x0 = Reserved.
-                                                                 0x1 = 64 MB.
-                                                                 0x2 = 128 MB.
-                                                                 0x3 = 256 MB.
-                                                                 0x4 = 512 MB.
-                                                                 0x5 = 1024 MB.
-                                                                 0x6 = 2048 MB.
+                                                                 0x1 = 64 MB; 2^26.
+                                                                 0x2 = 128 MB; 2^27.
+                                                                 0x3 = 256 MB; 2^28.
+                                                                 0x4 = 512 MB; 2^29.
+                                                                 0x5 = 1024 MB; 2^30.
+                                                                 0x6 = 2048 MB; 2^31.
                                                                  0x7 = Reserved. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -269,12 +269,12 @@ typedef union
         uint64_t reserved_7_63         : 57;
         uint64_t bar1_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 Bar1 Size.
                                                                  0x0 = Reserved.
-                                                                 0x1 = 64 MB.
-                                                                 0x2 = 128 MB.
-                                                                 0x3 = 256 MB.
-                                                                 0x4 = 512 MB.
-                                                                 0x5 = 1024 MB.
-                                                                 0x6 = 2048 MB.
+                                                                 0x1 = 64 MB; 2^26.
+                                                                 0x2 = 128 MB; 2^27.
+                                                                 0x3 = 256 MB; 2^28.
+                                                                 0x4 = 512 MB; 2^29.
+                                                                 0x5 = 1024 MB; 2^30.
+                                                                 0x6 = 2048 MB; 2^31.
                                                                  0x7 = Reserved. */
         uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
         uint64_t reserved_1_2          : 2;
@@ -287,12 +287,12 @@ typedef union
         uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
         uint64_t bar1_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 Bar1 Size.
                                                                  0x0 = Reserved.
-                                                                 0x1 = 64 MB.
-                                                                 0x2 = 128 MB.
-                                                                 0x3 = 256 MB.
-                                                                 0x4 = 512 MB.
-                                                                 0x5 = 1024 MB.
-                                                                 0x6 = 2048 MB.
+                                                                 0x1 = 64 MB; 2^26.
+                                                                 0x2 = 128 MB; 2^27.
+                                                                 0x3 = 256 MB; 2^28.
+                                                                 0x4 = 512 MB; 2^29.
+                                                                 0x5 = 1024 MB; 2^30.
+                                                                 0x6 = 2048 MB; 2^31.
                                                                  0x7 = Reserved. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -304,12 +304,12 @@ typedef union
         uint64_t reserved_7_63         : 57;
         uint64_t bar1_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 Bar1 Size.
                                                                  0x0 = Reserved.
-                                                                 0x1 = 64 MB.
-                                                                 0x2 = 128 MB.
-                                                                 0x3 = 256 MB.
-                                                                 0x4 = 512 MB.
-                                                                 0x5 = 1024 MB.
-                                                                 0x6 = 2048 MB.
+                                                                 0x1 = 64 MB; 2^26.
+                                                                 0x2 = 128 MB; 2^27.
+                                                                 0x3 = 256 MB; 2^28.
+                                                                 0x4 = 512 MB; 2^29.
+                                                                 0x5 = 1024 MB; 2^30.
+                                                                 0x6 = 2048 MB; 2^31.
                                                                  0x7 = Reserved. */
         uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
         uint64_t bar2_esx              : 2;  /**< [  2:  1](R/W) Value is XORed with PCIe address [48:47] to determine the endian swap mode. */
@@ -322,12 +322,12 @@ typedef union
         uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
         uint64_t bar1_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 Bar1 Size.
                                                                  0x0 = Reserved.
-                                                                 0x1 = 64 MB.
-                                                                 0x2 = 128 MB.
-                                                                 0x3 = 256 MB.
-                                                                 0x4 = 512 MB.
-                                                                 0x5 = 1024 MB.
-                                                                 0x6 = 2048 MB.
+                                                                 0x1 = 64 MB; 2^26.
+                                                                 0x2 = 128 MB; 2^27.
+                                                                 0x3 = 256 MB; 2^28.
+                                                                 0x4 = 512 MB; 2^29.
+                                                                 0x5 = 1024 MB; 2^30.
+                                                                 0x6 = 2048 MB; 2^31.
                                                                  0x7 = Reserved. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -599,7 +599,7 @@ typedef union
                                                                  field in the core's link capabilities register (CFG031) to indicate the maximum number of
                                                                  lanes supported. Note that less lanes than the specified maximum can be configured for use
                                                                  via the core's link control register (CFG032) negotiated link width field. */
-        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) This field enables overwriting the value for host mode. The reset value is captured on
+        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) Enables overwriting the value for host mode. The reset value is captured on
                                                                  cold reset by the pin straps. (See PEM()_STRAP[PIMODE]. The HOSTMD reset value is the
                                                                  bit-wise AND of the PIMODE straps.  When set, the PEM is configured to be a root complex.
                                                                  When clear, the PEM is configured to be an end point. */
@@ -614,7 +614,7 @@ typedef union
                                                                    0x1 = Gen2 speed.
                                                                    0x2 = Gen3 speed.
                                                                    0x3 = Gen3 speed. */
-        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) This field enables overwriting the value for host mode. The reset value is captured on
+        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) Enables overwriting the value for host mode. The reset value is captured on
                                                                  cold reset by the pin straps. (See PEM()_STRAP[PIMODE]. The HOSTMD reset value is the
                                                                  bit-wise AND of the PIMODE straps.  When set, the PEM is configured to be a root complex.
                                                                  When clear, the PEM is configured to be an end point. */
@@ -711,21 +711,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) This field enables overwriting the value for lane swapping. The reset value is captured on
+        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) Enables overwriting the value for lane swapping. The reset value is captured on
                                                                  cold reset by the pin straps (see PEM()_STRAP[PILANESWAP]). When set, lane swapping is
                                                                  performed to/from the SerDes. When clear, no lane swapping is performed. */
-        uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) This field enables overwriting the value for the maximum number of lanes. The reset value
+        uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
                                                                  is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
                                                                  PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
                                                                  maximum of 4 lanes. This value is used to set the maximum link width field in the core's
                                                                  link capabilities register (CFG031) to indicate the maximum number of lanes
                                                                  supported. Note that less lanes than the specified maximum can be configured for use via
                                                                  the core's link control register (CFG032) negotiated link width field. */
-        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) This field enables overwriting the value for host mode. The reset value is captured on
+        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) Enables overwriting the value for host mode. The reset value is captured on
                                                                  cold reset by the pin straps. (See PEM()_STRAP[PIMODE]. The HOSTMD reset value is the
                                                                  bit-wise AND of the PIMODE straps.  When set, the PEM is configured to be a root complex.
                                                                  When clear, the PEM is configured to be an end point. */
-        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) This field enables overwriting the value for speed. The reset value is captured on cold
+        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) Enables overwriting the value for speed. The reset value is captured on cold
                                                                  reset by the pin straps (see PEM()_STRAP[PIMODE]). For a root complex configuration
                                                                  that is not running at Gen3 speed, the HOSTMD bit of this register must be set when this
                                                                  field is changed.
@@ -734,7 +734,7 @@ typedef union
                                                                  0x2 = Gen3 speed.
                                                                  0x3 = Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) This field enables overwriting the value for speed. The reset value is captured on cold
+        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) Enables overwriting the value for speed. The reset value is captured on cold
                                                                  reset by the pin straps (see PEM()_STRAP[PIMODE]). For a root complex configuration
                                                                  that is not running at Gen3 speed, the HOSTMD bit of this register must be set when this
                                                                  field is changed.
@@ -742,18 +742,18 @@ typedef union
                                                                  0x1 = Gen2 speed.
                                                                  0x2 = Gen3 speed.
                                                                  0x3 = Reserved. */
-        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) This field enables overwriting the value for host mode. The reset value is captured on
+        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) Enables overwriting the value for host mode. The reset value is captured on
                                                                  cold reset by the pin straps. (See PEM()_STRAP[PIMODE]. The HOSTMD reset value is the
                                                                  bit-wise AND of the PIMODE straps.  When set, the PEM is configured to be a root complex.
                                                                  When clear, the PEM is configured to be an end point. */
-        uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) This field enables overwriting the value for the maximum number of lanes. The reset value
+        uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
                                                                  is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
                                                                  PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
                                                                  maximum of 4 lanes. This value is used to set the maximum link width field in the core's
                                                                  link capabilities register (CFG031) to indicate the maximum number of lanes
                                                                  supported. Note that less lanes than the specified maximum can be configured for use via
                                                                  the core's link control register (CFG032) negotiated link width field. */
-        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) This field enables overwriting the value for lane swapping. The reset value is captured on
+        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) Enables overwriting the value for lane swapping. The reset value is captured on
                                                                  cold reset by the pin straps (see PEM()_STRAP[PILANESWAP]). When set, lane swapping is
                                                                  performed to/from the SerDes. When clear, no lane swapping is performed. */
         uint64_t reserved_5_63         : 59;
@@ -1143,15 +1143,16 @@ typedef union
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t pm_xpme               : 1;  /**< [ 10: 10](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_pme port. EP mode. */
@@ -1181,15 +1182,16 @@ typedef union
         uint64_t pm_xpme               : 1;  /**< [ 10: 10](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_pme port. EP mode. */
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t reserved_32_33        : 2;
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
@@ -1237,15 +1239,16 @@ typedef union
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t reserved_6_10         : 5;
@@ -1267,15 +1270,16 @@ typedef union
         uint64_t reserved_6_10         : 5;
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t reserved_32_33        : 2;
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
@@ -1312,15 +1316,16 @@ typedef union
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t reserved_6_10         : 5;
@@ -1342,15 +1347,16 @@ typedef union
         uint64_t reserved_6_10         : 5;
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t reserved_32_33        : 2;
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
@@ -1375,13 +1381,13 @@ typedef union
         uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
                                                                  configuration read that does not carry a retry status. Until such time that the
                                                                  timeout occurs and retry status is received for a configuration read, the read
-                                                                 will be resent. A value of 0 disables retries and treats a CPL Retry as a CPL
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
                                                                  UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t pm_xpme               : 1;  /**< [ 10: 10](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_pme port. EP mode. */
@@ -1416,13 +1422,13 @@ typedef union
         uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
                                                                  configuration read that does not carry a retry status. Until such time that the
                                                                  timeout occurs and retry status is received for a configuration read, the read
-                                                                 will be resent. A value of 0 disables retries and treats a CPL Retry as a CPL
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
                                                                  UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t reserved_32_33        : 2;
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
@@ -1444,15 +1450,16 @@ typedef union
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t reserved_6_10         : 5;
@@ -1474,15 +1481,16 @@ typedef union
         uint64_t reserved_6_10         : 5;
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
 
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
         uint64_t reserved_32_33        : 2;
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */

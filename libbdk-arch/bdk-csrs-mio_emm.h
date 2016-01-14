@@ -301,7 +301,7 @@ typedef union
         uint64_t cmd_val               : 1;  /**< [ 59: 59](R/W/H) Request valid. Software writes this bit to a 1. Hardware clears it when the operation completes. */
         uint64_t reserved_56_58        : 3;
         uint64_t dbuf                  : 1;  /**< [ 55: 55](R/W) Specify the data buffer to be used for a block transfer. */
-        uint64_t offset                : 6;  /**< [ 54: 49](R/W) Debug only. Specify the number of 8-byte transfers used in the command. Value is
+        uint64_t offset                : 6;  /**< [ 54: 49](R/W/H) Debug only. Specify the number of 8-byte transfers used in the command. Value is
                                                                  64-OFFSET. The block transfer still starts at the first byte in the 512B data buffer.
                                                                  Software must ensure CMD16 has updated the card block length. */
         uint64_t reserved_43_48        : 6;
@@ -341,7 +341,7 @@ typedef union
                                                                  0x2 = Write data from Dbuf.
                                                                  0x3 = Reserved. */
         uint64_t reserved_43_48        : 6;
-        uint64_t offset                : 6;  /**< [ 54: 49](R/W) Debug only. Specify the number of 8-byte transfers used in the command. Value is
+        uint64_t offset                : 6;  /**< [ 54: 49](R/W/H) Debug only. Specify the number of 8-byte transfers used in the command. Value is
                                                                  64-OFFSET. The block transfer still starts at the first byte in the 512B data buffer.
                                                                  Software must ensure CMD16 has updated the card block length. */
         uint64_t dbuf                  : 1;  /**< [ 55: 55](R/W) Specify the data buffer to be used for a block transfer. */
@@ -731,10 +731,22 @@ typedef union
                                                                  occur when the read data from the eMMC device was available in local memory.
 
                                                                  Added in pass 2.0. */
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [ENDIAN]. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = little-endian, 1 = big-endian.
+                                                                 Using 0..7 to identify bytes.
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [ENDIAN]  Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
         uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
                                                                  example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
         uint64_t reserved_0_35         : 36;
@@ -742,10 +754,22 @@ typedef union
         uint64_t reserved_0_35         : 36;
         uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
                                                                  example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = little-endian, 1 = big-endian.
+                                                                 Using 0..7 to identify bytes.
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [ENDIAN]  Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [ENDIAN]. */
         uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable.  When set, the dma command being summitted will
                                                                  not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes.  When cleared
                                                                  the command will generate the interrupt.
@@ -769,10 +793,22 @@ typedef union
         uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
         uint64_t reserved_61           : 1;
         uint64_t reserved_60           : 1;
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [ENDIAN]. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = little-endian, 1 = big-endian.
+                                                                 Using 0..7 to identify bytes.
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [ENDIAN]  Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
         uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
                                                                  example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
         uint64_t reserved_0_35         : 36;
@@ -780,10 +816,22 @@ typedef union
         uint64_t reserved_0_35         : 36;
         uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
                                                                  example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = little-endian, 1 = big-endian.
+                                                                 Using 0..7 to identify bytes.
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [ENDIAN]  Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [ENDIAN]. */
         uint64_t reserved_60           : 1;
         uint64_t reserved_61           : 1;
         uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
@@ -805,10 +853,22 @@ typedef union
                                                                  interrupt would signify the end of the operation.  It could be cleared on the last
                                                                  dma command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
                                                                  occur when the read data from the eMMC device was available in local memory. */
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [ENDIAN]. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = little-endian, 1 = big-endian.
+                                                                 Using 0..7 to identify bytes.
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [ENDIAN]  Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
         uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
                                                                  example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
         uint64_t reserved_0_35         : 36;
@@ -816,10 +876,22 @@ typedef union
         uint64_t reserved_0_35         : 36;
         uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
                                                                  example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = little-endian, 1 = big-endian.
+                                                                 Using 0..7 to identify bytes.
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [ENDIAN]  Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [ENDIAN]. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [ENDIAN]. */
         uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable.  When set, the dma command being summitted will
                                                                  not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes.  When cleared
                                                                  the command will generate the interrupt.

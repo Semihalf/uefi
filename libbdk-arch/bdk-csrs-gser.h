@@ -125,18 +125,18 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the GSER2
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Controls the B-side DAC input to the analog test block. Note that the GSER2
                                                                  register
                                                                  is tied to the analog test block.  The other GSER()_ANA_ATEST registers are
                                                                  unused. For diagnostic use only. */
-        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the GSER2 register is
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Controls the A-side DAC input to the analog test block. Note that the GSER2 register is
                                                                  tied to the analog test block.  The other GSER()_ANA_ATEST registers are unused.
                                                                  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the GSER2 register is
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Controls the A-side DAC input to the analog test block. Note that the GSER2 register is
                                                                  tied to the analog test block.  The other GSER()_ANA_ATEST registers are unused.
                                                                  For diagnostic use only. */
-        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the GSER2
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Controls the B-side DAC input to the analog test block. Note that the GSER2
                                                                  register
                                                                  is tied to the analog test block.  The other GSER()_ANA_ATEST registers are
                                                                  unused. For diagnostic use only. */
@@ -148,20 +148,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Controls the B-side DAC input to the analog test block. Note that the QLM4 register
                                                                  is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
                                                                  to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
                                                                  unused. For diagnostic use only. */
-        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Controls the A-side DAC input to the analog test block. Note that the QLM4 register is
                                                                  tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
                                                                  the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
                                                                  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Controls the A-side DAC input to the analog test block. Note that the QLM4 register is
                                                                  tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
                                                                  the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
                                                                  For diagnostic use only. */
-        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Controls the B-side DAC input to the analog test block. Note that the QLM4 register
                                                                  is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
                                                                  to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
                                                                  unused. For diagnostic use only. */
@@ -225,7 +225,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that the
                                                                  GSER(2)_ANA_SEL.ANA_SEL register is tied to the analog test block.
                                                                  The other GSER()_ANA_SEL registers are unused.
                                                                  For diagnostic use only.
@@ -239,7 +239,7 @@ typedef union
                                                                  If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
                                                                  GSER(2)_ANA_SEL.ANA_SEL field to 0x1fc. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that the
                                                                  GSER(2)_ANA_SEL.ANA_SEL register is tied to the analog test block.
                                                                  The other GSER()_ANA_SEL registers are unused.
                                                                  For diagnostic use only.
@@ -259,12 +259,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the QLM0 register
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that the QLM0 register
                                                                  is tied to the analog test block, for non-CCPI links. Note that the QLM8 register is tied
                                                                  to the analog test block, for CCPI links. The other GSER()_ANA_SEL registers are unused.
                                                                  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the QLM0 register
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that the QLM0 register
                                                                  is tied to the analog test block, for non-CCPI links. Note that the QLM8 register is tied
                                                                  to the analog test block, for CCPI links. The other GSER()_ANA_SEL registers are unused.
                                                                  For diagnostic use only. */
@@ -310,7 +310,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that the
                                                                  GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
                                                                  Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
                                                                  CCPI links. The other GSER()_ANA_SEL registers are unused.
@@ -330,7 +330,7 @@ typedef union
                                                                  If the common clock OCIC_REF_CLK_P/N input is unused program the GSER(8)_ANA_SEL.ANA_SEL
                                                                  field to 0x1fc. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that the
                                                                  GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
                                                                  Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
                                                                  CCPI links. The other GSER()_ANA_SEL registers are unused.
@@ -834,39 +834,7 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gserx_br_txx_ini_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t txt_post_init         : 5;  /**< [ 13:  9](R/W/H) During TX Base-R Link Training, this is the Tx POST Tap value that is used
-                                                                 when the INITIALIZE coefficients update is received. It is also the Tx POST Tap
-                                                                 value used when the Base-R Link Training begins.
-                                                                 For diagnostic use only. */
-        uint64_t txt_swing_init        : 5;  /**< [  8:  4](R/W/H) During TX Base-R Link Training, this is the Tx SWING Tap value that is used
-                                                                 when the INITIALIZE coefficients update is received. It is also the Tx SWING Tap
-                                                                 value used when the Base-R Link Training begins.
-                                                                 For diagnostic use only. */
-        uint64_t txt_pre_init          : 4;  /**< [  3:  0](R/W/H) During TX Base-R Link Training, this is the Tx PRE Tap value that is used
-                                                                 when the INITIALIZE coefficients update is received. It is also the Tx PRE Tap
-                                                                 value used when the Base-R Link Training begins.
-                                                                 For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t txt_pre_init          : 4;  /**< [  3:  0](R/W/H) During TX Base-R Link Training, this is the Tx PRE Tap value that is used
-                                                                 when the INITIALIZE coefficients update is received. It is also the Tx PRE Tap
-                                                                 value used when the Base-R Link Training begins.
-                                                                 For diagnostic use only. */
-        uint64_t txt_swing_init        : 5;  /**< [  8:  4](R/W/H) During TX Base-R Link Training, this is the Tx SWING Tap value that is used
-                                                                 when the INITIALIZE coefficients update is received. It is also the Tx SWING Tap
-                                                                 value used when the Base-R Link Training begins.
-                                                                 For diagnostic use only. */
-        uint64_t txt_post_init         : 5;  /**< [ 13:  9](R/W/H) During TX Base-R Link Training, this is the Tx POST Tap value that is used
-                                                                 when the INITIALIZE coefficients update is received. It is also the Tx POST Tap
-                                                                 value used when the Base-R Link Training begins.
-                                                                 For diagnostic use only. */
-        uint64_t reserved_14_63        : 50;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gserx_br_txx_ini_s cn83xx; */
+    /* struct bdk_gserx_br_txx_ini_s cn; */
 } bdk_gserx_br_txx_ini_t;
 
 static inline uint64_t BDK_GSERX_BR_TXX_INI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1030,7 +998,80 @@ typedef union
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_cfg_s cn81xx; */
+    struct bdk_gserx_cfg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t sata                  : 1;  /**< [  5:  5](R/W) When set, indicates the GSER is configured for SATA mode. [SATA] must not be set
+                                                                 when either of [BGX,PCIE] are set. [SATA] must only be set for DLM3 (i.e. GSER3). */
+        uint64_t bgx_quad              : 1;  /**< [  4:  4](R/W) When set, indicates the QLM is in BGX quad aggregation mode. [BGX_QUAD] must only be
+                                                                 set when [BGX] is set and [BGX_DUAL] is clear.
+
+                                                                 When [BGX_QUAD] is set, GSER bundles all four lanes for one BGX controller.
+                                                                 [BGX_QUAD] must only be set for the XAUI/DXAUI and XLAUI protocols.
+
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
+        uint64_t bgx_dual              : 1;  /**< [  3:  3](R/W) When set, indicates the QLM is in BGX dual aggregation mode. [BGX_DUAL] must only be
+                                                                 set when [BGX] is also set and [BGX_QUAD] is clear.
+
+                                                                 When [BGX_DUAL] is set, GSER bundles lanes 0 and 1 for one BGX controller and bundles
+                                                                 lanes 2 and 3 for another BGX controller. [BGX_DUAL] must only be set for the RXAUI
+                                                                 protocol.
+
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
+        uint64_t bgx                   : 1;  /**< [  2:  2](R/W) When set, indicates the GSER is configured for BGX mode. [BGX] must not be set
+                                                                 when either of [PCIE,SATA] are set.
+
+                                                                 When [BGX] is set and both [BGX_DUAL,BGX_QUAD] are clear, GSER exposes each lane to an
+                                                                 independent BGX controller.
+
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
+        uint64_t ila                   : 1;  /**< [  1:  1](R/W) Reserved. */
+        uint64_t pcie                  : 1;  /**< [  0:  0](R/W/H) When set, indicates the GSER is configured for PCIE mode. [PCIE] must not be
+                                                                 set when either of [BGX,SATA] is set.
+
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcie                  : 1;  /**< [  0:  0](R/W/H) When set, indicates the GSER is configured for PCIE mode. [PCIE] must not be
+                                                                 set when either of [BGX,SATA] is set.
+
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
+        uint64_t ila                   : 1;  /**< [  1:  1](R/W) Reserved. */
+        uint64_t bgx                   : 1;  /**< [  2:  2](R/W) When set, indicates the GSER is configured for BGX mode. [BGX] must not be set
+                                                                 when either of [PCIE,SATA] are set.
+
+                                                                 When [BGX] is set and both [BGX_DUAL,BGX_QUAD] are clear, GSER exposes each lane to an
+                                                                 independent BGX controller.
+
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
+        uint64_t bgx_dual              : 1;  /**< [  3:  3](R/W) When set, indicates the QLM is in BGX dual aggregation mode. [BGX_DUAL] must only be
+                                                                 set when [BGX] is also set and [BGX_QUAD] is clear.
+
+                                                                 When [BGX_DUAL] is set, GSER bundles lanes 0 and 1 for one BGX controller and bundles
+                                                                 lanes 2 and 3 for another BGX controller. [BGX_DUAL] must only be set for the RXAUI
+                                                                 protocol.
+
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
+        uint64_t bgx_quad              : 1;  /**< [  4:  4](R/W) When set, indicates the QLM is in BGX quad aggregation mode. [BGX_QUAD] must only be
+                                                                 set when [BGX] is set and [BGX_DUAL] is clear.
+
+                                                                 When [BGX_QUAD] is set, GSER bundles all four lanes for one BGX controller.
+                                                                 [BGX_QUAD] must only be set for the XAUI/DXAUI and XLAUI protocols.
+
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
+        uint64_t sata                  : 1;  /**< [  5:  5](R/W) When set, indicates the GSER is configured for SATA mode. [SATA] must not be set
+                                                                 when either of [BGX,PCIE] are set. [SATA] must only be set for DLM3 (i.e. GSER3). */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_gserx_cfg_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5645,7 +5686,7 @@ typedef union
                                                                  0x0 = pcs_sds_rx_terminate_to_vdda.
                                                                  0x1 = VSS. */
         uint64_t reserved_5_6          : 2;
-        uint64_t pcs_sds_rx_misc_ctrl_5 : 1; /**< [  4:  4](RO/H) Not Used. */
+        uint64_t pcs_sds_rx_misc_ctrl_5 : 1; /**< [  4:  4](RO/H) Not used. */
         uint64_t tx_detrx_state        : 2;  /**< [  3:  2](RO/H) RX detection state:
                                                                  0x0 = IDLE.
                                                                  0x1 = Charge Up.
@@ -5661,7 +5702,7 @@ typedef union
                                                                  0x1 = Charge Up.
                                                                  0x2 = Detection.
                                                                  0x3 = Restore common mode. */
-        uint64_t pcs_sds_rx_misc_ctrl_5 : 1; /**< [  4:  4](RO/H) Not Used. */
+        uint64_t pcs_sds_rx_misc_ctrl_5 : 1; /**< [  4:  4](RO/H) Not used. */
         uint64_t reserved_5_6          : 2;
         uint64_t pcs_sds_rx_pcie_mode  : 1;  /**< [  7:  7](RO/H) Selects between RX terminations:
                                                                  0x0 = pcs_sds_rx_terminate_to_vdda.
@@ -7179,13 +7220,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode, resets both lane 0 and lane 1
+        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode, resets all lanes
                                                                  (equivalent to the P2 power state) after any pending requests (power state change, rate
                                                                  change) are complete. The lanes remain in reset state while this signal is asserted. When
                                                                  the signal deasserts, the lanes exit the reset state and the PHY returns to the power
                                                                  state the PHY was in prior. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode, resets both lane 0 and lane 1
+        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode, resets all lanes
                                                                  (equivalent to the P2 power state) after any pending requests (power state change, rate
                                                                  change) are complete. The lanes remain in reset state while this signal is asserted. When
                                                                  the signal deasserts, the lanes exit the reset state and the PHY returns to the power
@@ -7198,13 +7239,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), resets all 4 lanes
+        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), resets all lanes
                                                                  (equivalent to the P2 power state) after any pending requests (power state change, rate
                                                                  change) are complete. The lanes remain in reset state while this signal is asserted. When
                                                                  the signal deasserts, the lanes exit the reset state and the PHY returns to the power
                                                                  state the PHY was in prior. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), resets all 4 lanes
+        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), resets all lanes
                                                                  (equivalent to the P2 power state) after any pending requests (power state change, rate
                                                                  change) are complete. The lanes remain in reset state while this signal is asserted. When
                                                                  the signal deasserts, the lanes exit the reset state and the PHY returns to the power
@@ -7212,24 +7253,7 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_gserx_lane_srst_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode, resets all 4 lanes
-                                                                 (equivalent to the P2 power state) after any pending requests (power state change, rate
-                                                                 change) are complete. The lanes remain in reset state while this signal is asserted. When
-                                                                 the signal deasserts, the lanes exit the reset state and the PHY returns to the power
-                                                                 state the PHY was in prior. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode, resets all 4 lanes
-                                                                 (equivalent to the P2 power state) after any pending requests (power state change, rate
-                                                                 change) are complete. The lanes remain in reset state while this signal is asserted. When
-                                                                 the signal deasserts, the lanes exit the reset state and the PHY returns to the power
-                                                                 state the PHY was in prior. For diagnostic use only. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_gserx_lane_srst_s cn83xx; */
 } bdk_gserx_lane_srst_t;
 
 static inline uint64_t BDK_GSERX_LANE_SRST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7592,13 +7616,13 @@ typedef union
         uint64_t reserved_2_63         : 62;
         uint64_t phy_reset             : 1;  /**< [  1:  1](R/W/H) When asserted, the PHY is held in reset. This bit is initialized as follows:
                                                                  0 = (not reset) = Bootable PCIe.
-                                                                 1 = (reset) = Non-bootable PCIe, BGX, SATA. */
+                                                                 1 = (reset) = Non-bootable PCIe, BGX, or SATA. */
         uint64_t phy_pd                : 1;  /**< [  0:  0](R/W) When asserted, the PHY is powered down. */
 #else /* Word 0 - Little Endian */
         uint64_t phy_pd                : 1;  /**< [  0:  0](R/W) When asserted, the PHY is powered down. */
         uint64_t phy_reset             : 1;  /**< [  1:  1](R/W/H) When asserted, the PHY is held in reset. This bit is initialized as follows:
                                                                  0 = (not reset) = Bootable PCIe.
-                                                                 1 = (reset) = Non-bootable PCIe, BGX, SATA. */
+                                                                 1 = (reset) = Non-bootable PCIe, BGX, or SATA. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -7623,22 +7647,7 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_gserx_phy_ctl_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t phy_reset             : 1;  /**< [  1:  1](R/W/H) When asserted, the PHY is held in reset. This bit is initialized as follows:
-                                                                 0 = (not reset) = Bootable PCIe.
-                                                                 1 = (reset) = Non-bootable PCIe, BGX, or SATA. */
-        uint64_t phy_pd                : 1;  /**< [  0:  0](R/W) When asserted, the PHY is powered down. */
-#else /* Word 0 - Little Endian */
-        uint64_t phy_pd                : 1;  /**< [  0:  0](R/W) When asserted, the PHY is powered down. */
-        uint64_t phy_reset             : 1;  /**< [  1:  1](R/W/H) When asserted, the PHY is held in reset. This bit is initialized as follows:
-                                                                 0 = (not reset) = Bootable PCIe.
-                                                                 1 = (reset) = Non-bootable PCIe, BGX, or SATA. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_gserx_phy_ctl_s cn83xx; */
 } bdk_gserx_phy_ctl_t;
 
 static inline uint64_t BDK_GSERX_PHY_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9421,7 +9430,22 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_sata_lanex_tx_ampx_s cn81xx; */
+    struct bdk_gserx_sata_lanex_tx_ampx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+                                                                 case where the PHY is running at the Gen1, Gen2, and Gen3
+                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 This register is used for SATA lanes only for GSER(3). */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+                                                                 case where the PHY is running at the Gen1, Gen2, and Gen3
+                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 This register is used for SATA lanes only for GSER(3). */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn81xx;
     /* struct bdk_gserx_sata_lanex_tx_ampx_s cn88xx; */
     struct bdk_gserx_sata_lanex_tx_ampx_cn83xx
     {
@@ -9491,7 +9515,22 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_sata_lanex_tx_preemphx_s cn81xx; */
+    struct bdk_gserx_sata_lanex_tx_preemphx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+                                                                 case where the PHY is running at the Gen1, Gen2, and Gen3
+                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 This register is used for SATA lanes only for GSER(3). */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+                                                                 case where the PHY is running at the Gen1, Gen2, and Gen3
+                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 This register is used for SATA lanes only for GSER(3). */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn81xx;
     /* struct bdk_gserx_sata_lanex_tx_preemphx_s cn88xx; */
     struct bdk_gserx_sata_lanex_tx_preemphx_cn83xx
     {
@@ -9564,13 +9603,17 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Reserved. */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved.. */
-        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1. */
-        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1.
+                                                                 This register is used for SATA lanes only for GSER(3). */
+        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0.
+                                                                 This register is used for SATA lanes only for GSER(3). */
 #else /* Word 0 - Little Endian */
-        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0. */
-        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1. */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved.. */
+        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0.
+                                                                 This register is used for SATA lanes only for GSER(3). */
+        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1.
+                                                                 This register is used for SATA lanes only for GSER(3). */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -9648,11 +9691,15 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t p3_rdy                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t p2_rdy                : 1;  /**< [  2:  2](RO/H) Reserved. */
-        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY lane 1 is ready to send and receive data. */
-        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY lane 0 is ready to send and receive data. */
+        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY lane 1 is ready to send and receive data.
+                                                                 This register is used for SATA lanes only for GSER(3). */
+        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY lane 0 is ready to send and receive data.
+                                                                 This register is used for SATA lanes only for GSER(3). */
 #else /* Word 0 - Little Endian */
-        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY lane 0 is ready to send and receive data. */
-        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY lane 1 is ready to send and receive data. */
+        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY lane 0 is ready to send and receive data.
+                                                                 This register is used for SATA lanes only for GSER(3). */
+        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY lane 1 is ready to send and receive data.
+                                                                 This register is used for SATA lanes only for GSER(3). */
         uint64_t p2_rdy                : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint64_t p3_rdy                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
@@ -9740,14 +9787,18 @@ typedef union
         uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
-                                                                 lane 1 transmitted data. */
+                                                                 lane 1 transmitted data.
+                                                                 This register is used for SATA lanes only for GSER(3). */
         uint64_t l0_inv                : 1;  /**< [  0:  0](R/W) Instructs the SATA PCS to perform a polarity inversion on the
-                                                                 lane 0 transmitted data. */
+                                                                 lane 0 transmitted data.
+                                                                 This register is used for SATA lanes only for GSER(3). */
 #else /* Word 0 - Little Endian */
         uint64_t l0_inv                : 1;  /**< [  0:  0](R/W) Instructs the SATA PCS to perform a polarity inversion on the
-                                                                 lane 0 transmitted data. */
+                                                                 lane 0 transmitted data.
+                                                                 This register is used for SATA lanes only for GSER(3). */
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
-                                                                 lane 1 transmitted data. */
+                                                                 lane 1 transmitted data.
+                                                                 This register is used for SATA lanes only for GSER(3). */
         uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
@@ -10086,22 +10137,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not Used. */
+        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not used. */
 #else /* Word 0 - Little Endian */
-        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not Used. */
+        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not used. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_gserx_spd_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not used. */
-#else /* Word 0 - Little Endian */
-        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not used. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_gserx_spd_cn81xx cn83xx; */
     struct bdk_gserx_spd_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

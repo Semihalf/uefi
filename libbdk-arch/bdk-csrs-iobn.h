@@ -2335,7 +2335,8 @@ typedef union
     struct bdk_iobnx_int_sum_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID, the transaction was returned with fault. Advisory
+                                                                 notification only. */
         uint64_t ied0_dbe              : 31; /**< [ 62: 32](R/W1C/H) IED0 double-bit error. When set, an IED0 double-bit error has occurred.
                                                                  Internal:
                                                                  gmr_ixofifo_dbe_sclk,
@@ -2459,7 +2460,8 @@ typedef union
                                                                       ixo_icc_fifo0_dbe_in_sclk,
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID, the transaction was returned with fault. Advisory
+                                                                 notification only. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_iobnx_int_sum_cn88xxp1
@@ -2595,7 +2597,8 @@ typedef union
     struct bdk_iobnx_int_sum_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID, the transaction was returned with fault. Advisory
+                                                                 notification only. */
         uint64_t reserved_61_62        : 2;
         uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) IED0 double-bit error. When set, an IED0 double-bit error has occurred.
                                                                  Internal:
@@ -2725,13 +2728,15 @@ typedef union
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
         uint64_t reserved_61_62        : 2;
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID, the transaction was returned with fault. Advisory
+                                                                 notification only. */
 #endif /* Word 0 - End */
     } cn81xx;
     struct bdk_iobnx_int_sum_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID, the transaction was returned with fault. Advisory
+                                                                 notification only. */
         uint64_t ied0_dbe              : 31; /**< [ 62: 32](R/W1C/H) IED0 double-bit error. When set, an IED0 double-bit error has occurred.
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
@@ -2867,7 +2872,8 @@ typedef union
                                                                       ixo_icc_fifo0_dbe_in_sclk,
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID, the transaction was returned with fault. Advisory
+                                                                 notification only. */
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_iobnx_int_sum_cn88xxp2
@@ -4369,7 +4375,7 @@ static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b)
 /**
  * Register (RSL) iobn#_ncb#_rw#_lat_pc
  *
- * IOBN NCB Secure Kill-Device Registers
+ * IOBN NCB Latency Performance Counter Registers
  * Added in pass 3.
  */
 typedef union
@@ -4428,7 +4434,7 @@ static inline uint64_t BDK_IOBNX_NCBX_RWX_LAT_PC(unsigned long a, unsigned long 
 /**
  * Register (RSL) iobn#_ncb#_rw#_req_pc
  *
- * IOBN NCB Secure Kill-Device Registers
+ * IOBN NCB Request Performance Counter Registers
  * Added in pass 3.
  */
 typedef union
@@ -4475,7 +4481,7 @@ static inline uint64_t BDK_IOBNX_NCBX_RWX_REQ_PC(unsigned long a, unsigned long 
 /**
  * Register (RSL) iobn#_ncb#_rw#_smmu_lat_pc
  *
- * IOBN NCB Secure Kill-Device Registers
+ * IOBN NCB SMMU Latency Performance Counter Registers
  * Added in pass 3.
  */
 typedef union

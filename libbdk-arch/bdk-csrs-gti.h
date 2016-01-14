@@ -2343,7 +2343,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_SET_FUNC(void)
  * Register (NCB) gti_cwd_int
  *
  * GTI Per-core Watchdog Interrupt Register
- * Generic Timer Per-core Watchdog Interrupts
+ * Generic timer per-core watchdog interrupts.
  */
 typedef union
 {
@@ -2352,9 +2352,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core Watchdog Interrupt (Write one to clear) */
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog interrupt. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core Watchdog Interrupt (Write one to clear) */
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog interrupt. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;

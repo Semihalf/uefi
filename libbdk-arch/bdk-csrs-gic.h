@@ -688,6 +688,56 @@ typedef union
     struct bdk_gic_cfg_ctlr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t dis_redist_lpi_aggr_merge : 1;/**< [ 33: 33](SR/W) Disable aggressive SETLPIR merging in redistributors. */
+        uint64_t dis_cpu_if_load_balancer : 1;/**< [ 32: 32](SR/W) Disable the CPU interface load balancer. */
+        uint64_t reserved_10_31        : 22;
+        uint64_t dis_lpi_pend_cache    : 1;  /**< [  9:  9](SR/W) Disable the LPI pending table cache. */
+        uint64_t dis_lpi_cfg_cache     : 1;  /**< [  8:  8](SR/W) Disable the LPI configuration cache. */
+        uint64_t dis_inv_hct           : 1;  /**< [  7:  7](SR/W) Disable H/W invalidating ITS HCT during ITS disable process. */
+        uint64_t dis_its_cdtc          : 1;  /**< [  6:  6](SR/W) Disable 1-entry device table cache in ITS CEU. */
+        uint64_t dis_its_itlb          : 1;  /**< [  5:  5](SR/W) Disable ITS ITLB (interrupt translation entry lookup buffer). */
+        uint64_t dis_its_dtlb          : 1;  /**< [  4:  4](SR/W) Disable ITS DTLB (device table entry lookup buffer). */
+        uint64_t reserved_3            : 1;
+        uint64_t root_dist             : 1;  /**< [  2:  2](SR/W) Specifies whether the distributor on this socket is root.
+                                                                 0 = Distributor is not root.
+                                                                 1 = Distributor is root.
+
+                                                                 Out of reset, this field is set. EL3 firmware will clear this field as required for multi-
+                                                                 socket operation. */
+        uint64_t om                    : 2;  /**< [  1:  0](SR/W) Operation mode.
+                                                                 0x0 = Single-socket single-root mode.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Multisocket single-root mode.
+                                                                 0x3 = Multisocket multiroot mode. */
+#else /* Word 0 - Little Endian */
+        uint64_t om                    : 2;  /**< [  1:  0](SR/W) Operation mode.
+                                                                 0x0 = Single-socket single-root mode.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Multisocket single-root mode.
+                                                                 0x3 = Multisocket multiroot mode. */
+        uint64_t root_dist             : 1;  /**< [  2:  2](SR/W) Specifies whether the distributor on this socket is root.
+                                                                 0 = Distributor is not root.
+                                                                 1 = Distributor is root.
+
+                                                                 Out of reset, this field is set. EL3 firmware will clear this field as required for multi-
+                                                                 socket operation. */
+        uint64_t reserved_3            : 1;
+        uint64_t dis_its_dtlb          : 1;  /**< [  4:  4](SR/W) Disable ITS DTLB (device table entry lookup buffer). */
+        uint64_t dis_its_itlb          : 1;  /**< [  5:  5](SR/W) Disable ITS ITLB (interrupt translation entry lookup buffer). */
+        uint64_t dis_its_cdtc          : 1;  /**< [  6:  6](SR/W) Disable 1-entry device table cache in ITS CEU. */
+        uint64_t dis_inv_hct           : 1;  /**< [  7:  7](SR/W) Disable H/W invalidating ITS HCT during ITS disable process. */
+        uint64_t dis_lpi_cfg_cache     : 1;  /**< [  8:  8](SR/W) Disable the LPI configuration cache. */
+        uint64_t dis_lpi_pend_cache    : 1;  /**< [  9:  9](SR/W) Disable the LPI pending table cache. */
+        uint64_t reserved_10_31        : 22;
+        uint64_t dis_cpu_if_load_balancer : 1;/**< [ 32: 32](SR/W) Disable the CPU interface load balancer. */
+        uint64_t dis_redist_lpi_aggr_merge : 1;/**< [ 33: 33](SR/W) Disable aggressive SETLPIR merging in redistributors. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_gic_cfg_ctlr_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
         uint64_t dis_cpu_if_load_balancer : 1;/**< [ 32: 32](SR/W) Disable the CPU interface load balancer. */
         uint64_t reserved_10_31        : 22;
@@ -732,10 +782,9 @@ typedef union
         uint64_t dis_cpu_if_load_balancer : 1;/**< [ 32: 32](SR/W) Disable the CPU interface load balancer. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gic_cfg_ctlr_s cn88xxp1; */
+    } cn88xxp1;
     /* struct bdk_gic_cfg_ctlr_s cn81xx; */
-    /* struct bdk_gic_cfg_ctlr_s cn83xx; */
+    /* struct bdk_gic_cfg_ctlr_cn88xxp1 cn83xx; */
     struct bdk_gic_cfg_ctlr_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4672,24 +4721,7 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicrx_seir_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t syndrome              : 16; /**< [ 15:  0](WO) Syndrome value for the SEI to be generated. If another write to this register occurs
-                                                                 before the previous has been forwarded to its receipients, the new value is ORed with the
-                                                                 existing value. The SYNDROME field is sticky and indicates that at least one error of a
-                                                                 lass has occurred. */
-#else /* Word 0 - Little Endian */
-        uint32_t syndrome              : 16; /**< [ 15:  0](WO) Syndrome value for the SEI to be generated. If another write to this register occurs
-                                                                 before the previous has been forwarded to its receipients, the new value is ORed with the
-                                                                 existing value. The SYNDROME field is sticky and indicates that at least one error of a
-                                                                 lass has occurred. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicrx_seir_s cn88xx; */
-    /* struct bdk_gicrx_seir_s cn83xx; */
+    /* struct bdk_gicrx_seir_s cn; */
 } bdk_gicrx_seir_t;
 
 static inline uint64_t BDK_GICRX_SEIR(unsigned long a) __attribute__ ((pure, always_inline));

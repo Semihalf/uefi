@@ -2819,11 +2819,15 @@ typedef union
     struct bdk_pki_active0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pfe_active            : 1;  /**< [  0:  0](RO/H) PFE active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t reserved_3_63         : 61;
+        uint64_t pcc_active            : 1;  /**< [  2:  2](RO/H) PBE FPC and FPA bus active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t pfe_pib_active        : 1;  /**< [  1:  1](RO/H) PBE FPC and FPA bus active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t ptag_active           : 1;  /**< [  0:  0](RO/H) PTAG active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t pfe_active            : 1;  /**< [  0:  0](RO/H) PFE active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t ptag_active           : 1;  /**< [  0:  0](RO/H) PTAG active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t pfe_pib_active        : 1;  /**< [  1:  1](RO/H) PBE FPC and FPA bus active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t pcc_active            : 1;  /**< [  2:  2](RO/H) PBE FPC and FPA bus active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_active0_s cn; */
@@ -2856,17 +2860,19 @@ typedef union
     struct bdk_pki_active1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t fpc_active            : 1;  /**< [  3:  3](RO/H) PBE FPC and FPA bus active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
-        uint64_t iobp_active           : 1;  /**< [  2:  2](RO/H) PBE PMW and IOBP bus active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
-        uint64_t sws_active            : 1;  /**< [  1:  1](RO/H) PBE SWS active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
-        uint64_t pbtag_active          : 1;  /**< [  0:  0](RO/H) PBE pbtags active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t pib_active            : 1;  /**< [  4:  4](RO/H) PBE PIB active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t fpc_active            : 1;  /**< [  3:  3](RO/H) PBE FPC and FPA bus active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t iobp_active           : 1;  /**< [  2:  2](RO/H) PBE PMW and IOBP bus active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t sws_active            : 1;  /**< [  1:  1](RO/H) PBE SWS active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t pbtag_active          : 1;  /**< [  0:  0](RO/H) PBE pbtags active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t pbtag_active          : 1;  /**< [  0:  0](RO/H) PBE pbtags active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
-        uint64_t sws_active            : 1;  /**< [  1:  1](RO/H) PBE SWS active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
-        uint64_t iobp_active           : 1;  /**< [  2:  2](RO/H) PBE PMW and IOBP bus active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
-        uint64_t fpc_active            : 1;  /**< [  3:  3](RO/H) PBE FPC and FPA bus active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t pbtag_active          : 1;  /**< [  0:  0](RO/H) PBE pbtags active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t sws_active            : 1;  /**< [  1:  1](RO/H) PBE SWS active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t iobp_active           : 1;  /**< [  2:  2](RO/H) PBE PMW and IOBP bus active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t fpc_active            : 1;  /**< [  3:  3](RO/H) PBE FPC and FPA bus active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t pib_active            : 1;  /**< [  4:  4](RO/H) PBE PIB active. For diagnostic use only; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_active1_s cn; */
@@ -2899,11 +2905,13 @@ typedef union
     struct bdk_pki_active2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t pix_active            : 5;  /**< [  4:  0](RO/H) PIX control and ICG active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
+        uint64_t reserved_6_63         : 58;
+        uint64_t pix_active            : 6;  /**< [  5:  0](RO/H) PIX control, ICG active and PIB active. For diagnostic use only; software should use
+                                                                 PKI_SFT_RST[ACTIVE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t pix_active            : 5;  /**< [  4:  0](RO/H) PIX control and ICG active. For internal use; software should use PKI_SFT_RST[ACTIVE]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t pix_active            : 6;  /**< [  5:  0](RO/H) PIX control, ICG active and PIB active. For diagnostic use only; software should use
+                                                                 PKI_SFT_RST[ACTIVE]. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_active2_s cn; */
@@ -7956,7 +7964,7 @@ typedef union
                                                                  the average observed parser latency by loading with the parsing
                                                                  delay divided by the number of clusters in this cluster group which will
                                                                  typically be 800 divided by the population count of CLUSTERS
-                                                                 (800/pop_cnt(CLUSTERS)). The smallest useful non-zero value is 0xA0,
+                                                                 (800/PKI_CONST1[CLS]). The smallest useful non-zero value is 0xA0,
                                                                  corresponding to the minimum number of cycles needed to fill one cluster with
                                                                  packets.
 
@@ -7969,7 +7977,7 @@ typedef union
                                                                  the average observed parser latency by loading with the parsing
                                                                  delay divided by the number of clusters in this cluster group which will
                                                                  typically be 800 divided by the population count of CLUSTERS
-                                                                 (800/pop_cnt(CLUSTERS)). The smallest useful non-zero value is 0xA0,
+                                                                 (800/PKI_CONST1[CLS]). The smallest useful non-zero value is 0xA0,
                                                                  corresponding to the minimum number of cycles needed to fill one cluster with
                                                                  packets.
 

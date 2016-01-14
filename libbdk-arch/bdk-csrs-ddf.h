@@ -196,9 +196,9 @@ union bdk_ddf_inst_find_s
                                                                  DDF_OP_E::FABS_SET, or [WAY_ABS] is set, which way number, otherwise ignored. */
         uint64_t reserved_22_47        : 26;
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_FIND_S. */
-        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
-                                                                 clear, do not allocate if not already in L2 cache. */
-        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header allocate into L2 cache.
+        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the filter data, allocate into L2
+                                                                 cache. If clear, do not allocate if not already in L2 cache. */
+        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header, allocate into L2 cache.
                                                                  If clear, do not allocate if not already in L2 cache. */
         uint64_t sync                  : 1;  /**< [ 18: 18] Synchronize. If set, insure all structures
                                                                  are written to memory before completing this instruction. */
@@ -235,10 +235,10 @@ union bdk_ddf_inst_find_s
                                                                  the next instruction will access the same data. */
         uint64_t sync                  : 1;  /**< [ 18: 18] Synchronize. If set, insure all structures
                                                                  are written to memory before completing this instruction. */
-        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header allocate into L2 cache.
+        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header, allocate into L2 cache.
                                                                  If clear, do not allocate if not already in L2 cache. */
-        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
-                                                                 clear, do not allocate if not already in L2 cache. */
+        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the filter data, allocate into L2
+                                                                 cache. If clear, do not allocate if not already in L2 cache. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_FIND_S. */
         uint64_t reserved_22_47        : 26;
         uint64_t way                   : 3;  /**< [ 50: 48] Which way number. If [OP] = DDF_OP_E::FIND_INS or DDF_OP_E::FEMPTY_INS or
@@ -587,9 +587,9 @@ union bdk_ddf_inst_match_s
                                                                  If a record is found to match, continue to compare or update all records in
                                                                  all record-sets. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
-        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
-                                                                 clear, do not allocate if not already in L2 cache. */
-        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header allocate into L2 cache.
+        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the filter data, allocate into L2
+                                                                 cache. If clear, do not allocate if not already in L2 cache. */
+        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header, allocate into L2 cache.
                                                                  If clear, do not allocate if not already in L2 cache. */
         uint64_t sync                  : 1;  /**< [ 18: 18] See DDF_INST_FIND_S[SYNC]. */
         uint64_t gang                  : 1;  /**< [ 17: 17] See DDF_INST_FIND_S[GANG]. */
@@ -602,10 +602,10 @@ union bdk_ddf_inst_match_s
         uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_INST_FIND_S[DONEINT]. */
         uint64_t gang                  : 1;  /**< [ 17: 17] See DDF_INST_FIND_S[GANG]. */
         uint64_t sync                  : 1;  /**< [ 18: 18] See DDF_INST_FIND_S[SYNC]. */
-        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header allocate into L2 cache.
+        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header, allocate into L2 cache.
                                                                  If clear, do not allocate if not already in L2 cache. */
-        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
-                                                                 clear, do not allocate if not already in L2 cache. */
+        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the filter data, allocate into L2
+                                                                 cache. If clear, do not allocate if not already in L2 cache. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
         uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
                                                                  0 = A match is only expected in one record.
@@ -779,9 +779,9 @@ union bdk_ddf_inst_match_s
                                                                  If a record is found to match, continue to compare or update all records in
                                                                  all record-sets. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
-        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
-                                                                 clear, do not allocate if not already in L2 cache. */
-        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header allocate into L2 cache.
+        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the filter data, allocate into L2
+                                                                 cache. If clear, do not allocate if not already in L2 cache. */
+        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header, allocate into L2 cache.
                                                                  If clear, do not allocate if not already in L2 cache. */
         uint64_t sync                  : 1;  /**< [ 18: 18] See DDF_INST_FIND_S[SYNC]. */
         uint64_t gang                  : 1;  /**< [ 17: 17] See DDF_INST_FIND_S[GANG]. */
@@ -794,10 +794,10 @@ union bdk_ddf_inst_match_s
         uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_INST_FIND_S[DONEINT]. */
         uint64_t gang                  : 1;  /**< [ 17: 17] See DDF_INST_FIND_S[GANG]. */
         uint64_t sync                  : 1;  /**< [ 18: 18] See DDF_INST_FIND_S[SYNC]. */
-        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header allocate into L2 cache.
+        uint64_t cach                  : 1;  /**< [ 19: 19] L2 cache header. If set, when reading the header, allocate into L2 cache.
                                                                  If clear, do not allocate if not already in L2 cache. */
-        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
-                                                                 clear, do not allocate if not already in L2 cache. */
+        uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the filter data, allocate into L2
+                                                                 cache. If clear, do not allocate if not already in L2 cache. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
         uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
                                                                  0 = A match is only expected in one record.
@@ -1259,6 +1259,168 @@ union bdk_ddf_res_match_s
 };
 
 /**
+ * Register (NCB) ddf#_cqm_core_obs0
+ *
+ * INTERNAL: CDE CQM Core Observability Debug Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_cqm_core_obs0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t instfif7_cnt          : 8;  /**< [ 63: 56](RO/H) Number of instruction words prefetched for group 7. */
+        uint64_t instfif6_cnt          : 8;  /**< [ 55: 48](RO/H) Number of instruction words prefetched for group 6. */
+        uint64_t instfif5_cnt          : 8;  /**< [ 47: 40](RO/H) Number of instruction words prefetched for group 5. */
+        uint64_t instfif4_cnt          : 8;  /**< [ 39: 32](RO/H) Number of instruction words prefetched for group 4. */
+        uint64_t instfif3_cnt          : 8;  /**< [ 31: 24](RO/H) Number of instruction words prefetched for group 3. */
+        uint64_t instfif2_cnt          : 8;  /**< [ 23: 16](RO/H) Number of instruction words prefetched for group 2. */
+        uint64_t instfif1_cnt          : 8;  /**< [ 15:  8](RO/H) Number of instruction words prefetched for group 1. */
+        uint64_t instfif0_cnt          : 8;  /**< [  7:  0](RO/H) Number of instruction words prefetched for group 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t instfif0_cnt          : 8;  /**< [  7:  0](RO/H) Number of instruction words prefetched for group 0. */
+        uint64_t instfif1_cnt          : 8;  /**< [ 15:  8](RO/H) Number of instruction words prefetched for group 1. */
+        uint64_t instfif2_cnt          : 8;  /**< [ 23: 16](RO/H) Number of instruction words prefetched for group 2. */
+        uint64_t instfif3_cnt          : 8;  /**< [ 31: 24](RO/H) Number of instruction words prefetched for group 3. */
+        uint64_t instfif4_cnt          : 8;  /**< [ 39: 32](RO/H) Number of instruction words prefetched for group 4. */
+        uint64_t instfif5_cnt          : 8;  /**< [ 47: 40](RO/H) Number of instruction words prefetched for group 5. */
+        uint64_t instfif6_cnt          : 8;  /**< [ 55: 48](RO/H) Number of instruction words prefetched for group 6. */
+        uint64_t instfif7_cnt          : 8;  /**< [ 63: 56](RO/H) Number of instruction words prefetched for group 7. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_cqm_core_obs0_s cn; */
+} bdk_ddfx_cqm_core_obs0_t;
+
+static inline uint64_t BDK_DDFX_CQM_CORE_OBS0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_CQM_CORE_OBS0(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x8090000001a0ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_CQM_CORE_OBS0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_CQM_CORE_OBS0(a) bdk_ddfx_cqm_core_obs0_t
+#define bustype_BDK_DDFX_CQM_CORE_OBS0(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_CQM_CORE_OBS0(a) "DDFX_CQM_CORE_OBS0"
+#define device_bar_BDK_DDFX_CQM_CORE_OBS0(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_CQM_CORE_OBS0(a) (a)
+#define arguments_BDK_DDFX_CQM_CORE_OBS0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_cqm_core_obs1
+ *
+ * INTERNAL: CDE CQM Core Observability Debug Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_cqm_core_obs1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_50_63        : 14;
+        uint64_t ncbi_ptr_req          : 1;  /**< [ 49: 49](RO/H) CQM_CORE is waiting to issue an NCBI Request for instruction pointer fetch */
+        uint64_t ncbi_req_rdy          : 1;  /**< [ 48: 48](RO/H) CQM_CORE is waiting to issue an NCBI Request for instruction fetch */
+        uint64_t grp_rdy_hi_pri        : 8;  /**< [ 47: 40](RO/H) If set the corresponding group has high priority queues waiting to fetch
+                                                                 instructions. */
+        uint64_t grp_rdy_lo_pri        : 8;  /**< [ 39: 32](RO/H) If set the corresponding group has low priority queues waiting to fetch */
+        uint64_t vqfif7_cnt            : 4;  /**< [ 31: 28](RO/H) Number of instructions getting prefetched for group 7. */
+        uint64_t vqfif6_cnt            : 4;  /**< [ 27: 24](RO/H) Number of instructions getting prefetched for group 6. */
+        uint64_t vqfif5_cnt            : 4;  /**< [ 23: 20](RO/H) Number of instructions getting prefetched for group 5. */
+        uint64_t vqfif4_cnt            : 4;  /**< [ 19: 16](RO/H) Number of instructions getting prefetched for group 4. */
+        uint64_t vqfif3_cnt            : 4;  /**< [ 15: 12](RO/H) Number of instructions getting prefetched for group 3. */
+        uint64_t vqfif2_cnt            : 4;  /**< [ 11:  8](RO/H) Number of instructions getting prefetched for group 2. */
+        uint64_t vqfif1_cnt            : 4;  /**< [  7:  4](RO/H) Number of instructions getting prefetched for group 1. */
+        uint64_t vqfif0_cnt            : 4;  /**< [  3:  0](RO/H) Number of instructions getting prefetched for group 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t vqfif0_cnt            : 4;  /**< [  3:  0](RO/H) Number of instructions getting prefetched for group 0. */
+        uint64_t vqfif1_cnt            : 4;  /**< [  7:  4](RO/H) Number of instructions getting prefetched for group 1. */
+        uint64_t vqfif2_cnt            : 4;  /**< [ 11:  8](RO/H) Number of instructions getting prefetched for group 2. */
+        uint64_t vqfif3_cnt            : 4;  /**< [ 15: 12](RO/H) Number of instructions getting prefetched for group 3. */
+        uint64_t vqfif4_cnt            : 4;  /**< [ 19: 16](RO/H) Number of instructions getting prefetched for group 4. */
+        uint64_t vqfif5_cnt            : 4;  /**< [ 23: 20](RO/H) Number of instructions getting prefetched for group 5. */
+        uint64_t vqfif6_cnt            : 4;  /**< [ 27: 24](RO/H) Number of instructions getting prefetched for group 6. */
+        uint64_t vqfif7_cnt            : 4;  /**< [ 31: 28](RO/H) Number of instructions getting prefetched for group 7. */
+        uint64_t grp_rdy_lo_pri        : 8;  /**< [ 39: 32](RO/H) If set the corresponding group has low priority queues waiting to fetch */
+        uint64_t grp_rdy_hi_pri        : 8;  /**< [ 47: 40](RO/H) If set the corresponding group has high priority queues waiting to fetch
+                                                                 instructions. */
+        uint64_t ncbi_req_rdy          : 1;  /**< [ 48: 48](RO/H) CQM_CORE is waiting to issue an NCBI Request for instruction fetch */
+        uint64_t ncbi_ptr_req          : 1;  /**< [ 49: 49](RO/H) CQM_CORE is waiting to issue an NCBI Request for instruction pointer fetch */
+        uint64_t reserved_50_63        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_cqm_core_obs1_s cn; */
+} bdk_ddfx_cqm_core_obs1_t;
+
+static inline uint64_t BDK_DDFX_CQM_CORE_OBS1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_CQM_CORE_OBS1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x8090000001a8ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_CQM_CORE_OBS1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_CQM_CORE_OBS1(a) bdk_ddfx_cqm_core_obs1_t
+#define bustype_BDK_DDFX_CQM_CORE_OBS1(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_CQM_CORE_OBS1(a) "DDFX_CQM_CORE_OBS1"
+#define device_bar_BDK_DDFX_CQM_CORE_OBS1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_CQM_CORE_OBS1(a) (a)
+#define arguments_BDK_DDFX_CQM_CORE_OBS1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_ncbi_obs
+ *
+ * INTERNAL: CDE NCBI Observability Debug Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_ncbi_obs_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t datfif_cnt            : 8;  /**< [ 39: 32](RO/H) Number of pending data cycles to be sent to NCBI. */
+        uint64_t cmdfif_cnt            : 8;  /**< [ 31: 24](RO/H) Number of pending commands to be sent to NCBI. */
+        uint64_t reserved_22_23        : 2;
+        uint64_t csr_rsp_dat           : 1;  /**< [ 21: 21](RO/H) CSR Response data available to be sent to NCBI.                                            . */
+        uint64_t csr_rsp_val           : 1;  /**< [ 20: 20](RO/H) CSR Response available to be sent to NCBI. */
+        uint64_t csr_cc_req            : 4;  /**< [ 19: 16](RO/H) Transfer cycles requested for CSR responses. */
+        uint64_t res_cc_req            : 4;  /**< [ 15: 12](RO/H) Transfer cycles requested for result structure stores. */
+        uint64_t ifc_cc_req            : 4;  /**< [ 11:  8](RO/H) Transfer cycles requested for instruction fetches. */
+        uint64_t eng_cc_req            : 4;  /**< [  7:  4](RO/H) Transfer cycles requested from the engines. */
+        uint64_t cdei_cc_left          : 4;  /**< [  3:  0](RO/H) Transfer cycles remaining to complete receiving transaction from DDF_NCBI input. */
+#else /* Word 0 - Little Endian */
+        uint64_t cdei_cc_left          : 4;  /**< [  3:  0](RO/H) Transfer cycles remaining to complete receiving transaction from DDF_NCBI input. */
+        uint64_t eng_cc_req            : 4;  /**< [  7:  4](RO/H) Transfer cycles requested from the engines. */
+        uint64_t ifc_cc_req            : 4;  /**< [ 11:  8](RO/H) Transfer cycles requested for instruction fetches. */
+        uint64_t res_cc_req            : 4;  /**< [ 15: 12](RO/H) Transfer cycles requested for result structure stores. */
+        uint64_t csr_cc_req            : 4;  /**< [ 19: 16](RO/H) Transfer cycles requested for CSR responses. */
+        uint64_t csr_rsp_val           : 1;  /**< [ 20: 20](RO/H) CSR Response available to be sent to NCBI. */
+        uint64_t csr_rsp_dat           : 1;  /**< [ 21: 21](RO/H) CSR Response data available to be sent to NCBI.                                            . */
+        uint64_t reserved_22_23        : 2;
+        uint64_t cmdfif_cnt            : 8;  /**< [ 31: 24](RO/H) Number of pending commands to be sent to NCBI. */
+        uint64_t datfif_cnt            : 8;  /**< [ 39: 32](RO/H) Number of pending data cycles to be sent to NCBI. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_ncbi_obs_s cn; */
+} bdk_ddfx_ncbi_obs_t;
+
+static inline uint64_t BDK_DDFX_NCBI_OBS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_NCBI_OBS(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000190ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_NCBI_OBS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_NCBI_OBS(a) bdk_ddfx_ncbi_obs_t
+#define bustype_BDK_DDFX_NCBI_OBS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_NCBI_OBS(a) "DDFX_NCBI_OBS"
+#define device_bar_BDK_DDFX_NCBI_OBS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_NCBI_OBS(a) (a)
+#define arguments_BDK_DDFX_NCBI_OBS(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) ddf#_pf_active_cycles_pc
  *
  * DDF PF Active Cycles Register
@@ -1349,10 +1511,10 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <63> = NCBI requests.
+                                                                 <62> = Instruction prefetching.
+                                                                 <61> = Reserved.
+                                                                 <60> = Reserved. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
@@ -1382,10 +1544,10 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <63> = NCBI requests.
+                                                                 <62> = Instruction prefetching.
+                                                                 <61> = Reserved.
+                                                                 <60> = Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_bp_test_s cn; */
@@ -1811,16 +1973,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for an instruction to complete (have the store of
-                                                                 DDF_RES_FIND_S/DDF_RES_MATCH_S reach the commit point). Incremented every
-                                                                 coprocessor-clock by the number of instructions active in that cycle. This may
-                                                                 be divided by DDF()_PF_RD_REQ_PC to determine the average hardware instruction
-                                                                 latency. */
+                                                                 DDF_RES_S reach the commit point). Incremented every coprocessor-clock by the
+                                                                 number of instructions active in that cycle. This may be divided by
+                                                                 DDF()_PF_RD_REQ_PC to determine the average hardware instruction latency. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for an instruction to complete (have the store of
-                                                                 DDF_RES_FIND_S/DDF_RES_MATCH_S reach the commit point). Incremented every
-                                                                 coprocessor-clock by the number of instructions active in that cycle. This may
-                                                                 be divided by DDF()_PF_RD_REQ_PC to determine the average hardware instruction
-                                                                 latency. */
+                                                                 DDF_RES_S reach the commit point). Incremented every coprocessor-clock by the
+                                                                 number of instructions active in that cycle. This may be divided by
+                                                                 DDF()_PF_RD_REQ_PC to determine the average hardware instruction latency. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_inst_latency_pc_s cn; */
@@ -1957,10 +2117,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 DDF(0)_VF(0..63)_PF_MBOX(1) is written. */
+                                                                 DDF()_VF()_PF_MBOX(1) is written. */
 #else /* Word 0 - Little Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 DDF(0)_VF(0..63)_PF_MBOX(1) is written. */
+                                                                 DDF()_VF()_PF_MBOX(1) is written. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_mbox_intx_s cn; */
@@ -2155,7 +2315,7 @@ static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
  *
  * DDF Queue Control Register
  * This register configures queues. This register should be changed only when quiescent
- * (see DDF()_VQ()_STATUS[BUSY]).
+ * (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
 typedef union
 {
@@ -2269,7 +2429,7 @@ static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b)
  *
  * DDF Queue Control 2 Register
  * This register configures queues. This register should be changed only when quiescent
- * (see DDF()_VQ()_STATUS[BUSY]).
+ * (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
 typedef union
 {
@@ -2335,7 +2495,7 @@ static inline uint64_t BDK_DDFX_PF_QX_CTL2(unsigned long a, unsigned long b)
  *
  * DDF Queue Guest Machine Control Register
  * This register configures queues. This register should be changed only when quiescent
- * (see DDF()_VQ()_STATUS[BUSY]).
+ * (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
 typedef union
 {
@@ -2509,16 +2669,16 @@ typedef union
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  DDF()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing DDF(0)_PF_VF(0..63)_MBOX(0) (but not
-                                                                 DDF(0)_VF(0..63)_PF_MBOX(0)) will set the corresponding
+                                                                 for VF to PF. Writing DDF()_PF_VF()_MBOX(0) (but not
+                                                                 DDF()_VF()_PF_MBOX(0)) will set the corresponding
                                                                  DDF()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  DDF()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing DDF(0)_PF_VF(0..63)_MBOX(0) (but not
-                                                                 DDF(0)_VF(0..63)_PF_MBOX(0)) will set the corresponding
+                                                                 for VF to PF. Writing DDF()_PF_VF()_MBOX(0) (but not
+                                                                 DDF()_VF()_PF_MBOX(0)) will set the corresponding
                                                                  DDF()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #endif /* Word 0 - End */
@@ -2679,14 +2839,14 @@ typedef union
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. The PF may access the same storage using DDF()_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 DDF(0)_VF(0..63)_PF_MBOX(1) (but not DDF(0)_PF_VF(0..63)_MBOX(1)) will set the
+                                                                 DDF()_VF()_PF_MBOX(1) (but not DDF()_PF_VF()_MBOX(1)) will set the
                                                                  corresponding DDF()_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. The PF may access the same storage using DDF()_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 DDF(0)_VF(0..63)_PF_MBOX(1) (but not DDF(0)_PF_VF(0..63)_MBOX(1)) will set the
+                                                                 DDF()_VF()_PF_MBOX(1) (but not DDF()_PF_VF()_MBOX(1)) will set the
                                                                  corresponding DDF()_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #endif /* Word 0 - End */
@@ -2714,7 +2874,7 @@ static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, u
  *
  * DDF VF Queue Control Registers
  * This register configures queues. This register should be changed (other than
- * clearing [ENA]) only when quiescent (see DDF()_VQ()_STATUS[BUSY]).
+ * clearing [ENA]) only when quiescent (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
 typedef union
 {
@@ -2724,12 +2884,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t ena                   : 1;  /**< [  0:  0](R/W/H) Enables the logical instruction queue. See also DDF()_PF_Q()_CTL[CONT_ERR] and
-                                                                 DDF()_VQ()_STATUS[BUSY].
+                                                                 DDF()_VQ()_INPROG[INFLIGHT].
                                                                  1 = Queue is enabled.
                                                                  0 = Queue is disabled. */
 #else /* Word 0 - Little Endian */
         uint64_t ena                   : 1;  /**< [  0:  0](R/W/H) Enables the logical instruction queue. See also DDF()_PF_Q()_CTL[CONT_ERR] and
-                                                                 DDF()_VQ()_STATUS[BUSY].
+                                                                 DDF()_VQ()_INPROG[INFLIGHT].
                                                                  1 = Queue is enabled.
                                                                  0 = Queue is disabled. */
         uint64_t reserved_1_63         : 63;
@@ -2766,10 +2926,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When DDF_INST_FIND_S/DDF_INST_MATCH_S[DONEINT] set and that
-                                                                 instruction completes, DDF()_VQ()_DONE[DONE] is incremented when the instruction
-                                                                 finishes. Write to this field are for diagnostic use only; instead software
-                                                                 writes DDF()_VQ()_DONE_ACK with the number of decrements for this field.
+        uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When DDF_INST_S[DONEINT] set and that instruction completes,
+                                                                 DDF()_VQ()_DONE[DONE] is incremented when the instruction finishes. Write to
+                                                                 this field are for diagnostic use only; instead software writes
+                                                                 DDF()_VQ()_DONE_ACK with the number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
 
@@ -2782,16 +2942,17 @@ typedef union
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When DDF()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 * When CDE()_VQ()_DONE_ACK is written (or CDE()_VQ()_DONE is written but this is
+                                                                 not typical), the interrupt coalescing timer restarts.  Note after decrementing
+                                                                 this interrupt equation is recomputed, for example if CDE()_VQ()_DONE[DONE] >=
+                                                                 CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 be resent immediately.  (This covers the race case between software
+                                                                 acknowledging an interrupt and a result returning.)
 
-                                                                 * When DDF()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
+                                                                 * When CDE()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
 
-                                                                 Since DDF instructions complete out-of-order, if software is using completion
+                                                                 Since CDE instructions complete out-of-order, if software is using completion
                                                                  interrupts the suggested scheme is to request a DONEINT on each request, and
                                                                  when an interrupt arrives perform a "greedy" scan for completions; even if a
                                                                  later command is acknowledged first this will not result in missing a
@@ -2801,10 +2962,10 @@ typedef union
                                                                  insuring there are not more than 2^20-1 instructions in flight that may request
                                                                  interrupts. */
 #else /* Word 0 - Little Endian */
-        uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When DDF_INST_FIND_S/DDF_INST_MATCH_S[DONEINT] set and that
-                                                                 instruction completes, DDF()_VQ()_DONE[DONE] is incremented when the instruction
-                                                                 finishes. Write to this field are for diagnostic use only; instead software
-                                                                 writes DDF()_VQ()_DONE_ACK with the number of decrements for this field.
+        uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When DDF_INST_S[DONEINT] set and that instruction completes,
+                                                                 DDF()_VQ()_DONE[DONE] is incremented when the instruction finishes. Write to
+                                                                 this field are for diagnostic use only; instead software writes
+                                                                 DDF()_VQ()_DONE_ACK with the number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
 
@@ -2817,16 +2978,17 @@ typedef union
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When DDF()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 * When CDE()_VQ()_DONE_ACK is written (or CDE()_VQ()_DONE is written but this is
+                                                                 not typical), the interrupt coalescing timer restarts.  Note after decrementing
+                                                                 this interrupt equation is recomputed, for example if CDE()_VQ()_DONE[DONE] >=
+                                                                 CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 be resent immediately.  (This covers the race case between software
+                                                                 acknowledging an interrupt and a result returning.)
 
-                                                                 * When DDF()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
+                                                                 * When CDE()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
 
-                                                                 Since DDF instructions complete out-of-order, if software is using completion
+                                                                 Since CDE instructions complete out-of-order, if software is using completion
                                                                  interrupts the suggested scheme is to request a DONEINT on each request, and
                                                                  when an interrupt arrives perform a "greedy" scan for completions; even if a
                                                                  later command is acknowledged first this will not result in missing a
@@ -3119,11 +3281,33 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the DDF instruction doorbell
-                                                                 count. Must be a multiple of 16. All DDF instructions are 16 words and require a
+                                                                 count.  Readback value is the the current number of pending doorbell requests.
+                                                                 If counter overflows DDF()_VQ()_MISC_INT[DBELL_DOVF] is set.
+
+                                                                 To reset the count back to zero, write one to clear
+                                                                 DDF()_VQ()_MISC_INT_ENA_W1C[DBELL_DOVF], then write a value of 2^20 minus the
+                                                                 read [DBELL_CNT], then write one to DDF()_VQ()_MISC_INT_W1C[DBELL_DOVF] and
+                                                                 DDF()_VQ()_MISC_INT_ENA_W1S[DBELL_DOVF].
+
+                                                                 CPT: Must be a multiple of 8. All CPT instructions are 8 words and require a
+                                                                 doorbell count of multiple of 8.
+
+                                                                 DDF: Must be a multiple of 16. All DDF instructions are 16 words and require a
                                                                  doorbell count of multiple of 16. */
 #else /* Word 0 - Little Endian */
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the DDF instruction doorbell
-                                                                 count. Must be a multiple of 16. All DDF instructions are 16 words and require a
+                                                                 count.  Readback value is the the current number of pending doorbell requests.
+                                                                 If counter overflows DDF()_VQ()_MISC_INT[DBELL_DOVF] is set.
+
+                                                                 To reset the count back to zero, write one to clear
+                                                                 DDF()_VQ()_MISC_INT_ENA_W1C[DBELL_DOVF], then write a value of 2^20 minus the
+                                                                 read [DBELL_CNT], then write one to DDF()_VQ()_MISC_INT_W1C[DBELL_DOVF] and
+                                                                 DDF()_VQ()_MISC_INT_ENA_W1S[DBELL_DOVF].
+
+                                                                 CPT: Must be a multiple of 8. All CPT instructions are 8 words and require a
+                                                                 doorbell count of multiple of 8.
+
+                                                                 DDF: Must be a multiple of 16. All DDF instructions are 16 words and require a
                                                                  doorbell count of multiple of 16. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
@@ -3159,11 +3343,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count.  Counts the number of instructions for the VF which have been
-                                                                 dequeued, but not yet completed. */
+        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count. Counts the number of instructions for the VF for which DDF is
+                                                                 fetching, executing or responding to instructions. However this does not include
+                                                                 any interrupts that are awaiting software handling (DDF()_VQ()_DONE[DONE] !=
+                                                                 0x0).
+
+                                                                 A queue may not be reconfigured until:
+                                                                   1. DDF()_VQ()_CTL[ENA] is cleared by software.
+                                                                   2. [INFLIGHT] is polled until equals to zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count.  Counts the number of instructions for the VF which have been
-                                                                 dequeued, but not yet completed. */
+        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count. Counts the number of instructions for the VF for which DDF is
+                                                                 fetching, executing or responding to instructions. However this does not include
+                                                                 any interrupts that are awaiting software handling (DDF()_VQ()_DONE[DONE] !=
+                                                                 0x0).
+
+                                                                 A queue may not be reconfigured until:
+                                                                   1. DDF()_VQ()_CTL[ENA] is cleared by software.
+                                                                   2. [INFLIGHT] is polled until equals to zero. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -3409,54 +3605,5 @@ static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b)
 #define device_bar_BDK_DDFX_VQX_SADDR(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_DDFX_VQX_SADDR(a,b) (a)
 #define arguments_BDK_DDFX_VQX_SADDR(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) ddf#_vq#_status
- *
- * DDF VF Queue Status Registers
- * These registers return status of the instruction queues.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ddfx_vqx_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Queue busy. If set, DDF is fetching, executing or responding to
-                                                                 instructions. However this does not include any interrupts that are awaiting
-                                                                 software handling (DDF()_VQ()_DONE[DONE] != 0x0).
-
-                                                                 A queue may not be reconfigured until:
-                                                                   1. DDF()_VQ()_CTL[ENA] is cleared by software.
-                                                                   2. [BUSY] is polled until clear. */
-#else /* Word 0 - Little Endian */
-        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Queue busy. If set, DDF is fetching, executing or responding to
-                                                                 instructions. However this does not include any interrupts that are awaiting
-                                                                 software handling (DDF()_VQ()_DONE[DONE] != 0x0).
-
-                                                                 A queue may not be reconfigured until:
-                                                                   1. DDF()_VQ()_CTL[ENA] is cleared by software.
-                                                                   2. [BUSY] is polled until clear. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ddfx_vqx_status_s cn; */
-} bdk_ddfx_vqx_status_t;
-
-static inline uint64_t BDK_DDFX_VQX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDFX_VQX_STATUS(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x809020000120ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    __bdk_csr_fatal("DDFX_VQX_STATUS", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_DDFX_VQX_STATUS(a,b) bdk_ddfx_vqx_status_t
-#define bustype_BDK_DDFX_VQX_STATUS(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDFX_VQX_STATUS(a,b) "DDFX_VQX_STATUS"
-#define device_bar_BDK_DDFX_VQX_STATUS(a,b) 0x10 /* VF_BAR0 */
-#define busnum_BDK_DDFX_VQX_STATUS(a,b) (a)
-#define arguments_BDK_DDFX_VQX_STATUS(a,b) (a),(b),-1,-1
 
 #endif /* __BDK_CSRS_DDF_H__ */

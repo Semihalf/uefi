@@ -169,10 +169,10 @@
  * DPI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DPI_INT_VEC_E_INTS (0) /**< See interrupt clears DPI(0)_INT_SUM,
-                                       interrupt sets DPI(0)_INT_SUM_W1S,
-                                       enable clears DPI(0)_INT_ENA_W1C,
-                                       and enable sets DPI(0)_INT_ENA_W1S. */
+#define BDK_DPI_INT_VEC_E_DPI_INT_REG (0) /**< See interrupt clears DPI()_INT_REG,
+                                       interrupt sets DPI()_INT_REG_W1S,
+                                       enable clears DPI()_INT_ENA_W1C,
+                                       and enable sets DPI()_INT_ENA_W1S. */
 
 /**
  * Enumeration dpi_intsn_e
@@ -183,16 +183,16 @@
 #define BDK_DPI_INTSN_E_DPIX_DMA_PPX_INT(a,b) (0xdf040 + 0 * (a) + (b)) /**< See DPI(0)_DMA_PP_INT[COMPLETE<{b}>]. */
 #define BDK_DPI_INTSN_E_DPIX_ERR_RAM_DBEX(a,b) (0xdf080 + 0 * (a) + (b)) /**< See DPI(0)_ECC_INT[RAM_DBE<{b}>]. */
 #define BDK_DPI_INTSN_E_DPIX_ERR_RAM_SBEX(a,b) (0xdf0a0 + 0 * (a) + (b)) /**< See DPI(0)_ECC_INT[RAM_SBE<{b}>]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_DMADBOX(a,b) (0xdf008 + 0 * (a) + (b)) /**< See DPI(0)_INT_SUM[DMADBO<{b}>]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_NDERR(a) (0xdf000 + 0 * (a)) /**< See DPI(0)_INT_SUM[NDERR]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_NFOVR(a) (0xdf001 + 0 * (a)) /**< See DPI(0)_INT_SUM[NFOVR]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_ANULL(a) (0xdf014 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_ANULL]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADADR(a) (0xdf010 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_BADADR]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADFIL(a) (0xdf016 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_BADFIL]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADLEN(a) (0xdf011 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_BADLEN]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_INULL(a) (0xdf015 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_INULL]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_OVRFLW(a) (0xdf012 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_OVRFLW]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_UNDFLW(a) (0xdf013 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_UNDFLW]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_DMADBOX(a,b) (0xdf008 + 0 * (a) + (b)) /**< See DPI(0)_INT_REG[DMADBO<{b}>]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_NDERR(a) (0xdf000 + 0 * (a)) /**< See DPI(0)_INT_REG[NDERR]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_NFOVR(a) (0xdf001 + 0 * (a)) /**< See DPI(0)_INT_REG[NFOVR]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_ANULL(a) (0xdf014 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_ANULL]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADADR(a) (0xdf010 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADADR]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADFIL(a) (0xdf016 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADFIL]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADLEN(a) (0xdf011 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADLEN]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_INULL(a) (0xdf015 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_INULL]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_OVRFLW(a) (0xdf012 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_OVRFLW]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_UNDFLW(a) (0xdf013 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_UNDFLW]. */
 
 /**
  * Structure dpi_dma_func_sel_s
@@ -399,7 +399,7 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
         uint64_t reserved_109_111      : 3;
         uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
-                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC()_PF()_INT_SUM[DMAFI])
                                                                  DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
                                                                  instruction execution.
 
@@ -414,7 +414,7 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
 
                                                                  Note that these updates may indirectly cause
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 SLI_MAC()_PF()_INT_SUM[DCNT,DTIME] to become set for all MACs
                                                                  (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
                                                                  be sent to a remote MAC host.
 
@@ -433,8 +433,8 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
                                                                  DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
                                                                  interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<1>] for all MACs. This may
                                                                  cause an interrupt to be sent to a remote host.
 
                                                                  For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
@@ -595,8 +595,8 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
                                                                  DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
                                                                  interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<1>] for all MACs. This may
                                                                  cause an interrupt to be sent to a remote host.
 
                                                                  For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
@@ -610,7 +610,7 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
 
                                                                  Note that these updates may indirectly cause
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 SLI_MAC()_PF()_INT_SUM[DCNT,DTIME] to become set for all MACs
                                                                  (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
                                                                  be sent to a remote MAC host.
 
@@ -625,7 +625,7 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  instructions, [CA] must never be set, and DPI never adds to any
                                                                  SLI_DMA()_CNT[CNT]. */
         uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
-                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC()_PF()_INT_SUM[DMAFI])
                                                                  DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
                                                                  instruction execution.
 
@@ -823,7 +823,7 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
         uint64_t reserved_109_111      : 3;
         uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
-                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC()_PF()_INT_SUM[DMAFI])
                                                                  DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
                                                                  instruction execution.
 
@@ -838,7 +838,7 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
 
                                                                  Note that these updates may indirectly cause
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 SLI_MAC()_PF()_INT_SUM[DCNT,DTIME] to become set for all MACs
                                                                  (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
                                                                  be sent to a remote MAC host.
 
@@ -857,8 +857,8 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
                                                                  DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
                                                                  interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<1>] for all MACs. This may
                                                                  cause an interrupt to be sent to a remote host.
 
                                                                  For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
@@ -1019,8 +1019,8 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
                                                                  DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
                                                                  interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<1>] for all MACs. This may
                                                                  cause an interrupt to be sent to a remote host.
 
                                                                  For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
@@ -1034,7 +1034,7 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
 
                                                                  Note that these updates may indirectly cause
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 SLI_MAC()_PF()_INT_SUM[DCNT,DTIME] to become set for all MACs
                                                                  (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
                                                                  be sent to a remote MAC host.
 
@@ -1049,7 +1049,7 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  instructions, [CA] must never be set, and DPI never adds to any
                                                                  SLI_DMA()_CNT[CNT]. */
         uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
-                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC()_PF()_INT_SUM[DMAFI])
                                                                  DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
                                                                  instruction execution.
 
@@ -1507,7 +1507,8 @@ static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned lo
  *
  * DPI DMA Instruction-Buffer Chunk Size Registers
  * These registers provide the address to start reading instructions for the eight DMA
- * instruction queues.
+ * instruction queues. These register should only be written to when the specified queue is
+ * disabled (DPI()_REQQ_GBL_EN[QEN]).
  */
 typedef union
 {
@@ -1549,7 +1550,8 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long 
  *
  * DPI DMA Instruction-Buffer Starting-Address Registers
  * These registers provide the address to start reading instructions for the eight DMA
- * instruction queues.
+ * instruction queues. These register should only be written to when the specified queue is
+ * disabled (DPI()_REQQ_GBL_EN[QEN]).
  */
 typedef union
 {
@@ -1561,16 +1563,16 @@ typedef union
         uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
                                                                  <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
                                                                  SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
-                                                                 the queue's doorbell (DPI(0)_DMA()_COUNTS[DBELL) and its tail pointer
-                                                                 (DPI(0)_DMA()_NADDR[ADDR]). */
+                                                                 the queue's doorbell (DPI()_DMA()_COUNTS[DBELL]) and its tail pointer
+                                                                 (DPI()_DMA()_NADDR[ADDR]). */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
         uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
                                                                  <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
                                                                  SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
-                                                                 the queue's doorbell (DPI(0)_DMA()_COUNTS[DBELL) and its tail pointer
-                                                                 (DPI(0)_DMA()_NADDR[ADDR]). */
+                                                                 the queue's doorbell (DPI()_DMA()_COUNTS[DBELL]) and its tail pointer
+                                                                 (DPI()_DMA()_NADDR[ADDR]). */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1606,10 +1608,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits <7:0> for instruction reads. Stream ID <15:8> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI(0)<15:8>.
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
                                                                  internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
         uint64_t dma_strm              : 8;  /**< [ 39: 32](R/W) Stream identifier bits <7:0> for DMA reads and writes. Stream ID <15:8> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI(0)<15:8>.
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
                                                                  internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
         uint64_t reserved_16_31        : 16;
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID this engine uses for FPA buffer
@@ -1621,10 +1623,10 @@ typedef union
                                                                  Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t reserved_16_31        : 16;
         uint64_t dma_strm              : 8;  /**< [ 39: 32](R/W) Stream identifier bits <7:0> for DMA reads and writes. Stream ID <15:8> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI(0)<15:8>.
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
                                                                  internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
         uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits <7:0> for instruction reads. Stream ID <15:8> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI(0)<15:8>.
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
                                                                  internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -2061,18 +2063,16 @@ typedef union
                                                                    0 = Prevent service.
                                                                    1 = Allow service.
 
-                                                                 Setting QEN = 0x0 effectively disables the engine. When DPI(0)_DMA_CONTROL[PKT_EN] = 1,
-                                                                 then
-                                                                 DPI(0)_DMA_ENG4/5_EN [QEN] must be zero. */
+                                                                 Setting [QEN] = 0x0 effectively disables the engine. When
+                                                                 DPI()_DMA_CONTROL[PKT_EN] = 1, then DPI()_DMA_ENG()_EN[QEN] must be zero. */
 #else /* Word 0 - Little Endian */
         uint64_t qen                   : 8;  /**< [  7:  0](R/W) Instruction queue enable. This field specifies which of eight logical instruction queues
                                                                  can be serviced by the DMA engine.
                                                                    0 = Prevent service.
                                                                    1 = Allow service.
 
-                                                                 Setting QEN = 0x0 effectively disables the engine. When DPI(0)_DMA_CONTROL[PKT_EN] = 1,
-                                                                 then
-                                                                 DPI(0)_DMA_ENG4/5_EN [QEN] must be zero. */
+                                                                 Setting [QEN] = 0x0 effectively disables the engine. When
+                                                                 DPI()_DMA_CONTROL[PKT_EN] = 1, then DPI()_DMA_ENG()_EN[QEN] must be zero. */
         uint64_t reserved_8_31         : 24;
         uint64_t eng_molr              : 7;  /**< [ 38: 32](R/W) Per-engine maximum outstanding read request. 0x0 means no maximum per engine
                                                                  (although it will be still limited by the per port MOLR value.) */
@@ -2159,10 +2159,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t complete              : 16; /**< [ 15:  0](RO/H) DPI DMA per-core instruction completion interrupt. See DPI(0)_DMA_PP()_CNT
+        uint64_t complete              : 16; /**< [ 15:  0](RO/H) DPI DMA per-core instruction completion interrupt. See DPI()_DMA_PP()_CNT
                                                                  and DPI_INTSN_E::DPI()_DMA_PP()_INT. */
 #else /* Word 0 - Little Endian */
-        uint64_t complete              : 16; /**< [ 15:  0](RO/H) DPI DMA per-core instruction completion interrupt. See DPI(0)_DMA_PP()_CNT
+        uint64_t complete              : 16; /**< [ 15:  0](RO/H) DPI DMA per-core instruction completion interrupt. See DPI()_DMA_PP()_CNT
                                                                  and DPI_INTSN_E::DPI()_DMA_PP()_INT. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -2435,8 +2435,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_23_63        : 41;
-        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADFIL]. */
-        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_INULL].
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_BADFIL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_INULL].
                                                                  Internal:
                                                                  The interrupt means that the DPI unit
                                                                  received fill data in which one or more or the 64-bit instruction words was all
@@ -2444,26 +2444,26 @@ typedef union
                                                                  instruction stream would have all 0's. In the new dual-instruction word scheme,
                                                                  the 2nd word could be zero. For example, if no completion operation is requested
                                                                  on the instruction and both PTR and DEALLOCV are zero. */
-        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_ANULL]. */
-        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_UNDFLW]. */
-        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_OVRFLW]. */
-        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADLEN]. */
-        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADADR]. */
-        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[DMADBO]. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_ANULL]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_UNDFLW]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_OVRFLW]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_BADLEN]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_BADADR]. */
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[DMADBO]. */
         uint64_t reserved_2_7          : 6;
-        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[NFOVR]. */
-        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[NDERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[NDERR]. */
-        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[NFOVR]. */
         uint64_t reserved_2_7          : 6;
-        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[DMADBO]. */
-        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADADR]. */
-        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADLEN]. */
-        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_OVRFLW]. */
-        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_UNDFLW]. */
-        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_ANULL]. */
-        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_INULL].
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[DMADBO]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_BADADR]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_BADLEN]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_OVRFLW]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_UNDFLW]. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_ANULL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_INULL].
                                                                  Internal:
                                                                  The interrupt means that the DPI unit
                                                                  received fill data in which one or more or the 64-bit instruction words was all
@@ -2471,7 +2471,7 @@ typedef union
                                                                  instruction stream would have all 0's. In the new dual-instruction word scheme,
                                                                  the 2nd word could be zero. For example, if no completion operation is requested
                                                                  on the instruction and both PTR and DEALLOCV are zero. */
-        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADFIL]. */
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[REQ_BADFIL]. */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
@@ -2506,8 +2506,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_23_63        : 41;
-        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADFIL]. */
-        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_INULL].
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_BADFIL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_INULL].
                                                                  Internal:
                                                                  The interrupt means that the DPI unit
                                                                  received fill data in which one or more or the 64-bit instruction words was all
@@ -2515,26 +2515,26 @@ typedef union
                                                                  instruction stream would have all 0's. In the new dual-instruction word scheme,
                                                                  the 2nd word could be zero. For example, if no completion operation is requested
                                                                  on the instruction and both PTR and DEALLOCV are zero. */
-        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_ANULL]. */
-        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_UNDFLW]. */
-        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_OVRFLW]. */
-        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADLEN]. */
-        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADADR]. */
-        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[DMADBO]. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_ANULL]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_UNDFLW]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_OVRFLW]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_BADLEN]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_BADADR]. */
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[DMADBO]. */
         uint64_t reserved_2_7          : 6;
-        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[NFOVR]. */
-        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[NDERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[NDERR]. */
-        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[NFOVR]. */
         uint64_t reserved_2_7          : 6;
-        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[DMADBO]. */
-        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADADR]. */
-        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADLEN]. */
-        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_OVRFLW]. */
-        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_UNDFLW]. */
-        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_ANULL]. */
-        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_INULL].
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[DMADBO]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_BADADR]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_BADLEN]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_OVRFLW]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_UNDFLW]. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_ANULL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_INULL].
                                                                  Internal:
                                                                  The interrupt means that the DPI unit
                                                                  received fill data in which one or more or the 64-bit instruction words was all
@@ -2542,7 +2542,7 @@ typedef union
                                                                  instruction stream would have all 0's. In the new dual-instruction word scheme,
                                                                  the 2nd word could be zero. For example, if no completion operation is requested
                                                                  on the instruction and both PTR and DEALLOCV are zero. */
-        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADFIL]. */
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[REQ_BADFIL]. */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
@@ -2565,7 +2565,7 @@ static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a)
 #define arguments_BDK_DPIX_INT_ENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) dpi#_int_sum
+ * Register (NCB) dpi#_int_reg
  *
  * DPI Interrupt Summary Register
  * This register contains error flags for DPI.
@@ -2573,7 +2573,7 @@ static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_dpix_int_sum_s
+    struct bdk_dpix_int_reg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_23_63        : 41;
@@ -2629,26 +2629,26 @@ typedef union
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dpix_int_sum_s cn; */
-} bdk_dpix_int_sum_t;
+    /* struct bdk_dpix_int_reg_s cn; */
+} bdk_dpix_int_reg_t;
 
-static inline uint64_t BDK_DPIX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_INT_SUM(unsigned long a)
+static inline uint64_t BDK_DPIX_INT_REG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_INT_REG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x86e000000b00ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_INT_SUM", 1, a, 0, 0, 0);
+    __bdk_csr_fatal("DPIX_INT_REG", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DPIX_INT_SUM(a) bdk_dpix_int_sum_t
-#define bustype_BDK_DPIX_INT_SUM(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_INT_SUM(a) "DPIX_INT_SUM"
-#define device_bar_BDK_DPIX_INT_SUM(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_INT_SUM(a) (a)
-#define arguments_BDK_DPIX_INT_SUM(a) (a),-1,-1,-1
+#define typedef_BDK_DPIX_INT_REG(a) bdk_dpix_int_reg_t
+#define bustype_BDK_DPIX_INT_REG(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_INT_REG(a) "DPIX_INT_REG"
+#define device_bar_BDK_DPIX_INT_REG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_INT_REG(a) (a)
+#define arguments_BDK_DPIX_INT_REG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) dpi#_int_sum_w1s
+ * Register (NCB) dpi#_int_reg_w1s
  *
  * DPI Interrupt Set Register
  * This register sets interrupt bits.
@@ -2656,12 +2656,12 @@ static inline uint64_t BDK_DPIX_INT_SUM(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_dpix_int_sum_w1s_s
+    struct bdk_dpix_int_reg_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_23_63        : 41;
-        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADFIL]. */
-        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_INULL].
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_BADFIL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_INULL].
                                                                  Internal:
                                                                  The interrupt means that the DPI unit
                                                                  received fill data in which one or more or the 64-bit instruction words was all
@@ -2669,26 +2669,26 @@ typedef union
                                                                  instruction stream would have all 0's. In the new dual-instruction word scheme,
                                                                  the 2nd word could be zero. For example, if no completion operation is requested
                                                                  on the instruction and both PTR and DEALLOCV are zero. */
-        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_ANULL]. */
-        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_UNDFLW]. */
-        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_OVRFLW]. */
-        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADLEN]. */
-        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADADR]. */
-        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets DPI(0)_INT_SUM[DMADBO]. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_ANULL]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_UNDFLW]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_OVRFLW]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_BADLEN]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_BADADR]. */
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets DPI(0)_INT_REG[DMADBO]. */
         uint64_t reserved_2_7          : 6;
-        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_INT_SUM[NFOVR]. */
-        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_INT_SUM[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_INT_REG[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_INT_REG[NDERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_INT_SUM[NDERR]. */
-        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_INT_SUM[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_INT_REG[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_INT_REG[NFOVR]. */
         uint64_t reserved_2_7          : 6;
-        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets DPI(0)_INT_SUM[DMADBO]. */
-        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADADR]. */
-        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADLEN]. */
-        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_OVRFLW]. */
-        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_UNDFLW]. */
-        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_ANULL]. */
-        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_INULL].
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets DPI(0)_INT_REG[DMADBO]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_BADADR]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_BADLEN]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_OVRFLW]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_UNDFLW]. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_ANULL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_INULL].
                                                                  Internal:
                                                                  The interrupt means that the DPI unit
                                                                  received fill data in which one or more or the 64-bit instruction words was all
@@ -2696,27 +2696,27 @@ typedef union
                                                                  instruction stream would have all 0's. In the new dual-instruction word scheme,
                                                                  the 2nd word could be zero. For example, if no completion operation is requested
                                                                  on the instruction and both PTR and DEALLOCV are zero. */
-        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADFIL]. */
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DPI(0)_INT_REG[REQ_BADFIL]. */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dpix_int_sum_w1s_s cn; */
-} bdk_dpix_int_sum_w1s_t;
+    /* struct bdk_dpix_int_reg_w1s_s cn; */
+} bdk_dpix_int_reg_w1s_t;
 
-static inline uint64_t BDK_DPIX_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_INT_SUM_W1S(unsigned long a)
+static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x86e000000b08ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_INT_SUM_W1S", 1, a, 0, 0, 0);
+    __bdk_csr_fatal("DPIX_INT_REG_W1S", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DPIX_INT_SUM_W1S(a) bdk_dpix_int_sum_w1s_t
-#define bustype_BDK_DPIX_INT_SUM_W1S(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_INT_SUM_W1S(a) "DPIX_INT_SUM_W1S"
-#define device_bar_BDK_DPIX_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_INT_SUM_W1S(a) (a)
-#define arguments_BDK_DPIX_INT_SUM_W1S(a) (a),-1,-1,-1
+#define typedef_BDK_DPIX_INT_REG_W1S(a) bdk_dpix_int_reg_w1s_t
+#define bustype_BDK_DPIX_INT_REG_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_INT_REG_W1S(a) "DPIX_INT_REG_W1S"
+#define device_bar_BDK_DPIX_INT_REG_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_INT_REG_W1S(a) (a)
+#define arguments_BDK_DPIX_INT_REG_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_msix_pba#
@@ -2987,11 +2987,11 @@ typedef union
         uint64_t reserved_8_63         : 56;
         uint64_t qerr                  : 8;  /**< [  7:  0](R/W1C/H) Indicates which instruction queue received an ErrorResponse from the I/O subsystem.
                                                                  Software must clear the bit before the corresponding instruction queue will continue
-                                                                 processing instructions if DPI(0)_REQ_ERR_RSP_EN[EN] is set. */
+                                                                 processing instructions if DPI()_REQ_ERR_RSP_EN[EN] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t qerr                  : 8;  /**< [  7:  0](R/W1C/H) Indicates which instruction queue received an ErrorResponse from the I/O subsystem.
                                                                  Software must clear the bit before the corresponding instruction queue will continue
-                                                                 processing instructions if DPI(0)_REQ_ERR_RSP_EN[EN] is set. */
+                                                                 processing instructions if DPI()_REQ_ERR_RSP_EN[EN] is set. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;

@@ -2735,13 +2735,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t xaq_limit             : 33; /**< [ 32:  0](RO/H) XAQ limit. Each count holds 11 work entries. If an add work is requested to a
+        uint64_t xaq_limit             : 33; /**< [ 32:  0](R/W) XAQ limit. Each count holds 11 work entries. If an add work is requested to a
                                                                  group where SSO_VHGRP()_XAQ_CNT[XAQ_CNT] >= [XAQ_LIMIT], then the add work is
                                                                  dropped and will SSO_VHGRP()_QCTL[ENA] is cleared and SSO_VHGRP()_INT[XAQ_LIMIT] is
                                                                  set. When 0x0, limiting is disabled. Due to pipelining, hardware may exceed this
                                                                  limit by up to the TAQ size (320) entries. */
 #else /* Word 0 - Little Endian */
-        uint64_t xaq_limit             : 33; /**< [ 32:  0](RO/H) XAQ limit. Each count holds 11 work entries. If an add work is requested to a
+        uint64_t xaq_limit             : 33; /**< [ 32:  0](R/W) XAQ limit. Each count holds 11 work entries. If an add work is requested to a
                                                                  group where SSO_VHGRP()_XAQ_CNT[XAQ_CNT] >= [XAQ_LIMIT], then the add work is
                                                                  dropped and will SSO_VHGRP()_QCTL[ENA] is cleared and SSO_VHGRP()_INT[XAQ_LIMIT] is
                                                                  set. When 0x0, limiting is disabled. Due to pipelining, hardware may exceed this

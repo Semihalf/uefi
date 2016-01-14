@@ -130,7 +130,7 @@ static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a)
  *
  * Care must be taken to insure that the DMA duration not exceed the processor timeout of 2^29
  * core clocks or the RML timeout specified in SLI_WINDOW_CTL[TIME] coprocessor clocks if
- * accesses to the bootbus occur while DMA operations are in progress.
+ * accesses to the pbus occur while DMA operations are in progress.
  * The DMA operation duration in coprocessor clocks as:
  *   _ PBUS_DMA_CFG()[SIZE] * PBUS_DMA_TIM()[TIM_MULT] * cycle_time.
  *
@@ -147,14 +147,26 @@ typedef union
     struct bdk_pbus_dma_cfgx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t en                    : 1;  /**< [ 63: 63](R/W/H) DMA engine 0-1 enable. */
-        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine 0-1 R/W bit (0 = read, 1 = write). */
-        uint64_t clr                   : 1;  /**< [ 61: 61](R/W) DMA engine 0-1 clear EN on device terminated burst. */
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W/H) DMA engine enable. */
+        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit (0 = read, 1 = write). */
+        uint64_t clr                   : 1;  /**< [ 61: 61](R/W) DMA engine clear operation on device terminated burst. */
         uint64_t reserved_60           : 1;
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 0-1 32-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 0-1 16-bit swap. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 0-1 8-bit swap. */
-        uint64_t big                   : 1;  /**< [ 56: 56](R/W) DMA engine 0-1 IOB endian mode (1 = big, 0 = little). */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. See [BIG]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA Engine 16-bit swap. See [BIG]. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap. See [BIG]. */
+        uint64_t big                   : 1;  /**< [ 56: 56](R/W) DMA engine big endian mode (1 = big, 0 = little).
+                                                                 Using 0..7 to identify bytes:
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [BIG]     Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
         uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine 0-1 size. SIZE is specified in number of bus transfers, where one transfer is
                                                                  equal to the following number of bytes, dependent on PBUS_DMA_TIM()[WIDTH] and
                                                                  PBUS_DMA_TIM()[DDR]:
@@ -172,14 +184,26 @@ typedef union
                                                                  _ If WIDTH=0, DDR=1, then transfer is 4 bytes.
                                                                  _ If WIDTH=1, DDR=0, then transfer is 4 bytes.
                                                                  _ If WIDTH=1, DDR=1, then transfer is 8 bytes. */
-        uint64_t big                   : 1;  /**< [ 56: 56](R/W) DMA engine 0-1 IOB endian mode (1 = big, 0 = little). */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 0-1 8-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 0-1 16-bit swap. */
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 0-1 32-bit swap. */
+        uint64_t big                   : 1;  /**< [ 56: 56](R/W) DMA engine big endian mode (1 = big, 0 = little).
+                                                                 Using 0..7 to identify bytes:
+                                                                 <pre>
+                                                                 [SWAP32] [SWAP16] [SWAP8] [BIG]     Result
+                                                                    0        0        0      0       7 6 5 4 3 2 1 0
+                                                                    0        0        1      0       6 7 4 5 2 3 0 1
+                                                                    0        1        0      0       5 4 7 6 1 0 3 2
+                                                                    1        0        0      0       3 2 1 0 7 6 5 4
+                                                                    0        0        0      1       0 1 2 3 4 5 6 7
+                                                                    0        0        1      1       1 0 3 2 5 4 7 6
+                                                                    0        1        0      1       2 3 0 1 6 7 4 5
+                                                                    1        0        0      1       4 5 6 7 0 1 2 3
+                                                                 </pre> */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap. See [BIG]. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA Engine 16-bit swap. See [BIG]. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. See [BIG]. */
         uint64_t reserved_60           : 1;
-        uint64_t clr                   : 1;  /**< [ 61: 61](R/W) DMA engine 0-1 clear EN on device terminated burst. */
-        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine 0-1 R/W bit (0 = read, 1 = write). */
-        uint64_t en                    : 1;  /**< [ 63: 63](R/W/H) DMA engine 0-1 enable. */
+        uint64_t clr                   : 1;  /**< [ 61: 61](R/W) DMA engine clear operation on device terminated burst. */
+        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit (0 = read, 1 = write). */
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W/H) DMA engine enable. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_dma_cfgx_s cn; */
@@ -227,7 +251,7 @@ typedef union
                                                                    0x3 = 8x multiplier. */
         uint64_t rd_dly                : 3;  /**< [ 59: 57](R/W) Read sample delay. This field specifies the read sample delay in coprocessor-clock cycles
                                                                  for an engine. For read operations, the data bus is normally sampled on the same
-                                                                 coprocessor-clock edge that drives BOOT_OE_L high (and also low in DDR mode). This
+                                                                 coprocessor-clock edge that drives PBUS_OE inactive (and also active in DDR mode). This
                                                                  parameter can delay that sampling edge by up to seven coprocessor-clock cycles.
                                                                  The number of coprocessor-clock cycles counted by the OE_A and DMACK_H + PAUSE timing
                                                                  parameters must be greater than [RD_DLY]. */
@@ -241,9 +265,13 @@ typedef union
         uint64_t oe_n                  : 6;  /**< [ 23: 18](R/W) Output enable negated count. */
         uint64_t oe_a                  : 6;  /**< [ 17: 12](R/W) Output enable asserted count. */
         uint64_t dmack_s               : 6;  /**< [ 11:  6](R/W) DMA acknowledgment setup count. */
-        uint64_t dmarq                 : 6;  /**< [  5:  0](R/W) DMA request count. (Must be non-zero.) */
+        uint64_t dmarq                 : 6;  /**< [  5:  0](R/W) DMA request glitch filter count. Number of coprocessor clocks
+                                                                 the DMA request must be active before request is recognized.
+                                                                 (Must be non-zero.) */
 #else /* Word 0 - Little Endian */
-        uint64_t dmarq                 : 6;  /**< [  5:  0](R/W) DMA request count. (Must be non-zero.) */
+        uint64_t dmarq                 : 6;  /**< [  5:  0](R/W) DMA request glitch filter count. Number of coprocessor clocks
+                                                                 the DMA request must be active before request is recognized.
+                                                                 (Must be non-zero.) */
         uint64_t dmack_s               : 6;  /**< [ 11:  6](R/W) DMA acknowledgment setup count. */
         uint64_t oe_a                  : 6;  /**< [ 17: 12](R/W) Output enable asserted count. */
         uint64_t oe_n                  : 6;  /**< [ 23: 18](R/W) Output enable negated count. */
@@ -256,7 +284,7 @@ typedef union
         uint64_t ddr                   : 1;  /**< [ 56: 56](R/W) DDR mode. If DDR is set, then WE_N must be less than WE_A. */
         uint64_t rd_dly                : 3;  /**< [ 59: 57](R/W) Read sample delay. This field specifies the read sample delay in coprocessor-clock cycles
                                                                  for an engine. For read operations, the data bus is normally sampled on the same
-                                                                 coprocessor-clock edge that drives BOOT_OE_L high (and also low in DDR mode). This
+                                                                 coprocessor-clock edge that drives PBUS_OE inactive (and also active in DDR mode). This
                                                                  parameter can delay that sampling edge by up to seven coprocessor-clock cycles.
                                                                  The number of coprocessor-clock cycles counted by the OE_A and DMACK_H + PAUSE timing
                                                                  parameters must be greater than [RD_DLY]. */
@@ -769,17 +797,15 @@ typedef union
 
                                                                  This is useful for CF cards because it allows the use of 2 separate
                                                                  timing configurations for common memory and attribute memory. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t size                  : 12; /**< [ 27: 16](R/W) Region size. Region size is specified in 64K blocks and in 'block-1' notation
+        uint64_t size                  : 14; /**< [ 29: 16](R/W) Region size. Region size is specified in 64K blocks and in 'block-1' notation
                                                                  (i.e. 0x0 = one 64K block, 0x1 = two 64K blocks, etc.). */
         uint64_t base                  : 16; /**< [ 15:  0](R/W) Region base address. Specifies physical address bits [31:16] of the first 64K
                                                                  block of the region. */
 #else /* Word 0 - Little Endian */
         uint64_t base                  : 16; /**< [ 15:  0](R/W) Region base address. Specifies physical address bits [31:16] of the first 64K
                                                                  block of the region. */
-        uint64_t size                  : 12; /**< [ 27: 16](R/W) Region size. Region size is specified in 64K blocks and in 'block-1' notation
+        uint64_t size                  : 14; /**< [ 29: 16](R/W) Region size. Region size is specified in 64K blocks and in 'block-1' notation
                                                                  (i.e. 0x0 = one 64K block, 0x1 = two 64K blocks, etc.). */
-        uint64_t reserved_28_29        : 2;
         uint64_t orbit                 : 1;  /**< [ 30: 30](R/W) Region ORBIT bit. Asserts the given region's chip enable when
                                                                  there is an address hit in the previous region.
 
@@ -921,7 +947,7 @@ typedef union
                                                                  pbus outputs. */
         uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be non-zero to ensure legal transitions on the corresponding
                                                                  pbus outputs. */
-        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be nonzero when WAITM is set to 1. */
+        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 5 when [WAITM] is set to 1. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
@@ -941,7 +967,7 @@ typedef union
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
-        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be nonzero when WAITM is set to 1. */
+        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 5 when [WAITM] is set to 1. */
         uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be non-zero to ensure legal transitions on the corresponding
                                                                  pbus outputs. */
         uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be non-zero to ensure legal transitions on the corresponding

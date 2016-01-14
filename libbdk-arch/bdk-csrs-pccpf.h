@@ -70,8 +70,8 @@
 #define BDK_PCC_DEV_CON_E_DAP (0x102) /**< Debug access point. */
 #define BDK_PCC_DEV_CON_E_DDF0 (0x700) /**< DDF. */
 #define BDK_PCC_DEV_CON_E_DFA (0x400) /**< HFA. */
-#define BDK_PCC_DEV_CON_E_DPI0 (0xf00) /**< DPI 0. */
-#define BDK_PCC_DEV_CON_E_FPA (0xd00) /**< FPA. */
+#define BDK_PCC_DEV_CON_E_DPI0 (0xe00) /**< DPI 0. */
+#define BDK_PCC_DEV_CON_E_FPA (0xc00) /**< FPA. */
 #define BDK_PCC_DEV_CON_E_FUSF (0x104) /**< Field Fuses. */
 #define BDK_PCC_DEV_CON_E_GIC (0x18) /**< GIC interrupt unit. */
 #define BDK_PCC_DEV_CON_E_GPIO (0x30) /**< GPIO. */
@@ -109,13 +109,12 @@
 #define BDK_PCC_DEV_CON_E_PCCBR_CPT1 (0x68) /**< Bridge for CPT 1, creating ECAM 0's bus 6. */
 #define BDK_PCC_DEV_CON_E_PCCBR_DDF0 (0xb8) /**< Bridge for DDF0, creating ECAM 0's bus 7. */
 #define BDK_PCC_DEV_CON_E_PCCBR_DFA (0xb0) /**< Bridge for DFA, creating ECAM 0's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCCBR_DPI0 (0xf8) /**< Bridge for DPI 0, creating ECAM 0's bus 15. */
-#define BDK_PCC_DEV_CON_E_PCCBR_FPA (0xe8) /**< Bridge for FPA, creating ECAM 0's bus 13. */
+#define BDK_PCC_DEV_CON_E_PCCBR_DPI0 (0xf0) /**< Bridge for DPI 0, creating ECAM 0's bus 14. */
+#define BDK_PCC_DEV_CON_E_PCCBR_FPA (0xe0) /**< Bridge for FPA, creating ECAM 0's bus 12. */
 #define BDK_PCC_DEV_CON_E_PCCBR_MRML (8) /**< Bridge for MRML, creating ECAM 0's bus 1. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN81XX (0x78) /**< Bridge for NIC, creating ECAM 0's bus 5. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN88XX (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN83XX (0x10050) /**< Bridge for NIC, creating ECAM 1's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_PCM (0xe0) /**< Bridge for PCM, creating ECAM 0's bus 12. */
 #define BDK_PCC_DEV_CON_E_PCCBR_PKI (0xc0) /**< Bridge for PKI, creating ECAM 0's bus 8. */
 #define BDK_PCC_DEV_CON_E_PCCBR_PKO (0xc8) /**< Bridge for PKO, creating ECAM 0's bus 9. */
 #define BDK_PCC_DEV_CON_E_PCCBR_RAD (0xa0) /**< Bridge for RAD, creating ECAM 0's bus 2. */
@@ -123,7 +122,7 @@
 #define BDK_PCC_DEV_CON_E_PCCBR_RNM_CN83XX (0x48) /**< Bridge for RNM, creating ECAM 0's bus 4. */
 #define BDK_PCC_DEV_CON_E_PCCBR_SSO (0xd0) /**< Bridge for SSO, creating ECAM 0's bus 10. */
 #define BDK_PCC_DEV_CON_E_PCCBR_SSOW (0xd8) /**< Bridge for SSOW, creating ECAM 0's bus 11. */
-#define BDK_PCC_DEV_CON_E_PCCBR_TIM (0xf0) /**< Bridge for TIM, creating ECAM 0's bus 14. */
+#define BDK_PCC_DEV_CON_E_PCCBR_TIM (0xe8) /**< Bridge for TIM, creating ECAM 0's bus 13. */
 #define BDK_PCC_DEV_CON_E_PCCBR_ZIP (0xa8) /**< Bridge for ZIP, creating ECAM 0's bus 3. */
 #define BDK_PCC_DEV_CON_E_PCIERC0_CN81XX (0xc0) /**< PCIe endpoint 0.
                                        Internal:
@@ -144,8 +143,7 @@
 #define BDK_PCC_DEV_CON_E_PCIERC3_CN83XX (0x100a0) /**< PCIe endpoint 3. */
 #define BDK_PCC_DEV_CON_E_PCIERC4 (0x30090) /**< PCIe endpoint 4. */
 #define BDK_PCC_DEV_CON_E_PCIERC5 (0x300a0) /**< PCIe endpoint 5. */
-#define BDK_PCC_DEV_CON_E_PCM_CN81XX (0x68) /**< PCM. */
-#define BDK_PCC_DEV_CON_E_PCM_CN83XX (0xc00) /**< PCM. */
+#define BDK_PCC_DEV_CON_E_PCM (0x68) /**< PCM. */
 #define BDK_PCC_DEV_CON_E_PEMX(a) (0x170 + (a)) /**< PCI controller. */
 #define BDK_PCC_DEV_CON_E_PKI (0x800) /**< PKI. */
 #define BDK_PCC_DEV_CON_E_PKO (0x900) /**< PKO. */
@@ -187,7 +185,7 @@
 #define BDK_PCC_DEV_CON_E_SMMU3 (0x30008) /**< System memory management unit. */
 #define BDK_PCC_DEV_CON_E_SSO (0xa00) /**< SSO. */
 #define BDK_PCC_DEV_CON_E_SSOW (0xb00) /**< SSO work slots. */
-#define BDK_PCC_DEV_CON_E_TIM (0xe00) /**< TIM. */
+#define BDK_PCC_DEV_CON_E_TIM (0xd00) /**< TIM. */
 #define BDK_PCC_DEV_CON_E_TNS (0x20018) /**< Network switch. */
 #define BDK_PCC_DEV_CON_E_UAAX(a) (0x140 + (a)) /**< UART. */
 #define BDK_PCC_DEV_CON_E_USBDRDX(a) (0x80 + 8 * (a)) /**< USB interface. */

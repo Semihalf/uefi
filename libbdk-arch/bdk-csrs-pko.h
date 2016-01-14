@@ -140,7 +140,7 @@
  *
  * PKO Send-Packet Drop Error Codes Enumeration
  * Enumerates the error code for illegally constructed send-packet drops, stored in
- * PKO_PDM_STS[CP_PKT_DROP_ERR_CODE].
+ * PKO_PDM_STS[CP_SENDPKT_ERR_DROP_CODE].
  */
 #define BDK_PKO_CPSENDDROP_E_DROP_EXTHDR_NPOS2 (3) /**< Send-packet dropped because PKO_SEND_EXT_S was not in position 2 (not following header). */
 #define BDK_PKO_CPSENDDROP_E_DROP_HDR_EXTHDR_ONLY (2) /**< Send-packet dropped because it was a header and extended header only. */
@@ -280,7 +280,7 @@
  * PKO Memory Data Size Enumeration
  * Enumerates the datum size for modifying memory; see PKO_SEND_MEM_S[DSZ].
  */
-#define BDK_PKO_MEMDSZ_E_B32 (1) /**< 32 bits. PKO_SEND_MEM_S[ALG] must not be PKO_MEMALG_E::TSTMP nor PKO_MEMALG_E::SETRSLT. */
+#define BDK_PKO_MEMDSZ_E_B32 (1) /**< 32 bits. PKO_SEND_MEM_S[ALG] must not be PKO_MEMALG_E::SETTSTMP nor PKO_MEMALG_E::SETRSLT. */
 #define BDK_PKO_MEMDSZ_E_B64 (0) /**< 64 bits. */
 #define BDK_PKO_MEMDSZ_E_B8 (3) /**< 8 bits. PKO_SEND_MEM_S[ALG] must be PKO_MEMALG_E::SET. */
 
@@ -354,7 +354,7 @@ union bdk_pko_mem_result_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t nl                    : 1;  /**< [  3:  3] Null interface. The packet was processed by the Null interface. */
+        uint64_t nl                    : 1;  /**< [  3:  3] Null interface. The packet was processed by the null interface. */
         uint64_t color                 : 2;  /**< [  2:  1] Final color of the packet. Enumerated by PKO_COLORRESULT_E. */
         uint64_t v                     : 1;  /**< [  0:  0] Valid. Always set by hardware so software can distinguish from data that was (presumed to
                                                                  be) zeroed by software before the send operation. */
@@ -362,7 +362,7 @@ union bdk_pko_mem_result_s
         uint64_t v                     : 1;  /**< [  0:  0] Valid. Always set by hardware so software can distinguish from data that was (presumed to
                                                                  be) zeroed by software before the send operation. */
         uint64_t color                 : 2;  /**< [  2:  1] Final color of the packet. Enumerated by PKO_COLORRESULT_E. */
-        uint64_t nl                    : 1;  /**< [  3:  3] Null interface. The packet was processed by the Null interface. */
+        uint64_t nl                    : 1;  /**< [  3:  3] Null interface. The packet was processed by the null interface. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -373,7 +373,7 @@ union bdk_pko_mem_result_s
  * Structure pko_meta_desc_s
  *
  * PKO Meta-Packet Descriptor Structure
- * A meta packet descriptor represents its corresponding PKO Send descriptor during PKOs
+ * A meta packet descriptor represents its corresponding PKO SEND descriptor during PKOs
  * queueing, conditioning, and scheduling before transferring the packet. PKO_META_DESC_S is the
  * meta packet structure queued in DQs (in L2/DRAM). The PKO_*_PICK CSR's are the meta packet
  * structure while the packet is actively being conditioned and scheduled.
@@ -388,8 +388,7 @@ union bdk_pko_meta_desc_s
                                                                  PKO_*_PICK[JUMP]. */
         uint32_t fpd                   : 1;  /**< [ 30: 30] Set when the corresponding descriptor is stored at the beginning of a
                                                                  new cache line. See also PKO_*_PICK[FPD]. */
-        uint32_t ds                    : 1;  /**< [ 29: 29] PKO_SEND_HDR_S[DS] from the corresponding packet. Should always be zero.
-                                                                 See also PKO_*_PICK[DS]. */
+        uint32_t reserved_29           : 1;
         uint32_t adjust                : 9;  /**< [ 28: 20] PKO_SEND_EXT_S[SHAPECHG] if present in the corresponding packet descriptor,
                                                                  else 0x0. See also PKO_*_PICK[ADJUST]. */
         uint32_t col                   : 2;  /**< [ 19: 18] PKO_SEND_EXT_S[COL] if present in the corresponding packet descriptor,
@@ -441,8 +440,7 @@ union bdk_pko_meta_desc_s
                                                                  PKO_*_PICK[PIR_DIS,CIR_DIS]. */
         uint32_t adjust                : 9;  /**< [ 28: 20] PKO_SEND_EXT_S[SHAPECHG] if present in the corresponding packet descriptor,
                                                                  else 0x0. See also PKO_*_PICK[ADJUST]. */
-        uint32_t ds                    : 1;  /**< [ 29: 29] PKO_SEND_HDR_S[DS] from the corresponding packet. Should always be zero.
-                                                                 See also PKO_*_PICK[DS]. */
+        uint32_t reserved_29           : 1;
         uint32_t fpd                   : 1;  /**< [ 30: 30] Set when the corresponding descriptor is stored at the beginning of a
                                                                  new cache line. See also PKO_*_PICK[FPD]. */
         uint32_t jump                  : 1;  /**< [ 31: 31] Set when the corresponding descriptor has a PKO_SEND_JUMP_S. See also
@@ -456,7 +454,7 @@ union bdk_pko_meta_desc_s
  * Structure pko_send_aura_s
  *
  * PKO Send Aura Subdescriptor Structure
- * The Send Aura subdescriptor is used to decrement aura counts.
+ * The send aura subdescriptor is used to decrement aura counts.
  *
  * When a PKO_SEND_TSO_S is present in the descriptor, the PKO_SEND_AURA_S
  * operations effectively execute only once for the descriptor, not once
@@ -487,7 +485,7 @@ union bdk_pko_send_aura_s
 
                                                                  Internal:
                                                                  The upper two bits of [AURA] are a CCPI node number. */
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
         uint64_t alg                   : 4;  /**< [ 43: 40] Aura count adder algorithm. Combined with [OFFSET], determines the amount
                                                                  to decrement [AURA]'s aura count. Enumerated by PKO_AURAALG_E.
 
@@ -561,7 +559,7 @@ union bdk_pko_send_aura_s
                                                                  needed for DQ DRAM buffering. The aura count change may occur in
                                                                  any order relative to any L2/DRAM updates or any work queue add
                                                                  needed to process this or any other PKO SEND. */
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
         uint64_t aura                  : 12; /**< [ 59: 48] Guest-aura number. The guest-aura to use for subsequent FPA frees in this
                                                                  PKO SEND descriptor and the aura whose aura count may be decremented by
                                                                  this PKO_SEND_AURA_S. Note that the upper two bits must be zero.
@@ -590,13 +588,13 @@ union bdk_pko_send_aura_s
  * Structure pko_send_crc_s
  *
  * PKO Send CRC Subdescriptor Structure
- * The Send CRC subdescriptor specifies a CRC calculation be performed during transmission.
+ * The send CRC subdescriptor specifies a CRC calculation be performed during transmission.
  *
- * There may be up to 3 PKO_SEND_CRC_Ss per packet send descriptor. PKO_SEND_CRC_S constraints:
+ * There may be up to 2 PKO_SEND_CRC_S per packet send descriptor. PKO_SEND_CRC_S constraints:
  * PKO_SEND_CRC_S subdescriptors must precede all PKO_SEND_LINK_S, PKO_SEND_GATHER_S, and
  * PKO_SEND_IMM_S subdescriptors in the packet descriptor.
  *
- * No two PKO_SEND_CRC_S subdescriptors can overlap. Two PKO_SEND_CRC_Ss would overlap if any
+ * No two PKO_SEND_CRC_S subdescriptors can overlap. Two PKO_SEND_CRC_S would overlap if any
  * bytes are covered by both, or if the checksum calculated for one should be covered by the
  * other.
  *
@@ -634,8 +632,8 @@ union bdk_pko_send_crc_s
                                                                  [START] through [START]+[SIZE]-1. Note that these covered reconstructed bytes need not be
                                                                  contiguous in L2/DRAM -- they can straddle any number of PKO_SEND_GATHER_S,
                                                                  PKO_SEND_LINK_S, or PKO_SEND_LINK_S subdescriptors. */
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send CRC. Enumerated by PKO_SENDSUBDC_E::CRC. */
-        uint64_t alg                   : 2;  /**< [ 43: 42] Checksum Algorithm. See PKO_SENDCRCALG_E. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send CRC. Enumerated by PKO_SENDSUBDC_E::CRC. */
+        uint64_t alg                   : 2;  /**< [ 43: 42] Checksum algorithm. See PKO_SENDCRCALG_E. */
         uint64_t reserved_32_41        : 10;
         uint64_t insert                : 16; /**< [ 31: 16] Byte position relative to the first packet byte at which to insert the first byte of the
                                                                  calculated CRC. PKO does not allocate bytes as it inserts the CRC result into the packet,
@@ -651,8 +649,8 @@ union bdk_pko_send_crc_s
                                                                  PKO_SEND_IMM_S. The insertion point may not be within the start/size region of another
                                                                  PKO_SEND_CRC_S. */
         uint64_t reserved_32_41        : 10;
-        uint64_t alg                   : 2;  /**< [ 43: 42] Checksum Algorithm. See PKO_SENDCRCALG_E. */
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send CRC. Enumerated by PKO_SENDSUBDC_E::CRC. */
+        uint64_t alg                   : 2;  /**< [ 43: 42] Checksum algorithm. See PKO_SENDCRCALG_E. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send CRC. Enumerated by PKO_SENDSUBDC_E::CRC. */
         uint64_t size                  : 16; /**< [ 63: 48] Length of checksum region, must not be zero. The region is contiguous in packet bytes
                                                                  [START] through [START]+[SIZE]-1. Note that these covered reconstructed bytes need not be
                                                                  contiguous in L2/DRAM -- they can straddle any number of PKO_SEND_GATHER_S,
@@ -673,7 +671,7 @@ union bdk_pko_send_crc_s
  * Structure pko_send_ext_s
  *
  * PKO Send Extended Subdescriptor Structure
- * The Send Extended subdescriptor requests additional checksum and/or scheduling services on the
+ * The send extended subdescriptor requests additional checksum and/or scheduling services on the
  * packet. If present it must be word 2 of the send command.
  */
 union bdk_pko_send_ext_s
@@ -683,7 +681,7 @@ union bdk_pko_send_ext_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Extended. Enumerated by PKO_SENDSUBDC_E::EXT. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send extended. Enumerated by PKO_SENDSUBDC_E::EXT. */
         uint64_t col                   : 2;  /**< [ 43: 42] Selects the shaper update and internal coloring algorithms used as the packet traverses
                                                                  enabled PKO DQ through L2 shapers. Enumerated by PKO_COLORALG_E. When a PKO_SEND_EXT_S
                                                                  is not present in the descriptor, PKO_COLORALG_E::FULL_COLOR (0) is used. Note that
@@ -827,7 +825,7 @@ union bdk_pko_send_ext_s
                                                                  When a PKO_SEND_TSO_S is present in the descriptor, PKO applies [COL]
                                                                  to each TSO segment - PKO copies [COL] to each PKO_META_DESC_S[COL]
                                                                  and PKO_nm_PICK[PIR_DIS,CIR_DIS]. */
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Extended. Enumerated by PKO_SENDSUBDC_E::EXT. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send extended. Enumerated by PKO_SENDSUBDC_E::EXT. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -838,7 +836,7 @@ union bdk_pko_send_ext_s
  * Structure pko_send_free_s
  *
  * PKO Send Free Subdescriptor Structure
- * The Send Free subdescriptor requests a buffer be freed to FPA. PKO_SEND_FREE_S subdescriptors
+ * The send free subdescriptor requests a buffer be freed to FPA. PKO_SEND_FREE_S subdescriptors
  * must follow all PKO_SEND_EXT_S, PKO_SEND_LINK_S, PKO_SEND_GATHER_S, PKO_SEND_IMM_S, and
  * PKO_SEND_CRC_S subdescriptors in the packet descriptor. PKO will not initiate the free for
  * this subdescriptor until after it has completed all L2/DRAM fetches that service all prior
@@ -851,20 +849,20 @@ union bdk_pko_send_free_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Free. Enumerated by PKO_SENDSUBDC_E::FREE. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send free. Enumerated by PKO_SENDSUBDC_E::FREE. */
         uint64_t reserved_42_43        : 2;
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical Address. ADDR is a physical L2/DRAM address within the buffer to be freed.
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. ADDR is a physical L2/DRAM address within the buffer to be freed.
                                                                  ADDR must be naturally-aligned to 128 bytes.
 
                                                                  PKO sends [ADDR] to FPA as part of the buffer free. Either an FPA naturally-aligned
-                                                                 pool or opaque pool may be appropriate. Refer to the FPA Chapter.
+                                                                 pool or opaque pool may be appropriate. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
                                                                  PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
                                                                  PKO_SEND_AURA_S in the descriptor.
 
                                                                  PKO will not free [ADDR] to FPA until after it has completed all
-                                                                 L2/DRAM reads related to processing any PKO_SEND_GATHER_S's and
+                                                                 L2/DRAM reads related to processing any PKO_SEND_GATHER_S and
                                                                  any PKO_SEND_LINK_S in the descriptor.
                                                                  Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
                                                                  unmodified between the meta descriptors (as should normally be the case, but it is
@@ -888,18 +886,18 @@ union bdk_pko_send_free_s
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical Address. ADDR is a physical L2/DRAM address within the buffer to be freed.
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. ADDR is a physical L2/DRAM address within the buffer to be freed.
                                                                  ADDR must be naturally-aligned to 128 bytes.
 
                                                                  PKO sends [ADDR] to FPA as part of the buffer free. Either an FPA naturally-aligned
-                                                                 pool or opaque pool may be appropriate. Refer to the FPA Chapter.
+                                                                 pool or opaque pool may be appropriate. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
                                                                  PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
                                                                  PKO_SEND_AURA_S in the descriptor.
 
                                                                  PKO will not free [ADDR] to FPA until after it has completed all
-                                                                 L2/DRAM reads related to processing any PKO_SEND_GATHER_S's and
+                                                                 L2/DRAM reads related to processing any PKO_SEND_GATHER_S and
                                                                  any PKO_SEND_LINK_S in the descriptor.
                                                                  Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
                                                                  unmodified between the meta descriptors (as should normally be the case, but it is
@@ -923,7 +921,7 @@ union bdk_pko_send_free_s
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
         uint64_t reserved_42_43        : 2;
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Free. Enumerated by PKO_SENDSUBDC_E::FREE. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send free. Enumerated by PKO_SENDSUBDC_E::FREE. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -934,13 +932,13 @@ union bdk_pko_send_free_s
  * Structure pko_send_gather_s
  *
  * PKO Send Gather Subdescriptor Structure
- * The Send Gather subdescriptor requests a contiguous segment of bytes be transmitted.
+ * The send gather subdescriptor requests a contiguous segment of bytes be transmitted.
  *
- * There may be multiple PKO_SEND_GATHER_S's in each PKO Send Descriptor. A
- * PKO_SEND_GATHER_S must not be present in a PKO send descriptor if the sum of all prior
- * PKO_SEND_GATHER_S[SIZE]'s and PKO_SEND_IMM_S[SIZE]'s meets or exceeds PKO_SEND_HDR_S[TOTAL].
+ * There may be multiple PKO_SEND_GATHER_S's in each PKO SEND descriptor. A
+ * PKO_SEND_GATHER_S must not be present in a PKO SEND descriptor if the sum of all prior
+ * PKO_SEND_GATHER_S[SIZE]s and PKO_SEND_IMM_S[SIZE]s meets or exceeds PKO_SEND_HDR_S[TOTAL].
  * (i.e. Some of the packet data from a PKO_SEND_GATHER_S must be used.) A
- * PKO_SEND_GATHER_S must not be present after a PKO_SEND_LINK_S in a PKO send descriptor.
+ * PKO_SEND_GATHER_S must not be present after a PKO_SEND_LINK_S in a PKO SEND descriptor.
  */
 union bdk_pko_send_gather_s
 {
@@ -950,8 +948,8 @@ union bdk_pko_send_gather_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t size                  : 16; /**< [ 63: 48] Size of segment, in bytes. [SIZE] must be nonzero.
 
-                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s and
-                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_GATHER_S
+                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]s and
+                                                                 PKO_SEND_IMM_S[SIZE]s in this descriptor. This PKO_SEND_GATHER_S
                                                                  must not be present in the descriptor when
                                                                  priorbytes >= PKO_SEND_HDR_S[TOTAL].
 
@@ -963,8 +961,8 @@ union bdk_pko_send_gather_s
                                                                  there is no subsequent PKO_SEND_GATHER_S, PKO_SEND_IMM_S, nor PKO_SEND_LINK_S
                                                                  in the descriptor.
 
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]s, PKO_SEND_GATHER_S[SIZE]s, and
+                                                                 PKO_SEND_LINK_S[SIZE]s in the descriptor plus any PKI_BUFLINK_S[SIZE]s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
         uint64_t subdc3                : 3;  /**< [ 47: 45] Subdescriptor code. Indicates send gather. Enumerated by PKO_SENDSUBDC_E::GATHER0, shifted
                                                                  one bit right. */
@@ -972,13 +970,15 @@ union bdk_pko_send_gather_s
 
                                                                  PKO frees the surrounding buffer when:
 
-                                                                 _  PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I]) = 0.
+                                                                 _  PKO_SEND_HDR_S[DF] XOR ([I] AND NOT PKO_SEND_HDR_S[II]) = 0.
 
                                                                  PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
                                                                  the buffer free. An FPA naturally-aligned pool is recommended, though opaque
-                                                                 pool mode may also be possible. Refer to the FPA Chapter.
+                                                                 pool mode may also be possible. Refer to the FPA chapter.
 
-                                                                 PKO frees the buffer to PKO_SEND_GATHER_S[AURA].
+                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
+                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
+                                                                 PKO_SEND_AURA_S in the descriptor.
 
                                                                  PKO will not free [ADDR] to FPA until after it has finished reading
                                                                  this segment (and the PKI_BUFLINK_S that precedes this segment in
@@ -1018,13 +1018,15 @@ union bdk_pko_send_gather_s
 
                                                                  PKO frees the surrounding buffer when:
 
-                                                                 _  PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I]) = 0.
+                                                                 _  PKO_SEND_HDR_S[DF] XOR ([I] AND NOT PKO_SEND_HDR_S[II]) = 0.
 
                                                                  PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
                                                                  the buffer free. An FPA naturally-aligned pool is recommended, though opaque
-                                                                 pool mode may also be possible. Refer to the FPA Chapter.
+                                                                 pool mode may also be possible. Refer to the FPA chapter.
 
-                                                                 PKO frees the buffer to PKO_SEND_GATHER_S[AURA].
+                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
+                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
+                                                                 PKO_SEND_AURA_S in the descriptor.
 
                                                                  PKO will not free [ADDR] to FPA until after it has finished reading
                                                                  this segment (and the PKI_BUFLINK_S that precedes this segment in
@@ -1055,8 +1057,8 @@ union bdk_pko_send_gather_s
                                                                  one bit right. */
         uint64_t size                  : 16; /**< [ 63: 48] Size of segment, in bytes. [SIZE] must be nonzero.
 
-                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s and
-                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_GATHER_S
+                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]s and
+                                                                 PKO_SEND_IMM_S[SIZE]s in this descriptor. This PKO_SEND_GATHER_S
                                                                  must not be present in the descriptor when
                                                                  priorbytes >= PKO_SEND_HDR_S[TOTAL].
 
@@ -1068,8 +1070,8 @@ union bdk_pko_send_gather_s
                                                                  there is no subsequent PKO_SEND_GATHER_S, PKO_SEND_IMM_S, nor PKO_SEND_LINK_S
                                                                  in the descriptor.
 
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]s, PKO_SEND_GATHER_S[SIZE]s, and
+                                                                 PKO_SEND_LINK_S[SIZE]s in the descriptor plus any PKI_BUFLINK_S[SIZE]s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
 #endif /* Word 0 - End */
     } s;
@@ -1111,11 +1113,11 @@ union bdk_pko_send_hdr_s
                                                                  all reside in the L4 payload. Conceptually, PKO processes PKO_SEND_CRC_S before L4
                                                                  checksums when both are present.
 
-                                                                 * Cannot be used in conjuction with SEND_CRC[ALG]=ONES16
+                                                                 * Cannot be used in conjuction with SEND_CRC[ALG]=ONES16.
 
-                                                                 * When a PKO_SEND_TSO_S is present, [CKL4] must be TCP */
+                                                                 * When a PKO_SEND_TSO_S is present, [CKL4] must be TCP. */
         uint64_t ckl3                  : 1;  /**< [ 45: 45] Checksum L3. If set, PKO hardware calculates the IPv4 header checksum and inserts it into
-                                                                 the packet, as described in L4 Checksum. When set, [L3PTR] selects the location of the
+                                                                 the packet, as described in L4 checksum. When set, [L3PTR] selects the location of the
                                                                  first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
                                                                  any bytes covered or inserted by PKO_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
                                                                  point to a valid IPv4 header. When a PKO_SEND_TSO_S is present with an IPv4 packet,
@@ -1131,7 +1133,7 @@ union bdk_pko_send_hdr_s
                                                                  Unaligned segment pointers (in send linked operations) must be in correct little-endian
                                                                  format, eight bytes prior to the segment bytes (i.e. the least-significant eight bytes of
                                                                  the pointer are first, the next least-significant bytes are next, etc.). */
-        uint64_t n2                    : 1;  /**< [ 42: 42] No L2 Allocate. When clear, PKO allocates all packet load data into the L2 cache.
+        uint64_t n2                    : 1;  /**< [ 42: 42] No L2 allocate. When clear, PKO allocates all packet load data into the L2 cache.
                                                                  When set, PKO does not allocate blocks containing segment bytes into the L2 cache.
                                                                  [N2] affects performance, but otherwise does not affect CNXXXX behavior. It may be
                                                                  advantageous to set [N2] if packet data will not be used after PKO sends the packet, which
@@ -1144,7 +1146,7 @@ union bdk_pko_send_hdr_s
 
                                                                  Note that PKO_PDM_CFG[ALLOC_LDS] selects L2 cache allocation for any DQ descriptor/meta
                                                                  reads, and PKO_PTF_IOBP_CFG[IOBP0_L2_ALLOCATE] determines L2 cache allocation for
-                                                                 any post-PKO_SEND_JUMP descriptor reads. Also, PKO always allocates packet data
+                                                                 any post-PKO_SEND_JUMP_S descriptor reads. Also, PKO always allocates packet data
                                                                  into the L2 cache on the first-pass packet read of a two-pass TCP/UDP checksum
                                                                  calculation, and may allocate portions of packet data into the L2 cache during
                                                                  a PKO_SEND_TSO. */
@@ -1163,8 +1165,8 @@ union bdk_pko_send_hdr_s
 
                                                                  PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
                                                                  to 128 bytes before sending it to FPA as part of the buffer free. An FPA
-                                                                 naturally-aligned pool is recommended, though opaque pool mode may also be
-                                                                 possible. Refer to the FPA Chapter.
+                                                                 naturally-aligned pool is recommended, though opaque pool mode may also
+                                                                 be possible. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the [AURA] contained in the descriptor (GATHER/LINK/JUMP/FREE).
 
@@ -1186,9 +1188,10 @@ union bdk_pko_send_hdr_s
                                                                  this or any other PKO SEND descriptor, and in any order relative to
                                                                  any FPA frees/allocates needed for DQ DRAM buffering, and in any order
                                                                  relative any FPA aura count updates needed to process a PKO_SEND_AURA_S
-                                                                 subdescriptor in this or any other PKO SEND. The FPA free may occur in any
-                                                                 order relative to any L2/DRAM updates or any work queue add needed to
-                                                                 process this or any other PKO SEND.
+                                                                 subdescriptor in this or any other PKO SEND.
+                                                                 The FPA free may occur in any order relative to any
+                                                                 L2/DRAM updates or any work queue add needed to process this or
+                                                                 any other PKO SEND.
 
                                                                  Note that [DF] has no effect on any buffer frees from a PKO_SEND_FREE_S or
                                                                  PKO_SEND_JUMP_S.
@@ -1198,7 +1201,7 @@ union bdk_pko_send_hdr_s
                                                                  not once per TSO segment.
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
-        uint64_t df                    : 1;  /**< [ 40: 40] Don't Free. If set, by default PKO will not free the surrounding buffer after
+        uint64_t df                    : 1;  /**< [ 40: 40] Don't free. If set, by default PKO will not free the surrounding buffer after
                                                                  processing a packet segment. If clear, by default PKO will free the
                                                                  surrounding buffer after processing a packet segment.
 
@@ -1213,8 +1216,8 @@ union bdk_pko_send_hdr_s
 
                                                                  PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
                                                                  to 128 bytes before sending it to FPA as part of the buffer free. An FPA
-                                                                 naturally-aligned pool is recommended, though opaque pool mode may also
-                                                                 be possible. Refer to the FPA Chapter.
+                                                                 naturally-aligned pool is recommended, though opaque pool mode may also be
+                                                                 possible. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the [AURA] contained in the descriptor (GATHER, LINK, JUMP, FREE)
 
@@ -1258,8 +1261,8 @@ union bdk_pko_send_hdr_s
 
                                                                  When a PKO_SEND_TSO_S is present in the descriptor, PKO marks each TSO segment
                                                                  independently, using [FORMAT] for every TSO segment. */
-        uint64_t l4ptr                 : 8;  /**< [ 31: 24] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
-                                                                 checksumming (Layer Checksumming) or shaper marking. The Layer 4 header must
+        uint64_t l4ptr                 : 8;  /**< [ 31: 24] Layer 4 offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
+                                                                 checksumming (layer checksumming) or shaper marking. The Layer 4 header must
                                                                  be exactly [L4PTR] bytes from the beginning of the packet. Software might populate this
                                                                  field for forwarded packets from a computation based off WQE[L4PTR], which is the IP
                                                                  location computed by PKI when the packet is parsed. When [CKL4] is nonzero, no L4 header
@@ -1269,7 +1272,7 @@ union bdk_pko_send_hdr_s
 
                                                                  When a PKO_SEND_TSO_S is present in the descriptor, [L4PTR] must point to the
                                                                  TCP header, which must be before PKO_SEND_TSO_S[SB]. */
-        uint64_t l3ptr                 : 8;  /**< [ 23: 16] Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for L3
+        uint64_t l3ptr                 : 8;  /**< [ 23: 16] Layer 3 IP offset. Specifies the location of the first byte of the IP packet for L3
                                                                  checksum and/or L4 checksum and/or shaper marking. (See [CKL3,CKL4,FORMAT] and
                                                                  PKO_SEND_EXT_S[MARKPTR].) The IP packet must be exactly [L3PTR] bytes from the beginning
                                                                  of the packet. Software might populate this field for forwarded packets from a computation
@@ -1291,8 +1294,8 @@ union bdk_pko_send_hdr_s
                                                                  packet to be at least PKO_PDM_CFG[PKO_PAD_MINLEN] bytes) when PKO_MAC()_CFG[MIN_PAD_ENA]
                                                                  is set, where m is the MAC that the packet uses.
 
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]s, PKO_SEND_GATHER_S[SIZE]s, and
+                                                                 PKO_SEND_LINK_S[SIZE]s in the descriptor plus any PKI_BUFLINK_S[SIZE]s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed [TOTAL].
 
                                                                  [TOTAL] constraints when a PKO_SEND_TSO_S is present:
@@ -1310,8 +1313,8 @@ union bdk_pko_send_hdr_s
                                                                  packet to be at least PKO_PDM_CFG[PKO_PAD_MINLEN] bytes) when PKO_MAC()_CFG[MIN_PAD_ENA]
                                                                  is set, where m is the MAC that the packet uses.
 
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]s, PKO_SEND_GATHER_S[SIZE]s, and
+                                                                 PKO_SEND_LINK_S[SIZE]s in the descriptor plus any PKI_BUFLINK_S[SIZE]s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed [TOTAL].
 
                                                                  [TOTAL] constraints when a PKO_SEND_TSO_S is present:
@@ -1319,7 +1322,7 @@ union bdk_pko_send_hdr_s
                                                                  * For IPv6: [TOTAL] = [L3PTR]+40+(IPv6.payload length).
                                                                  * 576 <= PKO_SEND_TSO_S[MSS] < [TOTAL] <=
                                                                  (128*PKO_SEND_TSO_S[MSS]-127*PKO_SEND_TSO_S[SB]). */
-        uint64_t l3ptr                 : 8;  /**< [ 23: 16] Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for L3
+        uint64_t l3ptr                 : 8;  /**< [ 23: 16] Layer 3 IP offset. Specifies the location of the first byte of the IP packet for L3
                                                                  checksum and/or L4 checksum and/or shaper marking. (See [CKL3,CKL4,FORMAT] and
                                                                  PKO_SEND_EXT_S[MARKPTR].) The IP packet must be exactly [L3PTR] bytes from the beginning
                                                                  of the packet. Software might populate this field for forwarded packets from a computation
@@ -1332,8 +1335,8 @@ union bdk_pko_send_hdr_s
 
                                                                  When a PKO_SEND_TSO_S is present in the descriptor, [L3PTR] must point to the
                                                                  IP header, which must be before PKO_SEND_TSO_S[SB]. */
-        uint64_t l4ptr                 : 8;  /**< [ 31: 24] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
-                                                                 checksumming (Layer Checksumming) or shaper marking. The Layer 4 header must
+        uint64_t l4ptr                 : 8;  /**< [ 31: 24] Layer 4 offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
+                                                                 checksumming (layer checksumming) or shaper marking. The Layer 4 header must
                                                                  be exactly [L4PTR] bytes from the beginning of the packet. Software might populate this
                                                                  field for forwarded packets from a computation based off WQE[L4PTR], which is the IP
                                                                  location computed by PKI when the packet is parsed. When [CKL4] is nonzero, no L4 header
@@ -1350,7 +1353,7 @@ union bdk_pko_send_hdr_s
                                                                  When a PKO_SEND_TSO_S is present in the descriptor, PKO marks each TSO segment
                                                                  independently, using [FORMAT] for every TSO segment. */
         uint64_t reserved_39           : 1;
-        uint64_t df                    : 1;  /**< [ 40: 40] Don't Free. If set, by default PKO will not free the surrounding buffer after
+        uint64_t df                    : 1;  /**< [ 40: 40] Don't free. If set, by default PKO will not free the surrounding buffer after
                                                                  processing a packet segment. If clear, by default PKO will free the
                                                                  surrounding buffer after processing a packet segment.
 
@@ -1365,8 +1368,8 @@ union bdk_pko_send_hdr_s
 
                                                                  PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
                                                                  to 128 bytes before sending it to FPA as part of the buffer free. An FPA
-                                                                 naturally-aligned pool is recommended, though opaque pool mode may also
-                                                                 be possible. Refer to the FPA Chapter.
+                                                                 naturally-aligned pool is recommended, though opaque pool mode may also be
+                                                                 possible. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the [AURA] contained in the descriptor (GATHER, LINK, JUMP, FREE)
 
@@ -1418,8 +1421,8 @@ union bdk_pko_send_hdr_s
 
                                                                  PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
                                                                  to 128 bytes before sending it to FPA as part of the buffer free. An FPA
-                                                                 naturally-aligned pool is recommended, though opaque pool mode may also be
-                                                                 possible. Refer to the FPA Chapter.
+                                                                 naturally-aligned pool is recommended, though opaque pool mode may also
+                                                                 be possible. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the [AURA] contained in the descriptor (GATHER/LINK/JUMP/FREE).
 
@@ -1441,9 +1444,10 @@ union bdk_pko_send_hdr_s
                                                                  this or any other PKO SEND descriptor, and in any order relative to
                                                                  any FPA frees/allocates needed for DQ DRAM buffering, and in any order
                                                                  relative any FPA aura count updates needed to process a PKO_SEND_AURA_S
-                                                                 subdescriptor in this or any other PKO SEND. The FPA free may occur in any
-                                                                 order relative to any L2/DRAM updates or any work queue add needed to
-                                                                 process this or any other PKO SEND.
+                                                                 subdescriptor in this or any other PKO SEND.
+                                                                 The FPA free may occur in any order relative to any
+                                                                 L2/DRAM updates or any work queue add needed to process this or
+                                                                 any other PKO SEND.
 
                                                                  Note that [DF] has no effect on any buffer frees from a PKO_SEND_FREE_S or
                                                                  PKO_SEND_JUMP_S.
@@ -1453,7 +1457,7 @@ union bdk_pko_send_hdr_s
                                                                  not once per TSO segment.
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
-        uint64_t n2                    : 1;  /**< [ 42: 42] No L2 Allocate. When clear, PKO allocates all packet load data into the L2 cache.
+        uint64_t n2                    : 1;  /**< [ 42: 42] No L2 allocate. When clear, PKO allocates all packet load data into the L2 cache.
                                                                  When set, PKO does not allocate blocks containing segment bytes into the L2 cache.
                                                                  [N2] affects performance, but otherwise does not affect CNXXXX behavior. It may be
                                                                  advantageous to set [N2] if packet data will not be used after PKO sends the packet, which
@@ -1466,7 +1470,7 @@ union bdk_pko_send_hdr_s
 
                                                                  Note that PKO_PDM_CFG[ALLOC_LDS] selects L2 cache allocation for any DQ descriptor/meta
                                                                  reads, and PKO_PTF_IOBP_CFG[IOBP0_L2_ALLOCATE] determines L2 cache allocation for
-                                                                 any post-PKO_SEND_JUMP descriptor reads. Also, PKO always allocates packet data
+                                                                 any post-PKO_SEND_JUMP_S descriptor reads. Also, PKO always allocates packet data
                                                                  into the L2 cache on the first-pass packet read of a two-pass TCP/UDP checksum
                                                                  calculation, and may allocate portions of packet data into the L2 cache during
                                                                  a PKO_SEND_TSO. */
@@ -1482,7 +1486,7 @@ union bdk_pko_send_hdr_s
                                                                  the pointer are first, the next least-significant bytes are next, etc.). */
         uint64_t ds                    : 1;  /**< [ 44: 44] Reserved. */
         uint64_t ckl3                  : 1;  /**< [ 45: 45] Checksum L3. If set, PKO hardware calculates the IPv4 header checksum and inserts it into
-                                                                 the packet, as described in L4 Checksum. When set, [L3PTR] selects the location of the
+                                                                 the packet, as described in L4 checksum. When set, [L3PTR] selects the location of the
                                                                  first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
                                                                  any bytes covered or inserted by PKO_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
                                                                  point to a valid IPv4 header. When a PKO_SEND_TSO_S is present with an IPv4 packet,
@@ -1502,9 +1506,9 @@ union bdk_pko_send_hdr_s
                                                                  all reside in the L4 payload. Conceptually, PKO processes PKO_SEND_CRC_S before L4
                                                                  checksums when both are present.
 
-                                                                 * Cannot be used in conjuction with SEND_CRC[ALG]=ONES16
+                                                                 * Cannot be used in conjuction with SEND_CRC[ALG]=ONES16.
 
-                                                                 * When a PKO_SEND_TSO_S is present, [CKL4] must be TCP */
+                                                                 * When a PKO_SEND_TSO_S is present, [CKL4] must be TCP. */
         uint64_t aura                  : 12; /**< [ 59: 48] Guest-aura. Specifies the guest-aura that buffers will be returned to and whose
                                                                  count may be decremented by subsequent subdescriptors. The upper two bits must
                                                                  be zero. Until a PKO_SEND_AURA_S is present, [AURA] is used for all FPA frees
@@ -1522,7 +1526,7 @@ union bdk_pko_send_hdr_s
  * Structure pko_send_imm_s
  *
  * PKO Send Immediate Subdescriptor Structure
- * The Send Immediate subdescriptor directly includes bytes of packet data.
+ * The send immediate subdescriptor directly includes bytes of packet data.
  * The subdescriptor format is this 64-bit PKO_SEND_IMM_S followed immediately
  * by the packet data. The next subdescriptor (if any) follows the packet data
  * bytes (after rounding up to be a multiple of 8 bytes).
@@ -1530,11 +1534,11 @@ union bdk_pko_send_hdr_s
  * If PKO_SEND_IMM_S[LE] is set, the immediate bytes are in little-endian
  * format in the descriptor, else standard big-endian format.
  *
- * There may be multiple PKO_SEND_IMM_S's in one PKO Send Descriptor.  A PKO_SEND_IMM_S must
- * not be present in a PKO send descriptor when the sum of all prior PKO_SEND_GATHER_S[SIZE]'s
- * and all prior PKO_SEND_IMM_S[SIZE]'s equals or exceeds PKO_SEND_HDR_S[TOTAL]. (i.e. Some
+ * There may be multiple PKO_SEND_IMM_S in one PKO SEND descriptor.  A PKO_SEND_IMM_S must
+ * not be present in a PKO SEND descriptor when the sum of all prior PKO_SEND_GATHER_S[SIZE]s
+ * and all prior PKO_SEND_IMM_S[SIZE]s equals or exceeds PKO_SEND_HDR_S[TOTAL]. (i.e. Some
  * immediate bytes must be usable.) Furthermore, all supplied immediate bytes must
- * be used. A PKO_SEND_IMM_S must precede a PKO_SEND_LINK_S in a PKO send descriptor.
+ * be used. A PKO_SEND_IMM_S must precede a PKO_SEND_LINK_S in a PKO SEND descriptor.
  *
  * When a PKO_SEND_TSO_S is present in the descriptor, all PKO_SEND_IMM_S
  * bytes must be included in the the first PKO_SEND_TSO_S[SB] bytes of the
@@ -1551,35 +1555,35 @@ union bdk_pko_send_imm_s
                                                                  bytes later in the descriptor, rounded up to the next 8-byte aligned
                                                                  boundary.
 
-                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s and
-                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_IMM_S
+                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]s and
+                                                                 PKO_SEND_IMM_S[SIZE]s in this descriptor. This PKO_SEND_IMM_S
                                                                  must only be present in the descriptor when
                                                                  (priorbytes + [SIZE]) <= PKO_SEND_HDR_S[TOTAL].
                                                                  That is, all supplied immediate bytes must be used.
 
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]s, PKO_SEND_GATHER_S[SIZE]s, and
+                                                                 PKO_SEND_LINK_S[SIZE]s in the descriptor plus any PKI_BUFLINK_S[SIZE]s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
         uint64_t le                    : 1;  /**< [ 43: 43] Send immediate data is in little-endian format. */
         uint64_t reserved_0_42         : 43;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_42         : 43;
         uint64_t le                    : 1;  /**< [ 43: 43] Send immediate data is in little-endian format. */
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
         uint64_t size                  : 16; /**< [ 63: 48] Size of immediate (in bytes) that immediately follows this 64-bit structure.
                                                                  [SIZE] must be between 1 and 32 bytes. The next subdescriptor follow [SIZE]
                                                                  bytes later in the descriptor, rounded up to the next 8-byte aligned
                                                                  boundary.
 
-                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s and
-                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_IMM_S
+                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]s and
+                                                                 PKO_SEND_IMM_S[SIZE]s in this descriptor. This PKO_SEND_IMM_S
                                                                  must only be present in the descriptor when
                                                                  (priorbytes + [SIZE]) <= PKO_SEND_HDR_S[TOTAL].
                                                                  That is, all supplied immediate bytes must be used.
 
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]s, PKO_SEND_GATHER_S[SIZE]s, and
+                                                                 PKO_SEND_LINK_S[SIZE]s in the descriptor plus any PKI_BUFLINK_S[SIZE]s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
 #endif /* Word 0 - End */
     } s;
@@ -1596,7 +1600,7 @@ union bdk_pko_send_imm_s
  * supported by the hardware. There can be only one PKO_SEND_JUMP_S subdescriptor in a packet
  * descriptor. PKO_SEND_JUMP_S must be the last subdescriptor in the initial (up to 3
  * subdescriptor) portion of the packet descriptor and must precede all subdescriptors
- * other than PKO_SEND_HDR_S and PKO_SEND_EXT_S in the PKO send descriptor.
+ * other than PKO_SEND_HDR_S and PKO_SEND_EXT_S in the PKO SEND descriptor.
  */
 union bdk_pko_send_jump_s
 {
@@ -1613,7 +1617,7 @@ union bdk_pko_send_jump_s
                                                                  subdescriptors from it. When clear, PKO will not free the buffer indicated by [ADDR].
 
                                                                  PKO sends [ADDR] to FPA as part of the buffer free when [F] is set. Either an FPA
-                                                                 naturally-aligned pool or opaque pool may be appropriate. Refer to the FPA Chapter.
+                                                                 naturally-aligned pool or opaque pool may be appropriate. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the last PKO_SEND_AURA_S[AURA] in the (entire) packet descriptor,
                                                                  or PKO_SEND_HDR_S[AURA] if no PKO_SEND_AURA_S is present in the descriptor.
@@ -1623,17 +1627,17 @@ union bdk_pko_send_jump_s
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
         uint64_t reserved_42_43        : 2;
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical Address. [ADDR] is the physical L2/DRAM address of the first byte of the next
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. [ADDR] is the physical L2/DRAM address of the first byte of the next
                                                                  subdescriptor. [ADDR] must be 128 byte aligned. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical Address. [ADDR] is the physical L2/DRAM address of the first byte of the next
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. [ADDR] is the physical L2/DRAM address of the first byte of the next
                                                                  subdescriptor. [ADDR] must be 128 byte aligned. */
         uint64_t reserved_42_43        : 2;
         uint64_t f                     : 1;  /**< [ 44: 44] When set, PKO will free the buffer indicated by [ADDR] to FPA after it has read all
                                                                  subdescriptors from it. When clear, PKO will not free the buffer indicated by [ADDR].
 
                                                                  PKO sends [ADDR] to FPA as part of the buffer free when [F] is set. Either an FPA
-                                                                 naturally-aligned pool or opaque pool may be appropriate. Refer to the FPA Chapter.
+                                                                 naturally-aligned pool or opaque pool may be appropriate. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the last PKO_SEND_AURA_S[AURA] in the (entire) packet descriptor,
                                                                  or PKO_SEND_HDR_S[AURA] if no PKO_SEND_AURA_S is present in the descriptor.
@@ -1656,20 +1660,20 @@ union bdk_pko_send_jump_s
  * Structure pko_send_link_s
  *
  * PKO Send Linked Subdescriptor Structure
- * The Send Linked subdescriptor requests a linked list of contiguous segments of bytes be
+ * The send linked subdescriptor requests a linked list of contiguous segments of bytes be
  * transmitted. PKO traverses as many links as needed, starting with the PKO_SEND_LINK_S
  * subdescriptor. Remaining segments are linked from their preceding segment by
  * a PKI_BUFLINK_S that precedes the preceding segment in L2/DRAM.
  *
- * At most one PKO_SEND_LINK_S can be present in each PKO Send Descriptor. A PKO_SEND_LINK_S
- * must follow all PKO_SEND_GATHER_S and PKO_SEND_IMM_S subdescriptors in the PKO Send
- * descriptor. A PKO_SEND_LINK_S must not be present in a PKO send descriptor if the sum of all
- * PKO_SEND_GATHER_S[SIZE]'s and PKO_SEND_IMM_S[SIZE]'s in the descriptor meets or
+ * At most one PKO_SEND_LINK_S can be present in each PKO SEND descriptor. A PKO_SEND_LINK_S
+ * must follow all PKO_SEND_GATHER_S and PKO_SEND_IMM_S subdescriptors in the PKO send
+ * descriptor. A PKO_SEND_LINK_S must not be present in a PKO SEND descriptor if the sum of all
+ * PKO_SEND_GATHER_S[SIZE]s and PKO_SEND_IMM_S[SIZE]s in the descriptor meets or
  * exceeds PKO_SEND_HDR_S[TOTAL]. (i.e. Some of the packet data from a PKO_SEND_LINK_S
  * must be used.) The total number of bytes contributed from the PKO_SEND_LINK_S and its links
- * is PKO_SEND_HDR_S[TOTAL] minus the sum of all PKO_SEND_GATHER_S[SIZE]'s and
- * PKO_SEND_IMM_S[SIZE]'s in the descriptor. A PKO_SEND_LINK_S must follow all
- * PKO_SEND_GATHER_S and PKO_SEND_IMM_S subdescriptors in the PKO Send descriptor.
+ * is PKO_SEND_HDR_S[TOTAL] minus the sum of all PKO_SEND_GATHER_S[SIZE]s and
+ * PKO_SEND_IMM_S[SIZE]s in the descriptor. A PKO_SEND_LINK_S must follow all
+ * PKO_SEND_GATHER_S and PKO_SEND_IMM_S subdescriptors in the PKO SEND descriptor.
  * The number of segments in a PKO_SEND_LINK_S chain must never exceed 200.
  */
 union bdk_pko_send_link_s
@@ -1680,8 +1684,8 @@ union bdk_pko_send_link_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t size                  : 16; /**< [ 63: 48] Size of segment, in bytes. [SIZE] must be nonzero.
 
-                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s
-                                                                 and PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_LINK_S
+                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]s
+                                                                 and PKO_SEND_IMM_S[SIZE]s in this descriptor. This PKO_SEND_LINK_S
                                                                  must not be present in the descriptor when
                                                                  priorbytes >= PKO_SEND_HDR_S[TOTAL].
 
@@ -1696,8 +1700,8 @@ union bdk_pko_send_link_s
                                                                  more packet data from the next segment described by the PKI_BUFLINK_S
                                                                  that must reside in the 8 L2/DRAM bytes prior to [ADDR].
 
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 The sum of all PKO_SEND_IMM_S[SIZE], PKO_SEND_GATHER_S[SIZE], and
+                                                                 PKO_SEND_LINK_S[SIZE] in the descriptor plus any PKI_BUFLINK_S[SIZE]
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
         uint64_t subdc3                : 3;  /**< [ 47: 45] Subdescriptor code. Indicates send link. Enumerated by PKO_SENDSUBDC_E::LINK0,
                                                                  shifted one bit right. */
@@ -1705,11 +1709,11 @@ union bdk_pko_send_link_s
 
                                                                  PKO frees the surrounding buffer when:
 
-                                                                 _  PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I]) = 0.
+                                                                 _  PKO_SEND_HDR_S[DF] XOR (NOT PKO_SEND_HDR_S[II] AND [I]) = 0.
 
                                                                  PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
                                                                  the buffer free. An FPA naturally-aligned pool is recommended, though opaque
-                                                                 pool mode may also be possible. Refer to the FPA Chapter.
+                                                                 pool mode may also be possible. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
                                                                  PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
@@ -1745,7 +1749,7 @@ union bdk_pko_send_link_s
                                                                  in the segment. The 8 bytes prior to [ADDR] must always be valid readable L2/DRAM
                                                                  locations, and must contain a valid PKI_BUFLINK_S if the packet has more than [SIZE]
                                                                  bytes (i.e. the PKI_BUFLINK_S must be valid if PKO_SEND_HDR_S[TOTAL] minus the sum
-                                                                 of all PKO_SEND_GATHER_S[SIZE]'s and PKO_SEND_IMM_S[SIZE]'s in the descriptor
+                                                                 of all PKO_SEND_GATHER_S[SIZE]s and PKO_SEND_IMM_S[SIZE]s in the descriptor
                                                                  is greater than [SIZE].) If PKO_SEND_HDR_S[LE] is set, [ADDR] is a little-endian
                                                                  byte pointer. Otherwise, [ADDR] is a big-endian byte pointer. */
 #else /* Word 0 - Little Endian */
@@ -1753,7 +1757,7 @@ union bdk_pko_send_link_s
                                                                  in the segment. The 8 bytes prior to [ADDR] must always be valid readable L2/DRAM
                                                                  locations, and must contain a valid PKI_BUFLINK_S if the packet has more than [SIZE]
                                                                  bytes (i.e. the PKI_BUFLINK_S must be valid if PKO_SEND_HDR_S[TOTAL] minus the sum
-                                                                 of all PKO_SEND_GATHER_S[SIZE]'s and PKO_SEND_IMM_S[SIZE]'s in the descriptor
+                                                                 of all PKO_SEND_GATHER_S[SIZE]s and PKO_SEND_IMM_S[SIZE]s in the descriptor
                                                                  is greater than [SIZE].) If PKO_SEND_HDR_S[LE] is set, [ADDR] is a little-endian
                                                                  byte pointer. Otherwise, [ADDR] is a big-endian byte pointer. */
         uint64_t reserved_42_43        : 2;
@@ -1761,11 +1765,11 @@ union bdk_pko_send_link_s
 
                                                                  PKO frees the surrounding buffer when:
 
-                                                                 _  PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I]) = 0.
+                                                                 _  PKO_SEND_HDR_S[DF] XOR (NOT PKO_SEND_HDR_S[II] AND [I]) = 0.
 
                                                                  PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
                                                                  the buffer free. An FPA naturally-aligned pool is recommended, though opaque
-                                                                 pool mode may also be possible. Refer to the FPA Chapter.
+                                                                 pool mode may also be possible. Refer to the FPA chapter.
 
                                                                  PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
                                                                  PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
@@ -1800,8 +1804,8 @@ union bdk_pko_send_link_s
                                                                  shifted one bit right. */
         uint64_t size                  : 16; /**< [ 63: 48] Size of segment, in bytes. [SIZE] must be nonzero.
 
-                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s
-                                                                 and PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_LINK_S
+                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]s
+                                                                 and PKO_SEND_IMM_S[SIZE]s in this descriptor. This PKO_SEND_LINK_S
                                                                  must not be present in the descriptor when
                                                                  priorbytes >= PKO_SEND_HDR_S[TOTAL].
 
@@ -1816,8 +1820,8 @@ union bdk_pko_send_link_s
                                                                  more packet data from the next segment described by the PKI_BUFLINK_S
                                                                  that must reside in the 8 L2/DRAM bytes prior to [ADDR].
 
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 The sum of all PKO_SEND_IMM_S[SIZE], PKO_SEND_GATHER_S[SIZE], and
+                                                                 PKO_SEND_LINK_S[SIZE] in the descriptor plus any PKI_BUFLINK_S[SIZE]
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
 #endif /* Word 0 - End */
     } s;
@@ -1914,15 +1918,15 @@ union bdk_pko_send_mem_s
  * This subdescriptor describes how to segment a larger TCP source packet into
  * multiple smaller TSO segment output packets. Software creates a single
  * descriptor describing the source packet and including the PKO_SEND_TSO_S,
- * and PKO HW automatically outputs the resultant TSO segmented packets.
- * For each produced segment, PKO HW duplicates the PKO SEND descriptor in the DQ
+ * and PKO hardware automatically outputs the resultant TSO segmented packets.
+ * For each produced segment, PKO hardware duplicates the PKO SEND descriptor in the DQ
  * and creates an independent meta descriptor (PKO_META_DESC_S and PKO_*_PICK)
- * for scheduling, conditioning, and transmission. PKO HW duplicates/creates
+ * for scheduling, conditioning, and transmission. PKO hardware duplicates/creates
  * the L2, IP, and TCP headers from the source packet into the TSO segments,
  * and distributes the source packet TCP payload bytes across the TSO
  * segments. All the produced TSO segments will be sent out the MAC/interface in
- * order, but PKO HW schedules each segment independently, so PKO can
- * transmit packets from other DQ's between the TSO segments produced
+ * order, but PKO hardware schedules each segment independently, so PKO can
+ * transmit packets from other DQs between the TSO segments produced
  * from the descriptor.
  *
  * PKO simply copies most L2, IP, and TCP header fields from the source
@@ -1939,13 +1943,13 @@ union bdk_pko_send_mem_s
  *
  *    o PKO calculates and inserts the IP checksum.
  *
- *    o PKO increments the IP Identification field from the last segment
- *      by one. The IP Identification field in the first produced segment
+ *    o PKO increments the IP identification field from the last segment
+ *      by one. The IP identification field in the first produced segment
  *      is unmodified from the pre-segmented source packet.
  *
  * * In the IPv6 case:
  *
- *    o PKO sets IPv6.payloadlength to (FPS + [SB] - PKO_SEND_HDR_S[L3PTR] - 40)
+ *    o PKO sets IPv6.payloadlength to (FPS + [SB] - PKO_SEND_HDR_S[L3PTR] - 40).
  *
  * * PKO produces the TCP sequence number by adding the FPS from the prior
  *   segment to the TCP sequence number used in the prior segment.
@@ -1968,37 +1972,37 @@ union bdk_pko_send_mem_s
  * * PKO_META_DESC_S[LENGTH] / PKO_*_PICK[LENGTH] for each TSO segment is
  *       (PKO_PDM_DQ*_MINPAD[MINPAD] ?
  *           MAX(PKO_PDM_CFG[PKO_PAD_MINLEN], (FPS+[SB])) :
- *           (FPS+[SB]))
+ *           (FPS+[SB])).
  *
  * * PKO_META_DESC_S[FPD] / PKO_*_PICK[FPD] is independently calculated
- *   for each descriptor copy
+ *   for each descriptor copy.
  *
  * The following are constraints when a PKO_SEND_TSO_S is present
  * in a descriptor:
  *
- * * 576 <= [MSS] < PKO_SEND_HDR_S[TOTAL] <= (128*[MSS] - 127*[SB])
+ * * 576 <= [MSS] < PKO_SEND_HDR_S[TOTAL] <= (128*[MSS] - 127*[SB]).
  *
- * * PKO_SEND_HDR_S[CKL4] = TCP
+ * * PKO_SEND_HDR_S[CKL4] = TCP.
  *
- * * PKO_SEND_HDR_S[L3PTR] must point to the first byte in the one and only IP header
+ * * PKO_SEND_HDR_S[L3PTR] must point to the first byte in the one and only IP header.
  *   o IP tunneled packets are not supported with TSO.
  *
- * * PKO_SEND_HDR_S[L4PTR] must point to the first byte in the corresponding TCP header
+ * * PKO_SEND_HDR_S[L4PTR] must point to the first byte in the corresponding TCP header.
  *
  * * In the IPv4 case:
- *    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+(IPv4.totallength)
- *    o PKO_SEND_HDR_S[CKL3] = 1
+ *    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+(IPv4.totallength).
+ *    o PKO_SEND_HDR_S[CKL3] = 1.
  *
  * * In the IPv6 case:
- *    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+40+(IPv6.payloadlength)
- *    o PKO_SEND_HDR_S[CKL3] = 0
+ *    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+40+(IPv6.payloadlength).
+ *    o PKO_SEND_HDR_S[CKL3] = 0.
  *
  * * If PKO considers the L2 type/length field to be a length (see [L2LEN] below):
- *    o [MSS] < 0x600
- *    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 10 (likely, if not required)
+ *    o [MSS] < 0x600.
+ *    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 10 (likely, if not required).
  *
  * * else if PKO does not consider the L2 type/length field to be a length:
- *    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 2
+ *    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 2.
  *
  * * If any PKO_SEND_IMM_S's are present in the descriptor, they must never
  *   provide source packet bytes after the first [SB] bytes in the source packet.
@@ -2023,14 +2027,14 @@ union bdk_pko_send_tso_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t l2len                 : 8;  /**< [ 63: 56] Offset in bytes to the two-byte L2 header-type/length field. If the type/length
-                                                                 field value in the pre-segmented packet is 0 .. 1535, PKO HW considers it
+                                                                 field value in the pre-segmented packet is 0 .. 1535, PKO hardware considers it
                                                                  to be a length field, and modifies it for each produced segment. */
         uint64_t reserved_48_55        : 8;
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send TSO. Enumerated by PKO_SENDSUBDC_E::TSO. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send TSO. Enumerated by PKO_SENDSUBDC_E::TSO. */
         uint64_t reserved_32_43        : 12;
         uint64_t sb                    : 8;  /**< [ 31: 24] Start bytes. Location of the start byte of the TCP message payload (a.k.a the
                                                                  size of the headers preceding the TCP data - must point to the first byte
-                                                                 following the TCP L4 header). PKO HW copies all bytes preceding [SB] to each
+                                                                 following the TCP L4 header). PKO hardware copies all bytes preceding [SB] to each
                                                                  segment, only modifying the specific fields mentioned above in each segment.
 
                                                                  [SB] must be >= [L2LEN]+42 in all cases, sometimes larger. [SB] must be
@@ -2083,17 +2087,17 @@ union bdk_pko_send_tso_s
                                                                  the length/type field selected by [L2LEN] to be a length field. */
         uint64_t sb                    : 8;  /**< [ 31: 24] Start bytes. Location of the start byte of the TCP message payload (a.k.a the
                                                                  size of the headers preceding the TCP data - must point to the first byte
-                                                                 following the TCP L4 header). PKO HW copies all bytes preceding [SB] to each
+                                                                 following the TCP L4 header). PKO hardware copies all bytes preceding [SB] to each
                                                                  segment, only modifying the specific fields mentioned above in each segment.
 
                                                                  [SB] must be >= [L2LEN]+42 in all cases, sometimes larger. [SB] must be
                                                                  >= PKO_SEND_HDR_S[L3PTR]+40 in all cases, sometimes larger. [SB] must be >=
                                                                  PKO_SEND_HDR_S[L4PTR]+20 in all cases, sometimes larger. */
         uint64_t reserved_32_43        : 12;
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send TSO. Enumerated by PKO_SENDSUBDC_E::TSO. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send TSO. Enumerated by PKO_SENDSUBDC_E::TSO. */
         uint64_t reserved_48_55        : 8;
         uint64_t l2len                 : 8;  /**< [ 63: 56] Offset in bytes to the two-byte L2 header-type/length field. If the type/length
-                                                                 field value in the pre-segmented packet is 0 .. 1535, PKO HW considers it
+                                                                 field value in the pre-segmented packet is 0 .. 1535, PKO hardware considers it
                                                                  to be a length field, and modifies it for each produced segment. */
 #endif /* Word 0 - End */
     } s;
@@ -2483,16 +2487,16 @@ typedef union
                                                                  being returned to the FPA. Typically, the value of this counter is zero. Should the
                                                                  count be non-zero for a prolonged period it would indicate that the FPA is delayed in
                                                                  accepting pointers back from the PKO. */
-        uint64_t dalc_fif_cnt          : 4;  /**< [ 22: 19](RO/H) Deallocation FIFO count. This FIFO has 8 entries and is used to buffer pointers that
-                                                                 are being returned to the DPFI by the PKO PDM. The PKO does not immediately return
-                                                                 these pointers to the FPA but instead holds them and uses them to replenish the pointer
-                                                                 Allocation FIFO saving an access to the FPA. Should the Deallocation FIFO become full
-                                                                 the next pointer pushed into it will push out the oldest pointer and this overflow
-                                                                 will be transfered to the XPD FIFO and a pointer return request made to the FPA.
-                                                                 Normally, the Deallocation FIFO is empty or near empty. This FIFO can be drained and
-                                                                 all pointers returned to the FPA by setting the FLUSH_EN bit in the PKO_DPFI_FLUSH CSR.
-                                                                 When the flush is complete the CACHE_FLUSHED flag will be set in the PKO_DPFI_STATUS
-                                                                 CSR and the DALC_FIF_CNT will be zero. */
+        uint64_t dalc_fif_cnt          : 4;  /**< [ 22: 19](RO/H) Deallocation FIFO count. This FIFO has 8 entries and is used to buffer pointers that are
+                                                                 being returned to the DPFI by the PKO PDM. The PKO does not immediately return these
+                                                                 pointers to the FPA but instead holds them and uses them to replenish the pointer
+                                                                 allocation FIFO saving an access to the FPA. Should the deallocation FIFO become full
+                                                                 the next pointer pushed into it will push out the oldest pointer and this overflow will
+                                                                 be transferred to the XPD FIFO and a pointer return request made to the FPA. Normally,
+                                                                 the deallocation FIFO is empty or near empty. This FIFO can be drained and all pointers
+                                                                 returned to the FPA by setting the FLUSH_EN bit in the PKO_DPFI_FLUSH CSR. When the
+                                                                 flush is complete the CACHE_FLUSHED flag will be set in the PKO_DPFI_STATUS CSR and the
+                                                                 DALC_FIF_CNT will be zero. */
         uint64_t alc_fif_cnt           : 5;  /**< [ 18: 14](RO/H) Allocation FIFO count. This FIFO has 16 entries and acts as a pointer prefetch buffer.
                                                                  The DPFI attempts to keep this FIFO full at all times. Out of reset, the PKO requests
                                                                  pointers from the FPA to fill this FIFO. The PKO_READY flag will not be asserted until
@@ -2558,16 +2562,16 @@ typedef union
                                                                  setting the FLUSH_EN bit in the PKO_DPFI_FLUSH CSR. When the flush is complete the
                                                                  CACHE_FLUSHED flag will be set in the PKO_DPFI_STATUS CSR and the ALC_FIF_CNT will
                                                                  be zero. */
-        uint64_t dalc_fif_cnt          : 4;  /**< [ 22: 19](RO/H) Deallocation FIFO count. This FIFO has 8 entries and is used to buffer pointers that
-                                                                 are being returned to the DPFI by the PKO PDM. The PKO does not immediately return
-                                                                 these pointers to the FPA but instead holds them and uses them to replenish the pointer
-                                                                 Allocation FIFO saving an access to the FPA. Should the Deallocation FIFO become full
-                                                                 the next pointer pushed into it will push out the oldest pointer and this overflow
-                                                                 will be transfered to the XPD FIFO and a pointer return request made to the FPA.
-                                                                 Normally, the Deallocation FIFO is empty or near empty. This FIFO can be drained and
-                                                                 all pointers returned to the FPA by setting the FLUSH_EN bit in the PKO_DPFI_FLUSH CSR.
-                                                                 When the flush is complete the CACHE_FLUSHED flag will be set in the PKO_DPFI_STATUS
-                                                                 CSR and the DALC_FIF_CNT will be zero. */
+        uint64_t dalc_fif_cnt          : 4;  /**< [ 22: 19](RO/H) Deallocation FIFO count. This FIFO has 8 entries and is used to buffer pointers that are
+                                                                 being returned to the DPFI by the PKO PDM. The PKO does not immediately return these
+                                                                 pointers to the FPA but instead holds them and uses them to replenish the pointer
+                                                                 allocation FIFO saving an access to the FPA. Should the deallocation FIFO become full
+                                                                 the next pointer pushed into it will push out the oldest pointer and this overflow will
+                                                                 be transferred to the XPD FIFO and a pointer return request made to the FPA. Normally,
+                                                                 the deallocation FIFO is empty or near empty. This FIFO can be drained and all pointers
+                                                                 returned to the FPA by setting the FLUSH_EN bit in the PKO_DPFI_FLUSH CSR. When the
+                                                                 flush is complete the CACHE_FLUSHED flag will be set in the PKO_DPFI_STATUS CSR and the
+                                                                 DALC_FIF_CNT will be zero. */
         uint64_t xpd_fif_cnt           : 4;  /**< [ 26: 23](RO/H) XPD FIFO count. This FIFO has 8 entries and is used to hold pointers that are actively
                                                                  being returned to the FPA. Typically, the value of this counter is zero. Should the
                                                                  count be non-zero for a prolonged period it would indicate that the FPA is delayed in
@@ -2732,7 +2736,7 @@ static inline uint64_t BDK_PKO_DQX_CIR(unsigned long a)
  * Register (NCB) pko_dq#_dropped_bytes
  *
  * PKO PSE Descriptor Queue Dropped Bytes Register
- * This register has the same bit fields as PKO_L1_SQ)_GREEN_BYTES.
+ * This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
  */
 typedef union
 {
@@ -3462,10 +3466,10 @@ typedef union
                                                                  [INTR] whenever it modifies PKO_DQ()_WM_BUF_CNT[COUNT] to equal or cross
                                                                  [THRESHOLD]. */
         uint64_t reserved_36_47        : 12;
-        uint64_t threshold             : 36; /**< [ 35:  0](R/W) Watermark interrupt Buffer Threshold for PKO_DQ()_WM_BUF_CNT[COUNT].
+        uint64_t threshold             : 36; /**< [ 35:  0](R/W) Watermark interrupt buffer threshold for PKO_DQ()_WM_BUF_CNT[COUNT].
                                                                  See the [INTR] description. */
 #else /* Word 0 - Little Endian */
-        uint64_t threshold             : 36; /**< [ 35:  0](R/W) Watermark interrupt Buffer Threshold for PKO_DQ()_WM_BUF_CNT[COUNT].
+        uint64_t threshold             : 36; /**< [ 35:  0](R/W) Watermark interrupt buffer threshold for PKO_DQ()_WM_BUF_CNT[COUNT].
                                                                  See the [INTR] description. */
         uint64_t reserved_36_47        : 12;
         uint64_t intr                  : 1;  /**< [ 48: 48](R/W/H) Watermark Buffer Interrupt. If [INTR] is clear and [ENABLE] is set, PKO sets
@@ -3550,7 +3554,7 @@ typedef union
         uint64_t count                 : 48; /**< [ 47:  0](R/W/H) Watermark count. The running value of the watermark counter. This value is a count of
                                                                  bytes or packets as specified by PKO_DQ()_WM_CTL[KIND]. [COUNT] covers all metas
                                                                  for the DQ between when the PKO SEND LMTDMA/LMTST enqueues the descriptor until
-                                                                 PKO PEB (i.e. the packet engines and FIFO's) first receives the meta descriptor.
+                                                                 PKO PEB (i.e. the packet engines and FIFOs) first receives the meta descriptor.
                                                                  It includes all descriptors whose meta's are held in either L2/DRAM for the DQ
                                                                  (i.e. whose metas are held in PKO PDM) or any DQ or SQ (i.e. whose metas are held
                                                                  in PKO PSE). */
@@ -3558,7 +3562,7 @@ typedef union
         uint64_t count                 : 48; /**< [ 47:  0](R/W/H) Watermark count. The running value of the watermark counter. This value is a count of
                                                                  bytes or packets as specified by PKO_DQ()_WM_CTL[KIND]. [COUNT] covers all metas
                                                                  for the DQ between when the PKO SEND LMTDMA/LMTST enqueues the descriptor until
-                                                                 PKO PEB (i.e. the packet engines and FIFO's) first receives the meta descriptor.
+                                                                 PKO PEB (i.e. the packet engines and FIFOs) first receives the meta descriptor.
                                                                  It includes all descriptors whose meta's are held in either L2/DRAM for the DQ
                                                                  (i.e. whose metas are held in PKO PDM) or any DQ or SQ (i.e. whose metas are held
                                                                  in PKO PSE). */
@@ -3783,15 +3787,18 @@ static inline uint64_t BDK_PKO_ENABLE_FUNC(void)
  *
  * For example, if MARKPTR is 3 and [OFFSET] is 5 and the packet is YELLOW,
  * the PKO marking hardware would do this:
- *    byte[3]<2:0> |=   Y_VAL<3:1>
- *    byte[3]<2:0> &= ~Y_MASK<3:1>
- *    byte[4]<7>   |=   Y_VAL<0>
- *    byte[4]<7>   &= ~Y_MASK<0>
+ *
+ * _  byte[3]<2:0> |=   Y_VAL<3:1>
+ * _  byte[3]<2:0> &= ~Y_MASK<3:1>
+ * _  byte[4]<7>   |=   Y_VAL<0>
+ * _  byte[4]<7>   &= ~Y_MASK<0>
+ *
  * where byte[3] is the 3rd byte in the packet, and byte[4] the 4th.
  *
  * For another example, if MARKPTR is 3 and [OFFSET] is 0 and the packet is RED_SEND,
- *    byte[3]<7:4> |=   R_VAL<3:0>
- *    byte[3]<7:4> &= ~R_MASK<3:0>
+ *
+ * _   byte[3]<7:4> |=   R_VAL<3:0>
+ * _   byte[3]<7:4> &= ~R_MASK<3:0>
  */
 typedef union
 {
@@ -4745,7 +4752,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) Priority Anchor. The base index positioning the static priority child queues of this
+        uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) Priority anchor. The base index positioning the static priority child queues of this
                                                                  shaper. A higher-level queue is a child queue of this shaper when its
                                                                  PKO_*_TOPOLOGY[PARENT] selects this shaper, and it further is a static priority child
                                                                  queue when its PKO_*_SQn_SCHEDULE[PRIO] does not equal RR_PRIO. A static priority child
@@ -4787,7 +4794,7 @@ typedef union
                                                                  </pre>
 
                                                                  When a MAC is used by the L1 SQ, [LINK] must be unique relative to
-                                                                 other [LINK]'s. [LINK] should be 14 when the L1 SQ is not used. */
+                                                                 other [LINK]s. [LINK] should be 14 when the L1 SQ is not used. */
         uint64_t reserved_5_15         : 11;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) Round-robin priority. The priority assigned to the round-robin scheduler. A higher-level
                                                                  queue is a child queue of this shaper when its PKO_*_TOPOLOGY[PARENT] selects this shaper,
@@ -4842,9 +4849,9 @@ typedef union
                                                                  </pre>
 
                                                                  When a MAC is used by the L1 SQ, [LINK] must be unique relative to
-                                                                 other [LINK]'s. [LINK] should be 14 when the L1 SQ is not used. */
+                                                                 other [LINK]s. [LINK] should be 14 when the L1 SQ is not used. */
         uint64_t reserved_21_31        : 11;
-        uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) Priority Anchor. The base index positioning the static priority child queues of this
+        uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) Priority anchor. The base index positioning the static priority child queues of this
                                                                  shaper. A higher-level queue is a child queue of this shaper when its
                                                                  PKO_*_TOPOLOGY[PARENT] selects this shaper, and it further is a static priority child
                                                                  queue when its PKO_*_SQn_SCHEDULE[PRIO] does not equal RR_PRIO. A static priority child
@@ -7577,8 +7584,11 @@ typedef union
         uint64_t reserved_17_63        : 47;
         uint64_t min_pad_ena           : 1;  /**< [ 16: 16](R/W) Minimum padding enable. When [MIN_PAD_ENA] is set, PKO pads packets going
                                                                  through the MAC/FIFO (with zeroes) to a minimum of PKO_PDM_CFG[PKO_PAD_MINLEN]
-                                                                 bytes. */
-        uint64_t fcs_ena               : 1;  /**< [ 15: 15](R/W) Enable outside FCS for this MAC/FIFO. */
+                                                                 bytes. PKO pads prior to optionally generating FCS (see [FCS_ENA]). */
+        uint64_t fcs_ena               : 1;  /**< [ 15: 15](R/W) Enable outside FCS generation for this MAC/FIFO. This adds four bytes to the
+                                                                 packet, and occurs after minimum padding, if any (see [MIN_PAD_ENA]).
+
+                                                                 [FCS_ENA] may normally not be set for SDP/DPI packet and LBK loopback output packets. */
         uint64_t fcs_sop_off           : 8;  /**< [ 14:  7](R/W) FCS start of packet offset. For this MAC, the number of bytes in the front of each packet
                                                                  to exclude from FCS. */
         uint64_t skid_max_cnt          : 2;  /**< [  6:  5](R/W) Maximum number of SKID credits. 0x0 = 16; 0x1 = 32; 0x2 = 64. */
@@ -7598,10 +7608,13 @@ typedef union
         uint64_t skid_max_cnt          : 2;  /**< [  6:  5](R/W) Maximum number of SKID credits. 0x0 = 16; 0x1 = 32; 0x2 = 64. */
         uint64_t fcs_sop_off           : 8;  /**< [ 14:  7](R/W) FCS start of packet offset. For this MAC, the number of bytes in the front of each packet
                                                                  to exclude from FCS. */
-        uint64_t fcs_ena               : 1;  /**< [ 15: 15](R/W) Enable outside FCS for this MAC/FIFO. */
+        uint64_t fcs_ena               : 1;  /**< [ 15: 15](R/W) Enable outside FCS generation for this MAC/FIFO. This adds four bytes to the
+                                                                 packet, and occurs after minimum padding, if any (see [MIN_PAD_ENA]).
+
+                                                                 [FCS_ENA] may normally not be set for SDP/DPI packet and LBK loopback output packets. */
         uint64_t min_pad_ena           : 1;  /**< [ 16: 16](R/W) Minimum padding enable. When [MIN_PAD_ENA] is set, PKO pads packets going
                                                                  through the MAC/FIFO (with zeroes) to a minimum of PKO_PDM_CFG[PKO_PAD_MINLEN]
-                                                                 bytes. */
+                                                                 bytes. PKO pads prior to optionally generating FCS (see [FCS_ENA]). */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -8106,14 +8119,14 @@ typedef union
         uint64_t reserved_2_63         : 62;
         uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1C/H) Message segment size is too small to transmit entire packet within the
                                                                  maximum allowed number of segments in TCP segmentation offload. The
-                                                                 packet will be transmitted in multiple TSO segments till the maximum
+                                                                 packet will be transmitted in multiple TSO segments until the maximum
                                                                  number of segments is reached. At this point, the interrupt will be
                                                                  raised, transmission of the packet will cease, and other available
                                                                  packets will be transmitted. This interrupt shares the NCB_TX_ERROR_INFO
                                                                  and NCB_TX_ERROR_WORD registers with the NCB_TX_ERROR interrupt to
                                                                  record information about the erroneous send packet command. Hence,
                                                                  NCB_TX_ERROR_INFO and NCB_TX_ERROR interrupts are onehot; neither
-                                                                 will be set till both are cleared. The TSO engine makes no guarantees
+                                                                 will be set until both are cleared. The TSO engine makes no guarantees
                                                                  about the state of memory and pointers allocated for the packet if
                                                                  this interrupt is raised. */
         uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1C/H) NCB transaction error occurred (error/unpredictable/undefined). */
@@ -8121,14 +8134,14 @@ typedef union
         uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1C/H) NCB transaction error occurred (error/unpredictable/undefined). */
         uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1C/H) Message segment size is too small to transmit entire packet within the
                                                                  maximum allowed number of segments in TCP segmentation offload. The
-                                                                 packet will be transmitted in multiple TSO segments till the maximum
+                                                                 packet will be transmitted in multiple TSO segments until the maximum
                                                                  number of segments is reached. At this point, the interrupt will be
                                                                  raised, transmission of the packet will cease, and other available
                                                                  packets will be transmitted. This interrupt shares the NCB_TX_ERROR_INFO
                                                                  and NCB_TX_ERROR_WORD registers with the NCB_TX_ERROR interrupt to
                                                                  record information about the erroneous send packet command. Hence,
                                                                  NCB_TX_ERROR_INFO and NCB_TX_ERROR interrupts are onehot; neither
-                                                                 will be set till both are cleared. The TSO engine makes no guarantees
+                                                                 will be set until both are cleared. The TSO engine makes no guarantees
                                                                  about the state of memory and pointers allocated for the packet if
                                                                  this interrupt is raised. */
         uint64_t reserved_2_63         : 62;
@@ -8355,7 +8368,12 @@ typedef union
         uint64_t dis_flsh_cache        : 1;  /**< [ 10: 10](R/W) Set to disable the flush buffer's cache. This makes all fills require full memory latency.
                                                                  For diagnostic use only. */
         uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC*_CFG[MIN_PAD_ENA]. See
-                                                                 also PKO_PDM_DQ*_MINPAD[MINPAD]. */
+                                                                 also PKO_PDM_DQ*_MINPAD[MINPAD].
+
+                                                                 The typical value of 0x3C ensures the pre-FCS packet is at least 60 bytes when
+                                                                 PKO_MAC()_CFG[MIN_PAD_ENA]=1. After FCS addition (via PKO_MAC()_CFG[FCS_ENA]=1
+                                                                 or via an interface), the packet will be at least 64 bytes when [PKO_PAD_MINLEN]=0x3C
+                                                                 and PKO_MAC()_CFG[MIN_PAD_ENA]=1. */
         uint64_t diag_mode             : 1;  /**< [  2:  2](R/W) Set to enable read/write to memories in PDM through CSR interface. For diagnostic use only. */
         uint64_t alloc_lds             : 1;  /**< [  1:  1](R/W) Allocate LDS. This signal prevents the loads to IOBP from being allocated in on-chip cache
                                                                  (LDWB vs. LDD). Two modes as follows: 0 = No allocate (LDWB); 1 = Allocate (LDD).
@@ -8372,7 +8390,12 @@ typedef union
                                                                  PKO PDM refetches DQ metas and descriptors via IOBP loads. */
         uint64_t diag_mode             : 1;  /**< [  2:  2](R/W) Set to enable read/write to memories in PDM through CSR interface. For diagnostic use only. */
         uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC*_CFG[MIN_PAD_ENA]. See
-                                                                 also PKO_PDM_DQ*_MINPAD[MINPAD]. */
+                                                                 also PKO_PDM_DQ*_MINPAD[MINPAD].
+
+                                                                 The typical value of 0x3C ensures the pre-FCS packet is at least 60 bytes when
+                                                                 PKO_MAC()_CFG[MIN_PAD_ENA]=1. After FCS addition (via PKO_MAC()_CFG[FCS_ENA]=1
+                                                                 or via an interface), the packet will be at least 64 bytes when [PKO_PAD_MINLEN]=0x3C
+                                                                 and PKO_MAC()_CFG[MIN_PAD_ENA]=1. */
         uint64_t dis_flsh_cache        : 1;  /**< [ 10: 10](R/W) Set to disable the flush buffer's cache. This makes all fills require full memory latency.
                                                                  For diagnostic use only. */
         uint64_t en_fr_w2r_ptr_swp     : 1;  /**< [ 11: 11](R/W) Set to enable pointer swap on a fill response when we go in-sync (only one cacheline in
@@ -8396,7 +8419,12 @@ typedef union
         uint64_t dis_flsh_cache        : 1;  /**< [ 10: 10](R/W) Set to disable the flush buffer's cache. This makes all fills require full memory latency.
                                                                  For diagnostic use only. */
         uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC*_CFG[MIN_PAD_ENA]. See
-                                                                 also PKO_PDM_DQ*_MINPAD[MINPAD]. */
+                                                                 also PKO_PDM_DQ*_MINPAD[MINPAD].
+
+                                                                 The typical value of 0x3C ensures the pre-FCS packet is at least 60 bytes when
+                                                                 PKO_MAC()_CFG[MIN_PAD_ENA]=1. After FCS addition (via PKO_MAC()_CFG[FCS_ENA]=1
+                                                                 or via an interface), the packet will be at least 64 bytes when [PKO_PAD_MINLEN]=0x3C
+                                                                 and PKO_MAC()_CFG[MIN_PAD_ENA]=1. */
         uint64_t diag_mode             : 1;  /**< [  2:  2](R/W) Set to enable read/write to memories in PDM through CSR interface. For diagnostic use only. */
         uint64_t alloc_lds             : 1;  /**< [  1:  1](R/W) Allocate LDS. This signal prevents the loads to IOBP from being allocated in on-chip cache
                                                                  (LDWB vs. LDD). Two modes as follows: 0 = No allocate (LDWB); 1 = Allocate (LDD).
@@ -8413,7 +8441,12 @@ typedef union
                                                                  PKO PDM refetches DQ metas and descriptors via IOBP loads. */
         uint64_t diag_mode             : 1;  /**< [  2:  2](R/W) Set to enable read/write to memories in PDM through CSR interface. For diagnostic use only. */
         uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC*_CFG[MIN_PAD_ENA]. See
-                                                                 also PKO_PDM_DQ*_MINPAD[MINPAD]. */
+                                                                 also PKO_PDM_DQ*_MINPAD[MINPAD].
+
+                                                                 The typical value of 0x3C ensures the pre-FCS packet is at least 60 bytes when
+                                                                 PKO_MAC()_CFG[MIN_PAD_ENA]=1. After FCS addition (via PKO_MAC()_CFG[FCS_ENA]=1
+                                                                 or via an interface), the packet will be at least 64 bytes when [PKO_PAD_MINLEN]=0x3C
+                                                                 and PKO_MAC()_CFG[MIN_PAD_ENA]=1. */
         uint64_t dis_flsh_cache        : 1;  /**< [ 10: 10](R/W) Set to disable the flush buffer's cache. This makes all fills require full memory latency.
                                                                  For diagnostic use only. */
         uint64_t en_fr_w2r_ptr_swp     : 1;  /**< [ 11: 11](R/W) Set to enable pointer swap on a fill response when we go in-sync (only one cacheline in
@@ -8455,16 +8488,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP) stalled on
-                                                                 inputs going into the ISRs. PKO_PDM_STS[CP_STALL_THRSHLD_HIT] indicates the threshold has
-                                                                 been hit.
+        uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP)
+                                                                 stalled on inputs going into the ISRs. PKO_PDM_STS[CP_STALLED_THRSHLD_HIT]
+                                                                 indicates the threshold has been hit.
 
                                                                  Internal:
                                                                  Do not list field in HRM. For lab debug only. */
 #else /* Word 0 - Little Endian */
-        uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP) stalled on
-                                                                 inputs going into the ISRs. PKO_PDM_STS[CP_STALL_THRSHLD_HIT] indicates the threshold has
-                                                                 been hit.
+        uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP)
+                                                                 stalled on inputs going into the ISRs. PKO_PDM_STS[CP_STALLED_THRSHLD_HIT]
+                                                                 indicates the threshold has been hit.
 
                                                                  Internal:
                                                                  Do not list field in HRM. For lab debug only. */
@@ -8564,8 +8597,12 @@ typedef union
                                                                  where X is the packet/segment length before pad. PKO_META_DESC_S[LENGTH]
                                                                  and PKO_*_PICK[LENGTH] are Meta[LENGTH].
 
+                                                                 In most cases, [MINPAD] should equal the corresponding PKO_MAC()_CFG[MIN_PAD_ENA].
+                                                                 But when logic outside PKO pads the packet, it may be appropriate to set [MINPAD]
+                                                                 when the corresponding PKO_MAC()_CFG[MIN_PAD_ENA]=0.
+
                                                                  [MINPAD] doesn't affect whether PKO applies pad to the packet or not,
-                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC*_CFG[MIN_PAD_ENA] is set,
+                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC()_CFG[MIN_PAD_ENA] is set,
                                                                  PKO pads packets through the MAC to PKO_PDM_CFG[PKO_PAD_MINLEN] bytes. */
 #else /* Word 0 - Little Endian */
         uint64_t minpad                : 1;  /**< [  0:  0](R/W) MINPAD setting per DQ. Each DQ has a separate CSR address; and bit 0 of the data
@@ -8579,8 +8616,12 @@ typedef union
                                                                  where X is the packet/segment length before pad. PKO_META_DESC_S[LENGTH]
                                                                  and PKO_*_PICK[LENGTH] are Meta[LENGTH].
 
+                                                                 In most cases, [MINPAD] should equal the corresponding PKO_MAC()_CFG[MIN_PAD_ENA].
+                                                                 But when logic outside PKO pads the packet, it may be appropriate to set [MINPAD]
+                                                                 when the corresponding PKO_MAC()_CFG[MIN_PAD_ENA]=0.
+
                                                                  [MINPAD] doesn't affect whether PKO applies pad to the packet or not,
-                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC*_CFG[MIN_PAD_ENA] is set,
+                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC()_CFG[MIN_PAD_ENA] is set,
                                                                  PKO pads packets through the MAC to PKO_PDM_CFG[PKO_PAD_MINLEN] bytes. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -8865,23 +8906,23 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
         uint64_t buf_wm_ram_flip       : 2;  /**< [ 14: 13](R/W) BUF_WM_RAM flip syndrome bits on write. */
-        uint64_t buf_wm_ram_cdis       : 1;  /**< [ 12: 12](R/W) BUF_WM_RAM ECC correction disable for all four memories */
+        uint64_t buf_wm_ram_cdis       : 1;  /**< [ 12: 12](R/W) BUF_WM_RAM ECC correction disable for all four memories. */
         uint64_t mwp_mem0_ram_flip     : 2;  /**< [ 11: 10](R/W) MWP_MEM0_RAM flip syndrome bits on write. */
         uint64_t mwp_mem1_ram_flip     : 2;  /**< [  9:  8](R/W) MWP_MEM1_RAM flip syndrome bits on write. */
         uint64_t mwp_mem2_ram_flip     : 2;  /**< [  7:  6](R/W) MWP_MEM2_RAM flip syndrome bits on write. */
         uint64_t mwp_mem3_ram_flip     : 2;  /**< [  5:  4](R/W) MWP_MEM3_RAM flip syndrome bits on write. */
-        uint64_t mwp_ram_cdis          : 1;  /**< [  3:  3](R/W) MWP_RAM ECC correction disable for all four memories */
+        uint64_t mwp_ram_cdis          : 1;  /**< [  3:  3](R/W) MWP_RAM ECC correction disable for all four memories. */
         uint64_t minpad_ram_flip       : 2;  /**< [  2:  1](R/W) MINPAD_RAM flip syndrome bits on write. */
         uint64_t minpad_ram_cdis       : 1;  /**< [  0:  0](R/W) MINPAD_RAM ECC correction disable. */
 #else /* Word 0 - Little Endian */
         uint64_t minpad_ram_cdis       : 1;  /**< [  0:  0](R/W) MINPAD_RAM ECC correction disable. */
         uint64_t minpad_ram_flip       : 2;  /**< [  2:  1](R/W) MINPAD_RAM flip syndrome bits on write. */
-        uint64_t mwp_ram_cdis          : 1;  /**< [  3:  3](R/W) MWP_RAM ECC correction disable for all four memories */
+        uint64_t mwp_ram_cdis          : 1;  /**< [  3:  3](R/W) MWP_RAM ECC correction disable for all four memories. */
         uint64_t mwp_mem3_ram_flip     : 2;  /**< [  5:  4](R/W) MWP_MEM3_RAM flip syndrome bits on write. */
         uint64_t mwp_mem2_ram_flip     : 2;  /**< [  7:  6](R/W) MWP_MEM2_RAM flip syndrome bits on write. */
         uint64_t mwp_mem1_ram_flip     : 2;  /**< [  9:  8](R/W) MWP_MEM1_RAM flip syndrome bits on write. */
         uint64_t mwp_mem0_ram_flip     : 2;  /**< [ 11: 10](R/W) MWP_MEM0_RAM flip syndrome bits on write. */
-        uint64_t buf_wm_ram_cdis       : 1;  /**< [ 12: 12](R/W) BUF_WM_RAM ECC correction disable for all four memories */
+        uint64_t buf_wm_ram_cdis       : 1;  /**< [ 12: 12](R/W) BUF_WM_RAM ECC correction disable for all four memories. */
         uint64_t buf_wm_ram_flip       : 2;  /**< [ 14: 13](R/W) BUF_WM_RAM flip syndrome bits on write. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
@@ -11511,7 +11552,7 @@ static inline uint64_t BDK_PKO_PEB_ECO_FUNC(void)
 /**
  * Register (NCB) pko_peb_err_int
  *
- * PKO Error Interrupt Status Register 0
+ * PKO PEB Error Interrupt Status Register
  */
 typedef union
 {
@@ -11780,9 +11821,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t rstp                  : 1;  /**< [  0:  0](R/W) Convert STP operations to RSTP */
+        uint64_t rstp                  : 1;  /**< [  0:  0](R/W) Convert STP operations to RSTP. */
 #else /* Word 0 - Little Endian */
-        uint64_t rstp                  : 1;  /**< [  0:  0](R/W) Convert STP operations to RSTP */
+        uint64_t rstp                  : 1;  /**< [  0:  0](R/W) Convert STP operations to RSTP. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -12782,37 +12823,37 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t tp_sram               : 1;  /**< [ 14: 14](RO) Topology parent - pko_pse_pq_srf32x5e */
+        uint64_t tp_sram               : 1;  /**< [ 14: 14](RO) Topology parent - pko_pse_pq_srf32x5e. */
         uint64_t reserved_13           : 1;
-        uint64_t wmd_sram              : 1;  /**< [ 12: 12](RO) Dynamic watermark state - pko_pse_wmd_srf1024x49e */
+        uint64_t wmd_sram              : 1;  /**< [ 12: 12](RO) Dynamic watermark state - pko_pse_wmd_srf1024x49e. */
         uint64_t reserved_11           : 1;
-        uint64_t cxd_sram              : 1;  /**< [ 10: 10](RO) Dynamic channel state - pko_pse_cxd_srf32x31e */
-        uint64_t dqd_sram              : 1;  /**< [  9:  9](RO) DQ dropped stats - pko_pse_stats_srf1024x88 */
-        uint64_t dqs_sram              : 1;  /**< [  8:  8](RO) DQ sent stats - pko_pse_stats_srf1024x88 */
-        uint64_t pqd_sram              : 1;  /**< [  7:  7](RO) PQ dropped stats - pko_pse_stats_srf32x88 */
-        uint64_t pqr_sram              : 1;  /**< [  6:  6](RO) PQ read stats - pko_pse_stats_srf32x88 */
-        uint64_t pqy_sram              : 1;  /**< [  5:  5](RO) PQ yellow stats - pko_pse_stats_srf32x88 */
-        uint64_t pqg_sram              : 1;  /**< [  4:  4](RO) PQ green stats - pko_pse_stats_srf32x88 */
-        uint64_t std_sram              : 1;  /**< [  3:  3](RO) Dynamic shaping state - pko_pse_std_srf32x105e */
-        uint64_t st_sram               : 1;  /**< [  2:  2](RO) Static shaping configuration - pko_pse_sts_srf32x74e */
+        uint64_t cxd_sram              : 1;  /**< [ 10: 10](RO) Dynamic channel state - pko_pse_cxd_srf32x31e. */
+        uint64_t dqd_sram              : 1;  /**< [  9:  9](RO) DQ dropped stats - pko_pse_stats_srf1024x88. */
+        uint64_t dqs_sram              : 1;  /**< [  8:  8](RO) DQ sent stats - pko_pse_stats_srf1024x88. */
+        uint64_t pqd_sram              : 1;  /**< [  7:  7](RO) PQ dropped stats - pko_pse_stats_srf32x88. */
+        uint64_t pqr_sram              : 1;  /**< [  6:  6](RO) PQ read stats - pko_pse_stats_srf32x88. */
+        uint64_t pqy_sram              : 1;  /**< [  5:  5](RO) PQ yellow stats - pko_pse_stats_srf32x88. */
+        uint64_t pqg_sram              : 1;  /**< [  4:  4](RO) PQ green stats - pko_pse_stats_srf32x88. */
+        uint64_t std_sram              : 1;  /**< [  3:  3](RO) Dynamic shaping state - pko_pse_std_srf32x105e. */
+        uint64_t st_sram               : 1;  /**< [  2:  2](RO) Static shaping configuration - pko_pse_sts_srf32x74e. */
         uint64_t reserved_1            : 1;
-        uint64_t cxs_sram              : 1;  /**< [  0:  0](RO) Static channel credit configuration - pko_pse_cx0_srf32x6e */
+        uint64_t cxs_sram              : 1;  /**< [  0:  0](RO) Static channel credit configuration - pko_pse_cx0_srf32x6e. */
 #else /* Word 0 - Little Endian */
-        uint64_t cxs_sram              : 1;  /**< [  0:  0](RO) Static channel credit configuration - pko_pse_cx0_srf32x6e */
+        uint64_t cxs_sram              : 1;  /**< [  0:  0](RO) Static channel credit configuration - pko_pse_cx0_srf32x6e. */
         uint64_t reserved_1            : 1;
-        uint64_t st_sram               : 1;  /**< [  2:  2](RO) Static shaping configuration - pko_pse_sts_srf32x74e */
-        uint64_t std_sram              : 1;  /**< [  3:  3](RO) Dynamic shaping state - pko_pse_std_srf32x105e */
-        uint64_t pqg_sram              : 1;  /**< [  4:  4](RO) PQ green stats - pko_pse_stats_srf32x88 */
-        uint64_t pqy_sram              : 1;  /**< [  5:  5](RO) PQ yellow stats - pko_pse_stats_srf32x88 */
-        uint64_t pqr_sram              : 1;  /**< [  6:  6](RO) PQ read stats - pko_pse_stats_srf32x88 */
-        uint64_t pqd_sram              : 1;  /**< [  7:  7](RO) PQ dropped stats - pko_pse_stats_srf32x88 */
-        uint64_t dqs_sram              : 1;  /**< [  8:  8](RO) DQ sent stats - pko_pse_stats_srf1024x88 */
-        uint64_t dqd_sram              : 1;  /**< [  9:  9](RO) DQ dropped stats - pko_pse_stats_srf1024x88 */
-        uint64_t cxd_sram              : 1;  /**< [ 10: 10](RO) Dynamic channel state - pko_pse_cxd_srf32x31e */
+        uint64_t st_sram               : 1;  /**< [  2:  2](RO) Static shaping configuration - pko_pse_sts_srf32x74e. */
+        uint64_t std_sram              : 1;  /**< [  3:  3](RO) Dynamic shaping state - pko_pse_std_srf32x105e. */
+        uint64_t pqg_sram              : 1;  /**< [  4:  4](RO) PQ green stats - pko_pse_stats_srf32x88. */
+        uint64_t pqy_sram              : 1;  /**< [  5:  5](RO) PQ yellow stats - pko_pse_stats_srf32x88. */
+        uint64_t pqr_sram              : 1;  /**< [  6:  6](RO) PQ read stats - pko_pse_stats_srf32x88. */
+        uint64_t pqd_sram              : 1;  /**< [  7:  7](RO) PQ dropped stats - pko_pse_stats_srf32x88. */
+        uint64_t dqs_sram              : 1;  /**< [  8:  8](RO) DQ sent stats - pko_pse_stats_srf1024x88. */
+        uint64_t dqd_sram              : 1;  /**< [  9:  9](RO) DQ dropped stats - pko_pse_stats_srf1024x88. */
+        uint64_t cxd_sram              : 1;  /**< [ 10: 10](RO) Dynamic channel state - pko_pse_cxd_srf32x31e. */
         uint64_t reserved_11           : 1;
-        uint64_t wmd_sram              : 1;  /**< [ 12: 12](RO) Dynamic watermark state - pko_pse_wmd_srf1024x49e */
+        uint64_t wmd_sram              : 1;  /**< [ 12: 12](RO) Dynamic watermark state - pko_pse_wmd_srf1024x49e. */
         uint64_t reserved_13           : 1;
-        uint64_t tp_sram               : 1;  /**< [ 14: 14](RO) Topology parent - pko_pse_pq_srf32x5e */
+        uint64_t tp_sram               : 1;  /**< [ 14: 14](RO) Topology parent - pko_pse_pq_srf32x5e. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
@@ -13193,47 +13234,47 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_29_63        : 35;
-        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) SQ[5:1] scheduling configuration */
-        uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e */
-        uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM */
-        uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array */
-        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e */
-        uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e */
+        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) SQ[5:1] scheduling configuration. */
+        uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e. */
+        uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM. */
+        uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array. */
+        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
         uint64_t reserved_20_22        : 3;
-        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration */
-        uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM */
-        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table */
+        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
+        uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM. */
+        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
         uint64_t reserved_9_16         : 8;
-        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM */
-        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state */
-        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration */
-        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM */
-        uint64_t cxd_sram              : 1;  /**< [  4:  4](RO) SQ[1] dynamic channel credit state */
-        uint64_t cxs_sram              : 1;  /**< [  3:  3](RO) SQ[1] static channel credit configuration */
-        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) SQ[5:1] next pointer table */
-        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) SQ[5:1] previous pointer table */
-        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) SQ[5:1] work table */
+        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM. */
+        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
+        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
+        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
+        uint64_t cxd_sram              : 1;  /**< [  4:  4](RO) SQ[1] dynamic channel credit state. */
+        uint64_t cxs_sram              : 1;  /**< [  3:  3](RO) SQ[1] static channel credit configuration. */
+        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) SQ[5:1] next pointer table. */
+        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) SQ[5:1] previous pointer table. */
+        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) SQ[5:1] work table. */
 #else /* Word 0 - Little Endian */
-        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) SQ[5:1] work table */
-        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) SQ[5:1] previous pointer table */
-        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) SQ[5:1] next pointer table */
-        uint64_t cxs_sram              : 1;  /**< [  3:  3](RO) SQ[1] static channel credit configuration */
-        uint64_t cxd_sram              : 1;  /**< [  4:  4](RO) SQ[1] dynamic channel credit state */
-        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM */
-        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration */
-        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state */
-        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM */
+        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) SQ[5:1] work table. */
+        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) SQ[5:1] previous pointer table. */
+        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) SQ[5:1] next pointer table. */
+        uint64_t cxs_sram              : 1;  /**< [  3:  3](RO) SQ[1] static channel credit configuration. */
+        uint64_t cxd_sram              : 1;  /**< [  4:  4](RO) SQ[1] dynamic channel credit state. */
+        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
+        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
+        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
+        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM. */
         uint64_t reserved_9_16         : 8;
-        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table */
-        uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM */
-        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration */
+        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
+        uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM. */
+        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
         uint64_t reserved_20_22        : 3;
-        uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e */
-        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e */
-        uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array */
-        uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM */
-        uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e */
-        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) SQ[5:1] scheduling configuration */
+        uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array. */
+        uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM. */
+        uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e. */
+        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) SQ[5:1] scheduling configuration. */
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
@@ -13241,49 +13282,49 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_29_63        : 35;
-        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) SQ[5:1] scheduling configuration */
-        uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e */
-        uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM */
-        uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array */
-        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e */
-        uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e */
+        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) SQ[5:1] scheduling configuration. */
+        uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e. */
+        uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM. */
+        uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array. */
+        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
         uint64_t reserved_20_22        : 3;
-        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration */
-        uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM */
-        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table */
+        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
+        uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM. */
+        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
         uint64_t reserved_15_16        : 2;
         uint64_t reserved_9_14         : 6;
-        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM */
-        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state */
-        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration */
-        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM */
-        uint64_t cxd_sram              : 1;  /**< [  4:  4](RO) SQ[1] dynamic channel credit state */
-        uint64_t cxs_sram              : 1;  /**< [  3:  3](RO) SQ[1] static channel credit configuration */
-        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) SQ[5:1] next pointer table */
-        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) SQ[5:1] previous pointer table */
-        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) SQ[5:1] work table */
+        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM. */
+        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
+        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
+        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
+        uint64_t cxd_sram              : 1;  /**< [  4:  4](RO) SQ[1] dynamic channel credit state. */
+        uint64_t cxs_sram              : 1;  /**< [  3:  3](RO) SQ[1] static channel credit configuration. */
+        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) SQ[5:1] next pointer table. */
+        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) SQ[5:1] previous pointer table. */
+        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) SQ[5:1] work table. */
 #else /* Word 0 - Little Endian */
-        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) SQ[5:1] work table */
-        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) SQ[5:1] previous pointer table */
-        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) SQ[5:1] next pointer table */
-        uint64_t cxs_sram              : 1;  /**< [  3:  3](RO) SQ[1] static channel credit configuration */
-        uint64_t cxd_sram              : 1;  /**< [  4:  4](RO) SQ[1] dynamic channel credit state */
-        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM */
-        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration */
-        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state */
-        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM */
+        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) SQ[5:1] work table. */
+        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) SQ[5:1] previous pointer table. */
+        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) SQ[5:1] next pointer table. */
+        uint64_t cxs_sram              : 1;  /**< [  3:  3](RO) SQ[1] static channel credit configuration. */
+        uint64_t cxd_sram              : 1;  /**< [  4:  4](RO) SQ[1] dynamic channel credit state. */
+        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
+        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
+        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
+        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM. */
         uint64_t reserved_9_14         : 6;
         uint64_t reserved_15_16        : 2;
-        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table */
-        uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM */
-        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration */
+        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
+        uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM. */
+        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
         uint64_t reserved_20_22        : 3;
-        uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e */
-        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e */
-        uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array */
-        uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM */
-        uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e */
-        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) SQ[5:1] scheduling configuration */
+        uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array. */
+        uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM. */
+        uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e. */
+        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) SQ[5:1] scheduling configuration. */
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } cn;
@@ -13849,7 +13890,7 @@ typedef union
         uint64_t reserved_18           : 1;
         uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
         uint64_t reserved_8_16         : 9;
-        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state */
+        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
         uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
         uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
         uint64_t reserved_3_4          : 2;
@@ -13863,7 +13904,7 @@ typedef union
         uint64_t reserved_3_4          : 2;
         uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
         uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
-        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state */
+        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
         uint64_t reserved_8_16         : 9;
         uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
         uint64_t reserved_18           : 1;
@@ -14332,33 +14373,33 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_29_63        : 35;
-        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) Scheduling configuration */
+        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) Scheduling configuration. */
         uint64_t reserved_20_27        : 8;
-        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration */
+        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
         uint64_t reserved_18           : 1;
-        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table */
+        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
         uint64_t reserved_8_16         : 9;
-        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state */
-        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration */
-        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM */
+        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
+        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
+        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
         uint64_t reserved_3_4          : 2;
-        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) Next pointer table */
-        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) Previous pointer table */
-        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) Work table */
+        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) Next pointer table. */
+        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) Previous pointer table. */
+        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) Work table. */
 #else /* Word 0 - Little Endian */
-        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) Work table */
-        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) Previous pointer table */
-        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) Next pointer table */
+        uint64_t wt_sram               : 1;  /**< [  0:  0](RO) Work table. */
+        uint64_t pt_sram               : 1;  /**< [  1:  1](RO) Previous pointer table. */
+        uint64_t nt_sram               : 1;  /**< [  2:  2](RO) Next pointer table. */
         uint64_t reserved_3_4          : 2;
-        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM */
-        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration */
-        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state */
+        uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
+        uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
+        uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
         uint64_t reserved_8_16         : 9;
-        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table */
+        uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
         uint64_t reserved_18           : 1;
-        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration */
+        uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
         uint64_t reserved_20_27        : 8;
-        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) Scheduling configuration */
+        uint64_t sc_sram               : 1;  /**< [ 28: 28](RO) Scheduling configuration. */
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
@@ -14869,19 +14910,19 @@ typedef union
     struct bdk_pko_ptf_iobp_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_44_63        : 20;
-        uint64_t iobp1_ds_opt          : 1;  /**< [ 43: 43](R/W) Optimize IOBP1 requests when data is to be dropped (NULL, RED, SEND_HDR_S[DS]=1). */
-        uint64_t iobp0_l2_allocate     : 1;  /**< [ 42: 42](R/W) Determine L2 allocation (1 = no allocation = LDT, 0 = allocation = LDD) when reading
-                                                                 post-PKO_SEND_JUMP descriptors via IOBP0 requests. */
-        uint64_t iobp1_magic_addr      : 35; /**< [ 41:  7](R/W) IOBP1 read address to be used for any dummy reads */
+        uint64_t reserved_51_63        : 13;
+        uint64_t iobp1_ds_opt          : 1;  /**< [ 50: 50](R/W) Optimize IOBP1 requests when data is to be dropped (NULL, RED, SEND_HDR_S[DS]=1). */
+        uint64_t iobp0_l2_allocate     : 1;  /**< [ 49: 49](R/W) Determine L2 allocation (1 = no allocation = LDT, 0 = allocation = LDD) when reading
+                                                                 post-PKO_SEND_JUMP_s descriptors via IOBP0 requests. */
+        uint64_t iobp1_magic_addr      : 42; /**< [ 48:  7](R/W) IOBP1 read address to be used for any dummy reads */
         uint64_t max_read_size         : 7;  /**< [  6:  0](R/W) Maximum number of IOBP1 read requests outstanding to be allowed by any given PEB TX FIFO. */
 #else /* Word 0 - Little Endian */
         uint64_t max_read_size         : 7;  /**< [  6:  0](R/W) Maximum number of IOBP1 read requests outstanding to be allowed by any given PEB TX FIFO. */
-        uint64_t iobp1_magic_addr      : 35; /**< [ 41:  7](R/W) IOBP1 read address to be used for any dummy reads */
-        uint64_t iobp0_l2_allocate     : 1;  /**< [ 42: 42](R/W) Determine L2 allocation (1 = no allocation = LDT, 0 = allocation = LDD) when reading
-                                                                 post-PKO_SEND_JUMP descriptors via IOBP0 requests. */
-        uint64_t iobp1_ds_opt          : 1;  /**< [ 43: 43](R/W) Optimize IOBP1 requests when data is to be dropped (NULL, RED, SEND_HDR_S[DS]=1). */
-        uint64_t reserved_44_63        : 20;
+        uint64_t iobp1_magic_addr      : 42; /**< [ 48:  7](R/W) IOBP1 read address to be used for any dummy reads */
+        uint64_t iobp0_l2_allocate     : 1;  /**< [ 49: 49](R/W) Determine L2 allocation (1 = no allocation = LDT, 0 = allocation = LDD) when reading
+                                                                 post-PKO_SEND_JUMP_s descriptors via IOBP0 requests. */
+        uint64_t iobp1_ds_opt          : 1;  /**< [ 50: 50](R/W) Optimize IOBP1 requests when data is to be dropped (NULL, RED, SEND_HDR_S[DS]=1). */
+        uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_ptf_iobp_cfg_s cn; */
@@ -14919,7 +14960,7 @@ static inline uint64_t BDK_PKO_PTF_IOBP_CFG_FUNC(void)
  *   PKO_PTGF1_CFG      4,  5,  6,  7
  *   PKO_PTGF2_CFG      8,  9, 10, 11
  *   PKO_PTGF3_CFG     12, 13, 14, 15
- *   PKO_PTGF4_CFG     16, 16, 18, 19
+ *   PKO_PTGF4_CFG     16, 17, 18, 19
  *   PKO_PTGF5_CFG      Virtual/NULL
  * </pre>
  */
@@ -14948,21 +14989,21 @@ typedef union
                                                                  0x3 = up to  50    Gbit/sec (i.e. up to 48 inflight packets)
 
                                                                  [RATE] applies to all FIFO groups including the NULL. */
-        uint64_t size                  : 3;  /**< [  2:  0](R/W) Determines the size and availability of the FIFO's in the FIFO group.
-                                                                 10KB total storage is available to the FIFO group. Two or
+        uint64_t size                  : 3;  /**< [  2:  0](R/W) Determines the size and availability of the FIFOs in the FIFO group.
+                                                                 10 KB total storage is available to the FIFO group. Two or
                                                                  four FIFOs can be combined to produce a larger FIFO if desired.
 
                                                                  The supported SIZE values:
 
                                                                  <pre>
-                                                                           FIFO0   FIFO1   FIFO2   FIFO3
-                                                                    SIZE   Size    Size    Size    Size
+                                                                           FIFO0    FIFO1    FIFO2    FIFO3
+                                                                    SIZE   Size     Size     Size     Size
                                                                    --------------------------------------
-                                                                     0     2.5KB   2.5KB   2.5KB   2.5KB
-                                                                     1     5.0KB    N/A    2.5KB   2.5KB
-                                                                     2     2.5KB   2.5KB   5.0KB    N/A
-                                                                     3     5.0KB    N/A    5.0KB    N/A
-                                                                     4    10.0KB    N/A     N/A     N/A
+                                                                     0     2.5 KB   2.5 KB   2.5 KB   2.5 KB
+                                                                     1     5.0 KB    N/A     2.5 KB   2.5 KB
+                                                                     2     2.5 KB   2.5 KB   5.0 KB    N/A
+                                                                     3     5.0 KB    N/A     5.0 KB    N/A
+                                                                     4    10.0 KB    N/A      N/A      N/A
                                                                  </pre>
 
                                                                  Note: 5-7 are illegal SIZE values and should not be used.
@@ -14983,24 +15024,24 @@ typedef union
                                                                  of zero. (The NULL FIFO has no real storage, and the SIZE table
                                                                  above does not apply to the NULL FIFO.)
 
-                                                                 A FIFO of size 2.5kB cannot be configured to have a RATE>25GBs.
-                                                                 A FIFO of size 5.0kB cannot be configured to have a RATE>50GBs. */
+                                                                 A FIFO of size 2.5 KB cannot be configured to have a [RATE] > 25 GBs.
+                                                                 A FIFO of size 5.0 KB cannot be configured to have a [RATE] > 50 GBs. */
 #else /* Word 0 - Little Endian */
-        uint64_t size                  : 3;  /**< [  2:  0](R/W) Determines the size and availability of the FIFO's in the FIFO group.
-                                                                 10KB total storage is available to the FIFO group. Two or
+        uint64_t size                  : 3;  /**< [  2:  0](R/W) Determines the size and availability of the FIFOs in the FIFO group.
+                                                                 10 KB total storage is available to the FIFO group. Two or
                                                                  four FIFOs can be combined to produce a larger FIFO if desired.
 
                                                                  The supported SIZE values:
 
                                                                  <pre>
-                                                                           FIFO0   FIFO1   FIFO2   FIFO3
-                                                                    SIZE   Size    Size    Size    Size
+                                                                           FIFO0    FIFO1    FIFO2    FIFO3
+                                                                    SIZE   Size     Size     Size     Size
                                                                    --------------------------------------
-                                                                     0     2.5KB   2.5KB   2.5KB   2.5KB
-                                                                     1     5.0KB    N/A    2.5KB   2.5KB
-                                                                     2     2.5KB   2.5KB   5.0KB    N/A
-                                                                     3     5.0KB    N/A    5.0KB    N/A
-                                                                     4    10.0KB    N/A     N/A     N/A
+                                                                     0     2.5 KB   2.5 KB   2.5 KB   2.5 KB
+                                                                     1     5.0 KB    N/A     2.5 KB   2.5 KB
+                                                                     2     2.5 KB   2.5 KB   5.0 KB    N/A
+                                                                     3     5.0 KB    N/A     5.0 KB    N/A
+                                                                     4    10.0 KB    N/A      N/A      N/A
                                                                  </pre>
 
                                                                  Note: 5-7 are illegal SIZE values and should not be used.
@@ -15021,8 +15062,8 @@ typedef union
                                                                  of zero. (The NULL FIFO has no real storage, and the SIZE table
                                                                  above does not apply to the NULL FIFO.)
 
-                                                                 A FIFO of size 2.5kB cannot be configured to have a RATE>25GBs.
-                                                                 A FIFO of size 5.0kB cannot be configured to have a RATE>50GBs. */
+                                                                 A FIFO of size 2.5 KB cannot be configured to have a [RATE] > 25 GBs.
+                                                                 A FIFO of size 5.0 KB cannot be configured to have a [RATE] > 50 GBs. */
         uint64_t rate                  : 2;  /**< [  4:  3](R/W) The rate / number of inflight packets allowed for the FIFO's in this group.
                                                                  An individual FIFO can support up to 50 Gbit/sec (i.e. up to 48 inflight packets).
                                                                  The total aggregate rate across all FIFOs (including the NULL) should never exceed
@@ -15075,7 +15116,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t color_aware           : 1;  /**< [  1:  1](R/W) Color aware. Selects whether or not the PSE shapers take into account
-                                                                 the color of the incoming packet.  0: color blind, 1: color aware */
+                                                                 the color of the incoming packet.
+                                                                 0 = Color blind.
+                                                                 1 = Color aware. */
         uint64_t red_send_as_yellow    : 1;  /**< [  0:  0](R/W) RED_SEND as YELLOW. Configures the way packets colored RED_SEND are
                                                                  handled by the DQ through L2 shapers when operating in COLOR_AWARE mode.
                                                                  Normally packets colored RED_DROP do not decrement the PIR in DQ through
@@ -15104,7 +15147,9 @@ typedef union
                                                                  RED_SEND packets are always treated the same as YELLOW is in the L1 shapers,
                                                                  irrespective of [RED_SEND_AS_YELLOW]. */
         uint64_t color_aware           : 1;  /**< [  1:  1](R/W) Color aware. Selects whether or not the PSE shapers take into account
-                                                                 the color of the incoming packet.  0: color blind, 1: color aware */
+                                                                 the color of the incoming packet.
+                                                                 0 = Color blind.
+                                                                 1 = Color aware. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -15293,8 +15338,8 @@ typedef union
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
-                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]'s
-                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]'s in
+                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]
+                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
                                                                       1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -15315,8 +15360,8 @@ typedef union
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
-                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]'s
-                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]'s in
+                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]
+                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
                                                                       1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -15375,8 +15420,8 @@ typedef union
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
-                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]'s
-                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]'s in
+                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]
+                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
                                                                       1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -15397,8 +15442,8 @@ typedef union
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
-                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]'s
-                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]'s in
+                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]
+                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
                                                                       1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -15456,8 +15501,8 @@ typedef union
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
-                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]'s
-                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]'s in
+                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]
+                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
                                                                       1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -15478,8 +15523,8 @@ typedef union
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
-                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]'s
-                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]'s in
+                                                                                           which is the sum of the PKO_META_DESC_S[LENGTH]
+                                                                                           stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
                                                                       1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -15705,7 +15750,7 @@ typedef union
         uint64_t reserved_52_63        : 12;
         uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response.  Specifies what value is returned in the
                                                                  PKO_QUERY_RTN_S[DEPTH] field.  When set to '0', the value held in
-                                                                 PKO_DQ()_WM_CNT[COUNT] is returned.  When set to '1 the value held
+                                                                 PKO_DQ()_WM_CNT[COUNT] is returned.  When set to '1' the value held
                                                                  in PKO_DQ()_WM_BUF_CNT[COUNT] is returned. */
         uint64_t enable                : 1;  /**< [ 50: 50](RAZ) Reserved. */
         uint64_t kind                  : 1;  /**< [ 49: 49](R/W) Selects the contents of PKO_DQ()_WM_CNT[COUNT].
@@ -15726,7 +15771,7 @@ typedef union
         uint64_t enable                : 1;  /**< [ 50: 50](RAZ) Reserved. */
         uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response.  Specifies what value is returned in the
                                                                  PKO_QUERY_RTN_S[DEPTH] field.  When set to '0', the value held in
-                                                                 PKO_DQ()_WM_CNT[COUNT] is returned.  When set to '1 the value held
+                                                                 PKO_DQ()_WM_CNT[COUNT] is returned.  When set to '1' the value held
                                                                  in PKO_DQ()_WM_BUF_CNT[COUNT] is returned. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */

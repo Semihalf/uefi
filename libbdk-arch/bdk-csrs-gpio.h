@@ -174,7 +174,7 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_PBUS_ADX(a) (0xfa + (a)) /**< This is a bi-directional bus. see See Chapter BOOT BUS. FIXME this needs more text. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_ADX(a) (0xfa + (a)) /**< This is a bi-directional bus. see PBUS chapter. */
 #define BDK_GPIO_PIN_SEL_E_PBUS_ALEX(a) (0xe8 + (a)) /**< PBUS_ALE output; see See Chapter BOOT BUS. */
 #define BDK_GPIO_PIN_SEL_E_PBUS_CE_NX(a) (0xec + (a)) /**< PBUS_CE_N output; see See Chapter BOOT BUS. */
 #define BDK_GPIO_PIN_SEL_E_PBUS_CLE (0xe0) /**< PBUS_CLE output; see See Chapter BOOT BUS. */
@@ -184,9 +184,9 @@
 #define BDK_GPIO_PIN_SEL_E_PBUS_OE_N (0xe3) /**< PBUS_OE_N output; see See Chapter BOOT BUS. */
 #define BDK_GPIO_PIN_SEL_E_PBUS_WAIT_N (0xe1) /**< PBUS_WAIT_N input; see See Chapter BOOT BUS. */
 #define BDK_GPIO_PIN_SEL_E_PBUS_WE_N (0xe2) /**< PBUS_WE_N output; see See Chapter BOOT BUS. */
-#define BDK_GPIO_PIN_SEL_E_PCM_BCLKX(a) (0x246 + (a)) /**< PCM BCLK output; see TDM/PCM chapter. */
-#define BDK_GPIO_PIN_SEL_E_PCM_DATAX(a) (0x24c + (a)) /**< PCM DATA output; see TDM/PCM chapter. */
-#define BDK_GPIO_PIN_SEL_E_PCM_FSYNCX(a) (0x24a + (a)) /**< PCM FSYNC output; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_BCLKX(a) (0x246 + (a)) /**< PCM BCLK is a bi-directional bus; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_DATAX(a) (0x24c + (a)) /**< PCM DATA is a bi-directional bus; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_FSYNCX(a) (0x24a + (a)) /**< PCM FSYNC is a bi-directional bus; see TDM/PCM chapter. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN81XX(a) (0x16a + (a)) /**< SATA activity LED output; see SATA chapter. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN88XX(a) (0x60 + (a)) /**< SATA activity LED output; see SATA chapter. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN83XX(a) (0x16a + (a)) /**< SATA activity LED output; see SATA chapter. */

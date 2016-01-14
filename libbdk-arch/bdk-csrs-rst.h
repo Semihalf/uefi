@@ -278,7 +278,9 @@ typedef union
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
-        uint64_t reserved_24_29        : 6;
+        uint64_t reserved_26_29        : 4;
+        uint64_t lboot_ckill           : 1;  /**< [ 25: 25](R/W1C/H) Last boot cause was chip kill timer expiring.  See RST_BOOT[CHIPKILL]. */
+        uint64_t lboot_jtg             : 1;  /**< [ 24: 24](R/W1C/H) Last boot cause was write to JTG reset. */
         uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Last boot cause mask for PEM5 and PEM4; resets only with PLL_DC_OK.
                                                                  <23> = Warm reset due to Cntl5 link-down or hot-reset.
                                                                  <22> = Warm reset due to Cntl4 link-down or hot-reset.
@@ -340,7 +342,9 @@ typedef union
                                                                  <20> = Cntl4 reset due to PERST4_L pin.
                                                                  <19> = Warm reset due to PERST5_L pin.
                                                                  <18> = Warm reset due to PERST4_L pin. */
-        uint64_t reserved_24_29        : 6;
+        uint64_t lboot_jtg             : 1;  /**< [ 24: 24](R/W1C/H) Last boot cause was write to JTG reset. */
+        uint64_t lboot_ckill           : 1;  /**< [ 25: 25](R/W1C/H) Last boot cause was chip kill timer expiring.  See RST_BOOT[CHIPKILL]. */
+        uint64_t reserved_26_29        : 4;
         uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved.
                                                                  Internal:
                                                                  Last boot cause mask for CCPI; resets only with PLL_DC_OK.
@@ -440,7 +444,9 @@ typedef union
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
-        uint64_t reserved_24_29        : 6;
+        uint64_t reserved_26_29        : 4;
+        uint64_t lboot_ckill           : 1;  /**< [ 25: 25](R/W1C/H) Last boot cause was chip kill timer expiring.  See RST_BOOT[CHIPKILL]. */
+        uint64_t lboot_jtg             : 1;  /**< [ 24: 24](R/W1C/H) Last boot cause was write to JTG reset. */
         uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Reserved. */
         uint64_t lboot_ext23           : 6;  /**< [ 17: 12](R/W1C/H) Last boot cause mask for PEM2; resets only with PLL_DC_OK.
                                                                  <17> = Reserved
@@ -490,7 +496,9 @@ typedef union
                                                                  <13> = Reserved
                                                                  <12> = Warm reset due to PERST2_L pin. */
         uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Reserved. */
-        uint64_t reserved_24_29        : 6;
+        uint64_t lboot_jtg             : 1;  /**< [ 24: 24](R/W1C/H) Last boot cause was write to JTG reset. */
+        uint64_t lboot_ckill           : 1;  /**< [ 25: 25](R/W1C/H) Last boot cause was chip kill timer expiring.  See RST_BOOT[CHIPKILL]. */
+        uint64_t reserved_26_29        : 4;
         uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved.
                                                                  Internal:
                                                                  Last boot cause mask for CCPI; resets only with PLL_DC_OK.
@@ -589,7 +597,8 @@ typedef union
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
-        uint64_t reserved_24_29        : 6;
+        uint64_t reserved_26_29        : 4;
+        uint64_t reserved_24_25        : 2;
         uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Last boot cause mask for PEM5 and PEM4; resets only with PLL_DC_OK.
                                                                  <23> = Warm reset due to Cntl5 link-down or hot-reset.
                                                                  <22> = Warm reset due to Cntl4 link-down or hot-reset.
@@ -651,7 +660,8 @@ typedef union
                                                                  <20> = Cntl4 reset due to PERST4_L pin.
                                                                  <19> = Warm reset due to PERST5_L pin.
                                                                  <18> = Warm reset due to PERST4_L pin. */
-        uint64_t reserved_24_29        : 6;
+        uint64_t reserved_24_25        : 2;
+        uint64_t reserved_26_29        : 4;
         uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Last boot cause mask for CCPI; resets only with PLL_DC_OK.
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
@@ -751,7 +761,9 @@ typedef union
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
-        uint64_t reserved_24_29        : 6;
+        uint64_t reserved_26_29        : 4;
+        uint64_t lboot_ckill           : 1;  /**< [ 25: 25](R/W1C/H) Last boot cause was chip kill timer expiring.  See RST_BOOT[CHIPKILL]. */
+        uint64_t lboot_jtg             : 1;  /**< [ 24: 24](R/W1C/H) Last boot cause was write to JTG reset. */
         uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Reserved. */
         uint64_t lboot_ext23           : 6;  /**< [ 17: 12](R/W1C/H) Last boot cause mask for PEM3 and PEM2; resets only with PLL_DC_OK.
                                                                  <17> = Warm reset due to Cntl3 link-down or hot-reset.
@@ -801,7 +813,9 @@ typedef union
                                                                  <13> = Warm reset due to PERST3_L pin.
                                                                  <12> = Warm reset due to PERST2_L pin. */
         uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Reserved. */
-        uint64_t reserved_24_29        : 6;
+        uint64_t lboot_jtg             : 1;  /**< [ 24: 24](R/W1C/H) Last boot cause was write to JTG reset. */
+        uint64_t lboot_ckill           : 1;  /**< [ 25: 25](R/W1C/H) Last boot cause was chip kill timer expiring.  See RST_BOOT[CHIPKILL]. */
+        uint64_t reserved_26_29        : 4;
         uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved.
                                                                  Internal:
                                                                  Last boot cause mask for CCPI; resets only with PLL_DC_OK.

@@ -287,7 +287,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
         uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](R/W) When set, LMC perform loopback pattern check on a byte. The selection of the byte is
-                                                                 controlled by the LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
+                                                                 controlled by LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
         uint64_t dq_char_check_lock    : 1;  /**< [ 52: 52](RO/H) Indicates if a lock has been achieved. Is set to 1 only if a lock is achieved during the
                                                                  LFSR priming period after DQ_CHAR_CHECK_ENABLE is set to 1, and is forced back to 0 when
                                                                  DQ_CHAR_CHECK_ENABLE is set to 0. */
@@ -316,7 +316,7 @@ typedef union
                                                                  LFSR priming period after DQ_CHAR_CHECK_ENABLE is set to 1, and is forced back to 0 when
                                                                  DQ_CHAR_CHECK_ENABLE is set to 0. */
         uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](R/W) When set, LMC perform loopback pattern check on a byte. The selection of the byte is
-                                                                 controlled by the LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
+                                                                 controlled by LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
@@ -357,44 +357,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_lmcx_char_ctl_s cn81xx; */
-    struct bdk_lmcx_char_ctl_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](R/W) When set, LMC perform loopback pattern check on a byte. The selection of the byte is
-                                                                 controlled by LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
-        uint64_t dq_char_check_lock    : 1;  /**< [ 52: 52](RO/H) Indicates if a lock has been achieved. Is set to 1 only if a lock is achieved during the
-                                                                 LFSR priming period after DQ_CHAR_CHECK_ENABLE is set to 1, and is forced back to 0 when
-                                                                 DQ_CHAR_CHECK_ENABLE is set to 0. */
-        uint64_t dq_char_check_enable  : 1;  /**< [ 51: 51](R/W) Enable DQ pattern check. The transition from disabled to enabled clears
-                                                                 LMC()_CHAR_DQ_ERR_COUNT. */
-        uint64_t dq_char_bit_sel       : 3;  /**< [ 50: 48](R/W) Select a bit within the byte for DQ characterization pattern check. */
-        uint64_t dq_char_byte_sel      : 4;  /**< [ 47: 44](R/W) Select a byte of data for DQ characterization pattern check. */
-        uint64_t dr                    : 1;  /**< [ 43: 43](R/W) Pattern at data rate (not clock rate). */
-        uint64_t skew_on               : 1;  /**< [ 42: 42](R/W) Skew adjacent bits. */
-        uint64_t en                    : 1;  /**< [ 41: 41](R/W) Enable characterization. */
-        uint64_t sel                   : 1;  /**< [ 40: 40](R/W) Pattern select: 0 = PRBS, 1 = programmable pattern. */
-        uint64_t prog                  : 8;  /**< [ 39: 32](R/W) Programmable pattern. */
-        uint64_t prbs                  : 32; /**< [ 31:  0](R/W) PRBS polynomial. */
-#else /* Word 0 - Little Endian */
-        uint64_t prbs                  : 32; /**< [ 31:  0](R/W) PRBS polynomial. */
-        uint64_t prog                  : 8;  /**< [ 39: 32](R/W) Programmable pattern. */
-        uint64_t sel                   : 1;  /**< [ 40: 40](R/W) Pattern select: 0 = PRBS, 1 = programmable pattern. */
-        uint64_t en                    : 1;  /**< [ 41: 41](R/W) Enable characterization. */
-        uint64_t skew_on               : 1;  /**< [ 42: 42](R/W) Skew adjacent bits. */
-        uint64_t dr                    : 1;  /**< [ 43: 43](R/W) Pattern at data rate (not clock rate). */
-        uint64_t dq_char_byte_sel      : 4;  /**< [ 47: 44](R/W) Select a byte of data for DQ characterization pattern check. */
-        uint64_t dq_char_bit_sel       : 3;  /**< [ 50: 48](R/W) Select a bit within the byte for DQ characterization pattern check. */
-        uint64_t dq_char_check_enable  : 1;  /**< [ 51: 51](R/W) Enable DQ pattern check. The transition from disabled to enabled clears
-                                                                 LMC()_CHAR_DQ_ERR_COUNT. */
-        uint64_t dq_char_check_lock    : 1;  /**< [ 52: 52](RO/H) Indicates if a lock has been achieved. Is set to 1 only if a lock is achieved during the
-                                                                 LFSR priming period after DQ_CHAR_CHECK_ENABLE is set to 1, and is forced back to 0 when
-                                                                 DQ_CHAR_CHECK_ENABLE is set to 0. */
-        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](R/W) When set, LMC perform loopback pattern check on a byte. The selection of the byte is
-                                                                 controlled by LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
-        uint64_t reserved_54_63        : 10;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_lmcx_char_ctl_s cn83xx; */
     struct bdk_lmcx_char_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

@@ -893,7 +893,7 @@ static inline uint64_t BDK_TIM_INT_ECCERR_FUNC(void)
 /**
  * Register (NCB) tim_int_eccerr_ena_w1c
  *
- * TIM Interrupt Enable Clear Register
+ * TIM ECC Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -937,7 +937,7 @@ static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) tim_int_eccerr_ena_w1s
  *
- * TIM Interrupt Enable Set Register
+ * TIM ECC Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -981,7 +981,7 @@ static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) tim_int_eccerr_w1s
  *
- * TIM Interrupt Set Register
+ * TIM ECC Error Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union

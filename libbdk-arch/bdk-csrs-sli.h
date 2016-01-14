@@ -546,6 +546,143 @@ static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a)
 #define arguments_BDK_SLIX_END_MERGE(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) sli#_lmac_const0#
+ *
+ * SLI Logical MAC Capabilities Register 0
+ * These registers along with SLI()_LMAC_CONST1() create a table of logical MAC
+ * capabilities.  Each entry is 128 bits, with half the information in SLI()_LMAC_CONST0()
+ * and half in SLI()_LMAC_CONST1().
+ * The list ends with an entry where [V] is clear.
+ *
+ * Internal:
+ * For CN81XX the table is as follows:
+ * * SLI(0)_LMAC_CONST0/1(0) [ V=1 EP=0 IFTY=0 IFN=0 MAC=0 PF=0 EPF=0 VFS=0  RINGS=0  ].
+ * * SLI(0)_LMAC_CONST0/1(1) [ V=1 EP=0 IFTY=0 IFN=1 MAC=1 PF=0 EPF=1 VFS=0  RINGS=0  ].
+ * * SLI(0)_LMAC_CONST0/1(2) [ V=1 EP=0 IFTY=0 IFN=2 MAC=2 PF=0 EPF=2 VFS=0  RINGS=0  ].
+ * * SLI(0)_LMAC_CONST0/1(3) [ V=0 ].
+ *
+ * For CN83XX the table is as follows:
+ * * SLI(0)_LMAC_CONST0/1(0) [ V=1 EP=1 IFTY=0 IFN=0 MAC=0 PF=0 EPF=0 VFS=64 RINGS=64 ].
+ * * SLI(0)_LMAC_CONST0/1(1) [ V=1 EP=1 IFTY=0 IFN=1 MAC=1 PF=0 EPF=2 VFS=0  RINGS=0  ].
+ * * SLI(0)_LMAC_CONST0/1(2) [ V=1 EP=1 IFTY=0 IFN=2 MAC=2 PF=0 EPF=1 VFS=64 RINGS=64 ].
+ * * SLI(0)_LMAC_CONST0/1(3) [ V=1 EP=1 IFTY=0 IFN=3 MAC=3 PF=0 EPF=3 VFS=0  RINGS=0  ].
+ * * SLI(0)_LMAC_CONST0/1(4) [ V=0 ].
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_slix_lmac_const0x_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t epf                   : 8;  /**< [ 39: 32](RO) EPF number. Indicates the index number to EPF registers, e.g. the second index
+                                                                 of SDP()_EPF()_MBOX_RINT. */
+        uint64_t pf                    : 8;  /**< [ 31: 24](RO) Physical function number. Indicates the PF number as viewed from the external
+                                                                 PCI bus. */
+        uint64_t mac                   : 8;  /**< [ 23: 16](RO) Relative MAC number. Indicates the index number to MAC registers, e.g. the
+                                                                 second index of SLI()_S2M_MAC()_CTL. */
+        uint64_t ifn                   : 8;  /**< [ 15:  8](RO) Interface number. Indicates the physical PEM number. */
+        uint64_t ifty                  : 4;  /**< [  7:  4](RO) Interface type.
+                                                                 0x0 = PEM. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t ep                    : 1;  /**< [  1:  1](RO) Endpoint.
+                                                                 0 = This MAC/PF does not support endpoint mode; many registers are not
+                                                                 implemented including input and output ring-based registers. MSI-X message
+                                                                 generation is also not implemented.
+                                                                 1 = This MAC/PF combination supports endpoint mode. */
+        uint64_t v                     : 1;  /**< [  0:  0](RO) Valid entry.
+                                                                 0 = Fields in this register will all be zero. This ends the list of capabilties.
+                                                                 1 = Fields are valid. There will be at least one subsequent list entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t v                     : 1;  /**< [  0:  0](RO) Valid entry.
+                                                                 0 = Fields in this register will all be zero. This ends the list of capabilties.
+                                                                 1 = Fields are valid. There will be at least one subsequent list entry. */
+        uint64_t ep                    : 1;  /**< [  1:  1](RO) Endpoint.
+                                                                 0 = This MAC/PF does not support endpoint mode; many registers are not
+                                                                 implemented including input and output ring-based registers. MSI-X message
+                                                                 generation is also not implemented.
+                                                                 1 = This MAC/PF combination supports endpoint mode. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t ifty                  : 4;  /**< [  7:  4](RO) Interface type.
+                                                                 0x0 = PEM. */
+        uint64_t ifn                   : 8;  /**< [ 15:  8](RO) Interface number. Indicates the physical PEM number. */
+        uint64_t mac                   : 8;  /**< [ 23: 16](RO) Relative MAC number. Indicates the index number to MAC registers, e.g. the
+                                                                 second index of SLI()_S2M_MAC()_CTL. */
+        uint64_t pf                    : 8;  /**< [ 31: 24](RO) Physical function number. Indicates the PF number as viewed from the external
+                                                                 PCI bus. */
+        uint64_t epf                   : 8;  /**< [ 39: 32](RO) EPF number. Indicates the index number to EPF registers, e.g. the second index
+                                                                 of SDP()_EPF()_MBOX_RINT. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_slix_lmac_const0x_s cn; */
+} bdk_slix_lmac_const0x_t;
+
+static inline uint64_t BDK_SLIX_LMAC_CONST0X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SLIX_LMAC_CONST0X(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=4)))
+        return 0x874001004000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("SLIX_LMAC_CONST0X", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_SLIX_LMAC_CONST0X(a,b) bdk_slix_lmac_const0x_t
+#define bustype_BDK_SLIX_LMAC_CONST0X(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_SLIX_LMAC_CONST0X(a,b) "SLIX_LMAC_CONST0X"
+#define device_bar_BDK_SLIX_LMAC_CONST0X(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SLIX_LMAC_CONST0X(a,b) (a)
+#define arguments_BDK_SLIX_LMAC_CONST0X(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) sli#_lmac_const1#
+ *
+ * SLI Logical MAC Capabilities Register 1
+ * See SLI()_LMAC_CONST0().
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_slix_lmac_const1x_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rings                 : 16; /**< [ 31: 16](RO) Number of rings.
+                                                                 If [EP] is set then this field indicates the number of rings assigned
+                                                                 to the physical function (which can also be shared with its associated
+                                                                 virtual functions by means of the SLI()_EPF()_RINFO register.)
+                                                                 If [EP] is clear then this field will be zero. */
+        uint64_t vfs                   : 16; /**< [ 15:  0](RO) Number of virtual functions.
+                                                                 The maximum number that may be programmed into SLI()_S2M_REG()_ACC2[VF]. */
+#else /* Word 0 - Little Endian */
+        uint64_t vfs                   : 16; /**< [ 15:  0](RO) Number of virtual functions.
+                                                                 The maximum number that may be programmed into SLI()_S2M_REG()_ACC2[VF]. */
+        uint64_t rings                 : 16; /**< [ 31: 16](RO) Number of rings.
+                                                                 If [EP] is set then this field indicates the number of rings assigned
+                                                                 to the physical function (which can also be shared with its associated
+                                                                 virtual functions by means of the SLI()_EPF()_RINFO register.)
+                                                                 If [EP] is clear then this field will be zero. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_slix_lmac_const1x_s cn; */
+} bdk_slix_lmac_const1x_t;
+
+static inline uint64_t BDK_SLIX_LMAC_CONST1X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SLIX_LMAC_CONST1X(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=4)))
+        return 0x874001004008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("SLIX_LMAC_CONST1X", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_SLIX_LMAC_CONST1X(a,b) bdk_slix_lmac_const1x_t
+#define bustype_BDK_SLIX_LMAC_CONST1X(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_SLIX_LMAC_CONST1X(a,b) "SLIX_LMAC_CONST1X"
+#define device_bar_BDK_SLIX_LMAC_CONST1X(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SLIX_LMAC_CONST1X(a,b) (a)
+#define arguments_BDK_SLIX_LMAC_CONST1X(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) sli#_m2s_mac#_ctl
  *
  * SLI Control Port Registers

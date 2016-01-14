@@ -94,9 +94,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t dat                   : 1;  /**< [  0:  0](RO) BIST result of the Data FIFO RAM. */
+        uint64_t dat                   : 1;  /**< [  0:  0](RO) BIST result of the data FIFO RAM. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 1;  /**< [  0:  0](RO) BIST result of the Data FIFO RAM. */
+        uint64_t dat                   : 1;  /**< [  0:  0](RO) BIST result of the data FIFO RAM. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -351,12 +351,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t dat_flip              : 2;  /**< [  2:  1](R/W) Testing feature. Flip syndrome bits <1:0> on writes to the Data FIFO RAM to test
+        uint64_t dat_flip              : 2;  /**< [  2:  1](R/W) Testing feature. Flip syndrome bits <1:0> on writes to the data FIFO RAM to test
                                                                  single-bit or double-bit errors. */
-        uint64_t dat_cdis              : 1;  /**< [  0:  0](R/W) Disable ECC corrector on Data FIFO RAM outputs. */
+        uint64_t dat_cdis              : 1;  /**< [  0:  0](R/W) Disable ECC corrector on data FIFO RAM outputs. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat_cdis              : 1;  /**< [  0:  0](R/W) Disable ECC corrector on Data FIFO RAM outputs. */
-        uint64_t dat_flip              : 2;  /**< [  2:  1](R/W) Testing feature. Flip syndrome bits <1:0> on writes to the Data FIFO RAM to test
+        uint64_t dat_cdis              : 1;  /**< [  0:  0](R/W) Disable ECC corrector on data FIFO RAM outputs. */
+        uint64_t dat_flip              : 2;  /**< [  2:  1](R/W) Testing feature. Flip syndrome bits <1:0> on writes to the data FIFO RAM to test
                                                                  single-bit or double-bit errors. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
@@ -395,15 +395,15 @@ typedef union
         uint64_t reserved_6_63         : 58;
         uint64_t chan_oflow            : 1;  /**< [  5:  5](R/W1C/H) Internal assertion, packet channel credit FIFO had an overflow. */
         uint64_t chan_uflow            : 1;  /**< [  4:  4](R/W1C/H) Internal assertion, packet channel credit FIFO had an underflow. */
-        uint64_t dat_oflow             : 1;  /**< [  3:  3](R/W1C/H) Internal assertion, packet Data FIFO had an overflow. */
-        uint64_t dat_uflow             : 1;  /**< [  2:  2](R/W1C/H) Internal assertion, packet Data FIFO had an underflow. */
+        uint64_t dat_oflow             : 1;  /**< [  3:  3](R/W1C/H) Internal assertion, packet data FIFO had an overflow. */
+        uint64_t dat_uflow             : 1;  /**< [  2:  2](R/W1C/H) Internal assertion, packet data FIFO had an underflow. */
         uint64_t dat_dbe               : 1;  /**< [  1:  1](R/W1C/H) Data RAM had a ECC double bit error. */
         uint64_t dat_sbe               : 1;  /**< [  0:  0](R/W1C/H) Data RAM had a ECC single bit error. */
 #else /* Word 0 - Little Endian */
         uint64_t dat_sbe               : 1;  /**< [  0:  0](R/W1C/H) Data RAM had a ECC single bit error. */
         uint64_t dat_dbe               : 1;  /**< [  1:  1](R/W1C/H) Data RAM had a ECC double bit error. */
-        uint64_t dat_uflow             : 1;  /**< [  2:  2](R/W1C/H) Internal assertion, packet Data FIFO had an underflow. */
-        uint64_t dat_oflow             : 1;  /**< [  3:  3](R/W1C/H) Internal assertion, packet Data FIFO had an overflow. */
+        uint64_t dat_uflow             : 1;  /**< [  2:  2](R/W1C/H) Internal assertion, packet data FIFO had an underflow. */
+        uint64_t dat_oflow             : 1;  /**< [  3:  3](R/W1C/H) Internal assertion, packet data FIFO had an overflow. */
         uint64_t chan_uflow            : 1;  /**< [  4:  4](R/W1C/H) Internal assertion, packet channel credit FIFO had an underflow. */
         uint64_t chan_oflow            : 1;  /**< [  5:  5](R/W1C/H) Internal assertion, packet channel credit FIFO had an overflow. */
         uint64_t reserved_6_63         : 58;
