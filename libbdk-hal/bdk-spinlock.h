@@ -45,7 +45,7 @@ static inline void bdk_spinlock_init(bdk_spinlock_t *lock)
  *
  * @param lock   pointer to lock structure
  */
-static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock) __attribute__ ((pure, always_inline));
+static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock) __attribute__ ((always_inline));
 static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
 {
     /* Implies a release */
@@ -60,7 +60,7 @@ static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
  *
  * @param lock   pointer to lock structure
  */
-static inline void bdk_spinlock_lock(bdk_spinlock_t *lock) __attribute__ ((pure, always_inline));
+static inline void bdk_spinlock_lock(bdk_spinlock_t *lock) __attribute__ ((always_inline));
 static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
 {
     uint64_t combined;
@@ -91,7 +91,7 @@ static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
  *
  * @param lock   pointer to lock structure
  */
-static inline int bdk_spinlock_trylock(bdk_spinlock_t *lock) __attribute__ ((pure, always_inline));
+static inline int bdk_spinlock_trylock(bdk_spinlock_t *lock) __attribute__ ((always_inline));
 static inline int bdk_spinlock_trylock(bdk_spinlock_t *lock)
 {
     uint64_t combined = *(volatile uint64_t *)&lock->combined;
