@@ -1177,7 +1177,21 @@ margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b)
     // print the original values here
     printf("N%d.LMC%d: Original DAC Settings        : ", node, lmc);
     for (byte = 8; byte >= 0; byte--) {
+#if 0
 	printf("    %7d ", orig_dac_settings[byte]);
+#else
+	{
+	    int dac_min = index_best_start[byte];
+	    int dac_max = dac_min + index_best_count[byte] - incr_index;
+	    // FIXME: limit of 15 should be symbolic, and maybe dependent on DDR type or DIMM type or??!!
+	    int is_low_risk = is_dac_delta_low_risk(orig_dac_settings[byte], dac_max, dac_min, 15);
+	    printf("    %7d%c", orig_dac_settings[byte], (is_low_risk) ? ' ' : '<');
+	    if (is_low_risk)
+		low_risk_count++;
+	    else
+		needs_review_count++;
+	}
+#endif
     }
     printf("\n");
 
@@ -1186,21 +1200,7 @@ margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b)
     for (byte = 8; byte >= 0; byte--) {
 	index = index_best_start[byte] +
 	    ((index_best_count[byte] - incr_index) / 2); // adj by incr
-#if 0
 	printf("    %7d ", index);
-#else
-	{
-	    int dac_min = index_best_start[byte];
-	    int dac_max = dac_min + index_best_count[byte] - incr_index;
-	    // FIXME: limit of 15 should be symbolic, and maybe dependent on DDR type or DIMM type or??!!
-	    int is_low_risk = is_dac_delta_low_risk(orig_dac_settings[byte], dac_max, dac_min, 15);
-	    printf("    %7d%c", index, (is_low_risk) ? ' ' : '<');
-	    if (is_low_risk)
-		low_risk_count++;
-	    else
-		needs_review_count++;
-	}
-#endif
     }
     printf("\n");
 
