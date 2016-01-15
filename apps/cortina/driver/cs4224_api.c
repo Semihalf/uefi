@@ -46,17 +46,17 @@
 
 static cs4224_diags_duplex_loopback_state_t g_cs4224_duplex_loopback_line_state[CS4224_MAX_NUM_CS4343_PORTS] = 
 {
-    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}
+    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 };
 static cs4224_diags_duplex_loopback_state_t g_cs4224_duplex_loopback_host_state[CS4224_MAX_NUM_CS4343_PORTS] =
 {
-    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0}
+    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {FALSE, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 };
 
 static cs4224_diags_simplex_loopback_state_t g_cs4224_simplex_loopback_state[CS4224_MAX_NUM_CS4224_PORTS] = 
@@ -4247,7 +4247,8 @@ cs_status cs4224_diags_show_status(
     cs_uint32 slice_end,
     cs_uint16 sections_to_display)
 {
-    cs_uint32 i,j,k,slice;
+    int i,j;
+    cs_uint32 k,slice;
     cs_uint32 row;
     cs_status status = CS_OK;
     int instance;
@@ -24491,14 +24492,14 @@ static e_cs4224_hardware_id cs4224_sku_hw_id = CS4224_HW_UNDEF;
 
 cs4224_switch_pair_state_t g_cs4224_switch_pair_state[CS4224_MAX_NUM_CS4224_PORTS/2] = 
 {
-    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}}, 
-    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}}, 
-    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}}, 
-    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}}, 
-    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}}, 
-    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}}, 
-    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}}, 
-    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}}, 
+    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}},0},
+    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}},0},
+    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}},0},
+    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}},0},
+    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}},0},
+    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}},0},
+    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}},0},
+    {FALSE, FALSE, {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}},0},
 };
 
 /**
@@ -42305,6 +42306,9 @@ void cs4224_kran_show_negotiated(
 cs_status cs4224_ucode_data_parse_file(
     cs_uint32 slice, 
     FILE *infilePH);
+cs_status cs4224_ucode_data_parse_file_bin(
+    cs_uint32 slice,
+    FILE *infilePH);
 
 /**
  *
@@ -42372,6 +42376,10 @@ int cs4224_ucode_parse_data_buf(
      * then wait for the previous access to finish. */
     if (CS4224_EEPROM_MICRO_ACCESS_CONTROL == addr)
     {
+        /* Delay here, as some script files are missing the command to
+           wait for the write to complete. */
+        CS_UDELAY(5000);
+
         /* Wait for the EEPROM_MICRO_ACCESS_STATUS.MicroAccessDone bit
          * to be set. */
         while(CS_IF_CLR(access_status, CS_BIT0) && (max_iterations > 0))
@@ -42379,6 +42387,79 @@ int cs4224_ucode_parse_data_buf(
             cs4224_reg_get(die, CS4224_EEPROM_MICRO_ACCESS_STATUS, &access_status);
             max_iterations -= 1;
         }
+
+
+        if(max_iterations <= 0)
+        {
+            CS_TRACE(("ERROR: Timed out waiting for a EEPROM write to occur on die %x\n", die));
+            return 15;
+        }
+    }
+
+    /* Successful return */
+    return 0;
+}
+
+/**
+ *
+ * This method Parses data buffer and writes it into the HW.
+ *
+ *  @param die      [I] -  The die number of the device
+ *  @param lbufPC   [I] -  pointer to character buffer for null terminated line
+ *  @return             -  Integer identifying failure.
+ *      0 : Success
+ *      10: Error in record
+ *      13: Bad register address
+ *      14: cs4224_reg_set failure
+ *      15: EEPROM timeout (if programming an EEPROM access register)
+ *
+ *  @private
+ *
+ */
+int cs4224_ucode_parse_data_buf_bin(
+    cs_uint32 die,
+    cs_uint8 *buf )
+{
+    cs_uint16 access_status = 0;
+    cs_int16 max_iterations = 100;
+
+    cs_uint16 addr;
+    cs_uint16 data;
+
+    /* buffer is two unsigned shorts, little endian. */
+    addr = buf[0] | buf[1] << 8;
+    data = buf[2] | buf[3] << 8;
+
+    if( addr > CS4224_ADDRSIZE )
+    {
+        /* if address exceeds buffer size */
+        CS_TRACE(("ERROR: Address larger than max device address\n"));
+        return 13;
+    }
+
+    if(CS_OK != cs4224_reg_set(die, addr, data))
+    {
+        /* failure to write data */
+        CS_TRACE(("ERROR: cs4224_reg_set(0x%x,0x%x,0x%x) returned CS_ERROR\n",die,addr,data));
+        return 14;
+    }
+
+    /* If this is a write to the EEPROM_MICRO_ACCESS_CONTROL
+     * then wait for the previous access to finish. */
+    if (CS4224_EEPROM_MICRO_ACCESS_CONTROL == addr)
+    {
+        /* Delay here, as some script files are missing the command to
+           wait for the write to complete. */
+        CS_UDELAY(5000);
+
+        /* Wait for the EEPROM_MICRO_ACCESS_STATUS.MicroAccessDone bit
+         * to be set. */
+        while(CS_IF_CLR(access_status, CS_BIT0) && (max_iterations > 0))
+        {
+            cs4224_reg_get(die, CS4224_EEPROM_MICRO_ACCESS_STATUS, &access_status);
+            max_iterations -= 1;
+        }
+
 
         if(max_iterations <= 0)
         {
@@ -42428,6 +42509,49 @@ cs_status cs4224_ucode_data_prgm_from_file(
     }
 
     status = cs4224_ucode_data_parse_file(slice, infilePH );
+
+    fclose( infilePH );
+
+    return status;
+}
+
+/**
+ * This method opens a file whose name was supplied in the file_name
+ * argument. If the file open is successfull, the method cs4224_ucode_data_parse_file()
+ * is called to parse and program the usequencer.
+ *
+ * This method is only available if CS_HAS_FILESYSTEM is defined
+ * and the standard library is available (!CS_DONT_USE_STDLIB).
+ *
+ *  @param slice      [I] -  The slice number of the device to access.
+ *  @param file_name  [I] -  Pointer to a string containing a file name.
+ *
+ *  @return CS_OK or CS_ERROR.
+ *
+ */
+
+cs_status cs4224_ucode_data_prgm_from_file_bin(
+    cs_uint32   slice,
+    const char* file_name)
+{
+    FILE      *infilePH;     /* Handle for input file */
+    cs_status status;
+
+    /* Check the file name argument */
+    if( *file_name == '\0' )  /* If didn't specify input file */
+    {
+        CS_TRACE(("ERROR: Missing input file argument\n" ));
+        return CS_ERROR;
+    }
+
+    /* OK, let's try to open the file */
+    if( ( infilePH = fopen( file_name, "r" )  )== NULL )
+    {
+        CS_TRACE(("ERROR: Could not open input file: %s\n", file_name ));
+        return CS_ERROR;
+    }
+
+    status = cs4224_ucode_data_parse_file_bin(slice, infilePH );
 
     fclose( infilePH );
 
@@ -42510,12 +42634,80 @@ cs_status cs4224_ucode_data_parse_file(
 
     if (0x1 == checksum_status)
     {
+        cs_uint16 csum_hw, csum_sw;
+        cs4224_reg_get(die, CS4224_GLOBAL_DWNLD_CHECKSUM_HW, &csum_hw);
+        cs4224_reg_get(die, CS4224_GLOBAL_DWNLD_CHECKSUM_SW, &csum_sw);
+
+        printf("ERROR: Calculated Checksum Does Not Match File Checksum, HW: 0x%x, SW: 0x%x\n", csum_hw, csum_sw);
         CS_TRACE(("ERROR: Calculated Checksum Does Not Match File Checksum\n" ));
         return CS_ERROR;
 
     }
     return CS_OK;
 }                                             
+
+/**
+ *
+ * This method reads a line from the input file then sends it to the parser.
+ *
+ * This method is only available if CS_HAS_FILESYSTEM is defined
+ * and the standard library is available (!CS_DONT_USE_STDLIB).
+ *
+ *  @param slice      [I] -  The slice number of the device to access.
+ *  @param infilePH   [I] -  Pointer to an input file.
+ *  @return               -  CS_OK or CS_ERROR.
+ *
+ *  @private
+ *
+ */
+cs_status cs4224_ucode_data_parse_file_bin(
+    cs_uint32 slice,
+    FILE *infilePH)
+{
+    int resN;                           /* result status */
+    int linectrN = 0;
+    cs_uint16 checksum_status;
+    cs_uint32 die;
+
+    /* get the die associated to this slice */
+    die = cs4224_get_die_from_slice(slice);
+
+    /* toggle the checksum calculator, note that the data writes will
+       assert the checksum bit to start calculating the checksum */
+    cs4224_lock(slice);
+    cs4224_reg_set(die, CS4224_GLOBAL_DWNLD_CHECKSUM_CTRL, 0x01);
+    cs4224_reg_set(die, CS4224_GLOBAL_DWNLD_CHECKSUM_CTRL, 0x00);
+    cs4224_unlock(slice);
+
+    cs_uint8 buf[4];
+    while (1 == fread(&buf, sizeof(buf), 1, infilePH))
+    {
+        cs4224_lock(slice);
+        if( (resN = cs4224_ucode_parse_data_buf_bin( die, buf )) )
+        {
+            CS_TRACE(("ERROR: Error processing record input file at position %d, return code = %d\n",
+                linectrN, resN ));
+            cs4224_unlock(slice);
+            return CS_ERROR;
+        }
+        cs4224_unlock(slice);
+    }
+
+    cs4224_reg_get(die, CS4224_GLOBAL_DWNLD_CHECKSUM_STATUS, &checksum_status);
+
+    if (0x1 == checksum_status)
+    {
+        cs_uint16 csum_hw, csum_sw;
+        cs4224_reg_get(die, CS4224_GLOBAL_DWNLD_CHECKSUM_HW, &csum_hw);
+        cs4224_reg_get(die, CS4224_GLOBAL_DWNLD_CHECKSUM_SW, &csum_sw);
+
+        printf("ERROR: Calculated Checksum Does Not Match File Checksum, HW: 0x%04x, SW: 0x%04x\n", csum_hw, csum_sw);
+        CS_TRACE(("ERROR: Calculated Checksum Does Not Match File Checksum\n" ));
+        return CS_ERROR;
+
+    }
+    return CS_OK;
+}
 
   
 #endif  /* CS_DONT_USE_STDLIB */

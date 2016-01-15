@@ -41,6 +41,7 @@
  *
  *    API Version Number: 3.7.8
  ****************************************************************************/
+#include <bdk.h>
 #include "cs_rtos.h"
 
 /* Include any necessary library files when building the driver */
@@ -49,11 +50,11 @@
 #    include <string.h>        /* for memcpy()                */
 #    include <stdarg.h>        /* for variable args           */
 #    include <stdio.h>         /* for printf variants         */
-#    if !defined(_WINDOWS) && !defined(_WIN32) && !defined(_WIN64)
-#        include <arpa/inet.h> /* for ntohs, htons            */
-#    else
-#        include <WinSock2.h>
-#    endif
+//#    if !defined(_WINDOWS) && !defined(_WIN32) && !defined(_WIN64)
+//#        include <arpa/inet.h> /* for ntohs, htons            */
+//#    else
+//#        include <WinSock2.h>
+//#    endif
 #endif /* CS_DONT_USE_STDLIB */
 
 /* ANSI C doesn't declare these methods */
@@ -66,7 +67,9 @@ void CS_UDELAY(int usecs)
 #ifdef CS_DONT_USE_STDLIB
     #error "TO DO: Cannot compile without defining CS_UDELAY() for your system in platform/cs_rtos.c"
 #else
-    usleep(usecs);
+    bdk_watchdog_poke();
+    bdk_wait_usec(usecs);
+//    usleep(usecs);
 #endif
 }
 
@@ -177,4 +180,29 @@ cs_status CS_VERIFY_ENDIANESS()
   }
 }
 
+cs_status cs4224_reg_set(cs_uint32 slice, cs_uint32 addr, cs_uint16 data)
+{
+    int status = bdk_mdio_45_write(bdk_numa_local(), (slice>>24) & 0xff, ((slice>>8) & 0xFFFF) | (slice & 0x1), 0, addr, (int)data);
+//    printf("MDIO write, slice = 0x%08x, addr = 0x%08x, data = 0x%04x\n", slice, addr, data);
+    if (status == -1)
+    {
+        bdk_warn("MDIO write failure\n");
+        return CS_ERROR;
+    }
+
+    return CS_OK;
+}
+
+cs_status cs4224_reg_get(cs_uint32 slice, cs_uint32 addr, cs_uint16* data)
+{
+    int read_data = bdk_mdio_45_read(bdk_numa_local(), (slice>>24) & 0xff, ((slice>>8) & 0xFFFF) | (slice & 0x1), 0, addr);
+    *data = (cs_uint16) read_data;
+//    printf("MDIO  read, slice = 0x%08x, addr = 0x%08x, data = 0x%04x\n", slice, addr, *data);
+    if (read_data == -1)
+    {
+        bdk_warn("MDIO read failure\n");
+        return CS_ERROR;
+    }
+    return CS_OK;
+}
 

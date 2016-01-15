@@ -41,6 +41,9 @@
  *    API Version Number: 3.7.8
  ***************************************************************************/
 
+//#define CS_BIG_ENDIAN  //Normally part of the Makefile
+#define CS_LITTLE_ENDIAN  //Normally part of the Makefile
+
 /* Set to enable compile in debug features such as register dump */
 #define CS_HAS_DEBUG_LOOPBACKS      1
 #define CS_HAS_DEBUG_PRBS           1
@@ -64,7 +67,7 @@
 /* #define CS_DONT_USE_INLINE */
 
 /* Set to include filesystem  */
-/* #define CS_HAS_FILESYSTEM  */
+#define CS_HAS_FILESYSTEM
 
 /* Set to not load the ucode automatically (dangerous) */
 /* #define CS_SKIP_UCODE_DOWNLOAD 1 */

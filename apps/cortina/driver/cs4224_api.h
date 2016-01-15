@@ -9641,6 +9641,10 @@ cs_status cs4224_ucode_data_prgm_from_file(
     cs_uint32   slice, 
     const char* file_name);
 
+cs_status cs4224_ucode_data_prgm_from_file_bin(
+    cs_uint32   slice,
+    const char* file_name);
+
 cs_status cs4224_ucode_data_parse_file(
     cs_uint32 slice, 
     FILE *infilePH);
