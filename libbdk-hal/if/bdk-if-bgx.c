@@ -50,6 +50,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
     {
         case BDK_QLM_MODE_SGMII_4X1:
         case BDK_QLM_MODE_SGMII_2X1:
+        case BDK_QLM_MODE_QSGMII_4X1:
             lmac_type = 0;
             priv->num_port = 4;
             priv->mode = BGX_MODE_SGMII;
@@ -124,6 +125,10 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
                 /* 1 port on DLM5+DLM6 */
                 num_ports += 1;
                 break;
+            case BDK_QLM_MODE_QSGMII_4X1:
+                /* 4 ports on DLM5 */
+                num_ports += 1;
+                break;
             default:
                 /* Invalid mode, no ports */
                 break;
@@ -138,6 +143,10 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
                 break;
             case BDK_QLM_MODE_RXAUI_1X2:
                 /* 1 port on DLM6 */
+                num_ports += 1;
+                break;
+            case BDK_QLM_MODE_QSGMII_4X1:
+                /* 4 ports on DLM6 */
                 num_ports += 1;
                 break;
             default:

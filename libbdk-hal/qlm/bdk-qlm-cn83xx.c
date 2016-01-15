@@ -273,6 +273,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                     return BDK_QLM_MODE_40G_KR4_1X4;
                 else
                     return BDK_QLM_MODE_XLAUI_1X4;
+            case 0x6: return BDK_QLM_MODE_QSGMII_4X1;
             default:  return BDK_QLM_MODE_DISABLED;
         }
     }
@@ -867,6 +868,13 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             if (lane_mode == -1)
                 return -1;
             kr_mode = 1;
+            break;
+        case BDK_QLM_MODE_QSGMII_4X1:
+            lmac_type = 6; /* QSGMII */
+            is_bgx = 1;
+            lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("QSGMII", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
             break;
         case BDK_QLM_MODE_SATA_2X1:
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm), c.s.lmode = BDK_GSER_LMODE_E_R_8G_REFCLK100);

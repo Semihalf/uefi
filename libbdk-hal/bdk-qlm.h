@@ -35,6 +35,7 @@ typedef enum
     BDK_QLM_MODE_10G_KR_4X1,    /* 4 10GBASE-KR, 1 lane each (cn88xx) */
     BDK_QLM_MODE_10G_KR_2X1,    /* 2 10GBASE-KR, 1 lane each (cn83xx) */
     BDK_QLM_MODE_40G_KR4_1X4,   /* 1 40GBASE-KR4, 4 lanes each (cn88xx) */
+    BDK_QLM_MODE_QSGMII_4X1,     /* QSGMII is 4 SGMII on one lane (cn81xx, cn83xx) */
     BDK_QLM_MODE_LAST,
 } bdk_qlm_modes_t;
 

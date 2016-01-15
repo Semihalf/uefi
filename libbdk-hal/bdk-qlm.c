@@ -97,6 +97,7 @@ const char *bdk_qlm_mode_to_cfg_str(bdk_qlm_modes_t mode)
         MODE_CASE(BDK_QLM_MODE_10G_KR_4X1);
         MODE_CASE(BDK_QLM_MODE_10G_KR_2X1);
         MODE_CASE(BDK_QLM_MODE_40G_KR4_1X4);
+        MODE_CASE(BDK_QLM_MODE_QSGMII_4X1);
 
         case BDK_QLM_MODE_LAST: break; /* fall through error */
     }
@@ -200,6 +201,9 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
             break;
         case BDK_QLM_MODE_40G_KR4_1X4:
             result = "1 40GBASE-KR4, 4 lanes";
+            break;
+        case BDK_QLM_MODE_QSGMII_4X1:
+            result = "4 QSGMII, 1 lane";
             break;
         case BDK_QLM_MODE_LAST:
             break; /* fallthrough error */
