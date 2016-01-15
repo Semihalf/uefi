@@ -156,6 +156,116 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
         priv->num_port = num_ports;
     }
 
+    /* BGX0 of CN81XX is special in that it combines two DLMs. */
+    if ((interface == 0) && CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+    {
+        bdk_qlm_modes_t qlm_mode0 = bdk_qlm_get_mode(node, 0);
+        bdk_qlm_modes_t qlm_mode1 = bdk_qlm_get_mode(node, 1);
+        int num_ports = 0;
+        switch (qlm_mode0)
+        {
+            case BDK_QLM_MODE_SGMII_2X1:
+            case BDK_QLM_MODE_XFI_2X1:
+            case BDK_QLM_MODE_10G_KR_2X1:
+                /* 2 ports on DLM0 */
+                num_ports += 2;
+                break;
+            case BDK_QLM_MODE_RXAUI_1X2:
+                /* 1 port on DLM0 */
+                num_ports += 1;
+                break;
+            case BDK_QLM_MODE_XAUI_1X4:
+            case BDK_QLM_MODE_XLAUI_1X4:
+            case BDK_QLM_MODE_40G_KR4_1X4:
+                /* 1 port on DLM0+DLM1 */
+                num_ports += 1;
+                break;
+            case BDK_QLM_MODE_QSGMII_4X1:
+                /* 4 ports on DLM0 */
+                num_ports += 1;
+                break;
+            default:
+                /* Invalid mode, no ports */
+                break;
+        }
+        switch (qlm_mode1)
+        {
+            case BDK_QLM_MODE_SGMII_2X1:
+            case BDK_QLM_MODE_XFI_2X1:
+            case BDK_QLM_MODE_10G_KR_2X1:
+                /* 2 ports on DLM1 */
+                num_ports += 2;
+                break;
+            case BDK_QLM_MODE_RXAUI_1X2:
+                /* 1 port on DLM1 */
+                num_ports += 1;
+                break;
+            case BDK_QLM_MODE_QSGMII_4X1:
+                /* 4 ports on DLM1 */
+                num_ports += 1;
+                break;
+            default:
+                /* Invalid mode, no ports */
+                break;
+        }
+        priv->num_port = num_ports;
+    }
+
+    /* BGX1 of CN81XX is special in that it combines two DLMs. */
+    if ((interface == 1) && CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+    {
+        bdk_qlm_modes_t qlm_mode2 = bdk_qlm_get_mode(node, 2);
+        bdk_qlm_modes_t qlm_mode3 = bdk_qlm_get_mode(node, 3);
+        int num_ports = 0;
+        switch (qlm_mode2)
+        {
+            case BDK_QLM_MODE_SGMII_2X1:
+            case BDK_QLM_MODE_XFI_2X1:
+            case BDK_QLM_MODE_10G_KR_2X1:
+                /* 2 ports on DLM2 */
+                num_ports += 2;
+                break;
+            case BDK_QLM_MODE_RXAUI_1X2:
+                /* 1 port on DLM2 */
+                num_ports += 1;
+                break;
+            case BDK_QLM_MODE_XAUI_1X4:
+            case BDK_QLM_MODE_XLAUI_1X4:
+            case BDK_QLM_MODE_40G_KR4_1X4:
+                /* 1 port on DLM2+DLM3 */
+                num_ports += 1;
+                break;
+            case BDK_QLM_MODE_QSGMII_4X1:
+                /* 4 ports on DLM2 */
+                num_ports += 1;
+                break;
+            default:
+                /* Invalid mode, no ports */
+                break;
+        }
+        switch (qlm_mode3)
+        {
+            case BDK_QLM_MODE_SGMII_2X1:
+            case BDK_QLM_MODE_XFI_2X1:
+            case BDK_QLM_MODE_10G_KR_2X1:
+                /* 2 ports on DLM3 */
+                num_ports += 2;
+                break;
+            case BDK_QLM_MODE_RXAUI_1X2:
+                /* 1 port on DLM3 */
+                num_ports += 1;
+                break;
+            case BDK_QLM_MODE_QSGMII_4X1:
+                /* 4 ports on DLM3 */
+                num_ports += 1;
+                break;
+            default:
+                /* Invalid mode, no ports */
+                break;
+        }
+        priv->num_port = num_ports;
+    }
+
     /* Make sure the BGX LMAC type is programmed correctly. The QLM code doesn't
        program all of them */
     if (lmac_type != -1)
@@ -178,6 +288,8 @@ static int if_num_interfaces(bdk_node_t node)
         return 2;
     else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 2; /* FIXME: Really have 4 BGX, but CSRs not updated yet */
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 2;
     else
         return 0;
 }
@@ -248,6 +360,56 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
                     lane_to_sds = handle->index + 2;
                 }
             }
+            /* DLM1 on CN81XX is a very special case. Its mapping changes
+               based on what DLM0 has on it, which shares the same BGX0 */
+            if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 1))
+            {
+                if (bdk_qlm_get_mode(handle->node, 0) == BDK_QLM_MODE_RXAUI_1X2)
+                {
+                    /* RXAUI on DLM0 means index 0 is for DLM0 and index 1 and
+                       higher is for DLM1 */
+                    lane_to_sds = handle->index + 1;
+                }
+                else if (0 /*rgmii_first*/ && (handle->index < 3))
+                {
+                    /* We have RGMII, so the index is 1-2. The only way this
+                       can happen is if DLM0 is disabled. DLM1 maps to lanes
+                       2-3, so add 2 to the index */
+                    lane_to_sds = handle->index + 2;
+                }
+                else if (handle->index < 2)
+                {
+                    /* The index is 0-1. The only way this can happen is if
+                       DLM0 is disabled. DLM1 maps to lanes 2-3, so add 2
+                       to the index */
+                    lane_to_sds = handle->index + 2;
+                }
+            }
+            /* DLM3 on CN81XX is a very special case. Its mapping changes
+               based on what DLM2 has on it, which shares the same BGX1 */
+            if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 3))
+            {
+                if (bdk_qlm_get_mode(handle->node, 2) == BDK_QLM_MODE_RXAUI_1X2)
+                {
+                    /* RXAUI on DLM2 means index 0 is for DLM2 and index 1 and
+                       higher is for DLM3 */
+                    lane_to_sds = handle->index + 1;
+                }
+                else if (0 /*rgmii_first*/ && (handle->index < 3))
+                {
+                    /* We have RGMII, so the index is 1-2. The only way this
+                       can happen is if DLM2 is disabled. DLM3 maps to lanes
+                       2-3, so add 2 to the index */
+                    lane_to_sds = handle->index + 2;
+                }
+                else if (handle->index < 2)
+                {
+                    /* The index is 0-1. The only way this can happen is if
+                       DLM2 is disabled. DLM3 maps to lanes 2-3, so add 2
+                       to the index */
+                    lane_to_sds = handle->index + 2;
+                }
+            }
             break;
         case BGX_MODE_XAUI:
         case BGX_MODE_DXAUI:
@@ -263,6 +425,14 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
             /* DLM6 on CN83XX always mapes to lanes 2-3. The above check would
                be wrong if DLM5 was disabled, causing DLM6 to be first */
             if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (qlm == 6))
+                lane_to_sds = 0xe;
+            /* DLM1 on CN81XX always mapes to lanes 2-3. The above check would
+               be wrong if DLM0 was disabled, causing DLM1 to be first */
+            if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 1))
+                lane_to_sds = 0xe;
+            /* DLM3 on CN81XX always mapes to lanes 2-3. The above check would
+               be wrong if DLM2 was disabled, causing DLM3 to be first */
+            if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 3))
                 lane_to_sds = 0xe;
             break;
         default:
@@ -890,12 +1060,24 @@ static int xaui_link(bdk_if_handle_t handle)
                 lane = cmrx.s.lane_to_sds;
                 if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (qlm == 6))
                     lane -= 2;
+                if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 1))
+                    lane -= 2;
+                if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 3))
+                    lane -= 2;
             }
             bdk_qlm_rx_equalization(handle->node, qlm, lane);
             /* On 83xx DLM5-6 with XLAUI, Lanes 2-3 are on DLM6, not DLM5 so
                we need a second call */
             if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (qlm == 5) && (lane == -1))
                 bdk_qlm_rx_equalization(handle->node, 6, -1);
+            /* On 81xx DLM0-1 with XLAUI, Lanes 2-3 are on DLM1, not DLM0 so
+               we need a second call */
+            if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 0) && (lane == -1))
+                bdk_qlm_rx_equalization(handle->node, 1, -1);
+            /* On 83xx DLM2-3 with XLAUI, Lanes 2-3 are on DLM3, not DLM2 so
+               we need a second call */
+            if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 2) && (lane == -1))
+                bdk_qlm_rx_equalization(handle->node, 3, -1);
         }
         else if (priv->mode == BGX_MODE_RXAUI)
         {
@@ -904,6 +1086,11 @@ static int xaui_link(bdk_if_handle_t handle)
             if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((qlm == 5) || (qlm == 6)))
             {
                 /* DLM5 and 6 are 2 lanes, so RXAUI always covers both lanes */
+                bdk_qlm_rx_equalization(handle->node, qlm, -1);
+            }
+            if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+            {
+                /* All DLMs, so RXAUI always covers both lanes */
                 bdk_qlm_rx_equalization(handle->node, qlm, -1);
             }
             else
@@ -1046,7 +1233,7 @@ static int if_init(bdk_if_handle_t handle)
         }
         else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         {
-            ntype = BDK_NIC_TYPE_BGX; // FIXME: RGMII?
+            ntype = BDK_NIC_TYPE_BGX;
         }
         else
         {
