@@ -10,12 +10,14 @@ extern const __bdk_if_ops_t __bdk_if_ops_bgx;
 extern const __bdk_if_ops_t __bdk_if_ops_pcie;
 extern const __bdk_if_ops_t __bdk_if_ops_fake;
 extern const __bdk_if_ops_t __bdk_if_ops_lbk;
+extern const __bdk_if_ops_t __bdk_if_ops_rgx;
 
 static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_BGX] = &__bdk_if_ops_bgx,
     [BDK_IF_PCIE] = &__bdk_if_ops_pcie,
     [BDK_IF_FAKE] = &__bdk_if_ops_fake,
     [BDK_IF_LBK] = &__bdk_if_ops_lbk,
+    [BDK_IF_RGX] = &__bdk_if_ops_rgx,
 };
 
 static __bdk_if_port_t *__bdk_if_head;

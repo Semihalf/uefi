@@ -237,6 +237,14 @@ static int trafficgen_do_update(bool do_clear)
                 tg_port->pinfo.stats.rx_backpressure += rx_pause.s.cnt;
                 break;
             }
+            case BDK_IF_RGX:
+            {
+                int port = tg_port->handle->index;
+                BDK_CSR_INIT(rx_pause, tg_port->handle->node, BDK_RGXX_CMRX_RX_STAT2(tg_port->handle->interface, port));
+                BDK_CSR_WRITE(tg_port->handle->node, BDK_RGXX_CMRX_RX_STAT2(tg_port->handle->interface, port), 0);
+                tg_port->pinfo.stats.rx_backpressure += rx_pause.s.cnt;
+                break;
+            }
             case BDK_IF_PCIE:
             case BDK_IF_FAKE:
             case BDK_IF_LBK:

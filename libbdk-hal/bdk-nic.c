@@ -263,7 +263,6 @@ static int vnic_setup_tx_shaping(nic_t *nic)
         switch (nic->ntype)
         {
             case BDK_NIC_TYPE_BGX:
-            case BDK_NIC_TYPE_RGMII:
                 tl1_index = BDK_NIC_LMAC_E_BGXX_LMACX(nic->handle->interface, nic->handle->index);
                 tl2_index = tl1_index;
                 nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
@@ -286,6 +285,11 @@ static int vnic_setup_tx_shaping(nic_t *nic)
         {
             case BDK_NIC_TYPE_BGX:
                 tl1_index = BDK_NIC_LMAC_E_BGXX_LMACX(nic->handle->interface, nic->handle->index);
+                tl2_index = tl1_index;
+                nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
+                break;
+            case BDK_NIC_TYPE_RGMII:
+                tl1_index = BDK_NIC_LMAC_E_RGXX_LMACX(nic->handle->interface, nic->handle->index);
                 tl2_index = tl1_index;
                 nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
                 break;
@@ -538,12 +542,6 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
                 nic_intf_block_e = BDK_NIC_INTF_BLOCK_E_BGXX(handle->interface);
                 nic_lmac_e = BDK_NIC_LMAC_E_BGXX_LMACX(handle->interface, handle->index);
                 break;
-            case BDK_NIC_TYPE_RGMII:
-                nic_chan_idx_e = BDK_NIC_CHAN_IDX_E_RGXX_LMACX_CHX(handle->interface, handle->index, 0/*channel*/);
-                nic_intf_e = BDK_NIC_INTF_E_RGXX(handle->index);
-                nic_intf_block_e = BDK_NIC_INTF_BLOCK_E_BGXX(handle->interface);
-                nic_lmac_e = BDK_NIC_LMAC_E_RGXX_LMACX(handle->interface, handle->index);
-                break;
             case BDK_NIC_TYPE_LBK:
                 nic_chan_idx_e = BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN83XX(handle->interface, handle->index);
                 nic_intf_e = BDK_NIC_INTF_E_LBKX_CN83XX(handle->interface);
@@ -564,6 +562,12 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
                 nic_intf_e = BDK_NIC_INTF_E_BGXX(handle->interface);
                 nic_intf_block_e = BDK_NIC_INTF_BLOCK_E_BGXX(handle->interface);
                 nic_lmac_e = BDK_NIC_LMAC_E_BGXX_LMACX(handle->interface, handle->index);
+                break;
+            case BDK_NIC_TYPE_RGMII:
+                nic_chan_idx_e = BDK_NIC_CHAN_IDX_E_RGXX_LMACX_CHX(handle->interface, handle->index, 0/*channel*/);
+                nic_intf_e = BDK_NIC_INTF_E_RGXX(handle->index);
+                nic_intf_block_e = BDK_NIC_INTF_BLOCK_E_BGXX(handle->interface);
+                nic_lmac_e = BDK_NIC_LMAC_E_RGXX_LMACX(handle->interface, handle->index);
                 break;
             case BDK_NIC_TYPE_LBK:
                 nic_chan_idx_e = BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN81XX(handle->interface, handle->index);
