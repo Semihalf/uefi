@@ -113,6 +113,10 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "code chooses. The supported options are\n"
             "    0 = Normal boot path\n"
             "    1 = Diagnostics boot path",
+    [BDK_CONFIG_BOOT_NEXT_STAGE] =
+            "This is used by the boot apps to determine the next boot stage.\n"
+            "    e.g.:\n"
+            "      BDK-CONFIG-BOOT-NEXT-STAGE-INIT=/fatfs/cortina-app.bin",
     [BDK_CONFIG_TRACE] =
             "BDK trace level. This is a bitmask of the enumeration defined in\n"
             "bdk-trace.h. Each bit turns on tracing of a specific BDK\n"

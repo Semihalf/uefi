@@ -140,6 +140,10 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 0,
         .max_value = 1,
     },
+    [BDK_CONFIG_BOOT_NEXT_STAGE] = {
+        .format = "BDK-CONFIG-BOOT-NEXT-STAGE-%s",
+        .ctype = BDK_CONFIG_TYPE_STR,
+    },
     [BDK_CONFIG_TRACE] = {
         .format = "BDK-CONFIG-TRACE",
         .ctype = BDK_CONFIG_TYPE_INT,

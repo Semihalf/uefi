@@ -37,6 +37,7 @@ typedef enum
     BDK_CONFIG_COREMASK,
     BDK_CONFIG_BOOT_MENU_TIMEOUT,
     BDK_CONFIG_BOOT_PATH_OPTION,
+    BDK_CONFIG_BOOT_NEXT_STAGE,
     BDK_CONFIG_TRACE,
 
     /* Chip feature items */
