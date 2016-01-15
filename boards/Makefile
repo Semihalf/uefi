@@ -3,6 +3,7 @@
 #
 DTS_FILES=$(wildcard *.dts)
 DTB_FILES=$(DTS_FILES:%.dts=%.dtb)
+EXTRA_FILES=$(BDK_ROOT)/apps/cortina/cortina-app.bin
 
 #
 # The all target calls CREATE_COMMAND for each board in BOARDS
@@ -15,6 +16,7 @@ all:  $(DTB_FILES)
 	    -1 "$(BDK_ROOT)/apps/init/init.bin" \
 	    -2 "$(BDK_ROOT)/apps/diagnostics/diagnostics.bin" \
 	    -3 "$(BDK_ROOT)/apps/setup/setup.bin" \
+	    -x "$(EXTRA_FILES)" \
 	    -c "$(DTB_FILES)"
 
 #
