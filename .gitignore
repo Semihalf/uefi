@@ -17,6 +17,8 @@ cscope.out
 /apps/diagnostics/app
 /apps/init/app
 /apps/setup/app
+/apps/cortina/app
+/apps/cortina/images/cortina.img
 /bdk.vpwhistu
 /bdk.vtg
 /csr-tool/output
