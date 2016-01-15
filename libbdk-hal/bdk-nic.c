@@ -543,10 +543,10 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
                 nic_lmac_e = BDK_NIC_LMAC_E_BGXX_LMACX(handle->interface, handle->index);
                 break;
             case BDK_NIC_TYPE_LBK:
-                nic_chan_idx_e = BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN83XX(handle->interface, handle->index);
-                nic_intf_e = BDK_NIC_INTF_E_LBKX_CN83XX(handle->interface);
+                nic_chan_idx_e = BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN83XX((handle->interface == 3) ? 1 : 0, handle->index);
+                nic_intf_e = BDK_NIC_INTF_E_LBKX_CN83XX((handle->interface == 3) ? 1 : 0);
                 nic_intf_block_e = BDK_NIC_INTF_BLOCK_E_LBKX(handle->interface);
-                nic_lmac_e = BDK_NIC_LMAC_E_LBKX_CN83XX(handle->interface);
+                nic_lmac_e = BDK_NIC_LMAC_E_LBKX_CN83XX((handle->interface == 3) ? 1 : 0);
                 break;
             default:
                 bdk_error("%s: Unsupported NIC TYPE %d\n", handle->name, ntype);
