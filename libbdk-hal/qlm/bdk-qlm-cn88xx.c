@@ -378,6 +378,43 @@ static int qlm_errata_gser_27140(bdk_node_t node, int qlm)
 }
 #endif
 
+/**
+ * Errata GSER-25992 - RX EQ Default Settings Update<p>
+ * For all GSER and all lanes when not PCIe EP:
+ *     set GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL<13:8>] = 13 (decimal)
+ *     set GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_BIAS_CTRL] = 3
+ * Applied when SERDES are configured for 8G and 10G.<p>
+ * Applies to:
+ *     CN88XX pass 1.x
+ * Fixed in hardware:
+ *     CN88XX pass 2.x
+ *     CN81XX
+ *     CN83XX
+ *
+ * @param node     Node to apply errata fix for
+ * @param qlm      QLM to apply errata fix to
+ * @param baud_mhz QLM speed in Mhz
+ *
+ * @return Zero on success, negative on failure
+ */
+static int qlm_errata_gser_25992(bdk_node_t node, int qlm, int baud_mhz)
+{
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        return 0;
+    if (baud_mhz < 8000)
+        return 0;
+
+    int num_lanes = bdk_qlm_get_lanes(node, qlm);
+    for (int lane = 0; lane < num_lanes; lane++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CTLE_CTRL(qlm, lane),
+            c.s.pcs_sds_rx_ctle_bias_ctrl = 3);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane),
+            c.s.cfg_rx_errdet_ctrl = 0xcd6f);
+    }
+    return 0;
+}
+
 static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
     const int MAX_A_CLK = 333000000; /* Max of 333Mhz */
@@ -1083,6 +1120,10 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             return -1;
         }
     }
+
+    /* Errata GSER-25992 - RX EQ Default Settings Update. Note model checks are
+       peformed in the function */
+    qlm_errata_gser_25992(node, qlm, baud_mhz);
 
 #if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
     /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
