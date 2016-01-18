@@ -223,21 +223,36 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         return BDK_QLM_MODE_OCI;
 }
 
-#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
 /**
- * (GSER-26150) 10 Gb temperature excursions can cause lock
- * failure Change the calibration point of the VCO at start up
- * to shift some available range of the VCO from -deltaT
- * direction to the +deltaT ramp direction allowing a greater
- * range of VCO temperatures before experiencing the failure.
+ * (GSER-26150) 10G PHY PLL Temperature Failure
  *
- * @param node
- * @param qlm
+ * 10 Gb temperature excursions can cause lock failure Change
+ * the calibration point of the VCO at start up to shift some
+ * available range of the VCO from -deltaT direction to the
+ * +deltaT ramp direction allowing a greater range of VCO
+ * temperatures before experiencing the failure.
  *
- * @return
+ * Applies to:
+ *     CN88XX pass 1.x
+ * Fix in hardware:
+ *     CN88XX pass 2.x
+ *     CN81XX
+ *     CN83XX
+ *
+ * Only applies to QLMs running 10G
+ *
+ * @param node   Node to apply errata to
+ * @param qlm    QLM to apply errata fix to
+ *
+ * @return Zero on success, negative on failure
  */
-static int qlm_errata_gser_26150(bdk_node_t node, int qlm)
+static int qlm_errata_gser_26150(bdk_node_t node, int qlm, int baud_mhz)
 {
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        return 0;
+    if (baud_mhz != 10312)
+        return 0;
+
     /* Applying this errata twice causes problems */
     BDK_CSR_INIT(pll_cfg_3, node, BDK_GSERX_GLBL_PLL_CFG_3(qlm));
     if (pll_cfg_3.s.pll_vctrl_sel_lcvco_val == 0x2)
@@ -289,25 +304,37 @@ static int qlm_errata_gser_26150(bdk_node_t node, int qlm)
 }
 
 /**
- * (GSER-27140) SERDES temperature drift sensitivity in receiver
- * Issues have been found with the Bit Error Rate (BER) reliability of
+ * (GSER-27140) SERDES has temperature drift sensitivity in the RX EQ
+ *
+ * SERDES temperature drift sensitivity in receiver. Issues have
+ * been found with the Bit Error Rate (BER) reliability of
  * 10GBASE-KR links over the commercial temperature range (0 to 100C),
- * especially when subjected to rapid thermal ramp stress testing. (See
- * HRM for corresponding case temperature requirements for each speed
- * grade.)
+ * especially when subjected to rapid thermal ramp stress testing.
+ * (See HRM for corresponding case temperature requirements for each speed grade.)
  *
- * @param node
- * @param qlm
+ * Applies to:
+ *     CN88XX pass 1.x
+ *     CN88XX pass 2.x
+ * Fixed in hardware:
+ *     TBD
  *
- * @return
+ * Only applies to QLMs running 10G
+ *
+ * @param node     Note to apply errata fix to
+ * @param qlm      QLM to apply errata fix to
+ * @param baud_mhz QLM baud rate in Mhz
+ *
+ * @return Zero on success, negative on failure
  */
-static int qlm_errata_gser_27140(bdk_node_t node, int qlm)
+static int qlm_errata_gser_27140(bdk_node_t node, int qlm, int baud_mhz)
 {
+    if (baud_mhz != 10312)
+        return 0;
+
     /* I. For each GSER QLM: */
     /* Workaround GSER-27140: */
-    /* (1) GSER-26150 */
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-        qlm_errata_gser_26150(node, qlm);
+    /* (1) GSER-26150 = Model checks are in the function */
+    qlm_errata_gser_26150(node, qlm, baud_mhz);
     /* (2) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MAX_FINE] = 0xE */
     /* (3) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MIN_FINE] = 0x8 */
     /* (4) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_STEP_FINE] = 0x2 */
@@ -376,7 +403,6 @@ static int qlm_errata_gser_27140(bdk_node_t node, int qlm)
     /* III. The GSER QLM SerDes Lanes are now ready for 10GBASE-KR link training. */
     return 0;
 }
-#endif
 
 /**
  * Errata GSER-25992 - RX EQ Default Settings Update<p>
@@ -1125,10 +1151,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
        peformed in the function */
     qlm_errata_gser_25992(node, qlm, baud_mhz);
 
-#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
     /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
-    qlm_errata_gser_27140(node, qlm);
-#endif
+    qlm_errata_gser_27140(node, qlm, baud_mhz);
 
     /* cdrlock will be checked in the BGX */
 
