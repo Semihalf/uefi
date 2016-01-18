@@ -47,30 +47,91 @@ static void uart_dec1(int v)
 
 static void uart_dec2(int v)
 {
+    if (v >= 100)
+    {
+        bdk_dbg_uart_char('0' + v / 100);
+        v %= 100;
+    }
     bdk_dbg_uart_char('0' + v / 10);
     bdk_dbg_uart_char('0' + v % 10);
 }
 
-#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
 /**
- * (GSER-27140) SERDES temperature drift sensitivity in receiver
- * Issues have been found with the Bit Error Rate (BER) reliability of
- * 10GBASE-KR links over the commercial temperature range (0 to 100C),
- * especially when subjected to rapid thermal ramp stress testing. (See
- * HRM for corresponding case temperature requirements for each speed
- * grade.)
+ * (GSER-26150) 10G PHY PLL Temperature Failure
  *
- * @param node
- * @param qlm
+ * 10 Gb temperature excursions can cause lock failure Change
+ * the calibration point of the VCO at start up to shift some
+ * available range of the VCO from -deltaT direction to the
+ * +deltaT ramp direction allowing a greater range of VCO
+ * temperatures before experiencing the failure.
  *
- * @return
+ * Applies to:
+ *     CN88XX pass 1.x
+ * Fix in hardware:
+ *     CN88XX pass 2.x
+ *     CN81XX
+ *     CN83XX
+ *
+ * Only applies to QLMs running 10G
+ *
+ * @param node   Node to apply errata to
+ * @param qlm    QLM to apply errata fix to
+ *
+ * @return Zero on success, negative on failure
  */
-static int qlm_errata_gser_27140(bdk_node_t node, int qlm)
+static int qlm_errata_gser_26150(bdk_node_t node, int qlm, int baud_mhz)
 {
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        return 0;
+    if (baud_mhz != 10312)
+        return 0;
+
+    /* (GSER-26150) 10 Gb temperature excursions can cause lock failure */
+    /* Change the calibration point of the VCO at start up to shift some
+       available range of the VCO from -deltaT direction to the +deltaT
+       ramp direction allowing a greater range of VCO temperatures before
+       experiencing the failure. */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_3(qlm),
+        c.s.pll_vctrl_sel_lcvco_val = 0x2;
+        c.s.pcs_sds_pll_vco_amp = 0);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_MISC_CONFIG_1(qlm),
+        c.s.pcs_sds_trim_chp_reg = 0x2);
+
+    return 0;
+}
+
+/**
+ * (GSER-27140) SERDES has temperature drift sensitivity in the RX EQ
+ *
+ * SERDES temperature drift sensitivity in receiver. Issues have
+ * been found with the Bit Error Rate (BER) reliability of
+ * 10GBASE-KR links over the commercial temperature range (0 to 100C),
+ * especially when subjected to rapid thermal ramp stress testing.
+ * (See HRM for corresponding case temperature requirements for each speed grade.)
+ *
+ * Applies to:
+ *     CN88XX pass 1.x
+ *     CN88XX pass 2.x
+ * Fixed in hardware:
+ *     TBD
+ *
+ * Only applies to QLMs running 10G
+ *
+ * @param node     Note to apply errata fix to
+ * @param qlm      QLM to apply errata fix to
+ * @param baud_mhz QLM baud rate in Mhz
+ *
+ * @return Zero on success, negative on failure
+ */
+static int qlm_errata_gser_27140(bdk_node_t node, int qlm, int baud_mhz)
+{
+    if (baud_mhz != 10312)
+        return 0;
+
     /* I. For each GSER QLM: */
     /* Workaround GSER-27140: */
-    /* (1) GSER-26150 */
-    /* Disabled because it breaks CCPI on pass 1.x */
+    /* (1) GSER-26150 = Model checks are in the function */
+    qlm_errata_gser_26150(node, qlm, baud_mhz);
     /* (2) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MAX_FINE] = 0xE */
     /* (3) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MIN_FINE] = 0x8 */
     /* (4) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_STEP_FINE] = 0x2 */
@@ -138,7 +199,42 @@ static int qlm_errata_gser_27140(bdk_node_t node, int qlm)
     /* III. The GSER QLM SerDes Lanes are now ready for 10GBASE-KR link training. */
     return 0;
 }
-#endif
+
+/**
+ * Errata GSER-25992 - RX EQ Default Settings Update<p>
+ * For all GSER and all lanes when not PCIe EP:
+ *     set GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL<13:8>] = 13 (decimal)
+ *     set GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_BIAS_CTRL] = 3
+ * Applied when SERDES are configured for 8G and 10G.<p>
+ * Applies to:
+ *     CN88XX pass 1.x
+ * Fixed in hardware:
+ *     CN88XX pass 2.x
+ *     CN81XX
+ *     CN83XX
+ *
+ * @param node     Node to apply errata fix for
+ * @param qlm      QLM to apply errata fix to
+ * @param baud_mhz QLM speed in Mhz
+ *
+ * @return Zero on success, negative on failure
+ */
+static int qlm_errata_gser_25992(bdk_node_t node, int qlm, int baud_mhz)
+{
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        return 0;
+    if (baud_mhz < 8000)
+        return 0;
+
+    for (int lane = 0; lane < 4; lane++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CTLE_CTRL(qlm, lane),
+            c.s.pcs_sds_rx_ctle_bias_ctrl = 3);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane),
+            c.s.cfg_rx_errdet_ctrl = 0xcd6f);
+    }
+    return 0;
+}
 
 static void restart_training(int lane)
 {
@@ -217,6 +313,67 @@ static void ccpi_set_lane_reversal(void)
 }
 
 /**
+ * Get the speed of the CCPI lanes
+ *
+ * @return Speed in Mhz
+ */
+static int ccpi_get_speed(void)
+{
+    int qlm = 8;
+    /* Use the OCI strapping to find the speed. This will not work if
+       the OCI is in SW_MODE */
+    BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* Pass 1.x used a different encoding than pass 2.x */
+        switch (gserx_spd.s.spd)
+        {
+            case 0x0: return 1250; /* Ref 100Mhz */
+            case 0x1: return 2500;
+            case 0x2: return 5000;
+            case 0x3: return 8000;
+            case 0x4: return 1250; /* Ref 125Mhz */
+            case 0x5: return 2500;
+            case 0x6: return 3125;
+            case 0x7: return 5000;
+            case 0x8: return 6250;
+            case 0x9: return 8000;
+            case 0xa: return 2500; /* Ref 156.25Mhz */
+            case 0xb: return 3125;
+            case 0xc: return 5000;
+            case 0xd: return 6250;
+            case 0xe: return 10312; /* KR training */
+            default: /* Software mode */
+                return 0;
+        }
+    }
+    else
+    {
+        /* This is for pass 2.x (and beyond) */
+        switch (gserx_spd.s.spd)
+        {
+            case 0x0: return 5000; /* Ref 100Mhz, Training short (Rx EQ only) */
+            case 0x1: return 2500; /* Ref 100Mhz, No training */
+            case 0x2: return 5000; /* Ref 100Mhz, No training */
+            case 0x3: return 8000; /* Ref 100Mhz, No training */
+            case 0x4: return 8000; /* Ref 100Mhz, Training short (Rx EQ only) */
+            case 0x5: return 8000; /* Ref 100Mhz, KR training */
+            case 0x6: return 3125; /* Ref 156.25Mhz, No training */
+            case 0x7: return 5000; /* Ref 125Mhz, No training */
+            case 0x8: return 6250; /* Ref 156.25Mhz, No training */
+            case 0x9: return 8000; /* Ref 125Mhz, No training */
+            case 0xa: return 10312;/* Ref 156.25Mhz, Training short (Rx EQ only) */
+            case 0xb: return 3125; /* Ref 156.25Mhz, No training */
+            case 0xc: return 5000; /* Ref 125Mhz, Training short (Rx EQ only) */
+            case 0xd: return 6250; /* Ref 156.25Mhz, Training short (Rx EQ only) */
+            case 0xe: return 10312;/* Ref 156.25Mhz, KR training */
+            default: /* Software mode */
+                return 0;
+        }
+    }
+}
+
+/**
  * Called very early in during init of both the master and slave. It perfroms one
  * time init of CCPI QLM and link parameters. It must only be called once per
  * boot.
@@ -229,6 +386,16 @@ void __bdk_init_ccpi_early(int is_master)
     BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(8));
     if (gserx_phy_ctl.s.phy_reset)
         return;
+
+    /* CN88XX pass 1.0 can't restart training */
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
+    {
+        /* Force stop training while we make changes */
+        for (int lane = 0; lane < 24; lane++)
+            BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_TRN_CTL(lane),
+                c.s.done = 1);
+        wait_usec(100000);
+    }
 
     /* Make sure the link layer is down by disabling lane alignment */
     for (int link = 0; link < CCPI_MAX_LINKS; link++)
@@ -246,10 +413,11 @@ void __bdk_init_ccpi_early(int is_master)
         BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(ccpi_qlm + 8),
             c.s.rx_precorr_chg_dir = 1;
             c.s.rx_tap1_chg_dir = 1);
-#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
+        int baud_mhz = ccpi_get_speed();
+        /* Errata GSER-25992 - RX EQ Default Settings Update */
+        qlm_errata_gser_25992(node, ccpi_qlm + 8, baud_mhz);
         /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
-        qlm_errata_gser_27140(node, ccpi_qlm + 8);
-#endif
+        qlm_errata_gser_27140(node, ccpi_qlm + 8, baud_mhz);
     }
 
     /* Force training into manual mode so we can control it */
@@ -287,6 +455,7 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
     BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(8));
     if (gserx_phy_ctl.s.phy_reset)
         return -1;
+    int baud_mhz = ccpi_get_speed();
 
     if (is_master)
         ccpi_set_lane_reversal();
@@ -335,6 +504,9 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
             uart_dec1(major_pass);
             bdk_dbg_uart_char('.');
             uart_dec1(minor_pass);
+            bdk_dbg_uart_str(", CCPI Speed ");
+            uart_dec2(baud_mhz / 100);
+            uart_dec2(baud_mhz % 100);
             bdk_dbg_uart_str(": Wating for CCPI" EOL);
         }
 
