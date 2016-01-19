@@ -106,8 +106,12 @@
                                        This code is specific to DEFLATE processing and is N/A for compression. */
 #define BDK_ZIP_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by software to
                                        indicate the ZIP_ZRES_S structure has not yet been updated by hardware. */
-#define BDK_ZIP_COMP_E_PARITY (0xa) /**< The compress or decompress encountered an internal parity error. This is a fatal
+#define BDK_ZIP_COMP_E_PARITY_CN88XX (0xa) /**< The compress or decompress encountered an internal parity error. This is a fatal
                                        error and all other outputs (bytes in the output stream and ZIP_ZRES_S fields
+                                       excluding ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are unpredictable and
+                                       should not be used by the software. */
+#define BDK_ZIP_COMP_E_PARITY_CN83XX (0xa) /**< The compress, decompress or hash encountered an internal parity or ECC DBE error. This
+                                       is a fatal error and all other outputs (bytes in the output stream and ZIP_ZRES_S fields
                                        excluding ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are unpredictable and
                                        should not be used by the software. */
 #define BDK_ZIP_COMP_E_RBLOCK (5) /**< Uncompress found the reserved block type 3. This is a fatal error and all other
@@ -330,35 +334,37 @@ union bdk_zip_hash_s
         uint64_t hash3                 : 64; /**< [255:192] Double-word 3 of hash. See [HASH0]. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t prevlen               : 64; /**< [319:256] Previous length in bytes.
+        uint64_t reserved_317_319      : 3;
+        uint64_t prevlen               : 61; /**< [316:256] Previous length in bytes.
 
                                                                  When ZIP_INST_S[BF] and ZIP_INST_S[IV] are set, for the first chunk in a file,
-                                                                 if this value is non-zero (up to 512 and must be multiple of 8), hardware will
-                                                                 read up to [PREVLEN]/8 bytes data in [PDATA0] ... [PDATA7] to use as header to
-                                                                 be hashed, otherwise softwre must write 0x0 since there is no previous hashed
-                                                                 block yet.
+                                                                 if this value is non-zero (up to 64), hardware will read up to [PREVLEN] bytes
+                                                                 data in [PDATA0] ... [PDATA7] to use as header to be hashed, otherwise softwre
+                                                                 must write 0x0 since there is no previous hashed block yet.
 
                                                                  When ZIP_INST_S[IV] is set and [PREVLEN] is zero, [PDATA0] ... [PDATA7] are
                                                                  ignored by hardware.
 
-                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the sum of the [PREVLEN] at the
-                                                                 start of the instruction, plus the number of bytes consumed by hash in the
-                                                                 current instruction. */
+                                                                 When ZIP_INST_S[HMIF] is set, at the end of invocation ZIP writes with the sum of the
+                                                                 [PREVLEN] at the start of the instruction, plus the number of bytes consumed by hash
+                                                                 in the current instruction.  When ZIP_INST_S[HMIF] is set, ZIP also writes internal
+                                                                 intermediate states to [PDATA0] ... [PDATA7] at the end of invocation. */
 #else /* Word 4 - Little Endian */
-        uint64_t prevlen               : 64; /**< [319:256] Previous length in bytes.
+        uint64_t prevlen               : 61; /**< [316:256] Previous length in bytes.
 
                                                                  When ZIP_INST_S[BF] and ZIP_INST_S[IV] are set, for the first chunk in a file,
-                                                                 if this value is non-zero (up to 512 and must be multiple of 8), hardware will
-                                                                 read up to [PREVLEN]/8 bytes data in [PDATA0] ... [PDATA7] to use as header to
-                                                                 be hashed, otherwise softwre must write 0x0 since there is no previous hashed
-                                                                 block yet.
+                                                                 if this value is non-zero (up to 64), hardware will read up to [PREVLEN] bytes
+                                                                 data in [PDATA0] ... [PDATA7] to use as header to be hashed, otherwise softwre
+                                                                 must write 0x0 since there is no previous hashed block yet.
 
                                                                  When ZIP_INST_S[IV] is set and [PREVLEN] is zero, [PDATA0] ... [PDATA7] are
                                                                  ignored by hardware.
 
-                                                                 When ZIP_INST_S[HMIF] is set, ZIP writes with the sum of the [PREVLEN] at the
-                                                                 start of the instruction, plus the number of bytes consumed by hash in the
-                                                                 current instruction. */
+                                                                 When ZIP_INST_S[HMIF] is set, at the end of invocation ZIP writes with the sum of the
+                                                                 [PREVLEN] at the start of the instruction, plus the number of bytes consumed by hash
+                                                                 in the current instruction.  When ZIP_INST_S[HMIF] is set, ZIP also writes internal
+                                                                 intermediate states to [PDATA0] ... [PDATA7] at the end of invocation. */
+        uint64_t reserved_317_319      : 3;
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t reserved_383          : 1;
@@ -485,7 +491,7 @@ union bdk_zip_inst_s
                                                                  the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
                                                                  [DS] = 0, or indirectly if [DS] = 1). */
         uint64_t reserved_27_31        : 5;
-        uint64_t exn                   : 3;  /**< [ 26: 24] EXN is the number of bits produced beyond the last output byte written by
+        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
                                                                  the prior ZIP coprocessor invocation. */
         uint64_t iv                    : 1;  /**< [ 23: 23] Initial values for hashing.
                                                                  0 = If hashing is performed, the initial values start a new hash, using the
@@ -494,19 +500,19 @@ union bdk_zip_inst_s
                                                                  the ZIP_HASH_S pointed to by [HASH_PTR].
 
                                                                  Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
-        uint64_t exbits                : 7;  /**< [ 22: 16] EXN, EXBITS are the previously-generated compressed bits beyond the last
+        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
                                                                  compressed byte written for the file. These bits are required context for partial-file
                                                                  processing because the ZIP compression algorithm produces a compressed bit
                                                                  stream, but the output stream is in bytes.
 
-                                                                 EXN, EXBITS must be 0x0 when [BF] = 1. If [BF] = 0,
-                                                                 EXN, EXBITS typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
+                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
+                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
                                                                  previous ZIP compression coprocessor invocation for the file. (If software instead
                                                                  inserts its own blocks in the compressed output stream between ZIP compression
                                                                  coprocessor invocations, [EXN], [EXBITS] will instead be the
                                                                  result after the last software insertion.)
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc. All unused EXBITS bits must be 0x0.
 
                                                                  For decompression, [EXN], [EXBITS] must be 0x0. */
@@ -521,7 +527,7 @@ union bdk_zip_inst_s
         uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
-                                                                 SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
+                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
                                                                  block to the end of the partial compressed data stream. This forces the partial
                                                                  compressed stream to be byte-aligned. This grows the output by 35-39 bits.
                                                                  [SF] must not be set when [EF] is set.
@@ -546,7 +552,7 @@ union bdk_zip_inst_s
                                                                  0x1 = medium quality, medium speed.
                                                                  0x3 = lowest quality, best speed.
 
-                                                                 For decompression, SS must be 0x0. */
+                                                                 For decompression, [SS] must be 0x0. */
         uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
 
                                                                  For compression:
@@ -555,16 +561,18 @@ union bdk_zip_inst_s
                                                                  0x2 = force fixed Huffman encoding.
                                                                  0x3 = force LZS encoding.
 
-                                                                 For DEFLATE decompression, CC must be 0x0. For LZS decompression, CC must be 0x3. */
+                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
-                                                                 For compression, if EF = 1, the ZIP engine always marks the last output block to be
-                                                                 final. (The extra bits are zero-extended and written out as an output-stream byte.)
+                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
+                                                                 to be final. (The extra bits are zero-extended and written out as an
+                                                                 output-stream byte.)
 
-                                                                 For decompression, it is an error if EF = 1 and the ZIP coprocessor does not complete
-                                                                 decompression of all blocks before it exhausts the input compressed data stream
-                                                                 (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not an error if EF = 0
-                                                                 when the ZIP coprocessor completes decompression of all blocks in the file. */
+                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
+                                                                 complete decompression of all blocks before it exhausts the input compressed
+                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
+                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
+                                                                 blocks in the file. */
         uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
                                                                  file.
 
@@ -592,22 +600,22 @@ union bdk_zip_inst_s
                                                                  by the coprocessor before writing the actual output data.
                                                                  0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
-                                                                 the output scatter list, must be at least 0x2. */
+                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
+                                                                 in the output scatter list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
                                                                  1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
                                                                  0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
-                                                                 input and compression history gather list, must be at least 0x2. */
+                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
+                                                                 in the input and compression history gather list, must be at least 0x2. */
         uint64_t hg                    : 1;  /**< [  0:  0] History gather:
                                                                  1 = [HIS_PTR_ADDR] points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history data.
                                                                  0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
-                                                                 If HG = 1, history data must be present for the decompression operation, and the
+                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
                                                                  [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
                                                                  decompression history gather list, must be at least 0x2. */
 #else /* Word 0 - Little Endian */
@@ -617,7 +625,7 @@ union bdk_zip_inst_s
                                                                  0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
-                                                                 If HG = 1, history data must be present for the decompression operation, and the
+                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
                                                                  [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
                                                                  decompression history gather list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
@@ -625,15 +633,15 @@ union bdk_zip_inst_s
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
                                                                  0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
-                                                                 input and compression history gather list, must be at least 0x2. */
+                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
+                                                                 in the input and compression history gather list, must be at least 0x2. */
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
                                                                  1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
                                                                  by the coprocessor before writing the actual output data.
                                                                  0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
-                                                                 the output scatter list, must be at least 0x2. */
+                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
+                                                                 in the output scatter list, must be at least 0x2. */
         uint64_t reserved_3_4          : 2;
         uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
                                                                  file.
@@ -658,13 +666,15 @@ union bdk_zip_inst_s
                                                                  non-zero, and create a new context. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
-                                                                 For compression, if EF = 1, the ZIP engine always marks the last output block to be
-                                                                 final. (The extra bits are zero-extended and written out as an output-stream byte.)
+                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
+                                                                 to be final. (The extra bits are zero-extended and written out as an
+                                                                 output-stream byte.)
 
-                                                                 For decompression, it is an error if EF = 1 and the ZIP coprocessor does not complete
-                                                                 decompression of all blocks before it exhausts the input compressed data stream
-                                                                 (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not an error if EF = 0
-                                                                 when the ZIP coprocessor completes decompression of all blocks in the file. */
+                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
+                                                                 complete decompression of all blocks before it exhausts the input compressed
+                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
+                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
+                                                                 blocks in the file. */
         uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
 
                                                                  For compression:
@@ -673,7 +683,7 @@ union bdk_zip_inst_s
                                                                  0x2 = force fixed Huffman encoding.
                                                                  0x3 = force LZS encoding.
 
-                                                                 For DEFLATE decompression, CC must be 0x0. For LZS decompression, CC must be 0x3. */
+                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
         uint64_t ss                    : 2;  /**< [ 10:  9] Compression speed/storage.
                                                                  Forces the ZIP compression engine to compress faster, at the expense of the compression
                                                                  ratio.
@@ -684,11 +694,11 @@ union bdk_zip_inst_s
                                                                  0x1 = medium quality, medium speed.
                                                                  0x3 = lowest quality, best speed.
 
-                                                                 For decompression, SS must be 0x0. */
+                                                                 For decompression, [SS] must be 0x0. */
         uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
-                                                                 SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
+                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
                                                                  block to the end of the partial compressed data stream. This forces the partial
                                                                  compressed stream to be byte-aligned. This grows the output by 35-39 bits.
                                                                  [SF] must not be set when [EF] is set.
@@ -711,19 +721,19 @@ union bdk_zip_inst_s
                                                                  and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
 
                                                                  If [HALG] = 0x0 (NONE), must be clear. */
-        uint64_t exbits                : 7;  /**< [ 22: 16] EXN, EXBITS are the previously-generated compressed bits beyond the last
+        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
                                                                  compressed byte written for the file. These bits are required context for partial-file
                                                                  processing because the ZIP compression algorithm produces a compressed bit
                                                                  stream, but the output stream is in bytes.
 
-                                                                 EXN, EXBITS must be 0x0 when [BF] = 1. If [BF] = 0,
-                                                                 EXN, EXBITS typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
+                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
+                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
                                                                  previous ZIP compression coprocessor invocation for the file. (If software instead
                                                                  inserts its own blocks in the compressed output stream between ZIP compression
                                                                  coprocessor invocations, [EXN], [EXBITS] will instead be the
                                                                  result after the last software insertion.)
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc. All unused EXBITS bits must be 0x0.
 
                                                                  For decompression, [EXN], [EXBITS] must be 0x0. */
@@ -734,7 +744,7 @@ union bdk_zip_inst_s
                                                                  the ZIP_HASH_S pointed to by [HASH_PTR].
 
                                                                  Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
-        uint64_t exn                   : 3;  /**< [ 26: 24] EXN is the number of bits produced beyond the last output byte written by
+        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
                                                                  the prior ZIP coprocessor invocation. */
         uint64_t reserved_27_31        : 5;
         uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
@@ -751,13 +761,13 @@ union bdk_zip_inst_s
                                                                  are generally the (uncompressed) file input bytes immediately preceding the file
                                                                  bytes being compressed. However, it is also possible to pass in a preset dictionary at
                                                                  the beginning of the file (which will be followed by the first bytes of the file).
-                                                                 HISTORYLENGTH must never exceed ZIP_CONSTANTS[DEPTH].
-                                                                 HISTORYLENGTH must never exceed the sum of the preset dictionary size plus the
+                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
+                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
                                                                  number of bytes previously processed in the (uncompressed) input data stream for
                                                                  the file. The supplied history bytes must exactly match the bytes previously
                                                                  processed in the (uncompressed) input data stream for the file, preceded by the
                                                                  preset dictionary, if necessary.
-                                                                 HISTORYLENGTH must never exceed 2048 with LZS. */
+                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
         uint64_t reserved_96_111       : 16;
         uint64_t adlercrc32            : 32; /**< [ 95: 64] This 32-bit field represents the current state of the ADLER32 or CRC32 units. The
                                                                  hardware executes both ADLER32 and CRC32 on the processed uncompressed data
@@ -784,13 +794,13 @@ union bdk_zip_inst_s
                                                                  are generally the (uncompressed) file input bytes immediately preceding the file
                                                                  bytes being compressed. However, it is also possible to pass in a preset dictionary at
                                                                  the beginning of the file (which will be followed by the first bytes of the file).
-                                                                 HISTORYLENGTH must never exceed ZIP_CONSTANTS[DEPTH].
-                                                                 HISTORYLENGTH must never exceed the sum of the preset dictionary size plus the
+                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
+                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
                                                                  number of bytes previously processed in the (uncompressed) input data stream for
                                                                  the file. The supplied history bytes must exactly match the bytes previously
                                                                  processed in the (uncompressed) input data stream for the file, preceded by the
                                                                  preset dictionary, if necessary.
-                                                                 HISTORYLENGTH must never exceed 2048 with LZS. */
+                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
@@ -813,10 +823,10 @@ union bdk_zip_inst_s
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[HG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
 #else /* Word 5 - Little Endian */
         uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[HG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
         uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
@@ -825,10 +835,10 @@ union bdk_zip_inst_s
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[DG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
 #else /* Word 7 - Little Endian */
         uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[DG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
@@ -954,38 +964,38 @@ union bdk_zip_inst_s
     struct bdk_zip_inst_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done Interrupt. When DONEINT is set and the instruction completes,
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When DONEINT is set and the instruction completes,
                                                                  ZIP_QUE(0..7)_DONE[DONE] will be incremented. */
         uint64_t reserved_56_62        : 7;
         uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
-                                                                 TOTALOUTPUTLENGTH must exactly match the number of bytes indicated by
-                                                                 the output pointer (either by ZPTR[LENGTH] directly if
+                                                                 [TOTALOUTPUTLENGTH] must exactly match the number of bytes indicated by
+                                                                 the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
                                                                  [DS] = 0, or indirectly if [DS] = 1). */
         uint64_t reserved_27_31        : 5;
-        uint64_t exn                   : 3;  /**< [ 26: 24] EXN is the number of bits produced beyond the last output byte written by
+        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
                                                                  the prior ZIP coprocessor invocation. */
         uint64_t reserved_23           : 1;
-        uint64_t exbits                : 7;  /**< [ 22: 16] EXN,EXBITS are the previously-generated compressed bits beyond the last
+        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
                                                                  compressed byte written for the file. These bits are required context for partial-file
                                                                  processing because the ZIP compression algorithm produces a compressed bit
                                                                  stream, but the output stream is in bytes.
 
-                                                                 EXN,EXBITS must be 0x0 when [BF] = 1. If [BF] = 0,
-                                                                 EXN, EXBITS typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
+                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
+                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
                                                                  previous ZIP compression coprocessor invocation for the file. (If software instead
                                                                  inserts its own blocks in the compressed output stream between ZIP compression
                                                                  coprocessor invocations, [EXN], [EXBITS] will instead be the
                                                                  result after the last software insertion.)
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc. All unused EXBITS bits must be 0x0.
 
-                                                                 For decompression, EXN, EXBITS must be 0x0 */
+                                                                 For decompression, [EXN], [EXBITS] must be 0x0. */
         uint64_t reserved_12_15        : 4;
         uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
-                                                                 SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
+                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
                                                                  block to the end of the partial compressed data stream. This forces the partial
                                                                  compressed stream to be byte-aligned. This grows the output by 35-39 bits.
                                                                  [SF] must not be set when [EF] is set.
@@ -1010,7 +1020,7 @@ union bdk_zip_inst_s
                                                                  0x1 = medium quality, medium speed.
                                                                  0x3 = lowest quality, best speed.
 
-                                                                 For decompression, SS must be 0x0. */
+                                                                 For decompression, [SS] must be 0x0. */
         uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
 
                                                                  For compression:
@@ -1019,16 +1029,18 @@ union bdk_zip_inst_s
                                                                  0x2 = force fixed Huffman encoding.
                                                                  0x3 = force LZS encoding.
 
-                                                                 For DEFLATE decompression, CC must be 0x0. For LZS decompression, CC must be 0x3. */
+                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
-                                                                 For compression, if EF = 1, the ZIP engine always marks the last output block to be
-                                                                 final. (The extra bits are zero-extended and written out as an output-stream byte.)
+                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
+                                                                 to be final. (The extra bits are zero-extended and written out as an
+                                                                 output-stream byte.)
 
-                                                                 For decompression, it is an error if EF = 1 and the ZIP coprocessor does not complete
-                                                                 decompression of all blocks before it exhausts the input compressed data stream
-                                                                 (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not an error if EF = 0
-                                                                 when the ZIP coprocessor completes decompression of all blocks in the file. */
+                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
+                                                                 complete decompression of all blocks before it exhausts the input compressed
+                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
+                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
+                                                                 blocks in the file. */
         uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
                                                                  file.
 
@@ -1053,22 +1065,22 @@ union bdk_zip_inst_s
                                                                  by the coprocessor before writing the actual output data.
                                                                  0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
-                                                                 the output scatter list, must be at least 0x2. */
+                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
+                                                                 in the output scatter list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
                                                                  1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
                                                                  0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
-                                                                 input and compression history gather list, must be at least 0x2. */
+                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
+                                                                 in the input and compression history gather list, must be at least 0x2. */
         uint64_t hg                    : 1;  /**< [  0:  0] History gather:
                                                                  1 = [HIS_PTR_ADDR] points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history data.
                                                                  0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
-                                                                 If HG = 1, history data must be present for the decompression operation, and the
+                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
                                                                  [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
                                                                  decompression history gather list, must be at least 0x2. */
 #else /* Word 0 - Little Endian */
@@ -1078,7 +1090,7 @@ union bdk_zip_inst_s
                                                                  0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
-                                                                 If HG = 1, history data must be present for the decompression operation, and the
+                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
                                                                  [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
                                                                  decompression history gather list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
@@ -1086,15 +1098,15 @@ union bdk_zip_inst_s
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
                                                                  0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
-                                                                 input and compression history gather list, must be at least 0x2. */
+                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
+                                                                 in the input and compression history gather list, must be at least 0x2. */
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
                                                                  1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
                                                                  by the coprocessor before writing the actual output data.
                                                                  0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
-                                                                 the output scatter list, must be at least 0x2. */
+                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
+                                                                 in the output scatter list, must be at least 0x2. */
         uint64_t reserved_3            : 1;
         uint64_t ce                    : 1;  /**< [  4:  4] Compression enable:
                                                                    1 = ZIP operation is a compress.
@@ -1116,13 +1128,15 @@ union bdk_zip_inst_s
                                                                  1 = beginning of the file, create a new context. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
-                                                                 For compression, if EF = 1, the ZIP engine always marks the last output block to be
-                                                                 final. (The extra bits are zero-extended and written out as an output-stream byte.)
+                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
+                                                                 to be final. (The extra bits are zero-extended and written out as an
+                                                                 output-stream byte.)
 
-                                                                 For decompression, it is an error if EF = 1 and the ZIP coprocessor does not complete
-                                                                 decompression of all blocks before it exhausts the input compressed data stream
-                                                                 (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not an error if EF = 0
-                                                                 when the ZIP coprocessor completes decompression of all blocks in the file. */
+                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
+                                                                 complete decompression of all blocks before it exhausts the input compressed
+                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
+                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
+                                                                 blocks in the file. */
         uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
 
                                                                  For compression:
@@ -1131,7 +1145,7 @@ union bdk_zip_inst_s
                                                                  0x2 = force fixed Huffman encoding.
                                                                  0x3 = force LZS encoding.
 
-                                                                 For DEFLATE decompression, CC must be 0x0. For LZS decompression, CC must be 0x3. */
+                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
         uint64_t ss                    : 2;  /**< [ 10:  9] Compression speed/storage.
                                                                  Forces the ZIP compression engine to compress faster, at the expense of the compression
                                                                  ratio.
@@ -1142,11 +1156,11 @@ union bdk_zip_inst_s
                                                                  0x1 = medium quality, medium speed.
                                                                  0x3 = lowest quality, best speed.
 
-                                                                 For decompression, SS must be 0x0. */
+                                                                 For decompression, [SS] must be 0x0. */
         uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
-                                                                 SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
+                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
                                                                  block to the end of the partial compressed data stream. This forces the partial
                                                                  compressed stream to be byte-aligned. This grows the output by 35-39 bits.
                                                                  [SF] must not be set when [EF] is set.
@@ -1162,32 +1176,32 @@ union bdk_zip_inst_s
                                                                  For decompression,
                                                                  [SF] should always be set. */
         uint64_t reserved_12_15        : 4;
-        uint64_t exbits                : 7;  /**< [ 22: 16] EXN,EXBITS are the previously-generated compressed bits beyond the last
+        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
                                                                  compressed byte written for the file. These bits are required context for partial-file
                                                                  processing because the ZIP compression algorithm produces a compressed bit
                                                                  stream, but the output stream is in bytes.
 
-                                                                 EXN,EXBITS must be 0x0 when [BF] = 1. If [BF] = 0,
-                                                                 EXN, EXBITS typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
+                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
+                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
                                                                  previous ZIP compression coprocessor invocation for the file. (If software instead
                                                                  inserts its own blocks in the compressed output stream between ZIP compression
                                                                  coprocessor invocations, [EXN], [EXBITS] will instead be the
                                                                  result after the last software insertion.)
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc. All unused EXBITS bits must be 0x0.
 
-                                                                 For decompression, EXN, EXBITS must be 0x0 */
+                                                                 For decompression, [EXN], [EXBITS] must be 0x0. */
         uint64_t reserved_23           : 1;
-        uint64_t exn                   : 3;  /**< [ 26: 24] EXN is the number of bits produced beyond the last output byte written by
+        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
                                                                  the prior ZIP coprocessor invocation. */
         uint64_t reserved_27_31        : 5;
         uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
-                                                                 TOTALOUTPUTLENGTH must exactly match the number of bytes indicated by
-                                                                 the output pointer (either by ZPTR[LENGTH] directly if
+                                                                 [TOTALOUTPUTLENGTH] must exactly match the number of bytes indicated by
+                                                                 the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
                                                                  [DS] = 0, or indirectly if [DS] = 1). */
         uint64_t reserved_56_62        : 7;
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done Interrupt. When DONEINT is set and the instruction completes,
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When DONEINT is set and the instruction completes,
                                                                  ZIP_QUE(0..7)_DONE[DONE] will be incremented. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -1196,18 +1210,18 @@ union bdk_zip_inst_s
                                                                  are generally the (uncompressed) file input bytes immediately preceding the file
                                                                  bytes being compressed. However, it is also possible to pass in a preset dictionary at
                                                                  the beginning of the file (which will be followed by the first bytes of the file).
-                                                                 HISTORYLENGTH must never exceed ZIP_CONSTANTS[DEPTH].
-                                                                 HISTORYLENGTH must never exceed the sum of the preset dictionary size plus the
+                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
+                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
                                                                  number of bytes previously processed in the (uncompressed) input data stream for
                                                                  the file. The supplied history bytes must exactly match the bytes previously
                                                                  processed in the (uncompressed) input data stream for the file, preceded by the
                                                                  preset dictionary, if necessary.
-                                                                 HISTORYLENGTH must never exceed 2048 with LZS. */
+                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
         uint64_t reserved_96_111       : 16;
         uint64_t adlercrc32            : 32; /**< [ 95: 64] This 32-bit field represents the current state of the ADLER32 or CRC32 units. The
                                                                  hardware executes both ADLER32 and CRC32 on the processed uncompressed data
                                                                  bytes using this value as the current checksum. Though the hardware outputs both
-                                                                 the ADLER32 and CRC32 results, ADLERCRC32 is the only checksum input, so only
+                                                                 the ADLER32 and CRC32 results, [ADLERCRC32] is the only checksum input, so only
                                                                  one of the two outputs is likely to be useful.
 
                                                                  The ADLER32 algorithm is defined in RFC1950.
@@ -1217,7 +1231,7 @@ union bdk_zip_inst_s
         uint64_t adlercrc32            : 32; /**< [ 95: 64] This 32-bit field represents the current state of the ADLER32 or CRC32 units. The
                                                                  hardware executes both ADLER32 and CRC32 on the processed uncompressed data
                                                                  bytes using this value as the current checksum. Though the hardware outputs both
-                                                                 the ADLER32 and CRC32 results, ADLERCRC32 is the only checksum input, so only
+                                                                 the ADLER32 and CRC32 results, [ADLERCRC32] is the only checksum input, so only
                                                                  one of the two outputs is likely to be useful.
 
                                                                  The ADLER32 algorithm is defined in RFC1950.
@@ -1229,13 +1243,13 @@ union bdk_zip_inst_s
                                                                  are generally the (uncompressed) file input bytes immediately preceding the file
                                                                  bytes being compressed. However, it is also possible to pass in a preset dictionary at
                                                                  the beginning of the file (which will be followed by the first bytes of the file).
-                                                                 HISTORYLENGTH must never exceed ZIP_CONSTANTS[DEPTH].
-                                                                 HISTORYLENGTH must never exceed the sum of the preset dictionary size plus the
+                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
+                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
                                                                  number of bytes previously processed in the (uncompressed) input data stream for
                                                                  the file. The supplied history bytes must exactly match the bytes previously
                                                                  processed in the (uncompressed) input data stream for the file, preceded by the
                                                                  preset dictionary, if necessary.
-                                                                 HISTORYLENGTH must never exceed 2048 with LZS. */
+                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
@@ -1246,10 +1260,10 @@ union bdk_zip_inst_s
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 LENGTH=0 (2048 bytes implied). */
+                                                                 ZIP_ZPTR_S[LENGTH] = 0 (2048 bytes implied). */
 #else /* Word 3 - Little Endian */
         uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 LENGTH=0 (2048 bytes implied). */
+                                                                 ZIP_ZPTR_S[LENGTH] = 0 (2048 bytes implied). */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition). */
@@ -1258,10 +1272,10 @@ union bdk_zip_inst_s
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[HG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
 #else /* Word 5 - Little Endian */
         uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[HG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
         uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
@@ -1270,10 +1284,10 @@ union bdk_zip_inst_s
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[DG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
 #else /* Word 7 - Little Endian */
         uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[DG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
@@ -1365,7 +1379,7 @@ union bdk_zip_inst_s
                                                                  the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
                                                                  [DS] = 0, or indirectly if [DS] = 1). */
         uint64_t reserved_27_31        : 5;
-        uint64_t exn                   : 3;  /**< [ 26: 24] EXN is the number of bits produced beyond the last output byte written by
+        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
                                                                  the prior ZIP coprocessor invocation. */
         uint64_t iv                    : 1;  /**< [ 23: 23] Initial values for hashing.
                                                                  0 = If hashing is performed, the initial values start a new hash, using the
@@ -1374,19 +1388,19 @@ union bdk_zip_inst_s
                                                                  the ZIP_HASH_S pointed to by [HASH_PTR].
 
                                                                  Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
-        uint64_t exbits                : 7;  /**< [ 22: 16] EXN, EXBITS are the previously-generated compressed bits beyond the last
+        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
                                                                  compressed byte written for the file. These bits are required context for partial-file
                                                                  processing because the ZIP compression algorithm produces a compressed bit
                                                                  stream, but the output stream is in bytes.
 
-                                                                 EXN, EXBITS must be 0x0 when [BF] = 1. If [BF] = 0,
-                                                                 EXN, EXBITS typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
+                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
+                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
                                                                  previous ZIP compression coprocessor invocation for the file. (If software instead
                                                                  inserts its own blocks in the compressed output stream between ZIP compression
                                                                  coprocessor invocations, [EXN], [EXBITS] will instead be the
                                                                  result after the last software insertion.)
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc. All unused EXBITS bits must be 0x0.
 
                                                                  For decompression, [EXN], [EXBITS] must be 0x0. */
@@ -1401,7 +1415,7 @@ union bdk_zip_inst_s
         uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
-                                                                 SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
+                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
                                                                  block to the end of the partial compressed data stream. This forces the partial
                                                                  compressed stream to be byte-aligned. This grows the output by 35-39 bits.
                                                                  [SF] must not be set when [EF] is set.
@@ -1426,7 +1440,7 @@ union bdk_zip_inst_s
                                                                  0x1 = medium quality, medium speed.
                                                                  0x3 = lowest quality, best speed.
 
-                                                                 For decompression, SS must be 0x0. */
+                                                                 For decompression, [SS] must be 0x0. */
         uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
 
                                                                  For compression:
@@ -1435,16 +1449,18 @@ union bdk_zip_inst_s
                                                                  0x2 = force fixed Huffman encoding.
                                                                  0x3 = force LZS encoding.
 
-                                                                 For DEFLATE decompression, CC must be 0x0. For LZS decompression, CC must be 0x3. */
+                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
-                                                                 For compression, if EF = 1, the ZIP engine always marks the last output block to be
-                                                                 final. (The extra bits are zero-extended and written out as an output-stream byte.)
+                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
+                                                                 to be final. (The extra bits are zero-extended and written out as an
+                                                                 output-stream byte.)
 
-                                                                 For decompression, it is an error if EF = 1 and the ZIP coprocessor does not complete
-                                                                 decompression of all blocks before it exhausts the input compressed data stream
-                                                                 (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not an error if EF = 0
-                                                                 when the ZIP coprocessor completes decompression of all blocks in the file. */
+                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
+                                                                 complete decompression of all blocks before it exhausts the input compressed
+                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
+                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
+                                                                 blocks in the file. */
         uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
                                                                  file.
 
@@ -1472,22 +1488,22 @@ union bdk_zip_inst_s
                                                                  by the coprocessor before writing the actual output data.
                                                                  0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
-                                                                 the output scatter list, must be at least 0x2. */
+                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
+                                                                 in the output scatter list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
                                                                  1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
                                                                  0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
-                                                                 input and compression history gather list, must be at least 0x2. */
+                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
+                                                                 in the input and compression history gather list, must be at least 0x2. */
         uint64_t hg                    : 1;  /**< [  0:  0] History gather:
                                                                  1 = [HIS_PTR_ADDR] points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history data.
                                                                  0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
-                                                                 If HG = 1, history data must be present for the decompression operation, and the
+                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
                                                                  [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
                                                                  decompression history gather list, must be at least 0x2. */
 #else /* Word 0 - Little Endian */
@@ -1497,7 +1513,7 @@ union bdk_zip_inst_s
                                                                  0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
-                                                                 If HG = 1, history data must be present for the decompression operation, and the
+                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
                                                                  [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
                                                                  decompression history gather list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
@@ -1505,15 +1521,15 @@ union bdk_zip_inst_s
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
                                                                  0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
-                                                                 input and compression history gather list, must be at least 0x2. */
+                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
+                                                                 in the input and compression history gather list, must be at least 0x2. */
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
                                                                  1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
                                                                  by the coprocessor before writing the actual output data.
                                                                  0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
-                                                                 the output scatter list, must be at least 0x2. */
+                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
+                                                                 in the output scatter list, must be at least 0x2. */
         uint64_t op                    : 2;  /**< [  4:  3] Compression/decompression operation. Enumerated by ZIP_OP_E. */
         uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
                                                                  file.
@@ -1538,13 +1554,15 @@ union bdk_zip_inst_s
                                                                  non-zero, and create a new context. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
-                                                                 For compression, if EF = 1, the ZIP engine always marks the last output block to be
-                                                                 final. (The extra bits are zero-extended and written out as an output-stream byte.)
+                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
+                                                                 to be final. (The extra bits are zero-extended and written out as an
+                                                                 output-stream byte.)
 
-                                                                 For decompression, it is an error if EF = 1 and the ZIP coprocessor does not complete
-                                                                 decompression of all blocks before it exhausts the input compressed data stream
-                                                                 (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not an error if EF = 0
-                                                                 when the ZIP coprocessor completes decompression of all blocks in the file. */
+                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
+                                                                 complete decompression of all blocks before it exhausts the input compressed
+                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
+                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
+                                                                 blocks in the file. */
         uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
 
                                                                  For compression:
@@ -1553,7 +1571,7 @@ union bdk_zip_inst_s
                                                                  0x2 = force fixed Huffman encoding.
                                                                  0x3 = force LZS encoding.
 
-                                                                 For DEFLATE decompression, CC must be 0x0. For LZS decompression, CC must be 0x3. */
+                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
         uint64_t ss                    : 2;  /**< [ 10:  9] Compression speed/storage.
                                                                  Forces the ZIP compression engine to compress faster, at the expense of the compression
                                                                  ratio.
@@ -1564,11 +1582,11 @@ union bdk_zip_inst_s
                                                                  0x1 = medium quality, medium speed.
                                                                  0x3 = lowest quality, best speed.
 
-                                                                 For decompression, SS must be 0x0. */
+                                                                 For decompression, [SS] must be 0x0. */
         uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
-                                                                 SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
+                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
                                                                  block to the end of the partial compressed data stream. This forces the partial
                                                                  compressed stream to be byte-aligned. This grows the output by 35-39 bits.
                                                                  [SF] must not be set when [EF] is set.
@@ -1591,19 +1609,19 @@ union bdk_zip_inst_s
                                                                  and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
 
                                                                  If [HALG] = 0x0 (NONE), must be clear. */
-        uint64_t exbits                : 7;  /**< [ 22: 16] EXN, EXBITS are the previously-generated compressed bits beyond the last
+        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
                                                                  compressed byte written for the file. These bits are required context for partial-file
                                                                  processing because the ZIP compression algorithm produces a compressed bit
                                                                  stream, but the output stream is in bytes.
 
-                                                                 EXN, EXBITS must be 0x0 when [BF] = 1. If [BF] = 0,
-                                                                 EXN, EXBITS typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
+                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
+                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
                                                                  previous ZIP compression coprocessor invocation for the file. (If software instead
                                                                  inserts its own blocks in the compressed output stream between ZIP compression
                                                                  coprocessor invocations, [EXN], [EXBITS] will instead be the
                                                                  result after the last software insertion.)
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc. All unused EXBITS bits must be 0x0.
 
                                                                  For decompression, [EXN], [EXBITS] must be 0x0. */
@@ -1614,7 +1632,7 @@ union bdk_zip_inst_s
                                                                  the ZIP_HASH_S pointed to by [HASH_PTR].
 
                                                                  Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
-        uint64_t exn                   : 3;  /**< [ 26: 24] EXN is the number of bits produced beyond the last output byte written by
+        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
                                                                  the prior ZIP coprocessor invocation. */
         uint64_t reserved_27_31        : 5;
         uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
@@ -1631,13 +1649,13 @@ union bdk_zip_inst_s
                                                                  are generally the (uncompressed) file input bytes immediately preceding the file
                                                                  bytes being compressed. However, it is also possible to pass in a preset dictionary at
                                                                  the beginning of the file (which will be followed by the first bytes of the file).
-                                                                 HISTORYLENGTH must never exceed ZIP_CONSTANTS[DEPTH].
-                                                                 HISTORYLENGTH must never exceed the sum of the preset dictionary size plus the
+                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
+                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
                                                                  number of bytes previously processed in the (uncompressed) input data stream for
                                                                  the file. The supplied history bytes must exactly match the bytes previously
                                                                  processed in the (uncompressed) input data stream for the file, preceded by the
                                                                  preset dictionary, if necessary.
-                                                                 HISTORYLENGTH must never exceed 2048 with LZS. */
+                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
         uint64_t reserved_96_111       : 16;
         uint64_t adlercrc32            : 32; /**< [ 95: 64] This 32-bit field represents the current state of the ADLER32 or CRC32 units. The
                                                                  hardware executes both ADLER32 and CRC32 on the processed uncompressed data
@@ -1664,13 +1682,13 @@ union bdk_zip_inst_s
                                                                  are generally the (uncompressed) file input bytes immediately preceding the file
                                                                  bytes being compressed. However, it is also possible to pass in a preset dictionary at
                                                                  the beginning of the file (which will be followed by the first bytes of the file).
-                                                                 HISTORYLENGTH must never exceed ZIP_CONSTANTS[DEPTH].
-                                                                 HISTORYLENGTH must never exceed the sum of the preset dictionary size plus the
+                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
+                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
                                                                  number of bytes previously processed in the (uncompressed) input data stream for
                                                                  the file. The supplied history bytes must exactly match the bytes previously
                                                                  processed in the (uncompressed) input data stream for the file, preceded by the
                                                                  preset dictionary, if necessary.
-                                                                 HISTORYLENGTH must never exceed 2048 with LZS. */
+                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
@@ -1693,10 +1711,10 @@ union bdk_zip_inst_s
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[HG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
 #else /* Word 5 - Little Endian */
         uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[HG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
         uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
@@ -1705,10 +1723,10 @@ union bdk_zip_inst_s
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[DG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
 #else /* Word 7 - Little Endian */
         uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 FW = 0. ZIP_INST_S[DG] set if gather. */
+                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
@@ -2091,7 +2109,7 @@ union bdk_zip_zptr_s
         uint64_t length                : 16; /**< [111: 96] In case (a) and (c) under [ADDR], [LENGTH] is the number of bytes pointed at by [ADDR].
                                                                  [LENGTH] must be nonzero in this case.
                                                                  In case (b) under [ADDR], [LENGTH] is the number of gather/ scatter list pointer entries
-                                                                 pointed at by ADDR. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
+                                                                 pointed at by [ADDR]. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
                                                                  this case.
                                                                  [LENGTH] must be zero for context and result pointers, because each has an implied fixed-
                                                                  size length (of ZIP_CONSTANTS[CTXSIZE] or fewer bytes and 24 bytes, respectively). */
@@ -2127,7 +2145,7 @@ union bdk_zip_zptr_s
         uint64_t length                : 16; /**< [111: 96] In case (a) and (c) under [ADDR], [LENGTH] is the number of bytes pointed at by [ADDR].
                                                                  [LENGTH] must be nonzero in this case.
                                                                  In case (b) under [ADDR], [LENGTH] is the number of gather/ scatter list pointer entries
-                                                                 pointed at by ADDR. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
+                                                                 pointed at by [ADDR]. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
                                                                  this case.
                                                                  [LENGTH] must be zero for context and result pointers, because each has an implied fixed-
                                                                  size length (of ZIP_CONSTANTS[CTXSIZE] or fewer bytes and 24 bytes, respectively). */
@@ -2160,7 +2178,9 @@ union bdk_zip_zres_s
 
                                                                  For decompression, CRC32 is valid only for error-free invocations that find the end of
                                                                  file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32 result
-                                                                 for the file */
+                                                                 for the file
+
+                                                                 For standalone hashing invocations, [CRC32] is always 0x0. */
         uint64_t adler32               : 32; /**< [ 31:  0] The ADLER32 result corresponding to the bytes processed in the uncompressed
                                                                  stream, starting with the checksum ZIP_INST_S[ADLERCRC32].
 
@@ -2169,9 +2189,11 @@ union bdk_zip_zres_s
                                                                  ADLER32 calculation. ADLER32 is valid for all error-free compression invocations,
                                                                  whether at the beginning, middle, or end of file.
 
-                                                                 For decompression, ADLER32 is valid only for error-free invocations that find the
-                                                                 end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
-                                                                 result for the file. */
+                                                                 For decompression, [ADLER32] is valid only for error-free invocations that find
+                                                                 the end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
+                                                                 result for the file.
+
+                                                                 For standalone hashing invocations, [ADLER32] is always 0x0. */
 #else /* Word 0 - Little Endian */
         uint64_t adler32               : 32; /**< [ 31:  0] The ADLER32 result corresponding to the bytes processed in the uncompressed
                                                                  stream, starting with the checksum ZIP_INST_S[ADLERCRC32].
@@ -2181,9 +2203,11 @@ union bdk_zip_zres_s
                                                                  ADLER32 calculation. ADLER32 is valid for all error-free compression invocations,
                                                                  whether at the beginning, middle, or end of file.
 
-                                                                 For decompression, ADLER32 is valid only for error-free invocations that find the
-                                                                 end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
-                                                                 result for the file. */
+                                                                 For decompression, [ADLER32] is valid only for error-free invocations that find
+                                                                 the end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
+                                                                 result for the file.
+
+                                                                 For standalone hashing invocations, [ADLER32] is always 0x0. */
         uint64_t crc32                 : 32; /**< [ 63: 32] The CRC32 result corresponding to the bytes processed in the uncompressed stream,
                                                                  seeded with ZIP_INST_S[ADLERCRC32].
 
@@ -2194,78 +2218,95 @@ union bdk_zip_zres_s
 
                                                                  For decompression, CRC32 is valid only for error-free invocations that find the end of
                                                                  file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32 result
-                                                                 for the file */
+                                                                 for the file
+
+                                                                 For standalone hashing invocations, [CRC32] is always 0x0. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t totalbyteswritten     : 32; /**< [127: 96] The total number of bytes produced in the output stream during this coprocessor
-                                                                 invocation. TOTALBYTESWRITTEN <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all error-free cases
+                                                                 invocation. [TOTALBYTESWRITTEN] <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all
+                                                                 error-free cases.
 
-                                                                 For an error-free compression, TOTALBYTESWRITTEN is the number of
+                                                                 For an error-free compression, [TOTALBYTESWRITTEN] is the number of
                                                                  compressed output bytes that were written during the compression. This includes
                                                                  any valid [EXN],[EXBITS] when [EF] = 1, and excludes
                                                                  any valid [EXN],[EXBITS] when [EF] = 0.
 
-                                                                 For an error-free decompression, TOTALBYTESWRITTEN is the number of uncompressed
-                                                                 output bytes produced by the operation */
+                                                                 For an error-free decompression, [TOTALBYTESWRITTEN] is the number of
+                                                                 uncompressed output bytes produced by the operation
+
+                                                                 For standalone hashing invocations, [TOTALBYTESWRITTEN] is always 0. */
         uint64_t totalbytesread        : 32; /**< [ 95: 64] The total number of bytes processed from the input stream during this coprocessor
-                                                                 invocation. Note that for a compression operation, TOTALBYTESREAD does count
+                                                                 invocation. Note that for a compression operation, [TOTALBYTESREAD] does count
                                                                  the history bytes read in (when ZIP_INST_S[HISTORYLENGTH] != 0x0).
 
                                                                  For an error-free compression, [TOTALBYTESREAD] ZIP_INST_S[HISTORYLENGTH] is
                                                                  the number of uncompressed input bytes which, when compressed and concatenated after
                                                                  ZIP_INST_S[EXN], ZIP_INST_S[EXBITS], produces the compressed byte-output stream
                                                                  (and [EXN],[EXBITS] when valid). In all error-free compression
-                                                                 invocations, TOTALBYTESREAD equals the total number of input bytes supplied
-                                                                 via INP_PTR (input and compression history bytes).
+                                                                 invocations, [TOTALBYTESREAD] equals the total number of input bytes supplied
+                                                                 via [INP_PTR_ADDR] (input and compression history bytes).
 
-                                                                 For an error-free decompression, TOTALBYTESREAD is the number of compressed
-                                                                 input bytes which were read during the decompression. */
+                                                                 For an error-free decompression, [TOTALBYTESREAD] is the number of compressed
+                                                                 input bytes which were read during the decompression.
+
+                                                                 For standalone hashing invocations, [TOTALBYTESREAD] is not used and is always 0x0. */
 #else /* Word 1 - Little Endian */
         uint64_t totalbytesread        : 32; /**< [ 95: 64] The total number of bytes processed from the input stream during this coprocessor
-                                                                 invocation. Note that for a compression operation, TOTALBYTESREAD does count
+                                                                 invocation. Note that for a compression operation, [TOTALBYTESREAD] does count
                                                                  the history bytes read in (when ZIP_INST_S[HISTORYLENGTH] != 0x0).
 
                                                                  For an error-free compression, [TOTALBYTESREAD] ZIP_INST_S[HISTORYLENGTH] is
                                                                  the number of uncompressed input bytes which, when compressed and concatenated after
                                                                  ZIP_INST_S[EXN], ZIP_INST_S[EXBITS], produces the compressed byte-output stream
                                                                  (and [EXN],[EXBITS] when valid). In all error-free compression
-                                                                 invocations, TOTALBYTESREAD equals the total number of input bytes supplied
-                                                                 via INP_PTR (input and compression history bytes).
+                                                                 invocations, [TOTALBYTESREAD] equals the total number of input bytes supplied
+                                                                 via [INP_PTR_ADDR] (input and compression history bytes).
 
-                                                                 For an error-free decompression, TOTALBYTESREAD is the number of compressed
-                                                                 input bytes which were read during the decompression. */
+                                                                 For an error-free decompression, [TOTALBYTESREAD] is the number of compressed
+                                                                 input bytes which were read during the decompression.
+
+                                                                 For standalone hashing invocations, [TOTALBYTESREAD] is not used and is always 0x0. */
         uint64_t totalbyteswritten     : 32; /**< [127: 96] The total number of bytes produced in the output stream during this coprocessor
-                                                                 invocation. TOTALBYTESWRITTEN <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all error-free cases
+                                                                 invocation. [TOTALBYTESWRITTEN] <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all
+                                                                 error-free cases.
 
-                                                                 For an error-free compression, TOTALBYTESWRITTEN is the number of
+                                                                 For an error-free compression, [TOTALBYTESWRITTEN] is the number of
                                                                  compressed output bytes that were written during the compression. This includes
                                                                  any valid [EXN],[EXBITS] when [EF] = 1, and excludes
                                                                  any valid [EXN],[EXBITS] when [EF] = 0.
 
-                                                                 For an error-free decompression, TOTALBYTESWRITTEN is the number of uncompressed
-                                                                 output bytes produced by the operation */
+                                                                 For an error-free decompression, [TOTALBYTESWRITTEN] is the number of
+                                                                 uncompressed output bytes produced by the operation
+
+                                                                 For standalone hashing invocations, [TOTALBYTESWRITTEN] is always 0. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
-                                                                 TOTALBITSPROCESSED indicates the number of compressed input bits consumed
-                                                                 to decompress all blocks in the file. (TOTALBITSPROCESSED + 7)/8 is the total
+                                                                 [TOTALBITSPROCESSED] indicates the number of compressed input bits consumed
+                                                                 to decompress all blocks in the file. ([TOTALBITSPROCESSED] + 7)/8 is the total
                                                                  number of bytes in the entire compressed input stream from the file in that case. (For
                                                                  example, this can be used to find the location of the ADLER32/CRC32 codes that
-                                                                 follow the compressed data.) Note that TOTALBITSPROCESSED refers to the total
+                                                                 follow the compressed data.) Note that [TOTALBITSPROCESSED] refers to the total
                                                                  number of bits processed during all invocations of the ZIP decompression coprocessor
                                                                  for the entire file.
 
-                                                                 For any decompress with an error or with [EF] = 0, TOTALBITSPROCESSED is unused
-                                                                 and undefined.
+                                                                 For any decompress with an error or with [EF] = 0, [TOTALBITSPROCESSED] is
+                                                                 unused and undefined.
 
-                                                                 For any compress, TOTALBITSPROCESSED is unused and undefined.
+                                                                 For any compress, [TOTALBITSPROCESSED] is unused and undefined.
 
-                                                                 If the true total bits processed by the ZIP coprocessor equals or exceeds 2^32 for a file,
-                                                                 TOTALBITSPROCESSED contains the low-order 32-bits of the actual value for the
-                                                                 file. If necessary, in this large file decompression case, software can calculate the true
-                                                                 total bits processed by the ZIP coprocessor using the TOTALBITSPROCESSED
-                                                                 value returned by the hardware, together with the total number of input bytes in the
-                                                                 compressed file. */
+                                                                 For any standalone hashing, [TOTALBITSPROCESSED] is the bytes count of all the
+                                                                 bytes hashed in the current instruction. When ZIP_INST_S[BF] and ZIP_INST_S[IV]
+                                                                 are set, [TOTALBITSPROCESSED] also includes the ZIP_HASH_S[PREVLEN] bytes of
+                                                                 header included in ZIP_HASH_S[PDATA0...7].
+
+                                                                 If the true total bits processed by the ZIP coprocessor equals or exceeds 2^32
+                                                                 for a file, [TOTALBITSPROCESSED] contains the low-order 32-bits of the actual
+                                                                 value for the file. If necessary, in this large file decompression case,
+                                                                 software can calculate the true total bits processed by the ZIP coprocessor
+                                                                 using the [TOTALBITSPROCESSED] value returned by the hardware, together with the
+                                                                 total number of input bytes in the compressed file. */
         uint64_t doneint               : 1;  /**< [159:159] Done Interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
         uint64_t reserved_155_158      : 4;
         uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
@@ -2278,19 +2319,20 @@ union bdk_zip_zres_s
                                                                  ZIP_INST_S[EF] = 0 and ZIP_INST_S[SF] = 0, and are not used and undefined in all other
                                                                  cases.
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc.
 
-                                                                 For decompression, [EXN] and [EXBITS] are not used and are undefined. */
+                                                                 For decompression or standalone hashing, [EXN] and [EXBITS] are not used and are
+                                                                 undefined. */
         uint64_t reserved_137_143      : 7;
         uint64_t ef                    : 1;  /**< [136:136] End of file.
 
-                                                                 For any error-free decompression, EF indicates whether the ZIP
-                                                                 coprocessor completed decompression of all blocks in the file during this invocation. If
-                                                                 EF = 1 for a decompression operation, the ZIP coprocessor must not be invoked again
-                                                                 for further processing on this file.
+                                                                 For any error-free decompression, [EF] indicates whether the ZIP coprocessor
+                                                                 completed decompression of all blocks in the file during this invocation. If
+                                                                 [EF] = 1 for a decompression operation, the ZIP coprocessor must not be invoked
+                                                                 again for further processing on this file.
 
-                                                                 For compression, EF is not used and is undefined. */
+                                                                 For compression or standalone hashing, [EF] is not used and is undefined. */
         uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
                                                                  as enumerated by ZIP_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
@@ -2299,7 +2341,10 @@ union bdk_zip_zres_s
 
                                                                  Once the core observes a non-zero [COMPCODE] value in this case, the ZIP
                                                                  coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
+                                                                 output stream, and result data.
+
+                                                                 For standalone hashing invocations, [COMPCODE] is either SUCCESS in all
+                                                                 error-free cases or PARIT in all internal hash engine error cases. */
 #else /* Word 2 - Little Endian */
         uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
                                                                  as enumerated by ZIP_COMP_E. Core
@@ -2309,15 +2354,18 @@ union bdk_zip_zres_s
 
                                                                  Once the core observes a non-zero [COMPCODE] value in this case, the ZIP
                                                                  coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
+                                                                 output stream, and result data.
+
+                                                                 For standalone hashing invocations, [COMPCODE] is either SUCCESS in all
+                                                                 error-free cases or PARIT in all internal hash engine error cases. */
         uint64_t ef                    : 1;  /**< [136:136] End of file.
 
-                                                                 For any error-free decompression, EF indicates whether the ZIP
-                                                                 coprocessor completed decompression of all blocks in the file during this invocation. If
-                                                                 EF = 1 for a decompression operation, the ZIP coprocessor must not be invoked again
-                                                                 for further processing on this file.
+                                                                 For any error-free decompression, [EF] indicates whether the ZIP coprocessor
+                                                                 completed decompression of all blocks in the file during this invocation. If
+                                                                 [EF] = 1 for a decompression operation, the ZIP coprocessor must not be invoked
+                                                                 again for further processing on this file.
 
-                                                                 For compression, EF is not used and is undefined. */
+                                                                 For compression or standalone hashing, [EF] is not used and is undefined. */
         uint64_t reserved_137_143      : 7;
         uint64_t exbits                : 7;  /**< [150:144] [EXN] and [EXBITS] are the compressed bits produced beyond the last compressed byte
                                                                  written. These bits are required context for partial-file processing as the ZIP
@@ -2326,96 +2374,94 @@ union bdk_zip_zres_s
                                                                  ZIP_INST_S[EF] = 0 and ZIP_INST_S[SF] = 0, and are not used and undefined in all other
                                                                  cases.
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc.
 
-                                                                 For decompression, [EXN] and [EXBITS] are not used and are undefined. */
+                                                                 For decompression or standalone hashing, [EXN] and [EXBITS] are not used and are
+                                                                 undefined. */
         uint64_t reserved_151          : 1;
         uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
                                                                  See details in [EXBITS]. */
         uint64_t reserved_155_158      : 4;
         uint64_t doneint               : 1;  /**< [159:159] Done Interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
         uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
-                                                                 TOTALBITSPROCESSED indicates the number of compressed input bits consumed
-                                                                 to decompress all blocks in the file. (TOTALBITSPROCESSED + 7)/8 is the total
+                                                                 [TOTALBITSPROCESSED] indicates the number of compressed input bits consumed
+                                                                 to decompress all blocks in the file. ([TOTALBITSPROCESSED] + 7)/8 is the total
                                                                  number of bytes in the entire compressed input stream from the file in that case. (For
                                                                  example, this can be used to find the location of the ADLER32/CRC32 codes that
-                                                                 follow the compressed data.) Note that TOTALBITSPROCESSED refers to the total
+                                                                 follow the compressed data.) Note that [TOTALBITSPROCESSED] refers to the total
                                                                  number of bits processed during all invocations of the ZIP decompression coprocessor
                                                                  for the entire file.
 
-                                                                 For any decompress with an error or with [EF] = 0, TOTALBITSPROCESSED is unused
-                                                                 and undefined.
+                                                                 For any decompress with an error or with [EF] = 0, [TOTALBITSPROCESSED] is
+                                                                 unused and undefined.
 
-                                                                 For any compress, TOTALBITSPROCESSED is unused and undefined.
+                                                                 For any compress, [TOTALBITSPROCESSED] is unused and undefined.
 
-                                                                 If the true total bits processed by the ZIP coprocessor equals or exceeds 2^32 for a file,
-                                                                 TOTALBITSPROCESSED contains the low-order 32-bits of the actual value for the
-                                                                 file. If necessary, in this large file decompression case, software can calculate the true
-                                                                 total bits processed by the ZIP coprocessor using the TOTALBITSPROCESSED
-                                                                 value returned by the hardware, together with the total number of input bytes in the
-                                                                 compressed file. */
+                                                                 For any standalone hashing, [TOTALBITSPROCESSED] is the bytes count of all the
+                                                                 bytes hashed in the current instruction. When ZIP_INST_S[BF] and ZIP_INST_S[IV]
+                                                                 are set, [TOTALBITSPROCESSED] also includes the ZIP_HASH_S[PREVLEN] bytes of
+                                                                 header included in ZIP_HASH_S[PDATA0...7].
+
+                                                                 If the true total bits processed by the ZIP coprocessor equals or exceeds 2^32
+                                                                 for a file, [TOTALBITSPROCESSED] contains the low-order 32-bits of the actual
+                                                                 value for the file. If necessary, in this large file decompression case,
+                                                                 software can calculate the true total bits processed by the ZIP coprocessor
+                                                                 using the [TOTALBITSPROCESSED] value returned by the hardware, together with the
+                                                                 total number of input bytes in the compressed file. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t hshlen                : 64; /**< [255:192] Total hash length in bytes. For compression-and-hash or standalone hashing, the
+        uint64_t reserved_253_255      : 3;
+        uint64_t hshlen                : 61; /**< [252:192] Total hash length in bytes. For compression-and-hash or standalone hashing, the
                                                                  sum of ZIP_HASH_S[PREVLEN] (if any was read, otherwise 0x0) and
                                                                  [TOTALBYTESREAD]. For decompress, the sum of ZIP_HASH_S[PREVLEN] (if any was
                                                                  read, otherwise 0x0) and [TOTALBYTESWRITTEN].
 
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE. When
+                                                                 ZIP_INST_S[HMIF] is set, [HSHLEN] is the total bits hashed untill the current
+                                                                 instruction. */
 #else /* Word 3 - Little Endian */
-        uint64_t hshlen                : 64; /**< [255:192] Total hash length in bytes. For compression-and-hash or standalone hashing, the
+        uint64_t hshlen                : 61; /**< [252:192] Total hash length in bytes. For compression-and-hash or standalone hashing, the
                                                                  sum of ZIP_HASH_S[PREVLEN] (if any was read, otherwise 0x0) and
                                                                  [TOTALBYTESREAD]. For decompress, the sum of ZIP_HASH_S[PREVLEN] (if any was
                                                                  read, otherwise 0x0) and [TOTALBYTESWRITTEN].
 
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE. When
+                                                                 ZIP_INST_S[HMIF] is set, [HSHLEN] is the total bits hashed untill the current
+                                                                 instruction. */
+        uint64_t reserved_253_255      : 3;
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t hash0                 : 64; /**< [319:256] Double-word 0 of computed hash.
 
                                                                  This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+                                                                 ZIP_INST_S[HMIF] is clear.
+
+                                                                 When ZIP_INST_S[HMIF] is set, HASH0 is the double-word 0 of computed hash till
+                                                                 the latest 64 byte block. */
 #else /* Word 4 - Little Endian */
         uint64_t hash0                 : 64; /**< [319:256] Double-word 0 of computed hash.
 
                                                                  This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+                                                                 ZIP_INST_S[HMIF] is clear.
+
+                                                                 When ZIP_INST_S[HMIF] is set, HASH0 is the double-word 0 of computed hash till
+                                                                 the latest 64 byte block. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t hash1                 : 64; /**< [383:320] Double-word 1 of computed hash.
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+        uint64_t hash1                 : 64; /**< [383:320] Double-word 1 of computed hash. See [HASH0]. */
 #else /* Word 5 - Little Endian */
-        uint64_t hash1                 : 64; /**< [383:320] Double-word 1 of computed hash.
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+        uint64_t hash1                 : 64; /**< [383:320] Double-word 1 of computed hash. See [HASH0]. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t hash2                 : 64; /**< [447:384] Double-word 2 of computed hash.
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+        uint64_t hash2                 : 64; /**< [447:384] Double-word 2 of computed hash. See [HASH0]. */
 #else /* Word 6 - Little Endian */
-        uint64_t hash2                 : 64; /**< [447:384] Double-word 2 of computed hash.
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+        uint64_t hash2                 : 64; /**< [447:384] Double-word 2 of computed hash. See [HASH0]. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of computed hash.
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+        uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of computed hash. See [HASH0]. */
 #else /* Word 7 - Little Endian */
-        uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of computed hash.
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear. */
+        uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of computed hash. See [HASH0]. */
 #endif /* Word 7 - End */
     } s;
     struct bdk_zip_zres_s_cn88xx
@@ -2440,8 +2486,8 @@ union bdk_zip_zres_s
                                                                  ADLER32 calculation. ADLER32 is valid for all error-free compression invocations,
                                                                  whether at the beginning, middle, or end of file.
 
-                                                                 For decompression, ADLER32 is valid only for error-free invocations that find the
-                                                                 end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
+                                                                 For decompression, [ADLER32] is valid only for error-free invocations that find
+                                                                 the end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
                                                                  result for the file. */
 #else /* Word 0 - Little Endian */
         uint64_t adler32               : 32; /**< [ 31:  0] The ADLER32 result corresponding to the bytes processed in the uncompressed
@@ -2452,8 +2498,8 @@ union bdk_zip_zres_s
                                                                  ADLER32 calculation. ADLER32 is valid for all error-free compression invocations,
                                                                  whether at the beginning, middle, or end of file.
 
-                                                                 For decompression, ADLER32 is valid only for error-free invocations that find the
-                                                                 end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
+                                                                 For decompression, [ADLER32] is valid only for error-free invocations that find
+                                                                 the end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
                                                                  result for the file. */
         uint64_t crc32                 : 32; /**< [ 63: 32] The CRC32 result corresponding to the bytes processed in the uncompressed stream,
                                                                  seeded with ZIP_INST_S[ADLERCRC32].
@@ -2469,60 +2515,62 @@ union bdk_zip_zres_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t totalbyteswritten     : 32; /**< [127: 96] The total number of bytes produced in the output stream during this coprocessor
-                                                                 invocation. TOTALBYTESWRITTEN <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all error-free cases
+                                                                 invocation. [TOTALBYTESWRITTEN] <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all
+                                                                 error-free cases.
 
-                                                                 For an error-free compression, TOTALBYTESWRITTEN is the number of
+                                                                 For an error-free compression, [TOTALBYTESWRITTEN] is the number of
                                                                  compressed output bytes that were written during the compression. This includes
                                                                  any valid [EXN],[EXBITS] when [EF] = 1, and excludes
                                                                  any valid [EXN],[EXBITS] when [EF] = 0.
 
-                                                                 For an error-free decompression, TOTALBYTESWRITTEN is the number of uncompressed
-                                                                 output bytes produced by the operation */
+                                                                 For an error-free decompression, [TOTALBYTESWRITTEN] is the number of
+                                                                 uncompressed output bytes produced by the operation */
         uint64_t totalbytesread        : 32; /**< [ 95: 64] The total number of bytes processed from the input stream during this coprocessor
-                                                                 invocation. Note that for a compression operation, TOTALBYTESREAD does count
+                                                                 invocation. Note that for a compression operation, [TOTALBYTESREAD] does count
                                                                  the history bytes read in (when ZIP_INST_S[HISTORYLENGTH] != 0x0).
 
                                                                  For an error-free compression, [TOTALBYTESREAD] ZIP_INST_S[HISTORYLENGTH] is
                                                                  the number of uncompressed input bytes which, when compressed and concatenated after
                                                                  ZIP_INST_S[EXN], ZIP_INST_S[EXBITS], produces the compressed byte-output stream
                                                                  (and [EXN],[EXBITS] when valid). In all error-free compression
-                                                                 invocations, TOTALBYTESREAD equals the total number of input bytes supplied
-                                                                 via INP_PTR (input and compression history bytes).
+                                                                 invocations, [TOTALBYTESREAD] equals the total number of input bytes supplied
+                                                                 via [INP_PTR_ADDR] (input and compression history bytes).
 
-                                                                 For an error-free decompression, TOTALBYTESREAD is the number of compressed
+                                                                 For an error-free decompression, [TOTALBYTESREAD] is the number of compressed
                                                                  input bytes which were read during the decompression. */
 #else /* Word 1 - Little Endian */
         uint64_t totalbytesread        : 32; /**< [ 95: 64] The total number of bytes processed from the input stream during this coprocessor
-                                                                 invocation. Note that for a compression operation, TOTALBYTESREAD does count
+                                                                 invocation. Note that for a compression operation, [TOTALBYTESREAD] does count
                                                                  the history bytes read in (when ZIP_INST_S[HISTORYLENGTH] != 0x0).
 
                                                                  For an error-free compression, [TOTALBYTESREAD] ZIP_INST_S[HISTORYLENGTH] is
                                                                  the number of uncompressed input bytes which, when compressed and concatenated after
                                                                  ZIP_INST_S[EXN], ZIP_INST_S[EXBITS], produces the compressed byte-output stream
                                                                  (and [EXN],[EXBITS] when valid). In all error-free compression
-                                                                 invocations, TOTALBYTESREAD equals the total number of input bytes supplied
-                                                                 via INP_PTR (input and compression history bytes).
+                                                                 invocations, [TOTALBYTESREAD] equals the total number of input bytes supplied
+                                                                 via [INP_PTR_ADDR] (input and compression history bytes).
 
-                                                                 For an error-free decompression, TOTALBYTESREAD is the number of compressed
+                                                                 For an error-free decompression, [TOTALBYTESREAD] is the number of compressed
                                                                  input bytes which were read during the decompression. */
         uint64_t totalbyteswritten     : 32; /**< [127: 96] The total number of bytes produced in the output stream during this coprocessor
-                                                                 invocation. TOTALBYTESWRITTEN <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all error-free cases
+                                                                 invocation. [TOTALBYTESWRITTEN] <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all
+                                                                 error-free cases.
 
-                                                                 For an error-free compression, TOTALBYTESWRITTEN is the number of
+                                                                 For an error-free compression, [TOTALBYTESWRITTEN] is the number of
                                                                  compressed output bytes that were written during the compression. This includes
                                                                  any valid [EXN],[EXBITS] when [EF] = 1, and excludes
                                                                  any valid [EXN],[EXBITS] when [EF] = 0.
 
-                                                                 For an error-free decompression, TOTALBYTESWRITTEN is the number of uncompressed
-                                                                 output bytes produced by the operation */
+                                                                 For an error-free decompression, [TOTALBYTESWRITTEN] is the number of
+                                                                 uncompressed output bytes produced by the operation */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
-                                                                 TOTALBITSPROCESSED indicates the number of compressed input bits consumed
-                                                                 to decompress all blocks in the file. (TOTALBITSPROCESSED + 7)/8 is the total
+                                                                 [TOTALBITSPROCESSED] indicates the number of compressed input bits consumed
+                                                                 to decompress all blocks in the file. ([TOTALBITSPROCESSED] + 7)/8 is the total
                                                                  number of bytes in the entire compressed input stream from the file in that case. (For
                                                                  example, this can be used to find the location of the ADLER32/CRC32 codes that
-                                                                 follow the compressed data.) Note that TOTALBITSPROCESSED refers to the total
+                                                                 follow the compressed data.) Note that [TOTALBITSPROCESSED] refers to the total
                                                                  number of bits processed during all invocations of the ZIP decompression coprocessor
                                                                  for the entire file.
 
@@ -2549,17 +2597,17 @@ union bdk_zip_zres_s
                                                                  ZIP_INST_S[EF] = 0 and ZIP_INST_S[SF] = 0, and are not used and undefined in all other
                                                                  cases.
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc.
 
                                                                  For decompression, [EXN] and [EXBITS] are not used and are undefined. */
         uint64_t reserved_137_143      : 7;
         uint64_t ef                    : 1;  /**< [136:136] End of file.
 
-                                                                 For any error-free decompression, EF indicates whether the ZIP
-                                                                 coprocessor completed decompression of all blocks in the file during this invocation. If
-                                                                 EF = 1 for a decompression operation, the ZIP coprocessor must not be invoked again
-                                                                 for further processing on this file.
+                                                                 For any error-free decompression, [EF] indicates whether the ZIP coprocessor
+                                                                 completed decompression of all blocks in the file during this invocation. If
+                                                                 [EF] = 1 for a decompression operation, the ZIP coprocessor must not be invoked
+                                                                 again for further processing on this file.
 
                                                                  For compression, EF is not used and is undefined. */
         uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
@@ -2583,10 +2631,10 @@ union bdk_zip_zres_s
                                                                  output stream, and result data. */
         uint64_t ef                    : 1;  /**< [136:136] End of file.
 
-                                                                 For any error-free decompression, EF indicates whether the ZIP
-                                                                 coprocessor completed decompression of all blocks in the file during this invocation. If
-                                                                 EF = 1 for a decompression operation, the ZIP coprocessor must not be invoked again
-                                                                 for further processing on this file.
+                                                                 For any error-free decompression, [EF] indicates whether the ZIP coprocessor
+                                                                 completed decompression of all blocks in the file during this invocation. If
+                                                                 [EF] = 1 for a decompression operation, the ZIP coprocessor must not be invoked
+                                                                 again for further processing on this file.
 
                                                                  For compression, EF is not used and is undefined. */
         uint64_t reserved_137_143      : 7;
@@ -2597,7 +2645,7 @@ union bdk_zip_zres_s
                                                                  ZIP_INST_S[EF] = 0 and ZIP_INST_S[SF] = 0, and are not used and undefined in all other
                                                                  cases.
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
                                                                  second extra bit, etc.
 
                                                                  For decompression, [EXN] and [EXBITS] are not used and are undefined. */
@@ -2607,11 +2655,11 @@ union bdk_zip_zres_s
         uint64_t reserved_155_158      : 4;
         uint64_t doneint               : 1;  /**< [159:159] Done Interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
         uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
-                                                                 TOTALBITSPROCESSED indicates the number of compressed input bits consumed
-                                                                 to decompress all blocks in the file. (TOTALBITSPROCESSED + 7)/8 is the total
+                                                                 [TOTALBITSPROCESSED] indicates the number of compressed input bits consumed
+                                                                 to decompress all blocks in the file. ([TOTALBITSPROCESSED] + 7)/8 is the total
                                                                  number of bytes in the entire compressed input stream from the file in that case. (For
                                                                  example, this can be used to find the location of the ADLER32/CRC32 codes that
-                                                                 follow the compressed data.) Note that TOTALBITSPROCESSED refers to the total
+                                                                 follow the compressed data.) Note that [TOTALBITSPROCESSED] refers to the total
                                                                  number of bits processed during all invocations of the ZIP decompression coprocessor
                                                                  for the entire file.
 
@@ -4239,11 +4287,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 ZIP_VF(0..7)_PF_MBOX(1) is written.
+                                                                 ZIP_VF()_PF_MBOX(1) is written.
                                                                  Bits corresponding to unimplemented VFs (above bit 7) are never set by hardware. */
 #else /* Word 0 - Little Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 ZIP_VF(0..7)_PF_MBOX(1) is written.
+                                                                 ZIP_VF()_PF_MBOX(1) is written.
                                                                  Bits corresponding to unimplemented VFs (above bit 7) are never set by hardware. */
 #endif /* Word 0 - End */
     } s;
@@ -4566,16 +4614,16 @@ typedef union
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  ZIP_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing ZIP_PF_VF(0..7)_MBOX(0) (but not
-                                                                 ZIP_VF(0..7)_PF_MBOX(0)) will set the corresponding
+                                                                 for VF to PF. Writing ZIP_PF_VF()_MBOX(0) (but not
+                                                                 ZIP_VF()_PF_MBOX(0)) will set the corresponding
                                                                  ZIP_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  ZIP_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing ZIP_PF_VF(0..7)_MBOX(0) (but not
-                                                                 ZIP_VF(0..7)_PF_MBOX(0)) will set the corresponding
+                                                                 for VF to PF. Writing ZIP_PF_VF()_MBOX(0) (but not
+                                                                 ZIP_VF()_PF_MBOX(0)) will set the corresponding
                                                                  ZIP_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #endif /* Word 0 - End */
@@ -5322,10 +5370,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t zce                   : 6;  /**< [  5:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
-                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
-                                                                 can still be fetched). Hardware automatically selects decompression cores for
-                                                                 decompression, and compression cores for compression.
+        uint64_t zce                   : 6;  /**< [  5:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which
+                                                                 ZIP core. Setting [ZCE] to 0 effectively disables the queue from being served
+                                                                 (however the instruction can still be fetched). Hardware automatically selects
+                                                                 decompression cores for decompression, and compression cores for compression.
                                                                  _ ZCE<5> = 1: ZIP core 5 can serve the queue.
                                                                  _ ZCE<4> = 1: ZIP core 4 can serve the queue.
                                                                  _ ZCE<3> = 1: ZIP core 3 can serve the queue.
@@ -5333,10 +5381,10 @@ typedef union
                                                                  _ ZCE<1> = 1: ZIP core 1 can serve the queue.
                                                                  _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
 #else /* Word 0 - Little Endian */
-        uint64_t zce                   : 6;  /**< [  5:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
-                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
-                                                                 can still be fetched). Hardware automatically selects decompression cores for
-                                                                 decompression, and compression cores for compression.
+        uint64_t zce                   : 6;  /**< [  5:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which
+                                                                 ZIP core. Setting [ZCE] to 0 effectively disables the queue from being served
+                                                                 (however the instruction can still be fetched). Hardware automatically selects
+                                                                 decompression cores for decompression, and compression cores for compression.
                                                                  _ ZCE<5> = 1: ZIP core 5 can serve the queue.
                                                                  _ ZCE<4> = 1: ZIP core 4 can serve the queue.
                                                                  _ ZCE<3> = 1: ZIP core 3 can serve the queue.
@@ -5466,7 +5514,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_45_63        : 19;
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
-        uint64_t inst_be               : 1;  /**< [ 31: 31](R/W) Instruction big endian control. When set, instructions are storaged in big endian format
+        uint64_t inst_be               : 1;  /**< [ 31: 31](R/W) Instruction big endian control. When set, instructions are stored in big endian format
                                                                  in
                                                                  memory. */
         uint64_t reserved_24_30        : 7;
@@ -5478,7 +5526,7 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) Lower 8-bits of stream ID for this queue. */
         uint64_t reserved_24_30        : 7;
-        uint64_t inst_be               : 1;  /**< [ 31: 31](R/W) Instruction big endian control. When set, instructions are storaged in big endian format
+        uint64_t inst_be               : 1;  /**< [ 31: 31](R/W) Instruction big endian control. When set, instructions are stored in big endian format
                                                                  in
                                                                  memory. */
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
@@ -5790,8 +5838,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t cto                   : 1;  /**< [  6:  6](R/W1C/H) Core time out detected. */
-        uint64_t mbox                  : 1;  /**< [  5:  5](R/W1C/H) PF to VF mailbox interrupt. Set when ZIP_VF(0..7)_PF_MBOX(0)
-                                                                 is written. */
+        uint64_t mbox                  : 1;  /**< [  5:  5](R/W1C/H) PF to VF mailbox interrupt. Set when ZIP_VF()_PF_MBOX(0) is written. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB write response error. */
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) NCB read response error. */
@@ -5803,8 +5850,7 @@ typedef union
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) NCB read response error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB write response error. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
-        uint64_t mbox                  : 1;  /**< [  5:  5](R/W1C/H) PF to VF mailbox interrupt. Set when ZIP_VF(0..7)_PF_MBOX(0)
-                                                                 is written. */
+        uint64_t mbox                  : 1;  /**< [  5:  5](R/W1C/H) PF to VF mailbox interrupt. Set when ZIP_VF()_PF_MBOX(0) is written. */
         uint64_t cto                   : 1;  /**< [  6:  6](R/W1C/H) Core time out detected. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -6014,14 +6060,14 @@ typedef union
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. The PF may access the same storage using ZIP_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 ZIP_VF(0..7)_PF_MBOX(1) (but not ZIP_PF_VF(0..7)_MBOX(1)) will set the
+                                                                 ZIP_VF()_PF_MBOX(1) (but not ZIP_PF_VF()_MBOX(1)) will set the
                                                                  corresponding ZIP_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. The PF may access the same storage using ZIP_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 ZIP_VF(0..7)_PF_MBOX(1) (but not ZIP_PF_VF(0..7)_MBOX(1)) will set the
+                                                                 ZIP_VF()_PF_MBOX(1) (but not ZIP_PF_VF()_MBOX(1)) will set the
                                                                  corresponding ZIP_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #endif /* Word 0 - End */

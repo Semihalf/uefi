@@ -6201,7 +6201,13 @@ typedef union
     struct bdk_ap_cvmmemctl1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_39_63        : 25;
+        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.  Added in pass 3.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.  Added in pass 3.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
         uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.  Added in pass 3.
                                                                  0 = Single counter mode (combined hit and miss latency counter).
                                                                  1 = Dual counter mode (separate hit and miss latency counters). */
@@ -6281,7 +6287,13 @@ typedef union
         uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.  Added in pass 3.
                                                                  0 = Single counter mode (combined hit and miss latency counter).
                                                                  1 = Dual counter mode (separate hit and miss latency counters). */
-        uint64_t reserved_37_63        : 27;
+        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.  Added in pass 3.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.  Added in pass 3.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvmmemctl1_el1_s cn81xx; */

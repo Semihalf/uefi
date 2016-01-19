@@ -84,8 +84,8 @@ typedef union
     struct bdk_iobnx_bistr_reg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t status                : 21; /**< [ 20:  0](RO/H) Memory BIST status.
+        uint64_t reserved_22_63        : 42;
+        uint64_t status                : 22; /**< [ 21:  0](RO/H) Memory BIST status.
                                                                  Internal:
                                                                  <18> = gmr_ixofifo_bstatus_rclk.
                                                                    <17> = sli_preq_2_ffifo_bstatus_rclk.
@@ -107,7 +107,7 @@ typedef union
                                                                    <1>  = iobn_iorn_ffifo1_bstatus_rclk.
                                                                    <0>  = ixo_smmu_mem0_bstatus_rclk. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 21; /**< [ 20:  0](RO/H) Memory BIST status.
+        uint64_t status                : 22; /**< [ 21:  0](RO/H) Memory BIST status.
                                                                  Internal:
                                                                  <18> = gmr_ixofifo_bstatus_rclk.
                                                                    <17> = sli_preq_2_ffifo_bstatus_rclk.
@@ -128,7 +128,7 @@ typedef union
                                                                    <2>  = iobn_iorn_ffifo0_bstatus_rclk.
                                                                    <1>  = iobn_iorn_ffifo1_bstatus_rclk.
                                                                    <0>  = ixo_smmu_mem0_bstatus_rclk. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
     struct bdk_iobnx_bistr_reg_cn81xx
@@ -185,9 +185,10 @@ typedef union
     struct bdk_iobnx_bistr_reg_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t status                : 21; /**< [ 20:  0](RO/H) Memory BIST status.
+        uint64_t reserved_22_63        : 42;
+        uint64_t status                : 22; /**< [ 21:  0](RO/H) Memory BIST status.
                                                                  Internal:
+                                                                 <21> = gmr_sli_ixofifo_bstatus_rclk.
                                                                  <20> = sli_preq_2_ffifo_bstatus_rclk.
                                                                  <19> = sli_req_2_ffifo_bstatus_rclk.
                                                                  <18> = gmr_ixofifo_bstatus_rclk.
@@ -210,8 +211,9 @@ typedef union
                                                                    <1>  = iobn_iorn_ffifo1_bstatus_rclk.
                                                                    <0>  = ixo_smmu_mem0_bstatus_rclk. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 21; /**< [ 20:  0](RO/H) Memory BIST status.
+        uint64_t status                : 22; /**< [ 21:  0](RO/H) Memory BIST status.
                                                                  Internal:
+                                                                 <21> = gmr_sli_ixofifo_bstatus_rclk.
                                                                  <20> = sli_preq_2_ffifo_bstatus_rclk.
                                                                  <19> = sli_req_2_ffifo_bstatus_rclk.
                                                                  <18> = gmr_ixofifo_bstatus_rclk.
@@ -233,7 +235,7 @@ typedef union
                                                                    <2>  = iobn_iorn_ffifo0_bstatus_rclk.
                                                                    <1>  = iobn_iorn_ffifo1_bstatus_rclk.
                                                                    <0>  = ixo_smmu_mem0_bstatus_rclk. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_iobnx_bistr_reg_t;

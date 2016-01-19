@@ -251,7 +251,13 @@ typedef union
     struct bdk_bch_bist_result_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_8_63         : 56;
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR MSIX memory.
+                                                                 Internal:
+                                                                 csr.msix_mem. */
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR FIFO memory.
+                                                                 Internal:
+                                                                 csr.csr_fifo. */
         uint64_t ncb_oub               : 1;  /**< [  5:  5](RO) BIST result of the NCB OUB memories. */
         uint64_t ncb_inb               : 1;  /**< [  4:  4](RO) BIST result of the NCB INB memories. */
         uint64_t dat                   : 4;  /**< [  3:  0](RO) BIST result of the DAT memories. */
@@ -259,7 +265,13 @@ typedef union
         uint64_t dat                   : 4;  /**< [  3:  0](RO) BIST result of the DAT memories. */
         uint64_t ncb_inb               : 1;  /**< [  4:  4](RO) BIST result of the NCB INB memories. */
         uint64_t ncb_oub               : 1;  /**< [  5:  5](RO) BIST result of the NCB OUB memories. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR FIFO memory.
+                                                                 Internal:
+                                                                 csr.csr_fifo. */
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR MSIX memory.
+                                                                 Internal:
+                                                                 csr.msix_mem. */
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_bist_result_s cn; */

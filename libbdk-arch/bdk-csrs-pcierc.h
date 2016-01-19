@@ -247,14 +247,16 @@ typedef union
                                                                  0x0 = pass 1.0.
                                                                  0x1 = pass 1.1.
                                                                  0x2 = pass 1.2.
-                                                                 0x8 = pass 2.0. */
+                                                                 0x8 = pass 2.0.
+                                                                 0x9 = pass 2.1. */
 #else /* Word 0 - Little Endian */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field.
                                                                  0x0 = pass 1.0.
                                                                  0x1 = pass 1.1.
                                                                  0x2 = pass 1.2.
-                                                                 0x8 = pass 2.0. */
+                                                                 0x8 = pass 2.0.
+                                                                 0x9 = pass 2.1. */
         uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR. However, the application must
                                                                  not change this field. */
         uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR. However, the application must not change

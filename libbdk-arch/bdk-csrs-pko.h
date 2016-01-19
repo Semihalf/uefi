@@ -1863,7 +1863,7 @@ union bdk_pko_send_mem_s
         uint64_t alg                   : 4;  /**< [ 59: 56] Adder algorithm. How to modify the memory location, for example by setting or atomically
                                                                  incrementing. Enumerated by PKO_MEMALG_E.
 
-                                                                 Unless ALG is SETTSTMP (PKO_SEND_EXT_S[TSTMP] must be set in this case),
+                                                                 Unless [ALG] is SETTSTMP (PKO_SEND_EXT_S[TSTMP] must be set in this case),
                                                                  the PKO_SEND_MEM can complete in any order relative to the packet send
                                                                  on the physical interface. */
         uint64_t offset                : 8;  /**< [ 55: 48] Adder offset. Constant value to add or subtract or set. If the count being modified is to
@@ -1876,13 +1876,15 @@ union bdk_pko_send_mem_s
                                                                  other values or setting. */
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Memory. Enumerated by PKO_SENDSUBDC_E::MEM. */
         uint64_t reserved_42_43        : 2;
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. ADDR is the physical L2/DRAM address to be modified. ADDR must be
-                                                                 naturally aligned to the size specified in DSZ. If PKO_SEND_HDR_S[LE] is set, ADDR is a
-                                                                 little-endian byte pointer. Otherwise, ADDR is a big-endian byte pointer. */
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. [ADDR] is the physical L2/DRAM address to be modified. [ADDR] must be
+                                                                 naturally aligned to the size specified in [DSZ]. If PKO_SEND_HDR_S[LE] is set, [ADDR] is
+                                                                 a
+                                                                 little-endian byte pointer. Otherwise, [ADDR] is a big-endian byte pointer. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. ADDR is the physical L2/DRAM address to be modified. ADDR must be
-                                                                 naturally aligned to the size specified in DSZ. If PKO_SEND_HDR_S[LE] is set, ADDR is a
-                                                                 little-endian byte pointer. Otherwise, ADDR is a big-endian byte pointer. */
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. [ADDR] is the physical L2/DRAM address to be modified. [ADDR] must be
+                                                                 naturally aligned to the size specified in [DSZ]. If PKO_SEND_HDR_S[LE] is set, [ADDR] is
+                                                                 a
+                                                                 little-endian byte pointer. Otherwise, [ADDR] is a big-endian byte pointer. */
         uint64_t reserved_42_43        : 2;
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Memory. Enumerated by PKO_SENDSUBDC_E::MEM. */
         uint64_t offset                : 8;  /**< [ 55: 48] Adder offset. Constant value to add or subtract or set. If the count being modified is to
@@ -1896,7 +1898,7 @@ union bdk_pko_send_mem_s
         uint64_t alg                   : 4;  /**< [ 59: 56] Adder algorithm. How to modify the memory location, for example by setting or atomically
                                                                  incrementing. Enumerated by PKO_MEMALG_E.
 
-                                                                 Unless ALG is SETTSTMP (PKO_SEND_EXT_S[TSTMP] must be set in this case),
+                                                                 Unless [ALG] is SETTSTMP (PKO_SEND_EXT_S[TSTMP] must be set in this case),
                                                                  the PKO_SEND_MEM can complete in any order relative to the packet send
                                                                  on the physical interface. */
         uint64_t dsz                   : 2;  /**< [ 61: 60] Memory data size. The size of the word in memory, enumerated by PKO_MEMDSZ_E. */
@@ -2007,12 +2009,12 @@ union bdk_pko_send_mem_s
  * * If any PKO_SEND_IMM_S's are present in the descriptor, they must never
  *   provide source packet bytes after the first [SB] bytes in the source packet.
  *
- * * PKO_MAC*_CFG[MIN_PAD_ENA] and PKO_PDM_CFG[PKO_PAD_MINLEN] must be set
+ * * PKO_MAC()_CFG[MIN_PAD_ENA] and PKO_PDM_CFG[PKO_PAD_MINLEN] must be set
  *   appropriately if minimum pad is required by the interface/MAC.
  *   PKO_PDM_DQ*_MINPAD[MINPAD] should normally also be set when minimum
  *   pad is required by the interface/MAC.
  *
- * * PKO_MAC*_CFG[FCS_ENA] should normally be set if the interface/MAC requires
+ * * PKO_MAC()_CFG[FCS_ENA] should normally be set if the interface/MAC requires
  *   FCS. But an alternative is to enable FCS in the MAC in the cases when
  *   the MAC supports FCS generation.
  *
@@ -2143,9 +2145,9 @@ union bdk_pko_send_work_s
         uint64_t reserved_48_49        : 2;
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send work. Enumerated by PKO_SENDSUBDC_E::WORK. */
         uint64_t reserved_42_43        : 2;
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. ADDR is a pointer to a work queue entry. ADDR must be 8-byte aligned. */
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. [ADDR] is a pointer to a work queue entry. [ADDR] must be 8-byte aligned. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. ADDR is a pointer to a work queue entry. ADDR must be 8-byte aligned. */
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical address. [ADDR] is a pointer to a work queue entry. [ADDR] must be 8-byte aligned. */
         uint64_t reserved_42_43        : 2;
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send work. Enumerated by PKO_SENDSUBDC_E::WORK. */
         uint64_t reserved_48_49        : 2;
@@ -2650,66 +2652,66 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
@@ -3032,66 +3034,66 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
@@ -3207,9 +3209,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
-                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
-                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
-                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
+                                                                 algorithm. When this SQ is not used, we recommend setting [PRIO] to zero. The legal [PRIO]
+                                                                 values are 0-9 when the SQ is used. In addition to priority, [PRIO] determines whether the
+                                                                 SQ is a static queue or not: If [PRIO] equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
                                                                  PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
                                                                  the shaper at the next level. */
         uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
@@ -3234,9 +3236,9 @@ typedef union
                                                                  Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
                                                                  negative accumulations of PKO_*_SCHED_STATE[RR_COUNT] (i.e. the deficit count)). */
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
-                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
-                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
-                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
+                                                                 algorithm. When this SQ is not used, we recommend setting [PRIO] to zero. The legal [PRIO]
+                                                                 values are 0-9 when the SQ is used. In addition to priority, [PRIO] determines whether the
+                                                                 SQ is a static queue or not: If [PRIO] equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
                                                                  PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
                                                                  the shaper at the next level. */
         uint64_t reserved_28_63        : 36;
@@ -3905,66 +3907,66 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
@@ -4215,11 +4217,11 @@ typedef union
                                                                  not allowed to flow when the count is less than zero. As such the most significant bit
                                                                  should normally be programmed as zero (positive count). This gives a maximum value for
                                                                  this field of 2^9 - 1. */
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel credit enable. Enables CC_WORD_CNT and CC_PACKET_CNT aggregate credit processing. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel credit enable. Enables [CC_WORD_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel credit enable. Enables CC_WORD_CNT and CC_PACKET_CNT aggregate credit processing. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel credit enable. Enables [CC_WORD_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
         uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel credit packet count. This value, plus 1, represents the maximum outstanding
                                                                  aggregate packet count for all channels feeding into this PQ. Note that this 10-bit field
                                                                  represents a signed value that decrements towards zero as credits are used. Packets are
@@ -4668,13 +4670,13 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t drain_irq             : 1;  /**< [  3:  3](WO) Drain IRQ. Enables an interrupt that fires when the drain operation has completed.
                                                                  [DRAIN_IRQ] should be set whenever [DRAIN] is, and must not be set
-                                                                 when [DRAIN] isn't set.  DRAIN_IRQ has no effect unless DRAIN and XOFF is also set. */
+                                                                 when [DRAIN] isn't set. [DRAIN_IRQ] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
                                                                  mapped to the NULL FIFO.  Conditions the drain path to drain through
                                                                  the NULL FIFO (i.e. link 14). As such, channel credits, HW_XOFF, and
                                                                  shaping are disabled on the draining path until the path has drained.
                                                                  [DRAIN_NULL_LINK] must not be set when [DRAIN] isn't set.
-                                                                 DRAIN_NULL_LINK has no effect unless DRAIN and XOFF is also set. */
+                                                                 [DRAIN_NULL_LINK] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain                 : 1;  /**< [  1:  1](WO) Drain. This control activates a drain path through the PSE that starts at this node and
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
@@ -4691,7 +4693,7 @@ typedef union
                                                                  but it cannot change from valid to invalid while [XOFF] is set.
                                                                  NOTE: The associated PKO_*_TOPOLOGY[LINK/PARENT] should normally be configured before
                                                                  [XOFF] is set. Setting [XOFF] before the associated PKO_*_TOPOLOGY[LINK/PARENT]
-                                                                 value is configured can result in modifying the software XOFF state of the wrong SQ. */
+                                                                 value is configured can result in modifying the software [XOFF] state of the wrong SQ. */
 #else /* Word 0 - Little Endian */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
                                                                  PKO_*_PICK (i.e. the meta) in the SQ/DQ cannot be transferred to the
@@ -4699,7 +4701,7 @@ typedef union
                                                                  but it cannot change from valid to invalid while [XOFF] is set.
                                                                  NOTE: The associated PKO_*_TOPOLOGY[LINK/PARENT] should normally be configured before
                                                                  [XOFF] is set. Setting [XOFF] before the associated PKO_*_TOPOLOGY[LINK/PARENT]
-                                                                 value is configured can result in modifying the software XOFF state of the wrong SQ. */
+                                                                 value is configured can result in modifying the software [XOFF] state of the wrong SQ. */
         uint64_t drain                 : 1;  /**< [  1:  1](WO) Drain. This control activates a drain path through the PSE that starts at this node and
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
@@ -4715,10 +4717,10 @@ typedef union
                                                                  the NULL FIFO (i.e. link 14). As such, channel credits, HW_XOFF, and
                                                                  shaping are disabled on the draining path until the path has drained.
                                                                  [DRAIN_NULL_LINK] must not be set when [DRAIN] isn't set.
-                                                                 DRAIN_NULL_LINK has no effect unless DRAIN and XOFF is also set. */
+                                                                 [DRAIN_NULL_LINK] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain_irq             : 1;  /**< [  3:  3](WO) Drain IRQ. Enables an interrupt that fires when the drain operation has completed.
                                                                  [DRAIN_IRQ] should be set whenever [DRAIN] is, and must not be set
-                                                                 when [DRAIN] isn't set.  DRAIN_IRQ has no effect unless DRAIN and XOFF is also set. */
+                                                                 when [DRAIN] isn't set. [DRAIN_IRQ] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -4755,12 +4757,12 @@ typedef union
         uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) Priority anchor. The base index positioning the static priority child queues of this
                                                                  shaper. A higher-level queue is a child queue of this shaper when its
                                                                  PKO_*_TOPOLOGY[PARENT] selects this shaper, and it further is a static priority child
-                                                                 queue when its PKO_*_SQn_SCHEDULE[PRIO] does not equal RR_PRIO. A static priority child
-                                                                 queue with priority PRIO must be located at n=PRIO_ANCHOR+PRIO, where
+                                                                 queue when its PKO_*_SQn_SCHEDULE[PRIO] does not equal [RR_PRIO]. A static priority child
+                                                                 queue with priority PRIO must be located at n=[PRIO_ANCHOR]+PRIO, where
                                                                  PRIO=PKO_*_SQn_SCHEDULE[PRIO]. There can be at most one static priority child queue at
                                                                  each priority. When there are no static priority child queues attached at any priority, or
-                                                                 if this shaper isn't used, the hardware does not use PRIO_ANCHOR. In this case, we
-                                                                 recommend PRIO_ANCHOR be zero. Note that there are 10 available priorities, 0 through 9,
+                                                                 if this shaper isn't used, the hardware does not use [PRIO_ANCHOR]. In this case, we
+                                                                 recommend [PRIO_ANCHOR] be zero. Note that there are 10 available priorities, 0 through 9,
                                                                  with priority 0 being the highest and priority 9 being the lowest. */
         uint64_t reserved_21_31        : 11;
         uint64_t link                  : 5;  /**< [ 20: 16](R/W) Link index. Selects the MAC or NULL FIFO used by the L1 SQ.
@@ -4799,10 +4801,11 @@ typedef union
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) Round-robin priority. The priority assigned to the round-robin scheduler. A higher-level
                                                                  queue is a child queue of this shaper when its PKO_*_TOPOLOGY[PARENT] selects this shaper,
                                                                  and it further is a round robin child queue when its PKO_*_SQn_SCHEDULE[PRIO] equals
-                                                                 RR_PRIO. All round-robin queues attached to this shaper must have the same priority. But
+                                                                 [RR_PRIO]. All round-robin queues attached to this shaper must have the same priority. But
                                                                  the number of round-robin child queues attached (at this priority) is limited only by the
-                                                                 number of higher-level queues. When this shaper is not used, we recommend RR_PRIO be zero.
-                                                                 When a shaper is used, RR_PRIO should be 0xF when there are no priorities with more than
+                                                                 number of higher-level queues. When this shaper is not used, we recommend [RR_PRIO] be
+                                                                 zero.
+                                                                 When a shaper is used, [RR_PRIO] should be 0xF when there are no priorities with more than
                                                                  one child queue (i.e. when there are no round-robin child queues), and should otherwise be
                                                                  a legal priority (values 0-9). */
         uint64_t reserved_0            : 1;
@@ -4811,10 +4814,11 @@ typedef union
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) Round-robin priority. The priority assigned to the round-robin scheduler. A higher-level
                                                                  queue is a child queue of this shaper when its PKO_*_TOPOLOGY[PARENT] selects this shaper,
                                                                  and it further is a round robin child queue when its PKO_*_SQn_SCHEDULE[PRIO] equals
-                                                                 RR_PRIO. All round-robin queues attached to this shaper must have the same priority. But
+                                                                 [RR_PRIO]. All round-robin queues attached to this shaper must have the same priority. But
                                                                  the number of round-robin child queues attached (at this priority) is limited only by the
-                                                                 number of higher-level queues. When this shaper is not used, we recommend RR_PRIO be zero.
-                                                                 When a shaper is used, RR_PRIO should be 0xF when there are no priorities with more than
+                                                                 number of higher-level queues. When this shaper is not used, we recommend [RR_PRIO] be
+                                                                 zero.
+                                                                 When a shaper is used, [RR_PRIO] should be 0xF when there are no priorities with more than
                                                                  one child queue (i.e. when there are no round-robin child queues), and should otherwise be
                                                                  a legal priority (values 0-9). */
         uint64_t reserved_5_15         : 11;
@@ -4854,12 +4858,12 @@ typedef union
         uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) Priority anchor. The base index positioning the static priority child queues of this
                                                                  shaper. A higher-level queue is a child queue of this shaper when its
                                                                  PKO_*_TOPOLOGY[PARENT] selects this shaper, and it further is a static priority child
-                                                                 queue when its PKO_*_SQn_SCHEDULE[PRIO] does not equal RR_PRIO. A static priority child
-                                                                 queue with priority PRIO must be located at n=PRIO_ANCHOR+PRIO, where
+                                                                 queue when its PKO_*_SQn_SCHEDULE[PRIO] does not equal [RR_PRIO]. A static priority child
+                                                                 queue with priority PRIO must be located at n=[PRIO_ANCHOR]+PRIO, where
                                                                  PRIO=PKO_*_SQn_SCHEDULE[PRIO]. There can be at most one static priority child queue at
                                                                  each priority. When there are no static priority child queues attached at any priority, or
-                                                                 if this shaper isn't used, the hardware does not use PRIO_ANCHOR. In this case, we
-                                                                 recommend PRIO_ANCHOR be zero. Note that there are 10 available priorities, 0 through 9,
+                                                                 if this shaper isn't used, the hardware does not use [PRIO_ANCHOR]. In this case, we
+                                                                 recommend [PRIO_ANCHOR] be zero. Note that there are 10 available priorities, 0 through 9,
                                                                  with priority 0 being the highest and priority 9 being the lowest. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
@@ -5121,66 +5125,66 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
@@ -5410,66 +5414,66 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
@@ -5623,9 +5627,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
-                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
-                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
-                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
+                                                                 algorithm. When this SQ is not used, we recommend setting [PRIO] to zero. The legal [PRIO]
+                                                                 values are 0-9 when the SQ is used. In addition to priority, [PRIO] determines whether the
+                                                                 SQ is a static queue or not: If [PRIO] equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
                                                                  PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
                                                                  the shaper at the next level. */
         uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
@@ -5650,9 +5654,9 @@ typedef union
                                                                  Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
                                                                  negative accumulations of PKO_*_SCHED_STATE[RR_COUNT] (i.e. the deficit count)). */
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
-                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
-                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
-                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
+                                                                 algorithm. When this SQ is not used, we recommend setting [PRIO] to zero. The legal [PRIO]
+                                                                 values are 0-9 when the SQ is used. In addition to priority, [PRIO] determines whether the
+                                                                 SQ is a static queue or not: If [PRIO] equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
                                                                  PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
                                                                  the shaper at the next level. */
         uint64_t reserved_28_63        : 36;
@@ -5856,13 +5860,13 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t drain_irq             : 1;  /**< [  3:  3](WO) Drain IRQ. Enables an interrupt that fires when the drain operation has completed.
                                                                  [DRAIN_IRQ] should be set whenever [DRAIN] is, and must not be set
-                                                                 when [DRAIN] isn't set.  DRAIN_IRQ has no effect unless DRAIN and XOFF is also set. */
+                                                                 when [DRAIN] isn't set. [DRAIN_IRQ] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
                                                                  mapped to the NULL FIFO.  Conditions the drain path to drain through
                                                                  the NULL FIFO (i.e. link 14). As such, channel credits, HW_XOFF, and
                                                                  shaping are disabled on the draining path until the path has drained.
                                                                  [DRAIN_NULL_LINK] must not be set when [DRAIN] isn't set.
-                                                                 DRAIN_NULL_LINK has no effect unless DRAIN and XOFF is also set. */
+                                                                 [DRAIN_NULL_LINK] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain                 : 1;  /**< [  1:  1](WO) Drain. This control activates a drain path through the PSE that starts at this node and
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
@@ -5879,7 +5883,7 @@ typedef union
                                                                  but it cannot change from valid to invalid while [XOFF] is set.
                                                                  NOTE: The associated PKO_*_TOPOLOGY[LINK/PARENT] should normally be configured before
                                                                  [XOFF] is set. Setting [XOFF] before the associated PKO_*_TOPOLOGY[LINK/PARENT]
-                                                                 value is configured can result in modifying the software XOFF state of the wrong SQ. */
+                                                                 value is configured can result in modifying the software [XOFF] state of the wrong SQ. */
 #else /* Word 0 - Little Endian */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
                                                                  PKO_*_PICK (i.e. the meta) in the SQ/DQ cannot be transferred to the
@@ -5887,7 +5891,7 @@ typedef union
                                                                  but it cannot change from valid to invalid while [XOFF] is set.
                                                                  NOTE: The associated PKO_*_TOPOLOGY[LINK/PARENT] should normally be configured before
                                                                  [XOFF] is set. Setting [XOFF] before the associated PKO_*_TOPOLOGY[LINK/PARENT]
-                                                                 value is configured can result in modifying the software XOFF state of the wrong SQ. */
+                                                                 value is configured can result in modifying the software [XOFF] state of the wrong SQ. */
         uint64_t drain                 : 1;  /**< [  1:  1](WO) Drain. This control activates a drain path through the PSE that starts at this node and
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
@@ -5903,10 +5907,10 @@ typedef union
                                                                  the NULL FIFO (i.e. link 14). As such, channel credits, HW_XOFF, and
                                                                  shaping are disabled on the draining path until the path has drained.
                                                                  [DRAIN_NULL_LINK] must not be set when [DRAIN] isn't set.
-                                                                 DRAIN_NULL_LINK has no effect unless DRAIN and XOFF is also set. */
+                                                                 [DRAIN_NULL_LINK] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain_irq             : 1;  /**< [  3:  3](WO) Drain IRQ. Enables an interrupt that fires when the drain operation has completed.
                                                                  [DRAIN_IRQ] should be set whenever [DRAIN] is, and must not be set
-                                                                 when [DRAIN] isn't set.  DRAIN_IRQ has no effect unless DRAIN and XOFF is also set. */
+                                                                 when [DRAIN] isn't set. [DRAIN_IRQ] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -6217,66 +6221,66 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
@@ -6496,66 +6500,66 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
-        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
-                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
-                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
+        uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT]. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.[RATE_MANTISSA] << [RATE_EXPONENT].
+                                                                 [RATE_EXPONENT] should be used to specify data rates higher than ~10 Kbps and
+                                                                 [RATE_DIVIDER_EXPONENT] should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
-                                                                 RATE_EXPONENT should be set to zero whenever it is used.
+                                                                 [RATE_DIVIDER_EXPONENT] should be used to specify data rates lower than ~10 Kbps and
+                                                                 [RATE_EXPONENT] should be set to zero whenever it is used.
 
-                                                                 The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
-                                                                 RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+                                                                 The rate count = (1 << [RATE_DIVIDER_EXPONENT]). The supported range for
+                                                                 [RATE_DIVIDER_EXPONENT] is 0 to 12. Programmed values greater than 12 are treated as 12.
 
                                                                  Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
-                                                                 <<RATE_DIVIDER_EXPONENT)
+                                                                   (SCLK_FREQUENCY / 96) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1
+                                                                 <<[RATE_DIVIDER_EXPONENT])
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
-                                                                 RATE_DIVIDER_EXPONENT) */
+                                                                   (SCLK_FREQUENCY / 768) * ((1.[RATE_MANTISSA]) << [RATE_EXPONENT]) / (1 <<
+                                                                 [RATE_DIVIDER_EXPONENT]) */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.BURST_MANTISSA << (BURST_EXPONENT + 1).
-                                                                 With BURST_EXPONENT=0xF and BURST_MANTISSA=0xFF, the burst limit is the largest
+        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] << ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
                                                                  possible value, which is 130,816 (0x1FF00) bytes. */
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
@@ -6713,9 +6717,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
-                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
-                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
-                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
+                                                                 algorithm. When this SQ is not used, we recommend setting [PRIO] to zero. The legal [PRIO]
+                                                                 values are 0-9 when the SQ is used. In addition to priority, [PRIO] determines whether the
+                                                                 SQ is a static queue or not: If [PRIO] equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
                                                                  PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
                                                                  the shaper at the next level. */
         uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
@@ -6740,9 +6744,9 @@ typedef union
                                                                  Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
                                                                  negative accumulations of PKO_*_SCHED_STATE[RR_COUNT] (i.e. the deficit count)). */
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
-                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
-                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
-                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
+                                                                 algorithm. When this SQ is not used, we recommend setting [PRIO] to zero. The legal [PRIO]
+                                                                 values are 0-9 when the SQ is used. In addition to priority, [PRIO] determines whether the
+                                                                 SQ is a static queue or not: If [PRIO] equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
                                                                  PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
                                                                  the shaper at the next level. */
         uint64_t reserved_28_63        : 36;
@@ -6891,13 +6895,13 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t drain_irq             : 1;  /**< [  3:  3](WO) Drain IRQ. Enables an interrupt that fires when the drain operation has completed.
                                                                  [DRAIN_IRQ] should be set whenever [DRAIN] is, and must not be set
-                                                                 when [DRAIN] isn't set.  DRAIN_IRQ has no effect unless DRAIN and XOFF is also set. */
+                                                                 when [DRAIN] isn't set. [DRAIN_IRQ] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
                                                                  mapped to the NULL FIFO.  Conditions the drain path to drain through
                                                                  the NULL FIFO (i.e. link 14). As such, channel credits, HW_XOFF, and
                                                                  shaping are disabled on the draining path until the path has drained.
                                                                  [DRAIN_NULL_LINK] must not be set when [DRAIN] isn't set.
-                                                                 DRAIN_NULL_LINK has no effect unless DRAIN and XOFF is also set. */
+                                                                 [DRAIN_NULL_LINK] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain                 : 1;  /**< [  1:  1](WO) Drain. This control activates a drain path through the PSE that starts at this node and
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
@@ -6914,7 +6918,7 @@ typedef union
                                                                  but it cannot change from valid to invalid while [XOFF] is set.
                                                                  NOTE: The associated PKO_*_TOPOLOGY[LINK/PARENT] should normally be configured before
                                                                  [XOFF] is set. Setting [XOFF] before the associated PKO_*_TOPOLOGY[LINK/PARENT]
-                                                                 value is configured can result in modifying the software XOFF state of the wrong SQ. */
+                                                                 value is configured can result in modifying the software [XOFF] state of the wrong SQ. */
 #else /* Word 0 - Little Endian */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
                                                                  PKO_*_PICK (i.e. the meta) in the SQ/DQ cannot be transferred to the
@@ -6922,7 +6926,7 @@ typedef union
                                                                  but it cannot change from valid to invalid while [XOFF] is set.
                                                                  NOTE: The associated PKO_*_TOPOLOGY[LINK/PARENT] should normally be configured before
                                                                  [XOFF] is set. Setting [XOFF] before the associated PKO_*_TOPOLOGY[LINK/PARENT]
-                                                                 value is configured can result in modifying the software XOFF state of the wrong SQ. */
+                                                                 value is configured can result in modifying the software [XOFF] state of the wrong SQ. */
         uint64_t drain                 : 1;  /**< [  1:  1](WO) Drain. This control activates a drain path through the PSE that starts at this node and
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
@@ -6938,10 +6942,10 @@ typedef union
                                                                  the NULL FIFO (i.e. link 14). As such, channel credits, HW_XOFF, and
                                                                  shaping are disabled on the draining path until the path has drained.
                                                                  [DRAIN_NULL_LINK] must not be set when [DRAIN] isn't set.
-                                                                 DRAIN_NULL_LINK has no effect unless DRAIN and XOFF is also set. */
+                                                                 [DRAIN_NULL_LINK] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain_irq             : 1;  /**< [  3:  3](WO) Drain IRQ. Enables an interrupt that fires when the drain operation has completed.
                                                                  [DRAIN_IRQ] should be set whenever [DRAIN] is, and must not be set
-                                                                 when [DRAIN] isn't set.  DRAIN_IRQ has no effect unless DRAIN and XOFF is also set. */
+                                                                 when [DRAIN] isn't set. [DRAIN_IRQ] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -7593,14 +7597,14 @@ typedef union
                                                                  to exclude from FCS. */
         uint64_t skid_max_cnt          : 2;  /**< [  6:  5](R/W) Maximum number of SKID credits. 0x0 = 16; 0x1 = 32; 0x2 = 64. */
         uint64_t fifo_num              : 5;  /**< [  4:  0](R/W) The PEB TX FIFO number assigned to the given MAC. A value of 31 means unassigned. Unused
-                                                                 MACs must have [FIFO_NUM] = 31. For each active MAC, a unique valid FIFO_NUM must
+                                                                 MACs must have [FIFO_NUM] = 31. For each active MAC, a unique valid [FIFO_NUM] must
                                                                  be assigned. When all PKO_PTGF(0..4)_CFG[SIZE] are zero, legal [FIFO_NUM] values are
                                                                  0..19 and 31. [FIFO_NUM] can never select the NULL FIFO. At most one
                                                                  used MAC can be simultaneously assigned the same used [FIFO_NUM].
                                                                  [FIFO_NUM] values 20-30 are illegal and must not be used. */
 #else /* Word 0 - Little Endian */
         uint64_t fifo_num              : 5;  /**< [  4:  0](R/W) The PEB TX FIFO number assigned to the given MAC. A value of 31 means unassigned. Unused
-                                                                 MACs must have [FIFO_NUM] = 31. For each active MAC, a unique valid FIFO_NUM must
+                                                                 MACs must have [FIFO_NUM] = 31. For each active MAC, a unique valid [FIFO_NUM] must
                                                                  be assigned. When all PKO_PTGF(0..4)_CFG[SIZE] are zero, legal [FIFO_NUM] values are
                                                                  0..19 and 31. [FIFO_NUM] can never select the NULL FIFO. At most one
                                                                  used MAC can be simultaneously assigned the same used [FIFO_NUM].
@@ -8367,7 +8371,7 @@ typedef union
                                                                  DQ). For diagnostic use only. */
         uint64_t dis_flsh_cache        : 1;  /**< [ 10: 10](R/W) Set to disable the flush buffer's cache. This makes all fills require full memory latency.
                                                                  For diagnostic use only. */
-        uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC*_CFG[MIN_PAD_ENA]. See
+        uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC()_CFG[MIN_PAD_ENA]. See
                                                                  also PKO_PDM_DQ*_MINPAD[MINPAD].
 
                                                                  The typical value of 0x3C ensures the pre-FCS packet is at least 60 bytes when
@@ -8389,7 +8393,7 @@ typedef union
                                                                  (LDWB vs. LDD). Two modes as follows: 0 = No allocate (LDWB); 1 = Allocate (LDD).
                                                                  PKO PDM refetches DQ metas and descriptors via IOBP loads. */
         uint64_t diag_mode             : 1;  /**< [  2:  2](R/W) Set to enable read/write to memories in PDM through CSR interface. For diagnostic use only. */
-        uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC*_CFG[MIN_PAD_ENA]. See
+        uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC()_CFG[MIN_PAD_ENA]. See
                                                                  also PKO_PDM_DQ*_MINPAD[MINPAD].
 
                                                                  The typical value of 0x3C ensures the pre-FCS packet is at least 60 bytes when
@@ -8418,7 +8422,7 @@ typedef union
                                                                  DQ). For diagnostic use only. */
         uint64_t dis_flsh_cache        : 1;  /**< [ 10: 10](R/W) Set to disable the flush buffer's cache. This makes all fills require full memory latency.
                                                                  For diagnostic use only. */
-        uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC*_CFG[MIN_PAD_ENA]. See
+        uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC()_CFG[MIN_PAD_ENA]. See
                                                                  also PKO_PDM_DQ*_MINPAD[MINPAD].
 
                                                                  The typical value of 0x3C ensures the pre-FCS packet is at least 60 bytes when
@@ -8440,7 +8444,7 @@ typedef union
                                                                  (LDWB vs. LDD). Two modes as follows: 0 = No allocate (LDWB); 1 = Allocate (LDD).
                                                                  PKO PDM refetches DQ metas and descriptors via IOBP loads. */
         uint64_t diag_mode             : 1;  /**< [  2:  2](R/W) Set to enable read/write to memories in PDM through CSR interface. For diagnostic use only. */
-        uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC*_CFG[MIN_PAD_ENA]. See
+        uint64_t pko_pad_minlen        : 7;  /**< [  9:  3](R/W) Minimum frame padding min length. Padding is enabled by PKO_MAC()_CFG[MIN_PAD_ENA]. See
                                                                  also PKO_PDM_DQ*_MINPAD[MINPAD].
 
                                                                  The typical value of 0x3C ensures the pre-FCS packet is at least 60 bytes when
@@ -8602,7 +8606,7 @@ typedef union
                                                                  when the corresponding PKO_MAC()_CFG[MIN_PAD_ENA]=0.
 
                                                                  [MINPAD] doesn't affect whether PKO applies pad to the packet or not,
-                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC()_CFG[MIN_PAD_ENA] is set,
+                                                                 PKO_MAC()_CFG[MIN_PAD_ENA] does. When PKO_MAC()_CFG[MIN_PAD_ENA] is set,
                                                                  PKO pads packets through the MAC to PKO_PDM_CFG[PKO_PAD_MINLEN] bytes. */
 #else /* Word 0 - Little Endian */
         uint64_t minpad                : 1;  /**< [  0:  0](R/W) MINPAD setting per DQ. Each DQ has a separate CSR address; and bit 0 of the data
@@ -8621,7 +8625,7 @@ typedef union
                                                                  when the corresponding PKO_MAC()_CFG[MIN_PAD_ENA]=0.
 
                                                                  [MINPAD] doesn't affect whether PKO applies pad to the packet or not,
-                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC()_CFG[MIN_PAD_ENA] is set,
+                                                                 PKO_MAC()_CFG[MIN_PAD_ENA] does. When PKO_MAC()_CFG[MIN_PAD_ENA] is set,
                                                                  PKO pads packets through the MAC to PKO_PDM_CFG[PKO_PAD_MINLEN] bytes. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -15006,7 +15010,7 @@ typedef union
                                                                      4    10.0 KB    N/A      N/A      N/A
                                                                  </pre>
 
-                                                                 Note: 5-7 are illegal SIZE values and should not be used.
+                                                                 Note: 5-7 are illegal [SIZE] values and should not be used.
 
                                                                  A FIFO labelled N/A in the above table must not be used, and no
                                                                  PKO_MAC()_CFG[FIFO_NUM] should select it. For example,
@@ -15044,7 +15048,7 @@ typedef union
                                                                      4    10.0 KB    N/A      N/A      N/A
                                                                  </pre>
 
-                                                                 Note: 5-7 are illegal SIZE values and should not be used.
+                                                                 Note: 5-7 are illegal [SIZE] values and should not be used.
 
                                                                  A FIFO labelled N/A in the above table must not be used, and no
                                                                  PKO_MAC()_CFG[FIFO_NUM] should select it. For example,
@@ -15120,7 +15124,7 @@ typedef union
                                                                  0 = Color blind.
                                                                  1 = Color aware. */
         uint64_t red_send_as_yellow    : 1;  /**< [  0:  0](R/W) RED_SEND as YELLOW. Configures the way packets colored RED_SEND are
-                                                                 handled by the DQ through L2 shapers when operating in COLOR_AWARE mode.
+                                                                 handled by the DQ through L2 shapers when operating in [COLOR_AWARE] mode.
                                                                  Normally packets colored RED_DROP do not decrement the PIR in DQ through
                                                                  L2 shapers while packets colored YELLOW do.  (Neither RED_DROP nor
                                                                  YELLOW packets decrement the CIR in DQ through L2 shapers.)  Packets colored
@@ -15134,7 +15138,7 @@ typedef union
                                                                  irrespective of [RED_SEND_AS_YELLOW]. */
 #else /* Word 0 - Little Endian */
         uint64_t red_send_as_yellow    : 1;  /**< [  0:  0](R/W) RED_SEND as YELLOW. Configures the way packets colored RED_SEND are
-                                                                 handled by the DQ through L2 shapers when operating in COLOR_AWARE mode.
+                                                                 handled by the DQ through L2 shapers when operating in [COLOR_AWARE] mode.
                                                                  Normally packets colored RED_DROP do not decrement the PIR in DQ through
                                                                  L2 shapers while packets colored YELLOW do.  (Neither RED_DROP nor
                                                                  YELLOW packets decrement the CIR in DQ through L2 shapers.)  Packets colored
@@ -15624,13 +15628,13 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t drain_irq             : 1;  /**< [  3:  3](WO) Drain IRQ. Enables an interrupt that fires when the drain operation has completed.
                                                                  [DRAIN_IRQ] should be set whenever [DRAIN] is, and must not be set
-                                                                 when [DRAIN] isn't set.  DRAIN_IRQ has no effect unless DRAIN and XOFF is also set. */
+                                                                 when [DRAIN] isn't set. [DRAIN_IRQ] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
                                                                  mapped to the NULL FIFO.  Conditions the drain path to drain through
                                                                  the NULL FIFO (i.e. link 14). As such, channel credits, HW_XOFF, and
                                                                  shaping are disabled on the draining path until the path has drained.
                                                                  [DRAIN_NULL_LINK] must not be set when [DRAIN] isn't set.
-                                                                 DRAIN_NULL_LINK has no effect unless DRAIN and XOFF is also set. */
+                                                                 [DRAIN_NULL_LINK] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain                 : 1;  /**< [  1:  1](WO) Drain. This control activates a drain path through the PSE that starts at this node and
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
@@ -15647,7 +15651,7 @@ typedef union
                                                                  but it cannot change from valid to invalid while [XOFF] is set.
                                                                  NOTE: The associated PKO_*_TOPOLOGY[LINK/PARENT] should normally be configured before
                                                                  [XOFF] is set. Setting [XOFF] before the associated PKO_*_TOPOLOGY[LINK/PARENT]
-                                                                 value is configured can result in modifying the software XOFF state of the wrong SQ. */
+                                                                 value is configured can result in modifying the software [XOFF] state of the wrong SQ. */
 #else /* Word 0 - Little Endian */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
                                                                  PKO_*_PICK (i.e. the meta) in the SQ/DQ cannot be transferred to the
@@ -15655,7 +15659,7 @@ typedef union
                                                                  but it cannot change from valid to invalid while [XOFF] is set.
                                                                  NOTE: The associated PKO_*_TOPOLOGY[LINK/PARENT] should normally be configured before
                                                                  [XOFF] is set. Setting [XOFF] before the associated PKO_*_TOPOLOGY[LINK/PARENT]
-                                                                 value is configured can result in modifying the software XOFF state of the wrong SQ. */
+                                                                 value is configured can result in modifying the software [XOFF] state of the wrong SQ. */
         uint64_t drain                 : 1;  /**< [  1:  1](WO) Drain. This control activates a drain path through the PSE that starts at this node and
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
@@ -15671,10 +15675,10 @@ typedef union
                                                                  the NULL FIFO (i.e. link 14). As such, channel credits, HW_XOFF, and
                                                                  shaping are disabled on the draining path until the path has drained.
                                                                  [DRAIN_NULL_LINK] must not be set when [DRAIN] isn't set.
-                                                                 DRAIN_NULL_LINK has no effect unless DRAIN and XOFF is also set. */
+                                                                 [DRAIN_NULL_LINK] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t drain_irq             : 1;  /**< [  3:  3](WO) Drain IRQ. Enables an interrupt that fires when the drain operation has completed.
                                                                  [DRAIN_IRQ] should be set whenever [DRAIN] is, and must not be set
-                                                                 when [DRAIN] isn't set.  DRAIN_IRQ has no effect unless DRAIN and XOFF is also set. */
+                                                                 when [DRAIN] isn't set. [DRAIN_IRQ] has no effect unless [DRAIN] and [XOFF] are also set. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;

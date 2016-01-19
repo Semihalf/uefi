@@ -1406,7 +1406,8 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
  * Register (NCB) fpa_pf_map#
  *
  * FPA PF VF-Mapping Registers
- * These registers map GMIDs and guest aura-sets to hardware aura-sets.
+ * These registers map GMIDs and guest aura-sets to hardware aura-sets. An aura-set is
+ * a naturally aligned set of 16 auras.
  *
  * * Regardless of this mapping table, GMID 0x0 is always invalid and use of 0x0 will
  * cause a FPA_GEN_INT[GMID0] error.

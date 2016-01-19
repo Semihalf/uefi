@@ -61,7 +61,7 @@
  */
 #define BDK_INV_CMD_E_ALLEX (0xc) /**< Broadcast TLB invalidate (ALLEXIS). */
 #define BDK_INV_CMD_E_ASIDE1 (0xd) /**< Broadcast TLB invalidate (ASIDE1IS). */
-#define BDK_INV_CMD_E_GBLSYNC (0xf) /**< Broadcast Global Sync. */
+#define BDK_INV_CMD_E_GBLSYNC (0xf) /**< Broadcast global sync. */
 #define BDK_INV_CMD_E_IALLU (9) /**< Broadcast icache invalidate (IALLUIS). */
 #define BDK_INV_CMD_E_INV (8) /**< Dcache invalidate by PA. */
 #define BDK_INV_CMD_E_IPAS2E1 (7) /**< Broadcast TLB invalidate by IPA (IPAS2E1IS). */
@@ -379,11 +379,11 @@
  *
  * INTERNAL: OCI IREQ Command Enumeration
  */
-#define BDK_OCI_IREQ_CMD_E_IAADD (0x10) /**< IO Atomic add of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IACAS (0x15) /**< IO Atomic compare and swap of 8, 16, 32, 64, or 128 bits. */
-#define BDK_OCI_IREQ_CMD_E_IACLR (0x12) /**< IO Atomic clear of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IASET (0x13) /**< IO Atomic set of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IASWP (0x14) /**< IO Atomic swap of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IAADD (0x10) /**< IO atomic add of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IACAS (0x15) /**< IO atomic compare and swap of 8, 16, 32, 64, or 128 bits. */
+#define BDK_OCI_IREQ_CMD_E_IACLR (0x12) /**< IO atomic clear of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IASET (0x13) /**< IO atomic set of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IASWP (0x14) /**< IO atomic swap of 8, 16, 32, or 64 bits. */
 #define BDK_OCI_IREQ_CMD_E_IDLE (0x1f) /**< No operation. */
 #define BDK_OCI_IREQ_CMD_E_IOBADDR (6) /**< Same as LMTST without any data. */
 #define BDK_OCI_IREQ_CMD_E_IOBADDRA (7) /**< Same as IOBADDR, destination node will respond with IOACK. */
@@ -453,7 +453,7 @@
 #define BDK_OCI_MREQ_CMD_E_RLDT (2) /**< Remote load immediate. */
 #define BDK_OCI_MREQ_CMD_E_RLDWB (4) /**< Remote load immediate, and do not write back. */
 #define BDK_OCI_MREQ_CMD_E_RLDX (5) /**< Remote load exclusive (intent to modify). */
-#define BDK_OCI_MREQ_CMD_E_RLDY (3) /**< Remote load immediate. Allocate in Home node. */
+#define BDK_OCI_MREQ_CMD_E_RLDY (3) /**< Remote load immediate. Allocate in home node. */
 #define BDK_OCI_MREQ_CMD_E_RSET (0x11) /**< Atomic set, 64/32/16/8. */
 #define BDK_OCI_MREQ_CMD_E_RSMAX (0x1b) /**< Atomic signed max. */
 #define BDK_OCI_MREQ_CMD_E_RSMIN (0x1c) /**< Atomic signed min. */
@@ -479,11 +479,11 @@
 #define BDK_OCI_MRSP_CMD_E_HAKS (7) /**< To home Ack - VICx in progress, state is S. */
 #define BDK_OCI_MRSP_CMD_E_HAKV (8) /**< To home Ack - VICS in progress. */
 #define BDK_OCI_MRSP_CMD_E_IDLE (0x1f) /**< No operation. */
-#define BDK_OCI_MRSP_CMD_E_P2DF (0xd) /**< Response Faul. */
+#define BDK_OCI_MRSP_CMD_E_P2DF (0xd) /**< Response fail. */
 #define BDK_OCI_MRSP_CMD_E_PACK (0xc) /**< Response Ack (wo data). */
-#define BDK_OCI_MRSP_CMD_E_PATM (0xb) /**< Response w Data - (atomic requests). */
+#define BDK_OCI_MRSP_CMD_E_PATM (0xb) /**< Response with data - (atomic requests). */
 #define BDK_OCI_MRSP_CMD_E_PEMD (0xa) /**< Response to request, from "owning node". */
-#define BDK_OCI_MRSP_CMD_E_PSHA (9) /**< Response w Data - to S/I. */
+#define BDK_OCI_MRSP_CMD_E_PSHA (9) /**< Response with data - to S/I. */
 #define BDK_OCI_MRSP_CMD_E_VICC (1) /**< Vic from E or O to S. */
 #define BDK_OCI_MRSP_CMD_E_VICD (0) /**< Vic from E or O to I. */
 #define BDK_OCI_MRSP_CMD_E_VICDHI (3) /**< Home forced VICD. */
@@ -497,7 +497,7 @@
  * Enumerates the different RSC command encodings.
  */
 #define BDK_RSC_CMD_E_FLDN (3) /**< Filling data, last fill. */
-#define BDK_RSC_CMD_E_GSDN (2) /**< Global Sync done. */
+#define BDK_RSC_CMD_E_GSDN (2) /**< Global sync done. */
 #define BDK_RSC_CMD_E_IACK (5) /**< IO store commit. */
 #define BDK_RSC_CMD_E_IFDN (1) /**< Filling data, last fill, must write L1T invalid. */
 #define BDK_RSC_CMD_E_NOP (0) /**< No operation. */
@@ -527,7 +527,7 @@
 #define BDK_XMC_CMD_E_AUMAX (0x2e) /**< Atomic unsigned max (load/store varieties). */
 #define BDK_XMC_CMD_E_AUMIN (0x2f) /**< Atomic unsigned min (load/store varieties). */
 #define BDK_XMC_CMD_E_DWB (5) /**< Clear dirty bit (no writeback) + RPL2 if found in requester L2. */
-#define BDK_XMC_CMD_E_GBLSYNC (0x3f) /**< Broadcast Global Sync. */
+#define BDK_XMC_CMD_E_GBLSYNC (0x3f) /**< Broadcast global sync. */
 #define BDK_XMC_CMD_E_IAADD (0x68) /**< I/O atomic add (load only, LD==1). */
 #define BDK_XMC_CMD_E_IACAS (0x66) /**< I/O atomic compare and swap. */
 #define BDK_XMC_CMD_E_IACLR (0x69) /**< I/O atomic clear (load only, LD==1). */
@@ -1949,10 +1949,10 @@ static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a)
  * Level 2 Cache TAD Request Error Info Registers
  * This register records error information for *DISOCI and *NXM
  * interrupts. The NXM logic only applies to local addresses. A command for
- * a remote address does not cause a RDNXM/WRNXM on the requesting node, but
- * may on the remote node. Similary RDDISOCI/WRDISOCI is always for a remote
- * address. The first WRDISOCI/WRNXM error will lock the register until the
- * logged error type is cleared; RDDISOCI/RDNXM never locks the register.
+ * a remote address does not cause a [RDNXM]/[WRNXM] on the requesting node, but
+ * may on the remote node. Similarly, [RDDISOCI]/[WRDISOCI] is always for a remote
+ * address. The first [WRDISOCI]/[WRNXM] error will lock the register until the
+ * logged error type is cleared; [RDDISOCI]/[RDNXM] never locks the register.
  */
 typedef union
 {
@@ -1960,10 +1960,10 @@ typedef union
     struct bdk_l2c_tadx_err_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a RDNXM error. */
-        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a WRNXM error. */
-        uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a RDDISOCI error. */
-        uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a WRDISOCI error. */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a L2C_TAD()_INT_W1C[RDNXM] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a L2C_TAD()_INT_W1C[WRNXM] error. */
+        uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a L2C_TAD()_INT_W1C[RDDISOCI] error. */
+        uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a L2C_TAD()_INT_W1C[WRDISOCI] error. */
         uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Non-secure (NS) bit of request causing error. */
         uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error.
                                                                  Internal:
@@ -1971,27 +1971,27 @@ typedef union
                                                                  decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
                                                                  use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
                                                                  CMD[4:0]. */
-        uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If SOURCE<6>==0, then SOURCE<5:0> is PPID, else
-                                                                 SOURCE<3:0> is BUSID of the IOB which made the request. If CMD[7]==0, this field is
-                                                                 unpredictable. */
+        uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If [SOURCE]<6>==0, then [SOURCE]<5:0> is
+                                                                 PPID, else [SOURCE]<3:0> is BUSID of the IOB which made the request. If
+                                                                 [CMD][7]==0, this field is unpredictable. */
         uint64_t reserved_42_43        : 2;
-        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) CCPI node of XMC request causing error. For *NXM errors NODE is always the node that
+        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) CCPI node of XMC request causing error. For *NXM errors [NODE] is always the node that
                                                                  generated request causing the error (*NXM errors are logged at the home node). For *DISOCI
                                                                  errors, is the NODE the request is directed to (DISOCI request is always the current
                                                                  node). */
-        uint64_t addr                  : 40; /**< [ 39:  0](RO/H) XMC address causing the error. ADDR<6:0> is unpredictable for *DISOCI and *NXM
+        uint64_t addr                  : 40; /**< [ 39:  0](RO/H) XMC address causing the error. [ADDR]<6:0> is unpredictable for *DISOCI and *NXM
                                                                  errors. This field is the physical address after index aliasing (if enabled). */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 40; /**< [ 39:  0](RO/H) XMC address causing the error. ADDR<6:0> is unpredictable for *DISOCI and *NXM
+        uint64_t addr                  : 40; /**< [ 39:  0](RO/H) XMC address causing the error. [ADDR]<6:0> is unpredictable for *DISOCI and *NXM
                                                                  errors. This field is the physical address after index aliasing (if enabled). */
-        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) CCPI node of XMC request causing error. For *NXM errors NODE is always the node that
+        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) CCPI node of XMC request causing error. For *NXM errors [NODE] is always the node that
                                                                  generated request causing the error (*NXM errors are logged at the home node). For *DISOCI
                                                                  errors, is the NODE the request is directed to (DISOCI request is always the current
                                                                  node). */
         uint64_t reserved_42_43        : 2;
-        uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If SOURCE<6>==0, then SOURCE<5:0> is PPID, else
-                                                                 SOURCE<3:0> is BUSID of the IOB which made the request. If CMD[7]==0, this field is
-                                                                 unpredictable. */
+        uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If [SOURCE]<6>==0, then [SOURCE]<5:0> is
+                                                                 PPID, else [SOURCE]<3:0> is BUSID of the IOB which made the request. If
+                                                                 [CMD][7]==0, this field is unpredictable. */
         uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error.
                                                                  Internal:
                                                                  If CMD[7]==1, use XMC_CMD_E to
@@ -1999,10 +1999,10 @@ typedef union
                                                                  use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
                                                                  CMD[4:0]. */
         uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Non-secure (NS) bit of request causing error. */
-        uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a WRDISOCI error. */
-        uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a RDDISOCI error. */
-        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a WRNXM error. */
-        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a RDNXM error. */
+        uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a L2C_TAD()_INT_W1C[WRDISOCI] error. */
+        uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a L2C_TAD()_INT_W1C[RDDISOCI] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a L2C_TAD()_INT_W1C[WRNXM] error. */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a L2C_TAD()_INT_W1C[RDNXM] error. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_err_s cn; */
@@ -2148,7 +2148,7 @@ static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a)
  * Register (RSL) l2c_tad#_stat
  *
  * Level 2 Cache TAD Status Registers
- * This register holds information about the instantaneous state of the TAD
+ * This register holds information about the instantaneous state of the TAD.
  */
 typedef union
 {
@@ -2201,8 +2201,8 @@ typedef union
     struct bdk_l2c_tadx_tag_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
         uint64_t reserved_59           : 1;
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
         uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
@@ -2214,39 +2214,39 @@ typedef union
                                                                  0x1 = Shared.
                                                                  0x2 = Exclusive.
 
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
 #else /* Word 0 - Little Endian */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
         uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
                                                                  0x0 = Invalid.
                                                                  0x1 = Shared.
                                                                  0x2 = Exclusive.
 
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
         uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
         uint64_t reserved_6_41         : 36;
         uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
         uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
         uint64_t reserved_59           : 1;
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_l2c_tadx_tag_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
         uint64_t reserved_59           : 1;
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
         uint64_t reserved_57           : 1;
@@ -2262,24 +2262,24 @@ typedef union
                                                                  0x1 = Shared.
                                                                  0x2 = Exclusive.
 
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
 #else /* Word 0 - Little Endian */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
         uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
                                                                  0x0 = Invalid.
                                                                  0x1 = Shared.
                                                                  0x2 = Exclusive.
 
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
         uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
         uint64_t reserved_6_16         : 11;
         uint64_t tag                   : 23; /**< [ 39: 17](R/W/H) The tag. TAG<39:17> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
@@ -2290,15 +2290,15 @@ typedef union
         uint64_t reserved_57           : 1;
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
         uint64_t reserved_59           : 1;
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
 #endif /* Word 0 - End */
     } cn81xx;
     struct bdk_l2c_tadx_tag_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
         uint64_t reserved_59           : 1;
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
         uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
@@ -2313,24 +2313,24 @@ typedef union
                                                                  0x1 = Shared.
                                                                  0x2 = Exclusive.
 
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
 #else /* Word 0 - Little Endian */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
         uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
                                                                  0x0 = Invalid.
                                                                  0x1 = Shared.
                                                                  0x2 = Exclusive.
 
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
         uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
         uint64_t reserved_6_19         : 14;
         uint64_t tag                   : 22; /**< [ 41: 20](R/W/H) The tag. TAG<39:20> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
@@ -2340,15 +2340,15 @@ typedef union
         uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
         uint64_t reserved_59           : 1;
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
 #endif /* Word 0 - End */
     } cn88xx;
     struct bdk_l2c_tadx_tag_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
         uint64_t reserved_59           : 1;
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
         uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
@@ -2363,24 +2363,24 @@ typedef union
                                                                  0x1 = Shared.
                                                                  0x2 = Exclusive.
 
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
 #else /* Word 0 - Little Endian */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
         uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
                                                                  0x0 = Invalid.
                                                                  0x1 = Shared.
                                                                  0x2 = Exclusive.
 
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
         uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
         uint64_t reserved_6_17         : 12;
         uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
@@ -2390,8 +2390,8 @@ typedef union
         uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
         uint64_t reserved_59           : 1;
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_l2c_tadx_tag_t;
@@ -2421,7 +2421,7 @@ static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a)
  * Level 2 Cache LFB Timeout Info Registers
  * This register records error information for an LFBTO (LFB TimeOut). The first LFBTO error will
  * lock the register until the logged error type s cleared. If multiple LFBs timed out
- * simultaneously, then this will contain the information form the lowest LFB number that has
+ * simultaneously, then this will contain the information from the lowest LFB number that has
  * timed-out. The address can be for the original transaction address or the replacement address
  * (if both could have timed out, then the transaction address will be here).
  */
@@ -2432,8 +2432,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t infolfb               : 1;  /**< [ 63: 63](RO/H) Logged address information is for the LFB original transation. */
-        uint64_t infovab               : 1;  /**< [ 62: 62](RO/H) Logged address information is for the VAB (replacement). If both this and INFOLFB is set,
-                                                                 then both could have timed out, but info captured is from the original LFB. */
+        uint64_t infovab               : 1;  /**< [ 62: 62](RO/H) Logged address information is for the VAB (replacement). If both this and
+                                                                 [INFOLFB] is set, then both could have timed out, but info captured is from the
+                                                                 original LFB. */
         uint64_t reserved_57_61        : 5;
         uint64_t lfbnum                : 5;  /**< [ 56: 52](RO/H) The LFB number of the entry that timed out, and have its info captures in this register. */
         uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
@@ -2443,25 +2444,27 @@ typedef union
                                                                  decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
                                                                  use OCI_MRSP_CMD_E to decode CMD[4:0]. */
         uint64_t reserved_42_43        : 2;
-        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) Home node of the address causing the error. Similar the ADDR below, this can be the
-                                                                 request address (if INFOLFB is set), else it is the replacement address (if INFOLFB is
-                                                                 clear & INFOVAB is set). */
-        uint64_t addr                  : 33; /**< [ 39:  7](RO/H) Cache line address causing the error. This can be either the request address or the
-                                                                 replacement (if INFOLFB is set), else it is the replacement address (if INFOLFB is clear &
-                                                                 INFOVAB is set). This address is a physical address. L2C performs index
-                                                                 aliasing (if enabled) on the written address and uses that for the command. This
-                                                                 index-aliased address is what is returned on a read of L2C_XMC_CMD. */
+        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) Home node of the address causing the error. Similar to [ADDR] below, this can be the
+                                                                 request address (if [INFOLFB] is set), else it is the replacement address (if [INFOLFB] is
+                                                                 clear & [INFOVAB] is set). */
+        uint64_t addr                  : 33; /**< [ 39:  7](RO/H) Cache line address causing the error. This can be either the request address or
+                                                                 the replacement (if [INFOLFB] is set), else it is the replacement address (if
+                                                                 [INFOLFB] is clear & [INFOVAB] is set). This address is a physical address. L2C
+                                                                 performs index aliasing (if enabled) on the written address and uses that for
+                                                                 the command. This index-aliased address is what is returned on a read of
+                                                                 L2C_XMC_CMD. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 33; /**< [ 39:  7](RO/H) Cache line address causing the error. This can be either the request address or the
-                                                                 replacement (if INFOLFB is set), else it is the replacement address (if INFOLFB is clear &
-                                                                 INFOVAB is set). This address is a physical address. L2C performs index
-                                                                 aliasing (if enabled) on the written address and uses that for the command. This
-                                                                 index-aliased address is what is returned on a read of L2C_XMC_CMD. */
-        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) Home node of the address causing the error. Similar the ADDR below, this can be the
-                                                                 request address (if INFOLFB is set), else it is the replacement address (if INFOLFB is
-                                                                 clear & INFOVAB is set). */
+        uint64_t addr                  : 33; /**< [ 39:  7](RO/H) Cache line address causing the error. This can be either the request address or
+                                                                 the replacement (if [INFOLFB] is set), else it is the replacement address (if
+                                                                 [INFOLFB] is clear & [INFOVAB] is set). This address is a physical address. L2C
+                                                                 performs index aliasing (if enabled) on the written address and uses that for
+                                                                 the command. This index-aliased address is what is returned on a read of
+                                                                 L2C_XMC_CMD. */
+        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) Home node of the address causing the error. Similar to [ADDR] below, this can be the
+                                                                 request address (if [INFOLFB] is set), else it is the replacement address (if [INFOLFB] is
+                                                                 clear & [INFOVAB] is set). */
         uint64_t reserved_42_43        : 2;
         uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
                                                                  Internal:
@@ -2471,8 +2474,9 @@ typedef union
                                                                  use OCI_MRSP_CMD_E to decode CMD[4:0]. */
         uint64_t lfbnum                : 5;  /**< [ 56: 52](RO/H) The LFB number of the entry that timed out, and have its info captures in this register. */
         uint64_t reserved_57_61        : 5;
-        uint64_t infovab               : 1;  /**< [ 62: 62](RO/H) Logged address information is for the VAB (replacement). If both this and INFOLFB is set,
-                                                                 then both could have timed out, but info captured is from the original LFB. */
+        uint64_t infovab               : 1;  /**< [ 62: 62](RO/H) Logged address information is for the VAB (replacement). If both this and
+                                                                 [INFOLFB] is set, then both could have timed out, but info captured is from the
+                                                                 original LFB. */
         uint64_t infolfb               : 1;  /**< [ 63: 63](RO/H) Logged address information is for the LFB original transation. */
 #endif /* Word 0 - End */
     } s;
@@ -2561,12 +2565,13 @@ static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a)
  * Register (RSL) l2c_tad_ctl
  *
  * Level 2 Cache TAD Control Register
- * In CNXXXX, MAXLFB, EXLRQ, EXRRQ, EXFWD, EXVIC refer to half-TAD LFBs/VABs. Therefore, even
- * though there are 32 LFBs/VABs in a full TAD, the number applies to both halves.
- * * If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
- * * If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
- * * If MAXLFB != 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to MAXLFB - 4.
- * * If MAXLFB == 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to 12.
+ * In CNXXXX, [MAXLFB], EXLRQ, EXRRQ, EXFWD, EXVIC refer to half-TAD
+ * LFBs/VABs. Therefore, even though there are 32 LFBs/VABs in a full TAD, the number
+ * applies to both halves.
+ * * If [MAXLFB] is != 0, [VBF_THRESH] should be less than [MAXLFB].
+ * * If [MAXVBF] is != 0, [VBF_THRESH] should be less than [MAXVBF].
+ * * If [MAXLFB] != 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to [MAXLFB] - 4.
+ * * If [MAXLFB] == 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to 12.
  */
 typedef union
 {

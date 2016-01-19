@@ -651,46 +651,48 @@ typedef union
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
                                                                  L2C_TAD()_ERR for for logged information. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
         uint64_t reserved_19_31        : 13;
         uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or non-secure read reference to an ASC
                                                                  region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
+                                                                 [RDNXM] is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or non-secure write reference to an
                                                                  ASC region not enabled for non-secure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
         uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t reserved_6_7          : 2;
@@ -710,46 +712,48 @@ typedef union
         uint64_t reserved_6_7          : 2;
         uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
         uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or non-secure write reference to an
                                                                  ASC region not enabled for non-secure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or non-secure read reference to an ASC
                                                                  region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
+                                                                 [RDNXM] is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out. */
         uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
         uint64_t reserved_19_31        : 13;
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
                                                                  L2C_TAD()_ERR for for logged information. */
         uint64_t reserved_36_63        : 28;
@@ -761,46 +765,48 @@ typedef union
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
                                                                  L2C_TAD()_ERR for for logged information. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
         uint64_t reserved_19_31        : 13;
         uint64_t reserved_18           : 1;
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or non-secure read reference to an ASC
                                                                  region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
+                                                                 [RDNXM] is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or non-secure write reference to an
                                                                  ASC region not enabled for non-secure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
         uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t reserved_6_7          : 2;
@@ -820,46 +826,48 @@ typedef union
         uint64_t reserved_6_7          : 2;
         uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
         uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or non-secure write reference to an
                                                                  ASC region not enabled for non-secure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or non-secure read reference to an ASC
                                                                  region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
+                                                                 [RDNXM] is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out. */
         uint64_t reserved_18           : 1;
         uint64_t reserved_19_31        : 13;
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
                                                                  L2C_TAD()_ERR for for logged information. */
         uint64_t reserved_36_63        : 28;
@@ -871,44 +879,46 @@ typedef union
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
                                                                  L2C_TAD()_ERR for for logged information. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t reserved_19_33        : 15;
         uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or non-secure read reference to an ASC
                                                                  region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
+                                                                 [RDNXM] is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or non-secure write reference to an
                                                                  ASC region not enabled for non-secure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
         uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t reserved_6_7          : 2;
@@ -928,44 +938,46 @@ typedef union
         uint64_t reserved_6_7          : 2;
         uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
         uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or non-secure write reference to an
                                                                  ASC region not enabled for non-secure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or non-secure read reference to an ASC
                                                                  region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
+                                                                 [RDNXM] is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out. */
         uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
         uint64_t reserved_19_33        : 15;
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
                                                                  L2C_TAD()_ERR for for logged information. */
         uint64_t reserved_36_63        : 28;
@@ -978,46 +990,48 @@ typedef union
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
                                                                  L2C_TAD()_ERR for for logged information. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
         uint64_t reserved_19_31        : 13;
         uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. Added in pass 2. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or non-secure read reference to an ASC
                                                                  region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
+                                                                 [RDNXM] is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or non-secure write reference to an
                                                                  ASC region not enabled for non-secure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
         uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t reserved_6_7          : 2;
@@ -1037,46 +1051,48 @@ typedef union
         uint64_t reserved_6_7          : 2;
         uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
         uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
         uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or non-secure write reference to an
                                                                  ASC region not enabled for non-secure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or non-secure read reference to an ASC
                                                                  region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
+                                                                 [RDNXM] is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out. */
         uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. Added in pass 2. */
         uint64_t reserved_19_31        : 13;
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
                                                                  L2C_TAD()_ERR for for logged information. */
         uint64_t reserved_36_63        : 28;
@@ -1600,15 +1616,15 @@ typedef union
     struct bdk_l2c_tadx_tbf_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vbffl                 : 16; /**< [ 63: 48](RO/H) BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t sbffl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t fbfrspfl              : 16; /**< [ 31: 16](RO/H) BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t fbfwrpfl              : 16; /**< [ 15:  0](RO/H) BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t vbffl                 : 16; /**< [ 63: 48](RO/H) BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
+        uint64_t sbffl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
+        uint64_t fbfrspfl              : 16; /**< [ 31: 16](RO/H) BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
+        uint64_t fbfwrpfl              : 16; /**< [ 15:  0](RO/H) BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
 #else /* Word 0 - Little Endian */
-        uint64_t fbfwrpfl              : 16; /**< [ 15:  0](RO/H) BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t fbfrspfl              : 16; /**< [ 31: 16](RO/H) BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t sbffl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t vbffl                 : 16; /**< [ 63: 48](RO/H) BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t fbfwrpfl              : 16; /**< [ 15:  0](RO/H) BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
+        uint64_t fbfrspfl              : 16; /**< [ 31: 16](RO/H) BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
+        uint64_t sbffl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
+        uint64_t vbffl                 : 16; /**< [ 63: 48](RO/H) BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_tbf_bist_status_s cn; */
@@ -1645,9 +1661,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t l2dfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t l2dfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
 #else /* Word 0 - Little Endian */
-        uint64_t l2dfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t l2dfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0}). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -1678,9 +1694,10 @@ static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a)
  *
  * Level 2 Cache TAD Quad Error Information Registers
  * This register records error information for all L2D/SBF/FBF errors.
- * An error locks the L2DIDX, and SYN fields and set the bit corresponding to the error received.
+ * An error locks the [L2DIDX] and [SYN] fields and set the bit corresponding to the error
+ * received.
  * DBE errors take priority and overwrite an earlier logged SBE error. Only one of SBE/DBE is set
- * at any given time and serves to document which error the L2DIDX/SYN is associated with.
+ * at any given time and serves to document which error the [L2DIDX]/[SYN] is associated with.
  * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
  */
 typedef union
@@ -1850,13 +1867,13 @@ typedef union
         uint64_t reserved_39_60        : 22;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_21_31        : 11;
-        uint64_t way                   : 4;  /**< [ 20: 17](RO/H) Way of the L2 block containing the error */
-        uint64_t l2idx                 : 10; /**< [ 16:  7](RO/H) Index of the L2 block containing the error */
+        uint64_t way                   : 4;  /**< [ 20: 17](RO/H) Way of the L2 block containing the error. */
+        uint64_t l2idx                 : 10; /**< [ 16:  7](RO/H) Index of the L2 block containing the error. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t l2idx                 : 10; /**< [ 16:  7](RO/H) Index of the L2 block containing the error */
-        uint64_t way                   : 4;  /**< [ 20: 17](RO/H) Way of the L2 block containing the error */
+        uint64_t l2idx                 : 10; /**< [ 16:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t way                   : 4;  /**< [ 20: 17](RO/H) Way of the L2 block containing the error. */
         uint64_t reserved_21_31        : 11;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_39_60        : 22;
@@ -1874,13 +1891,13 @@ typedef union
         uint64_t reserved_39_60        : 22;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_24_31        : 8;
-        uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error */
-        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error */
+        uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error. */
+        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error */
-        uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error */
+        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error. */
         uint64_t reserved_24_31        : 8;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_39_60        : 22;
@@ -1898,13 +1915,13 @@ typedef union
         uint64_t reserved_39_60        : 22;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_23_31        : 9;
-        uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error */
-        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error */
+        uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error. */
+        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error */
-        uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error */
+        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error. */
         uint64_t reserved_23_31        : 9;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_39_60        : 22;

@@ -947,7 +947,7 @@ typedef union
                                                                  pbus outputs. */
         uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be non-zero to ensure legal transitions on the corresponding
                                                                  pbus outputs. */
-        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 5 when [WAITM] is set to 1. */
+        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 1 when [WAITM] is set. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
@@ -967,7 +967,7 @@ typedef union
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
-        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 5 when [WAITM] is set to 1. */
+        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 1 when [WAITM] is set. */
         uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be non-zero to ensure legal transitions on the corresponding
                                                                  pbus outputs. */
         uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be non-zero to ensure legal transitions on the corresponding

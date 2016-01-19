@@ -387,4 +387,49 @@ static inline uint64_t BDK_SMI_DRV_CTL_FUNC(void)
 #define busnum_BDK_SMI_DRV_CTL 0
 #define arguments_BDK_SMI_DRV_CTL -1,-1,-1,-1
 
+/**
+ * Register (RSL) smi_drv_rsvd
+ *
+ * INTERNAL: SMI Drive Reserve Register
+ *
+ * Enables the SMI1 interface.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_smi_drv_rsvd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) Reserved. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) Reserved. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) Reserved. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smi_drv_rsvd_s cn; */
+} bdk_smi_drv_rsvd_t;
+
+#define BDK_SMI_DRV_RSVD BDK_SMI_DRV_RSVD_FUNC()
+static inline uint64_t BDK_SMI_DRV_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMI_DRV_RSVD_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0050038a8ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0050038a8ll;
+    __bdk_csr_fatal("SMI_DRV_RSVD", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_SMI_DRV_RSVD bdk_smi_drv_rsvd_t
+#define bustype_BDK_SMI_DRV_RSVD BDK_CSR_TYPE_RSL
+#define basename_BDK_SMI_DRV_RSVD "SMI_DRV_RSVD"
+#define device_bar_BDK_SMI_DRV_RSVD 0x0 /* PF_BAR0 */
+#define busnum_BDK_SMI_DRV_RSVD 0
+#define arguments_BDK_SMI_DRV_RSVD -1,-1,-1,-1
+
 #endif /* __BDK_CSRS_SMI_H__ */
