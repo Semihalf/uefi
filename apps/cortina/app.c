@@ -105,8 +105,8 @@ struct port_config_d
 static struct port_config_d port_cfg_crb_1s[] =
 {
     /* Port type      Node TWSI PHY Channels  */
-    { PORT_TYPE_SFP,  0,   2,   { 4, -1, -1, -1 }, }, /* SFP+ Port 0 */
-    { PORT_TYPE_SFP,  0,   3,   { 5, -1, -1, -1 }, }, /* SFP+ Port 1 */
+    { PORT_TYPE_SFP,  0,   2,   { 7, -1, -1, -1 }, }, /* SFP+ Port 0 */
+    { PORT_TYPE_SFP,  0,   3,   { 6, -1, -1, -1 }, }, /* SFP+ Port 1 */
     { PORT_TYPE_QSFP, 0,   0,   { 0,  1,  2,  3 }, }, /* QSFP+ Port */
     { PORT_TYPE_NONE, 0,   0,   { 0,  0,  0,  0 }, },
 };
@@ -250,13 +250,13 @@ static void cortina_port_autoconfigure()
      * and crb-2s. We test for crb-1s and if it's not, we assume crb-2s.
      */
     const char *board = bdk_config_get_str(BDK_CONFIG_BOARD_MODEL);
-    if (0 == strcmp(board, "crb-1s"))
+    if (0 == strcasecmp(board, "CRB-1S"))
     {
         ports = port_cfg_crb_1s;
     }
     else
     {
-        board = "crb-2s";
+        board = "CRB-2S";
         ports = port_cfg_crb_2s;
     }
     printf("CORTINA: Assuming board type: %s\n", board);
