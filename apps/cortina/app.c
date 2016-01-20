@@ -383,4 +383,9 @@ int main(int argc, const char **argv)
 
     /* Default: Boot into ATF */
     bdk_image_boot("/boot", ATF_ADDRESS);
+    bdk_error("Unable to load image\n");
+    printf("Trying diagnostics\n");
+
+    /* Load Diagnostics from FAT fs */
+    bdk_image_boot("/fatfs/diagnostics.bin", 0);
 }
