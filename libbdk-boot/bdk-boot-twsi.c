@@ -35,7 +35,7 @@ void bdk_boot_twsi(void)
             int num_bytes = 0;
             int ia_width_bytes = 0;
             uint64_t data = 0;
-            int count = sscanf(str, "%i,%i,%i,%i,%i,%i,%lu", &node, &twsi_id, &dev_addr, &internal_addr, &num_bytes, &ia_width_bytes, &data);
+            int count = sscanf(str, "%i,%i,%i,%i,%i,%i,%li", &node, &twsi_id, &dev_addr, &internal_addr, &num_bytes, &ia_width_bytes, &data);
             if (count != 7)
             {
                 bdk_error("Parsing TWSI write failed: %s\n", str);
