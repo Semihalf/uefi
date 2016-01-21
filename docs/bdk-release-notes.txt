@@ -2,15 +2,101 @@
 // This is a asciidoc document. Edit here, but view the PDF
 //
 
-Bringup and Diagnostic Kit (BDK) Release Notes
-==============================================
+= Bringup and Diagnostic Kit (BDK) Release Notes =
 
-Overview
---------
+== Overview ==
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-thunderx-bdk-FIXME
-------------------
-* Initial BDK release for THUNDERX
+== thunder-release-v1.21-RC3 ==
+* Redo handling of CCPI link init to support CN88XX pass 2.0.
+** The output format has changed greatly, using terminal escape sequences to present a per lane status.
+** Add configuration item for CCPI lane reversal, set on CRB-2S EVT2. This item must be set on any board with lane reversal and CN88XX pass 1.x. Pass 2.0 should auto detect this, but that is untested.
+** Node 0 and node 1 now share CCPI init code. The code is completely different than before, requiring much more testing.
+** Software now intercepts all KR training status so it can control how long training runs for. This allows us to recover from pass 2.0's tendency for one side to finish training before the other side gets a chance.
+** This code has been tested on:
+*** CRB-2S-EVT4 with pass 2.0, 10G-KR CCPI
+*** CRB-2S-EVT3 with pass 1.1, 6G CCPI
+*** CRB-2S-EVT3 with pass 1.1, 10G-KR CCPI
+*** CRB-2S-EVT2 with pass 1.0, 6G CCPI
+*** EBB8800 with pass 1.0, 6G CCPI
+*** EBB8800 with pass 1.0, 10G-KR CCPI
+* Added DRAM margin tool
+* Fix bug where ref clock not set after a soft reset on second QLM of PCIe x8
+* Use THUNDER pass 2.x ability to override the internal VREF DAC setting.
+* Implement automatic use of 100 MHz alternate refclk.
+** Allow the DDR_ALT_REFCLK configuration option to force use of the alternate refclk speed specification for all DIMM types and DDR speeds.
+** Add a Setup Menu item to show and change the DDR_ALT_REFCLK setting.
+** When the DDR_ALT_REFCLK setting does not always force an alternate refclk, if the other DRAM configuration conditions do require use of alternate refclk, the code will still attempt initially to configure it and will use it if it is present, otherwise it will gracefully return to the standard 50MHz.
+* Add workaround for Errata (AP-27388) Flavors of DMB not stalling on subsequent LD
+* Errata (L2C-27380) L2C_OCI_CTL[LOCK_LOCAL_*,CAS_FDX] must be set
+* Fix and re-activate the code to do setting of unused read-leveling and write-leveling CSRs.
+* Read DIMM SPDs and store it in the device tree for later stages
+** The SPD data is needed by later software to populate SMBIOS information, so read them before doing DRAM init. This also means the DRAM code no longer needs TWSI access while it runs.
+* Disable GSER-27140 temperature workaround
+** The workaround for GSER-27140 has been found to break CCPI at 10G on CN88XX pass 2.0. Disable GSER-27140 until this is resolved. The temperature ramp improvements are not interesting if we can't run CCPI at 10G.
+* Clear all CCPI lane counters after CCPI init
+** Lane errors hit during CCPI initialization are not interesting for debug. Clear all statistic counters after bringup the CCPI link. This will fix customers complaining about CCPI errors that were really one time issues during init.
+* Add workaround for Bug #27499 - ISB not flushing the pipeline after a TLBI
+* Apply tuning to CCPI using RX equalization only
+* Start one core on each node as error reporting is enabled
+** Error reporting runs as a thread on each node. If there are no cores running on remote nodes, then no errors will be reported. Always start one core on each node. This also requires that the remote cores be shutdown when we transition to another image.
+** Error reporting runs as a thread on each node. If there are no cores running on remote nodes, then no errors will be reported. Always start one core on each node. This also requires that the remote cores be shutdown when we transition to another image.
+* Preliminary support for compiling the BDK with LLVM
+** The BDK currently boots, but doesn't work correctly. ARM64 support in LLVM 3.7.1 seems to have issues.
+* The top level "license.txt" file summarizes all open source components and licenses in the BDK.
+* Workarounds added for GSER temperature sensitivity (GSER-25992, GSER-26150, and GSER-27140)
+** This may affect customers using CCPI in unexpected ways
+* Cortina PHY firmware is updated on boot for the CRB-1S and CRB-2S
+* Fix parsing error on TWSI device tree entries causing hex data to no be parsed
+** This error caused the 40G port on the CRB-1S to not function
+
+== thunder-release-v1.20 ==
+* The BDK is now configured through a per board device tree. See TBD for documentation.
+* The device tree changes require board manufacturing data to be stored at the end of flash. If this isn't present, boot will stop and the user will be prompted to enter the setup menu. This changes affects production flow as well as all existing boards.
+* There are no longer and board specific C files. All board configuration happens in device tree. See TBD for how to add a board.
+* Old DRAM configurations using C code can be converted to device tree by using the C code with the newer BDK. The BDK will display a message that it created a template device tree that the user can display.
+* ATF and UEFI currently rely on hard-coded checks based on board name passed in X0 from the BDK. This will cause customer issues until ATF and UEFI transition to using the device tree in X1.
+* The BDK stores MAC addresses in the board manufacturing data. UEFI has not been updated to use this data yet, so MAC addresses need to be entered twice.
+* Output QLM tuning state when the user requests an RX equalization. This help the user manually tune QLMs.
+* Reset the Cortina PHY on each connection side during init of the CRB-1S and CRB-2S.
+* CRB-2S EVT3 no longer runs the DRAM test on boot. This is only needed on the EVT2.
+* The watchdog timer is only enabled on the CRB-1S EVT2. EVT3 and EVT4 do not need the watchdog timer.
+* The boot stub status codes reported to the BMC have changed.
+* DRAM configuration can be performed by including common device trees for either DDR3 or DDR4. Customer boards are only expected to override the SPD addresses and DRAM speed grade.
+* The diagnostics SATA menu now contains menu items for SATA pattern generation.
+* Add ability to inject DRAM errors to verify ECC reporting
+* DRAM fix: Apply workaround (24006) to Pass 2.0 as well as 1.x
+* DRAM fix: Fix bug in pack_rlevel_settings() where byte 0 was not packed
+
+Known Issues:
+* CCPI link timeout if you perform a soft reset in the boot menu or exit the setup menu. Workaround is to power cycle the board after it hangs. Customers are not expected to hit this issue during normal operations, just initial configuration.
+* This release requires a newer Cortina PHY image that supports both copper and optical on the CRB-1S and CRB-2S. Without this ROM update, networking doesn't work on the CRB-1S and CRB-2S. Link comes up but no packets flow.
+
+These were in RC3 and removed in RC4 and beyond:
+* New CCPI init sequence to better support CN88XX pass 2.0. This affects all passes of CN88XX.
+* Configuration option CCPI-LANE-REVERSE must be set on boards using CN88XX pass 1.x with CCPI lanes revered. See CRB-2S EVT2 device tree for an example.
+
+== thunder-release-THUNDERX_SDK_2.0.0_build_01 ==
+* Apply workaround for (GSER-27140) 2015-10-23  SERDES temperature drift sensitivity in receiver
+* Fix bug where KR auto-neg is restarted too quickly
+* PCIe enumeration fix
+
+== thunder-release-ThunderX-Firmware-Release-1.11.0 ==
+* Disconnect GSER from SATA when running PRBS. The SATA path bypasses the pattern generators in GSER
+* Remove the DRAM menu in bdk-boot/boot-stub.c
+* Fix QLM tuning labels. Previous menus had many errors.
+* Fix bug where dram init code was disabling the watchdog instead of poking it
+* Add Enhanced Allocation support to the ECAM scan (CN88XX pass 2)
+* Allow specially format config lines to cause arbitrary twsi writes
+* Allow specially format config lines to cause arbitrary MDIO writes
+* Add ability to run DRAM tests with CCPI nodes swizzled, testing CCPI
+* Add config option to test DRAM on boot. Test each node independently so we can tell which one has trouble.
+* Set L2C_OCI_CTL[lock_local_stc]=1 on CN88XX pass 2.x parts
+* Apply GSER-26636 to CCPI QLMs
+* Update PCIe enumeration to use same addresses Linux uses
+* DRAM: allow tuning to be called via menu item
+* Add MDIO writes to reset line side of PHYs on the CRB-1S
+* Enable PCI enhanced allocation (EA) for the ATF and beyond
+* Implement workaround for (ECAM-27114) PCIERC has incorrect device code
 
