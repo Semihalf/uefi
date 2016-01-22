@@ -49,6 +49,21 @@ suid: all
 	$(MAKE) -C utils/bdk-lua suid
 
 #
+# The release target creates a tar of the source. It only works if a tag
+# exactly matches the current branch head
+#
+
+.PHONY: release
+release: all docs
+	cp target-bin/bdk.bin $(BUILD_REV).bin
+	md5sum $(BUILD_REV).bin > $(BUILD_REV).bin.md5
+	git archive --format=tar --prefix=$(BUILD_REV)/ $(BUILD_REV) | tar -x
+	cp -a docs/api-docs docs/lua-modules docs/*.pdf $(BUILD_REV)/docs/
+	cp $(BUILD_REV).bin $(BUILD_REV).bin.md5 $(BUILD_REV)/
+	tar -zcf $(BUILD_REV)-source.tgz $(BUILD_REV)
+	md5sum $(BUILD_REV)-source.tgz > $(BUILD_REV)-source.tgz.md5
+
+#
 # User targets to run Asim
 #
 
