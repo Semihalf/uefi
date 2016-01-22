@@ -703,17 +703,17 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t a_width               : 2;  /**< [ 47: 46](R/W) Region address bus maxiumum width.
-                                                                  0x0 =  8 bits on PBUS_AD[31:24], using PBUS_ALE[3..0].
-                                                                  0x1 = 16 bits on PBUS_AD[31:16], using PBUS_ALE[3,1].
-                                                                  0x2 = 32 bits on PBUS_AD[31:0],  using PBUS_ALE[3].
+                                                                  0x0 =  8 bits on PBUS_AD<31:24>, using PBUS_ALE<3..0>.
+                                                                  0x1 = 16 bits on PBUS_AD<31:16>, using PBUS_ALE<3,1>.
+                                                                  0x2 = 32 bits on PBUS_AD<31:0>,  using PBUS_ALE<3>.
                                                                   0x3 = Reserved.
 
                                                                  Specifies how much of PBUS_AD is used at maxiumum for the address transfers.
 
                                                                  Fewer bits may be required based on the region size ({SIZE]), which may
                                                                  eliminate the need for address multiplexing.  E.g. a region of 64KB requires
-                                                                 only 16 bits of address, and will use only PBUS_AD[15:0] regardless of
-                                                                 [A_WIDTH], allowing PBUS_AD[31:16] to only be used for data.
+                                                                 only 16 bits of address, and will use only PBUS_AD<15:0> regardless of
+                                                                 [A_WIDTH], allowing PBUS_AD[31:16> to only be used for data.
 
                                                                  PBUS_ALE pins indicate the number of initial address cycles.  Page sizes are
                                                                  determined by number of dedicated PBUS_AD pins used for address only.
@@ -722,9 +722,9 @@ typedef union
                                                                  cycles occur:
 
                                                                  <pre>
-                                                                   Cycle 1  Address 31:16 on PBUS_AD[31:16].
-                                                                   Cycle 2  Address 15:0  on PBUS_AD[31:16] with PBUS_ALE[3:2] asserted.
-                                                                   Cycle 3  Data    15:0  on PBUS_AD[31:16] with PBUS_ALE[3:0] asserted.
+                                                                   Cycle 1  Address 31:16 on PBUS_AD<31:16>.
+                                                                   Cycle 2  Address 15:0  on PBUS_AD<31:16> with PBUS_ALE<3:2> asserted.
+                                                                   Cycle 3  Data    15:0  on PBUS_AD<31:16> with PBUS_ALE<3:0> asserted.
                                                                    Repeat Cycle 2-3 for N 16-bit data words until 16K boundary cross then 1-3.
                                                                  </pre>
 
@@ -732,9 +732,9 @@ typedef union
                                                                  cycles occur:
 
                                                                  <pre>
-                                                                   Cycle 1  Address 31:0  on PBUS_AD[31:16].
-                                                                   Cycle 2  Data    15:0  on PBUS_AD[31:16].
-                                                                            Address 15:0  on PBUS_AD[15:0] with PBUS_ALE[3:2] asserted.
+                                                                   Cycle 1  Address 31:0  on PBUS_AD<31:16>.
+                                                                   Cycle 2  Data    15:0  on PBUS_AD<31:16>.
+                                                                            Address 15:0  on PBUS_AD<15:0> with PBUS_ALE<3:2> asserted.
                                                                    Repeat Cycle 2 for N 16-bit data words until 16K boundry cross then 1-2.
                                                                  </pre>
 
@@ -742,25 +742,25 @@ typedef union
                                                                  occur:
 
                                                                  <pre>
-                                                                   Cycle 1  Address 31:24 on PBUS_AD[31:24].
-                                                                   Cycle 2  Address 23:16 on PBUS_AD[31:24] with PBUS_ALE[3] asserted.
-                                                                   Cycle 3  Address 16:8  on PBUS_AD[31:24] with PBUS_ALE[3:2] asserted.
-                                                                   Cycle 4  Address  7:0  on PBUS_AD[31:24] with PBUS_ALE[3:1] asserted.
-                                                                   Cycle 5  Data     7:0  on PBUS_AD[31:24] with PBUS_ALE[3:0] asserted.
+                                                                   Cycle 1  Address 31:24 on PBUS_AD<31:24>.
+                                                                   Cycle 2  Address 23:16 on PBUS_AD<31:24> with PBUS_ALE<3> asserted.
+                                                                   Cycle 3  Address 16:8  on PBUS_AD<31:24> with PBUS_ALE<3:2> asserted.
+                                                                   Cycle 4  Address  7:0  on PBUS_AD<31:24> with PBUS_ALE<3:1> asserted.
+                                                                   Cycle 5  Data     7:0  on PBUS_AD<31:24> with PBUS_ALE<3:0> asserted.
                                                                    Repeat Cycle 4-5 for N 16-bit data words until 256 boundry cross then 3-5.
                                                                    Repeat Cycle 4-5 for N 16-bit data words until 16K boundry cross then 2-5.
                                                                  </pre> */
         uint64_t reserved_45           : 1;
         uint64_t d_width               : 1;  /**< [ 44: 44](R/W) Region data bus width. Specifies how much of the bus is used for the data.
                                                                  See also [A_WIDTH].
-                                                                  0 =  8 bits on PBUS_AD[31:24].
-                                                                  1 = 16 bits on PBUS_AD[31:16]. */
+                                                                  0 =  8 bits on PBUS_AD<31:24>.
+                                                                  1 = 16 bits on PBUS_AD<31:16>. */
         uint64_t dmack                 : 2;  /**< [ 43: 42](R/W) Region DMACK. If non-zero, this field asserts the corresponding
-                                                                 PBUS_DMACK[n] pin when an access to this region is performed.
+                                                                 PBUS_DMACK<n> pin when an access to this region is performed.
                                                                  DMACK is encoded as follows:
                                                                   0x0 = Disabled.
-                                                                  0x1 = PBUS_DMACK[0].
-                                                                  0x2 = PBUS_DMACK[1].
+                                                                  0x1 = PBUS_DMACK<0>.
+                                                                  0x2 = PBUS_DMACK<1>.
                                                                   0x3 = Reserved.
 
                                                                  This is useful for CF cards in PC card memory mode that support DMA
@@ -799,10 +799,10 @@ typedef union
                                                                  timing configurations for common memory and attribute memory. */
         uint64_t size                  : 14; /**< [ 29: 16](R/W) Region size. Region size is specified in 64K blocks and in 'block-1' notation
                                                                  (i.e. 0x0 = one 64K block, 0x1 = two 64K blocks, etc.). */
-        uint64_t base                  : 16; /**< [ 15:  0](R/W) Region base address. Specifies physical address bits [31:16] of the first 64K
+        uint64_t base                  : 16; /**< [ 15:  0](R/W) Region base address. Specifies physical address bits <31:16> of the first 64K
                                                                  block of the region. */
 #else /* Word 0 - Little Endian */
-        uint64_t base                  : 16; /**< [ 15:  0](R/W) Region base address. Specifies physical address bits [31:16] of the first 64K
+        uint64_t base                  : 16; /**< [ 15:  0](R/W) Region base address. Specifies physical address bits <31:16> of the first 64K
                                                                  block of the region. */
         uint64_t size                  : 14; /**< [ 29: 16](R/W) Region size. Region size is specified in 64K blocks and in 'block-1' notation
                                                                  (i.e. 0x0 = one 64K block, 0x1 = two 64K blocks, etc.). */
@@ -836,11 +836,11 @@ typedef union
                                                                    0x2 = 2x multiplier.
                                                                    0x3 = 8x multiplier. */
         uint64_t dmack                 : 2;  /**< [ 43: 42](R/W) Region DMACK. If non-zero, this field asserts the corresponding
-                                                                 PBUS_DMACK[n] pin when an access to this region is performed.
+                                                                 PBUS_DMACK<n> pin when an access to this region is performed.
                                                                  DMACK is encoded as follows:
                                                                   0x0 = Disabled.
-                                                                  0x1 = PBUS_DMACK[0].
-                                                                  0x2 = PBUS_DMACK[1].
+                                                                  0x1 = PBUS_DMACK<0>.
+                                                                  0x2 = PBUS_DMACK<1>.
                                                                   0x3 = Reserved.
 
                                                                  This is useful for CF cards in PC card memory mode that support DMA
@@ -850,21 +850,21 @@ typedef union
                                                                  GPIO_BIT_SEL[PIN_XOR]. */
         uint64_t d_width               : 1;  /**< [ 44: 44](R/W) Region data bus width. Specifies how much of the bus is used for the data.
                                                                  See also [A_WIDTH].
-                                                                  0 =  8 bits on PBUS_AD[31:24].
-                                                                  1 = 16 bits on PBUS_AD[31:16]. */
+                                                                  0 =  8 bits on PBUS_AD<31:24>.
+                                                                  1 = 16 bits on PBUS_AD<31:16>. */
         uint64_t reserved_45           : 1;
         uint64_t a_width               : 2;  /**< [ 47: 46](R/W) Region address bus maxiumum width.
-                                                                  0x0 =  8 bits on PBUS_AD[31:24], using PBUS_ALE[3..0].
-                                                                  0x1 = 16 bits on PBUS_AD[31:16], using PBUS_ALE[3,1].
-                                                                  0x2 = 32 bits on PBUS_AD[31:0],  using PBUS_ALE[3].
+                                                                  0x0 =  8 bits on PBUS_AD<31:24>, using PBUS_ALE<3..0>.
+                                                                  0x1 = 16 bits on PBUS_AD<31:16>, using PBUS_ALE<3,1>.
+                                                                  0x2 = 32 bits on PBUS_AD<31:0>,  using PBUS_ALE<3>.
                                                                   0x3 = Reserved.
 
                                                                  Specifies how much of PBUS_AD is used at maxiumum for the address transfers.
 
                                                                  Fewer bits may be required based on the region size ({SIZE]), which may
                                                                  eliminate the need for address multiplexing.  E.g. a region of 64KB requires
-                                                                 only 16 bits of address, and will use only PBUS_AD[15:0] regardless of
-                                                                 [A_WIDTH], allowing PBUS_AD[31:16] to only be used for data.
+                                                                 only 16 bits of address, and will use only PBUS_AD<15:0> regardless of
+                                                                 [A_WIDTH], allowing PBUS_AD[31:16> to only be used for data.
 
                                                                  PBUS_ALE pins indicate the number of initial address cycles.  Page sizes are
                                                                  determined by number of dedicated PBUS_AD pins used for address only.
@@ -873,9 +873,9 @@ typedef union
                                                                  cycles occur:
 
                                                                  <pre>
-                                                                   Cycle 1  Address 31:16 on PBUS_AD[31:16].
-                                                                   Cycle 2  Address 15:0  on PBUS_AD[31:16] with PBUS_ALE[3:2] asserted.
-                                                                   Cycle 3  Data    15:0  on PBUS_AD[31:16] with PBUS_ALE[3:0] asserted.
+                                                                   Cycle 1  Address 31:16 on PBUS_AD<31:16>.
+                                                                   Cycle 2  Address 15:0  on PBUS_AD<31:16> with PBUS_ALE<3:2> asserted.
+                                                                   Cycle 3  Data    15:0  on PBUS_AD<31:16> with PBUS_ALE<3:0> asserted.
                                                                    Repeat Cycle 2-3 for N 16-bit data words until 16K boundary cross then 1-3.
                                                                  </pre>
 
@@ -883,9 +883,9 @@ typedef union
                                                                  cycles occur:
 
                                                                  <pre>
-                                                                   Cycle 1  Address 31:0  on PBUS_AD[31:16].
-                                                                   Cycle 2  Data    15:0  on PBUS_AD[31:16].
-                                                                            Address 15:0  on PBUS_AD[15:0] with PBUS_ALE[3:2] asserted.
+                                                                   Cycle 1  Address 31:0  on PBUS_AD<31:16>.
+                                                                   Cycle 2  Data    15:0  on PBUS_AD<31:16>.
+                                                                            Address 15:0  on PBUS_AD<15:0> with PBUS_ALE<3:2> asserted.
                                                                    Repeat Cycle 2 for N 16-bit data words until 16K boundry cross then 1-2.
                                                                  </pre>
 
@@ -893,11 +893,11 @@ typedef union
                                                                  occur:
 
                                                                  <pre>
-                                                                   Cycle 1  Address 31:24 on PBUS_AD[31:24].
-                                                                   Cycle 2  Address 23:16 on PBUS_AD[31:24] with PBUS_ALE[3] asserted.
-                                                                   Cycle 3  Address 16:8  on PBUS_AD[31:24] with PBUS_ALE[3:2] asserted.
-                                                                   Cycle 4  Address  7:0  on PBUS_AD[31:24] with PBUS_ALE[3:1] asserted.
-                                                                   Cycle 5  Data     7:0  on PBUS_AD[31:24] with PBUS_ALE[3:0] asserted.
+                                                                   Cycle 1  Address 31:24 on PBUS_AD<31:24>.
+                                                                   Cycle 2  Address 23:16 on PBUS_AD<31:24> with PBUS_ALE<3> asserted.
+                                                                   Cycle 3  Address 16:8  on PBUS_AD<31:24> with PBUS_ALE<3:2> asserted.
+                                                                   Cycle 4  Address  7:0  on PBUS_AD<31:24> with PBUS_ALE<3:1> asserted.
+                                                                   Cycle 5  Data     7:0  on PBUS_AD<31:24> with PBUS_ALE<3:0> asserted.
                                                                    Repeat Cycle 4-5 for N 16-bit data words until 256 boundry cross then 3-5.
                                                                    Repeat Cycle 4-5 for N 16-bit data words until 16K boundry cross then 2-5.
                                                                  </pre> */

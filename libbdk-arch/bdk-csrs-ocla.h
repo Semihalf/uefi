@@ -498,14 +498,14 @@ typedef union
         uint64_t trig                  : 1;  /**< [ 62: 62](RO/H) Internal trigger set. Equivalent to OCLA()_STATE_INT[TRIG]. */
         uint64_t wmark                 : 1;  /**< [ 61: 61](RO/H) Internal buffer watermark reached. Equivalent to OCLA()_STATE_INT[WMARK]. */
         uint64_t reserved_38_60        : 23;
-        uint64_t entry                 : 38; /**< [ 37:  0](RC/H) Captured entry. If VALID is set, has read side effect of unloading data by decrementing
+        uint64_t entry                 : 38; /**< [ 37:  0](RC/H) Captured entry. If [VALID] is set, has read side effect of unloading data by decrementing
                                                                  OCLA()_FIFO_DEPTH[DEPTH]. Data is in the format described by OCLA_CAP_DAT_S or
                                                                  OCLA_CAP_CTL_S.
 
                                                                  Note that unloading data will cause that data not to be sent to memory, therefore
                                                                  OCLA()_DAT_POP should not be read when OCLA()_FIFO_LIMIT[DDR] != all-ones. */
 #else /* Word 0 - Little Endian */
-        uint64_t entry                 : 38; /**< [ 37:  0](RC/H) Captured entry. If VALID is set, has read side effect of unloading data by decrementing
+        uint64_t entry                 : 38; /**< [ 37:  0](RC/H) Captured entry. If [VALID] is set, has read side effect of unloading data by decrementing
                                                                  OCLA()_FIFO_DEPTH[DEPTH]. Data is in the format described by OCLA_CAP_DAT_S or
                                                                  OCLA_CAP_CTL_S.
 

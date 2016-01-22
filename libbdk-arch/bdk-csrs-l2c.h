@@ -884,8 +884,8 @@ static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a)
  * Level 2 Cache IODISOCI Error Information Registers
  * This register records error information associated with IORDDISOCI/IOWRDISOCI interrupts.
  * IOWRDISOCI events take priority over previously captured IORDDISOCI events. Of the available
- * I/O transactions, some commands will either set IORDDISOCI, set IOWRDISOCI, or set both
- * IORDDISOCI and IOWRDISOCI. See L2C_CBC()_INT_W1C for information about which I/O
+ * I/O transactions, some commands will either set [IORDDISOCI], set [IOWRDISOCI], or set both
+ * [IORDDISOCI] and [IOWRDISOCI]. See L2C_CBC()_INT_W1C for information about which I/O
  * transactions
  * may result in IORDDISOCI/IOWRDISOCI interrupts.
  */
@@ -944,10 +944,11 @@ static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a)
  * Register (RSL) l2c_cbc#_miberr
  *
  * Level 2 Cache MIB Error Information Registers
- * This register records error information for all CBC MIB errors. An error locks the INDEX, and
- * SYN fields and set the bit corresponding to the error received. MIBDBE errors take priority
- * and overwrite an earlier logged MIBSBE error. Only one of MIBSBE/MIBDBE is set at any given
- * time and serves to document which error the INDEX/SYN is associated with. The syndrome is
+ * This register records error information for all CBC MIB errors. An error locks the INDEX and
+ * [SYN] fields and set the bit corresponding to the error received. MIBDBE errors take priority
+ * and overwrite an earlier logged MIBSBE error. Only one of [MIBSBE]/[MIBDBE] is set at any
+ * given
+ * time and serves to document which error the INDEX/[SYN] is associated with. The syndrome is
  * recorded for DBE errors, though the utility of the value is not clear.
  */
 typedef union
@@ -1008,9 +1009,10 @@ static inline uint64_t BDK_L2C_CBCX_MIBERR(unsigned long a)
  *
  * Level 2 Cache RSD Error Information Registers
  * This register records error information for all CBC RSD errors.
- * An error locks the INDEX, and SYN fields and set the bit corresponding to the error received.
+ * An error locks the INDEX and [SYN] fields and set the bit corresponding to the error received.
  * RSDDBE errors take priority and overwrite an earlier logged RSDSBE error. Only one of
- * RSDSBE/RSDDBE is set at any given time and serves to document which error the INDEX/SYN is
+ * [RSDSBE]/[RSDDBE] is set at any given time and serves to document which error the INDEX/[SYN]
+ * is
  * associated with.
  * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
  */
@@ -1020,8 +1022,8 @@ typedef union
     struct bdk_l2c_cbcx_rsderr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rsddbe                : 1;  /**< [ 63: 63](RO/H) INDEX/SYN corresponds to a double-bit RSD ECC error */
-        uint64_t rsdsbe                : 1;  /**< [ 62: 62](RO/H) INDEX/SYN corresponds to a single-bit RSD ECC error */
+        uint64_t rsddbe                : 1;  /**< [ 63: 63](RO/H) INDEX/SYN corresponds to a double-bit RSD ECC error. */
+        uint64_t rsdsbe                : 1;  /**< [ 62: 62](RO/H) INDEX/SYN corresponds to a single-bit RSD ECC error. */
         uint64_t reserved_40_61        : 22;
         uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
         uint64_t reserved_9_31         : 23;
@@ -1035,8 +1037,8 @@ typedef union
         uint64_t reserved_9_31         : 23;
         uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
         uint64_t reserved_40_61        : 22;
-        uint64_t rsdsbe                : 1;  /**< [ 62: 62](RO/H) INDEX/SYN corresponds to a single-bit RSD ECC error */
-        uint64_t rsddbe                : 1;  /**< [ 63: 63](RO/H) INDEX/SYN corresponds to a double-bit RSD ECC error */
+        uint64_t rsdsbe                : 1;  /**< [ 62: 62](RO/H) INDEX/SYN corresponds to a single-bit RSD ECC error. */
+        uint64_t rsddbe                : 1;  /**< [ 63: 63](RO/H) INDEX/SYN corresponds to a double-bit RSD ECC error. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_rsderr_s cn; */
@@ -1331,10 +1333,10 @@ static inline uint64_t BDK_L2C_ECC_CTL_FUNC(void)
  * Register (RSL) l2c_mci#_bist_status
  *
  * Level 2 MCI BIST Status (DCLK) Registers
- * If clear BIST is desired, CLEAR_BIST must be written to 1 before START_BIST is written to 1
- * using a separate CSR write operation.
- * CLEAR_BIST must not be changed after writing START_BIST to 1 until the BIST operation
- * completes (indicated by START_BIST returning to 0) or operation is undefined.
+ * If clear BIST is desired, [CLEAR_BIST] must be written to 1 before [START_BIST] is
+ * written to 1 using a separate CSR write operation. [CLEAR_BIST] must not be changed
+ * after writing [START_BIST] to 1 until the BIST operation completes (indicated by
+ * [START_BIST] returning to 0) or operation is undefined.
  */
 typedef union
 {
@@ -1380,7 +1382,7 @@ static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a)
  *
  * Level 2 Cache MCI Error Information Registers
  * This register records error information for all MCI errors.
- * An error locks the VBF4, INDEX, and SYN0/1 fields and set the bit corresponding to the error
+ * An error locks [VBF4], [INDEX], [SYN0] and [SYN1] and sets the bit corresponding to the error
  * received. VBFDBE errors take priority and will overwrite an earlier logged VBFSBE error. The
  * information from exactly one VBF read is present at any given time and serves to document
  * which error(s) were present in the read with the highest priority error.

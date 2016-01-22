@@ -637,9 +637,11 @@ typedef union
     struct bdk_sso_bist_status0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
-        uint64_t bist                  : 11; /**< [ 10:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
+        uint64_t reserved_13_63        : 51;
+        uint64_t bist                  : 13; /**< [ 12:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
                                                                  Internal:
+                                                                 <12> = XAQ_CNT.
+                                                                 <11> = XAQ_LIMIT.
                                                                  <10> = MEMMGT.
                                                                   <9> = WES.
                                                                   <8> = FFF.
@@ -652,8 +654,10 @@ typedef union
                                                                   <1> = TOAQ_HPTR.
                                                                   <0> = TOAQ_TPTR. */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 11; /**< [ 10:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
+        uint64_t bist                  : 13; /**< [ 12:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
                                                                  Internal:
+                                                                 <12> = XAQ_CNT.
+                                                                 <11> = XAQ_LIMIT.
                                                                  <10> = MEMMGT.
                                                                   <9> = WES.
                                                                   <8> = FFF.
@@ -665,7 +669,7 @@ typedef union
                                                                   <2> = TIAQ_TPTR.
                                                                   <1> = TOAQ_HPTR.
                                                                   <0> = TOAQ_TPTR. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bist_status0_s cn; */
@@ -1119,7 +1123,11 @@ typedef union
     struct bdk_sso_ecc_ctl0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
+        uint64_t reserved_39_63        : 25;
+        uint64_t xaq_cnt_flip          : 2;  /**< [ 38: 37](R/W) XAQ_CNT flip syndrome bits on write. */
+        uint64_t xaq_cnt_cdis          : 1;  /**< [ 36: 36](R/W) XAQ_CNT ECC correction disable. */
+        uint64_t xaq_limit_flip        : 2;  /**< [ 35: 34](R/W) XAQ_LIMIT flip syndrome bits on write. */
+        uint64_t xaq_limit_cdis        : 1;  /**< [ 33: 33](R/W) XAQ_LIMIT ECC correction disable. */
         uint64_t memmgt_flip           : 2;  /**< [ 32: 31](R/W) MEMMGT flip syndrome bits on write. */
         uint64_t memmgt_cdis           : 1;  /**< [ 30: 30](R/W) MEMMGT ECC correction disable. */
         uint64_t toaqt_flip            : 2;  /**< [ 29: 28](R/W) TOAQT flip syndrome bits on write. */
@@ -1167,7 +1175,11 @@ typedef union
         uint64_t toaqt_flip            : 2;  /**< [ 29: 28](R/W) TOAQT flip syndrome bits on write. */
         uint64_t memmgt_cdis           : 1;  /**< [ 30: 30](R/W) MEMMGT ECC correction disable. */
         uint64_t memmgt_flip           : 2;  /**< [ 32: 31](R/W) MEMMGT flip syndrome bits on write. */
-        uint64_t reserved_33_63        : 31;
+        uint64_t xaq_limit_cdis        : 1;  /**< [ 33: 33](R/W) XAQ_LIMIT ECC correction disable. */
+        uint64_t xaq_limit_flip        : 2;  /**< [ 35: 34](R/W) XAQ_LIMIT flip syndrome bits on write. */
+        uint64_t xaq_cnt_cdis          : 1;  /**< [ 36: 36](R/W) XAQ_CNT ECC correction disable. */
+        uint64_t xaq_cnt_flip          : 2;  /**< [ 38: 37](R/W) XAQ_CNT flip syndrome bits on write. */
+        uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ecc_ctl0_s cn; */
@@ -1331,7 +1343,11 @@ typedef union
     struct bdk_sso_err0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
+        uint64_t reserved_58_63        : 6;
+        uint64_t xaq_cnt_dbe           : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for XAQ_CNT RAM. */
+        uint64_t xaq_cnt_sbe           : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for XAQ_CNT RAM. */
+        uint64_t xaq_limit_dbe         : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for XAQ_LIMIT RAM. */
+        uint64_t xaq_limit_sbe         : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for XAQ_LIMIT RAM. */
         uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for MEMMGT RAM. */
         uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for MEMMGT RAM. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for TOAQT RAM. */
@@ -1413,7 +1429,11 @@ typedef union
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for TOAQT RAM. */
         uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for MEMMGT RAM. */
         uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for MEMMGT RAM. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t xaq_limit_sbe         : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for XAQ_LIMIT RAM. */
+        uint64_t xaq_limit_dbe         : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for XAQ_LIMIT RAM. */
+        uint64_t xaq_cnt_sbe           : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for XAQ_CNT RAM. */
+        uint64_t xaq_cnt_dbe           : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for XAQ_CNT RAM. */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_s cn; */
@@ -1447,7 +1467,11 @@ typedef union
     struct bdk_sso_err0_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
+        uint64_t reserved_58_63        : 6;
+        uint64_t xaq_cnt_dbe           : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for SSO_ERR0[XAQ_CNT_DBE]. */
+        uint64_t xaq_cnt_sbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for SSO_ERR0[XAQ_CNT_SBE]. */
+        uint64_t xaq_limit_dbe         : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for SSO_ERR0[XAQ_LIMIT_DBE]. */
+        uint64_t xaq_limit_sbe         : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for SSO_ERR0[XAQ_LIMIT_SBE]. */
         uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1C/H) Reads or clears enable for SSO_ERR0[MEMMGT_DBE]. */
         uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for SSO_ERR0[MEMMGT_SBE]. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for SSO_ERR0[TOAQT_DBE]. */
@@ -1513,7 +1537,11 @@ typedef union
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for SSO_ERR0[TOAQT_DBE]. */
         uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for SSO_ERR0[MEMMGT_SBE]. */
         uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1C/H) Reads or clears enable for SSO_ERR0[MEMMGT_DBE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t xaq_limit_sbe         : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for SSO_ERR0[XAQ_LIMIT_SBE]. */
+        uint64_t xaq_limit_dbe         : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for SSO_ERR0[XAQ_LIMIT_DBE]. */
+        uint64_t xaq_cnt_sbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for SSO_ERR0[XAQ_CNT_SBE]. */
+        uint64_t xaq_cnt_dbe           : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for SSO_ERR0[XAQ_CNT_DBE]. */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_ena_w1c_s cn; */
@@ -1547,7 +1575,11 @@ typedef union
     struct bdk_sso_err0_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
+        uint64_t reserved_58_63        : 6;
+        uint64_t xaq_cnt_dbe           : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for SSO_ERR0[XAQ_CNT_DBE]. */
+        uint64_t xaq_cnt_sbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for SSO_ERR0[XAQ_CNT_SBE]. */
+        uint64_t xaq_limit_dbe         : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for SSO_ERR0[XAQ_LIMIT_DBE]. */
+        uint64_t xaq_limit_sbe         : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for SSO_ERR0[XAQ_LIMIT_SBE]. */
         uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets enable for SSO_ERR0[MEMMGT_DBE]. */
         uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for SSO_ERR0[MEMMGT_SBE]. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for SSO_ERR0[TOAQT_DBE]. */
@@ -1613,7 +1645,11 @@ typedef union
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for SSO_ERR0[TOAQT_DBE]. */
         uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for SSO_ERR0[MEMMGT_SBE]. */
         uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets enable for SSO_ERR0[MEMMGT_DBE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t xaq_limit_sbe         : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for SSO_ERR0[XAQ_LIMIT_SBE]. */
+        uint64_t xaq_limit_dbe         : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for SSO_ERR0[XAQ_LIMIT_DBE]. */
+        uint64_t xaq_cnt_sbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for SSO_ERR0[XAQ_CNT_SBE]. */
+        uint64_t xaq_cnt_dbe           : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for SSO_ERR0[XAQ_CNT_DBE]. */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_ena_w1s_s cn; */
@@ -1647,7 +1683,11 @@ typedef union
     struct bdk_sso_err0_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
+        uint64_t reserved_58_63        : 6;
+        uint64_t xaq_cnt_dbe           : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets SSO_ERR0[XAQ_CNT_DBE]. */
+        uint64_t xaq_cnt_sbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets SSO_ERR0[XAQ_CNT_SBE]. */
+        uint64_t xaq_limit_dbe         : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets SSO_ERR0[XAQ_LIMIT_DBE]. */
+        uint64_t xaq_limit_sbe         : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets SSO_ERR0[XAQ_LIMIT_SBE]. */
         uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets SSO_ERR0[MEMMGT_DBE]. */
         uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets SSO_ERR0[MEMMGT_SBE]. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets SSO_ERR0[TOAQT_DBE]. */
@@ -1713,7 +1753,11 @@ typedef union
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets SSO_ERR0[TOAQT_DBE]. */
         uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets SSO_ERR0[MEMMGT_SBE]. */
         uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets SSO_ERR0[MEMMGT_DBE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t xaq_limit_sbe         : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets SSO_ERR0[XAQ_LIMIT_SBE]. */
+        uint64_t xaq_limit_dbe         : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets SSO_ERR0[XAQ_LIMIT_DBE]. */
+        uint64_t xaq_cnt_sbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets SSO_ERR0[XAQ_CNT_SBE]. */
+        uint64_t xaq_cnt_dbe           : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets SSO_ERR0[XAQ_CNT_DBE]. */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_w1s_s cn; */
@@ -2430,7 +2474,7 @@ typedef union
                                                                  work slot. */
         uint64_t reserved_45_47        : 3;
         uint64_t max_thr               : 13; /**< [ 44: 32](R/W) Max threshold for this internal admission queue. If non-zero, must be >= [RSVD_THR] + 4.
-                                                                 To insure full streaming performance to all cores, should be at least 208. Must not be
+                                                                 To ensure full streaming performance to all cores, should be at least 208. Must not be
                                                                  changed after traffic is sent to this hardware-group. */
         uint64_t reserved_13_31        : 19;
         uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Reserved threshold for this internal hardware-group queue. Should be at least 1
@@ -2446,7 +2490,7 @@ typedef union
                                                                  hardware-group. */
         uint64_t reserved_13_31        : 19;
         uint64_t max_thr               : 13; /**< [ 44: 32](R/W) Max threshold for this internal admission queue. If non-zero, must be >= [RSVD_THR] + 4.
-                                                                 To insure full streaming performance to all cores, should be at least 208. Must not be
+                                                                 To ensure full streaming performance to all cores, should be at least 208. Must not be
                                                                  changed after traffic is sent to this hardware-group. */
         uint64_t reserved_45_47        : 3;
         uint64_t grp_cnt               : 13; /**< [ 60: 48](RO/H) Hardware-group's entry count. Number of internal entries allocated to IAQ,
@@ -4517,11 +4561,17 @@ typedef union
     struct bdk_sso_unmap_info_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_19_63        : 45;
+        uint64_t cam_ws_pp             : 1;  /**< [ 18: 18](RO/H) Failing on VHGRP to GGRP. */
+        uint64_t cam_ncbo_ws           : 1;  /**< [ 17: 17](RO/H) Failing on GGRP to VHGRP. */
+        uint64_t cam_cop_ws            : 1;  /**< [ 16: 16](RO/H) Failing on GGRP to VHGRP. */
         uint64_t gmid                  : 16; /**< [ 15:  0](RO/H) Failing GMID. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](RO/H) Failing GMID. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t cam_cop_ws            : 1;  /**< [ 16: 16](RO/H) Failing on GGRP to VHGRP. */
+        uint64_t cam_ncbo_ws           : 1;  /**< [ 17: 17](RO/H) Failing on GGRP to VHGRP. */
+        uint64_t cam_ws_pp             : 1;  /**< [ 18: 18](RO/H) Failing on VHGRP to GGRP. */
+        uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_unmap_info_s cn; */

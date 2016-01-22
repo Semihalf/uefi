@@ -113,18 +113,18 @@
 #define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN81XX(a) (0x23f + (a)) /**< Multichip debug input; see OCLA chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN88XX(a) (0xb0 + (a)) /**< Multichip debug input; see OCLA chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN83XX(a) (0x23f + (a)) /**< Multichip debug input; see OCLA chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN81XX(a) (0x242 + (a)) /**< Multichip debug output; see OCLA chapter. */
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN88XX(a) (0x14 + (a)) /**< Multichip debug output; see OCLA chapter. */
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN83XX(a) (0x242 + (a)) /**< Multichip debug output; see OCLA chapter. */
@@ -162,28 +162,28 @@
 #define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN81XX (0x231) /**< OCLA external trigger input; see OCLA()_GEN_CTL[EXTEN].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN88XX (0x8a) /**< OCLA external trigger input; see OCLA()_GEN_CTL[EXTEN].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN83XX (0x231) /**< OCLA external trigger input; see OCLA()_GEN_CTL[EXTEN].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_PBUS_ADX(a) (0xfa + (a)) /**< This is a bi-directional bus. see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_ALEX(a) (0xe8 + (a)) /**< PBUS_ALE output; see See Chapter BOOT BUS. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_CE_NX(a) (0xec + (a)) /**< PBUS_CE_N output; see See Chapter BOOT BUS. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_CLE (0xe0) /**< PBUS_CLE output; see See Chapter BOOT BUS. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_DIR (0xe4) /**< PBUS_DIR output; see See Chapter BOOT BUS. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_DMACKX(a) (0xe6 + (a)) /**< PBUS_DMACK(0..1) output; see See Chapter BOOT BUS. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_DMARQX(a) (0x11a + (a)) /**< PBUS_DMARQ input; see See Chapter BOOT BUS. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_OE_N (0xe3) /**< PBUS_OE_N output; see See Chapter BOOT BUS. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_WAIT_N (0xe1) /**< PBUS_WAIT_N input; see See Chapter BOOT BUS. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_WE_N (0xe2) /**< PBUS_WE_N output; see See Chapter BOOT BUS. */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
+#define BDK_GPIO_PIN_SEL_E_PBUS_ADX(a) (0xfa + (a)) /**< This is a bi-directional bus; see PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_ALEX(a) (0xe8 + (a)) /**< PBUS_ALE output; see PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_CE_NX(a) (0xec + (a)) /**< PBUS_CE_N output; see PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_CLE (0xe0) /**< PBUS_CLE output; see PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_DIR (0xe4) /**< PBUS_DIR output; see PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_DMACKX(a) (0xe6 + (a)) /**< PBUS_DMACK(0..1) output; see PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_DMARQX(a) (0x11a + (a)) /**< PBUS_DMARQ input; see PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_OE_N (0xe3) /**< PBUS_OE_N output; see PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_WAIT_N (0xe1) /**< PBUS_WAIT_N input; see PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_WE_N (0xe2) /**< PBUS_WE_N output; see PBUS chapter. */
 #define BDK_GPIO_PIN_SEL_E_PCM_BCLKX(a) (0x246 + (a)) /**< PCM BCLK is a bi-directional bus; see TDM/PCM chapter. */
 #define BDK_GPIO_PIN_SEL_E_PCM_DATAX(a) (0x24c + (a)) /**< PCM DATA is a bi-directional bus; see TDM/PCM chapter. */
 #define BDK_GPIO_PIN_SEL_E_PCM_FSYNCX(a) (0x24a + (a)) /**< PCM FSYNC is a bi-directional bus; see TDM/PCM chapter. */
@@ -194,20 +194,20 @@
                                        powered-down device; see SATA()_UAHC_P0_CMD[CPS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET_CN88XX(a) (0x90 + (a)) /**< SATA cold presence detect input; detects addition (1) or removal (0) of the
                                        powered-down device; see SATA()_UAHC_P0_CMD[CPS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET_CN83XX(a) (0x18b + (a)) /**< SATA cold presence detect input; detects addition (1) or removal (0) of the
                                        powered-down device; see SATA()_UAHC_P0_CMD[CPS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN81XX(a) (0x145 + (a)) /**< SATA cold-presence power-on device output; see SATA()_UAHC_P0_CMD[POD]. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN88XX(a) (0x50 + (a)) /**< SATA cold-presence power-on device output; see SATA()_UAHC_P0_CMD[POD]. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN83XX(a) (0x145 + (a)) /**< SATA cold-presence power-on device output; see SATA()_UAHC_P0_CMD[POD]. */
@@ -215,35 +215,35 @@
                                        presence switch (0) switch open, (1) switch closed. See SATA()_UAHC_P0_CMD[MPSS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH_CN88XX(a) (0xa0 + (a)) /**< SATA mechanical presence switch input; indicated the state of external device
                                        presence switch (0) switch open, (1) switch closed. See SATA()_UAHC_P0_CMD[MPSS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH_CN83XX(a) (0x200 + (a)) /**< SATA mechanical presence switch input; indicated the state of external device
                                        presence switch (0) switch open, (1) switch closed. See SATA()_UAHC_P0_CMD[MPSS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN81XX (0x18a) /**< SATA BIST lab-loopback pin. See SATA chapter.
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
+#define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN81XX (0x18a) /**< SATA BIST lab-loopback pin; see SATA chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN88XX (0x8e) /**< SATA BIST lab-loopback pin. See SATA chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN83XX (0x18a) /**< SATA BIST lab-loopback pin. See SATA chapter.
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
+#define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN83XX (0x18a) /**< SATA BIST lab-loopback pin; see SATA chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX_CN81XX(a) (0xf + (a)) /**< SGPIO automatic mode active LED output; see SGP_TX().
                                        Note this output is only valid when SGP is in automatic shift mode
                                        (SGP_IMP_CTL[HOLD]=0). */
@@ -277,8 +277,8 @@
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN81XX(a) (0xd0 + (a)) /**< SGPIO SDATAIN input; see SGPIO_RX_GP.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN88XX(a) (0x80 + (a)) /**< SGPIO SDATAIN input; see SGPIO_RX_GP.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
@@ -304,31 +304,31 @@
                                        Timer coprocessor control input; see TIM chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_TIMER_CN88XX (0x8b) /**< Reserved.
                                        Internal:
                                        For CN83XX,
                                        Timer coprocessor control input; see TIM chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_TIMER_CN83XX (0x11c) /**< Reserved.
                                        Internal:
                                        For CN83XX,
                                        Timer coprocessor control input; see TIM chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_CTS(a) (0x13f + (a)) /**< UART_CTS input; see See Chapter UART( Interface) UAA.  Typically the board requires active
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
+#define BDK_GPIO_PIN_SEL_E_UARTX_CTS(a) (0x13f + (a)) /**< UART_CTS input; see UART Interface (UAA) chapter. Typically the board requires active
                                        low; use GPIO_BIT_CFG()[PIN_XOR]. */
 #define BDK_GPIO_PIN_SEL_E_UARTX_DCD(a) (0x131 + (a)) /**< UART_DCD input; see UAA(0..3)_FR[DCD].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.)
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80).
                                        
                                        Typically the board requires active low; use GPIO_BIT_CFG()[PIN_XOR]. */
 #define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N(a) (0x84 + (a)) /**< UART_DCD_N input; see UAA(0..1)_FR[DCD].
@@ -341,57 +341,57 @@
                                        For CN83XX,
                                        Timer coprocessor control input; see TIM chapter.
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN88XX(a) (0x88 + (a)) /**< UART_DSR input; see UAA(0..1)_FR[DSR].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN83XX(a) (0x139 + (a)) /**< Reserved.
                                        Internal:
                                        For CN83XX,
                                        Timer coprocessor control input; see TIM chapter.
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DTR(a) (0x11d + (a)) /**< UART_DTR output; see UAA()_CR[DTR].  Typically the board requires active low; use
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DTR(a) (0x11d + (a)) /**< UART_DTR output; see UAA()_CR[DTR]. Typically the board requires active low; use
                                        GPIO_BIT_CFG()[PIN_XOR]. */
 #define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N(a) (9 + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
 #define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN81XX(a) (0x129 + (a)) /**< UART_RI input; see UAA()_FR[RI].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN88XX(a) (0x86 + (a)) /**< UART_RI input; see UAA(0..1)_FR[RI].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN83XX(a) (0x129 + (a)) /**< UART_RI input; see UAA()_FR[RI].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_RTS(a) (0x123 + (a)) /**< UART_RTS output; see See Chapter UART( Interface) UAA. Typically the board requires active
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
+#define BDK_GPIO_PIN_SEL_E_UARTX_RTS(a) (0x123 + (a)) /**< UART_RTS output; see UART Interface (UAA) chapter. Typically the board requires active
                                        low; use GPIO_BIT_CFG()[PIN_XOR]. */
-#define BDK_GPIO_PIN_SEL_E_UARTX_SIN(a) (0x141 + (a)) /**< UART_SIN input; see See Chapter UART( Interface) UAA. */
-#define BDK_GPIO_PIN_SEL_E_UARTX_SOUT(a) (0x125 + (a)) /**< UART_SOUT output; see See Chapter UART( Interface) UAA. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_SIN(a) (0x141 + (a)) /**< UART_SIN input; see UART Interface (UAA) chapter. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_SOUT(a) (0x125 + (a)) /**< UART_SOUT output; see UART Interface (UAA) chapter. */
 #define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN81XX(a) (0x228 + (a)) /**< USB over-current input; see USBH(0..1)_UCTL_HOST_CFG[OCI_EN].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN88XX(a) (0x8c + (a)) /**< USB over-current input; see USBH(0..1)_UCTL_HOST_CFG[OCI_EN].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN83XX(a) (0x228 + (a)) /**< USB over-current input; see USBH(0..1)_UCTL_HOST_CFG[OCI_EN].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN81XX(a) (0x220 + (a)) /**< USBH Vbus control output; see USB chapter. */
 #define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN88XX(a) (0x74 + (a)) /**< USBH Vbus control output; see USB chapter. */
 #define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN83XX(a) (0x220 + (a)) /**< USBH Vbus control output; see USB chapter. */
@@ -414,20 +414,20 @@ typedef union
                                                                  function selected, as enumerated by GPIO_PIN_SEL_E. For GPIO input selects,
                                                                  the GPIO signal used is after glitch filter and XOR inverter (GPIO_BIT_CFG()[PIN_XOR]). */
         uint64_t reserved_13_15        : 3;
-        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after  PIN_SEL mux
-                                                                 and [PIN_XOR] invertor.
+        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after PIN_SEL MUX
+                                                                 and [PIN_XOR] inverter.
                                                                  When set, the pin output will connect to zero, and pin enable
-                                                                 will connect to original pin output.  With both TX_OD and PIN_XOR set, a transmit
+                                                                 will connect to original pin output. With both TX_OD and PIN_XOR set, a transmit
                                                                  of 1 will tristate the pin output driver to archive open-drain function. */
         uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
-                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
                                                                  Zero to disable the filter.
-                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t int_type              : 1;  /**< [  3:  3](R/W) Type of interrupt when pin is an input and [INT_EN] set. When set, rising edge
                                                                  interrupt, else level interrupt. The GPIO signal used to generate interrupt is after
                                                                  the filter as well XOR inverter. */
-        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controlls interrupt.
+        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controls interrupt.
 
                                                                  If set, assertions of this pin after [PIN_XOR] will set GPIO_INTR()[INTR].
 
@@ -436,7 +436,7 @@ typedef union
 
                                                                  This does NOT control if interrupts are enabled towards the MSI-X vector,
                                                                  for that see GPIO_INTR()[INTR_ENA]. */
-        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiveing or transmitting GPIO signal.
+        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiving or transmitting GPIO signal.
                                                                  For GPIO output, this inversion is after all GPIO PIN_SEL muxes. This inversion function
                                                                  is applicable to any GPIO output mux signals, also used to control GPIO_RX_DAT.
                                                                  For GPIO input, this inversion is before the GPIO PIN_SEL muxes, as used to control
@@ -448,12 +448,12 @@ typedef union
         uint64_t tx_oe                 : 1;  /**< [  0:  0](R/W) Transmit output enable. When set to 1, the GPIO pin can be driven as an output pin
                                                                  if GPIO_BIT_CFG()[PIN_SEL] selects GPIO_SW. TX_OE is only used along with GPIO_TX_SET
                                                                  or GPIO_TX_CLR, and TX_OE function is before GPIO_BIT_CFG()[PIN_SEL] mux. */
-        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiveing or transmitting GPIO signal.
+        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiving or transmitting GPIO signal.
                                                                  For GPIO output, this inversion is after all GPIO PIN_SEL muxes. This inversion function
                                                                  is applicable to any GPIO output mux signals, also used to control GPIO_RX_DAT.
                                                                  For GPIO input, this inversion is before the GPIO PIN_SEL muxes, as used to control
                                                                  GPIO interrupts. */
-        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controlls interrupt.
+        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controls interrupt.
 
                                                                  If set, assertions of this pin after [PIN_XOR] will set GPIO_INTR()[INTR].
 
@@ -467,13 +467,13 @@ typedef union
                                                                  the filter as well XOR inverter. */
         uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
                                                                  Zero to disable the filter.
-                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
-                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
-        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after  PIN_SEL mux
-                                                                 and [PIN_XOR] invertor.
+                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after PIN_SEL MUX
+                                                                 and [PIN_XOR] inverter.
                                                                  When set, the pin output will connect to zero, and pin enable
-                                                                 will connect to original pin output.  With both TX_OD and PIN_XOR set, a transmit
+                                                                 will connect to original pin output. With both TX_OD and PIN_XOR set, a transmit
                                                                  of 1 will tristate the pin output driver to archive open-drain function. */
         uint64_t reserved_13_15        : 3;
         uint64_t pin_sel               : 10; /**< [ 25: 16](R/W) Selects which signal is reported to GPIO output, or which signal GPIO input need to
@@ -493,20 +493,20 @@ typedef union
                                                                  function selected, as enumerated by GPIO_PIN_SEL_E. For GPIO input selects,
                                                                  the GPIO signal used is after glitch filter and XOR inverter (GPIO_BIT_CFG()[PIN_XOR]). */
         uint64_t reserved_13_15        : 3;
-        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after  PIN_SEL mux
-                                                                 and [PIN_XOR] invertor.
+        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after PIN_SEL MUX
+                                                                 and [PIN_XOR] inverter.
                                                                  When set, the pin output will connect to zero, and pin enable
-                                                                 will connect to original pin output.  With both TX_OD and PIN_XOR set, a transmit
+                                                                 will connect to original pin output. With both TX_OD and PIN_XOR set, a transmit
                                                                  of 1 will tristate the pin output driver to archive open-drain function. */
         uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
-                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
                                                                  Zero to disable the filter.
-                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t int_type              : 1;  /**< [  3:  3](R/W) Type of interrupt when pin is an input and [INT_EN] set. When set, rising edge
                                                                  interrupt, else level interrupt. The GPIO signal used to generate interrupt is after
                                                                  the filter as well XOR inverter. */
-        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controlls interrupt.
+        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controls interrupt.
 
                                                                  If set, assertions of this pin after [PIN_XOR] will set GPIO_INTR()[INTR].
 
@@ -515,7 +515,7 @@ typedef union
 
                                                                  This does NOT control if interrupts are enabled towards the MSI-X vector,
                                                                  for that see GPIO_INTR()[INTR_ENA]. */
-        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiveing or transmitting GPIO signal.
+        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiving or transmitting GPIO signal.
                                                                  For GPIO output, this inversion is after all GPIO PIN_SEL muxes. This inversion function
                                                                  is applicable to any GPIO output mux signals, also used to control GPIO_RX_DAT.
                                                                  For GPIO input, this inversion is before the GPIO PIN_SEL muxes, as used to control
@@ -527,12 +527,12 @@ typedef union
         uint64_t tx_oe                 : 1;  /**< [  0:  0](R/W) Transmit output enable. When set to 1, the GPIO pin can be driven as an output pin
                                                                  if GPIO_BIT_CFG()[PIN_SEL] selects GPIO_SW. TX_OE is only used along with GPIO_TX_SET
                                                                  or GPIO_TX_CLR, and TX_OE function is before GPIO_BIT_CFG()[PIN_SEL] mux. */
-        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiveing or transmitting GPIO signal.
+        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiving or transmitting GPIO signal.
                                                                  For GPIO output, this inversion is after all GPIO PIN_SEL muxes. This inversion function
                                                                  is applicable to any GPIO output mux signals, also used to control GPIO_RX_DAT.
                                                                  For GPIO input, this inversion is before the GPIO PIN_SEL muxes, as used to control
                                                                  GPIO interrupts. */
-        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controlls interrupt.
+        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controls interrupt.
 
                                                                  If set, assertions of this pin after [PIN_XOR] will set GPIO_INTR()[INTR].
 
@@ -546,13 +546,13 @@ typedef union
                                                                  the filter as well XOR inverter. */
         uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
                                                                  Zero to disable the filter.
-                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
-                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
-        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after  PIN_SEL mux
-                                                                 and [PIN_XOR] invertor.
+                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after PIN_SEL MUX
+                                                                 and [PIN_XOR] inverter.
                                                                  When set, the pin output will connect to zero, and pin enable
-                                                                 will connect to original pin output.  With both TX_OD and PIN_XOR set, a transmit
+                                                                 will connect to original pin output. With both TX_OD and PIN_XOR set, a transmit
                                                                  of 1 will tristate the pin output driver to archive open-drain function. */
         uint64_t reserved_13_15        : 3;
         uint64_t pin_sel               : 8;  /**< [ 23: 16](R/W) Selects which signal is reported to GPIO output, or which signal GPIO input need to

@@ -125,9 +125,9 @@ typedef union
         uint64_t drv_byp               : 1;  /**< [ 63: 63](R/W) When set, bypass the compensation controller and use
                                                                  DRV_NCTL and DRV_PCTL. */
         uint64_t reserved_61_62        : 2;
-        uint64_t cmp_pctl              : 5;  /**< [ 60: 56](RO/H) PCTL drive strength from the HW compensation controller. */
+        uint64_t cmp_pctl              : 5;  /**< [ 60: 56](RO/H) PCTL drive strength from the hardware compensation controller. */
         uint64_t reserved_53_55        : 3;
-        uint64_t cmp_nctl              : 5;  /**< [ 52: 48](RO/H) NCTL drive strength from the HW compensation controller. */
+        uint64_t cmp_nctl              : 5;  /**< [ 52: 48](RO/H) NCTL drive strength from the hardware compensation controller. */
         uint64_t reserved_45_47        : 3;
         uint64_t drv_pctl              : 5;  /**< [ 44: 40](R/W) PCTL drive strength to use in bypass mode.
                                                                  Reset value of 13 is for 50 ohm termination. */
@@ -135,19 +135,19 @@ typedef union
         uint64_t drv_nctl              : 5;  /**< [ 36: 32](R/W) NCTL drive strength to use in bypass mode.
                                                                  Reset value of 12 is for 50 ohm termination. */
         uint64_t reserved_31           : 1;
-        uint64_t pctl_lock             : 1;  /**< [ 30: 30](RO/H) PCTL Lock. */
-        uint64_t pctl_sat              : 1;  /**< [ 29: 29](RO/H) PCTL Saturate. */
+        uint64_t pctl_lock             : 1;  /**< [ 30: 30](RO/H) PCTL lock. */
+        uint64_t pctl_sat              : 1;  /**< [ 29: 29](RO/H) PCTL saturate. */
         uint64_t reserved_28           : 1;
-        uint64_t nctl_lock             : 1;  /**< [ 27: 27](RO/H) NCTL Lock. */
+        uint64_t nctl_lock             : 1;  /**< [ 27: 27](RO/H) NCTL lock. */
         uint64_t reserved_1_26         : 26;
-        uint64_t nctl_sat              : 1;  /**< [  0:  0](RO/H) NCTL Saturate. */
+        uint64_t nctl_sat              : 1;  /**< [  0:  0](RO/H) NCTL saturate. */
 #else /* Word 0 - Little Endian */
-        uint64_t nctl_sat              : 1;  /**< [  0:  0](RO/H) NCTL Saturate. */
+        uint64_t nctl_sat              : 1;  /**< [  0:  0](RO/H) NCTL saturate. */
         uint64_t reserved_1_26         : 26;
-        uint64_t nctl_lock             : 1;  /**< [ 27: 27](RO/H) NCTL Lock. */
+        uint64_t nctl_lock             : 1;  /**< [ 27: 27](RO/H) NCTL lock. */
         uint64_t reserved_28           : 1;
-        uint64_t pctl_sat              : 1;  /**< [ 29: 29](RO/H) PCTL Saturate. */
-        uint64_t pctl_lock             : 1;  /**< [ 30: 30](RO/H) PCTL Lock. */
+        uint64_t pctl_sat              : 1;  /**< [ 29: 29](RO/H) PCTL saturate. */
+        uint64_t pctl_lock             : 1;  /**< [ 30: 30](RO/H) PCTL lock. */
         uint64_t reserved_31           : 1;
         uint64_t drv_nctl              : 5;  /**< [ 36: 32](R/W) NCTL drive strength to use in bypass mode.
                                                                  Reset value of 12 is for 50 ohm termination. */
@@ -155,9 +155,9 @@ typedef union
         uint64_t drv_pctl              : 5;  /**< [ 44: 40](R/W) PCTL drive strength to use in bypass mode.
                                                                  Reset value of 13 is for 50 ohm termination. */
         uint64_t reserved_45_47        : 3;
-        uint64_t cmp_nctl              : 5;  /**< [ 52: 48](RO/H) NCTL drive strength from the HW compensation controller. */
+        uint64_t cmp_nctl              : 5;  /**< [ 52: 48](RO/H) NCTL drive strength from the hardware compensation controller. */
         uint64_t reserved_53_55        : 3;
-        uint64_t cmp_pctl              : 5;  /**< [ 60: 56](RO/H) PCTL drive strength from the HW compensation controller. */
+        uint64_t cmp_pctl              : 5;  /**< [ 60: 56](RO/H) PCTL drive strength from the hardware compensation controller. */
         uint64_t reserved_61_62        : 2;
         uint64_t drv_byp               : 1;  /**< [ 63: 63](R/W) When set, bypass the compensation controller and use
                                                                  DRV_NCTL and DRV_PCTL. */
@@ -256,7 +256,7 @@ static inline uint64_t BDK_XCVX_CTL(unsigned long a)
  * delay.
  *
  * To eliminate the need for the PC board delays, the RGMII interface has optional
- * onboard DLL's for both transmit and receive. For correct operation, at most one
+ * on-board DLLs for both transmit and receive. For correct operation, at most one
  * of the transmitter, board, or receiver involved in an RGMII link should
  * introduce delay. By default/reset, the RGMII receivers delay the received clock,
  * and the RGMII transmitters do not delay the transmitted clock. Whether this
@@ -285,7 +285,7 @@ static inline uint64_t BDK_XCVX_CTL(unsigned long a)
  * * XCV_PRTx_CTL[CLKTX_BYP] = 0 - The RGMII transmit
  * interface introduces clock delay using its internal DLL.
  * This mode is appropriate if neither the remote receiver
- * nor the PC board delays the clock
+ * nor the PC board delays the clock.
  */
 typedef union
 {
@@ -295,10 +295,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t lock                  : 1;  /**< [ 31: 31](RO/H) DLL is locked. */
-        uint64_t clk_set               : 7;  /**< [ 30: 24](RO/H) The clock delay as determined by the on board HW DLL. */
+        uint64_t clk_set               : 7;  /**< [ 30: 24](RO/H) The clock delay as determined by the on-board hardware DLL. */
         uint64_t clkrx_byp             : 1;  /**< [ 23: 23](R/W) Bypass the RX clock delay setting.
                                                                  Skews RXC from RXD, RXCTL.
-                                                                 By default, HW internally shifts the RXC clock
+                                                                 By default, hardware internally shifts the RXC clock
                                                                  to sample RXD,RXCTL assuming clock and data and
                                                                  sourced synchronously from the link partner. */
         uint64_t clkrx_set             : 7;  /**< [ 22: 16](R/W) RX clock delay setting to use in bypass mode.
@@ -310,28 +310,30 @@ typedef union
         uint64_t clktx_set             : 7;  /**< [ 14:  8](R/W) TX clock delay setting to use in bypass mode.
                                                                  Skews TXC from TXD. */
         uint64_t reserved_2_7          : 6;
-        uint64_t refclk_sel            : 2;  /**< [  1:  0](R/W) Select the refclk to use.  Normal RGMII specification requires a 125MHz oscillator.  In
-                                                                 order to reduce system cost, a 500MHz coprocessor clock can be divided down and remove the
-                                                                 requirements for the external oscillator.  Additionally, in some well defined systems, the
-                                                                 link partner may be able to source the RXC.  The RGMII would operate correctly in 1000Mbs
+        uint64_t refclk_sel            : 2;  /**< [  1:  0](R/W) Select the reference clock to use.  Normal RGMII specification requires a 125MHz
+                                                                 oscillator.
+                                                                 To reduce system cost, a 500MHz coprocessor clock can be divided down and remove the
+                                                                 requirements for the external oscillator. Additionally, in some well defined systems, the
+                                                                 link partner may be able to source the RXC. The RGMII would operate correctly in 1000Mbs
                                                                  mode only.
                                                                  0x0 = RGMII REFCLK.
                                                                  0x1 = RGMII RXC (1000Mbs only).
-                                                                 0x2 = Divided coprocessor clk.
+                                                                 0x2 = Divided coprocessor clock.
                                                                  0x3 = Reserved.
 
                                                                  Internal:
                                                                  Some programming magic could allow for 10/100 operation if
                                                                  critical, use encoding 0x1 but some programming restrictions would apply. */
 #else /* Word 0 - Little Endian */
-        uint64_t refclk_sel            : 2;  /**< [  1:  0](R/W) Select the refclk to use.  Normal RGMII specification requires a 125MHz oscillator.  In
-                                                                 order to reduce system cost, a 500MHz coprocessor clock can be divided down and remove the
-                                                                 requirements for the external oscillator.  Additionally, in some well defined systems, the
-                                                                 link partner may be able to source the RXC.  The RGMII would operate correctly in 1000Mbs
+        uint64_t refclk_sel            : 2;  /**< [  1:  0](R/W) Select the reference clock to use.  Normal RGMII specification requires a 125MHz
+                                                                 oscillator.
+                                                                 To reduce system cost, a 500MHz coprocessor clock can be divided down and remove the
+                                                                 requirements for the external oscillator. Additionally, in some well defined systems, the
+                                                                 link partner may be able to source the RXC. The RGMII would operate correctly in 1000Mbs
                                                                  mode only.
                                                                  0x0 = RGMII REFCLK.
                                                                  0x1 = RGMII RXC (1000Mbs only).
-                                                                 0x2 = Divided coprocessor clk.
+                                                                 0x2 = Divided coprocessor clock.
                                                                  0x3 = Reserved.
 
                                                                  Internal:
@@ -348,10 +350,10 @@ typedef union
                                                                  Skews RXC from RXD. */
         uint64_t clkrx_byp             : 1;  /**< [ 23: 23](R/W) Bypass the RX clock delay setting.
                                                                  Skews RXC from RXD, RXCTL.
-                                                                 By default, HW internally shifts the RXC clock
+                                                                 By default, hardware internally shifts the RXC clock
                                                                  to sample RXD,RXCTL assuming clock and data and
                                                                  sourced synchronously from the link partner. */
-        uint64_t clk_set               : 7;  /**< [ 30: 24](RO/H) The clock delay as determined by the on board HW DLL. */
+        uint64_t clk_set               : 7;  /**< [ 30: 24](RO/H) The clock delay as determined by the on-board hardware DLL. */
         uint64_t lock                  : 1;  /**< [ 31: 31](RO/H) DLL is locked. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -425,27 +427,27 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t duplex                : 1;  /**< [  3:  3](RO/H) RGMII inband status - link duplex:
+        uint64_t duplex                : 1;  /**< [  3:  3](RO/H) RGMII in-band status - link duplex:
                                                                  0 = Half-duplex.
                                                                  1 = Full-duplex. */
-        uint64_t speed                 : 2;  /**< [  2:  1](RO/H) RGMII inband status - link speed:
+        uint64_t speed                 : 2;  /**< [  2:  1](RO/H) RGMII in-band status - link speed:
                                                                  0x0 = 10 Mbps.
                                                                  0x1 = 100 Mbps.
                                                                  0x2 = 1000 Mbps.
                                                                  0x3 = Reserved. */
-        uint64_t link                  : 1;  /**< [  0:  0](RO/H) RGMII inband status - link enable/up:
+        uint64_t link                  : 1;  /**< [  0:  0](RO/H) RGMII in-band status - link enable/up:
                                                                  0 = Link down.
                                                                  1 = Link up. */
 #else /* Word 0 - Little Endian */
-        uint64_t link                  : 1;  /**< [  0:  0](RO/H) RGMII inband status - link enable/up:
+        uint64_t link                  : 1;  /**< [  0:  0](RO/H) RGMII in-band status - link enable/up:
                                                                  0 = Link down.
                                                                  1 = Link up. */
-        uint64_t speed                 : 2;  /**< [  2:  1](RO/H) RGMII inband status - link speed:
+        uint64_t speed                 : 2;  /**< [  2:  1](RO/H) RGMII in-band status - link speed:
                                                                  0x0 = 10 Mbps.
                                                                  0x1 = 100 Mbps.
                                                                  0x2 = 1000 Mbps.
                                                                  0x3 = Reserved. */
-        uint64_t duplex                : 1;  /**< [  3:  3](RO/H) RGMII inband status - link duplex:
+        uint64_t duplex                : 1;  /**< [  3:  3](RO/H) RGMII in-band status - link duplex:
                                                                  0 = Half-duplex.
                                                                  1 = Full-duplex. */
         uint64_t reserved_4_63         : 60;

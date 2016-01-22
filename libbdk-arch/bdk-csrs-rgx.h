@@ -856,11 +856,17 @@ typedef union
     struct bdk_rgxx_cmrx_rx_fifo_len_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
+        uint64_t reserved_14_63        : 50;
+        uint64_t busy                  : 1;  /**< [ 13: 13](RO/H) Indicates if GMP and CMR are busy processing a packet. Used when bringing an LMAC
+                                                                 down since in low bandwidth cases, as the FIFO length may often appear to be 0x0. */
+        uint64_t reserved_11_12        : 2;
         uint64_t fifo_len              : 11; /**< [ 10:  0](RO/H) Per-LMAC FIFO length. Useful for determining if FIFO is empty when bringing an LMAC down. */
 #else /* Word 0 - Little Endian */
         uint64_t fifo_len              : 11; /**< [ 10:  0](RO/H) Per-LMAC FIFO length. Useful for determining if FIFO is empty when bringing an LMAC down. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t reserved_11_12        : 2;
+        uint64_t busy                  : 1;  /**< [ 13: 13](RO/H) Indicates if GMP and CMR are busy processing a packet. Used when bringing an LMAC
+                                                                 down since in low bandwidth cases, as the FIFO length may often appear to be 0x0. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_fifo_len_s cn; */
@@ -1549,17 +1555,19 @@ typedef union
     struct bdk_rgxx_cmrx_tx_fifo_len_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t lmac_idle             : 1;  /**< [ 12: 12](RO/H) Idle signal to identify when all credits and other pipeline buffers are also cleared out
+        uint64_t reserved_15_63        : 49;
+        uint64_t lmac_idle             : 1;  /**< [ 14: 14](RO/H) Idle signal to identify when all credits and other pipeline buffers are also cleared out
                                                                  and LMAC can be considered IDLE in the RGX CMR TX. */
+        uint64_t reserved_12_13        : 2;
         uint64_t fifo_len              : 12; /**< [ 11:  0](RO/H) Per-LMAC TXB main FIFO length. Useful for determining if main FIFO is empty when bringing
                                                                  an LMAC down. */
 #else /* Word 0 - Little Endian */
         uint64_t fifo_len              : 12; /**< [ 11:  0](RO/H) Per-LMAC TXB main FIFO length. Useful for determining if main FIFO is empty when bringing
                                                                  an LMAC down. */
-        uint64_t lmac_idle             : 1;  /**< [ 12: 12](RO/H) Idle signal to identify when all credits and other pipeline buffers are also cleared out
+        uint64_t reserved_12_13        : 2;
+        uint64_t lmac_idle             : 1;  /**< [ 14: 14](RO/H) Idle signal to identify when all credits and other pipeline buffers are also cleared out
                                                                  and LMAC can be considered IDLE in the RGX CMR TX. */
-        uint64_t reserved_13_63        : 51;
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_fifo_len_s cn; */
@@ -4019,6 +4027,90 @@ static inline uint64_t BDK_RGXX_CMR_TX_LMACS(unsigned long a)
 #define device_bar_BDK_RGXX_CMR_TX_LMACS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_RGXX_CMR_TX_LMACS(a) (a)
 #define arguments_BDK_RGXX_CMR_TX_LMACS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rgx#_const
+ *
+ * RGX CONST Registers
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_rgxx_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire RGX. This buffering may be split
+                                                                 between LMACs; see RGX()_CMR_RX_LMACS[LMACS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire RGX. This buffering may be split
+                                                                 between LMACs; see RGX()_CMR_RX_LMACS[LMACS]. */
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_rgxx_const_s cn; */
+} bdk_rgxx_const_t;
+
+static inline uint64_t BDK_RGXX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RGXX_CONST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0e8040000ll + 0x1000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("RGXX_CONST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_RGXX_CONST(a) bdk_rgxx_const_t
+#define bustype_BDK_RGXX_CONST(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_RGXX_CONST(a) "RGXX_CONST"
+#define device_bar_BDK_RGXX_CONST(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_RGXX_CONST(a) (a)
+#define arguments_BDK_RGXX_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rgx#_const1
+ *
+ * RGX CONST1 Registers
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_rgxx_const1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t res_types             : 24; /**< [ 31:  8](RO) Reserved for more LMAC TYPES. */
+        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of RGX_LMAC_TYPES_E being
+                                                                 supported.
+                                                                 E.g. TYPES<0> if set indicates BGX_LMAC_TYPES_E::RGMII is supported. */
+#else /* Word 0 - Little Endian */
+        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of RGX_LMAC_TYPES_E being
+                                                                 supported.
+                                                                 E.g. TYPES<0> if set indicates BGX_LMAC_TYPES_E::RGMII is supported. */
+        uint64_t res_types             : 24; /**< [ 31:  8](RO) Reserved for more LMAC TYPES. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_rgxx_const1_s cn; */
+} bdk_rgxx_const1_t;
+
+static inline uint64_t BDK_RGXX_CONST1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RGXX_CONST1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0e8040008ll + 0x1000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("RGXX_CONST1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_RGXX_CONST1(a) bdk_rgxx_const1_t
+#define bustype_BDK_RGXX_CONST1(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_RGXX_CONST1(a) "RGXX_CONST1"
+#define device_bar_BDK_RGXX_CONST1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_RGXX_CONST1(a) (a)
+#define arguments_BDK_RGXX_CONST1(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) rgx#_gmp_gmi_prt#_cfg

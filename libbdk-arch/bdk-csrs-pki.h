@@ -411,7 +411,7 @@
                                        at PKI_WQE_S[LEPTR]:
                                        
                                        _ when PKI_WQE_S[LDTY] is PKI_LTYPE_E::NVGRE, UDP_VXLAN, or UDP_GENEVE with
-                                       a subsequent standard ethernet header and the parse engine finds a ethertype of
+                                       a subsequent standard Ethernet header and the parse engine finds a Ethertype of
                                        0x0800 (IPv4) or 0x86DD (IPv6), or
                                        
                                        _ when PKI_WQE_S[LDTY] is PKI_LTYPE_E::UDP_GENEVE or UDP_VXLAN and IP
@@ -561,7 +561,7 @@
                                        
                                        Internal:
                                        Only parse engine generates error opcode L4_PORT. */
-#define BDK_PKI_OPCODE_E_RE_BUFS_OFLOW (0x16) /**< Packet exceeded the maxiumum of 255 FPA buffers. See PKI_ERRLEV_E::RE.
+#define BDK_PKI_OPCODE_E_RE_BUFS_OFLOW (0x16) /**< Packet exceeded the maximum of 255 FPA buffers. See PKI_ERRLEV_E::RE.
                                        
                                        Internal:
                                        Only PKI BE generates error opcode RE_BUFS_OFLOW. */
@@ -944,13 +944,13 @@
  * PKI Reassembly Enumeration
  * Enumerates the values of the reassembly-ID map.
  */
-#define BDK_PKI_REASM_E_DPI_REASM (2) /**< DPI reassembly-ID. */
+#define BDK_PKI_REASM_E_DPI_REASM (2) /**< DPI reassembly ID. */
 #define BDK_PKI_REASM_E_LBK_NIC_REASM (1) /**< Loopback NIC-to-PKI reassembly-ID. */
 #define BDK_PKI_REASM_E_LBK_PKO_REASM (0) /**< Loopback PKO-to-PKI reassembly-ID. */
-#define BDK_PKI_REASM_E_MAC_REASMX(a) (0 + (a)) /**< Remaining reassembly-ID's shared by the packet interfaces. The following
+#define BDK_PKI_REASM_E_MAC_REASMX(a) (0 + (a)) /**< Remaining reassembly IDs shared by the packet interfaces. The following
                                        registers control the range for the various packet interfaces:
                                        BGX()_CMR()_RX_ID_MAP[RID]. */
-#define BDK_PKI_REASM_E_NUM_REASM (0x13) /**< Total number of reassembly-IDs used in the system. */
+#define BDK_PKI_REASM_E_NUM_REASM (0x13) /**< Total number of reassembly IDs used in the system. */
 
 /**
  * Enumeration pki_udpport_e
@@ -1614,7 +1614,7 @@ union bdk_pki_wqe_s
                                                                  PKI HW does: [CHAN] = PKI_BEWQ_S[PORT] +
                                                                         (PKI_BEWQ_S[CFG<18>] ? 0 : PKI_QPG_TBL(PKI_BEWQ_S[CFG<10:0>])[PADD]) */
         uint64_t bufs                  : 8;  /**< [ 31: 24] Number of data buffers used to store the packet data, never zero. For example,
-                                                                 the value will be 1 if PKI_STYLE()_BUF[DIS_WQ_DAT]=0 and all of the data fit
+                                                                 the value will be 0x1 if PKI_STYLE()_BUF[DIS_WQ_DAT]=0 and all of the data fit
                                                                  into a combined buffer comprising the work queue entry and first data
                                                                  buffer. [BUFS] will also be 0x1 if PKI_STYLE()_BUF[DIS_WQ_DAT]=1 and only a
                                                                  single data buffer was created.
@@ -1643,7 +1643,7 @@ union bdk_pki_wqe_s
                                                                  Internal:
                                                                  [STYLE] is PKI_BEWQ_S[STYLE]. */
         uint64_t bufs                  : 8;  /**< [ 31: 24] Number of data buffers used to store the packet data, never zero. For example,
-                                                                 the value will be 1 if PKI_STYLE()_BUF[DIS_WQ_DAT]=0 and all of the data fit
+                                                                 the value will be 0x1 if PKI_STYLE()_BUF[DIS_WQ_DAT]=0 and all of the data fit
                                                                  into a combined buffer comprising the work queue entry and first data
                                                                  buffer. [BUFS] will also be 0x1 if PKI_STYLE()_BUF[DIS_WQ_DAT]=1 and only a
                                                                  single data buffer was created.
@@ -1714,7 +1714,7 @@ union bdk_pki_wqe_s
 
                                                                  If [ERRLEV,OPCODE] = PKI_ERRLEV_E::RE,PKI_OPCODE_E::RE_MEMOUT, [LEN] will
                                                                  have the total number of packet bytes written to memory but some of these
-                                                                 bytes wil have been overwritten to the same buffer.
+                                                                 bytes will have been overwritten to the same buffer.
 
                                                                  See also the [ERRLEV,OPCODE] = PKI_ERRLEV_E::LA,PKI_OPCODE_E::L2_PUNY exception
                                                                  case.
@@ -1741,7 +1741,7 @@ union bdk_pki_wqe_s
 
                                                                  [GRP] is normally calculated solely by PKI BE. But if
                                                                  PKI_CL()_STYLE()_CFG[QPG_DIS_GRP] is set, [GRP] is PKI_BEWQ_S[GRP]. */
-        uint64_t tt                    : 2;  /**< [ 97: 96] The initial tag type for the pachet's SSO ADD_WORK. Enumerated with SSO_TT_E
+        uint64_t tt                    : 2;  /**< [ 97: 96] The initial tag type for the packet's SSO ADD_WORK. Enumerated with SSO_TT_E
                                                                  (UNTAGGED, ORDERED, or ATOMIC). Calculated as follows:
 
                                                                  <pre>
@@ -1862,7 +1862,7 @@ union bdk_pki_wqe_s
                                                                    WQE[TAG] = tag;
                                                                   }
                                                                  } */
-        uint64_t tt                    : 2;  /**< [ 97: 96] The initial tag type for the pachet's SSO ADD_WORK. Enumerated with SSO_TT_E
+        uint64_t tt                    : 2;  /**< [ 97: 96] The initial tag type for the packet's SSO ADD_WORK. Enumerated with SSO_TT_E
                                                                  (UNTAGGED, ORDERED, or ATOMIC). Calculated as follows:
 
                                                                  <pre>
@@ -1905,7 +1905,7 @@ union bdk_pki_wqe_s
 
                                                                  If [ERRLEV,OPCODE] = PKI_ERRLEV_E::RE,PKI_OPCODE_E::RE_MEMOUT, [LEN] will
                                                                  have the total number of packet bytes written to memory but some of these
-                                                                 bytes wil have been overwritten to the same buffer.
+                                                                 bytes will have been overwritten to the same buffer.
 
                                                                  See also the [ERRLEV,OPCODE] = PKI_ERRLEV_E::LA,PKI_OPCODE_E::L2_PUNY exception
                                                                  case.
@@ -1969,7 +1969,7 @@ union bdk_pki_wqe_s
                                                                  Internal:
                                                                  [LFTY] = PKI_BEWQ_S[LFTY] | PKI_STYLE()_WQ2<57:53> */
         uint64_t lety                  : 5;  /**< [180:176] Layer E header type parsed, often corresponding to inner IP. Enumerated
-                                                                 by PKI_LTYPE_E. See also [LEPTR].(See the parser document.)
+                                                                 by PKI_LTYPE_E. See also [LEPTR]. (See the parser document.)
 
                                                                  _ The parse engine can set [LETY] to one of PKI_LTYPE_E::IP4, IP4_OPT,
                                                                  IP6, IP6_OPT during Layer E processing when it finds the corresponding
@@ -2000,7 +2000,7 @@ union bdk_pki_wqe_s
                                                                  Internal:
                                                                  [LDTY] = PKI_BEWQ_S[LDTY] | PKI_STYLE()_WQ2<47:43> */
         uint64_t lcty                  : 5;  /**< [170:166] Layer C header type parsed, typically corresponding to outer IP. Enumerated by
-                                                                 PKI_LTYPE_E. See also [LCPTR] (See the parser document.)
+                                                                 PKI_LTYPE_E. See also [LCPTR]. (See the parser document.)
 
                                                                  _ The parse engine can set [LCTY] to one of PKI_LTYPE_E::IP4, IP4_OPT,
                                                                  IP6, IP6_OPT during Layer C parsing when it finds the corresponding
@@ -2374,7 +2374,7 @@ union bdk_pki_wqe_s
                                                                  Internal:
                                                                  [LBTY] = PKI_BEWQ_S[LBTY] | PKI_STYLE()_WQ2<37:33> */
         uint64_t lcty                  : 5;  /**< [170:166] Layer C header type parsed, typically corresponding to outer IP. Enumerated by
-                                                                 PKI_LTYPE_E. See also [LCPTR] (See the parser document.)
+                                                                 PKI_LTYPE_E. See also [LCPTR]. (See the parser document.)
 
                                                                  _ The parse engine can set [LCTY] to one of PKI_LTYPE_E::IP4, IP4_OPT,
                                                                  IP6, IP6_OPT during Layer C parsing when it finds the corresponding
@@ -2408,7 +2408,7 @@ union bdk_pki_wqe_s
                                                                  Internal:
                                                                  [LDTY] = PKI_BEWQ_S[LDTY] | PKI_STYLE()_WQ2<47:43> */
         uint64_t lety                  : 5;  /**< [180:176] Layer E header type parsed, often corresponding to inner IP. Enumerated
-                                                                 by PKI_LTYPE_E. See also [LEPTR].(See the parser document.)
+                                                                 by PKI_LTYPE_E. See also [LEPTR]. (See the parser document.)
 
                                                                  _ The parse engine can set [LETY] to one of PKI_LTYPE_E::IP4, IP4_OPT,
                                                                  IP6, IP6_OPT during Layer E processing when it finds the corresponding
@@ -2582,7 +2582,7 @@ union bdk_pki_wqe_s
 
                                                                  _ When the parse engine sets [LCTY] during Layer B parsing (MPLS, ARP,
                                                                  REVARP, SNAP_PAYLD), [LCPTR] points immediately after the last parsed
-                                                                 ethertype.
+                                                                 Ethertype.
 
                                                                  _ When the parse engine sets [LCTY] during Layer C parsing (IP4, IP4_OPT,
                                                                  IP6, IP6_OPT), [LCPTR] is the DPTR at the beginning of Layer C
@@ -2604,8 +2604,8 @@ union bdk_pki_wqe_s
                                                                  unpredictable when [ERRLEV] <= LB.
 
                                                                  PKI BE sets this field when PKI_STYLE()_WQ4[DATA]<15:8> are set. */
-        uint64_t laptr                 : 8;  /**< [263:256] Byte pointer to the start of the ethernet header (i.e. the start of
-                                                                 the ethernet destination address) relative to the start of the packet
+        uint64_t laptr                 : 8;  /**< [263:256] Byte pointer to the start of the Ethernet header (i.e. the start of
+                                                                 the Ethernet destination address) relative to the start of the packet
                                                                  when [LAE] is set.
 
                                                                  Parse engine computes this field, setting it 0x0 when [LAE] is clear, and
@@ -2613,8 +2613,8 @@ union bdk_pki_wqe_s
 
                                                                  PKI BE sets this field when PKI_STYLE()_WQ4[DATA]<7:0> are set. */
 #else /* Word 4 - Little Endian */
-        uint64_t laptr                 : 8;  /**< [263:256] Byte pointer to the start of the ethernet header (i.e. the start of
-                                                                 the ethernet destination address) relative to the start of the packet
+        uint64_t laptr                 : 8;  /**< [263:256] Byte pointer to the start of the Ethernet header (i.e. the start of
+                                                                 the Ethernet destination address) relative to the start of the packet
                                                                  when [LAE] is set.
 
                                                                  Parse engine computes this field, setting it 0x0 when [LAE] is clear, and
@@ -2638,7 +2638,7 @@ union bdk_pki_wqe_s
 
                                                                  _ When the parse engine sets [LCTY] during Layer B parsing (MPLS, ARP,
                                                                  REVARP, SNAP_PAYLD), [LCPTR] points immediately after the last parsed
-                                                                 ethertype.
+                                                                 Ethertype.
 
                                                                  _ When the parse engine sets [LCTY] during Layer C parsing (IP4, IP4_OPT,
                                                                  IP6, IP6_OPT), [LCPTR] is the DPTR at the beginning of Layer C
@@ -5103,7 +5103,7 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b
  *
  * PKI SMEM Registers
  * This register initializes the SMEM, which configures the parse engine. These CSRs
- * are used by the PKI parse engine and other PKI HW.
+ * are used by the PKI parse engine and other PKI hardware.
  *
  * Inside the SMEM are the following parse engine registers. These registers are the
  * preferred access method for software:
@@ -5222,7 +5222,7 @@ typedef union
                                                                  0 = Exclude port number from QPG.
                                                                  4 = Include port<3:0>.
                                                                  8 = Include port<7:0>.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t rsvdrw16              : 6;  /**< [ 16: 11](R/W) Reserved. */
         uint64_t tag_vni               : 1;  /**< [ 10: 10](R/W) When NVGRE/VXLAN/VXLANGPE/GENEVE is found, include VNI in tag generation. When NVGRE is
                                                                  found, include VSID. */
@@ -5276,7 +5276,7 @@ typedef union
                                                                  0 = Exclude port number from QPG.
                                                                  4 = Include port<3:0>.
                                                                  8 = Include port<7:0>.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t qpg_port_sh           : 3;  /**< [ 23: 21](R/W) Number of bits to shift port number in QPG calculation. */
         uint64_t qpg_qos               : 3;  /**< [ 26: 24](R/W) Algorithm to select QoS field in QPG calculation. Enumerated by PKI_QPGQOS_E. */
         uint64_t apad_nip              : 3;  /**< [ 29: 27](R/W) Value for PKI_WQE_S[APAD] when packet is not IP. */
@@ -5307,7 +5307,7 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b)
  *
  * PKI Per-Style Configuration Registers
  * This register is inside PKI_CL()_SMEM(). These CSRs are used by
- * the PKI parse engine and other PKI HW.
+ * the PKI parse engine and other PKI hardware.
  *
  * For each legal j, PKI_CL(i)_STYLE(j)_CFG must be configured identically for i=0..1.
  *
@@ -5335,7 +5335,7 @@ typedef union
                                                                  Parse engine only passes along field IP6_UDP_OPT, and doesn't otherwise use it. */
         uint64_t lenerr_en             : 1;  /**< [ 29: 29](R/W) L2 length error check enable. When set, the hardware checks that the number of packet
                                                                  bytes following the L2 length field (excluding FCS) is at least as large as the L2
-                                                                 length field value whenever the ethertype / L2 length field is <= 1535.
+                                                                 length field value whenever the Ethertype / L2 length field is <= 1535.
 
                                                                  The PKI L2 length check assumes that FCS is present in the packet received by PKI,
                                                                  so [LENERR_EN] should be clear when FCS is not present in the packets received
@@ -5376,7 +5376,7 @@ typedef union
                                                                  Internal:
                                                                  Parse engine only passes along field FCS_STRIP, and doesn't otherwise use it.
 
-                                                                 The microcode doesn't need to to clear [FCS_STRIP] in PKI_BEWQ_S[CFG] when
+                                                                 The microcode doesn't need to clear [FCS_STRIP] in PKI_BEWQ_S[CFG] when
                                                                  a PKI_OPCODE_E::L2_PUNY occurs. PKI BE hardware will not decrement PKI_WQE_S[LEN]
                                                                  when it would end up zero or negative. */
         uint64_t fcs_chk               : 1;  /**< [ 22: 22](R/W) FCS checking enabled. Corresponding PKI_CL()_PKIND()_CFG[FCS_PRES] must be set
@@ -5498,7 +5498,7 @@ typedef union
                                                                  Internal:
                                                                  Parse engine only passes along field FCS_STRIP, and doesn't otherwise use it.
 
-                                                                 The microcode doesn't need to to clear [FCS_STRIP] in PKI_BEWQ_S[CFG] when
+                                                                 The microcode doesn't need to clear [FCS_STRIP] in PKI_BEWQ_S[CFG] when
                                                                  a PKI_OPCODE_E::L2_PUNY occurs. PKI BE hardware will not decrement PKI_WQE_S[LEN]
                                                                  when it would end up zero or negative. */
         uint64_t qpg_dis_grptag        : 1;  /**< [ 24: 24](R/W) Disable computing group using PKI_WQE_S[TAG]. See PKI_WQE_S[GRP].
@@ -5526,7 +5526,7 @@ typedef union
                                                                  Parse engine only passes along field LENERR_EQPAD, and doesn't otherwise use it. */
         uint64_t lenerr_en             : 1;  /**< [ 29: 29](R/W) L2 length error check enable. When set, the hardware checks that the number of packet
                                                                  bytes following the L2 length field (excluding FCS) is at least as large as the L2
-                                                                 length field value whenever the ethertype / L2 length field is <= 1535.
+                                                                 length field value whenever the Ethertype / L2 length field is <= 1535.
 
                                                                  The PKI L2 length check assumes that FCS is present in the packet received by PKI,
                                                                  so [LENERR_EN] should be clear when FCS is not present in the packets received
@@ -5572,7 +5572,7 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b)
  *
  * PKI Per-Style Configuration 2 Registers
  * This register is inside PKI_CL()_SMEM(). These CSRs are used by
- * the PKI parse engine and other PKI HW.
+ * the PKI parse engine and other PKI hardware.
  *
  * For each legal j, PKI_CL(i)_STYLE(j)_CFG2 must be configured identically for i=0..1.
  *
@@ -7688,13 +7688,14 @@ typedef union
         uint64_t x2p_req_ofl           : 1;  /**< [  7:  7](R/W1C/H) Set when a device attempts to have more than the allocated requests outstanding to PKI. */
         uint64_t drp_noavail           : 1;  /**< [  6:  6](R/W1C/H) Set when packet dropped due to no FPA pointers available for the aura the packet
                                                                  requested. */
-        uint64_t dat                   : 1;  /**< [  5:  5](R/W1C/H) Set when data arrives before a SOP for the same reasm-id for a packet. The first detected
+        uint64_t dat                   : 1;  /**< [  5:  5](R/W1C/H) Set when data arrives before a SOP for the same reassembly ID for a packet. The first
+                                                                 detected
                                                                  error associated with bits [DAT,SOP,EOP] of this register is only set here. A new bit can
                                                                  be set when the previous reported bit is cleared. */
-        uint64_t eop                   : 1;  /**< [  4:  4](R/W1C/H) Set when an EOP is followed by an EOP for the same reasm-id for a packet. The first
+        uint64_t eop                   : 1;  /**< [  4:  4](R/W1C/H) Set when an EOP is followed by an EOP for the same reassembly ID for a packet. The first
                                                                  detected error associated with bits [DAT,EOP,SOP] of this register is only set here. A new
                                                                  bit can be set when the previous reported bit is cleared. Also see PKI_PKT_ERR. */
-        uint64_t sop                   : 1;  /**< [  3:  3](R/W1C/H) Set when a SOP is followed by an SOP for the same reasm-id for a packet. The first
+        uint64_t sop                   : 1;  /**< [  3:  3](R/W1C/H) Set when a SOP is followed by an SOP for the same reassembly ID for a packet. The first
                                                                  detected error associated with bits [DAT,EOP,SOP] of this register is only set here. A new
                                                                  bit can be set when the previous reported bit is cleared. Also see PKI_PKT_ERR. */
         uint64_t bckprs                : 1;  /**< [  2:  2](R/W1C/H) PKI asserted backpressure. Set when PKI was unable to accept the next valid data from
@@ -7710,13 +7711,14 @@ typedef union
         uint64_t bckprs                : 1;  /**< [  2:  2](R/W1C/H) PKI asserted backpressure. Set when PKI was unable to accept the next valid data from
                                                                  BGX/DPI/ILK etc. over X2P due to all internal resources being used up, and PKI will
                                                                  backpressure X2P. */
-        uint64_t sop                   : 1;  /**< [  3:  3](R/W1C/H) Set when a SOP is followed by an SOP for the same reasm-id for a packet. The first
+        uint64_t sop                   : 1;  /**< [  3:  3](R/W1C/H) Set when a SOP is followed by an SOP for the same reassembly ID for a packet. The first
                                                                  detected error associated with bits [DAT,EOP,SOP] of this register is only set here. A new
                                                                  bit can be set when the previous reported bit is cleared. Also see PKI_PKT_ERR. */
-        uint64_t eop                   : 1;  /**< [  4:  4](R/W1C/H) Set when an EOP is followed by an EOP for the same reasm-id for a packet. The first
+        uint64_t eop                   : 1;  /**< [  4:  4](R/W1C/H) Set when an EOP is followed by an EOP for the same reassembly ID for a packet. The first
                                                                  detected error associated with bits [DAT,EOP,SOP] of this register is only set here. A new
                                                                  bit can be set when the previous reported bit is cleared. Also see PKI_PKT_ERR. */
-        uint64_t dat                   : 1;  /**< [  5:  5](R/W1C/H) Set when data arrives before a SOP for the same reasm-id for a packet. The first detected
+        uint64_t dat                   : 1;  /**< [  5:  5](R/W1C/H) Set when data arrives before a SOP for the same reassembly ID for a packet. The first
+                                                                 detected
                                                                  error associated with bits [DAT,SOP,EOP] of this register is only set here. A new bit can
                                                                  be set when the previous reported bit is cleared. */
         uint64_t drp_noavail           : 1;  /**< [  6:  6](R/W1C/H) Set when packet dropped due to no FPA pointers available for the aura the packet
@@ -9324,7 +9326,7 @@ static inline uint64_t BDK_PKI_QPG_TBLBX(unsigned long a)
 /**
  * Register (NCB) pki_reasm_sop#
  *
- * PKI Reasm-Id SOP Register
+ * PKI Reassembly ID SOP Register
  */
 typedef union
 {
@@ -9332,14 +9334,14 @@ typedef union
     struct bdk_pki_reasm_sopx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sop                   : 64; /**< [ 63:  0](RO/H) When set, a SOP was detected on a reasm-Id. When clear, a SOP has not yet been
-                                                                 received, or an EOP was received on the Reasm-Id. The total number of available
+        uint64_t sop                   : 64; /**< [ 63:  0](RO/H) When set, a SOP was detected on a reassembly ID. When clear, a SOP has not yet been
+                                                                 received, or an EOP was received on the reassembly ID. The total number of available
                                                                  reassembly IDs is described with the PKI_REASM_E::NUM_REASM enumeration. Not all
                                                                  bits are implemented. Only PKI_REASM_SOP(0)[SOP]<63:0>,
                                                                  PKI_REASM_SOP(1)[SOP]<31:0> are present in this implementation. */
 #else /* Word 0 - Little Endian */
-        uint64_t sop                   : 64; /**< [ 63:  0](RO/H) When set, a SOP was detected on a reasm-Id. When clear, a SOP has not yet been
-                                                                 received, or an EOP was received on the Reasm-Id. The total number of available
+        uint64_t sop                   : 64; /**< [ 63:  0](RO/H) When set, a SOP was detected on a reassembly ID. When clear, a SOP has not yet been
+                                                                 received, or an EOP was received on the reassembly ID. The total number of available
                                                                  reassembly IDs is described with the PKI_REASM_E::NUM_REASM enumeration. Not all
                                                                  bits are implemented. Only PKI_REASM_SOP(0)[SOP]<63:0>,
                                                                  PKI_REASM_SOP(1)[SOP]<31:0> are present in this implementation. */
@@ -10929,10 +10931,10 @@ typedef union
         uint64_t reserved_11_15        : 5;
         uint64_t tag_idx1              : 3;  /**< [ 10:  8](R/W) Index for TAG_INC<1>. */
         uint64_t reserved_3_7          : 5;
-        uint64_t tag_idx0              : 3;  /**< [  2:  0](R/W) Index for TAG_INC<0>. This value is multipled by 4 to index into PKI_TAG_INC()_MASK.
+        uint64_t tag_idx0              : 3;  /**< [  2:  0](R/W) Index for TAG_INC<0>. This value is multiplied by 4 to index into PKI_TAG_INC()_MASK.
                                                                  See PKI_WQE_S[TAG]. */
 #else /* Word 0 - Little Endian */
-        uint64_t tag_idx0              : 3;  /**< [  2:  0](R/W) Index for TAG_INC<0>. This value is multipled by 4 to index into PKI_TAG_INC()_MASK.
+        uint64_t tag_idx0              : 3;  /**< [  2:  0](R/W) Index for TAG_INC<0>. This value is multiplied by 4 to index into PKI_TAG_INC()_MASK.
                                                                  See PKI_WQE_S[TAG]. */
         uint64_t reserved_3_7          : 5;
         uint64_t tag_idx1              : 3;  /**< [ 10:  8](R/W) Index for TAG_INC<1>. */

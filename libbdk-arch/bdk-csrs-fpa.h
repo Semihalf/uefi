@@ -1063,12 +1063,12 @@ typedef union
 
                                                                  See also FPA_CONST[POOLS] (= 32) and FPA_CONST[FPFS] (= 32*216). */
         uint64_t avg_en                : 1;  /**< [  1:  1](R/W) QoS averaging enable. When set, RED calculations use average buffer levels. When clear,
-                                                                 RED calcuations use the current values. */
+                                                                 RED calculations use the current values. */
         uint64_t clk_override          : 1;  /**< [  0:  0](R/W) Conditional clock override. */
 #else /* Word 0 - Little Endian */
         uint64_t clk_override          : 1;  /**< [  0:  0](R/W) Conditional clock override. */
         uint64_t avg_en                : 1;  /**< [  1:  1](R/W) QoS averaging enable. When set, RED calculations use average buffer levels. When clear,
-                                                                 RED calcuations use the current values. */
+                                                                 RED calculations use the current values. */
         uint64_t pools                 : 2;  /**< [  3:  2](R/W) Number of pools. Each halving of the number of pools doubles the buffering available to
                                                                  the remaining pools, leading to some improvement in memory bandwidth. Value must not be
                                                                  changed if FPA_POOL()_CFG[ENA] is set for any pool.

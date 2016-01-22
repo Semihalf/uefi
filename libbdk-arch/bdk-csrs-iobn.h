@@ -5048,7 +5048,18 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_iobnx_test_s cn; */
+    struct bdk_iobnx_test_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](RO) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
+#else /* Word 0 - Little Endian */
+        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](RO) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_iobnx_test_s cn88xx; */
+    /* struct bdk_iobnx_test_cn81xx cn83xx; */
 } bdk_iobnx_test_t;
 
 static inline uint64_t BDK_IOBNX_TEST(unsigned long a) __attribute__ ((pure, always_inline));

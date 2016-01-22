@@ -256,31 +256,31 @@ typedef union
         uint64_t reserved_9_15         : 7;
         uint64_t emm_supply            : 3;  /**< [  8:  6](RO) EMMC power supply settings.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t smi_supply            : 3;  /**< [  5:  3](RO) SMI power supply setting based on VDD_SMI_SUPPLY_SELECT pin:
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t io_supply             : 3;  /**< [  2:  0](RO) I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t io_supply             : 3;  /**< [  2:  0](RO) I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t smi_supply            : 3;  /**< [  5:  3](RO) SMI power supply setting based on VDD_SMI_SUPPLY_SELECT pin:
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t emm_supply            : 3;  /**< [  8:  6](RO) EMMC power supply settings.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t reserved_9_15         : 7;
         uint64_t ref_sel               : 1;  /**< [ 16: 16](RO) Reference clock select. State of UART0_RTS_N pin sampled when DCOK asserts.
                                                                  0 = Board supplies 100Mhz to DLM_REF_CLK[1] (divided by 2 internally).
@@ -298,23 +298,23 @@ typedef union
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t io_supply             : 3;  /**< [  2:  0](RO) I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t io_supply             : 3;  /**< [  2:  0](RO) I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t smi_supply            : 3;  /**< [  5:  3](RO) SMI power supply setting based on VDD_SMI_SUPPLY_SELECT pin:
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
                                                                  0x4 = 3.3V.
-                                                                 else Reserved. */
+                                                                 _ All other values reserved. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn88xx;

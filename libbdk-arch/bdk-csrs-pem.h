@@ -4107,7 +4107,7 @@ typedef union
                                                                  pedc_radm_trgt1_dllp_abort &
                                                                  pedc__radm_trgt1_eot. */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -4121,7 +4121,7 @@ typedef union
                                                                  peai__client0_tlp_ep & peai__client0_tlp_hv or
                                                                  peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -4351,7 +4351,7 @@ typedef union
                                                                  pedc_radm_trgt1_dllp_abort &
                                                                  pedc__radm_trgt1_eot. */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -4365,7 +4365,7 @@ typedef union
                                                                  peai__client0_tlp_ep & peai__client0_tlp_hv or
                                                                  peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -4612,7 +4612,7 @@ typedef union
                                                                  pedc_radm_trgt1_dllp_abort &
                                                                  pedc__radm_trgt1_eot. */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -4626,7 +4626,7 @@ typedef union
                                                                  peai__client0_tlp_ep & peai__client0_tlp_hv or
                                                                  peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -4787,7 +4787,7 @@ typedef union
         uint64_t datq_pe               : 1;  /**< [ 33: 33](R/W1C/H) Detected a data queue RAM parity error. */
         uint64_t bmd_e                 : 1;  /**< [ 32: 32](R/W1C/H) A NP or P TLP was seen in the outbound path, but it was not allowed to master the bus.
                                                                  If a PF TLP and the PCIEEP()_CFG001[ME] is not set.
-                                                                 For VF TLP, either the the PCIEEP()_CFG001[ME]/PCIEEPVF()_CFG001[ME] are not set. */
+                                                                 For VF TLP, either the PCIEEP()_CFG001[ME]/PCIEEPVF()_CFG001[ME] are not set. */
         uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1C/H) Lack of forward progress at TLP FIFOs timeout occurred. */
         uint64_t ecrc_e                : 1;  /**< [ 30: 30](R/W1C/H) Received an ECRC error. */
         uint64_t rawwpp                : 1;  /**< [ 29: 29](R/W1C/H) Received a write with poisoned payload.
@@ -4883,7 +4883,7 @@ typedef union
                                                                  pedc_radm_trgt1_dllp_abort &
                                                                  pedc__radm_trgt1_eot. */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -4897,7 +4897,7 @@ typedef union
                                                                  peai__client0_tlp_ep & peai__client0_tlp_hv or
                                                                  peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -4997,7 +4997,7 @@ typedef union
         uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1C/H) Lack of forward progress at TLP FIFOs timeout occurred. */
         uint64_t bmd_e                 : 1;  /**< [ 32: 32](R/W1C/H) A NP or P TLP was seen in the outbound path, but it was not allowed to master the bus.
                                                                  If a PF TLP and the PCIEEP()_CFG001[ME] is not set.
-                                                                 For VF TLP, either the the PCIEEP()_CFG001[ME]/PCIEEPVF()_CFG001[ME] are not set. */
+                                                                 For VF TLP, either the PCIEEP()_CFG001[ME]/PCIEEPVF()_CFG001[ME] are not set. */
         uint64_t datq_pe               : 1;  /**< [ 33: 33](R/W1C/H) Detected a data queue RAM parity error. */
         uint64_t p_d0_sbe              : 1;  /**< [ 34: 34](R/W1C/H) Detected a TLP posted FIFO data0 single bit error. */
         uint64_t p_d0_dbe              : 1;  /**< [ 35: 35](R/W1C/H) Detected a TLP posted FIFO data0 double bit error. */
@@ -5154,7 +5154,7 @@ typedef union
                                                                  pedc_radm_trgt1_dllp_abort &
                                                                  pedc__radm_trgt1_eot. */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -5168,7 +5168,7 @@ typedef union
                                                                  peai__client0_tlp_ep & peai__client0_tlp_hv or
                                                                  peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
         uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
-                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 if a received AtomicOp violates address/length rules, this bit is set as well.
 
                                                                  Internal:
                                                                  pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
@@ -8463,29 +8463,29 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t pilaneswap            : 1;  /**< [  3:  3](RO/H) The value of the pi_select_laneswap pin, which is captured on chip cold reset. It is not
+        uint64_t pilaneswap            : 1;  /**< [  3:  3](RO/H) The value of PCIE*_REV_LANES, which is captured on chip cold reset. It is not
                                                                  affected by any other reset.  When set, lane swapping is performed to/from the
                                                                  SerDes. When clear, no lane swapping is performed. */
-        uint64_t pilanes8              : 1;  /**< [  2:  2](RO/H) The value of the pi_select_8lanes pin, which is captured on chip cold reset. It is not
+        uint64_t pilanes8              : 1;  /**< [  2:  2](RO/H) The value of bit <2> of PCIE*_MODE<2:0>, which is captured on chip cold reset. It is not
                                                                  affected by any other reset.  When set, the PEM is configured for a maximum of
                                                                  8-lanes, When clear, the PEM is configured for a maximum of 4-lanes. */
-        uint64_t pimode                : 2;  /**< [  1:  0](RO/H) The value of the pi_select_mode[1:0] pins, which are captured on chip cold reset. They are
+        uint64_t pimode                : 2;  /**< [  1:  0](RO/H) The value of PCIE*_MODE<1:0>, which are captured on chip cold reset. They are
                                                                  not affected by any other reset.
                                                                  0x0 = EP mode, Gen1 speed.
                                                                  0x1 = EP mode, Gen2 speed.
                                                                  0x2 = EP mode, Gen3 speed.
                                                                  0x3 = RC mode, defaults to Gen3 speed. */
 #else /* Word 0 - Little Endian */
-        uint64_t pimode                : 2;  /**< [  1:  0](RO/H) The value of the pi_select_mode[1:0] pins, which are captured on chip cold reset. They are
+        uint64_t pimode                : 2;  /**< [  1:  0](RO/H) The value of PCIE*_MODE<1:0>, which are captured on chip cold reset. They are
                                                                  not affected by any other reset.
                                                                  0x0 = EP mode, Gen1 speed.
                                                                  0x1 = EP mode, Gen2 speed.
                                                                  0x2 = EP mode, Gen3 speed.
                                                                  0x3 = RC mode, defaults to Gen3 speed. */
-        uint64_t pilanes8              : 1;  /**< [  2:  2](RO/H) The value of the pi_select_8lanes pin, which is captured on chip cold reset. It is not
+        uint64_t pilanes8              : 1;  /**< [  2:  2](RO/H) The value of bit <2> of PCIE*_MODE<2:0>, which is captured on chip cold reset. It is not
                                                                  affected by any other reset.  When set, the PEM is configured for a maximum of
                                                                  8-lanes, When clear, the PEM is configured for a maximum of 4-lanes. */
-        uint64_t pilaneswap            : 1;  /**< [  3:  3](RO/H) The value of the pi_select_laneswap pin, which is captured on chip cold reset. It is not
+        uint64_t pilaneswap            : 1;  /**< [  3:  3](RO/H) The value of PCIE*_REV_LANES, which is captured on chip cold reset. It is not
                                                                  affected by any other reset.  When set, lane swapping is performed to/from the
                                                                  SerDes. When clear, no lane swapping is performed. */
         uint64_t reserved_4_63         : 60;
