@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.21-RC3 ==
+== thunder-release-v1.21 ==
 * Redo handling of CCPI link init to support CN88XX pass 2.0.
 ** The output format has changed greatly, using terminal escape sequences to present a per lane status.
 ** Add configuration item for CCPI lane reversal, set on CRB-2S EVT2. This item must be set on any board with lane reversal and CN88XX pass 1.x. Pass 2.0 should auto detect this, but that is untested.
