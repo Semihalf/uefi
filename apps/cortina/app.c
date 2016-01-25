@@ -155,14 +155,29 @@ static void cortina_check_fw_update(int force_update)
 
     /* Read the data from the inf file. */
     char file_name[CORTINA_INF_MAX_SIZE];
+    char mode[CORTINA_INF_MAX_SIZE];
     uint16_t file_day_month, file_year, file_time;
     uint16_t rom_day_month,  rom_year,  rom_time;
 
-    int n = fscanf(fp, "%hx %hx %hx %s", &file_day_month, &file_year, &file_time, file_name);
-    if (n != 4)
+    int n = fscanf(fp, "%hx %hx %hx %s %s", &file_day_month, &file_year, &file_time, file_name, mode);
+    if (n != 5)
     {
         printf("CORTINA: ERROR: Could not read " CORTINA_INF_FILE_NAME " file entries. Aborting.\n");
         goto out;
+    }
+
+    /* Check if 'date match' update is configured in the .inf file */
+    int firmware_must_match = 0;
+
+    if (0 == strcmp("match", mode))
+    {
+        printf("CORTINA: Firmware update on date mismatch is configured in " CORTINA_INF_FILE_NAME " file.\n");
+        firmware_must_match = 1;
+    }
+    else if (0 != strcmp("auto", mode))
+    {
+        printf("CORTINA: WARNING: Unknown update mode '%s' in "
+                CORTINA_INF_FILE_NAME " file. Assuming 'auto'\n", mode);
     }
 
     /* Get date stamps from Cortina ROM. */
@@ -177,17 +192,23 @@ static void cortina_check_fw_update(int force_update)
     printf("CORTINA: Image file date is:   0x%04x 0x%04x 0x%04x\n", file_day_month, file_year, file_time);
     printf("CORTINA: ROM firmware date is: 0x%04x 0x%04x 0x%04x\n", rom_day_month, rom_year, rom_time);
 
-    /* Check if the image in the file is newer than the ROM image. */
-    int needs_update = (file_year > rom_year) ||
-                       ((file_year == rom_year) && (file_day_month > rom_day_month)) ||
-                       ((file_year == rom_year) && (file_day_month == rom_day_month) && (file_time > rom_time));
+    /* Check if the image in the file is newer or different than the ROM image. */
+    int firmware_newer = (file_year > rom_year) ||
+                         ((file_year == rom_year) && (file_day_month > rom_day_month)) ||
+                         ((file_year == rom_year) && (file_day_month == rom_day_month) && (file_time > rom_time));
 
-    if (needs_update || force_update)
+    int firmware_different =
+                         ((file_year != rom_year) || (file_day_month != rom_day_month) || (file_time != rom_time));
+
+    if (firmware_newer || force_update || (firmware_must_match && firmware_different))
     {
         if (force_update)
             printf("CORTINA: Forcing Firmware Update...\n");
+        else if (firmware_must_match)
+            printf("CORTINA: Firmware date is not same as image. Updating...\n");
         else
             printf("CORTINA: Firmware is not up to date. Updating...\n");
+
         if (0 == bdk_cortina_update_eeprom(node, bus_id, phy_id, 0 /* channel */, file_name))
         {
             /* At this time the PHY has been hard RESET and re-read the EEPROM.
@@ -198,10 +219,9 @@ static void cortina_check_fw_update(int force_update)
             bdk_cortina_get_fw_date(node, bus_id, phy_id, 0 /* die */, &rom_day_month, &rom_year, &rom_time);
 
             /* Check if the image in the file is newer than the ROM image. */
-            needs_update = (file_year > rom_year) ||
-                           ((file_year == rom_year) && (file_day_month > rom_day_month)) ||
-                           ((file_year == rom_year) && (file_day_month == rom_day_month) && (file_time > rom_time));
-            if (needs_update)
+            firmware_different =
+                         ((file_year != rom_year) || (file_day_month != rom_day_month) || (file_time != rom_time));
+            if (firmware_different)
             {
                 printf("\nCORTINA: **********************************************************************\n");
                 printf("CORTINA: *\n");

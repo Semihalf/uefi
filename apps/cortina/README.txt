@@ -47,12 +47,15 @@ cortina-phy-updater.bin file's ROM fs.
 
 The file contains one line in the following format:
 
-0702 2015 1557 /rom/cortina.img
-^    ^    ^    ^
-|    |    |    +- Full Path to binary image file name
-|    |    +------ Time stamp
-|    +----------- Year stamp
-+---------------- Month / Day stamp
+0702 2015 1557 /rom/cortina.img auto
+^    ^    ^    ^                ^
+|    |    |    |                +- Update mode:
+|    |    |    |                   auto  = update if provided firmware is newer
+|    |    |    |                   match = update if provided firmware is not the same
+|    |    |    +------------------ Full Path to binary image file name
+|    |    +----------------------- Time stamp
+|    +---------------------------- Year stamp
++--------------------------------- Month / Day stamp
 
 The date stamps are taken from the vendor provided list. Examples are below.
 
