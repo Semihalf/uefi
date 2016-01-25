@@ -273,23 +273,13 @@ static void cortina_port_autoconfigure()
         /* Skip ports that have no or unknown modules installed */
         if ((MODULE_MEDIA_NONE == media) || (MODULE_MEDIA_RESERVED == media))
         {
-            if (ports->type == PORT_TYPE_QSFP)
-            {
-                media = MODULE_MEDIA_FIBER;
-                printf("CORTINA: QSFP+ Module not found, assuming %s\n", MEDIA_STR(media));
-            }
-            else
-            {
-                ports++;
-                continue;
-            }
+            ports++;
+            continue;
         }
-        else
-        {
-            printf("CORTINA: Found %s module type ID 0x%02x: %s\n",
-                                    ports->type == PORT_TYPE_SFP ? "SFP+" : "QSFP+",
-                                    port_type_id, MEDIA_STR(media));
-        }
+
+        printf("CORTINA: Found %s module type ID 0x%02x: %s\n",
+                                ports->type == PORT_TYPE_SFP ? "SFP+" : "QSFP+",
+                                port_type_id, MEDIA_STR(media));
 
         /* Configure PHY for port */
         int phy;
