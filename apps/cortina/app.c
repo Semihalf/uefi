@@ -27,8 +27,6 @@ void __bdk_require_depends(void)
 }
 
 #define CORTINA_INF_FILE_NAME   "/rom/cortina.inf"
-#define CORTINA_INF_MAX_SIZE    128
-
 
 #define CORTINA_BUS_ID      1
 #define CORTINA_PHY_ID      0
@@ -138,28 +136,13 @@ static void cortina_check_fw_update(int force_update)
         goto out;
     }
 
-    /* Sanity check: File size
-     * Note:
-     *   SEEK_END is not supported, hence we manually count bytes in file. */
-    int filesize = 0;
-    while (EOF != fgetc(fp))
-        filesize++;
-
-    if (filesize >= CORTINA_INF_MAX_SIZE)
-    {
-        printf("CORTINA: ERROR: " CORTINA_INF_FILE_NAME " file to big (%d bytes). Aborting.\n",
-                filesize);
-        goto out;
-    }
-    rewind(fp);
-
     /* Read the data from the inf file. */
-    char file_name[CORTINA_INF_MAX_SIZE];
-    char mode[CORTINA_INF_MAX_SIZE];
+    char file_name[128];    /* Note: fscanf below uses %127s to readin into file_name */
+    char mode[16];          /* Note: fscanf below uses %15s to read into mode */
     uint16_t file_day_month, file_year, file_time;
     uint16_t rom_day_month,  rom_year,  rom_time;
 
-    int n = fscanf(fp, "%hx %hx %hx %s %s", &file_day_month, &file_year, &file_time, file_name, mode);
+    int n = fscanf(fp, "%hx %hx %hx %127s %15s", &file_day_month, &file_year, &file_time, file_name, mode);
     if (n != 5)
     {
         printf("CORTINA: ERROR: Could not read " CORTINA_INF_FILE_NAME " file entries. Aborting.\n");
