@@ -15,7 +15,7 @@ local function update_verbosity_label()
     local cur_verb = cavium.c.bdk_config_get_int(cavium.CONFIG_DRAM_VERBOSE)
     local label = "Change verbosity level (Currently %d)" % cur_verb
     m:item("verbose", label, function()
-        local new_verb = menu.prompt_number("New verbosity level, return for default", cur_verb, 0, 3)
+        local new_verb = menu.prompt_number("New verbosity level, return for default", cur_verb, 0, 255)
         if new_verb ~= cur_verb then
             cavium.c.bdk_config_set_int(new_verb, cavium.CONFIG_DRAM_VERBOSE)
         end
