@@ -1,6 +1,15 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
+// if enhanced verbosity levels are defined, use them 
+#if defined(VB_PRT)
+#define ddr_print2(format, ...) VB_PRT(VBL_FAE, format, ##__VA_ARGS__)
+#define ddr_print4(format, ...) VB_PRT(VBL_DEV, format, ##__VA_ARGS__)
+#else
+#define ddr_print2 ddr_print
+#define ddr_print4 ddr_print
+#endif
+
 static  int64_t test_dram_byte_threads_done;
 static uint64_t test_dram_byte_threads_errs;
 static uint64_t test_dram_byte_lmc_errs[4];
@@ -968,7 +977,7 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     int low_risk_count = 0, needs_review_count = 0;
 
     if (dram_tune_use_gran != DEFAULT_SAMPLE_GRAN) {
-	ddr_print("N%d: changing sample granularity from %d to %d\n",
+	ddr_print2("N%d: Changing sample granularity from %d to %d\n",
 		  node, DEFAULT_SAMPLE_GRAN, dram_tune_use_gran);
     }
     // ensure sample is taken at 0
@@ -988,11 +997,11 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(0));
     if (lmcx_config.s.rank_ena) { // replace the default offset when there is more than 1 rank...
 	dram_tune_rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
-	ddr_print("N%d: auto_set_dll_offset: changing rank offset to 0x%lx\n", node, dram_tune_rank_offset);
+	ddr_print2("N%d: Tuning multiple ranks per DIMM (rank offset 0x%lx).\n", node, dram_tune_rank_offset);
     }
     if (lmcx_config.s.init_status & 0x0c) { // bit 2 or 3 set indicates 2 DIMMs
 	dram_tune_dimm_offset = 1ull << (28 + lmcx_config.s.pbank_lsb + (num_lmcs/2));
-	ddr_print("N%d: auto_set_dll_offset: changing dimm offset to 0x%lx\n", node, dram_tune_dimm_offset);
+	ddr_print2("N%d: Tuning multiple DIMMs per channel (DIMM offset 0x%lx)\n", node, dram_tune_dimm_offset);
     }
 
     // FIXME? do this for LMC0 only
@@ -1128,17 +1137,19 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    byte_offset =  byte_delay_best_start[lmc][byte] +
 		((count - incr_offset) / 2); // adj by incr
 
-	    int will_need_review = !do_tune && !is_low_risk_winlen(speed_bin, (count - incr_offset)) &&
-		                   !is_low_risk_offset(speed_bin, byte_offset);
+	    if (!do_tune) { // do counting and special flag if margining
+                int will_need_review = !is_low_risk_winlen(speed_bin, (count - incr_offset)) &&
+		                       !is_low_risk_offset(speed_bin, byte_offset);
 
-	    printf("%10d%c", byte_offset, (will_need_review) ? '<' :' ');
+                printf("%10d%c", byte_offset, (will_need_review) ? '<' :' ');
 
-	    if (!do_tune) { // do bother counting if not tuning
 		if (will_need_review)
 		    needs_review_count++;
 		else
 		    low_risk_count++;
-	    }
+	    } else { // if just tuning, make the printout less lengthy
+                printf("%5d ", byte_offset);
+            }
 
 	    // FIXME? should we be able to override this?
 	    if (mode_is_read) // for READ offsets, always store what we found
@@ -1215,7 +1226,7 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     // finally, print the utilizations all together
     for (lmc = 0; lmc < num_lmcs; lmc++) {
 	uint64_t percent_x10 = ops_sum[lmc] * 1000 / dclk_sum[lmc];
-	ddr_print("N%d.LMC%d: ops %lu, cycles %lu, used %lu.%lu%%\n",
+	ddr_print2("N%d.LMC%d: ops %lu, cycles %lu, used %lu.%lu%%\n",
 		  node, lmc, ops_sum[lmc], dclk_sum[lmc], percent_x10 / 10, percent_x10 % 10);
     } /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
@@ -1227,7 +1238,7 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     tot_errors = run_dram_tuning_threads(node, num_lmcs, bytemask);
     debug_print("N%d: %s: Finished running test one last time\n", node, __FUNCTION__);
     if (tot_errors)
-	ddr_print("%s Timing Final Test: errors 0x%x\n", mode_str, tot_errors);
+	ddr_print2("%s Timing Final Test: errors 0x%x\n", mode_str, tot_errors);
 
     return (do_tune) ? tot_errors : !!(needs_review_count > 0);
 }
@@ -1256,7 +1267,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 
     // enable any non-running cores on this node
     orig_coremask = bdk_get_running_coremask(node);
-    ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
+    ddr_print4("N%d: %s: Starting cores (mask was 0x%lx)\n",
 	      node, __FUNCTION__, orig_coremask);
     bdk_init_cores(node, ~0ULL & ~orig_coremask);
     dram_tune_max_cores = bdk_get_num_running_cores(node);
@@ -1315,8 +1326,8 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
     }
 
     // print current working values
-    ddr_print("N%d: %s: started %d cores, use %d cores, use %d bursts.\n",
-		node, __FUNCTION__, dram_tune_max_cores, dram_tune_use_cores,
+    ddr_print2("N%d: Tuning will use %d cores of max %d cores, and use %d repeats.\n",
+		node, dram_tune_use_cores, dram_tune_max_cores,
 		dram_tune_use_bursts);
 
 #if USE_L2_WAYS_LIMIT
@@ -1342,7 +1353,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
     ddr_interface_64b = !lmc_config.s.mode32b;
 
     // do setup for each active LMC
-    ddr_print("N%d: %s: starting LMCs setup.\n", node, __FUNCTION__);
+    debug_print("N%d: %s: starting LMCs setup.\n", node, __FUNCTION__);
     for (lmc = 0; lmc < num_lmcs; lmc++) {
 
 #if 0
@@ -1382,7 +1393,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 #endif
 
     // perform cleanup on all active LMCs   
-    ddr_print("N%d: %s: starting LMCs cleanup.\n", node, __FUNCTION__);
+    debug_print("N%d: %s: starting LMCs cleanup.\n", node, __FUNCTION__);
     for (lmc = 0; lmc < num_lmcs; lmc++) {
 
 	/* Restore ECC for DRAM tests */
@@ -1426,11 +1437,11 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
     // put any cores on this node, that were not running at the start, back into reset
     uint64_t reset_coremask = bdk_get_running_coremask(node) & ~orig_coremask;
     if (reset_coremask) {
-	ddr_print("N%d: %s: Stopping cores 0x%lx\n", node, __FUNCTION__,
+	ddr_print4("N%d: %s: Stopping cores 0x%lx\n", node, __FUNCTION__,
 		  reset_coremask);
 	bdk_reset_cores(node, reset_coremask);
     } else {
-	ddr_print("N%d: %s: leaving cores set to 0x%lx\n", node, __FUNCTION__,
+	ddr_print4("N%d: %s: leaving cores set to 0x%lx\n", node, __FUNCTION__,
 		  orig_coremask);
     }
 
