@@ -413,7 +413,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
     extern dram_verbosity_t dram_verbosity;
     dram_verbosity_t save_dram_verbosity = dram_verbosity;
 
-    //dram_verbosity = TRACE_CSR_WRITES;
+    //dram_verbosity = VBL_CSRS;
 
     /*
       1) Make sure that RLEVEL_CTL[OR_DIS] = 0.
@@ -1018,8 +1018,8 @@ int initialize_ddr_clock(bdk_node_t node,
 			    if (clkf > max_clkf) continue; /* PLL requires clkf to be limited */
 			    if (_abs(error) > _abs(best_error)) continue;
 
-			    ddr_print("clkr: %2lu, en[%d]: %2d, clkf: %4lu, pll_MHz: %4lu, ddr_hertz: %8lu, error: %8ld\n",
-				      clkr, save_en_idx, _en[save_en_idx], clkf, pll_MHz, calculated_ddr_hertz, error);
+			    VB_PRT(VBL_TME, "clkr: %2lu, en[%d]: %2d, clkf: %4lu, pll_MHz: %4lu, ddr_hertz: %8lu, error: %8ld\n",
+                                    clkr, save_en_idx, _en[save_en_idx], clkf, pll_MHz, calculated_ddr_hertz, error);
 
 			    /* Favor the highest PLL frequency. */
 			    if ((_abs(error) < _abs(best_error)) || (pll_MHz > best_pll_MHz)) {
@@ -1080,7 +1080,7 @@ int initialize_ddr_clock(bdk_node_t node,
                 ddr_pll_ctl.s.reset_n = 0;
 
                 ddr_pll_ctl.s.bwadj = (best_clkf + 1) / 10;
-                ddr_print("bwadj: %2d\n", ddr_pll_ctl.s.bwadj);
+                VB_PRT(VBL_TME, "bwadj: %2d\n", ddr_pll_ctl.s.bwadj);
 
                 if ((s = lookup_env_parameter("ddr_pll_bwadj")) != NULL) {
                     ddr_pll_ctl.s.bwadj = strtoul(s, NULL, 0);

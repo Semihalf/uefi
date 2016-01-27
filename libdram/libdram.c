@@ -3,7 +3,7 @@
 
 /* This global variable is accessed through dram_is_verbose() to determine
    the verbosity level. Use that function instead of setting it directly */
-dram_verbosity_t dram_verbosity = OFF; /* init this here so we could set a non-zero default */
+dram_verbosity_t dram_verbosity = VBL_OFF; /* init this here so we could set a non-zero default */
 
 static uint32_t measured_ddr_hertz[BDK_NUMA_MAX_NODES];
 
@@ -545,8 +545,7 @@ uint32_t libdram_get_freq_from_pll(int node, int lmc)
 #ifndef DRAM_CSR_WRITE_INLINE
 void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
-    if (dram_is_verbose(TRACE_CSR_WRITES))
-        printf("N%d: DDR Config %s[%016lx] => %016lx\n", node, csr_name, address, value);
+    VB_PRT(VBL_CSRS, "N%d: DDR Config %s[%016lx] => %016lx\n", node, csr_name, address, value);
     bdk_csr_write(node, type, busnum, size, address, value);
 }
 #endif

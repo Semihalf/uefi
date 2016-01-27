@@ -21,8 +21,7 @@
 static inline void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value) __attribute__((always_inline));
 static inline void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
-    if (dram_is_verbose(TRACE_CSR_WRITES))
-        printf("DDR Config %s[%016lx] => %016lx\n", csr_name, address, value);
+    VB_PRT(VBL_CSRS, "N%d: DDR Config %s[%016lx] => %016lx\n", node, csr_name, address, value);
     bdk_csr_write(node, type, busnum, size, address, value);
 }
 #else
