@@ -26,8 +26,6 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(CORTINA);
 }
 
-static const char *next_stage;
-
 #define CORTINA_INF_FILE_NAME   "/rom/cortina.inf"
 #define CORTINA_INF_MAX_SIZE    128
 
@@ -309,6 +307,24 @@ static void cortina_port_autoconfigure()
     }
 }
 
+static void cortina_boot_next_stage()
+{
+    printf("\nCORTINA: Loading next stage...\n");
+
+    /* Check if the next boot stage is configured. */
+    const char *next_stage = bdk_config_get_str(BDK_CONFIG_BOOT_NEXT_STAGE, "CORTINA");
+    if (next_stage)
+        bdk_image_boot(next_stage, 0);
+
+    /* Default: Boot into ATF */
+    bdk_image_boot("/boot", ATF_ADDRESS);
+    bdk_error("Unable to load image\n");
+    printf("Trying diagnostics\n");
+
+    /* Load Diagnostics from FAT fs */
+    bdk_image_boot("/fatfs/diagnostics.bin", 0);
+}
+
 static void cortina_menu(void)
 {
     int key;
@@ -340,7 +356,7 @@ static void cortina_menu(void)
             case 'C': /* Continue Normal Boot Process */
                 return;
             case 'S': /* Boot Next Stage, skipping Cortina Configuration */
-                bdk_image_boot(next_stage, 0);
+                cortina_boot_next_stage();
                 break;
             case 'A': /* Run Port Autoconfiguration */
                 cortina_port_autoconfigure();
@@ -392,18 +408,5 @@ int main(int argc, const char **argv)
     cortina_port_autoconfigure();
 #endif
 
-    printf("\nCORTINA: Loading next stage...\n");
-
-    /* Check if the next boot stage is configured. */
-    next_stage = bdk_config_get_str(BDK_CONFIG_BOOT_NEXT_STAGE, "CORTINA");
-    if (next_stage)
-        bdk_image_boot(next_stage, 0);
-
-    /* Default: Boot into ATF */
-    bdk_image_boot("/boot", ATF_ADDRESS);
-    bdk_error("Unable to load image\n");
-    printf("Trying diagnostics\n");
-
-    /* Load Diagnostics from FAT fs */
-    bdk_image_boot("/fatfs/diagnostics.bin", 0);
+    cortina_boot_next_stage();
 }
