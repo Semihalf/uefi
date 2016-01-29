@@ -31,8 +31,6 @@
 #define RUN_INIT_SEQ_2      0
 #define RUN_INIT_SEQ_3      0
 
-#define ENABLE_LOCK_RETRIES
-
 #define ENABLE_SLOT_CTL_ACCESS 0
 #undef ENABLE_CUSTOM_RLEVEL_TABLE
 
@@ -52,7 +50,8 @@ typedef struct {
     int nibunl_errs;
 } deskew_counts_t;
 
-deskew_counts_t deskew_training_results;
+static deskew_counts_t deskew_training_results;
+static int deskew_validation_delay = 10000; // FIXME: make this a var for overriding
 
 static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num,
                                      deskew_counts_t *counts, int print_enable)
@@ -85,9 +84,6 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 	}
         VB_PRT(print_enable, "\n");
     }
-
-    /* Allow deskew results to stabilize before evaluating them. */
-    bdk_wait_usec(10000);
 
     for (byte_lane = 0; byte_lane < 8+lmc_config.s.ecc_ena; byte_lane++) {
         if (print_enable)
@@ -250,12 +246,9 @@ int read_DAC_DBI_settings(int node, int rank_mask, int ddr_interface_num,
 }
 
 #define DEFAULT_SAT_RETRY_LIMIT    11    // 1 + 10 retries
-#define DEFAULT_LOCK_RETRY_LIMIT   10    // 10 retries
-#define PRINT_RETRY_LIMIT           0    // make equal to sat_retry_limit if you want all of them
+static int default_lock_retry_limit = 20;    // 20 retries // FIXME: make a var for overriding
 
-#undef EARLY_NIBBLE_ERR_RETURN
-
-static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num,
+static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num,
                                        int spd_rawcard_AorB, int print_flags)
 {
     int unsaturated, locked;
@@ -272,10 +265,15 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
     print_first = VBL_FAE; // print the first one, FAE and above
     print_them_all = dram_is_verbose(VBL_DEV2); // set to true for printing all normal deskew attempts
 
-    lock_retries_limit = DEFAULT_LOCK_RETRY_LIMIT;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) // FIXME? modify for 81xx, 83xx?
-        lock_retries_limit *= 3; // give pass 2.0 thrice as many // FIXME: orig was only +5
+    int loops, normal_loops = 1; // default to 1 NORMAL deskew training op...
+    const char *s;
+    if ((s = getenv("ddr_deskew_normal_loops")) != NULL) {
+	normal_loops = strtoul(s, NULL, 0);
+    }
 
+    lock_retries_limit = default_lock_retry_limit;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) // FIXME? modify for 81xx, 83xx?
+        lock_retries_limit *= 2; // give pass 2.0 twice as many
 
     do { /* while (sat_retries < sat_retry_limit) */
 
@@ -301,32 +299,26 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 			phy_ctl.s.phy_dsk_reset = 1); /* RESET Deskew sequence */
         perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
 
-	// do not print the RESET results
-        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 0);
-
 	lock_retries = 0;
 
     perform_deskew_training:
-        DRAM_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
-			phy_ctl.s.phy_dsk_reset = 0); /* Normal Deskew sequence */
-        perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
+        // maybe perform the NORMAL deskew training sequence multiple times before looking at lock status
+        for (loops = 0; loops < normal_loops; loops++) { 
+            DRAM_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                            phy_ctl.s.phy_dsk_reset = 0); /* Normal Deskew sequence */
+            perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
+        }
+        // Moved this from Validate_Deskew_Training
+        /* Allow deskew results to stabilize before evaluating them. */
+        bdk_wait_usec(deskew_validation_delay);
 
+        // Now go look at lock and saturation status...
         Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, print_first);
 	if (print_first && !print_them_all) // after printing the first and not doing them all, no more
 	    print_first = 0;
 
-#ifdef EARLY_NIBBLE_ERR_RETURN
-	if ((dsk_counts.nibsat_errs != 0) || (dsk_counts.nibunl_errs != 0)) {
-	    debug_print("N%d.LMC%d: NIBBLE ERROR(S) found, returning FAULT immediately\n",
-		      node, ddr_interface_num);
-	    return -1; // we do not retry locally, they do not help
-	}
-#endif
-
         unsaturated = (dsk_counts.saturated == 0);
 	locked = (dsk_counts.unlocked == 0);
-
-#ifdef ENABLE_LOCK_RETRIES
 
 	// only do locking retries if unsaturated or rawcard A or B, otherwise full SAT retry
 	if (unsaturated || spd_rawcard_AorB) {
@@ -345,8 +337,6 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
                             node, ddr_interface_num, lock_retries);
 	    }
 	} /* if (unsaturated || spd_rawcard_AorB) */
-
-#endif /* ENABLE_LOCK_RETRIES */
 
         ++sat_retries;
 
@@ -373,13 +363,11 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
            (sat_retries >= DEFAULT_SAT_RETRY_LIMIT) ? "Timed Out" : "Completed",
            sat_retries-1, lock_retries_total);
 
-#ifndef EARLY_NIBBLE_ERR_RETURN
     if ((dsk_counts.nibsat_errs != 0) || (dsk_counts.nibunl_errs != 0)) {
-	debug_print("N%d.LMC%d: NIBBLE ERROR(S) found, returning FAULT finally\n",
+	debug_print("N%d.LMC%d: NIBBLE ERROR(S) found, returning FAULT\n",
 		  node, ddr_interface_num);
 	return -1; // we did retry locally, they did not help
     }
-#endif
 
     // NOTE: we (currently) always print one last training validation before starting Read Leveling... 
 
@@ -2526,8 +2514,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         return (-1);
     }
 
+    // allow some overrides to be done
     if ((s = lookup_env_parameter("ddr_disable_deskew_fail_reset")) != NULL) {
         ddr_disable_deskew_fail_reset = !!strtoul(s, NULL, 0);
+    }
+    // this one is in Validate_Deskew_Training and controls a preliminary delay
+    if ((s = lookup_env_parameter("ddr_deskew_validation_delay")) != NULL) {
+        deskew_validation_delay = strtoul(s, NULL, 0);
+    }
+    // this one is in Perform_Deskew_Training and controls lock retries 
+    if ((s = lookup_env_parameter("ddr_lock_retries")) != NULL) {
+        default_lock_retry_limit = strtoul(s, NULL, 0);
     }
 
 #if 0 // FIXME: do we really need this anymore?
@@ -4476,7 +4473,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     //} /* while (--offset_vref_training_loops) */
 
-    deskew_training_errors = perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB, 0);
+    deskew_training_errors = Perform_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB, 0);
 
     // All the Deskew lock and saturation retries (may) have been done,
     //  but we ended up with nibble errors; so, as a last ditch effort,
@@ -5247,7 +5244,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		retry_count++;
 		VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew Status indicates saturation or nibble errors - retry %d Training.\n",
 			  node, ddr_interface_num, retry_count);
-		perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB, 0);
+		Perform_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB, 0);
 	    } else
 		break;
 	} while (retry_count < 5);
