@@ -28,6 +28,7 @@
 ################################################################################
 
 [Includes]
+  Include
 
 [Guids.common]
   gArmada7040TokenSpaceGuid	     = { 0xc372916e, 0x83ad, 0x4b2a, { 0x84, 0x10, 0xbb, 0xc3, 0x1b, 0xd9, 0xe6, 0x8f } }
@@ -35,8 +36,10 @@
 
 [PcdsFixedAtBuild.common]
   gMarvellTokenSpaceGuid.PcdI2cSlaveAddresses|{ 0 }|VOID*|0x40000005
+  gMarvellTokenSpaceGuid.PcdEepromI2cAddresses|{ 0 }|VOID*|0x40000009
   gMarvellTokenSpaceGuid.PcdI2cBaseAddress|0|UINT64|0x135
   gMarvellTokenSpaceGuid.PcdTclkFrequency|0|UINT32|0x137
 
 [Protocols]
+  gEfiEepromProtocolGuid               = { 0xcd728a1f, 0x45b5, 0x4feb, { 0x98, 0xc8, 0x31, 0x3d, 0xa8, 0x11, 0x74, 0x62 }}
 
