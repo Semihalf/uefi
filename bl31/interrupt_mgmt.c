@@ -36,6 +36,11 @@
 #include <platform.h>
 #include <stdio.h>
 
+typedef struct intr_desc {
+	uint32_t id;
+	interrupt_handler_t handler;
+} intr_desc_t;
+
 /*******************************************************************************
  * Local structure and corresponding array to keep track of the state of the
  * registered interrupt handlers for each interrupt type.
@@ -62,6 +67,7 @@ typedef struct intr_type_desc {
 	interrupt_type_handler_t handler;
 	uint32_t flags;
 	uint32_t scr_el3[2];
+	intr_desc_t	intr_desc[MAX_INTRS];
 } intr_type_desc_t;
 
 static intr_type_desc_t intr_type_descs[MAX_INTR_TYPES];
@@ -248,3 +254,62 @@ interrupt_type_handler_t get_interrupt_type_handler(uint32_t type)
 	return intr_type_descs[type].handler;
 }
 
+uint64_t handle_irq_el3(uint32_t id, uint32_t flags, void *handle, void *cookie)
+{
+	uint32_t irq;
+	uint32_t type = INTR_TYPE_EL3; // FIXME: fixed type for now
+	uint64_t rc = 0;
+
+	if (id == INTR_ID_UNAVAILABLE)
+		id = plat_ic_acknowledge_interrupt();
+
+	printf("Handling IRQ %d\n", id);
+	intr_desc_t *intr_descs = intr_type_descs[type].intr_desc;
+
+	for (irq = 0; irq < MAX_INTRS; irq++) {
+		if (intr_descs[irq].id == id) {
+			rc = intr_descs[irq].handler(id, flags, cookie);
+			break;
+		}
+	}
+
+	if (irq == MAX_INTRS)
+		printf("Handler not found!\n");
+
+	plat_ic_end_of_interrupt(id);
+
+	return rc;
+}
+
+/*******************************************************************************
+ * This function registers a handler for the 'type' of interrupt specified.
+ *******************************************************************************/
+int32_t register_interrupt_handler(uint32_t type, uint32_t id,
+					interrupt_handler_t handler)
+{
+	uint32_t idx;
+
+	/* Validate the 'handler' parameter */
+	if (!handler)
+		return -EINVAL;
+
+	/* Check if the main handler for this type already been registered */
+	if (!intr_type_descs[type].handler)
+		return -ENOENT;
+
+	/* Check if a handler for this id is already been registered */
+	for (idx = 0; idx < MAX_INTRS; idx++) {
+		if (intr_type_descs[type].intr_desc[idx].id == id)
+			return -EALREADY;
+
+		if (!intr_type_descs[type].intr_desc[idx].handler) {
+			/* Save the handler */
+			intr_type_descs[type].intr_desc[idx].handler = handler;
+			intr_type_descs[type].intr_desc[idx].id  = id;
+
+			return 0;
+		}
+	}
+
+	return -E2BIG;
+}
