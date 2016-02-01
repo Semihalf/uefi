@@ -140,7 +140,7 @@ unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num,
 void change_dll_offset_enable(bdk_node_t node, int ddr_interface_num, int change);
 
 extern int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune);
-extern int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune);
+extern int perform_HW_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int bytelane);
 
 extern int perform_margin_write_voltage(bdk_node_t node);
 extern int perform_margin_read_voltage(bdk_node_t node);

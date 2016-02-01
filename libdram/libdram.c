@@ -43,6 +43,7 @@ static int bdk_libdram_tune_node(int node)
 {
     int errs, tot_errs;
     int do_dllwo = 0; // default to NO
+    int do_eccdll = 0; // default to NO
     const char *str;
 
     // Automatically tune the data byte DLL read offsets
@@ -66,12 +67,22 @@ static int bdk_libdram_tune_node(int node)
 	tot_errs += errs;
     }
 
+    // disabled by default for now, does not seem to be needed much?
     // Automatically tune the ECC byte DLL read offsets
-    BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
-    errs = perform_ECC_dll_offset_tuning(node, 2, /* tune */1); 
-    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors\n",
-	      node, errs);
-    tot_errs += errs;
+    // FIXME? allow override of the filtering
+    // FIXME? allow programmatic override, not via envvar? 
+    str = getenv("ddr_tune_ecc_enable");
+    if (str)
+        do_eccdll = !!strtoul(str, NULL, 10);
+    if (!do_eccdll) {
+	debug_print("N%d: ECC DLL read offset currently not eligible for tuning.\n", node);
+    } else {
+        BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
+        errs = perform_HW_dll_offset_tuning(node, 2, 8/* ECC bytelane */); 
+        BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors\n",
+                  node, errs);
+        tot_errs += errs;
+    }
 
     return tot_errs;
 }
