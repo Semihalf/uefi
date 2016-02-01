@@ -348,6 +348,7 @@ PlatformBdsPolicyBehavior (
   Status = PlatformBdsConnectConsole ();
   ASSERT_EFI_ERROR (Status);
 
+  BdsLibConnectAll();
   //
   // Show the splash screen.
   //
