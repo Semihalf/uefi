@@ -40,7 +40,7 @@ int bdk_cortina_update_eeprom(bdk_node_t node, int bus_id, int phy_id, int chn_i
     }
     else
     {
-        printf("CORTINA: Update successful. Issuing PHY hard RESET.\n");
+        // Issue PHY hard RESET to re-read firmware image from EEPROM
         cs_uint32 die = slice & 0xFFFFFF00;
 
         /* reset die 0, which is always present */
