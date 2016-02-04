@@ -5,6 +5,7 @@ require("utils")
 require("fileio")
 require("menu")
 local readline = require("readline")
+local bit64 = require("bit64")
 
 local option = ""
 local sata = 0
@@ -104,6 +105,53 @@ local function run_auto()
 end
 
 --
+-- Check margin range for SATA channel
+--
+local function margin_rx()
+    local filename = utils.devfile("sata", sata)
+    local handle = assert(cavium.devopen(filename, "r+"))
+    local function do_data()
+        local length = 128
+        local correct = get_pattern(0x55, length)
+        assert(handle:seek("set", 0), "Write seek failed")
+        handle:write(correct)
+        assert(handle:seek("set", 0), "Read seek failed")
+        local data = handle:read(length * 512)
+        assert(correct == data, "SATA data doesn't match pattern")
+    end
+    local qlm = (sata >= 8) and (6 + (sata - 8) / 4) or (2 + sata / 4) -- FIXME: Only CN88XX
+    local qlm_lane = bit64.band(sata, 3)
+    local vert_center = cavium.c.bdk_qlm_margin_rx_get(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+    local vert_min = cavium.c.bdk_qlm_margin_rx_get_min(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+    local vert_max = cavium.c.bdk_qlm_margin_rx_get_max(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+    for vert = vert_center,vert_max do
+        cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).write(-1)
+        cavium.c.bdk_qlm_margin_rx_set(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
+        do_data() -- Send data
+        local have_error = cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).read() ~= 0
+        printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
+        if have_error then
+            vert_max = vert - 1
+            break
+        end
+    end
+    for vert = vert_center,vert_min,-1 do
+        cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).write(-1)
+        cavium.c.bdk_qlm_margin_rx_set(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
+        do_data() -- Send data
+        local have_error = cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).read() ~= 0
+        printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
+        if have_error then
+            vert_min = vert + 1
+            break
+        end
+    end
+    cavium.c.bdk_qlm_margin_rx_restore(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
+    printf("N%d.SATA%d: Min=%d, Middle=%d, Max=%d\n", menu.node, sata, vert_min, vert_center, vert_max)
+    handle:close()
+end
+
+--
 -- Put the menu on the screen
 --
 while (option ~= "quit") do
@@ -158,6 +206,7 @@ while (option ~= "quit") do
     end
 
     m:item("auto", "Run automated pattern test", run_auto)
+    m:item("margin", "Run margining tool", margin_rx)
 
     m:item("quit", "Main menu")
     option = m:show()
