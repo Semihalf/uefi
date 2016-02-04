@@ -64,6 +64,14 @@ typedef enum
     BDK_QLM_DIRECTION_BOTH = 3,
 } bdk_qlm_direction_t;
 
+/**
+ * Types of QLM margining supported
+ */
+typedef enum
+{
+    BDK_QLM_MARGIN_VERTICAL,
+    BDK_QLM_MARGIN_HORIZONTAL,
+} bdk_qlm_margin_t;
 
 /**
  * Eye diagram captures are stored in the following structure
@@ -361,5 +369,73 @@ extern int bdk_qlm_eye_display(bdk_node_t node, int qlm, int qlm_lane, int forma
  * @return Zero on success, negative on failure
  */
 extern int bdk_qlm_auto_config(bdk_node_t node);
+
+/**
+ * Get the current RX margining parameter
+ *
+ * @param node     Node to read margin value from
+ * @param qlm      QLM to read from
+ * @param qlm_lane Lane to read
+ * @param margin_type
+ *                 Type of margining parameter to read
+ *
+ * @return Current margining parameter value
+ */
+extern int64_t bdk_qlm_margin_rx_get(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_margin_t margin_type);
+
+/**
+ * Get the current RX margining parameter minimum value
+ *
+ * @param node     Node to read margin value from
+ * @param qlm      QLM to read from
+ * @param qlm_lane Lane to read
+ * @param margin_type
+ *                 Type of margining parameter to read
+ *
+ * @return Current margining parameter minimum value
+ */
+extern int64_t bdk_qlm_margin_rx_get_min(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_margin_t margin_type);
+
+/**
+ * Get the current RX margining parameter maximum value
+ *
+ * @param node     Node to read margin value from
+ * @param qlm      QLM to read from
+ * @param qlm_lane Lane to read
+ * @param margin_type
+ *                 Type of margining parameter to read
+ *
+ * @return Current margining parameter maximum value
+ */
+extern int64_t bdk_qlm_margin_rx_get_max(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_margin_t margin_type);
+
+/**
+ * Set the current RX margining parameter value
+ *
+ * @param node     Node to set margin value on
+ * @param qlm      QLM to set
+ * @param qlm_lane Lane to set
+ * @param margin_type
+ *                 Type of margining parameter to set
+ * @param value    Value of margining parameter
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_qlm_margin_rx_set(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_margin_t margin_type, int value);
+
+/**
+ * Restore the supplied RX margining parameter value as if it was never set. This
+ * disables any overrides in the SERDES need to perform margining
+ *
+ * @param node     Node to restore margin value on
+ * @param qlm      QLM to restore
+ * @param qlm_lane Lane to restore
+ * @param margin_type
+ *                 Type of margining parameter to restore
+ * @param value    Value of margining parameter
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_qlm_margin_rx_restore(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_margin_t margin_type, int value);
 
 /** @} */

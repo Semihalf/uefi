@@ -55,6 +55,23 @@ static inline uint64_t bdk_extract(uint64_t input, int lsb, int width)
 }
 
 /**
+ * Extract signed bits out of a number
+ *
+ * @param input  Number to extract from
+ * @param lsb    Starting bit, least significant (0-63)
+ * @param width  Width in bits (1-64)
+ *
+ * @return Extracted number
+ */
+static inline int64_t bdk_extracts(uint64_t input, int lsb, int width)
+{
+    int64_t result = input >> lsb;
+    result <<= 64 - width;
+    result >>= 64 - width;
+    return result;
+}
+
+/**
  * Insert bits into a number
  *
  * @param original Original data, before insert

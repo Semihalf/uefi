@@ -31,6 +31,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(PCIE);
     BDK_REQUIRE(POWER_BURN);
     BDK_REQUIRE(QLM);
+    BDK_REQUIRE(QLM_MARGIN);
     BDK_REQUIRE(RNM);
     BDK_REQUIRE(SATA);
     BDK_REQUIRE(TNS);
