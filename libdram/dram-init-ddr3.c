@@ -571,6 +571,7 @@ compute_vref_value(bdk_node_t node, int ddr_interface_num,
 
 #if ENABLE_COMPUTED_VREF_ADJUSTMENT
     {
+        int saved_final_vref_value = computed_final_vref_value;
 	BDK_CSR_INIT(lmc_config, node, BDK_LMCX_CONFIG(ddr_interface_num));
 	/*
 	  New computed Vref = existing computed Vref – X
@@ -596,6 +597,11 @@ compute_vref_value(bdk_node_t node, int ddr_interface_num,
 	    } else {
 		computed_final_vref_value -= (dimm_count == 1) ? 3 : 2;
 	    }
+            // we have adjusted it, so print it out if verbosity is right
+            VB_PRT(VBL_TME, "N%d.LMC%d.R%d: adjusting computed vref from %2d (0x%02x) to %2d (0x%02x)\n",
+                   node, ddr_interface_num, rankx, 
+                   saved_final_vref_value, saved_final_vref_value,
+                   computed_final_vref_value, computed_final_vref_value);
 	}
     }
 #endif
@@ -6895,9 +6901,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	/* Get the measured_vref setting from the config, check for an override... */
 	/* NOTE: measured_vref=1 (ON) means force use of MEASURED Vref... */
-        measured_vref_flag = custom_lmc_config->measured_vref;
-        if ((s = lookup_env_parameter("ddr_measured_vref")) != NULL) {
-            measured_vref_flag = !!strtoul(s, NULL, 0);
+        // NOTE: measured VREF can only be done for DDR4 
+        if (ddr_type == DDR4_DRAM) {
+            measured_vref_flag = custom_lmc_config->measured_vref;
+            if ((s = lookup_env_parameter("ddr_measured_vref")) != NULL) {
+                measured_vref_flag = !!strtoul(s, NULL, 0);
+            }
+        } else {
+            measured_vref_flag = 0; // OFF for DDR3
         }
 
         /* Disable ECC for DRAM tests */
@@ -7037,6 +7048,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #define WL_MIN_NO_ERRORS_COUNT 3  // FIXME? three passes without errors
 			int no_errors_count = 0;
 
+                        // Change verbosity if using measured vs computed VREF or DDR3
+                        // measured goes many times through SWL, computed and DDR3 only once
+                        // so we want the EXHAUSTED messages at NORM for computed and DDR3,
+                        // and at DEV for measured, just for completeness
+                        int vbl_local = (measured_vref_flag) ? VBL_DEV : VBL_NORM;
+
 			do {
 			    // write the current set of WL delays
 			    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
@@ -7067,13 +7084,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					byte_delay[byte] = delay;
 				    } else { // reached max delay, maybe really done with this byte
 #if SWL_TRY_HWL_ALT
-					if (hwl_alts[rankx].hwl_alt_mask & (1 << byte)) { // does an alt exist
+					if (!measured_vref_flag && // consider an alt only for DDR3 or computed VREF
+                                            (hwl_alts[rankx].hwl_alt_mask & (1 << byte))) { // does an alt exist
 					    delay = hwl_alts[rankx].hwl_alt_delay[byte]; // yes, use it
 					    hwl_alts[rankx].hwl_alt_mask &= ~(1 << byte); // clear that flag
 					    update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
 					    byte_delay[byte] = delay;
 					    debug_print("        byte %d delay %2d ALTERNATE\n", byte, delay);
-					    ddr_print("N%d.LMC%d.R%d: SWL: Byte %d: trying ALTERNATE %d\n",
+					    VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: SWL: Byte %d: trying ALTERNATE %d\n",
 						      node, ddr_interface_num, rankx, byte, delay);
 
 					} else
@@ -7083,7 +7101,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                             bytes_todo &= ~(1 << byte); // remove from bytes to do
                                             byte_test_status[byte] = WL_ESTIMATED; // make sure this is set for this case
                                             debug_print("        byte %d delay %2d Exhausted\n", byte, delay);
-					    ddr_print("N%d.LMC%d.R%d: SWL: Byte %d: delay %d EXHAUSTED \n",
+					    VB_PRT(vbl_local, "N%d.LMC%d.R%d: SWL: Byte %d: delay %d EXHAUSTED \n",
 						      node, ddr_interface_num, rankx, byte, delay);
                                         }
 				    }
