@@ -916,6 +916,64 @@ function TrafficGen.new()
         end
     end
 
+    function self:cmdp_margin_rx(port_range, args)
+        local USEC = 1000000
+        local function do_test(port, vert)
+            local stats = do_update(true)
+            local start_errors = stats[port].rx_errors
+            cavium.c.bdk_wait_usec(1 * USEC)
+            local stats = do_update(false)
+            local errors = stats[port].rx_errors - start_errors
+            -- printf("    %d - %s\n", vert, (errors > 0) and "FAIL" or "PASS")
+            return errors
+        end
+        for _,port in ipairs(port_range) do
+            local config = cavium.trafficgen.get_config(port)
+            if #config.serdes_map == 0 then
+                printf("%s: Doesn't use SERDES, skipping\n", port)
+                goto skip_port
+            end
+            -- Update stats, signalling measurement start
+            do_update(true)
+            -- Measure 1 second to make sure we are receiving packets
+            cavium.c.bdk_wait_usec(1 * USEC)
+            -- Stop the measurement
+            local stats = do_update(false)
+            if stats[port].rx_packets == 0 then
+                printf("%s: No RX packets, skipping\n", port)
+                goto skip_port
+            end
+            printf("%s: Margining\n", port)
+            for i = 1,#config.serdes_map,2 do
+                local node = config.node
+                local qlm = config.serdes_map[i]
+                local qlm_lane = config.serdes_map[i+1]
+                local vert_center = cavium.c.bdk_qlm_margin_rx_get(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+                local vert_min = cavium.c.bdk_qlm_margin_rx_get_min(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+                local vert_max = cavium.c.bdk_qlm_margin_rx_get_max(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+
+                for vert = vert_center,vert_max do
+                    cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
+                    if do_test(port, vert) > 0 then
+                        vert_max = vert - 1
+                        break
+                    end
+                end
+
+                for vert = vert_center,vert_min,-1 do
+                    cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
+                    if do_test(port, vert) > 0 then
+                        vert_min = vert + 1
+                        break
+                    end
+                end
+                cavium.c.bdk_qlm_margin_rx_restore(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
+                printf("%s QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", port, qlm, qlm_lane, vert_min, vert_center, vert_max)
+            end
+::skip_port::
+        end
+    end
+
     -- Short aliases for common commands
     self.cmdp_count = self.cmdp_output_count
     -- These commands are kept around for backwards compatibility
