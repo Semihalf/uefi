@@ -259,15 +259,18 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     BDK_TRACE(DRAM, "N%d: DRAM init returned %d, measured %u Hz\n",
 	      node, mbytes, measured_ddr_hertz[node]);
 
-    // call the tuning routines, with filtering...
-    BDK_TRACE(DRAM, "N%d: Calling DRAM tuning\n", node);
-    errs = bdk_libdram_maybe_tune_node(node);
-    BDK_TRACE(DRAM, "N%d: DRAM tuning returned %d errors\n",
-	      node, errs);
+    // do not tune or mess with memory if there was an init problem...
+    if (mbytes > 0) {
+        // call the tuning routines, with filtering...
+        BDK_TRACE(DRAM, "N%d: Calling DRAM tuning\n", node);
+        errs = bdk_libdram_maybe_tune_node(node);
+        BDK_TRACE(DRAM, "N%d: DRAM tuning returned %d errors\n",
+                  node, errs);
 
-    // finally, clear memory and any left-over ECC errors
-    bdk_dram_clear_mem(node);
-    bdk_dram_clear_ecc(node);
+        // finally, clear memory and any left-over ECC errors
+        bdk_dram_clear_mem(node);
+        bdk_dram_clear_ecc(node);
+    }
 
     /* Boards may need to mux the TWSI connection between THUNDERX and the BMC.
        This allows the BMC to monitor DIMM temeratures and health */

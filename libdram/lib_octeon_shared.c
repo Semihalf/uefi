@@ -1623,6 +1623,38 @@ int octeon_ddr_initialize(bdk_node_t node,
 	ddr_hertz = ddr_max_speed;
     }
 
+    // Do this earlier so we can return without doing unnecessary things...
+    /* Check for lower DIMM socket populated */
+    for (interface_index=0; interface_index<4; ++interface_index) {
+	if ((ddr_interface_mask & (1<<interface_index))
+	    && validate_dimm(node, &ddr_configuration[(int)interface_index].dimm_config_table[0], 0))
+	{
+	    ddr_config_valid_mask |= (1 << interface_index);
+	}
+    }
+    // Validate that it can only be 2-LMC mode or 4-LMC mode
+    if ((ddr_config_valid_mask != 0x03) && (ddr_config_valid_mask != 0x0f)) {
+	puts("ERROR: Invalid LMC configuration detected.\n");
+	return -1;
+    }
+
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
+	int four_lmc_mode = 1;
+
+	if ((s = lookup_env_parameter("ddr_four_lmc")) != NULL)
+	    four_lmc_mode = !!strtoul(s, NULL, 0);
+
+	if (!four_lmc_mode) {
+	    puts("Forcing two-LMC Mode.\n");
+	    ddr_config_valid_mask &= ~(3<<2); /* Invalidate LMC[2:3] */
+	}
+    }
+
+    if (!ddr_config_valid_mask) {
+	puts("ERROR: No valid DIMMs detected on any DDR interface.\n");
+	return -1;
+    }
+
     {
 	/*
 
@@ -1653,32 +1685,6 @@ int octeon_ddr_initialize(bdk_node_t node,
     if ((s = lookup_env_parameter("limit_l2_ways")) != NULL) {
         int ways = strtoul(s, NULL, 10);
 	limit_l2_ways(node, ways, 1);
-    }
-
-    /* Check for lower DIMM socket populated */
-    for (interface_index=0; interface_index<4; ++interface_index) {
-	if ((ddr_interface_mask & (1<<interface_index))
-	    && validate_dimm(node, &ddr_configuration[(int)interface_index].dimm_config_table[0], 0))
-	{
-	    ddr_config_valid_mask |= (1 << interface_index);
-	}
-    }
-
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
-	int four_lmc_mode = 1;
-
-	if ((s = lookup_env_parameter("ddr_four_lmc")) != NULL)
-	    four_lmc_mode = strtoul(s, NULL, 0);
-
-	if (!four_lmc_mode) {
-	    puts("Forcing two-LMC Mode.\n");
-	    ddr_config_valid_mask &= ~(3<<2); /* Invalidate LMC[2:3] */
-	}
-    }
-
-    if (!ddr_config_valid_mask) {
-	puts("ERROR: No valid DIMMs detected on any DDR interface.\n");
-	return -1;
     }
 
     /* We measure the DDR frequency by counting DDR clocks.  We can
