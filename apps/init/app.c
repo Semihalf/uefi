@@ -39,6 +39,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(TWSI);
     BDK_REQUIRE(USB);
     BDK_REQUIRE(ECAM);
+    BDK_REQUIRE(SGPIO);
     BDK_REQUIRE(DRIVER);
 
     BDK_REQUIRE(DRIVER_SMMU);
