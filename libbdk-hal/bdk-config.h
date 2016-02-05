@@ -115,6 +115,13 @@ typedef enum
     BDK_CONFIG_EYE_SAMPLE_TIME,     /* No parameters */
     BDK_CONFIG_EYE_SETTLE_TIME,     /* No parameters */
 
+    /* SGPIO */
+    BDK_CONFIG_SGPIO_SCLOCK_FREQ,   /* Parameters: Node */
+    BDK_CONFIG_SGPIO_PIN_POWER,     /* Parameters: Node */
+    BDK_CONFIG_SGPIO_PIN_SCLOCK,    /* Parameters: Node */
+    BDK_CONFIG_SGPIO_PIN_SLOAD,     /* Parameters: Node */
+    BDK_CONFIG_SGPIO_PIN_SDATAOUT,  /* Parameters: Node, Dataline */
+
     __BDK_CONFIG_END
 } bdk_config_t;
 

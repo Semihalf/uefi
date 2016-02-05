@@ -68,5 +68,12 @@ void register_cavium_config(lua_State* L)
     push_bdk_enum(BDK_CONFIG_EYE_ZEROS);
     push_bdk_enum(BDK_CONFIG_EYE_SAMPLE_TIME);
     push_bdk_enum(BDK_CONFIG_EYE_SETTLE_TIME);
+
+    /* SGPIO configuration */
+    push_bdk_enum(BDK_CONFIG_SGPIO_SCLOCK_FREQ);
+    push_bdk_enum(BDK_CONFIG_SGPIO_PIN_POWER);
+    push_bdk_enum(BDK_CONFIG_SGPIO_PIN_SCLOCK);
+    push_bdk_enum(BDK_CONFIG_SGPIO_PIN_SLOAD);
+    push_bdk_enum(BDK_CONFIG_SGPIO_PIN_SDATAOUT);
 }
 

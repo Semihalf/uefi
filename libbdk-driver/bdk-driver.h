@@ -9,6 +9,7 @@
  * @addtogroup driver
  * @{
  */
+#include "bdk-driver-sgpio.h"
 
 /**
  * Defines the main entry points for a device driver

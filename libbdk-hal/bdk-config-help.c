@@ -903,6 +903,22 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
     [BDK_CONFIG_EYE_SETTLE_TIME] =
             "Time to settle after each movement in microseconds. The\n"
             "default value should be good for most cases.",
+    /* SGPIO configuration */
+    [BDK_CONFIG_SGPIO_SCLOCK_FREQ] =
+            "Reference clock in Hz. CN88XX drives data on rising edges of this"
+            "clock, and the target latches data on the falling edges of this"
+            "clock. On reset CN88XX tristates SGPIO_SCLK. When not exchanging a"
+            "bit stream CN88XX keeps SGPIO_SCLK low.\n"
+            "  Min: 128 Hz\n"
+            "  Max: 100 kHz",
+    [BDK_CONFIG_SGPIO_PIN_POWER] =
+            "Output pin number for SGPIO controller power control.",
+    [BDK_CONFIG_SGPIO_PIN_SCLOCK] =
+            "Output pin number for SGPIO SCLOCK signal.",
+    [BDK_CONFIG_SGPIO_PIN_SLOAD] =
+            "Output pin number for SGPIO SLOAD signal.",
+    [BDK_CONFIG_SGPIO_PIN_SDATAOUT] =
+            "Output pin number for SGPIO SDATAOUT[n] signal. n = 0..3.",
     };
     return help[cfg_item];
 }

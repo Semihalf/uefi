@@ -596,6 +596,43 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 20, /* us */
         .max_value = 100000, /* us */
     },
+
+    /* SGPIO */
+    [BDK_CONFIG_SGPIO_SCLOCK_FREQ] = {
+        .format = "SGPIO-SCLOCK-FREQ.N%d",  /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 10000, /* Hz */
+        .min_value = 128, /* Hz */
+        .max_value = 100000, /* Hz */
+    },
+    [BDK_CONFIG_SGPIO_PIN_POWER] = {
+        .format = "SGPIO-PIN-POWER.N%d", /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = -1, /* GPIO number, or -1 for none */
+        .min_value = -1,
+        .max_value = 50,
+    },
+    [BDK_CONFIG_SGPIO_PIN_SCLOCK] = {
+        .format = "SGPIO-PIN-SCLOCK.N%d", /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = -1, /* GPIO number, or -1 for none */
+        .min_value = -1,
+        .max_value = 50,
+    },
+    [BDK_CONFIG_SGPIO_PIN_SLOAD] = {
+        .format = "SGPIO-PIN-SLOAD.N%d", /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = -1, /* GPIO number, or -1 for none */
+        .min_value = -1,
+        .max_value = 50,
+    },
+    [BDK_CONFIG_SGPIO_PIN_SDATAOUT] = {
+        .format = "SGPIO-PIN-SDATAOUT.N%d.D%d", /* Parameters: Node, Dataline */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = -1, /* GPIO number, or -1 for none */
+        .min_value = -1,
+        .max_value = 50,
+    },
 };
 
 /**
