@@ -56,7 +56,16 @@
 [PcdsFixedAtBuild.common]
   gMarvellTokenSpaceGuid.PcdI2cSlaveAddresses|{ 0 }|VOID*|0x40000005
   gMarvellTokenSpaceGuid.PcdEepromI2cAddresses|{ 0 }|VOID*|0x40000009
+  gMarvellTokenSpaceGuid.PcdMppSel0|{ 0 }|VOID*|0x40000010
+  gMarvellTokenSpaceGuid.PcdMppSel1|{ 0 }|VOID*|0x40000011
+  gMarvellTokenSpaceGuid.PcdMppSel2|{ 0 }|VOID*|0x40000012
+  gMarvellTokenSpaceGuid.PcdMppSel3|{ 0 }|VOID*|0x40000013
+  gMarvellTokenSpaceGuid.PcdMppSel4|{ 0 }|VOID*|0x40000014
+  gMarvellTokenSpaceGuid.PcdMppSel5|{ 0 }|VOID*|0x40000015
+  gMarvellTokenSpaceGuid.PcdMppSel6|{ 0 }|VOID*|0x40000016
+  gMarvellTokenSpaceGuid.PcdMppSetName|L""|VOID*|0x00000018
   gMarvellTokenSpaceGuid.PcdI2cBaseAddress|0|UINT64|0x135
+  gMarvellTokenSpaceGuid.PcdPinMuxBaseAddress|0|UINT64|0x1351
   gMarvellTokenSpaceGuid.PcdTclkFrequency|0|UINT32|0x137
 
 [Protocols]
