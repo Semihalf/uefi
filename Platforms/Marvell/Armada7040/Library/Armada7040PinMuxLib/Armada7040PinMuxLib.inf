@@ -13,11 +13,11 @@
 
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = Armada7040Lib
-  FILE_GUID                      = 3f29b642-4a49-4dfd-8f4a-205dd38432bb
+  BASE_NAME                      = Armada7040PinMuxLib
+  FILE_GUID                      = 3f19b642-4a49-4dfd-8f4a-205dd38432bb
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = ArmPlatformLib
+  LIBRARY_CLASS                  = PinMuxLib 
 
 [Packages]
   MdePkg/MdePkg.dec
@@ -30,18 +30,18 @@
   ArmLib
   DebugLib
   MemoryAllocationLib
-  PinMuxLib
+  PcdLib
+  IoLib
 
 [Sources.common]
-  Armada7040Lib.c
-  Armada7040LibMem.c
-
-[Sources.AArch64]
-  AArch64/ArmPlatformHelper.S
+  Armada7040PinMuxLib.c
 
 [FixedPcd]
-  gArmTokenSpaceGuid.PcdSystemMemoryBase
-  gArmTokenSpaceGuid.PcdSystemMemorySize
-
-  gArmTokenSpaceGuid.PcdArmPrimaryCoreMask
-  gArmTokenSpaceGuid.PcdArmPrimaryCore
+  gMarvellTokenSpaceGuid.PcdPinMuxBaseAddress
+  gMarvellTokenSpaceGuid.PcdMppSel0
+  gMarvellTokenSpaceGuid.PcdMppSel1
+  gMarvellTokenSpaceGuid.PcdMppSel2
+  gMarvellTokenSpaceGuid.PcdMppSel3
+  gMarvellTokenSpaceGuid.PcdMppSel4
+  gMarvellTokenSpaceGuid.PcdMppSel5
+  gMarvellTokenSpaceGuid.PcdMppSel6
