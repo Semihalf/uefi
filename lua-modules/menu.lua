@@ -33,7 +33,7 @@ local BANNER = "================================="
 local function set_item(m, key, description, func, ...)
     local item =  {key=key, description=description, func=func, args=table.pack(...)}
     for i = 1,#m.items do
-        if m.items[i].key == key then
+        if m.items[i].key == key and m.items[i].key ~= "" then
             m.items[i] = item
             return
         end
@@ -94,10 +94,14 @@ local function show(m, default_choice)
 
         -- print the menu, one item per line
         for i=1,#m.items do
-            if menu.show_keys then
-                printf("%8s) %s\n", m.items[i].key, m.items[i].description)
+            if m.items[i].key == "" then
+                printf("   %s\n", m.items[i].description)
             else
-                printf("%2d) %s\n", i, m.items[i].description)
+                if menu.show_keys then
+                    printf("%8s) %s\n", m.items[i].key, m.items[i].description)
+                else
+                    printf("%2d) %s\n", i, m.items[i].description)
+                end
             end
         end
 
@@ -107,7 +111,7 @@ local function show(m, default_choice)
         if response then
             if response == "keys" then
                 menu.show_keys = not menu.show_keys
-            elseif tonumber(response) then
+            elseif not menu.show_keys and tonumber(response) then
                 c = tonumber(response)
             else
                 for i = 1,#m.items do
@@ -134,7 +138,7 @@ local function show(m, default_choice)
                 return item.key
             end
         else
-            printf("Invalid choice. Choose a number from %d to %d\n", 1, #m.items)
+            print("Selection not valid. Please choose an entry from the list above.\n")
         end
     end
 end
