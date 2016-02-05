@@ -25,6 +25,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(FS_SATA);
     BDK_REQUIRE(FS_XMODEM);
     BDK_REQUIRE(GPIO);
+    BDK_REQUIRE(SGPIO);
     BDK_REQUIRE(KEY_MEMORY);
     BDK_REQUIRE(MDIO);
     BDK_REQUIRE(MPI);
