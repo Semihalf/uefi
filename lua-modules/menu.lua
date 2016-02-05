@@ -151,6 +151,7 @@ function menu.new(title)
     m.item = set_item
     m.show = show
     m.item_node = node_item
+    m.clear = function(m) m.items = {} end
     return m
 end
 
