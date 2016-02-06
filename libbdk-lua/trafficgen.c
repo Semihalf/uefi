@@ -916,6 +916,44 @@ static int get_config(lua_State* L)
     pushfield(do_checksum,          boolean);
     pushfield(display_packet,       boolean);
     pushfield(validate,             boolean);
+
+    lua_pushinteger(L, tg_port->handle->node);
+    lua_setfield (L, -2, "node");
+    /* serdes_map is a array (table startign at 1) containing a list
+       of all lanes used by this port. The format is "qlm,lane,qlm,lane,..." */
+    lua_newtable(L);
+    int qlm = bdk_if_get_qlm(tg_port->handle);
+    if (qlm != -1)
+    {
+        uint64_t mask = bdk_if_get_lane_mask(tg_port->handle);
+        int num_lanes = bdk_qlm_get_lanes(tg_port->handle->node, qlm);
+        int lane = 0;
+        int table_index = 1;
+        /* Loop until we've used all lanes */
+        while (mask)
+        {
+            if (mask & 1)
+            {
+                /* Add QLM and lane to serdes map */
+                lua_pushinteger(L, table_index++);
+                lua_pushinteger(L, qlm);
+                lua_settable(L, -3);
+                lua_pushinteger(L, table_index++);
+                lua_pushinteger(L, lane);
+                lua_settable(L, -3);
+            }
+            /* Move to next lane */
+            mask >>= 1;
+            lane++;
+            /* Check if port spans multiple QLMs */
+            if (lane >= num_lanes)
+            {
+                qlm++;
+                num_lanes = bdk_qlm_get_lanes(tg_port->handle->node, qlm);
+            }
+        }
+    }
+    lua_setfield(L, -2, "serdes_map");
     return 1;
 }
 
