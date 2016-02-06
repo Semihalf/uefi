@@ -650,3 +650,36 @@ int bdk_if_link_wait_all(uint64_t timeout_us)
 
     return 0;
 }
+
+/**
+ * Get the base QLM used by this handle. For network interfaces that uses QLMs,
+ * return the QLM number of lane 0. Note that some network interfaces span multiple
+ * QLM/DLM. This will return the lowest QLM/DLM number.
+ *
+ * @param handle Handle to query
+ *
+ * @return QLM/DLM number, or -1 if handle doesn't use SERDES
+ */
+int bdk_if_get_qlm(bdk_if_handle_t handle)
+{
+    return bdk_qlm_get(handle->node, handle->iftype, handle->interface, handle->index);
+}
+
+/**
+ * Get a mask of the QLM/DLM lanes used by this handle. A bit is set for each lane
+ * used by the interface. Some ports span multiple QLM/DLM. In this case the bits
+ * set will be wider than the QLM/DLM, signalling that the next QLM/DLM is needed
+ * too.
+ *
+ * @param handle Handle to query
+ *
+ * @return Lane mask, or zero if no SERDES lanes are used
+ */
+uint64_t bdk_if_get_lane_mask(bdk_if_handle_t handle)
+{
+    if (__bdk_if_ops[handle->iftype]->if_get_lane_mask)
+        return __bdk_if_ops[handle->iftype]->if_get_lane_mask(handle);
+    else
+        return 0;
+}
+

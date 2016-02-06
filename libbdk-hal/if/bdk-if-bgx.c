@@ -1536,6 +1536,40 @@ static int if_get_queue_depth(bdk_if_handle_t handle)
         return bdk_pko_get_queue_depth(handle);
 }
 
+/**
+ * Return the QLM/DLM lane mask used by the port. Bit 0 is lane 0 on the QLM/DLM
+ * return by bdk_if_get_qlm()
+ *
+ * @param handle Handle to query
+ *
+ * @return Mask of lanes in use
+ */
+static uint64_t if_get_lane_mask(bdk_if_handle_t handle)
+{
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    switch (priv->mode)
+    {
+        case BGX_MODE_SGMII:
+        case BGX_MODE_XFI:
+        case BGX_MODE_10G_KR:
+        {
+            BDK_CSR_INIT(cmrx, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, handle->index));
+            return 1ull << (cmrx.s.lane_to_sds & 3); /* One lane */
+        }
+        case BGX_MODE_RXAUI:
+        {
+            BDK_CSR_INIT(cmrx, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, handle->index));
+            return 3ull << (cmrx.s.lane_to_sds & 3); /* Two lanes */
+        }
+        case BGX_MODE_XAUI:
+        case BGX_MODE_DXAUI:
+        case BGX_MODE_XLAUI:
+        case BGX_MODE_40G_KR:
+            return 0xf; /* Four lanes */
+    }
+    return 0;
+}
+
 const __bdk_if_ops_t __bdk_if_ops_bgx = {
     .priv_size = sizeof(bgx_priv_t),
     .if_num_interfaces = if_num_interfaces,
@@ -1550,5 +1584,6 @@ const __bdk_if_ops_t __bdk_if_ops_bgx = {
     .if_loopback = if_loopback,
     .if_get_queue_depth = if_get_queue_depth,
     .if_get_stats = if_get_stats,
+    .if_get_lane_mask = if_get_lane_mask,
 };
 

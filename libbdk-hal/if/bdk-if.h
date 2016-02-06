@@ -177,6 +177,7 @@ typedef struct
     int (*if_transmit)(bdk_if_handle_t handle, const bdk_if_packet_t *packet); /* TX a packet */
     int (*if_loopback)(bdk_if_handle_t handle, bdk_if_loopback_t loopback); /* Configure loopback for the port */
     int (*if_get_queue_depth)(bdk_if_handle_t handle); /* Get the current TX queue depth */
+    uint64_t (*if_get_lane_mask)(bdk_if_handle_t handle); /* Get a mask of the QLM lanes used by this handle */
 } __bdk_if_ops_t;
 
 typedef struct
@@ -240,5 +241,27 @@ static inline void bdk_if_dispatch_packet(const bdk_if_packet_t *packet)
         receiver(packet, receiver_arg);
 }
 
+/**
+ * Get the base QLM used by this handle. For network interfaces that uses QLMs,
+ * return the QLM number of lane 0. Note that some network interfaces span multiple
+ * QLM/DLM. This will return the lowest QLM/DLM number.
+ *
+ * @param handle Handle to query
+ *
+ * @return QLM/DLM number, or -1 if handle doesn't use SERDES
+ */
+extern int bdk_if_get_qlm(bdk_if_handle_t handle);
+
+/**
+ * Get a mask of the QLM/DLM lanes used by this handle. A bit is set for each lane
+ * used by the interface. Some ports span multiple QLM/DLM. In this case the bits
+ * set will be wider than the QLM/DLM, signalling that the next QLM/DLM is needed
+ * too.
+ *
+ * @param handle Handle to query
+ *
+ * @return Lane mask, or zero if no SERDES lanes are used
+ */
+extern uint64_t bdk_if_get_lane_mask(bdk_if_handle_t handle);
 
 /** @} */
