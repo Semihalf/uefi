@@ -120,8 +120,7 @@ def wait_for_main_menu(cnx):
     cnx.match("usb) USB options")
     cnx.match("ilua) Interactive Lua prompt")
     cnx.match("tg) Traffic Generator")
-    cnx.match("burn) Burn power")
-    #cnx.match("throt) Set power throttle level")
+    cnx.match("burn) Power Burn options")
     # Extra output allowed here
     cnx.waitfor("ccpi) Test CCPI using internal loopback")
     cnx.match("rbt) Reboot")

@@ -111,6 +111,13 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_DRAM_TEST_NO_STATS);
     push_bdk_enum(BDK_DRAM_TEST_USE_CCPI);
 
+    /* Power burn constants */
+    push_bdk_enum(BDK_POWER_BURN_NONE);
+    push_bdk_enum(BDK_POWER_BURN_FULL);
+    push_bdk_enum(BDK_POWER_BURN_CYCLE_10MS);
+    push_bdk_enum(BDK_POWER_BURN_CYCLE_1S);
+    push_bdk_enum(BDK_POWER_BURN_CYCLE_5S);
+
     lua_pushnumber(L, bdk_numa_master());
     lua_setfield(L, -2, "MASTER_NODE");
 #endif

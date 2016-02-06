@@ -49,23 +49,6 @@ if cavium.is_platform(cavium.PLATFORM_EMULATOR) then
     do_trafficgen()
 end
 
-local function do_throttle()
-    local throttle = menu.prompt_number("Throttle level", 0xcc, 0, 0xff)
-    local node = cavium.MASTER_NODE
-    if cavium.c.bdk_numa_is_only_one() == 0 then
-        node = menu.prompt_number("Node to use", menu.node, 0, 3)
-    end
-    cavium.c.bdk_power_throttle(node, throttle)
-end
-
-local function do_burn()
-    local node = cavium.MASTER_NODE
-    if cavium.c.bdk_numa_is_only_one() == 0 then
-        node = menu.prompt_number("Node to use", menu.node, 0, 3)
-    end
-    cavium.c.bdk_power_burn(node)
-end
-
 local m = menu.new("Main Menu")
 m:item("cfg",   "Display current configuration", cavium.c.bdk_config_show)
 m:item("qlm",   "SERDES configuration",     menu.dofile, "qlm_menu")
@@ -81,11 +64,7 @@ m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")
 m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 m:item("tg",    "Traffic Generator",        do_trafficgen)
-m:item("burn",  "Burn power",               do_burn)
--- Disable on multi-node due to errata DAP-24000
-if (not cavium.is_model(cavium.CN88XXP1)) or (cavium.c.bdk_numa_is_only_one() == 1) then
-    m:item("throt", "Set power throttle level", do_throttle)
-end
+m:item("burn",  "Power Burn options",       menu.dofile, "power_burn_menu")
 -- Look for a custom board test file
 local board = cavium.c.bdk_config_get_str(cavium.CONFIG_BOARD_MODEL)
 local board_test_name = ("board-test-%s" % board):lower()

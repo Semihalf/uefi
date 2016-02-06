@@ -27,7 +27,7 @@ __bdk_power_burn:
     sub	    sp, sp, 8192
 
     adr		x20, data
-    mov		x0, 1<<31
+    mov		x0, 1<<15 /* About 1.9ms as 1Ghz */
 
     ldr		q0, [x20], #16
     ldr		q1, [x20], #16

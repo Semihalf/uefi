@@ -33,6 +33,7 @@
 #include "bdk-fpa.h"
 #include "bdk-pki.h"
 #include "bdk-pko.h"
+#include "bdk-power-burn.h"
 #include "bdk-sso.h"
 #include "bdk-nic.h"
 #include "bdk-key.h"
