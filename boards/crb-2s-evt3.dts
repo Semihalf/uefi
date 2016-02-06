@@ -7,6 +7,9 @@ cavium,bdk {
 	/* The 100Mhz reference clock was only supported on the EVT4 and later
 	designs. Override the setting of DDR-ALT-REFCLK for the EVT2 and EVT3 */
 	DDR-ALT-REFCLK = "0";
+
+	/* The boot stage to be loaded after init.bin has run. */
+	BDK-CONFIG-BOOT-NEXT-STAGE-INIT = "/fatfs/cortina-app.bin";
 };
 };
 

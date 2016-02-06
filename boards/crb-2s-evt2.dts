@@ -29,6 +29,9 @@ cavium,bdk {
 	during boot. This should be used in combination with the watchdog
 	timer. */
 	DDR-TEST-BOOT = "1";
+
+	/* The boot stage to be loaded after init.bin has run. */
+	BDK-CONFIG-BOOT-NEXT-STAGE-INIT = "/fatfs/cortina-app.bin";
 };
 };
 

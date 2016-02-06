@@ -495,8 +495,5 @@ cavium,bdk {
 	/* Time to settle after each movement in microseconds. The
 	default value should be good for most cases. */
 	//QLM-EYE-SETTLE-TIME = "0x32";
-
-	/* The boot stage to be loaded after init.bin has run. */
-	BDK-CONFIG-BOOT-NEXT-STAGE-INIT = "/fatfs/cortina-app.bin";
 }; /* cavium,bdk */
 }; /* / */
