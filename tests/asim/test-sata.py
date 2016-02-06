@@ -139,7 +139,8 @@ wait_for("20) Read  pattern 0x55")
 wait_for("21) Write pattern 0xaa")
 wait_for("22) Read  pattern 0xaa")
 wait_for("23) Run automated pattern test")
-wait_for("24) Main menu")
+wait_for("24) Run margining tool")
+wait_for("25) Main menu")
 wait_for("(INS)Menu choice []:")
 serial = 1
 sata_port = [0,1]
