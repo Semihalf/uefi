@@ -180,6 +180,16 @@ int bdk_qlm_margin_rx_set(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_margin
         c.s.pcs_sds_rx_os_mval = mvalbbd.s.rx_os_mvalbbd_2);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CFG_1(qlm, qlm_lane),
         c.s.pcs_sds_rx_os_men = 1);
+
+    /* Disable the DFE(s), gives a better eye measurement */
+    BDK_CSR_INIT(pwr_ctrl, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, qlm_lane));
+    if (!pwr_ctrl.s.rx_lctrl_ovrrd_en)
+    {
+        BDK_CSR_WRITE(node, BDK_GSERX_LANEX_RX_LOOP_CTRL(qlm, qlm_lane), 0xF1);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, qlm_lane),
+             c.s.rx_lctrl_ovrrd_en =  1);
+    }
+
     return 0;
 }
 
@@ -205,6 +215,9 @@ int bdk_qlm_margin_rx_restore(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_ma
     bdk_qlm_margin_rx_set(node, qlm, qlm_lane, margin_type, value);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CFG_1(qlm, qlm_lane),
         c.s.pcs_sds_rx_os_men = 0);
+    /* Enable the DFE(s) */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, qlm_lane),
+         c.s.rx_lctrl_ovrrd_en =  0);
     return 0;
 }
 
