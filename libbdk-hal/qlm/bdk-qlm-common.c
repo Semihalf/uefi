@@ -1335,7 +1335,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
                 if (mode == BDK_QLM_MODE_OCI)
                     swing = 0xc;
                 else
-                    swing = 0xa;
+                    swing = 0x12; /* Email from Brendan Metzner about RXAUI around 2/7/2016 */
             }
             else if (baud_mhz == 10312)
             {
@@ -1370,6 +1370,17 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
         int vboost = bdk_config_get_int(BDK_CONFIG_QLM_TUNING_TX_VBOOST, node, qlm, lane);
 
         __bdk_qlm_tune_lane_tx(node, qlm, lane, swing, tx_pre, tx_post, gain, vboost);
+
+        /* Email from Brendan Metzner about RXAUI around 2/7/2016 suggested the
+           following setting for RXAUI at 6.25G with both PHY or cable. I'm
+           applying it to all lanes running at 6.25G */
+        if (baud_mhz == 6250)
+        {
+            /* This is changing the Q/QB error sampler 0 threshold from 0xD
+                to 0xF */
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane),
+                c.s.cfg_rx_errdet_ctrl = 0xcf6f);
+        }
     }
 }
 
