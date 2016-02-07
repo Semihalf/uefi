@@ -67,82 +67,105 @@ loop2:
     ldr		d29, [x20], #8
     add         x11, x11, x12, ASR #7
     str		x12, [sp,#128]
+    fadd        v31.2d, v31.2d, v20.2d
 
     fmul	v22.2d, v2.2d, v3.2d
     ldr		d30, [x20], #8
     eor         x12, x12, x13, ASR #5
     str		x13, [sp,#272]
+    fadd        v31.2d, v31.2d, v21.2d
 
     fmul	v23.2d, v3.2d, v4.2d
-    ldr		d31, [x20], #8
+    ldr		d30, [x20], #8
     add         x13, x13, x10, ASR #1
     str		x10, [sp,#408]
+    fadd        v31.2d, v31.2d, v22.2d
 
     fmul	v20.2d, v4.2d, v5.2d
     ldr		d28, [x20], #8
     eor         x10, x10, x0, ASR #3
     str		x11, [sp,#544]
+    fadd        v31.2d, v31.2d, v23.2d
 
     fmul	v21.2d, v5.2d, v6.2d
     ldr		d29, [x20], #8
     add         x11, x11, x12, ASR #7
     str		x12, [sp,#680]
+    fadd        v31.2d, v31.2d, v20.2d
 
     fmul	v22.2d, v6.2d, v7.2d
     ldr		d30, [x20], #8
     eor         x12, x12, x13, ASR #5
     str		x13, [sp,#816]
+    fadd        v31.2d, v31.2d, v21.2d
 
     fmul	v23.2d, v7.2d, v8.2d
-    ldr		d31, [x20], #8
+    ldr		d30, [x20], #8
     add         x13, x13, x10, ASR #1
     str		x10, [sp,#952]
+    fadd        v31.2d, v31.2d, v22.2d
 
     fmul	v20.2d, v8.2d, v9.2d
     ldr		d28, [x20], #8
     eor         x10, x10, x0, ASR #3
     str		x11, [sp,#1088]
+    fadd        v31.2d, v31.2d, v23.2d
 
     fmul	v21.2d, v9.2d, v10.2d
     ldr		d29, [x20], #8
     add         x11, x11, x12, ASR #7
     str		x12, [sp,#1224]
+    fadd        v31.2d, v31.2d, v20.2d
 
     fmul	v22.2d, v10.2d, v11.2d
     ldr		d30, [x20], #8
     eor         x12, x12, x13, ASR #5
     str		x13, [sp,#1360]
+    fadd        v31.2d, v31.2d, v21.2d
 
     fmul	v23.2d, v11.2d, v12.2d
-    ldr		d31, [x20], #8
+    ldr		d30, [x20], #8
     add         x13, x13, x10, ASR #1
     str		x10, [sp,#1496]
+    fadd        v31.2d, v31.2d, v22.2d
 
     fmul	v20.2d, v12.2d, v13.2d
     ldr		d28, [x20], #8
     eor         x10, x10, x0, ASR #3
     str		x11, [sp,#1632]
+    fadd        v31.2d, v31.2d, v23.2d
 
     fmul	v21.2d, v13.2d, v14.2d
     ldr		d29, [x20], #8
     add         x11, x11, x12, ASR #7
     str		x12, [sp,#24]
+    fadd        v31.2d, v31.2d, v20.2d
 
     fmul	v22.2d, v14.2d, v15.2d
     ldr		d30, [x20], #8
     eor         x12, x12, x13, ASR #5
     str		x13, [sp,#24]
+    fadd        v31.2d, v31.2d, v21.2d
 
     fmul	v23.2d, v15.2d, v0.2d
-    ldr		d31, [x20], #8
+    ldr		d30, [x20], #8
     add         x13, x13, x10, ASR #1
     str		x10, [sp,#24]
-
+    fadd        v31.2d, v31.2d, v22.2d
 
     adr		x20, data
     subs	x0, x0, #1
+    fadd        v31.2d, v31.2d, v23.2d
     b.ne	loop2
-    mrs		x0, s3_0_c11_c0_2
+
+    adr         x20, correct    /* Address of correct result */
+    fmov        x1, d31         /* Load low part in X1 */
+    ldr         x0, [x20]       /* Load correct low part in X0 */
+    fmov        x3, v31.d[1]    /* Load high part in X3 */
+    ldr         x2, [x20, 8]    /* Load correct high part in X2 */
+    eor         x0, x0, x1      /* XOR low with correct */
+    eor         x2, x2, x3      /* XOR high with correct */
+    orr         x0, x0, x2      /* OR together, result should be zero */
 
     add	    sp, sp, 8192
     ldp     x12, x13, [sp], #16
@@ -431,4 +454,7 @@ loop2:
 .quad 0xC2402DB651DA5E86
 .quad 0x40C56DC8D0F71F27
 
+correct:
+.quad 0x47a94950e70e8b67 /* low */
+.quad 0xc7516cdcc7d411f4 /* high */
 

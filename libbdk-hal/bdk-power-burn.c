@@ -14,20 +14,21 @@ static void power_thread(int unused1, void *unused2)
     uint64_t second = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME);
     while (1)
     {
+        uint64_t result = 0;
         bdk_power_burn_type_t burn_type = (volatile bdk_power_burn_type_t)global_burn_type;
         switch (burn_type)
         {
             case BDK_POWER_BURN_NONE:        /* Disable power burn */
                 return;
             case BDK_POWER_BURN_FULL:        /* Continuously burn power */
-                __bdk_power_burn();
+                result = __bdk_power_burn();
                 break;
             case BDK_POWER_BURN_CYCLE_10MS:  /* Cycle: Burn for 10ms, idle for 10ms */
             {
                 uint64_t wall = bdk_clock_get_count(BDK_CLOCK_TIME);
                 wall /= second / 100;
                 if (wall & 1)
-                    __bdk_power_burn();
+                    result = __bdk_power_burn();
                 break;
             }
             case BDK_POWER_BURN_CYCLE_1S:    /* Cycle: Burn for 1s, idle for 1s */
@@ -35,7 +36,7 @@ static void power_thread(int unused1, void *unused2)
                 uint64_t wall = bdk_clock_get_count(BDK_CLOCK_TIME);
                 wall /= second;
                 if (wall & 1)
-                    __bdk_power_burn();
+                    result = __bdk_power_burn();
                 break;
             }
             case BDK_POWER_BURN_CYCLE_5S:    /* Cycle: Burn for 5s, idle for 5s */
@@ -43,10 +44,12 @@ static void power_thread(int unused1, void *unused2)
                 uint64_t wall = bdk_clock_get_count(BDK_CLOCK_TIME);
                 wall /= second * 5;
                 if (wall & 1)
-                    __bdk_power_burn();
+                    result = __bdk_power_burn();
                 break;
             }
         }
+        if (result != 0)
+            bdk_fatal("N%d.CPU%d: Power burn self check failed\n", bdk_numa_local(), bdk_get_core_num());
         bdk_thread_yield();
     }
 }
