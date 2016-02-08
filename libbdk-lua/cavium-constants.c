@@ -117,6 +117,8 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_POWER_BURN_CYCLE_10MS);
     push_bdk_enum(BDK_POWER_BURN_CYCLE_1S);
     push_bdk_enum(BDK_POWER_BURN_CYCLE_5S);
+    push_bdk_enum(BDK_POWER_BURN_CYCLE_1M);
+    push_bdk_enum(BDK_POWER_BURN_CYCLE_5M);
 
     lua_pushnumber(L, bdk_numa_master());
     lua_setfield(L, -2, "MASTER_NODE");

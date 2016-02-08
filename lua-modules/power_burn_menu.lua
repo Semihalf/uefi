@@ -17,6 +17,8 @@ repeat
     m:item("10ms", "Cycle 10ms power burn, 10ms idle", cavium.c.bdk_power_burn, menu.node, cavium.POWER_BURN_CYCLE_10MS)
     m:item("1s", "Cycle 1s power burn, 1s idle", cavium.c.bdk_power_burn, menu.node, cavium.POWER_BURN_CYCLE_1S)
     m:item("5s", "Cycle 5s power burn, 5s idle", cavium.c.bdk_power_burn, menu.node, cavium.POWER_BURN_CYCLE_5S)
+    m:item("1m", "Cycle 1m power burn, 1m idle", cavium.c.bdk_power_burn, menu.node, cavium.POWER_BURN_CYCLE_1M)
+    m:item("5m", "Cycle 5m power burn, 5m idle", cavium.c.bdk_power_burn, menu.node, cavium.POWER_BURN_CYCLE_5M)
     -- Disable on multi-node due to errata DAP-24000
     if (not cavium.is_model(cavium.CN88XXP1)) or (cavium.c.bdk_numa_is_only_one() == 1) then
         m:item("throt", "Set power throttle level", do_throttle)

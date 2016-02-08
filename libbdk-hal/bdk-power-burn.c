@@ -47,6 +47,22 @@ static void power_thread(int unused1, void *unused2)
                     result = __bdk_power_burn();
                 break;
             }
+            case BDK_POWER_BURN_CYCLE_1M:    /* Cycle: Burn for 1m, idle for 1m */
+            {
+                uint64_t wall = bdk_clock_get_count(BDK_CLOCK_TIME);
+                wall /= second * 60;
+                if (wall & 1)
+                    result = __bdk_power_burn();
+                break;
+            }
+            case BDK_POWER_BURN_CYCLE_5M:    /* Cycle: Burn for 5m, idle for 5m */
+            {
+                uint64_t wall = bdk_clock_get_count(BDK_CLOCK_TIME);
+                wall /= second * 300;
+                if (wall & 1)
+                    result = __bdk_power_burn();
+                break;
+            }
         }
         if (result != 0)
             bdk_fatal("N%d.CPU%d: Power burn self check failed\n", bdk_numa_local(), bdk_get_core_num());
