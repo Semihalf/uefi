@@ -1,0 +1,21 @@
+MPP configuration
+-----------------
+Multii-Purpose Ports (MPP) are configurable through platform PCDs.
+In order to set desired pin multiplexing, .dsc file needs to be modificated.
+Following PCDs are available:
+
+gMarvellTokenSpaceGuid.PcdMppSel0
+gMarvellTokenSpaceGuid.PcdMppSel1
+gMarvellTokenSpaceGuid.PcdMppSel2
+gMarvellTokenSpaceGuid.PcdMppSel3
+gMarvellTokenSpaceGuid.PcdMppSel4
+gMarvellTokenSpaceGuid.PcdMppSel5
+gMarvellTokenSpaceGuid.PcdMppSel6
+
+These mirror registers in hardware. Every register defines functions
+of 8 pins in ascending order.
+
+Examples
+--------
+Set pin 8 and 9 to 0xa function:
+  gMarvellTokenSpaceGuid.PcdMppSel1|{ 0xa, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
