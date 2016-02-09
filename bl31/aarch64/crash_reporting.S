@@ -321,8 +321,13 @@ func do_crash_reporting
 	mrs	x9, tpidr_el1
 	mrs	x10, tpidr_el0
 	mrs	x11, tpidrro_el0
+#ifdef NO_AARCH32_EL2
+	mov	x12, 0
+	mov	x13, 0
+#else
 	mrs	x12, dacr32_el2
 	mrs	x13, ifsr32_el2
+#endif
 	mrs	x14, par_el1
 	mrs	x15, mpidr_el1
 	bl	str_in_crash_buf_print
@@ -336,7 +341,11 @@ func do_crash_reporting
 	mrs	x15, cntv_cval_el0
 	bl	str_in_crash_buf_print
 	mrs	x8, cntkctl_el1
+#ifdef NO_AARCH32_EL2
+	mov	x9, 0
+#else
 	mrs	x9, fpexc32_el2
+#endif
 	mrs	x10, sp_el0
 	bl	str_in_crash_buf_print
 

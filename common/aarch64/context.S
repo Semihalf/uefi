@@ -29,6 +29,7 @@
  */
 
 #include <arch.h>
+#include <platform_def.h>
 #include <asm_macros.S>
 #include <context.h>
 
@@ -93,8 +94,13 @@ func el1_sysregs_context_save
 	mrs	x10, tpidrro_el0
 	stp	x9, x10, [x0, #CTX_TPIDR_EL0]
 
+#ifdef NO_AARCH32_EL2
+	mov	x11, 0
+	mov	x12, 0
+#else
 	mrs	x11, dacr32_el2
 	mrs	x12, ifsr32_el2
+#endif
 	stp	x11, x12, [x0, #CTX_DACR32_EL2]
 
 	mrs	x13, par_el1
@@ -123,7 +129,11 @@ func el1_sysregs_context_save
 	str	x14, [x0, #CTX_CNTKCTL_EL1]
 #endif
 
+#ifdef NO_AARCH32_EL2
+	mov	x15, 0
+#else
 	mrs	x15, fpexc32_el2
+#endif
 	str	x15, [x0, #CTX_FP_FPEXC32_EL2]
 
 	ret
@@ -180,8 +190,10 @@ func el1_sysregs_context_restore
 	msr	tpidrro_el0, x10
 
 	ldp	x11, x12, [x0, #CTX_DACR32_EL2]
+#ifndef NO_AARCH32_EL2
 	msr	dacr32_el2, x11
 	msr	ifsr32_el2, x12
+#endif
 
 	ldp	x13, x14, [x0, #CTX_PAR_EL1]
 	msr	par_el1, x13
@@ -210,7 +222,9 @@ func el1_sysregs_context_restore
 #endif
 
 	ldr	x15, [x0, #CTX_FP_FPEXC32_EL2]
+#ifndef NO_AARCH32_EL2
 	msr	fpexc32_el2, x15
+#endif
 
 	/* No explict ISB required here as ERET covers it */
 
