@@ -6926,9 +6926,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         interfaces = __builtin_popcount(ddr_interface_mask);
 
+#define VREF_RANGE1_LIMIT 0x33 // range1 is valid for 0x00 - 0x32
+#define VREF_RANGE2_LIMIT 0x18 // range2 is valid for 0x00 - 0x17
+// full window is valid for 0x00 to 0x4A
+// let 0x00 - 0x17 be range2, 0x18 - 0x4a be range 1
+#define VREF_LIMIT        (VREF_RANGE1_LIMIT + VREF_RANGE2_LIMIT)
+#define VREF_FINAL        (VREF_LIMIT - 1)
+
         for (rankx = 0; rankx < dimm_count * 4; rankx++) {
             uint64_t rank_addr;
-            int vref_value, final_vref_value;
+            int vref_value, final_vref_value, final_vref_range = 0;
 	    int start_vref_value = 0, computed_final_vref_value = -1;
             char best_vref_values_count, vref_values_count;
             char best_vref_values_start, vref_values_start;
@@ -6950,7 +6957,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 							       dimm_count, num_ranks, imp_values,
 							       is_stacked_die);
 		if (!measured_vref_flag) // but only use it if allowed
-		    start_vref_value = 0x33; // skip all the measured Vref processing, just the final setting
+		    start_vref_value = VREF_FINAL; // skip all the measured Vref processing, just the final setting
 	    }
 
             /* Save off the h/w wl results */
@@ -6962,11 +6969,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             best_vref_values_start = 0;
 
             /* Loop one extra time using the Final Vref value. */
-            for (vref_value = start_vref_value; vref_value < (0x33+1); ++vref_value) {
+            for (vref_value = start_vref_value; vref_value < VREF_LIMIT; ++vref_value) {
                 if (ddr_type == DDR4_DRAM) {
-                    if (vref_value < 0x33) {
-		        set_vref(node, ddr_interface_num, rankx, 0, vref_value);
-                    } else { /* if (vref_value < 0x33) */
+                    if (vref_value < VREF_FINAL) {
+                        int vrange, vvalue;
+                        if (vref_value < VREF_RANGE2_LIMIT) {
+                            vrange = 1; vvalue = vref_value;
+                        } else {
+                            vrange = 0; vvalue = vref_value - VREF_RANGE2_LIMIT;
+                        }
+		        set_vref(node, ddr_interface_num, rankx,
+                                 vrange, vvalue);
+                    } else { /* if (vref_value < VREF_FINAL) */
                         /* Print the final Vref value first. */
 
 			/* Always print the computed first if its valid */
@@ -6983,24 +6997,60 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			} else { // setup to use the measured
 			    if (best_vref_values_count > 0) {
 				best_vref_values_count = max(best_vref_values_count, 2);
+#if 0
+                                // NOTE: this already adjusts VREF via calculating 40% rather than 50%
 				final_vref_value = best_vref_values_start + divide_roundup((best_vref_values_count-1)*4,10);
-
 				ddr_print("N%d.LMC%d.R%d: Vref Training Summary                 :"
 					  "    %2d <----- %2d (0x%02x) -----> %2d range: %2d\n",
 					  node, ddr_interface_num, rankx, best_vref_values_start,
 					  final_vref_value, final_vref_value,
 					  best_vref_values_start+best_vref_values_count-1,
 					  best_vref_values_count-1);
+#else
+				final_vref_value = best_vref_values_start + divide_nint(best_vref_values_count - 1, 2);
+                                if (final_vref_value < VREF_RANGE2_LIMIT) {
+                                    final_vref_range = 1;
+                                } else {
+                                    final_vref_range = 0; final_vref_value -= VREF_RANGE2_LIMIT;
+                                }
+                                {
+                                    int vvlo = best_vref_values_start;
+                                    int vrlo;
+                                    if (vvlo < VREF_RANGE2_LIMIT) {
+                                        vrlo = 2;
+                                    } else {
+                                        vrlo = 1; vvlo -= VREF_RANGE2_LIMIT;
+                                    }
+                                    
+                                    int vvhi = best_vref_values_start + best_vref_values_count - 1;
+                                    int vrhi;
+                                    if (vvhi < VREF_RANGE2_LIMIT) {
+                                        vrhi = 2;
+                                    } else {
+                                        vrhi = 1; vvhi -= VREF_RANGE2_LIMIT;
+                                    }
+                                    ddr_print("N%d.LMC%d.R%d: Vref Training Summary                 :"
+                                              "  0x%02x/%1d <----- 0x%02x/%1d -----> 0x%02x/%1d, range: %2d\n",
+                                              node, ddr_interface_num, rankx,
+                                              vvlo, vrlo,
+                                              final_vref_value, final_vref_range + 1,
+                                              vvhi, vrhi,
+                                              best_vref_values_count-1);
+                                }
+#endif
+
 			    } else {
 				/* If nothing passed use the default Vref value for this rank */
 				bdk_lmcx_modereg_params2_t lmc_modereg_params2;
 				lmc_modereg_params2.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS2(ddr_interface_num));
 				final_vref_value = (lmc_modereg_params2.u >> (rankx * 10 + 3)) & 0x3f;
+				final_vref_range = (lmc_modereg_params2.u >> (rankx * 10 + 9)) & 0x01;
 
 				ddr_print("N%d.LMC%d.R%d: Vref Using Default                    :"
-					  "    %2d <----- %2d (0x%02x) -----> %2d range: %2d\n",
-					  node, ddr_interface_num, rankx, final_vref_value,
-					  final_vref_value, final_vref_value, final_vref_value, 1);
+					  "    %2d <----- %2d (0x%02x) -----> %2d, range%1d\n",
+					  node, ddr_interface_num, rankx,
+                                          final_vref_value, final_vref_value, 
+					  final_vref_value, final_vref_value, final_vref_range+1);
 			    }
 			}
 
@@ -7010,9 +7060,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             final_vref_value = strtoul(s, NULL, 0);
                         }
 
-			set_vref(node, ddr_interface_num, rankx, 0, final_vref_value);
+			set_vref(node, ddr_interface_num, rankx, final_vref_range, final_vref_value);
 
-		    } /* if (vref_value < 0x33) */
+		    } /* if (vref_value < VREF_FINAL) */
                 } /* if (ddr_type == DDR4_DRAM) */
 
                 lmc_wlevel_rank.u = lmc_wlevel_rank_hw_results.u; /* Restore the saved value */
@@ -7225,7 +7275,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				node, ddr_interface_num,
 				rankx, vref_value);
                 }
-            } /* for (vref_value=0; vref_value<0x33; ++vref_value) */
+            } /* for (vref_value=0; vref_value<VREF_LIMIT; ++vref_value) */
 
 	    /* Determine address of DRAM to test for pass 2 and final test of software write leveling. */
 	    rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
