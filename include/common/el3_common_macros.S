@@ -239,7 +239,7 @@
 		bl	zeromem16
 #endif
 
-#if IMAGE_BL1
+#if IMAGE_BL1 && (__DATA_RAM_START__ != __DATA_ROM_START__)
 		ldr	x0, =__DATA_RAM_START__
 		ldr	x1, =__DATA_ROM_START__
 		ldr	x2, =__DATA_SIZE__
