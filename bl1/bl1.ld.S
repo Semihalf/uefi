@@ -35,7 +35,14 @@ OUTPUT_ARCH(PLATFORM_LINKER_ARCH)
 ENTRY(bl1_entrypoint)
 
 MEMORY {
+#ifdef BL1_RO_BASE
     ROM (rx): ORIGIN = BL1_RO_BASE, LENGTH = BL1_RO_LIMIT - BL1_RO_BASE
+#else
+#define ROM RAM
+#define BL1_RO_BASE BL1_RW_BASE
+#define BL1_RO_LIMIT BL1_RW_LIMIT
+#define BL1_ALL_IN_RAM
+#endif
     RAM (rwx): ORIGIN = BL1_RW_BASE, LENGTH = BL1_RW_LIMIT - BL1_RW_BASE
 }
 
@@ -67,6 +74,14 @@ SECTIONS
         __CPU_OPS_END__ = .;
 
         *(.vectors)
+#ifdef BL1_ALL_IN_RAM
+        /*
+         * Memory page(s) mapped to this section will be marked as
+         * read-only, executable.  No RW data from the next section must
+         * creep in.  Ensure the rest of the current memory page is unused.
+         */
+        . = NEXT(PAGE_SIZE);
+#endif
         __RO_END__ = .;
     } >ROM
 
@@ -78,7 +93,9 @@ SECTIONS
      * Its LMA must be 16-byte aligned.
      * Its VMA must be page-aligned as it marks the first read/write page.
      */
+#ifndef BL1_ALL_IN_RAM
     . = BL1_RW_BASE;
+#endif
     ASSERT(. == ALIGN(PAGE_SIZE),
            "BL1_RW_BASE address is not aligned on a page boundary.")
     .data . : ALIGN(16) {
