@@ -42,6 +42,28 @@
 	 */
 
 func bl1_entrypoint
+	/*
+	 * Relocate to the linker address
+	 */
+	ldr     x0, =bl1_entrypoint        /* linker address */
+	adr     x1, bl1_entrypoint /* get the loaded address  */
+	cmp     x0,x1
+	b.eq    reloc_end
+	ldr	x2, =__RO_START__
+	ldr	x3, =__DATA_RAM_END__
+	sub	x2, x3, x2 /* size of relocatable part */
+reloc_loop:
+	ldp     q0, q1, [x1], 32
+	subs    w2, w2, 32
+	stp     q0, q1, [x0], 32
+	b.gt    reloc_loop
+	dmb     sy
+	ldr     x0, =reloc_end
+	br      x0
+reloc_end:
+	/* flush cache */
+	ic      ialluis
+
 	/* ---------------------------------------------------------------------
 	 * If the reset address is programmable then bl1_entrypoint() is
 	 * executed only on the cold boot path. Therefore, we can skip the warm
