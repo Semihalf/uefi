@@ -36,7 +36,8 @@
 #include "fvp_private.h"
 
 
-void bl2_early_platform_setup(meminfo_t *mem_layout)
+void bl2_early_platform_setup(meminfo_t *mem_layout,
+				void *plat_params_from_bl1)
 {
 	arm_bl2_early_platform_setup(mem_layout);
 

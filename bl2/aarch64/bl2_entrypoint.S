@@ -43,8 +43,9 @@ func bl2_entrypoint
 	 * available to BL2 for future use.
 	 * x0 is not currently used.
 	 * ---------------------------------------------
- 	 */
- 	mov	x20, x1
+	 */
+	mov	x20, x1
+	mov	x21, x2
 
 	/* ---------------------------------------------
 	 * Set the exception vector to something sane.
@@ -118,6 +119,7 @@ func bl2_entrypoint
 	 * ---------------------------------------------
 	 */
 	mov	x0, x20
+	mov	x1, x21
 	bl	bl2_early_platform_setup
 	bl	bl2_plat_arch_setup
 

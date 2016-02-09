@@ -127,7 +127,7 @@ __dead2 void bl1_plat_fwu_done(void *client_cookie, void *reserved);
 /*******************************************************************************
  * Mandatory BL2 functions
  ******************************************************************************/
-void bl2_early_platform_setup(struct meminfo *mem_layout);
+void bl2_early_platform_setup(struct meminfo *mem_layout, void *plat_params_from_bl1);
 void bl2_plat_arch_setup(void);
 void bl2_platform_setup(void);
 struct meminfo *bl2_plat_sec_mem_layout(void);

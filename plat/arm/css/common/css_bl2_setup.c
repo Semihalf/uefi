@@ -68,7 +68,8 @@ int bl2_plat_handle_scp_bl2(image_info_t *scp_bl2_image_info)
 
 static unsigned int scp_boot_config;
 
-void bl2_early_platform_setup(meminfo_t *mem_layout)
+void bl2_early_platform_setup(meminfo_t *mem_layout,
+				void *plat_params_from_bl1)
 {
 	arm_bl2_early_platform_setup(mem_layout);
 
