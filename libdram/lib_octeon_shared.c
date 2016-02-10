@@ -125,10 +125,13 @@ static int init_octeon_dram_interface(bdk_node_t node,
 				      uint32_t ddr_interface_mask)
 {
     uint32_t mem_size_mbytes = 0;
+    int lmc_restart_retries = 0;
 
     const char *s;
     if ((s = lookup_env_parameter("ddr_timing_hertz")) != NULL)
 	ddr_hertz = strtoul(s, NULL, 0);
+
+ restart_lmc_init:
 
     /* Poke the watchdog timer so it doesn't expire during DRAM init */
     bdk_watchdog_poke();
@@ -143,6 +146,23 @@ static int init_octeon_dram_interface(bdk_node_t node,
 						  board_rev_min,
 						  ddr_interface_num,
 						  ddr_interface_mask);
+#define DEFAULT_RESTART_RETRIES 3
+    if (mem_size_mbytes == 0) { // means restart is possible
+        if (lmc_restart_retries < DEFAULT_RESTART_RETRIES) {
+            lmc_restart_retries++;
+            error_print("N%d.LMC%d Configuration problem: attempting LMC reset and init restart %d\n",
+                        node, ddr_interface_num, lmc_restart_retries);
+            // re-assert RESET first, as that is the assumption of the init code
+            cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_ASSERT);
+            goto restart_lmc_init;
+        } else {
+            error_print("INFO: N%d.LMC%d Configuration: fatal problem remains after %d LMC init retries - Resetting node...\n",
+                        node, ddr_interface_num, lmc_restart_retries);
+            bdk_wait_usec(500000);
+            bdk_reset_chip(node);
+        }
+    }
+
     error_print("N%d.LMC%d Configuration Completed: %d MB\n",
                 node, ddr_interface_num, mem_size_mbytes);
     return mem_size_mbytes;
@@ -743,9 +763,7 @@ static void cn78xx_lmc_dreset_init (bdk_node_t node, int ddr_interface_num)
         bdk_wait_usec(1);
 }
 
-#define LMC_DDR3_RESET_ASSERT   0
-#define LMC_DDR3_RESET_DEASSERT 1
-static void cn88xx_lmc_ddr3_reset(bdk_node_t node, int ddr_interface_num, int reset)
+/*static*/ void cn88xx_lmc_ddr3_reset(bdk_node_t node, int ddr_interface_num, int reset)
 {
     /*
      * 4. Deassert DDRn_RESET_L pin by writing LMC(0..3)_RESET_CTL[DDR3RST] = 1
@@ -1471,73 +1489,76 @@ int initialize_ddr_clock(bdk_node_t node,
             }
         } /* Do this once */
 
-
-        /*
-         * 6.9.6 LMC RESET Initialization
-         *
-         * The purpose of this step is to assert/deassert the RESET# pin at the
-         * DDR3/DDR4 parts.
-         *
-         * This LMC RESET step is done for all enabled LMCs.
-         *
-         * It may be appropriate to skip this step if the DDR3/DDR4 DRAM parts
-         * are in self refresh and are currently preserving their
-         * contents. (Software can determine this via
-         * LMC(0..3)_RESET_CTL[DDR3PSV] in some circumstances.) The remainder of
-         * this section assumes that the DRAM contents need not be preserved.
-         *
-         * The remainder of this section assumes that the CN78XX DDRn_RESET_L pin
-         * is attached to the RESET# pin of the attached DDR3/DDR4 parts, as will
-         * be appropriate in many systems.
-         *
-         * (In other systems, such as ones that can preserve DDR3/DDR4 part
-         * contents while CN78XX is powered down, it will not be appropriate to
-         * directly attach the CN78XX DDRn_RESET_L pin to DRESET# of the
-         * DDR3/DDR4 parts, and this section may not apply.)
-         *
-         * The remainder of this section describes the sequence for LMCn.
-         *
-         * Perform the following six substeps for LMC reset initialization:
-         *
-         * 1. If not done already, assert DDRn_RESET_L pin by writing
-         *    LMC(0..3)_RESET_ CTL[DDR3RST] = 0 without modifying any other
-         *    LMC(0..3)_RESET_CTL fields.
-         */
-
-        if ( !ddr_memory_preserved(node)) {
-            /*
-             * 2. Read LMC(0..3)_RESET_CTL and wait for the result.
-             */
-
-            BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
-
-            /*
-             * 3. Wait until RESET# assertion-time requirement from JEDEC DDR3/DDR4
-             *    specification is satisfied (200 us during a power-on ramp, 100ns when
-             *    power is already stable).
-             */
-
-            bdk_wait_usec(200);
-
-            /*
-             * 4. Deassert DDRn_RESET_L pin by writing LMC(0..3)_RESET_CTL[DDR3RST] = 1
-             *    without modifying any other LMC(0..3)_RESET_CTL fields.
-             * 5. Read LMC(0..3)_RESET_CTL and wait for the result.
-             * 6. Wait a minimum of 500us. This guarantees the necessary T = 500us
-             *    delay between DDRn_RESET_L deassertion and DDRn_DIMM*_CKE* assertion.
-             */
-	    cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_DEASSERT);
-
-            /* Toggle Reset Again */
-	    /* That is, assert, then de-assert, one more time */
-	    cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_ASSERT);
-	    cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_DEASSERT);
-
-        } /* if ( !ddr_memory_preserved(node)) */
     } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) */
 
     set_ddr_clock_initialized(node, ddr_interface_num, 1);
     return(0);
+}
+void
+perform_lmc_reset(bdk_node_t node, int ddr_interface_num)
+{
+    /*
+     * 6.9.6 LMC RESET Initialization
+     *
+     * The purpose of this step is to assert/deassert the RESET# pin at the
+     * DDR3/DDR4 parts.
+     *
+     * This LMC RESET step is done for all enabled LMCs.
+     *
+     * It may be appropriate to skip this step if the DDR3/DDR4 DRAM parts
+     * are in self refresh and are currently preserving their
+     * contents. (Software can determine this via
+     * LMC(0..3)_RESET_CTL[DDR3PSV] in some circumstances.) The remainder of
+     * this section assumes that the DRAM contents need not be preserved.
+     *
+     * The remainder of this section assumes that the CN78XX DDRn_RESET_L pin
+     * is attached to the RESET# pin of the attached DDR3/DDR4 parts, as will
+     * be appropriate in many systems.
+     *
+     * (In other systems, such as ones that can preserve DDR3/DDR4 part
+     * contents while CN78XX is powered down, it will not be appropriate to
+     * directly attach the CN78XX DDRn_RESET_L pin to DRESET# of the
+     * DDR3/DDR4 parts, and this section may not apply.)
+     *
+     * The remainder of this section describes the sequence for LMCn.
+     *
+     * Perform the following six substeps for LMC reset initialization:
+     *
+     * 1. If not done already, assert DDRn_RESET_L pin by writing
+     *    LMC(0..3)_RESET_ CTL[DDR3RST] = 0 without modifying any other
+     *    LMC(0..3)_RESET_CTL fields.
+     */
+
+    if ( !ddr_memory_preserved(node)) {
+        /*
+         * 2. Read LMC(0..3)_RESET_CTL and wait for the result.
+         */
+
+        BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
+
+        /*
+         * 3. Wait until RESET# assertion-time requirement from JEDEC DDR3/DDR4
+         *    specification is satisfied (200 us during a power-on ramp, 100ns when
+         *    power is already stable).
+         */
+
+        bdk_wait_usec(200);
+
+        /*
+         * 4. Deassert DDRn_RESET_L pin by writing LMC(0..3)_RESET_CTL[DDR3RST] = 1
+         *    without modifying any other LMC(0..3)_RESET_CTL fields.
+         * 5. Read LMC(0..3)_RESET_CTL and wait for the result.
+         * 6. Wait a minimum of 500us. This guarantees the necessary T = 500us
+         *    delay between DDRn_RESET_L deassertion and DDRn_DIMM*_CKE* assertion.
+         */
+        cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_DEASSERT);
+
+        /* Toggle Reset Again */
+        /* That is, assert, then de-assert, one more time */
+        cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_ASSERT);
+        cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_DEASSERT);
+
+    } /* if ( !ddr_memory_preserved(node)) */
 }
 
 uint32_t measure_octeon_ddr_clock(bdk_node_t node,

@@ -2496,7 +2496,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int ddr4_tCCD_Lmin;
     impedence_values_t *imp_values;
     int default_rodt_ctl;
-    int ddr_disable_deskew_fail_reset = 1; // default to disabled (ie, no chip reset)
+    // default to disabled (ie, LMC restart, not chip reset)
+    int ddr_disable_chip_reset = 1;
 
 #if SWL_TRY_HWL_ALT
     typedef struct {
@@ -2521,8 +2522,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
     // allow some overrides to be done
-    if ((s = lookup_env_parameter("ddr_disable_deskew_fail_reset")) != NULL) {
-        ddr_disable_deskew_fail_reset = !!strtoul(s, NULL, 0);
+
+    // this one controls whether chip RESET is done, or LMC init restarted from step 6.9.6
+    if ((s = lookup_env_parameter("ddr_disable_chip_reset")) != NULL) {
+        ddr_disable_chip_reset = !!strtoul(s, NULL, 0);
     }
     // this one is in Validate_Deskew_Training and controls a preliminary delay
     if ((s = lookup_env_parameter("ddr_deskew_validation_delay")) != NULL) {
@@ -2593,7 +2596,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
     if (ddr_interface_64b == 0) {
-        error_print("32-bit interface width is not supported for this Octeon model\n");
+        error_print("32-bit interface width is not supported for this Thunder model\n");
         ++fatal_error;
     }
 
@@ -3106,6 +3109,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     if (fatal_error)
         return(-1);
 
+    /*
+     * 6.9.6 LMC RESET Initialization
+     *
+     * The purpose of this step is to assert/deassert the RESET# pin at the
+     * DDR3/DDR4 parts.
+     *
+     * This LMC RESET step is done for all enabled LMCs.
+     */
+    perform_lmc_reset(node, ddr_interface_num);
+
     {
         bdk_lmcx_control_t lmc_control;
         bdk_lmcx_scramble_cfg0_t lmc_scramble_cfg0;
@@ -3169,7 +3182,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #define DDR4_tDLLK         768        /* 768 nCK */
 
      /*
-     * 4.8.5 Early LMC Initialization
+     * 6.9.7 Early LMC Initialization
      * 
      * All of DDR PLL, LMC CK, and LMC DRESET initializations must be
      * completed prior to starting this LMC initialization sequence.
@@ -4385,7 +4398,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     //int offset_vref_training_loops = 2;
     //while (--offset_vref_training_loops) {
     /*
-     * 4.8.6 LMC Offset Training
+     * 6.9.8 LMC Offset Training
      * 
      * LMC requires input-receiver offset training.
      * 
@@ -4432,7 +4445,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
  perform_internal_vref_training:
     /*
-     * 4.8.7 LMC Internal Vref Training
+     * 6.9.9 LMC Internal Vref Training
      * 
      * LMC requires input-reference-voltage training.
      * 
@@ -4479,6 +4492,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     //} /* while (--offset_vref_training_loops) */
 
+    /*
+     * 6.9.10 LMC Deskew Training
+     */
     deskew_training_errors = Perform_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB, 0);
 
     // All the Deskew lock and saturation retries (may) have been done,
@@ -4491,20 +4507,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		      node, ddr_interface_num, internal_retries);
 	    goto perform_internal_vref_training;
 	} else {
-	    VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew training results still unsettled - retries exhausted (%d)\n",
+	    VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew training incomplete - %d retries exhausted, but continuing...\n",
 		      node, ddr_interface_num, internal_retries);
-	    // bypass chip reset when deskew retries fail because of nibble errors
-	    if (!ddr_disable_deskew_fail_reset) {
-		// if we cannot get past here, reset the node
-		error_print("INFO: Deskew training results still unsettled, need retry on N%d.LMC%d. Resetting node...\n",
-			    node, ddr_interface_num);
-		bdk_wait_usec(500000);
-		bdk_reset_chip(node);
-	    } else {
-		// should this only print out when VERBOSE?
-		VB_PRT(VBL_FAE, "NOTICE: Deskew training results still unsettled on N%d.LMC%d, but continuing...\n",
-			  node, ddr_interface_num);
-	    }
 	}
     }
 
@@ -4665,7 +4669,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
     /*
-     * 4.8.9 LMC Write Leveling
+     * 6.9.11 LMC Write Leveling
      * 
      * LMC supports an automatic write leveling like that described in the
      * JEDEC DDR3 specifications separately per byte-lane.
@@ -5341,7 +5345,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) */
 
     /*
-     * 4.8.10 LMC Read Leveling
+     * 6.9.12 LMC Read Leveling
      * 
      * LMC supports an automatic read-leveling separately per byte-lane using
      * the DDR3 multipurpose register predefined pattern for system
@@ -6855,6 +6859,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
     }
 
+    /*
+     * 6.9.13 DRAM Vref Training for DDR4
+     *
+     * This includes software write-leveling
+     */
+
     { // Software Write-Leveling block
 
         /* Try to determine/optimize write-level delays experimentally. */
@@ -7472,12 +7482,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                       (sw_wl_rank_status == WL_HARDWARE) ? "" : "(s)"
                       );
 
-	    // finally, check that we should continue, otherwise chip reset here...
+	    // finally, check for fatal conditions: either chip reset right here, or return error flag
             if (((ddr_type == DDR4_DRAM) && (best_vref_values_count == 0)) || sw_wl_failed) {
-                error_print("INFO: Short memory test indicates a retry is needed on N%d.LMC%d.R%d. Resetting node...\n",
-			    node, ddr_interface_num, rankx);
-                bdk_wait_usec(500000);
-                bdk_reset_chip(node);
+                if (!ddr_disable_chip_reset) { // do chip RESET
+                    error_print("INFO: Short memory test indicates a retry is needed on N%d.LMC%d.R%d. Resetting node...\n",
+                                node, ddr_interface_num, rankx);
+                    bdk_wait_usec(500000);
+                    bdk_reset_chip(node);
+                } else { // return error flag so LMC init can be retried...
+                    error_print("INFO: Short memory test indicates a retry is needed on N%d.LMC%d.R%d. Restarting LMC init...\n",
+                                node, ddr_interface_num, rankx);
+                    return 0; // 0 indicates restart possible...
+                }
             }
 
             active_rank++;
@@ -7614,7 +7630,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			       custom_lmc_config->dll_read_offset,  "ddr%d_dll_read_offset_byte%d",  2);
 
     /*
-     * 4.8.11 Final LMC Initialization
+     * 6.9.14 Final LMC Initialization
      * 
      * Early LMC initialization, LMC write-leveling, and LMC read-leveling
      * must be completed prior to starting this final LMC initialization.

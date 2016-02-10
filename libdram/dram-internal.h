@@ -144,5 +144,10 @@ extern int perform_HW_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, in
 
 extern int perform_margin_write_voltage(bdk_node_t node);
 extern int perform_margin_read_voltage(bdk_node_t node);
+
+#define LMC_DDR3_RESET_ASSERT   0
+#define LMC_DDR3_RESET_DEASSERT 1
+extern void cn88xx_lmc_ddr3_reset(bdk_node_t node, int ddr_interface_num, int reset);
+extern void perform_lmc_reset(bdk_node_t node, int ddr_interface_num);
 #endif /* __DRAM_INTERNAL_H__ */
 
