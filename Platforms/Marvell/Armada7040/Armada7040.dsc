@@ -408,6 +408,9 @@
       NULL|MdeModulePkg/Library/DxeCrc32GuidedSectionExtractLib/DxeCrc32GuidedSectionExtractLib.inf
   }
 
+# SPI
+  OpenPlatformPkg/Drivers/Spi/A8kSpiDxe.inf
+
   # Architectural Protocols DXE
   ArmPkg/Drivers/CpuDxe/CpuDxe.inf
   ArmPkg/Drivers/ArmGic/ArmGicDxe.inf
