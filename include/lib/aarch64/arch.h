@@ -37,8 +37,10 @@
  ******************************************************************************/
 #define MIDR_IMPL_MASK		0xff
 #define MIDR_IMPL_SHIFT		0x18
+#define MIDR_VAR_MASK		0xf
 #define MIDR_VAR_SHIFT		20
 #define MIDR_VAR_BITS		4
+#define MIDR_REV_MASK		0xf
 #define MIDR_REV_SHIFT		0
 #define MIDR_REV_BITS		4
 #define MIDR_PN_MASK		0xfff
@@ -49,6 +51,7 @@
  ******************************************************************************/
 #define MPIDR_CPU_MASK		MPIDR_AFFLVL_MASK
 #define MPIDR_CLUSTER_MASK	MPIDR_AFFLVL_MASK << MPIDR_AFFINITY_BITS
+#define MPIDR_NODE_MASK		MPIDR_AFFLVL_MASK << (2 * MPIDR_AFFINITY_BITS)
 #define MPIDR_AFFINITY_BITS	8
 #define MPIDR_AFFLVL_MASK	0xff
 #define MPIDR_AFF0_SHIFT	0
