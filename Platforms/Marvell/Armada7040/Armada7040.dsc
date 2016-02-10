@@ -410,6 +410,7 @@
 
 # SPI
   OpenPlatformPkg/Drivers/Spi/A8kSpiDxe.inf
+  OpenPlatformPkg/Drivers/Spi/Devices/A8kSpiFlash.inf
 
   # Architectural Protocols DXE
   ArmPkg/Drivers/CpuDxe/CpuDxe.inf
