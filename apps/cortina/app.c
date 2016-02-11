@@ -380,9 +380,17 @@ int main(int argc, const char **argv)
     printf("\nCORTINA: Running CORTINA PHY firmware updater...\n");
     cortina_check_fw_update(0 /* don't force update */);
 
+/* Auto configuring modules is causing problems during system testing.
+ * Disabling this feature for now until the root cause has been determined.
+ *
+ * We still want the PHY image updater, though, hence we are not disabling the
+ * whole Cortina boot stage.
+ */
+#if 0
     /* Autoconfigure SFP+ and QSFP+ ports */
     printf("\nCORTINA: Running CORTINA PHY port auto configuration...\n");
     cortina_port_autoconfigure();
+#endif
 
     printf("\nCORTINA: Loading next stage...\n");
 
