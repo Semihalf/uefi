@@ -970,7 +970,7 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     int errors, tot_errors;
     int lmc;
     char *mode_str = (dll_offset_mode == 2) ? "Read" : "Write";
-    int mode_is_read = (dll_offset_mode == 2);;
+    int mode_is_read = (dll_offset_mode == 2);
     char *mode_blk = (dll_offset_mode == 2) ? " " : "";
     int start_offset, end_offset, incr_offset;
 
@@ -1086,7 +1086,7 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    }
 	} /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
-    } /* for (byte_offset=-63; byte_offset<63; byte_offset += BYTE_OFFSET_INCR) */
+    } /* for (byte_offset=-63; byte_offset<63; byte_offset += incr_offset) */
 
     // done with testing, load up and/or print out the offsets we found...
 
@@ -1605,20 +1605,22 @@ static void hw_assist_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 	} /* for (byte_offset = -63; byte_offset < 64; byte_offset += BYTE_OFFSET_INCR) */
 
 	// now choose the best byte_offset for this pattern according to the best windows of the tested ranks
-
-	int pat_sum = 0, pat_cnt = 0;
+        // calculate offset by constructing an average window from the rank windows
+	int pat_beg = -999, pat_end = 999;
+        int rank_beg, rank_end;
 	for (rankx = 0; rankx < rank_max; rankx++) {
-	    int rank_delay_best = rank_delay_best_start[rankx] + (rank_delay_best_count[rankx] / 2);
-	    pat_sum += rank_delay_best;
-	    pat_cnt++;
-	    ddr_print3("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test:  Rank Best %3d\n",
-		      node, lmc, rankx, bytelane, mode_str, rank_delay_best);
+            rank_beg = rank_delay_best_start[rankx];
+            pat_beg = max(pat_beg, rank_beg);
+	    rank_end = rank_beg + rank_delay_best_count[rankx] - BYTE_OFFSET_INCR;
+            pat_end = min(pat_end, rank_end);
+
+	    ddr_print3("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test:  Rank Window %3d:%3d\n",
+                       node, lmc, rankx, bytelane, mode_str, rank_beg, rank_end);
 	} /* for (rankx = 0; rankx < rank_max; rankx++) */
 
-	pat_best_offset = pat_sum / pat_cnt;
+	pat_best_offset = (pat_end + pat_beg) / 2;
 	ddr_print3("N%d.LMC%d: Bytelane %d DLL %s Offset Test:  Pattern %d Average %3d\n",
 		  node, lmc, bytelane, mode_str, pattern, pat_best_offset);
-
 
 #if 0
 	// FIXME: next print the window counts
