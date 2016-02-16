@@ -115,9 +115,15 @@ local function margin_rx()
         local correct = get_pattern(0x55, length)
         assert(handle:seek("set", 0), "Write seek failed")
         handle:write(correct)
-        assert(handle:seek("set", 0), "Read seek failed")
-        local data = handle:read(length * 512)
-        assert(correct == data, "SATA data doesn't match pattern")
+        for rep = 1,16384 do -- Reads total 1Gb of data
+            assert(handle:seek("set", 0), "Read seek failed")
+            local data = handle:read(length * 512)
+            assert(correct == data, "SATA data doesn't match pattern")
+            local have_error = cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).read() ~= 0
+            if have_error then
+                break
+            end
+        end
     end
     local qlm = (sata >= 8) and (6 + (sata - 8) / 4) or (2 + sata / 4) -- FIXME: Only CN88XX
     local qlm_lane = bit64.band(sata, 3)
