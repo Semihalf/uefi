@@ -6641,9 +6641,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    // now, let rank majority possibly rule over the current new_byte however we got it
 			    if (rank_maj != new_byte) { // only if different 
 				// Here is where we decide whether to completely apply RANK_MAJORITY or not
-				// FIXME: For the moment, we do it ONLY when running 2-slot configs...
-				// FIXME? this may not be correct, also could we use rank_sum to help for 1-slot?
-				if (dimm_count > 1) {
+				// FIXME: For the moment, we do it ONLY when running 2-slot configs
+				// FIXME? or when rank_sum is big enough?
+				if ((dimm_count > 1) || (rank_sum > 2)) {
 				    // print only when rank majority choice is selected
 				    VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: RANKMAJ: Byte %d: picking %d over %d.\n",
 						    node, ddr_interface_num, rankx,
@@ -7111,8 +7111,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         // Change verbosity if using measured vs computed VREF or DDR3
                         // measured goes many times through SWL, computed and DDR3 only once
                         // so we want the EXHAUSTED messages at NORM for computed and DDR3,
-                        // and at DEV for measured, just for completeness
-                        int vbl_local = (measured_vref_flag) ? VBL_DEV : VBL_NORM;
+                        // and at DEV2 for measured, just for completeness
+                        int vbl_local = (measured_vref_flag) ? VBL_DEV2 : VBL_NORM;
 
 			do {
 			    // write the current set of WL delays
