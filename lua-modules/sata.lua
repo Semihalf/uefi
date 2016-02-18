@@ -108,6 +108,7 @@ end
 -- Check margin range for SATA channel
 --
 local function margin_rx()
+    local MARGIN_PASS = 6 -- To pass, max-min must be greater than equal to this
     local filename = utils.devfile("sata", sata)
     local handle = assert(cavium.devopen(filename, "r+"))
     local function do_data()
@@ -154,6 +155,9 @@ local function margin_rx()
     end
     cavium.c.bdk_qlm_margin_rx_restore(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
     printf("N%d.SATA%d: Min=%d, Middle=%d, Max=%d\n", menu.node, sata, vert_min, vert_center, vert_max)
+    local range = vert_max - vert_min
+    local status = (range >= MARGIN_PASS) and "PASS" or "FAIL"
+    printf("N%d.SATA%d: Margin %2d - %s\n", menu.node, sata, range, status)
     handle:close()
 end
 
