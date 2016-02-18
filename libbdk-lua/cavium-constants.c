@@ -47,6 +47,7 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_MPI_FLAGS_LSB_FIRST);
 
     push_bdk_enum(BDK_IF_BGX);
+    push_bdk_enum(BDK_IF_PCIE);
 
     push_bdk_enum(BDK_QLM_MODE_DISABLED);
     push_bdk_enum(BDK_QLM_MODE_PCIE_1X1);
