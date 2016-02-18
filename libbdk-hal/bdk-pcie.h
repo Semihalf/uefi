@@ -160,4 +160,25 @@ void bdk_pcie_config_write16(bdk_node_t node, int pcie_port, int bus, int dev, i
  */
 void bdk_pcie_config_write32(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg, uint32_t val);
 
+/**
+ * Read 64bits from PCIe using a memory transaction
+ *
+ * @param node      Node to read from
+ * @param pcie_port PCIe port to read
+ * @param address   PCIe address to read
+ *
+ * @return Result of the read
+ */
+uint64_t bdk_pcie_mem_read64(bdk_node_t node, int pcie_port, uint64_t address);
+
+/**
+ * Write 64bits to PCIe memory
+ *
+ * @param node      Node to write to
+ * @param pcie_port PCIe port to use
+ * @param address   Address to write
+ * @param data      Data to write
+ */
+void bdk_pcie_mem_write64(bdk_node_t node, int pcie_port, uint64_t address, uint64_t data);
+
 /** @} */
