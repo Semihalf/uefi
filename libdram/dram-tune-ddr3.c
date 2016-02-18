@@ -1265,6 +1265,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 #endif
     int loops = 1, loop;
     uint64_t orig_coremask;
+    int errs = 0;
 
     // enable any non-running cores on this node
     orig_coremask = bdk_get_running_coremask(node);
@@ -1385,7 +1386,8 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
     // FIXME: for now, loop here to show what happens multiple times
     for (loop = 0; loop < loops; loop++) {
 	/* Perform DLL offset tuning */
-	auto_set_dll_offset(node, dll_offset_mode, num_lmcs, ddr_interface_64b, do_tune);
+	errs = auto_set_dll_offset(node, dll_offset_mode, num_lmcs,
+                                   ddr_interface_64b, do_tune);
     }
 
 #if USE_L2_WAYS_LIMIT
@@ -1446,7 +1448,8 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 		  orig_coremask);
     }
 
-    return 0;
+    return errs;
+
 } /* perform_dll_offset_tuning */
 
 /////////////////////////////////////////////////////////////////////////////////////////////
