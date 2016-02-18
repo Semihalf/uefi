@@ -917,6 +917,7 @@ function TrafficGen.new()
     end
 
     function self:cmdp_margin_rx(port_range, args)
+        local MARGIN_PASS = 6 -- To pass, max-min must be greater than equal to this
         local USEC = 1000000
         local function do_test(port, vert)
             local stats = do_update(true)
@@ -968,7 +969,10 @@ function TrafficGen.new()
                     end
                 end
                 cavium.c.bdk_qlm_margin_rx_restore(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
-                printf("%s QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", port, qlm, qlm_lane, vert_min, vert_center, vert_max)
+                -- printf("%s QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", port, qlm, qlm_lane, vert_min, vert_center, vert_max)
+                local range = vert_max - vert_min
+                local status = (range >= MARGIN_PASS) and "PASS" or "FAIL"
+                printf("%s QLM%d Lane %d: Margin %2d - %s\n", port, qlm, qlm_lane, range, status)
             end
 ::skip_port::
         end
