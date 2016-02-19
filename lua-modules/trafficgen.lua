@@ -970,9 +970,9 @@ function TrafficGen.new()
                 end
                 cavium.c.bdk_qlm_margin_rx_restore(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
                 -- printf("%s QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", port, qlm, qlm_lane, vert_min, vert_center, vert_max)
-                local range = vert_max - vert_min
-                local status = (range >= MARGIN_PASS) and "PASS" or "FAIL"
-                printf("%s QLM%d Lane %d: Margin %2d - %s\n", port, qlm, qlm_lane, range, status)
+                local eye_height = (vert_max - vert_min) + 1
+                local status = (eye_height >= MARGIN_PASS) and "PASS" or "FAIL"
+                printf("%s QLM%d Lane %d: Eye Height %2d - %s\n", port, qlm, qlm_lane, eye_height, status)
             end
 ::skip_port::
         end

@@ -144,13 +144,14 @@ local function margin_rx()
     end
     local qlm = (sata >= 8) and (6 + (sata - 8) / 4) or (2 + sata / 4) -- FIXME: Only CN88XX
     local qlm_lane = bit64.band(sata, 3)
+    printf("N%d.SATA%d: Margining\n", menu.node, sata)
     local vert_center = cavium.c.bdk_qlm_margin_rx_get(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
     local vert_min = cavium.c.bdk_qlm_margin_rx_get_min(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
     local vert_max = cavium.c.bdk_qlm_margin_rx_get_max(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
     for vert = vert_center,vert_max do
         cavium.c.bdk_qlm_margin_rx_set(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
         local errors = do_data() -- Send data
-        printf("    %d - %s\n", vert, (errors > 0) and "FAIL" or "PASS")
+        --printf("    %d - %s\n", vert, (errors > 0) and "FAIL" or "PASS")
         if errors > 0 then
             vert_max = vert - 1
             break
@@ -163,7 +164,7 @@ local function margin_rx()
     for vert = vert_center,vert_min,-1 do
         cavium.c.bdk_qlm_margin_rx_set(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
         local errors = do_data() -- Send data
-        printf("    %d - %s\n", vert, (errors > 0) and "FAIL" or "PASS")
+        --printf("    %d - %s\n", vert, (errors > 0) and "FAIL" or "PASS")
         if errors > 0 then
             vert_min = vert + 1
             break
@@ -171,9 +172,9 @@ local function margin_rx()
     end
     cavium.c.bdk_qlm_margin_rx_restore(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
     printf("N%d.SATA%d: Min=%d, Middle=%d, Max=%d\n", menu.node, sata, vert_min, vert_center, vert_max)
-    local range = vert_max - vert_min
-    local status = (range >= MARGIN_PASS) and "PASS" or "FAIL"
-    printf("N%d.SATA%d: Margin %2d - %s\n", menu.node, sata, range, status)
+    local eye_height = (vert_max - vert_min) + 1
+    local status = (eye_height >= MARGIN_PASS) and "PASS" or "FAIL"
+    printf("N%d.SATA%d: Eye Height %2d - %s\n", menu.node, sata, eye_height, status)
     handle:close()
 end
 

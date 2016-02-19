@@ -102,7 +102,7 @@ local function do_margin_rx(pcie_port)
     local bar1_address = device:read32(0x18) -- BAR1
     bar1_address = bar1_address + bit64.lshift(device:read32(0x1c), 32)
     bar1_address = bit64.band(bar1_address, -16)
-    printf("Octeon BAR0=0x%x, BAR1=0x%x\n", bar0_address, bar1_address)
+    --printf("Octeon BAR0=0x%x, BAR1=0x%x\n", bar0_address, bar1_address)
     local function octeon_csr_write(address, data)
         local SLI_WIN_WR_ADDR = bar0_address + 0x20000
         local SLI_WIN_WR_DATA = bar0_address + 0x20020
@@ -179,10 +179,10 @@ local function do_margin_rx(pcie_port)
             end
         end
         cavium.c.bdk_qlm_margin_rx_restore(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
-        printf("N%d.PCIe%d QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", menu.node, pcie_port, qlm, qlm_lane, vert_min, vert_center, vert_max)
-        local range = vert_max - vert_min
-        local status = (range >= MARGIN_PASS) and "PASS" or "FAIL"
-        printf("N%d.PCIe%d QLM%d Lane %d: Margin %2d - %s\n", menu.node, pcie_port, qlm, qlm_lane, range, status)
+        --printf("N%d.PCIe%d QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", menu.node, pcie_port, qlm, qlm_lane, vert_min, vert_center, vert_max)
+        local eye_height = (vert_max - vert_min) + 1
+        local status = (eye_height >= MARGIN_PASS) and "PASS" or "FAIL"
+        printf("N%d.PCIe%d QLM%d Lane %d: Eye Height %2d - %s\n", menu.node, pcie_port, qlm, qlm_lane, eye_height, status)
         qlm_lane = qlm_lane + 1
         if qlm_lane >= qlm_lanes then
             qlm_lane = 0
