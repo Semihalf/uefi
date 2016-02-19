@@ -112,19 +112,35 @@ local function margin_rx()
     local filename = utils.devfile("sata", sata)
     local handle = assert(cavium.devopen(filename, "r+"))
     local function do_data()
+        cavium.csr[menu.node].SATAX_UAHC_P0_IS(sata).write(-1)
+        cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).write(-1)
+        cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).read()
+        local errors = 0
         local length = 128
         local correct = get_pattern(0x55, length)
         assert(handle:seek("set", 0), "Write seek failed")
         handle:write(correct)
-        for rep = 1,16384 do -- Reads total 1Gb of data
+        for rep = 1,64 do
             assert(handle:seek("set", 0), "Read seek failed")
             local data = handle:read(length * 512)
-            assert(correct == data, "SATA data doesn't match pattern")
-            local have_error = cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).read() ~= 0
-            if have_error then
+            if correct ~= data then
+                errors = errors + 1
+                break
+            end
+            if cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).read() ~= 0 then
+                errors = errors + 1
+                break
+            end
+            if cavium.csr[menu.node].SATAX_UAHC_P0_IS(sata).INFS ~= 0 then
+                errors = errors + 1
+                break
+            end
+            if cavium.csr[menu.node].SATAX_UAHC_P0_IS(sata).IFS ~= 0 then
+                errors = errors + 1
                 break
             end
         end
+        return errors
     end
     local qlm = (sata >= 8) and (6 + (sata - 8) / 4) or (2 + sata / 4) -- FIXME: Only CN88XX
     local qlm_lane = bit64.band(sata, 3)
@@ -132,23 +148,23 @@ local function margin_rx()
     local vert_min = cavium.c.bdk_qlm_margin_rx_get_min(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
     local vert_max = cavium.c.bdk_qlm_margin_rx_get_max(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
     for vert = vert_center,vert_max do
-        cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).write(-1)
         cavium.c.bdk_qlm_margin_rx_set(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
-        do_data() -- Send data
-        local have_error = cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).read() ~= 0
-        printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
-        if have_error then
+        local errors = do_data() -- Send data
+        printf("    %d - %s\n", vert, (errors > 0) and "FAIL" or "PASS")
+        if errors > 0 then
             vert_max = vert - 1
             break
         end
     end
+    cavium.c.bdk_qlm_margin_rx_restore(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
+    handle:close()
+    -- Open causes another SATA init
+    handle = assert(cavium.devopen(filename, "r+"))
     for vert = vert_center,vert_min,-1 do
-        cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).write(-1)
         cavium.c.bdk_qlm_margin_rx_set(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
-        do_data() -- Send data
-        local have_error = cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).read() ~= 0
-        printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
-        if have_error then
+        local errors = do_data() -- Send data
+        printf("    %d - %s\n", vert, (errors > 0) and "FAIL" or "PASS")
+        if errors > 0 then
             vert_min = vert + 1
             break
         end
