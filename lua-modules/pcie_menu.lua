@@ -122,24 +122,29 @@ local function do_margin_rx(pcie_port)
     local function do_test()
         local errors = 0
         cavium.csr[menu.node].PEMX_DBG_INFO(pcie_port).write(-1)
-        local d1 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address)
-        local d2 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address+8)
-        local d3 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address+16)
-        local d4 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address+24)
-        if d1 ~= 0x0123456789abcdef then
-            errors = errors + 1
-        end
-        if d2 ~= 0xfedcba9876543210 then
-            errors = errors + 1
-        end
-        if d3 ~= 0x0123456789abcdef then
-            errors = errors + 1
-        end
-        if d4 ~= 0xfedcba9876543210 then
-            errors = errors + 1
-        end
-        if cavium.csr[menu.node].PEMX_DBG_INFO(pcie_port).read() ~= 0 then
-            errors = errors + 1
+        for count=1,10 do
+            local d1 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address)
+            local d2 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address+8)
+            local d3 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address+16)
+            local d4 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address+24)
+            if d1 ~= 0x0123456789abcdef then
+                errors = errors + 1
+            end
+            if d2 ~= 0xfedcba9876543210 then
+                errors = errors + 1
+            end
+            if d3 ~= 0x0123456789abcdef then
+                errors = errors + 1
+            end
+            if d4 ~= 0xfedcba9876543210 then
+                errors = errors + 1
+            end
+            if cavium.csr[menu.node].PEMX_DBG_INFO(pcie_port).read() ~= 0 then
+                errors = errors + 1
+            end
+            if errors > 0 then
+                break
+            end
         end
         return errors
     end
@@ -157,7 +162,7 @@ local function do_margin_rx(pcie_port)
         for vert = vert_center,vert_max do
             cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
             local have_error = do_test() > 0
-            printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
+            --printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
             if have_error then
                 vert_max = vert - 1
                 break
@@ -167,7 +172,7 @@ local function do_margin_rx(pcie_port)
         for vert = vert_center,vert_min,-1 do
             cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
             local have_error = do_test() > 0
-            printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
+            --printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
             if have_error then
                 vert_min = vert + 1
                 break
