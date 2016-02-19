@@ -509,6 +509,7 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     if (BDK_CSR_WAIT_FOR_FIELD(node,BDK_SATAX_UAHC_P0_CI(controller), ci & (1<<slot), ==, 0, TIMEOUT))
     {
         bdk_error("N%d.SATA%d: Command timeout\n", node, controller);
+        bdk_sata_shutdown(node, controller);
         return -1;
     }
 
@@ -516,6 +517,7 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     if (BDK_CSR_WAIT_FOR_FIELD(node,BDK_SATAX_UAHC_P0_IS(controller), dhrs | c.s.pss | c.s.dss, !=, 0, TIMEOUT))
     {
         bdk_error("N%d.SATA%d: Response timeout\n", node, controller);
+        bdk_sata_shutdown(node, controller);
         return -1;
     }
 
@@ -524,6 +526,7 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     if (p_is.s.tfes)
     {
         bdk_error("N%d.SATA%d: Task-file error\n", node, controller);
+        bdk_sata_shutdown(node, controller);
         return -1;
     }
     return 0;
