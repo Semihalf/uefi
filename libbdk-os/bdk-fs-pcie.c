@@ -10,30 +10,30 @@ static int pcie_read(__bdk_fs_dev_t *handle, void *buffer, int length)
     int pcie_port = handle->dev_index;
     bdk_node_t node = handle->dev_node;
 
-    uint64_t min_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
-    uint64_t max_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_IO);
-    if ((handle->location < min_address) || (handle->location + length > max_address))
+    uint64_t base_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
+    uint64_t offset = handle->location;
+    if (offset >= (2ull << 36)) /* This assume PREFETCH follows NORMAL */
     {
-        bdk_error("PCIe address outside of SLI regions (0x%lx - 0x%lx)\n", min_address, max_address-1);
+        bdk_error("PCIe address outside of SLI regions\n");
         return -1;
     }
     switch (length)
     {
         case 1:
-            *(uint8_t *)buffer = bdk_read64_uint8(handle->location);
+            *(uint8_t *)buffer = bdk_read64_uint8(base_address + offset);
             break;
         case 2:
-            *(uint16_t *)buffer = bdk_read64_uint16(handle->location);
+            *(uint16_t *)buffer = bdk_read64_uint16(base_address + offset);
             break;
         case 4:
-            *(uint32_t *)buffer = bdk_read64_uint32(handle->location);
+            *(uint32_t *)buffer = bdk_read64_uint32(base_address + offset);
             break;
         case 8:
-            *(uint64_t *)buffer = bdk_read64_uint64(handle->location);
+            *(uint64_t *)buffer = bdk_read64_uint64(base_address + offset);
             break;
         default:
         {
-            const void *ptr = bdk_phys_to_ptr(handle->location);
+            const void *ptr = bdk_phys_to_ptr(base_address + offset);
             memcpy(buffer, ptr, length);
             break;
         }
@@ -47,30 +47,30 @@ static int pcie_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     int pcie_port = handle->dev_index;
     bdk_node_t node = handle->dev_node;
 
-    uint64_t min_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
-    uint64_t max_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_IO);
-    if ((handle->location < min_address) || (handle->location + length > max_address))
+    uint64_t base_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
+    uint64_t offset = handle->location;
+    if (offset >= (2ull << 36)) /* This assume PREFETCH follows NORMAL */
     {
-        bdk_error("PCIe address outside of SLI regions (0x%lx - 0x%lx)\n", min_address, max_address-1);
+        bdk_error("PCIe address outside of SLI regions\n");
         return -1;
     }
     switch (length)
     {
         case 1:
-            bdk_write64_uint8(handle->location, *(uint8_t*)buffer);
+            bdk_write64_uint8(base_address + offset, *(uint8_t*)buffer);
             break;
         case 2:
-            bdk_write64_uint16(handle->location, *(uint16_t*)buffer);
+            bdk_write64_uint16(base_address + offset, *(uint16_t*)buffer);
             break;
         case 4:
-            bdk_write64_uint32(handle->location, *(uint32_t*)buffer);
+            bdk_write64_uint32(base_address + offset, *(uint32_t*)buffer);
             break;
         case 8:
-            bdk_write64_uint64(handle->location, *(uint64_t*)buffer);
+            bdk_write64_uint64(base_address + offset, *(uint64_t*)buffer);
             break;
         default:
         {
-            void *ptr = bdk_phys_to_ptr(handle->location);
+            void *ptr = bdk_phys_to_ptr(base_address + offset);
             memcpy(ptr, buffer, length);
             break;
         }
