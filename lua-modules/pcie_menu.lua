@@ -108,9 +108,14 @@ local function do_margin_rx(pcie_port)
         local SLI_WIN_WR_DATA = bar0_address + 0x20020
         local SLI_WIN_WR_MASK = bar0_address + 0x20030
         cavium.c.bdk_pcie_mem_write64(menu.node, pcie_port, SLI_WIN_WR_MASK, 0xff)
+        cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, SLI_WIN_WR_MASK)
         cavium.c.bdk_pcie_mem_write64(menu.node, pcie_port, SLI_WIN_WR_ADDR, address)
+        cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, SLI_WIN_WR_ADDR)
         cavium.c.bdk_pcie_mem_write64(menu.node, pcie_port, SLI_WIN_WR_DATA, data)
+        cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, SLI_WIN_WR_DATA)
     end
+    -- Force all cores in reset
+    octeon_csr_write(0x1010000000100, -1) -- CIU_PP_RST = -1
     -- Setup BAR1 region to allow access
     octeon_csr_write(0x11800c0000100, 0x1) -- SPEMX_BAR1_INDEXX(0,0) = 1
     -- Write a test pattern to Octeon
@@ -122,7 +127,7 @@ local function do_margin_rx(pcie_port)
     local function do_test()
         local errors = 0
         cavium.csr[menu.node].PEMX_DBG_INFO(pcie_port).write(-1)
-        for count=1,10 do
+        for count=1,2000 do
             local d1 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address)
             local d2 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address+8)
             local d3 = cavium.c.bdk_pcie_mem_read64(menu.node, pcie_port, bar1_address+16)
