@@ -25,6 +25,8 @@ typedef union
     uint64_t u;
 } rx_os_mvalbbd_t;
 
+int __bdk_disable_ccpi_error_report = 0;
+
 static int convert_to_signed_mag(int source)
 {
     /* Synopsis encoded sign in an unexpected way. 0=negative and 1=positive
@@ -190,6 +192,9 @@ int bdk_qlm_margin_rx_set(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_margin
              c.s.rx_lctrl_ovrrd_en =  1);
     }
 
+    if (qlm >= 8)
+        __bdk_disable_ccpi_error_report = 1;
+
     return 0;
 }
 
@@ -218,6 +223,7 @@ int bdk_qlm_margin_rx_restore(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_ma
     /* Enable the DFE(s) */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, qlm_lane),
          c.s.rx_lctrl_ovrrd_en =  0);
+    __bdk_disable_ccpi_error_report = 0;
     return 0;
 }
 

@@ -65,6 +65,7 @@ m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 m:item("tg",    "Traffic Generator",        do_trafficgen)
 m:item("burn",  "Power Burn options",       menu.dofile, "power_burn_menu")
+m:item("ccpi",  "CCPI options",             menu.dofile, "ccpi_menu")
 -- Look for a custom board test file
 local board = cavium.c.bdk_config_get_str(cavium.CONFIG_BOARD_MODEL)
 local board_test_name = ("board-test-%s" % board):lower()
@@ -72,7 +73,6 @@ if package.searchpath(board_test_name, package.path) then
     local test = require(board_test_name)
     m:item("brdtest", "Run board test", test)
 end
-m:item("ccpi",  "Test CCPI using internal loopback", cavium.c.bdk_ccpi_test_loopback)
 m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, cavium.MASTER_NODE)
 if cavium.global then
     m:item("quit", "Exit menu")

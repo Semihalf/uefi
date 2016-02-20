@@ -291,7 +291,8 @@ static void check_cn88xx(bdk_node_t node)
 
 
     BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
-    if (l2c_oci_ctl.s.enaoci > 1)
+    extern int __bdk_disable_ccpi_error_report;
+    if ((l2c_oci_ctl.s.enaoci > 1) && !__bdk_disable_ccpi_error_report)
     {
         int loopback = 0;
         for (int link = 0; link < 3; link++)

@@ -110,6 +110,7 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_DRAM_TEST_NO_STOP_ERROR);
     push_bdk_enum(BDK_DRAM_TEST_NO_PROGRESS);
     push_bdk_enum(BDK_DRAM_TEST_NO_STATS);
+    push_bdk_enum(BDK_DRAM_TEST_NO_BANNERS);
     push_bdk_enum(BDK_DRAM_TEST_USE_CCPI);
 
     /* Power burn constants */
