@@ -43,4 +43,5 @@
 #include "strlen.c"
 #include "strncmp.c"
 #include "strncpy.c"
+#include "strtol.c"
 #include "subr_prf.c"
