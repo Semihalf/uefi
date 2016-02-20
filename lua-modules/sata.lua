@@ -57,6 +57,7 @@ local function read_pattern(pattern)
     local correct = get_pattern(pattern, length)
     local data = handle:read(length * 512)
     handle:close()
+    assert(#data == length * 512, "SATA read failed")
     assert(correct == data, "SATA data doesn't match pattern")
 end
 
@@ -91,6 +92,7 @@ local function run_auto()
                 handle:write(correct)
                 assert(handle:seek("set", sector * 512), "Read seek failed")
                 local data = handle:read(length * 512)
+                assert(#data == length * 512, "SATA read failed")
                 assert(correct == data, "SATA data doesn't match pattern")
             end
             local key = readline.getkey()
@@ -171,7 +173,7 @@ local function margin_rx()
         end
     end
     cavium.c.bdk_qlm_margin_rx_restore(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
-    printf("N%d.SATA%d: Min=%d, Middle=%d, Max=%d\n", menu.node, sata, vert_min, vert_center, vert_max)
+    --printf("N%d.SATA%d: Min=%d, Middle=%d, Max=%d\n", menu.node, sata, vert_min, vert_center, vert_max)
     local eye_height = (vert_max - vert_min) + 1
     local status = (eye_height >= MARGIN_PASS) and "PASS" or "FAIL"
     printf("N%d.SATA%d: Eye Height %2d - %s\n", menu.node, sata, eye_height, status)

@@ -71,7 +71,7 @@ static int sata_read(__bdk_fs_dev_t *handle, void *buffer, int length)
     /* Do the read */
     if (bdk_sata_read(node, sata, 0, handle->location >> 9, length >> 9, buffer))
     {
-        bdk_error("N%d.SATA%d: Read error\n", node, sata);
+        //bdk_error("N%d.SATA%d: Read error\n", node, sata);
         return 0;
     }
     else

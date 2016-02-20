@@ -505,10 +505,10 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_CI(controller), 1 << slot);
 
     /* Wait for command accept */
-    const int TIMEOUT = 30000000; /* 30 seconds */
+    const int TIMEOUT = 5000000; /* 5 seconds */
     if (BDK_CSR_WAIT_FOR_FIELD(node,BDK_SATAX_UAHC_P0_CI(controller), ci & (1<<slot), ==, 0, TIMEOUT))
     {
-        bdk_error("N%d.SATA%d: Command timeout\n", node, controller);
+        //bdk_error("N%d.SATA%d: Command timeout\n", node, controller);
         bdk_sata_shutdown(node, controller);
         return -1;
     }
