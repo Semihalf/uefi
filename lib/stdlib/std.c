@@ -42,4 +42,5 @@
 #include "strcmp.c"
 #include "strlen.c"
 #include "strncmp.c"
+#include "strncpy.c"
 #include "subr_prf.c"
