@@ -116,6 +116,8 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
     {
         if ((qlm == 0) || (qlm == 1))
             return BDK_QLM_MODE_XFI_2X1;
+        else
+            return BDK_QLM_MODE_DISABLED;
     }
     BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
     if (gserx_cfg.s.pcie)
