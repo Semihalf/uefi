@@ -219,6 +219,9 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
 		validate_spd_checksum(node, spd_addr, 0);
 		break;
 
+	    case 0x00:              /* Terminator detected. Fail silently. */
+                return 0;
+
             default:
 		debug_print("Unknown DIMM type 0x%x for DIMM %d @ 0x%x\n",
 			     dimm_type, dimm_index,
