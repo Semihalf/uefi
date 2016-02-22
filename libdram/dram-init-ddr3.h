@@ -4,7 +4,7 @@
 
 extern void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask,
     int ddr_interface_num, int sequence);
-extern void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,
+extern void perform_ddr_init_sequence(bdk_node_t node, int rank_mask,
     int ddr_interface_num);
 
 extern int init_octeon3_ddr3_interface(bdk_node_t node,

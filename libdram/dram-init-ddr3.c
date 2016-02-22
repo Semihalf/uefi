@@ -4355,19 +4355,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      */
 
     if (! (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm))
-    {
-        bdk_lmcx_modereg_params0_t lmc_modereg_params0;
-
-        lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
-
-        lmc_modereg_params0.s.dllr = 1;
-        DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
-
-        perform_ddr3_init_sequence(node, rank_mask, ddr_interface_num);
-
-        lmc_modereg_params0.s.dllr = 0;
-        DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
-    }
+        perform_ddr_init_sequence(node, rank_mask, ddr_interface_num);
 
     // NOTE: this must be done for pass 2.x and pass 1.x
     if ((spd_rdimm) && (ddr_type == DDR4_DRAM)) {
@@ -5712,7 +5700,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			  lmc_modereg_params1.s.rtt_nom_01,
 			  lmc_modereg_params1.s.rtt_nom_00);
 
-		perform_ddr3_init_sequence(node, rank_mask, ddr_interface_num);
+		perform_ddr_init_sequence(node, rank_mask, ddr_interface_num);
 
 		for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
 		    rlevel_rodt_errors = 0;
@@ -6735,7 +6723,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 
 
-        perform_ddr3_init_sequence(node, rank_mask, ddr_interface_num);
+        perform_ddr_init_sequence(node, rank_mask, ddr_interface_num);
 
         for (rankx = 0; rankx < dimm_count * 4;rankx++) {
             uint64_t value;

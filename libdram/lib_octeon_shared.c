@@ -581,7 +581,7 @@ static int ddr_memory_preserved(bdk_node_t node)
     return (global_ddr_memory_preserved & (0x1 << node)) != 0;
 }
 
-void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,
+void perform_ddr_init_sequence(bdk_node_t node, int rank_mask,
 				       int ddr_interface_num)
 {
     const char *s;
@@ -601,9 +601,19 @@ void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,
 		perform_octeon3_ddr3_sequence(node, (1 << rankx),
 					      ddr_interface_num, 3); /* self-refresh exit */
 	    } else {
+                bdk_lmcx_modereg_params0_t lmc_modereg_params0;
+
+                lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
+
+                lmc_modereg_params0.s.dllr = 1;
+                DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
+
 		/* Contents are not being preserved */
 		perform_octeon3_ddr3_sequence(node, (1 << rankx),
 					      ddr_interface_num, 0); /* power-up/init */
+
+                lmc_modereg_params0.s.dllr = 0;
+                DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
 	    }
 
 	    bdk_wait_usec(1000);   /* Wait a while. */
