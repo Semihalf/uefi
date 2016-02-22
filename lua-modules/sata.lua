@@ -146,7 +146,7 @@ local function margin_rx()
     end
     local qlm = (sata >= 8) and (6 + (sata - 8) / 4) or (2 + sata / 4) -- FIXME: Only CN88XX
     local qlm_lane = bit64.band(sata, 3)
-    printf("N%d.SATA%d: Margining\n", menu.node, sata)
+    printf("N%d.SATA%d: Measuring Eye Height\n", menu.node, sata)
     local vert_center = cavium.c.bdk_qlm_margin_rx_get(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
     local vert_min = cavium.c.bdk_qlm_margin_rx_get_min(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
     local vert_max = cavium.c.bdk_qlm_margin_rx_get_max(menu.node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);

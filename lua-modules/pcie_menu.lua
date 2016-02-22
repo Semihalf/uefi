@@ -157,7 +157,7 @@ local function do_margin_rx(pcie_port)
     local pcie_lanes = cavium.csr[menu.node].PCIERCX_CFG032(pcie_port).NLW
     local qlm_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
     local qlm_lane = 0
-    printf("N%d.PCIe%d: Margining %d lanes\n", menu.node, pcie_port, pcie_lanes)
+    printf("N%d.PCIe%d: Measuring Eye Height %d lanes\n", menu.node, pcie_port, pcie_lanes)
     for lane = 0, pcie_lanes-1 do
         local node = menu.node
         local vert_center = cavium.c.bdk_qlm_margin_rx_get(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);

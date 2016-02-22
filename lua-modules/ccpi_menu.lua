@@ -50,7 +50,7 @@ local function do_margin_rx()
     assert(cavium.c.bdk_init_nodes(0,0) == 0, "Failed to start all cores on all nodes")
 
     for node=0,1 do
-        printf("N%d.CCPI: Margining lanes\n", node)
+        printf("N%d.CCPI: Measuring Eye Height for each lane\n", node)
         for qlm=8,13 do
             for qlm_lane=0,3 do
                 local ccpi_lane = (qlm - 8) * 4 + qlm_lane

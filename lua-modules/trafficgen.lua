@@ -944,7 +944,7 @@ function TrafficGen.new()
                 printf("%s: No RX packets, skipping\n", port)
                 goto skip_port
             end
-            printf("%s: Margining\n", port)
+            printf("%s: Measuring Eye Height\n", port)
             for i = 1,#config.serdes_map,2 do
                 local node = config.node
                 local qlm = config.serdes_map[i]
