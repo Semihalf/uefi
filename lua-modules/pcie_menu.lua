@@ -159,33 +159,39 @@ local function do_margin_rx(pcie_port)
     local qlm_lane = 0
     printf("N%d.PCIe%d: Measuring Eye Height %d lanes\n", menu.node, pcie_port, pcie_lanes)
     for lane = 0, pcie_lanes-1 do
-        local node = menu.node
-        local vert_center = cavium.c.bdk_qlm_margin_rx_get(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
-        local vert_min = cavium.c.bdk_qlm_margin_rx_get_min(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
-        local vert_max = cavium.c.bdk_qlm_margin_rx_get_max(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+        local avg_eye_height = 0
+        local avg_count = 3
+        for avg_repeat=1,avg_count do
+            local node = menu.node
+            local vert_center = cavium.c.bdk_qlm_margin_rx_get(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+            local vert_min = cavium.c.bdk_qlm_margin_rx_get_min(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+            local vert_max = cavium.c.bdk_qlm_margin_rx_get_max(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
 
-        for vert = vert_center,vert_max do
-            cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
-            local have_error = do_test() > 0
-            --printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
-            if have_error then
-                vert_max = vert - 1
-                break
+            for vert = vert_center,vert_max do
+                cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
+                local have_error = do_test() > 0
+                --printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
+                if have_error then
+                    vert_max = vert - 1
+                    break
+                end
             end
-        end
 
-        for vert = vert_center,vert_min,-1 do
-            cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
-            local have_error = do_test() > 0
-            --printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
-            if have_error then
-                vert_min = vert + 1
-                break
+            for vert = vert_center,vert_min,-1 do
+                cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
+                local have_error = do_test() > 0
+                --printf("    %d - %s\n", vert, have_error and "FAIL" or "PASS")
+                if have_error then
+                    vert_min = vert + 1
+                    break
+                end
             end
+            cavium.c.bdk_qlm_margin_rx_restore(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
+            --printf("N%d.PCIe%d QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", menu.node, pcie_port, qlm, qlm_lane, vert_min, vert_center, vert_max)
+            local eye_height = (vert_max - vert_min) + 1
+            avg_eye_height = avg_eye_height + eye_height
         end
-        cavium.c.bdk_qlm_margin_rx_restore(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
-        --printf("N%d.PCIe%d QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", menu.node, pcie_port, qlm, qlm_lane, vert_min, vert_center, vert_max)
-        local eye_height = (vert_max - vert_min) + 1
+        local eye_height = avg_eye_height / avg_count
         local status = (eye_height >= MARGIN_PASS) and "PASS" or "FAIL"
         printf("N%d.PCIe%d QLM%d Lane %d: Eye Height %2d - %s\n", menu.node, pcie_port, qlm, qlm_lane, eye_height, status)
         qlm_lane = qlm_lane + 1
