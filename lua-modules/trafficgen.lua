@@ -949,28 +949,34 @@ function TrafficGen.new()
                 local node = config.node
                 local qlm = config.serdes_map[i]
                 local qlm_lane = config.serdes_map[i+1]
-                local vert_center = cavium.c.bdk_qlm_margin_rx_get(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
-                local vert_min = cavium.c.bdk_qlm_margin_rx_get_min(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
-                local vert_max = cavium.c.bdk_qlm_margin_rx_get_max(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+                local avg_eye_height = 0
+                local avg_count = 3
+                for avg_repeat=1,avg_count do
+                    local vert_center = cavium.c.bdk_qlm_margin_rx_get(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+                    local vert_min = cavium.c.bdk_qlm_margin_rx_get_min(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
+                    local vert_max = cavium.c.bdk_qlm_margin_rx_get_max(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL);
 
-                for vert = vert_center,vert_max do
-                    cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
-                    if do_test(port, vert) > 0 then
-                        vert_max = vert - 1
-                        break
+                    for vert = vert_center,vert_max do
+                        cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
+                        if do_test(port, vert) > 0 then
+                            vert_max = vert - 1
+                            break
+                        end
                     end
-                end
 
-                for vert = vert_center,vert_min,-1 do
-                    cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
-                    if do_test(port, vert) > 0 then
-                        vert_min = vert + 1
-                        break
+                    for vert = vert_center,vert_min,-1 do
+                        cavium.c.bdk_qlm_margin_rx_set(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert);
+                        if do_test(port, vert) > 0 then
+                            vert_min = vert + 1
+                            break
+                        end
                     end
+                    cavium.c.bdk_qlm_margin_rx_restore(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
+                    -- printf("%s QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", port, qlm, qlm_lane, vert_min, vert_center, vert_max)
+                    local eye_height = (vert_max - vert_min) + 1
+                    avg_eye_height = avg_eye_height + eye_height
                 end
-                cavium.c.bdk_qlm_margin_rx_restore(node, qlm, qlm_lane, cavium.QLM_MARGIN_VERTICAL, vert_center);
-                -- printf("%s QLM%d Lane %d: Min=%d, Middle=%d, Max=%d\n", port, qlm, qlm_lane, vert_min, vert_center, vert_max)
-                local eye_height = (vert_max - vert_min) + 1
+                local eye_height = avg_eye_height / avg_count
                 local status = (eye_height >= MARGIN_PASS) and "PASS" or "FAIL"
                 printf("%s QLM%d Lane %d: Eye Height %2d - %s\n", port, qlm, qlm_lane, eye_height, status)
             end
