@@ -50,7 +50,12 @@ CFLAGS += -Wno-unused-parameter
 CFLAGS += -Winline
 CFLAGS += -Winvalid-pch
 ifndef USE_LLVM
-    CFLAGS += -mcpu=thunderx
+    GCC_GTEQ_5 := $(shell expr `${CC} -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 50000)
+    ifeq "$(GCC_GTEQ_5)" "1"
+	CFLAGS += -mcpu=thunderx+lse
+    else
+	CFLAGS += -mcpu=thunderx
+    endif
 endif
 CFLAGS += -Os -g
 CFLAGS += -std=gnu11
