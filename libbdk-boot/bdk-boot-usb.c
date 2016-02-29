@@ -14,8 +14,9 @@ void bdk_boot_usb(void)
             {
                 BDK_TRACE(INIT, "Initializing USB%d on Node %d\n", p, n);
                 int usb_gpio = bdk_config_get_int(BDK_CONFIG_USB_PWR_GPIO, n, p);
+                int usb_polarity = bdk_config_get_int(BDK_CONFIG_USB_PWR_GPIO_POLARITY, n, p);
                 if (-1 != usb_gpio)
-                    bdk_gpio_initialize(n, usb_gpio, 1, 1);
+                    bdk_gpio_initialize(n, usb_gpio, 1, usb_polarity);
                 bdk_usb_intialize(n, p, 0);
             }
         }

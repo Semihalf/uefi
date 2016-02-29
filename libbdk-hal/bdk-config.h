@@ -108,6 +108,7 @@ typedef enum
 
     /* USB */
     BDK_CONFIG_USB_PWR_GPIO,        /* Parameters: Node, Port */
+    BDK_CONFIG_USB_PWR_GPIO_POLARITY, /* Parameters: Node, Port */
 
     /* How EYE diagrams are captured from a QLM */
     BDK_CONFIG_EYE_ZEROS,           /* No parameters */

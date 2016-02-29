@@ -566,6 +566,13 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = -1,
         .max_value = 49,
     },
+    [BDK_CONFIG_USB_PWR_GPIO_POLARITY] = {
+        .format = "USB-PWR-GPIO-POLARITY.N%d.PORT%d", /* Parameters: Node, Port */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 1, /* GPIO polarity: 1=high, 0=low */
+        .min_value = 0,
+        .max_value = 1,
+    },
 
     /* How EYE diagrams are captured from a QLM */
     [BDK_CONFIG_EYE_ZEROS] = {

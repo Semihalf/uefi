@@ -889,6 +889,10 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "set, the USB host controller will toggle the GPIO automatically\n"
             "during USB reset events. The default value assumes THUNDERX has no\n"
             "control of the USB power and it is always on.",
+    [BDK_CONFIG_USB_PWR_GPIO_POLARITY] =
+            "Specify the polarity of a THUNDERX GPIO used to control power for\n"
+            "a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this\n"
+            "GPIO low. The default value drives the GPIO high.",
     /* How EYE diagrams are captured from a QLM */
     [BDK_CONFIG_EYE_ZEROS] =
             "Number of reading with no errors to signal the start of an\n"

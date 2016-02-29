@@ -62,6 +62,7 @@ void register_cavium_config(lua_State* L)
 
     /* USB */
     push_bdk_enum(BDK_CONFIG_USB_PWR_GPIO);
+    push_bdk_enum(BDK_CONFIG_USB_PWR_GPIO_POLARITY);
 
     /* How EYE diagrams are captured from a QLM */
     push_bdk_enum(BDK_CONFIG_EYE_ZEROS);

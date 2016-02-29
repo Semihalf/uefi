@@ -320,6 +320,11 @@ cavium,bdk {
 	control of the USB power and it is always on. */
 	//USB-PWR-GPIO.N%d.PORT%d = "-1";
 
+        /* Specify the polarity of a THUNDERX GPIO used to control power for
+        a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this
+        GPIO low. The default value drives the GPIO high. */
+        //USB-PWR-GPIO-POLARITY.N%d.PORT%d = "1";
+
 	/* Number of reading with no errors to signal the start of an
 	eye. The default value should be good for most cases. */
 	//QLM-EYE-NUM-ZEROS = "2";
