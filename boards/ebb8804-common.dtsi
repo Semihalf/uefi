@@ -226,6 +226,27 @@ cavium,bdk {
 	//DDR-SPEED.N%d = "0";
 	DDR-SPEED.N0 = "1866";
 
+	/* TWSI address of the DIMM SPD. The encoding of this address is
+	:    [15:12]: TWSI bus the DIMM is connected to.
+	     [11:7]: Reserved, set to zero.
+	      [6:0]: TWSI address for the DIMM.
+	A value of zero means the DIMMs are not accessible. Hard coded
+	values will be read from DDR-CONFIG-SPD-DATA.Parameters:
+	    LMC#: Parameter can be different for memory controller. This
+	        specifies which LMC the value is for. LMC must be
+	        0-3. Optional.
+	    N#: Parameter can be different for each node. This specifies
+	        which node the value is for. Node must be 0-3. Optional. */
+	//DDR-CONFIG-SPD-ADDR.DIMM%d.LMC%d.N%d = "0";
+	DDR-CONFIG-SPD-ADDR.DIMM1.LMC3 = "0x1057";
+	DDR-CONFIG-SPD-ADDR.DIMM0.LMC3 = "0x1056";
+	DDR-CONFIG-SPD-ADDR.DIMM1.LMC2 = "0x1055";
+	DDR-CONFIG-SPD-ADDR.DIMM0.LMC2 = "0x1054";
+	DDR-CONFIG-SPD-ADDR.DIMM1.LMC1 = "0x1053";
+	DDR-CONFIG-SPD-ADDR.DIMM0.LMC1 = "0x1052";
+	DDR-CONFIG-SPD-ADDR.DIMM1.LMC0 = "0x1051";
+	DDR-CONFIG-SPD-ADDR.DIMM0.LMC0 = "0x1050";
+
         /* Other DRAM settings are read from ddr4-common.dtsi */
 
 	/* Specify a THUNDERX GPIO used to control power for a USB port. When
