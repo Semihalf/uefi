@@ -25,7 +25,7 @@ void bdk_boot_dram(bdk_node_t node, int prompt_for_speed)
 
     BDK_TRACE(INIT, "Initializing DRAM on node %d\n", node);
     int mbytes = bdk_dram_config(node, dram_speed);
-    if (mbytes <= 0)
+    if (mbytes < 0)
     {
         bdk_error("N%d: Failed DRAM init\n", node);
         /* Reset on failure if we're using the watchdog */

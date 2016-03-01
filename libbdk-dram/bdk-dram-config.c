@@ -52,6 +52,11 @@ int bdk_dram_config(int node, int ddr_clock_override)
     if (!config)
     {
         const char *config_name = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
+        if (config_name == NULL)
+        {
+            printf("N%d: No DRAM config specified, skipping DRAM init\n", node);
+            return 0;
+        }
         config = bdk_find_dram_config_by_name(node, config_name);
         if (config)
         {
