@@ -409,16 +409,14 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
     return errors;
 }
 
-#if 1
-
-int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
-		      uint64_t p, int byte, uint64_t bitmask)
+int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p)
 {
     uint64_t p1;
     uint64_t k, ii;
     int errors = 0;
 
-    uint64_t mpr_data[3];
+    uint64_t mpr_data0, mpr_data1;
+    //uint64_t mpr_data2;
 
     int node_address;
     int lmc;
@@ -428,9 +426,13 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
     int row;
     int col;
     int save_or_dis;
+    int byte;
+    int ba_loop, ba_bits;
 
     bdk_lmcx_rlevel_ctl_t rlevel_ctl;
-
+#if 1
+    bdk_lmcx_dbtrain_ctl_t dbtrain_ctl;
+#endif
     extern dram_verbosity_t dram_verbosity;
     dram_verbosity_t save_dram_verbosity = dram_verbosity;
 
@@ -479,7 +481,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 	// FIXME: we do not need to use j or i for the address, because:
 	// FIXME: the sequence interates over 1/2 cacheline at a time
 	// FIXME: for each unit specified in "read_cmd_count"
-	// FIXME: so, we setup each sequence to do 8 full cachelines
+	// FIXME: so, we setup each sequence to do the max cachelines it can
         //for (j = 0; j < (1 << 12); j += (1 << 9)) {
 	//for (i = 0; i < (1 << 7); i += 8) {
 #if 0
@@ -496,8 +498,24 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 	if (lmc != ddr_interface_num)
 	    error_print("ERROR: LMC address mismatch\n");
 
+#if 1
+        dbtrain_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DBTRAIN_CTL(ddr_interface_num));
+        dbtrain_ctl.s.column_a       = col;
+        dbtrain_ctl.s.row_a          = row;
+        dbtrain_ctl.s.bg             = (bank >> 2) & 3;
+        dbtrain_ctl.s.prank          = rank;
+        dbtrain_ctl.s.activate       = 0;
+        dbtrain_ctl.s.write_ena      = 1;
+        dbtrain_ctl.s.read_cmd_count = 31; // max count pass 1.x
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+            dbtrain_ctl.s.cmd_count_ext = 3; // max count pass 2.x
+        else
+            dbtrain_ctl.s.cmd_count_ext = 0; // max count pass 1.x
+        dbtrain_ctl.s.rw_train       = 1;
+        dbtrain_ctl.s.tccd_sel       = 0;
+#endif
+
 	// for each address, iterate over the 4 "banks" in the BA
-	int ba_loop, ba_bits;
 	for (ba_loop = 0, ba_bits = bank & 3;
 	     ba_loop < 4;
 	     ba_loop++, ba_bits = (ba_bits + 1) & 3)
@@ -513,6 +531,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 	      It is 5 bits field, so set to 31 of maximum # of r/w.
 	    */
 
+#if 0
 	    DRAM_CSR_MODIFY(dbtrain_ctl, node, BDK_LMCX_DBTRAIN_CTL(ddr_interface_num),
 			    (dbtrain_ctl.s.column_a       = col,
 			     dbtrain_ctl.s.row_a          = row,
@@ -525,6 +544,10 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 			     dbtrain_ctl.s.rw_train       = 1,
 			     dbtrain_ctl.s.tccd_sel       = 0)
 			    );
+#else
+            dbtrain_ctl.s.ba             = ba_bits;
+            DRAM_CSR_WRITE(node, BDK_LMCX_DBTRAIN_CTL(ddr_interface_num), dbtrain_ctl.u);
+#endif
 
 	    /*
 	      4) Kick off the sequence (SEQ_CTL[SEQ_SEL] = 14, SEQ_CTL[INIT_START] = 1).
@@ -538,9 +561,9 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 	      (1 means MATCH, 0 means FAIL).
 	      b. MPR_DATA1[MPR_DATA<7:0>] – comparison results for ECC bit7:0.
 	    */
-	    mpr_data[0] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA0(ddr_interface_num));
-	    mpr_data[1] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA1(ddr_interface_num));
-	    mpr_data[2] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA2(ddr_interface_num));
+	    mpr_data0 = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA0(ddr_interface_num));
+	    mpr_data1 = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA1(ddr_interface_num));
+	    //mpr_data2 = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA2(ddr_interface_num));
 
 	    /*
 	      7) Set PHY_CTL[PHY_RESET] = 1 (LMC automatically clears this as it’s a one-shot operation).
@@ -550,7 +573,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 			   phy_ctl.s.phy_reset = 1);
 
 	    // FIXME FIXME FIXME
-	    //if (mpr_data[0] != 0) {
+	    //if (mpr_data0 != 0) {
 	    if (0) {
 		debug_print("A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
 			    p1, node_address, lmc, dimm, rank, bank, row, col);
@@ -558,31 +581,26 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 			    mpr_data[2], mpr_data[1], mpr_data[0]);
 	    }
 
-	    if (byte < 8)
-		errors |= (~mpr_data[0] >> (8 * byte)) & bitmask;
-	    else
-		errors |= (~mpr_data[1]) & bitmask;
+            // data bytes
+            for (byte = 0; byte < 8; byte++) {
+                if ((~mpr_data0 >> (8 * byte)) & 0xff)
+                    errors |= (1 << byte);
+            }
+            // ECC byte
+            if (~mpr_data1 & 0xff)
+                errors |= (1 << 8);
 
 	} /* for (int ba_loop = 0; ba_loop < 4; ba_loop++) */
 
-	if (errors) {
-#if 0
-	    rlevel_ctl.s.or_dis = save_or_dis;
-	    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
-	    dram_verbosity = save_dram_verbosity;
-	    //printf("Address 0x%lx has 0x%x errors\n", p, errors);
-	    return errors;
-#else
+	if (errors == 0x1ff) { // exit if all bytelanes have errored...
             goto done_now;
-#endif
 	}
 	//} /* i */
         //} /* j */
     } /* k */
     } /* for (ii = 0; ii < (1ULL << 31); ii += (1ULL << 29)) */
-#if 1
+
  done_now:
-#endif
     rlevel_ctl.s.or_dis = save_or_dis;
     DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
 
@@ -590,7 +608,6 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
     //printf("Address 0x%lx has 0x%x errors\n", p, errors);
     return errors;
 }
-#endif
 
 static void set_ddr_memory_preserved(bdk_node_t node)
 {

@@ -1490,28 +1490,39 @@ static const uint64_t *byte_patterns[] = { byte_pattern_1, byte_pattern_2};
 int dram_tune_byte_bursts = DEFAULT_BYTE_BURSTS;
 #endif
 
-static void hw_assist_set_dll_offset(bdk_node_t node, int dll_offset_mode,
-                                    int lmc, int bytelane, int ddr_interface_64b)
+static void
+hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
+                          int lmc, int bytelane, int ddr_interface_64b)
 {
-    int byte_offset, new_best_offset;
-    int rank_delay_start[4];
-    int rank_delay_count[4];
-    int rank_delay_best_start[4];
-    int rank_delay_best_count[4];
+    int byte_offset, new_best_offset[9];
+    int rank_delay_start[4][9];
+    int rank_delay_count[4][9];
+    int rank_delay_best_start[4][9];
+    int rank_delay_best_count[4][9];
     int errors[4], off_errors, tot_errors;
     int num_lmcs = __bdk_dram_get_num_lmc(node);
-    int rank_max = 1; // default to 1 rank
+    int rank_mask, rankx, active_ranks;
     int pattern;
     const uint64_t *pattern_p;
-    int rankx;
+    int byte;
     char *mode_str = (dll_offset_mode == 2) ? "Read" : "Write";
+    int pat_best_offset[9];
+    uint64_t phys_addr;
+    int pat_beg, pat_end;
+    int rank_beg, rank_end;
+    int byte_lo, byte_hi;
 
-    // FIXME: must revise this for 2-slot!!!
-    BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
-    if (lmcx_config.s.rank_ena) { // replace the default offset when there is more than 1 rank...
-	dram_tune_rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
-	rank_max = 2; // FIXME???
+    if (bytelane == 0x0A) { // all bytelanes
+        byte_lo = 0;
+        byte_hi = 8;
+    } else { // just 1
+        byte_lo = byte_hi = bytelane;
     }
+
+    BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
+    rank_mask = lmcx_config.s.init_status;
+    // this should be correct for 1 or 2 ranks, 1 or 2 DIMMs
+    dram_tune_rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
 
     debug_print("N%d: %s: starting LMC%d with rank offset 0x%lx\n",
                 node, __FUNCTION__, lmc, dram_tune_rank_offset);
@@ -1519,9 +1530,11 @@ static void hw_assist_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     // start of pattern loop
     // we do the set of tests for each pattern supplied...
 
-    new_best_offset = 0;
+    memset(new_best_offset, 0, sizeof(new_best_offset));
     for (pattern = 0; pattern < NUM_BYTE_PATTERNS; pattern++) {
-	int pat_best_offset = 0;
+
+	memset(pat_best_offset, 0, sizeof(pat_best_offset));
+
 	pattern_p = byte_patterns[pattern];
 
 	/*
@@ -1552,9 +1565,9 @@ static void hw_assist_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 	for (byte_offset = -63; byte_offset < 64; byte_offset += BYTE_OFFSET_INCR) {
 
 	    // do the setup on the active LMC
-	    // set *only* the byte lane DLL offset
+	    // set the bytelanes DLL offsets
 	    change_dll_offset_enable(node, lmc, 0);
-	    load_dll_offset(node, lmc, dll_offset_mode, byte_offset, bytelane);
+	    load_dll_offset(node, lmc, dll_offset_mode, byte_offset, bytelane); // FIXME? bytelane?
 	    change_dll_offset_enable(node, lmc, 1);
 
 	    bdk_watchdog_poke();
@@ -1562,92 +1575,122 @@ static void hw_assist_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    // run the test on each rank
 	    // only 1 call per rank should be enough, let the bursts, loops, etc, control the load...
 	
-	    off_errors = 0;
+	    off_errors = 0; // errors for this byte_offset, all ranks
 
-	    for (rankx = 0; rankx < rank_max; rankx++) {
-		uint64_t phys_addr = (lmc << 7);
-		phys_addr |= (rankx) ? dram_tune_rank_offset : 0; // FIXME!! what if ranks> 2?
+            active_ranks = 0;
+	    for (rankx = 0; rankx < 4; rankx++) {
+                if (!(rank_mask & (1 << rankx)))
+                    continue;
 
-		errors[rankx] = test_dram_byte_hw(node, lmc, phys_addr, bytelane, 0xff);
+		phys_addr = (lmc << 7);
+		phys_addr |= dram_tune_rank_offset * active_ranks;
+                active_ranks++;
 
-		// check errors
-		if (errors[rankx]) { // yes, an error in the byte lane in this rank
-		    off_errors |= errors[rankx];
+                // NOTE: return is a now a bitmask of the erroring bytelanes..
+		errors[rankx] = test_dram_byte_hw(node, lmc, phys_addr);
 
-		    ddr_print4("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: Address 0x%012lx errors 0x%x\n",
-			      node, lmc, rankx, bytelane, mode_str,
-			      byte_offset, phys_addr, errors[rankx]);
+                for (byte = byte_lo; byte <= byte_hi; byte++) { // do bytelane(s)
 
-		    if (rank_delay_count[rankx] > 0) { // had started run
-			ddr_print4("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: stopping a run here\n",
-				  node, lmc, rankx, bytelane, mode_str, byte_offset);
-			rank_delay_count[rankx] = 0;   // stop now
-		    }
-		    // FIXME: else had not started run - nothing else to do?
-		} else { // no error in the byte lane
-		    if (rank_delay_count[rankx] == 0) { // first success, set run start
-			ddr_print4("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: starting a run here\n",
-				  node, lmc, rankx, bytelane, mode_str, byte_offset);
-			rank_delay_start[rankx] = byte_offset;
-		    }
-		    rank_delay_count[rankx] += BYTE_OFFSET_INCR; // bump run length
+                    // check errors
+                    if (errors[rankx] & (1 << byte)) { // yes, an error in the byte lane in this rank
+                        off_errors |= (1 << byte);
 
-		    // is this now the biggest window?
-		    if (rank_delay_count[rankx] > rank_delay_best_count[rankx]) {
-			rank_delay_best_count[rankx] = rank_delay_count[rankx];
-			rank_delay_best_start[rankx] = rank_delay_start[rankx];
-			debug_print("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: updating best to %d/%d\n",
-                                    node, lmc, rankx, bytelane, mode_str, byte_offset,
-				  rank_delay_best_start[rankx], rank_delay_best_count[rankx]);
-		    }
-		}
-	    } /* for (rankx = 0; rankx < rank_max; rankx++) */
+                        ddr_print4("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: Address 0x%012lx errors 0x%x\n",
+                                   node, lmc, rankx, bytelane, mode_str,
+                                   byte_offset, phys_addr, errors[rankx]);
+
+                        if (rank_delay_count[rankx][byte] > 0) { // had started run
+                            ddr_print4("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: stopping a run here\n",
+                                       node, lmc, rankx, bytelane, mode_str, byte_offset);
+                            rank_delay_count[rankx][byte] = 0;   // stop now
+                        }
+                        // FIXME: else had not started run - nothing else to do?
+                    } else { // no error in the byte lane
+                        if (rank_delay_count[rankx][byte] == 0) { // first success, set run start
+                            ddr_print4("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: starting a run here\n",
+                                       node, lmc, rankx, bytelane, mode_str, byte_offset);
+                            rank_delay_start[rankx][byte] = byte_offset;
+                        }
+                        rank_delay_count[rankx][byte] += BYTE_OFFSET_INCR; // bump run length
+
+                        // is this now the biggest window?
+                        if (rank_delay_count[rankx][byte] > rank_delay_best_count[rankx][byte]) {
+                            rank_delay_best_count[rankx][byte] = rank_delay_count[rankx][byte];
+                            rank_delay_best_start[rankx][byte] = rank_delay_start[rankx][byte];
+                            debug_print("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: updating best to %d/%d\n",
+                                        node, lmc, rankx, bytelane, mode_str, byte_offset,
+                                        rank_delay_best_start[rankx][byte], rank_delay_best_count[rankx][byte]);
+                        }
+                    }
+                } /* for (byte = byte_lo; byte <= byte_hi; byte++) */
+	    } /* for (rankx = 0; rankx < 4; rankx++) */
 
 	    tot_errors |= off_errors;
 
 	} /* for (byte_offset = -63; byte_offset < 64; byte_offset += BYTE_OFFSET_INCR) */
 
-	// now choose the best byte_offset for this pattern according to the best windows of the tested ranks
+	// now choose the best byte_offsets for this pattern according to the best windows of the tested ranks
         // calculate offset by constructing an average window from the rank windows
-	int pat_beg = -999, pat_end = 999;
-        int rank_beg, rank_end;
-	for (rankx = 0; rankx < rank_max; rankx++) {
-            rank_beg = rank_delay_best_start[rankx];
-            pat_beg = max(pat_beg, rank_beg);
-	    rank_end = rank_beg + rank_delay_best_count[rankx] - BYTE_OFFSET_INCR;
-            pat_end = min(pat_end, rank_end);
+        for (byte = byte_lo; byte <= byte_hi; byte++) {
 
-	    ddr_print3("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test:  Rank Window %3d:%3d\n",
-                       node, lmc, rankx, bytelane, mode_str, rank_beg, rank_end);
-	} /* for (rankx = 0; rankx < rank_max; rankx++) */
+            pat_beg = -999;
+            pat_end = 999;
 
-	pat_best_offset = (pat_end + pat_beg) / 2;
-	ddr_print3("N%d.LMC%d: Bytelane %d DLL %s Offset Test:  Pattern %d Average %3d\n",
-		  node, lmc, bytelane, mode_str, pattern, pat_best_offset);
+            for (rankx = 0; rankx < 4; rankx++) {
+                if (!(rank_mask & (1 << rankx)))
+                    continue;
+
+                rank_beg = rank_delay_best_start[rankx][byte];
+                pat_beg = max(pat_beg, rank_beg);
+                rank_end = rank_beg + rank_delay_best_count[rankx][byte] - BYTE_OFFSET_INCR;
+                pat_end = min(pat_end, rank_end);
+
+                ddr_print3("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test:  Rank Window %3d:%3d\n",
+                           node, lmc, rankx, bytelane, mode_str, rank_beg, rank_end);
+
+            } /* for (rankx = 0; rankx < 4; rankx++) */
+
+            pat_best_offset[byte] = (pat_end + pat_beg) / 2;
+            ddr_print3("N%d.LMC%d: Bytelane %d DLL %s Offset Test:  Pattern %d Average %3d\n",
+                       node, lmc, byte, mode_str, pattern, pat_best_offset[byte]);
 
 #if 0
-	// FIXME: next print the window counts
-	sprintf(sbuffer, "N%d.LMC%d Pattern %d: DLL %s Offset Count ",
-		node, lmc, pattern, mode_str);
-	printf("%-45s : ", sbuffer);
-	printf(" %3d", byte_delay_best_count);
-	printf("\n");
+            // FIXME: next print the window counts
+            sprintf(sbuffer, "N%d.LMC%d Pattern %d: DLL %s Offset Count ",
+                    node, lmc, pattern, mode_str);
+            printf("%-45s : ", sbuffer);
+            printf(" %3d", byte_delay_best_count);
+            printf("\n");
 #endif
 
-	new_best_offset += pat_best_offset; // sum the pattern averages
-    } // end of pattern loop
+            new_best_offset[byte] += pat_best_offset[byte]; // sum the pattern averages
+        } /* for (byte = byte_lo; byte <= byte_hi; byte++) */
+    } /* for (pattern = 0; pattern < NUM_BYTE_PATTERNS; pattern++) */
+    // end of pattern loop
 
-    new_best_offset = divide_nint(new_best_offset, NUM_BYTE_PATTERNS); // create the new average NINT
+    ddr_print("N%d.LMC%d: HW DLL %s Offset Amount   : ",
+              node, lmc, mode_str);
 
-    // print the best offset from all patterns
+    for (byte = byte_hi; byte >= byte_lo; --byte) { // print in decending byte index order
+        new_best_offset[byte] = divide_nint(new_best_offset[byte], NUM_BYTE_PATTERNS); // create the new average NINT
 
-    ddr_print("N%d.LMC%d: Bytelane %d DLL %s Offset Best Delay: %3d\n",
-	      node, lmc, bytelane, mode_str, new_best_offset);
+        // print the best offsets from all patterns
 
-    // done with testing, load up the best offset we found...
-    change_dll_offset_enable(node, lmc, 0); // disable offsets while we load...
-    load_dll_offset(node, lmc, dll_offset_mode, new_best_offset, bytelane);
-    change_dll_offset_enable(node, lmc, 1); // re-enable the offsets now that we are done loading
+        if (bytelane == 0x0A) // print just the offset of all the bytes
+            ddr_print("%5d ", new_best_offset[byte]);
+        else
+            ddr_print("%5d.%d ", new_best_offset[byte], byte);
+        
+
+#if 1
+        // done with testing, load up the best offsets we found...
+        change_dll_offset_enable(node, lmc, 0); // disable offsets while we load...
+        load_dll_offset(node, lmc, dll_offset_mode, new_best_offset[byte], byte);
+        change_dll_offset_enable(node, lmc, 1); // re-enable the offsets now that we are done loading
+#endif
+    } /* for (byte = byte_hi; byte >= byte_lo; --byte) */
+
+    ddr_print("\n");
 
 #if 0
     // run the test one last time 
@@ -1709,7 +1752,7 @@ int perform_HW_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int bytel
 	for (loop = 0; loop < loops; loop++) {
 	    /* Perform DLL offset tuning */
 	    //auto_set_dll_offset(node,  1 /* 1=write */, lmc, ddr_interface_64b);
-	    hw_assist_set_dll_offset(node,  2 /* 2=read */, lmc, bytelane, ddr_interface_64b);
+	    hw_assist_test_dll_offset(node,  2 /* 2=read */, lmc, bytelane, ddr_interface_64b);
 	}
 
 	// perform cleanup on active LMC   
