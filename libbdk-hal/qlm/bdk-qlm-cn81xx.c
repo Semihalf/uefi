@@ -158,14 +158,31 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                 bgx_index = 0;
                 break;
             case 1:
+            {
                 bgx = 0;
                 bgx_index = 2;
                 /* Special check for RXAUI on DLM0. If DLM1, BGX will overwrite
                    index 1 with XFI's mode */
                 BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, 0));
-                if (cmrx_config.s.lmac_type == 0x2)
+                if (cmrx_config.s.lmac_type == BDK_BGX_LMAC_TYPES_E_RXAUI)
                     bgx_index=0;
                 break;
+            }
+            case 2:
+                bgx = 1;
+                bgx_index = 0;
+                break;
+            case 3:
+            {
+                bgx = 1;
+                bgx_index = 2;
+                /* Special check for RXAUI on DLM2. If DLM3, BGX will overwrite
+                   index 1 with XFI's mode */
+                BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, 2));
+                if (cmrx_config.s.lmac_type == BDK_BGX_LMAC_TYPES_E_RXAUI)
+                    bgx_index=0;
+                break;
+            }
             default:
                 return BDK_QLM_MODE_DISABLED;
         }
@@ -536,6 +553,14 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         case 1:
             bgx_block = 0;
+            bgx_index = 2;
+            break;
+        case 2:
+            bgx_block = 1;
+            bgx_index = 0;
+            break;
+        case 3:
+            bgx_block = 1;
             bgx_index = 2;
             break;
         default:
