@@ -149,6 +149,56 @@ typedef union
                                                                    <9> = ixo_icc_fifo1_bstatus_rclk.
                                                                    <8>  = ixo_ics_mem_bstatus_rclk.
                                                                    <7>  = iob_mem_data_xmd0_bstatus_rclk.
+                                                                   <6>  = 0 unused.
+                                                                   <5>  = ics_cmd_fifo_bstatus_rclk.
+                                                                   <4>  = ixo_xmd_mem0_bstatus_rclk.
+                                                                   <3>  = ixo_xmd_mem1_bstatus_rclk.
+                                                                   <2>  = iobn_iorn_ffifo0_bstatus_rclk.
+                                                                   <1>  = iobn_iorn_ffifo1_bstatus_rclk.
+                                                                   <0>  = ixo_smmu_mem0_bstatus_rclk. */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 19; /**< [ 18:  0](RO/H) Memory BIST status.
+                                                                 Internal:
+                                                                 <18> = gmr_ixofifo_bstatus_rclk.
+                                                                   <17> = sli_preq_2_ffifo_bstatus_rclk.
+                                                                   <16> = sli_req_2_ffifo_bstatus_rclk.
+                                                                   <15> = sli_preq_1_ffifo_bstatus_rclk.
+                                                                   <14> = sli_req_1_ffifo_bstatus_rclk.
+                                                                   <13> = sli_preq_0_ffifo_bstatus_rclk.
+                                                                   <12> = sli_req_0_ffifo_bstatus_rclk.
+                                                                   <11> = iop_ffifo_bstatus_rclk.
+                                                                   <10> = ixo_icc_fifo0_bstatus_rclk.
+                                                                   <9> = ixo_icc_fifo1_bstatus_rclk.
+                                                                   <8>  = ixo_ics_mem_bstatus_rclk.
+                                                                   <7>  = iob_mem_data_xmd0_bstatus_rclk.
+                                                                   <6>  = 0 unused.
+                                                                   <5>  = ics_cmd_fifo_bstatus_rclk.
+                                                                   <4>  = ixo_xmd_mem0_bstatus_rclk.
+                                                                   <3>  = ixo_xmd_mem1_bstatus_rclk.
+                                                                   <2>  = iobn_iorn_ffifo0_bstatus_rclk.
+                                                                   <1>  = iobn_iorn_ffifo1_bstatus_rclk.
+                                                                   <0>  = ixo_smmu_mem0_bstatus_rclk. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_iobnx_bistr_reg_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t status                : 19; /**< [ 18:  0](RO/H) Memory BIST status.
+                                                                 Internal:
+                                                                 <18> = gmr_ixofifo_bstatus_rclk.
+                                                                   <17> = sli_preq_2_ffifo_bstatus_rclk.
+                                                                   <16> = sli_req_2_ffifo_bstatus_rclk.
+                                                                   <15> = sli_preq_1_ffifo_bstatus_rclk.
+                                                                   <14> = sli_req_1_ffifo_bstatus_rclk.
+                                                                   <13> = sli_preq_0_ffifo_bstatus_rclk.
+                                                                   <12> = sli_req_0_ffifo_bstatus_rclk.
+                                                                   <11> = iop_ffifo_bstatus_rclk.
+                                                                   <10> = ixo_icc_fifo0_bstatus_rclk.
+                                                                   <9> = ixo_icc_fifo1_bstatus_rclk.
+                                                                   <8>  = ixo_ics_mem_bstatus_rclk.
+                                                                   <7>  = iob_mem_data_xmd0_bstatus_rclk.
                                                                    <6>  = iob_mem_data_xmd1_bstatus_rclk.
                                                                    <5>  = ics_cmd_fifo_bstatus_rclk.
                                                                    <4>  = ixo_xmd_mem0_bstatus_rclk.
@@ -180,8 +230,7 @@ typedef union
                                                                    <0>  = ixo_smmu_mem0_bstatus_rclk. */
         uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_iobnx_bistr_reg_cn81xx cn88xx; */
+    } cn88xx;
     struct bdk_iobnx_bistr_reg_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -272,8 +321,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
-        uint64_t status                : 11; /**< [ 10:  0](RO/H) Memory BIST status:
-
+        uint64_t status                : 11; /**< [ 10:  0](RO/H) Memory BIST status.
                                                                  Internal:
                                                                  <10> = irp0_flid_mem_status.
                                                                    <9>  = irp1_flid_mem_status.
@@ -287,8 +335,7 @@ typedef union
                                                                    <1>  = iop_breq_fifo2_bstatus.
                                                                    <0>  = iop_breq_fifo3_bstatus. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 11; /**< [ 10:  0](RO/H) Memory BIST status:
-
+        uint64_t status                : 11; /**< [ 10:  0](RO/H) Memory BIST status.
                                                                  Internal:
                                                                  <10> = irp0_flid_mem_status.
                                                                    <9>  = irp1_flid_mem_status.
@@ -304,7 +351,42 @@ typedef union
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_iobnx_bists_reg_s cn; */
+    struct bdk_iobnx_bists_reg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t status                : 11; /**< [ 10:  0](RO/H) Memory BIST status.
+                                                                 Internal:
+                                                                 <10> = irp0_flid_mem_status.
+                                                                   <9>  = 0.
+                                                                   <8>  = icc0_xmc_fifo_ecc_bstatus.
+                                                                   <7>  = 0 unused.
+                                                                   <6>  = icc_xmc_fifo_ecc_bstatus.
+                                                                   <5>  = rsd_mem0_bstatus.
+                                                                   <4>  = 0 un used
+                                                                   <3>  = iop_breq_fifo0_bstatus.
+                                                                   <2>  = 0 Unused
+                                                                   <1>  = iop_breq_fifo2_bstatus.
+                                                                   <0>  = iop_breq_fifo3_bstatus. */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 11; /**< [ 10:  0](RO/H) Memory BIST status.
+                                                                 Internal:
+                                                                 <10> = irp0_flid_mem_status.
+                                                                   <9>  = 0.
+                                                                   <8>  = icc0_xmc_fifo_ecc_bstatus.
+                                                                   <7>  = 0 unused.
+                                                                   <6>  = icc_xmc_fifo_ecc_bstatus.
+                                                                   <5>  = rsd_mem0_bstatus.
+                                                                   <4>  = 0 un used
+                                                                   <3>  = iop_breq_fifo0_bstatus.
+                                                                   <2>  = 0 Unused
+                                                                   <1>  = iop_breq_fifo2_bstatus.
+                                                                   <0>  = iop_breq_fifo3_bstatus. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_iobnx_bists_reg_s cn88xx; */
+    /* struct bdk_iobnx_bists_reg_s cn83xx; */
 } bdk_iobnx_bists_reg_t;
 
 static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -344,30 +426,30 @@ typedef union
         uint64_t reserved_8_63         : 56;
         uint64_t current_power_setting : 8;  /**< [  7:  0](RO/H) Global throttling value currently being used. Throttling can force units (CPU cores, in
                                                                  particular) idle for a portion of time, which will reduce power consumption. When
-                                                                 CURRENT_POWER_SETTING is equal to zero, the unit is idle most of the time and consumes
-                                                                 minimum power. When CURRENT_POWER_SETTING is equal to 0xFF, units are never idled to
-                                                                 reduce power. The hardware generally uses a CURRENT_POWER_SETTING value that is as large
+                                                                 [CURRENT_POWER_SETTING] is equal to zero, the unit is idle most of the time and consumes
+                                                                 minimum power. When [CURRENT_POWER_SETTING] is equal to 0xFF, units are never idled to
+                                                                 reduce power. The hardware generally uses a [CURRENT_POWER_SETTING] value that is as large
                                                                  as possible (in order to maximize performance) subject to the following constraints (in
                                                                  priority order):
-                                                                 * PWR_MIN <= CURRENT_POWER_SETTING <= PWR_MAX.
+                                                                 * PWR_MIN <= [CURRENT_POWER_SETTING] <= PWR_MAX.
                                                                  * Power limits from the PWR_SETTING feedback control system.
 
-                                                                 In the case of the CPU cores, CURRENT_POWER_SETTING effectively limits the CP0
-                                                                 PowThrottle[POWLIM] value: effective POWLIM = MINIMUM(CURRENT_POWER_SETTING,
+                                                                 In the case of the CPU cores, [CURRENT_POWER_SETTING] effectively limits the CP0
+                                                                 PowThrottle[POWLIM] value: effective POWLIM = MINIMUM([CURRENT_POWER_SETTING],
                                                                  PowThrottle[POWLIM]) */
 #else /* Word 0 - Little Endian */
         uint64_t current_power_setting : 8;  /**< [  7:  0](RO/H) Global throttling value currently being used. Throttling can force units (CPU cores, in
                                                                  particular) idle for a portion of time, which will reduce power consumption. When
-                                                                 CURRENT_POWER_SETTING is equal to zero, the unit is idle most of the time and consumes
-                                                                 minimum power. When CURRENT_POWER_SETTING is equal to 0xFF, units are never idled to
-                                                                 reduce power. The hardware generally uses a CURRENT_POWER_SETTING value that is as large
+                                                                 [CURRENT_POWER_SETTING] is equal to zero, the unit is idle most of the time and consumes
+                                                                 minimum power. When [CURRENT_POWER_SETTING] is equal to 0xFF, units are never idled to
+                                                                 reduce power. The hardware generally uses a [CURRENT_POWER_SETTING] value that is as large
                                                                  as possible (in order to maximize performance) subject to the following constraints (in
                                                                  priority order):
-                                                                 * PWR_MIN <= CURRENT_POWER_SETTING <= PWR_MAX.
+                                                                 * PWR_MIN <= [CURRENT_POWER_SETTING] <= PWR_MAX.
                                                                  * Power limits from the PWR_SETTING feedback control system.
 
-                                                                 In the case of the CPU cores, CURRENT_POWER_SETTING effectively limits the CP0
-                                                                 PowThrottle[POWLIM] value: effective POWLIM = MINIMUM(CURRENT_POWER_SETTING,
+                                                                 In the case of the CPU cores, [CURRENT_POWER_SETTING] effectively limits the CP0
+                                                                 PowThrottle[POWLIM] value: effective POWLIM = MINIMUM([CURRENT_POWER_SETTING],
                                                                  PowThrottle[POWLIM]) */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
@@ -413,41 +495,47 @@ typedef union
         uint64_t pwr_bw                : 2;  /**< [ 33: 32](R/W) Configures the reaction time of the closed-loop feedback control system for the
                                                                  AVG_CHIP_POWER power approximation. Higher numbers decrease bandwidth, reducing response
                                                                  time, which could lead to greater tracking error, but reduce ringing. */
-        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Maximum allowed CURRENT_POWER_SETTING value. PWR_MAX must be >= PWR_MIN. */
-        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Minimum allowed CURRENT_POWER_SETTING value. PWR_MIN must be <= PWR_MAX. We recommend a
-                                                                 PWR_MIN value larger than zero to set a minimum performance level in case PWR_SETTING is
-                                                                 set to an unreachable goal. See the CPU CP0 PowThrottle description. PWR_MIN = 50% of
-                                                                 PowThrottle[MAXPOW] could be a good choice, for example. */
-        uint64_t pwr_setting           : 16; /**< [ 15:  0](R/W) A power limiter for the chip. A limiter of the power consumption of the chip. This power
-                                                                 limiting is implemented by a closed-loop feedback control system for the AVG_CHIP_POWER
-                                                                 power approximation. The direct output of the PWR_SETTING feedback control system is the
-                                                                 CURRENT_POWER_SETTING value. The power consumed by the chip (estimated currently by the
-                                                                 AVG_CHIP_POWER value) is an indirect output of the PWR_SETTING feedback control system.
-                                                                 PWR_SETTING is not used by the hardware when PWR_MIN equals PWR_MAX. PWR_MIN and PWR_MAX
-                                                                 threshold requirements always supersede PWR_SETTING limits. (For maximum PWR_SETTING
-                                                                 feedback control freedom, set PWR_MIN=0 and PWR_MAX=0xff.)
+        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Maximum allowed CURRENT_POWER_SETTING value. [PWR_MAX] must be >= [PWR_MIN]. */
+        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Minimum allowed CURRENT_POWER_SETTING value. [PWR_MIN] must be <= [PWR_MAX]. We
+                                                                 recommend a [PWR_MIN] value larger than zero to set a minimum performance level
+                                                                 in case [PWR_SETTING] is set to an unreachable goal. See the CPU CP0 PowThrottle
+                                                                 description. [PWR_MIN] = 50% of PowThrottle[MAXPOW] could be a good choice, for
+                                                                 example. */
+        uint64_t pwr_setting           : 16; /**< [ 15:  0](R/W) A power limiter for the chip. A limiter of the power consumption of the
+                                                                 chip. This power limiting is implemented by a closed-loop feedback control
+                                                                 system for the AVG_CHIP_POWER power approximation. The direct output of the
+                                                                 [PWR_SETTING] feedback control system is the CURRENT_POWER_SETTING value. The
+                                                                 power consumed by the chip (estimated currently by the AVG_CHIP_POWER value) is
+                                                                 an indirect output of the PWR_SETTING feedback control system. [PWR_SETTING] is
+                                                                 not used by the hardware when [PWR_MIN] equals [PWR_MAX]. [PWR_MIN] and
+                                                                 [PWR_MAX] threshold requirements always supersede [PWR_SETTING] limits. (For
+                                                                 maximum [PWR_SETTING] feedback control freedom, set [PWR_MIN]=0 and
+                                                                 [PWR_MAX]=0xff.)
 
-                                                                 PWR_SETTING equal to 0 forces the chip to consume near minimum power. Increasing
-                                                                 PWR_SETTING value from 0 to 0xFFFF increases the power that the chip is allowed to consume
-                                                                 linearly (roughly) from minimum to maximum. */
+                                                                 [PWR_SETTING] equal to 0 forces the chip to consume near minimum
+                                                                 power. Increasing [PWR_SETTING] value from 0 to 0xFFFF increases the power that
+                                                                 the chip is allowed to consume linearly (roughly) from minimum to maximum. */
 #else /* Word 0 - Little Endian */
-        uint64_t pwr_setting           : 16; /**< [ 15:  0](R/W) A power limiter for the chip. A limiter of the power consumption of the chip. This power
-                                                                 limiting is implemented by a closed-loop feedback control system for the AVG_CHIP_POWER
-                                                                 power approximation. The direct output of the PWR_SETTING feedback control system is the
-                                                                 CURRENT_POWER_SETTING value. The power consumed by the chip (estimated currently by the
-                                                                 AVG_CHIP_POWER value) is an indirect output of the PWR_SETTING feedback control system.
-                                                                 PWR_SETTING is not used by the hardware when PWR_MIN equals PWR_MAX. PWR_MIN and PWR_MAX
-                                                                 threshold requirements always supersede PWR_SETTING limits. (For maximum PWR_SETTING
-                                                                 feedback control freedom, set PWR_MIN=0 and PWR_MAX=0xff.)
+        uint64_t pwr_setting           : 16; /**< [ 15:  0](R/W) A power limiter for the chip. A limiter of the power consumption of the
+                                                                 chip. This power limiting is implemented by a closed-loop feedback control
+                                                                 system for the AVG_CHIP_POWER power approximation. The direct output of the
+                                                                 [PWR_SETTING] feedback control system is the CURRENT_POWER_SETTING value. The
+                                                                 power consumed by the chip (estimated currently by the AVG_CHIP_POWER value) is
+                                                                 an indirect output of the PWR_SETTING feedback control system. [PWR_SETTING] is
+                                                                 not used by the hardware when [PWR_MIN] equals [PWR_MAX]. [PWR_MIN] and
+                                                                 [PWR_MAX] threshold requirements always supersede [PWR_SETTING] limits. (For
+                                                                 maximum [PWR_SETTING] feedback control freedom, set [PWR_MIN]=0 and
+                                                                 [PWR_MAX]=0xff.)
 
-                                                                 PWR_SETTING equal to 0 forces the chip to consume near minimum power. Increasing
-                                                                 PWR_SETTING value from 0 to 0xFFFF increases the power that the chip is allowed to consume
-                                                                 linearly (roughly) from minimum to maximum. */
-        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Minimum allowed CURRENT_POWER_SETTING value. PWR_MIN must be <= PWR_MAX. We recommend a
-                                                                 PWR_MIN value larger than zero to set a minimum performance level in case PWR_SETTING is
-                                                                 set to an unreachable goal. See the CPU CP0 PowThrottle description. PWR_MIN = 50% of
-                                                                 PowThrottle[MAXPOW] could be a good choice, for example. */
-        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Maximum allowed CURRENT_POWER_SETTING value. PWR_MAX must be >= PWR_MIN. */
+                                                                 [PWR_SETTING] equal to 0 forces the chip to consume near minimum
+                                                                 power. Increasing [PWR_SETTING] value from 0 to 0xFFFF increases the power that
+                                                                 the chip is allowed to consume linearly (roughly) from minimum to maximum. */
+        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Minimum allowed CURRENT_POWER_SETTING value. [PWR_MIN] must be <= [PWR_MAX]. We
+                                                                 recommend a [PWR_MIN] value larger than zero to set a minimum performance level
+                                                                 in case [PWR_SETTING] is set to an unreachable goal. See the CPU CP0 PowThrottle
+                                                                 description. [PWR_MIN] = 50% of PowThrottle[MAXPOW] could be a good choice, for
+                                                                 example. */
+        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Maximum allowed CURRENT_POWER_SETTING value. [PWR_MAX] must be >= [PWR_MIN]. */
         uint64_t pwr_bw                : 2;  /**< [ 33: 32](R/W) Configures the reaction time of the closed-loop feedback control system for the
                                                                  AVG_CHIP_POWER power approximation. Higher numbers decrease bandwidth, reducing response
                                                                  time, which could lead to greater tracking error, but reduce ringing. */
@@ -494,7 +582,7 @@ typedef union
                                                                  includes the caches and DRAM controller(s), as well as all CPU cores. Linearly
                                                                  larger values indicate linearly higher power consumption. */
         uint64_t chip_power            : 16; /**< [ 47: 32](RO/H) An estimate of the current total power consumption by the chip. Linearly larger values
-                                                                 indicate linearly higher power consumption. [CHIP_POWER] is the sum of [CPU_POWER] and
+                                                                 indicate linearly higher power consumption. [CHIP_POWER] is the sum of [CPU_PWR] and
                                                                  [COPROC_POWER]. */
         uint64_t coproc_power          : 16; /**< [ 31: 16](RO/H) An estimate of the current coprocessor power consumption. Linearly larger values indicate
                                                                  linearly higher power consumption. This estimate is energy per core clock, and will
@@ -554,7 +642,7 @@ typedef union
                                                                  linearly higher power consumption. This estimate is energy per core clock, and will
                                                                  generally decrease as the ratio of core to coprocessor clock speed increases. */
         uint64_t chip_power            : 16; /**< [ 47: 32](RO/H) An estimate of the current total power consumption by the chip. Linearly larger values
-                                                                 indicate linearly higher power consumption. [CHIP_POWER] is the sum of [CPU_POWER] and
+                                                                 indicate linearly higher power consumption. [CHIP_POWER] is the sum of [CPU_PWR] and
                                                                  [COPROC_POWER]. */
         uint64_t cpu_pwr               : 16; /**< [ 63: 48](RO/H) An estimate of the current CPU core complex power consumption, including a sum
                                                                  of all processor's AP_CVM_POWER_EL1[AVERAGE_POWER]. The CPU core complex
@@ -621,7 +709,36 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_iobnx_core_bist_status_s cn; */
+    struct bdk_iobnx_core_bist_status_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t core_bstat            : 4;  /**< [  3:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for the even numbered cores and
+                                                                 IOBN1 contains the BIST status for the odd numbered cores.
+
+                                                                 <pre>
+                                                                    BIT    IOBN
+                                                                    [0]    Core 0
+                                                                    [1]    Core 1
+                                                                    [2]    Core 2
+                                                                    [3]    Core 3
+                                                                 </pre> */
+#else /* Word 0 - Little Endian */
+        uint64_t core_bstat            : 4;  /**< [  3:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for the even numbered cores and
+                                                                 IOBN1 contains the BIST status for the odd numbered cores.
+
+                                                                 <pre>
+                                                                    BIT    IOBN
+                                                                    [0]    Core 0
+                                                                    [1]    Core 1
+                                                                    [2]    Core 2
+                                                                    [3]    Core 3
+                                                                 </pre> */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_iobnx_core_bist_status_s cn88xx; */
+    /* struct bdk_iobnx_core_bist_status_s cn83xx; */
 } bdk_iobnx_core_bist_status_t;
 
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4170,19 +4287,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's IOBN_MSIX_VEC()_ADDR, IOBN_MSIX_VEC()_CTL, and corresponding
                                                                  bit of IOBN_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_IOBN_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's IOBN_MSIX_VEC()_ADDR, IOBN_MSIX_VEC()_CTL, and corresponding
                                                                  bit of IOBN_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_IOBN_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
@@ -4272,10 +4389,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_23_63        : 41;
         uint64_t ncb_wr_buf_crd        : 7;  /**< [ 22: 16](R/W) NCB write buffer credit. Each NCB can have 64 write buffers in flight to the L2; this is
-                                                                 the number to decrease the 64 by. */
+                                                                 the number by which to decrease the 64. */
         uint64_t reserved_15           : 1;
-        uint64_t ncb0_wr_crd           : 7;  /**< [ 14:  8](R/W) NCB write credit. Each NCB can have 64 writes in flight to the L2; this is the number to
-                                                                 decrease the 64 by. */
+        uint64_t ncb0_wr_crd           : 7;  /**< [ 14:  8](R/W) NCB write credit. Each NCB can have 64 writes in flight to the L2; this is the number by
+                                                                 which to
+                                                                 decrease the 64. */
         uint64_t reserved_7            : 1;
         uint64_t ncb0_rd_crd           : 7;  /**< [  6:  0](R/W) NCB read credit. Each NCB can have 64 reads in flight to the L2; this is the number to
                                                                  decrease the 64 by. */
@@ -4283,11 +4401,12 @@ typedef union
         uint64_t ncb0_rd_crd           : 7;  /**< [  6:  0](R/W) NCB read credit. Each NCB can have 64 reads in flight to the L2; this is the number to
                                                                  decrease the 64 by. */
         uint64_t reserved_7            : 1;
-        uint64_t ncb0_wr_crd           : 7;  /**< [ 14:  8](R/W) NCB write credit. Each NCB can have 64 writes in flight to the L2; this is the number to
-                                                                 decrease the 64 by. */
+        uint64_t ncb0_wr_crd           : 7;  /**< [ 14:  8](R/W) NCB write credit. Each NCB can have 64 writes in flight to the L2; this is the number by
+                                                                 which to
+                                                                 decrease the 64. */
         uint64_t reserved_15           : 1;
         uint64_t ncb_wr_buf_crd        : 7;  /**< [ 22: 16](R/W) NCB write buffer credit. Each NCB can have 64 write buffers in flight to the L2; this is
-                                                                 the number to decrease the 64 by. */
+                                                                 the number by which to decrease the 64. */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
@@ -4633,13 +4752,13 @@ typedef union
     struct bdk_iobnx_ncb0_sdisx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t did                   : 64; /**< [ 63:  0](SR/W) When set a secure operation is required to access the NCBDID. If a non-secure
+        uint64_t did                   : 64; /**< [ 63:  0](SR/W) When set a secure operation is required to access the NCBDID. If a nonsecure
                                                                  operation occurs it will result in a R/W to ECAM0_NOP_ZF.
 
                                                                  Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs
                                                                  191:128, and index 3 to DIDs 255:192. */
 #else /* Word 0 - Little Endian */
-        uint64_t did                   : 64; /**< [ 63:  0](SR/W) When set a secure operation is required to access the NCBDID. If a non-secure
+        uint64_t did                   : 64; /**< [ 63:  0](SR/W) When set a secure operation is required to access the NCBDID. If a nonsecure
                                                                  operation occurs it will result in a R/W to ECAM0_NOP_ZF.
 
                                                                  Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs

@@ -66,18 +66,18 @@
  * SGPIO Transmit Activity Enumeration
  * Enumerates the values of SGP_TX(0..3)[ACT].
  */
-#define BDK_SGP_TX_ACT_E_A_OFF_ON (3) /**< Select blink generator A, 50% duty cycle, off for the first half-cycle, on for the second
-                                       half-cycle. */
-#define BDK_SGP_TX_ACT_E_A_ON_OFF (2) /**< Select blink generator A, 50% duty cycle, on for the first half-cycle, off for the second
-                                       half-cycle. */
+#define BDK_SGP_TX_ACT_E_A_OFF_ON (3) /**< Select blink generator A, 50% duty cycle, off for the first half cycle, on for the second
+                                       half cycle. */
+#define BDK_SGP_TX_ACT_E_A_ON_OFF (2) /**< Select blink generator A, 50% duty cycle, on for the first half cycle, off for the second
+                                       half cycle. */
 #define BDK_SGP_TX_ACT_E_BRIEF_END (4) /**< Briefly enable the activity indicator based on the end of activity, subject to
-                                       Activity is as determined from the SATA controller in SGP_IMP_DRIVE()[CTRLR]. */
+                                       activity is as determined from the SATA controller in SGP_IMP_DRIVE()[CTRLR]. */
 #define BDK_SGP_TX_ACT_E_BRIEF_START (5) /**< Briefly enable the activity indicator based on the start of activity
-                                       Activity is as determined from the SATA controller in SGP_IMP_DRIVE()[CTRLR]. */
-#define BDK_SGP_TX_ACT_E_B_OFF_ON (7) /**< Select blink generator B, 50% duty cycle, off for the first half-cycle, on for the second
-                                       half-cycle. */
-#define BDK_SGP_TX_ACT_E_B_ON_OFF (6) /**< Select blink generator B, 50% duty cycle, on for the first half-cycle, off for the second
-                                       half-cycle. */
+                                       activity is as determined from the SATA controller in SGP_IMP_DRIVE()[CTRLR]. */
+#define BDK_SGP_TX_ACT_E_B_OFF_ON (7) /**< Select blink generator B, 50% duty cycle, off for the first half cycle, on for the second
+                                       half cycle. */
+#define BDK_SGP_TX_ACT_E_B_ON_OFF (6) /**< Select blink generator B, 50% duty cycle, on for the first half cycle, off for the second
+                                       half cycle. */
 #define BDK_SGP_TX_ACT_E_STATIC_OFF (0) /**< Disable the activity indicator. (Set IDn.0 to zero.) */
 #define BDK_SGP_TX_ACT_E_STATIC_ON (1) /**< Enable the activity indicator. (Set IDn.0 to one.) */
 
@@ -87,14 +87,14 @@
  * SGPIO Transmit Error Enumeration
  * Enumerates the values of SGP_TX(0..3)[ERR].
  */
-#define BDK_SGP_TX_ERR_E_A_OFF_ON (3) /**< Select blink generator A, 50% duty cycle, off for the first half-cycle, on for the second
-                                       half-cycle. */
-#define BDK_SGP_TX_ERR_E_A_ON_OFF (2) /**< Select blink generator A, 50% duty cycle, on for the first half-cycle, off for the second
-                                       half-cycle. */
-#define BDK_SGP_TX_ERR_E_B_OFF_ON (7) /**< Select blink generator B, 50% duty cycle, off for the first half-cycle, on for the second
-                                       half-cycle. */
-#define BDK_SGP_TX_ERR_E_B_ON_OFF (6) /**< Select blink generator B, 50% duty cycle, on for the first half-cycle, off for the second
-                                       half-cycle. */
+#define BDK_SGP_TX_ERR_E_A_OFF_ON (3) /**< Select blink generator A, 50% duty cycle, off for the first half cycle, on for the second
+                                       half cycle. */
+#define BDK_SGP_TX_ERR_E_A_ON_OFF (2) /**< Select blink generator A, 50% duty cycle, on for the first half cycle, off for the second
+                                       half cycle. */
+#define BDK_SGP_TX_ERR_E_B_OFF_ON (7) /**< Select blink generator B, 50% duty cycle, off for the first half cycle, on for the second
+                                       half cycle. */
+#define BDK_SGP_TX_ERR_E_B_ON_OFF (6) /**< Select blink generator B, 50% duty cycle, on for the first half cycle, off for the second
+                                       half cycle. */
 #define BDK_SGP_TX_ERR_E_STATIC_OFF (0) /**< Disable the error indicator. (Set IDn.2 to zero.) */
 #define BDK_SGP_TX_ERR_E_STATIC_ON (1) /**< Enable the error indicator. (Set IDn.2 to one.) */
 #define BDK_SGP_TX_ERR_E_STATIC_ON4 (4) /**< Enable the error indicator. (Set IDn.2 to zero.) */
@@ -106,10 +106,10 @@
  * SGPIO Transmit Locate Enumeration
  * Enumerates the values of SGP_TX(0..3)[LOC].
  */
-#define BDK_SGP_TX_LOC_E_A_OFF_ON (3) /**< Select blink generator A, 50% duty cycle, off for the first half-cycle, on for the second
-                                       half-cycle. */
-#define BDK_SGP_TX_LOC_E_A_ON_OFF (2) /**< Select blink generator A, 50% duty cycle, on for the first half-cycle, off for the second
-                                       half-cycle. */
+#define BDK_SGP_TX_LOC_E_A_OFF_ON (3) /**< Select blink generator A, 50% duty cycle, off for the first half cycle, on for the second
+                                       half cycle. */
+#define BDK_SGP_TX_LOC_E_A_ON_OFF (2) /**< Select blink generator A, 50% duty cycle, on for the first half cycle, off for the second
+                                       half cycle. */
 #define BDK_SGP_TX_LOC_E_STATIC_OFF (0) /**< Disable the locate indicator. (Set IDn.1 to zero.) */
 #define BDK_SGP_TX_LOC_E_STATIC_ON (1) /**< Enable the locate indicator. (Set IDn.1 to one.) */
 

@@ -118,7 +118,7 @@ union bdk_cde_inst_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write CDE_RES_S.
+                                                                 If nonzero, specifies where to write CDE_RES_S.
                                                                  If zero, no result structure will be written.
 
                                                                  Bits <3:0> must be zero; address must be 16-byte aligned.  Bits <63:49> are
@@ -129,7 +129,7 @@ union bdk_cde_inst_s
                                                                  Bits <63:49>, <3:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write CDE_RES_S.
+                                                                 If nonzero, specifies where to write CDE_RES_S.
                                                                  If zero, no result structure will be written.
 
                                                                  Bits <3:0> must be zero; address must be 16-byte aligned.  Bits <63:49> are
@@ -141,23 +141,23 @@ union bdk_cde_inst_s
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_172_191      : 20;
-        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
+        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is nonzero, the SSO guest-group to use when CDE submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, FPA_PF_MAP() must map
                                                                  [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
-        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is nonzero, the SSO tag type to use when CDE submits work to SSO. */
+        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is nonzero, the SSO tag to use when CDE submits work to SSO. */
 #else /* Word 2 - Little Endian */
-        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
-        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
+        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is nonzero, the SSO tag to use when CDE submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is nonzero, the SSO tag type to use when CDE submits work to SSO. */
+        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is nonzero, the SSO guest-group to use when CDE submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, FPA_PF_MAP() must map
                                                                  [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_172_191      : 20;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CDE submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that CDE submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -167,7 +167,7 @@ union bdk_cde_inst_s
                                                                  Internal:
                                                                  Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CDE submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that CDE submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -238,7 +238,7 @@ union bdk_cde_inst_s
         uint64_t ei11                  : 64; /**< [1023:960] Defined by engines. */
 #endif /* Word 15 - End */
     } s;
-    struct bdk_cde_inst_s_cn81xx
+    struct bdk_cde_inst_s_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
@@ -259,7 +259,7 @@ union bdk_cde_inst_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write CDE_RES_S.
+                                                                 If nonzero, specifies where to write CDE_RES_S.
                                                                  If zero, no result structure will be written.
 
                                                                  Bits <3:0> must be zero; address must be 16-byte aligned.  Bits <63:49> are
@@ -270,7 +270,7 @@ union bdk_cde_inst_s
                                                                  Bits <63:49>, <3:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write CDE_RES_S.
+                                                                 If nonzero, specifies where to write CDE_RES_S.
                                                                  If zero, no result structure will be written.
 
                                                                  Bits <3:0> must be zero; address must be 16-byte aligned.  Bits <63:49> are
@@ -282,23 +282,23 @@ union bdk_cde_inst_s
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_172_191      : 20;
-        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
+        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is nonzero, the SSO guest-group to use when CDE submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, FPA_PF_MAP() must map
                                                                  [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
-        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is nonzero, the SSO tag type to use when CDE submits work to SSO. */
+        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is nonzero, the SSO tag to use when CDE submits work to SSO. */
 #else /* Word 2 - Little Endian */
-        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
-        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
+        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is nonzero, the SSO tag to use when CDE submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is nonzero, the SSO tag type to use when CDE submits work to SSO. */
+        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is nonzero, the SSO guest-group to use when CDE submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, FPA_PF_MAP() must map
                                                                  [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_172_191      : 20;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CDE submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that CDE submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -308,132 +308,7 @@ union bdk_cde_inst_s
                                                                  Internal:
                                                                  Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CDE submits
-                                                                 work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores.
-
-                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
-                                                                 use a sign-extended bit <48> for forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t ei0                   : 64; /**< [319:256] Defined by engines. */
-#else /* Word 4 - Little Endian */
-        uint64_t ei0                   : 64; /**< [319:256] Defined by engines. */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t ei1                   : 64; /**< [383:320] Defined by engines. */
-#else /* Word 5 - Little Endian */
-        uint64_t ei1                   : 64; /**< [383:320] Defined by engines. */
-#endif /* Word 5 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t ei2                   : 64; /**< [447:384] Defined by engines. */
-#else /* Word 6 - Little Endian */
-        uint64_t ei2                   : 64; /**< [447:384] Defined by engines. */
-#endif /* Word 6 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t ei3                   : 64; /**< [511:448] Defined by engines. */
-#else /* Word 7 - Little Endian */
-        uint64_t ei3                   : 64; /**< [511:448] Defined by engines. */
-#endif /* Word 7 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
-#else /* Word 8 - Little Endian */
-#endif /* Word 8 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
-#else /* Word 9 - Little Endian */
-#endif /* Word 9 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
-#else /* Word 10 - Little Endian */
-#endif /* Word 10 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
-#else /* Word 11 - Little Endian */
-#endif /* Word 11 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
-#else /* Word 12 - Little Endian */
-#endif /* Word 12 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
-#else /* Word 13 - Little Endian */
-#endif /* Word 13 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
-#else /* Word 14 - Little Endian */
-#endif /* Word 14 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
-#else /* Word 15 - Little Endian */
-#endif /* Word 15 - End */
-    } cn81xx;
-    struct bdk_cde_inst_s_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt.
-                                                                 0 = No interrupts related to this instruction.
-                                                                 1 = When the instruction completes, CDE()_VQ()_DONE[DONE] will be incremented,
-                                                                 and based on the rules described there an interrupt may occur. */
-        uint64_t reserved_8_15         : 8;
-        uint64_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_7          : 8;
-        uint64_t reserved_8_15         : 8;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt.
-                                                                 0 = No interrupts related to this instruction.
-                                                                 1 = When the instruction completes, CDE()_VQ()_DONE[DONE] will be incremented,
-                                                                 and based on the rules described there an interrupt may occur. */
-        uint64_t reserved_17_63        : 47;
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write CDE_RES_S.
-                                                                 If zero, no result structure will be written.
-
-                                                                 Bits <3:0> must be zero; address must be 16-byte aligned.  Bits <63:49> are
-                                                                 ignored by hardware; software should use a sign-extended bit <48> for forward
-                                                                 compatibility.
-
-                                                                 Internal:
-                                                                 Bits <63:49>, <3:0> are ignored by hardware, treated as always 0x0. */
-#else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write CDE_RES_S.
-                                                                 If zero, no result structure will be written.
-
-                                                                 Bits <3:0> must be zero; address must be 16-byte aligned.  Bits <63:49> are
-                                                                 ignored by hardware; software should use a sign-extended bit <48> for forward
-                                                                 compatibility.
-
-                                                                 Internal:
-                                                                 Bits <63:49>, <3:0> are ignored by hardware, treated as always 0x0. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_172_191      : 20;
-        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
-                                                                 SSO.
-                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
-                                                                 [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
-        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
-#else /* Word 2 - Little Endian */
-        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
-        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
-                                                                 SSO.
-                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
-                                                                 [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t reserved_172_191      : 20;
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CDE submits
-                                                                 work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores.
-
-                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
-                                                                 use a sign-extended bit <48> for forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
-#else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CDE submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that CDE submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -503,7 +378,7 @@ union bdk_cde_inst_s
 #else /* Word 15 - Little Endian */
         uint64_t ei11                  : 64; /**< [1023:960] Defined by engines. */
 #endif /* Word 15 - End */
-    } cn83xx;
+    } cn;
 };
 
 /**
@@ -525,28 +400,28 @@ union bdk_cde_res_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
                                                                  CDE_INST_S[DONEINT]. */
         uint64_t reserved_8_15         : 8;
         uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the CDE coprocessor for the
                                                                  associated instruction, as enumerated by CDE_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
                                                                  before ringing the doorbell, and then poll for completion by
-                                                                 checking for a non-zero value.
+                                                                 checking for a nonzero value.
 
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the CDE
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the CDE
                                                                  coprocessor will have also completed L2/DRAM write operations. */
 #else /* Word 0 - Little Endian */
         uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the CDE coprocessor for the
                                                                  associated instruction, as enumerated by CDE_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
                                                                  before ringing the doorbell, and then poll for completion by
-                                                                 checking for a non-zero value.
+                                                                 checking for a nonzero value.
 
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the CDE
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the CDE
                                                                  coprocessor will have also completed L2/DRAM write operations. */
         uint64_t reserved_8_15         : 8;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
                                                                  CDE_INST_S[DONEINT]. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
@@ -790,8 +665,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -804,8 +679,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -1209,19 +1084,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's CDE()_PF_MSIX_VEC()_ADDR, CDE()_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of CDE()_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_CDE_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's CDE()_PF_MSIX_VEC()_ADDR, CDE()_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of CDE()_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_CDE_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -1318,8 +1193,9 @@ typedef union
         uint64_t reserved_11_31        : 21;
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
-                                                                 0 = When CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
-                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 0 = When CDE()_VQ()_MISC_INT[SWERR], CDE()_VQ()_MISC_INT[NWRP],
+                                                                 CDE()_VQ()_MISC_INT[IRDE] or CDE()_VQ()_MISC_INT[DOVF]
+                                                                 are set by hardware or software via
                                                                  CDE()_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
                                                                  pipelining, additional instructions may have been processed between the
                                                                  instruction causing the error and the next instruction in the disabled queue
@@ -1328,8 +1204,8 @@ typedef union
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
-                                                                 pointers, and result structures are stored in big endian format in memory. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big-endian format in memory. */
         uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
@@ -1365,14 +1241,15 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
-                                                                 pointers, and result structures are stored in big endian format in memory. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big-endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
-                                                                 0 = When CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
-                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 0 = When CDE()_VQ()_MISC_INT[SWERR], CDE()_VQ()_MISC_INT[NWRP],
+                                                                 CDE()_VQ()_MISC_INT[IRDE] or CDE()_VQ()_MISC_INT[DOVF]
+                                                                 are set by hardware or software via
                                                                  CDE()_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
                                                                  pipelining, additional instructions may have been processed between the
                                                                  instruction causing the error and the next instruction in the disabled queue
@@ -1434,13 +1311,13 @@ typedef union
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
@@ -1462,13 +1339,13 @@ typedef union
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
@@ -2005,13 +1882,13 @@ typedef union
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to CDE()_VQ()_DONE[DONE]. Reads CDE()_VQ()_DONE[DONE].
 
                                                                  Written by software to acknowledge interrupts. If CDE()_VQ()_DONE[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  CDE()_VQ()_DONE[DONE] are satisfied. */
 #else /* Word 0 - Little Endian */
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to CDE()_VQ()_DONE[DONE]. Reads CDE()_VQ()_DONE[DONE].
 
                                                                  Written by software to acknowledge interrupts. If CDE()_VQ()_DONE[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  CDE()_VQ()_DONE[DONE] are satisfied. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
@@ -2128,11 +2005,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See CDE()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use CDE()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use CDE()_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  CDE()_VQ()_DONE[DONE]. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See CDE()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use CDE()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use CDE()_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  CDE()_VQ()_DONE[DONE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -2170,11 +2047,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See CDE()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use CDE()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use CDE()_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  CDE()_VQ()_DONE[DONE]. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See CDE()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use CDE()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use CDE()_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  CDE()_VQ()_DONE[DONE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -2328,7 +2205,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count. Counts the number of instructions for the VF for which CDE is
+        uint64_t inflight              : 8;  /**< [  7:  0](RO/H) Inflight count. Counts the number of instructions for the VF for which CDE is
                                                                  fetching, executing or responding to instructions. However this does not include
                                                                  any interrupts that are awaiting software handling (CDE()_VQ()_DONE[DONE] !=
                                                                  0x0).
@@ -2337,7 +2214,7 @@ typedef union
                                                                    1. CDE()_VQ()_CTL[ENA] is cleared by software.
                                                                    2. [INFLIGHT] is polled until equals to zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count. Counts the number of instructions for the VF for which CDE is
+        uint64_t inflight              : 8;  /**< [  7:  0](RO/H) Inflight count. Counts the number of instructions for the VF for which CDE is
                                                                  fetching, executing or responding to instructions. However this does not include
                                                                  any interrupts that are awaiting software handling (CDE()_VQ()_DONE[DONE] !=
                                                                  0x0).
@@ -2380,7 +2257,8 @@ typedef union
     struct bdk_cdex_vqx_misc_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
@@ -2390,13 +2268,15 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cdex_vqx_misc_ena_w1c_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..15)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..15)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..15)_MISC_INT[IRDE]. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..15)_MISC_INT[DOVF]. */
@@ -2406,7 +2286,8 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..15)_MISC_INT[DOVF]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..15)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..15)_MISC_INT[NWRP]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..15)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cdex_vqx_misc_ena_w1c_s cn83xx; */
@@ -2441,7 +2322,8 @@ typedef union
     struct bdk_cdex_vqx_misc_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
@@ -2451,13 +2333,15 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cdex_vqx_misc_ena_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..15)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..15)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..15)_MISC_INT[IRDE]. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..15)_MISC_INT[DOVF]. */
@@ -2467,7 +2351,8 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..15)_MISC_INT[DOVF]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..15)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..15)_MISC_INT[NWRP]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..15)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cdex_vqx_misc_ena_w1s_s cn83xx; */
@@ -2502,7 +2387,8 @@ typedef union
     struct bdk_cdex_vqx_misc_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
@@ -2514,7 +2400,8 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cdex_vqx_misc_int_s cn; */
@@ -2549,7 +2436,8 @@ typedef union
     struct bdk_cdex_vqx_misc_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
@@ -2559,13 +2447,15 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cdex_vqx_misc_int_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CDE(0)_VQ(0..15)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CDE(0)_VQ(0..15)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CDE(0)_VQ(0..15)_MISC_INT[IRDE]. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CDE(0)_VQ(0..15)_MISC_INT[DOVF]. */
@@ -2575,7 +2465,8 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CDE(0)_VQ(0..15)_MISC_INT[DOVF]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CDE(0)_VQ(0..15)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CDE(0)_VQ(0..15)_MISC_INT[NWRP]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CDE(0)_VQ(0..15)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cdex_vqx_misc_int_w1s_s cn83xx; */

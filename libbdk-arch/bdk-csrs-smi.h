@@ -89,7 +89,7 @@ typedef union
         uint64_t reserved_14           : 1;
         uint64_t clk_idle              : 1;  /**< [ 13: 13](R/W) SMIn_MDC toggle. When set, this bit causes SMIn_MDC not to toggle on idle cycles. */
         uint64_t preamble              : 1;  /**< [ 12: 12](R/W) Preamble. When this bit is set, the 32-bit preamble is sent first on SMI transactions.
-                                                                 This field must be set to 1 when MODE = 1 in order for the receiving PHY to correctly
+                                                                 This field must be set to 1 when [MODE] = 1 in order for the receiving PHY to correctly
                                                                  frame the transaction. */
         uint64_t sample                : 4;  /**< [ 11:  8](R/W) Sample read data. Specifies the number of coprocessor clock cycles after the rising edge
                                                                  of SMIn_MDC to wait before sampling read data.
@@ -113,7 +113,7 @@ typedef union
 
                                                                  _ ([SAMPLE_HI],[SAMPLE]) + 3 <= 2 * [PHASE] */
         uint64_t preamble              : 1;  /**< [ 12: 12](R/W) Preamble. When this bit is set, the 32-bit preamble is sent first on SMI transactions.
-                                                                 This field must be set to 1 when MODE = 1 in order for the receiving PHY to correctly
+                                                                 This field must be set to 1 when [MODE] = 1 in order for the receiving PHY to correctly
                                                                  frame the transaction. */
         uint64_t clk_idle              : 1;  /**< [ 13: 13](R/W) SMIn_MDC toggle. When set, this bit causes SMIn_MDC not to toggle on idle cycles. */
         uint64_t reserved_14           : 1;
@@ -164,8 +164,8 @@ typedef union
         uint64_t reserved_18_63        : 46;
         uint64_t phy_op                : 2;  /**< [ 17: 16](R/W) PHY opcode, depending on SMI_()_CLK[MODE] setting.
                                                                  * If SMI_()_CLK[MODE] = 0 (<=1Gbs / Clause 22):
-                                                                 0 = write operation, encoded in the frame as 01.
-                                                                 1 = read operation, encoded in the frame as 10.
+                                                                 0 = Write operation, encoded in the frame as 01.
+                                                                 1 = Read operation, encoded in the frame as 10.
 
                                                                  * If SMI_()_CLK[MODE] = 1 (>1Gbs / Clause 45):
                                                                  0x0 = Address.
@@ -183,8 +183,8 @@ typedef union
         uint64_t reserved_13_15        : 3;
         uint64_t phy_op                : 2;  /**< [ 17: 16](R/W) PHY opcode, depending on SMI_()_CLK[MODE] setting.
                                                                  * If SMI_()_CLK[MODE] = 0 (<=1Gbs / Clause 22):
-                                                                 0 = write operation, encoded in the frame as 01.
-                                                                 1 = read operation, encoded in the frame as 10.
+                                                                 0 = Write operation, encoded in the frame as 01.
+                                                                 1 = Read operation, encoded in the frame as 10.
 
                                                                  * If SMI_()_CLK[MODE] = 1 (>1Gbs / Clause 45):
                                                                  0x0 = Address.
@@ -267,11 +267,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
         uint64_t pending               : 1;  /**< [ 17: 17](RO/H) Read transaction pending. Indicates that an SMI read transaction is in flight. */
-        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Read data valid. Asserts when the read transaction completes. A read to this register clears VAL. */
+        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Read data valid. Asserts when the read transaction completes. A read to this register clears [VAL]. */
         uint64_t dat                   : 16; /**< [ 15:  0](RO/H) Read data. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 16; /**< [ 15:  0](RO/H) Read data. */
-        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Read data valid. Asserts when the read transaction completes. A read to this register clears VAL. */
+        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Read data valid. Asserts when the read transaction completes. A read to this register clears [VAL]. */
         uint64_t pending               : 1;  /**< [ 17: 17](RO/H) Read transaction pending. Indicates that an SMI read transaction is in flight. */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
@@ -308,11 +308,13 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
         uint64_t pending               : 1;  /**< [ 17: 17](RO/H) Write transaction pending. Indicates that an SMI write transaction is in flight. */
-        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Write data valid. Asserts when the write transaction completes. A read to this register clears VAL. */
+        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Write data valid. Asserts when the write transaction completes. A read to this
+                                                                 register clears [VAL]. */
         uint64_t dat                   : 16; /**< [ 15:  0](R/W/H) Write data. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 16; /**< [ 15:  0](R/W/H) Write data. */
-        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Write data valid. Asserts when the write transaction completes. A read to this register clears VAL. */
+        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Write data valid. Asserts when the write transaction completes. A read to this
+                                                                 register clears [VAL]. */
         uint64_t pending               : 1;  /**< [ 17: 17](RO/H) Write transaction pending. Indicates that an SMI write transaction is in flight. */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */

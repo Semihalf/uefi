@@ -73,6 +73,17 @@
 #define BDK_DPI_CS_E_WRRST (2) /**< MAC reset detected on write destination MAC. */
 
 /**
+ * Enumeration dpi_endianswap_e
+ *
+ * SLI/DPI Endian Swap Mode Enumeration
+ * Enumerates the endian swap modes that SLI and DPI support.
+ */
+#define BDK_DPI_ENDIANSWAP_E_BYTE_SWAP_32B (2) /**< Swap bytes within a 32-bit word. [A-B-C-D-E-F-G-H] -> [D-C-B-A-H-G-F-E] */
+#define BDK_DPI_ENDIANSWAP_E_BYTE_SWAP_64B (1) /**< Swap bytes within a 64-bit word. [A-B-C-D-E-F-G-H] -> [H-G-F-E-D-C-B-A] */
+#define BDK_DPI_ENDIANSWAP_E_LW_SWAP_64B (3) /**< Swap 32-bit words in a 64-bit word. [A-B-C-D-E-F-G-H] -> [E-F-G-H-A-B-C-D] */
+#define BDK_DPI_ENDIANSWAP_E_PASS_THRU (0) /**< No swap. [A-B-C-D-E-F-G-H] -> [A-B-C-D-E-F-G-H] */
+
+/**
  * Enumeration dpi_hdr_pt_e
  *
  * DPI Header Pointer Type Enumeration
@@ -80,10 +91,10 @@
  */
 #define BDK_DPI_HDR_PT_E_CNT (3) /**< Increment a CSR Counter after completing the DPI DMA instruction.
                                        
-                                       DPI_DMA_INSTR_HDR_S[PTR]-1 selects a DPI()_DMA_PP()_CNT[CNT] CSR
+                                       DPI_DMA_INSTR_HDR_S[PTR]-1 selects a DPI()_DMA_CC()_CNT[CNT] CSR
                                        that DPI increments by one on completion with CNT, which can cause
                                        an interrupt. DPI_DMA_INSTR_HDR_S[PTR]-1 must select an existing
-                                       DPI()_DMA_PP()_CNT[CNT] with CNT. */
+                                       DPI()_DMA_CC()_CNT[CNT] with CNT. */
 #define BDK_DPI_HDR_PT_E_WQP (2) /**< Work-queue Pointer add after completing the DPI DMA instruction.
                                        
                                        DPI_DMA_INSTR_HDR_S[PTR<2:0>] is a DPI_HDR_PT_WQP_E with WQP, selecting
@@ -97,9 +108,8 @@
 #define BDK_DPI_HDR_PT_E_ZBW_CA (0) /**< Byte-write with cache allocate after completing the DPI DMA instruction
                                        (if DPI_DMA_INSTR_HDR_S[PTR] != 0).
                                        
-                                       DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in L2/DRAM to write, and
-                                       DPI()_DMA_CONTROL[B0_LEND] selects the endianness of DPI_DMA_INSTR_HDR_S[PTR]
-                                       with ZBW_CA. DPI_DMA_INSTR_HDR_S[PTR] must be >= 128 or zero with ZBW_CA.
+                                       DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in L2/DRAM to write. DPI_DMA_INSTR_HDR_S[PTR]
+                                       must be >= 128 or zero with ZBW_CA.
                                        When DPI_DMA_INSTR_HDR_S[PTR] is zero with ZBW_CA, no zero-byte-write occurs.
                                        
                                        When DPI()_DMA_CONTROL[ZBWCSEN] is clear, DPI always writes DPI_CS_E::NOERR
@@ -110,9 +120,8 @@
 #define BDK_DPI_HDR_PT_E_ZBW_NC (1) /**< Byte-write with no cache allocate after completing the DPI DMA instruction
                                        (if DPI_DMA_INSTR_HDR_S[PTR] != 0).
                                        
-                                       DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in L2/DRAM to write, and
-                                       DPI()_DMA_CONTROL[B0_LEND] selects the endianness of DPI_DMA_INSTR_HDR_S[PTR]
-                                       with ZBW_NC. DPI_DMA_INSTR_HDR_S[PTR] must be >= 128 or zero with ZBW_NC.
+                                       DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in L2/DRAM to write. DPI_DMA_INSTR_HDR_S[PTR]
+                                       must be >= 128 or zero with ZBW_NC.
                                        When DPI_DMA_INSTR_HDR_S[PTR] is zero with ZBW_NC, no zero-byte-write occurs.
                                        
                                        When DPI()_DMA_CONTROL[ZBWCSEN] is clear, DPI always writes DPI_CS_E::NOERR
@@ -169,30 +178,22 @@
  * DPI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DPI_INT_VEC_E_DPI_INT_REG (0) /**< See interrupt clears DPI()_INT_REG,
+#define BDK_DPI_INT_VEC_E_DPI_CCX_INT(a) (0 + (a)) /**< See interrupt clears DPI()_DMA_CC_INT,
+                                       interrupt sets DPI()_DMA_CC_INT_W1S,
+                                       enable clears DPI()_DMA_CC_INT_ENA_W1C,
+                                       and enable sets DPI()_DMA_CC_INT_ENA_W1S. */
+#define BDK_DPI_INT_VEC_E_DPI_DBE_INT (0x42) /**< See interrupt clears DPI()_DBE_INT,
+                                       interrupt sets DPI()_DBE_INT_W1S,
+                                       enable clears DPI()_DBE_INT_ENA_W1C,
+                                       and enable sets DPI()_DBE_INT_ENA_W1S. */
+#define BDK_DPI_INT_VEC_E_DPI_INT_REG (0x40) /**< See interrupt clears DPI()_INT_REG,
                                        interrupt sets DPI()_INT_REG_W1S,
                                        enable clears DPI()_INT_ENA_W1C,
                                        and enable sets DPI()_INT_ENA_W1S. */
-
-/**
- * Enumeration dpi_intsn_e
- *
- * DPI Interrupt Source Enumeration
- * Enumerates the different DPI-generated interrupts.
- */
-#define BDK_DPI_INTSN_E_DPIX_DMA_PPX_INT(a,b) (0xdf040 + 0 * (a) + (b)) /**< See DPI(0)_DMA_PP_INT[COMPLETE<{b}>]. */
-#define BDK_DPI_INTSN_E_DPIX_ERR_RAM_DBEX(a,b) (0xdf080 + 0 * (a) + (b)) /**< See DPI(0)_ECC_INT[RAM_DBE<{b}>]. */
-#define BDK_DPI_INTSN_E_DPIX_ERR_RAM_SBEX(a,b) (0xdf0a0 + 0 * (a) + (b)) /**< See DPI(0)_ECC_INT[RAM_SBE<{b}>]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_DMADBOX(a,b) (0xdf008 + 0 * (a) + (b)) /**< See DPI(0)_INT_REG[DMADBO<{b}>]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_NDERR(a) (0xdf000 + 0 * (a)) /**< See DPI(0)_INT_REG[NDERR]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_NFOVR(a) (0xdf001 + 0 * (a)) /**< See DPI(0)_INT_REG[NFOVR]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_ANULL(a) (0xdf014 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_ANULL]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADADR(a) (0xdf010 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADADR]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADFIL(a) (0xdf016 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADFIL]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADLEN(a) (0xdf011 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADLEN]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_INULL(a) (0xdf015 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_INULL]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_OVRFLW(a) (0xdf012 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_OVRFLW]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_UNDFLW(a) (0xdf013 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_UNDFLW]. */
+#define BDK_DPI_INT_VEC_E_DPI_SBE_INT (0x41) /**< See interrupt clears DPI()_SBE_INT,
+                                       interrupt sets DPI()_SBE_INT_W1S,
+                                       enable clears DPI()_SBE_INT_ENA_W1C,
+                                       and enable sets DPI()_SBE_INT_ENA_W1S. */
 
 /**
  * Structure dpi_dma_func_sel_s
@@ -222,7 +223,7 @@ union bdk_dpi_dma_func_sel_s
                                                                  0x2 = The second virtual function within the physical function [PF].
                                                                  0x3 = ...
 
-                                                                 When [FUNC] is non-zero, it must select a valid virtual
+                                                                 When [FUNC] is nonzero, it must select a valid virtual
                                                                  function. SPEM_EP_FUNCTIONS_E (MAC=0) and PEM_EP_FUNCTIONS_E (MAC=1..3)
                                                                  indicate the possible virtual functions for each [PF], but note
                                                                  that their encodings may not match the [FUNC] encoding.
@@ -239,7 +240,7 @@ union bdk_dpi_dma_func_sel_s
                                                                  0x2 = The second virtual function within the physical function [PF].
                                                                  0x3 = ...
 
-                                                                 When [FUNC] is non-zero, it must select a valid virtual
+                                                                 When [FUNC] is nonzero, it must select a valid virtual
                                                                  function. SPEM_EP_FUNCTIONS_E (MAC=0) and PEM_EP_FUNCTIONS_E (MAC=1..3)
                                                                  indicate the possible virtual functions for each [PF], but note
                                                                  that their encodings may not match the [FUNC] encoding.
@@ -312,13 +313,13 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  [GRP] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
         uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
 #else /* Word 0 - Little Endian */
         uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
-        uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
         uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
@@ -467,12 +468,12 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
                                                                  and DPI never frees local buffers. */
         uint64_t reserved_102_103      : 2;
-        uint64_t pt                    : 2;  /**< [101:100] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+        uint64_t pt                    : 2;  /**< [101:100] Pointer type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
                                                                  upon completion of the DPI DMA instruction: byte write, SSO
                                                                  work add, or counter add.
 
                                                                  If no completion indication is desired for the DPI DMA instruction,
-                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA(0) and [PTR]=0. */
         uint64_t reserved_98_99        : 2;
         uint64_t pvfe                  : 1;  /**< [ 97: 97] Function enable. When [PVFE] is set, DPI directs all MAC reads/writes
                                                                  to the function (physical or virtual) that [DEALLOCV] selects within
@@ -556,12 +557,12 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  [LPORT] is a PCIe MAC that either has multiple physical functions or
                                                                  has SR-IOV enabled. */
         uint64_t reserved_98_99        : 2;
-        uint64_t pt                    : 2;  /**< [101:100] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+        uint64_t pt                    : 2;  /**< [101:100] Pointer type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
                                                                  upon completion of the DPI DMA instruction: byte write, SSO
                                                                  work add, or counter add.
 
                                                                  If no completion indication is desired for the DPI DMA instruction,
-                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA(0) and [PTR]=0. */
         uint64_t reserved_102_103      : 2;
         uint64_t fl                    : 1;  /**< [104:104] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
                                                                  DPI_HDR_XTYPE_E::OUTBOUND instruction processing
@@ -671,14 +672,12 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
                                                                  and requirements in each case.
-
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility. */
 #else /* Word 2 - Little Endian */
         uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
                                                                  and requirements in each case.
-
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility. */
 #endif /* Word 2 - End */
@@ -733,13 +732,13 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  [GRP] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
         uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
 #else /* Word 0 - Little Endian */
         uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
-        uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
         uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
@@ -891,12 +890,12 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
                                                                  and DPI never frees local buffers. */
         uint64_t reserved_102_103      : 2;
-        uint64_t pt                    : 2;  /**< [101:100] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+        uint64_t pt                    : 2;  /**< [101:100] Pointer type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
                                                                  upon completion of the DPI DMA instruction: byte write, SSO
                                                                  work add, or counter add.
 
                                                                  If no completion indication is desired for the DPI DMA instruction,
-                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA(0) and [PTR]=0. */
         uint64_t reserved_98_99        : 2;
         uint64_t pvfe                  : 1;  /**< [ 97: 97] Function enable. When [PVFE] is set, DPI directs all MAC reads/writes
                                                                  to the function (physical or virtual) that [DEALLOCV] selects within
@@ -980,12 +979,12 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  [LPORT] is a PCIe MAC that either has multiple physical functions or
                                                                  has SR-IOV enabled. */
         uint64_t reserved_98_99        : 2;
-        uint64_t pt                    : 2;  /**< [101:100] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+        uint64_t pt                    : 2;  /**< [101:100] Pointer type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
                                                                  upon completion of the DPI DMA instruction: byte write, SSO
                                                                  work add, or counter add.
 
                                                                  If no completion indication is desired for the DPI DMA instruction,
-                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA(0) and [PTR]=0. */
         uint64_t reserved_102_103      : 2;
         uint64_t fl                    : 1;  /**< [104:104] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
                                                                  DPI_HDR_XTYPE_E::OUTBOUND instruction processing
@@ -1096,14 +1095,12 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
                                                                  and requirements in each case.
-
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility. */
 #else /* Word 2 - Little Endian */
         uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
                                                                  and requirements in each case.
-
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility. */
 #endif /* Word 2 - End */
@@ -1266,15 +1263,15 @@ union bdk_dpi_dma_local_ptr_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t ptr                   : 64; /**< [127: 64] For L2/DRAM - bits [48:0] used for byte pointer. Points to where the packet data starts.
                                                                  PTR can be any
-                                                                 byte alignment. Note that PTR is interpreted as a big-endian byte pointer when L
-                                                                 is clear, a little-endian byte pointer when L is set. Bits [63:49] ignored and should be
+                                                                 byte alignment. Note that PTR is interpreted as a little-endian byte pointer when BED
+                                                                 is clear, a big-endian byte pointer when BED is set. Bits [63:49] ignored and should be
                                                                  zero
                                                                  For MAC - 64-bit memory space pointer */
 #else /* Word 1 - Little Endian */
         uint64_t ptr                   : 64; /**< [127: 64] For L2/DRAM - bits [48:0] used for byte pointer. Points to where the packet data starts.
                                                                  PTR can be any
-                                                                 byte alignment. Note that PTR is interpreted as a big-endian byte pointer when L
-                                                                 is clear, a little-endian byte pointer when L is set. Bits [63:49] ignored and should be
+                                                                 byte alignment. Note that PTR is interpreted as a little-endian byte pointer when BED
+                                                                 is clear, a big-endian byte pointer when BED is set. Bits [63:49] ignored and should be
                                                                  zero
                                                                  For MAC - 64-bit memory space pointer */
 #endif /* Word 1 - End */
@@ -1331,7 +1328,7 @@ static inline uint64_t BDK_DPIX_BIST_STATUS(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_BIST_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004000ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
@@ -1368,7 +1365,7 @@ static inline uint64_t BDK_DPIX_CTL(unsigned long a) __attribute__ ((pure, alway
 static inline uint64_t BDK_DPIX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000040ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004010ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -1378,6 +1375,154 @@ static inline uint64_t BDK_DPIX_CTL(unsigned long a)
 #define device_bar_BDK_DPIX_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_CTL(a) (a)
 #define arguments_BDK_DPIX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_dbe_int
+ *
+ * DPI ECC SBE Interrupt Register
+ * This register contains ECC Double Bit error interrupt summary bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dbe_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rdb_dbe               : 1;  /**< [  0:  0](R/W1C/H) Set when a double-bit error is detected in the RDB RAM. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdb_dbe               : 1;  /**< [  0:  0](R/W1C/H) Set when a double-bit error is detected in the RDB RAM. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dbe_int_s cn; */
+} bdk_dpix_dbe_int_t;
+
+static inline uint64_t BDK_DPIX_DBE_INT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DBE_INT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e0000041a8ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_DBE_INT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DBE_INT(a) bdk_dpix_dbe_int_t
+#define bustype_BDK_DPIX_DBE_INT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DBE_INT(a) "DPIX_DBE_INT"
+#define device_bar_BDK_DPIX_DBE_INT(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DBE_INT(a) (a)
+#define arguments_BDK_DPIX_DBE_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_dbe_int_ena_w1c
+ *
+ * DPI DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rdb_dbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_DBE_INT[RDB_DBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdb_dbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_DBE_INT[RDB_DBE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dbe_int_ena_w1c_s cn; */
+} bdk_dpix_dbe_int_ena_w1c_t;
+
+static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1C(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e0000041b8ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_DBE_INT_ENA_W1C", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DBE_INT_ENA_W1C(a) bdk_dpix_dbe_int_ena_w1c_t
+#define bustype_BDK_DPIX_DBE_INT_ENA_W1C(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DBE_INT_ENA_W1C(a) "DPIX_DBE_INT_ENA_W1C"
+#define device_bar_BDK_DPIX_DBE_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DBE_INT_ENA_W1C(a) (a)
+#define arguments_BDK_DPIX_DBE_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_dbe_int_ena_w1s
+ *
+ * DPI DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rdb_dbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_DBE_INT[RDB_DBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdb_dbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_DBE_INT[RDB_DBE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dbe_int_ena_w1s_s cn; */
+} bdk_dpix_dbe_int_ena_w1s_t;
+
+static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e0000041c0ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_DBE_INT_ENA_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DBE_INT_ENA_W1S(a) bdk_dpix_dbe_int_ena_w1s_t
+#define bustype_BDK_DPIX_DBE_INT_ENA_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DBE_INT_ENA_W1S(a) "DPIX_DBE_INT_ENA_W1S"
+#define device_bar_BDK_DPIX_DBE_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DBE_INT_ENA_W1S(a) (a)
+#define arguments_BDK_DPIX_DBE_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_dbe_int_w1s
+ *
+ * DPI DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dbe_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rdb_dbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_DBE_INT[RDB_DBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdb_dbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_DBE_INT[RDB_DBE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dbe_int_w1s_s cn; */
+} bdk_dpix_dbe_int_w1s_t;
+
+static inline uint64_t BDK_DPIX_DBE_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DBE_INT_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e0000041b0ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_DBE_INT_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DBE_INT_W1S(a) bdk_dpix_dbe_int_w1s_t
+#define bustype_BDK_DPIX_DBE_INT_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DBE_INT_W1S(a) "DPIX_DBE_INT_W1S"
+#define device_bar_BDK_DPIX_DBE_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DBE_INT_W1S(a) (a)
+#define arguments_BDK_DPIX_DBE_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_dma#_counts
@@ -1408,7 +1553,7 @@ static inline uint64_t BDK_DPIX_DMAX_COUNTS(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_DMAX_COUNTS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000380ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_COUNTS", 2, a, b, 0, 0);
 }
 
@@ -1447,7 +1592,7 @@ static inline uint64_t BDK_DPIX_DMAX_DBELL(unsigned long a, unsigned long b) __a
 static inline uint64_t BDK_DPIX_DMAX_DBELL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000200ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_DBELL", 2, a, b, 0, 0);
 }
 
@@ -1470,17 +1615,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t status                : 6;  /**< [  5:  0](R/W1C/H) STATUS captures the ErrorResponse status of the last 6 instructions for each instruction
-                                                                 queue. STATUS<5> represents the status for first instruction in instruction order while
-                                                                 STATUS<0> represents the last or most recent instruction. If STATUS<n> is set, then the
-                                                                 Nth instruction in the given queue experienced an ErrorResponse. Otherwise, it completed
-                                                                 normally. */
+        uint64_t status                : 6;  /**< [  5:  0](R/W1C/H) [STATUS] captures the ErrorResponse status of the last 6 instructions for each
+                                                                 instruction queue. [STATUS]<5> represents the status for first instruction in
+                                                                 instruction order while [STATUS]<0> represents the last or most recent
+                                                                 instruction. If [STATUS]<n> is set, then the Nth instruction in the given queue
+                                                                 experienced an ErrorResponse. Otherwise, it completed normally. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 6;  /**< [  5:  0](R/W1C/H) STATUS captures the ErrorResponse status of the last 6 instructions for each instruction
-                                                                 queue. STATUS<5> represents the status for first instruction in instruction order while
-                                                                 STATUS<0> represents the last or most recent instruction. If STATUS<n> is set, then the
-                                                                 Nth instruction in the given queue experienced an ErrorResponse. Otherwise, it completed
-                                                                 normally. */
+        uint64_t status                : 6;  /**< [  5:  0](R/W1C/H) [STATUS] captures the ErrorResponse status of the last 6 instructions for each
+                                                                 instruction queue. [STATUS]<5> represents the status for first instruction in
+                                                                 instruction order while [STATUS]<0> represents the last or most recent
+                                                                 instruction. If [STATUS]<n> is set, then the Nth instruction in the given queue
+                                                                 experienced an ErrorResponse. Otherwise, it completed normally. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -1491,7 +1636,7 @@ static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned lo
 static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000a80ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000428ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_ERR_RSP_STATUS", 2, a, b, 0, 0);
 }
 
@@ -1534,7 +1679,7 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long 
 static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000300ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000400ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IBUFF_CSIZE", 2, a, b, 0, 0);
 }
 
@@ -1583,7 +1728,7 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_SADDR(unsigned long a, unsigned long 
 static inline uint64_t BDK_DPIX_DMAX_IBUFF_SADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000280ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000010ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IBUFF_SADDR", 2, a, b, 0, 0);
 }
 
@@ -1598,7 +1743,7 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_SADDR(unsigned long a, unsigned long 
  * Register (NCB) dpi#_dma#_ids
  *
  * DPI DMA Request ID Registers
- * These registers configure the stream and GMID values for each request queue.
+ * These registers configure the streamID, GMID and AURA values for each request queue.
  */
 typedef union
 {
@@ -1606,7 +1751,9 @@ typedef union
     struct bdk_dpix_dmax_ids_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_60_63        : 4;
+        uint64_t inst_aura             : 12; /**< [ 59: 48](R/W) FPA guest-aura instruction chunk. The guest-aura that the instruction chunk for
+                                                                 DMA operations page will be returned to when freed. */
         uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits <7:0> for instruction reads. Stream ID <15:8> is from the DPI's
                                                                  PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
                                                                  internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
@@ -1614,13 +1761,13 @@ typedef union
                                                                  PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
                                                                  internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
         uint64_t reserved_16_31        : 16;
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID this engine uses for FPA buffer
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID this request queue uses for FPA buffer
                                                                  free/allocates, and for SSO add-works.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID this engine uses for FPA buffer
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID this request queue uses for FPA buffer
                                                                  free/allocates, and for SSO add-works.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t reserved_16_31        : 16;
         uint64_t dma_strm              : 8;  /**< [ 39: 32](R/W) Stream identifier bits <7:0> for DMA reads and writes. Stream ID <15:8> is from the DPI's
                                                                  PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
@@ -1628,7 +1775,9 @@ typedef union
         uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits <7:0> for instruction reads. Stream ID <15:8> is from the DPI's
                                                                  PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
                                                                  internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
-        uint64_t reserved_48_63        : 16;
+        uint64_t inst_aura             : 12; /**< [ 59: 48](R/W) FPA guest-aura instruction chunk. The guest-aura that the instruction chunk for
+                                                                 DMA operations page will be returned to when freed. */
+        uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_ids_s cn; */
@@ -1638,7 +1787,7 @@ static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000580ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000418ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IDS", 2, a, b, 0, 0);
 }
 
@@ -1661,10 +1810,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t cnt                   : 3;  /**< [  2:  0](R/W/H) The number of instructions from a given queue that can be in flight to the DMA engines at
+        uint64_t cnt                   : 3;  /**< [  2:  0](R/W) The number of instructions from a given queue that can be in flight to the DMA engines at
                                                                  a time. Reset value matches the number of DMA engines. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 3;  /**< [  2:  0](R/W/H) The number of instructions from a given queue that can be in flight to the DMA engines at
+        uint64_t cnt                   : 3;  /**< [  2:  0](R/W) The number of instructions from a given queue that can be in flight to the DMA engines at
                                                                  a time. Reset value matches the number of DMA engines. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
@@ -1676,7 +1825,7 @@ static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000a00ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000420ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IFLIGHT", 2, a, b, 0, 0);
 }
 
@@ -1713,7 +1862,7 @@ static inline uint64_t BDK_DPIX_DMAX_NADDR(unsigned long a, unsigned long b) __a
 static inline uint64_t BDK_DPIX_DMAX_NADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000400ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_NADDR", 2, a, b, 0, 0);
 }
 
@@ -1748,7 +1897,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000480ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000408ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_REQBNK0", 2, a, b, 0, 0);
 }
 
@@ -1783,7 +1932,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000500ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000410ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_REQBNK1", 2, a, b, 0, 0);
 }
 
@@ -1806,7 +1955,10 @@ typedef union
     struct bdk_dpix_dmax_reqq_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_13_63        : 51;
+        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction Descriptor Big Endian mode. When set, Instructions data will come from memory
+                                                                 in Big Endian format and the bytes will be reversed before being used in DPI. */
+        uint64_t reserved_9_11         : 3;
         uint64_t st_cmd                : 1;  /**< [  8:  8](R/W) When DPI issues a store full line command to the L2C that is to be cached, this field
                                                                  select the type of store command to use:
                                                                  0 = STF.
@@ -1830,7 +1982,10 @@ typedef union
                                                                  select the type of store command to use:
                                                                  0 = STF.
                                                                  1 = STY. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_9_11         : 3;
+        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction Descriptor Big Endian mode. When set, Instructions data will come from memory
+                                                                 in Big Endian format and the bytes will be reversed before being used in DPI. */
+        uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_reqq_ctl_s cn; */
@@ -1840,7 +1995,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQQ_CTL(unsigned long a, unsigned long b) 
 static inline uint64_t BDK_DPIX_DMAX_REQQ_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000180ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_REQQ_CTL", 2, a, b, 0, 0);
 }
 
@@ -1850,6 +2005,203 @@ static inline uint64_t BDK_DPIX_DMAX_REQQ_CTL(unsigned long a, unsigned long b)
 #define device_bar_BDK_DPIX_DMAX_REQQ_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_REQQ_CTL(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_REQQ_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_dma_cc#_cnt
+ *
+ * DPI DMA Per-Process Instruction Completion Counter Register
+ * These registers provide a per-process instruction completion counter.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dma_ccx_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W/H) DPI DMA per-process instruction completion counter. DPI can increment a counter upon
+                                                                 completion of a DPI DMA instruction. DPI subtracts the value written
+                                                                 from [CNT] on a software write. A nonzero [CNT] asserts the corresponding
+                                                                 DPI()_DMA_CC_INT bit.
+
+                                                                 DPI increments the [CNT] selected by DPI_DMA_INSTR_HDR_S[PTR] by one after completing
+                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W/H) DPI DMA per-process instruction completion counter. DPI can increment a counter upon
+                                                                 completion of a DPI DMA instruction. DPI subtracts the value written
+                                                                 from [CNT] on a software write. A nonzero [CNT] asserts the corresponding
+                                                                 DPI()_DMA_CC_INT bit.
+
+                                                                 DPI increments the [CNT] selected by DPI_DMA_INSTR_HDR_S[PTR] by one after completing
+                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dma_ccx_cnt_s cn; */
+} bdk_dpix_dma_ccx_cnt_t;
+
+static inline uint64_t BDK_DPIX_DMA_CCX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DMA_CCX_CNT(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x86e000006000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+    __bdk_csr_fatal("DPIX_DMA_CCX_CNT", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DMA_CCX_CNT(a,b) bdk_dpix_dma_ccx_cnt_t
+#define bustype_BDK_DPIX_DMA_CCX_CNT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DMA_CCX_CNT(a,b) "DPIX_DMA_CCX_CNT"
+#define device_bar_BDK_DPIX_DMA_CCX_CNT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DMA_CCX_CNT(a,b) (a)
+#define arguments_BDK_DPIX_DMA_CCX_CNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_dma_cc#_int
+ *
+ * DPI DMA Per-Process Instruction Completion Interrupt Register
+ * This register contains per-process completion interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dma_ccx_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) DPI DMA per-process instruction completion interrupt. See DPI()_DMA_CC()_CNT. */
+#else /* Word 0 - Little Endian */
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) DPI DMA per-process instruction completion interrupt. See DPI()_DMA_CC()_CNT. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dma_ccx_int_s cn; */
+} bdk_dpix_dma_ccx_int_t;
+
+static inline uint64_t BDK_DPIX_DMA_CCX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DMA_CCX_INT(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x86e000005000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+    __bdk_csr_fatal("DPIX_DMA_CCX_INT", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DMA_CCX_INT(a,b) bdk_dpix_dma_ccx_int_t
+#define bustype_BDK_DPIX_DMA_CCX_INT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DMA_CCX_INT(a,b) "DPIX_DMA_CCX_INT"
+#define device_bar_BDK_DPIX_DMA_CCX_INT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DMA_CCX_INT(a,b) (a)
+#define arguments_BDK_DPIX_DMA_CCX_INT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_dma_cc#_int_ena_w1c
+ *
+ * DPI DMA Per-Process Instruction Completion Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dma_ccx_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_DMA_CC(0..63)_INT[COMPLETE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_DMA_CC(0..63)_INT[COMPLETE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dma_ccx_int_ena_w1c_s cn; */
+} bdk_dpix_dma_ccx_int_ena_w1c_t;
+
+static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1C(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x86e000005800ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+    __bdk_csr_fatal("DPIX_DMA_CCX_INT_ENA_W1C", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DMA_CCX_INT_ENA_W1C(a,b) bdk_dpix_dma_ccx_int_ena_w1c_t
+#define bustype_BDK_DPIX_DMA_CCX_INT_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DMA_CCX_INT_ENA_W1C(a,b) "DPIX_DMA_CCX_INT_ENA_W1C"
+#define device_bar_BDK_DPIX_DMA_CCX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DMA_CCX_INT_ENA_W1C(a,b) (a)
+#define arguments_BDK_DPIX_DMA_CCX_INT_ENA_W1C(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_dma_cc#_int_ena_w1s
+ *
+ * DPI DMA Per-Process Instruction Completion Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dma_ccx_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_DMA_CC(0..63)_INT[COMPLETE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_DMA_CC(0..63)_INT[COMPLETE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dma_ccx_int_ena_w1s_s cn; */
+} bdk_dpix_dma_ccx_int_ena_w1s_t;
+
+static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1S(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x86e000005c00ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+    __bdk_csr_fatal("DPIX_DMA_CCX_INT_ENA_W1S", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DMA_CCX_INT_ENA_W1S(a,b) bdk_dpix_dma_ccx_int_ena_w1s_t
+#define bustype_BDK_DPIX_DMA_CCX_INT_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DMA_CCX_INT_ENA_W1S(a,b) "DPIX_DMA_CCX_INT_ENA_W1S"
+#define device_bar_BDK_DPIX_DMA_CCX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DMA_CCX_INT_ENA_W1S(a,b) (a)
+#define arguments_BDK_DPIX_DMA_CCX_INT_ENA_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_dma_cc#_int_w1s
+ *
+ * DPI DMA Per-Process Instruction Completion Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dma_ccx_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_DMA_CC(0..63)_INT[COMPLETE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_DMA_CC(0..63)_INT[COMPLETE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dma_ccx_int_w1s_s cn; */
+} bdk_dpix_dma_ccx_int_w1s_t;
+
+static inline uint64_t BDK_DPIX_DMA_CCX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DMA_CCX_INT_W1S(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x86e000005400ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+    __bdk_csr_fatal("DPIX_DMA_CCX_INT_W1S", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DMA_CCX_INT_W1S(a,b) bdk_dpix_dma_ccx_int_w1s_t
+#define bustype_BDK_DPIX_DMA_CCX_INT_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DMA_CCX_INT_W1S(a,b) "DPIX_DMA_CCX_INT_W1S"
+#define device_bar_BDK_DPIX_DMA_CCX_INT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DMA_CCX_INT_W1S(a,b) (a)
+#define arguments_BDK_DPIX_DMA_CCX_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) dpi#_dma_control
@@ -1890,7 +2242,7 @@ typedef union
                                                                  When [WQECSDIS] is set, DPI never writes completion status into a work queue entry. */
         uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
                                                                  or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
-                                                                 non-DPI_CS_E::NOERR (i.e. non-zero) completion status byte to (big-endian
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to (big-endian
                                                                  byte address) L2/DRAM address
                                                                     (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
 
@@ -1903,7 +2255,7 @@ typedef union
                                                                        DPI_HDR_PT_E::WQP DPI DMA instructions with DPI_CS_E::NOERR (i.e. zero)
                                                                        completion status, regardless of the DPI_HDR_PT_WQP_E selection of
                                                                        DPI_DMA_INSTR_HDR_S[PTR<2:0>]. DPI will write the completion
-                                                                       status byte for all other DPI_CS_E (i.e. non-zero) values
+                                                                       status byte for all other DPI_CS_E (i.e. nonzero) values
                                                                        when DPI_DMA_INSTR_HDR_S[PTR<2:0>] is DPI_HDR_PT_WQP_E::STATUSCA
                                                                        or DPI_HDR_PT_WQP_E::STATUSNC and [WQECSDIS] is clear.
                                                                  0x1 = DPI will perform the completion status byte write for all
@@ -1915,19 +2267,15 @@ typedef union
                                                                        SSO work queue add.
                                                                  0x3 = Both debug modes specified above (under 0x1 and 0x2) are enabled. */
         uint64_t reserved_35_36        : 2;
-        uint64_t ncb_tag               : 1;  /**< [ 34: 34](R/W) NCB tag enable. It allows DMA Read/Write transactions over NCB to be mapped to
-                                                                 individual request queues by using tags. This enables more parallelism, giving a
-                                                                 performance boost. */
-        uint64_t b0_lend               : 1;  /**< [ 33: 33](R/W) Endian-ness for DPI_HDR_PT_E::ZBC_CA and DPI_HDR_PT_E::ZBC_NC DPI DMA
-                                                                 instructions. When clear, DPI_DMA_INSTR_HDR_S[PTR] is big-endian for
-                                                                 these instructions. When set, DPI_DMA_INSTR_HDR_S[PTR] is little-endian
-                                                                 for these instructions. */
+        uint64_t ncb_tag_dis           : 1;  /**< [ 34: 34](R/W) NCB tag disable. DMA read/write transactions over NCB are mapped to individual
+                                                                 request queues by using tags. If this bit is set, all NCB DMA transactions will
+                                                                 use a tag of 0x0, reducing performance. */
+        uint64_t reserved_33           : 1;
         uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load don't write back. When set, the hardware is able to issue LDWB commands for pointers
                                                                  that are being freed. As a result, the line will not be written back when replaced.
                                                                  When clear, the hardware issues regular load commands to the cache which cause the
                                                                  line to be written back before being replaced. */
-        uint64_t aura_ichk             : 12; /**< [ 31: 20](R/W) FPA guest-aura instruction chunk. The guest-aura that the instruction chunk for
-                                                                 DMA operations page will be returned to when freed. */
+        uint64_t reserved_20_31        : 12;
         uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
                                                                  0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
                                                                  1 = Add 1 to the SLI_DMA()_CNT DMA counters. */
@@ -1935,7 +2283,7 @@ typedef union
         uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) No snoop. */
         uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) Endian swap mode for DMA.
 
-                                                                 See SLI_ENDIANSWAP_E. */
+                                                                 See DPI_ENDIANSWAP_E. */
         uint64_t o_mode                : 1;  /**< [ 14: 14](R/W) Select PCI_POINTER mode.
                                                                  0 = DPTR format 1 is used. Use register values for address; use pointer values for ES, NS,
                                                                  RO.
@@ -1951,25 +2299,21 @@ typedef union
                                                                  RO. */
         uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) Endian swap mode for DMA.
 
-                                                                 See SLI_ENDIANSWAP_E. */
+                                                                 See DPI_ENDIANSWAP_E. */
         uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) No snoop. */
         uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) Relaxed ordering mode for DMA transactions */
         uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
                                                                  0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
                                                                  1 = Add 1 to the SLI_DMA()_CNT DMA counters. */
-        uint64_t aura_ichk             : 12; /**< [ 31: 20](R/W) FPA guest-aura instruction chunk. The guest-aura that the instruction chunk for
-                                                                 DMA operations page will be returned to when freed. */
+        uint64_t reserved_20_31        : 12;
         uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load don't write back. When set, the hardware is able to issue LDWB commands for pointers
                                                                  that are being freed. As a result, the line will not be written back when replaced.
                                                                  When clear, the hardware issues regular load commands to the cache which cause the
                                                                  line to be written back before being replaced. */
-        uint64_t b0_lend               : 1;  /**< [ 33: 33](R/W) Endian-ness for DPI_HDR_PT_E::ZBC_CA and DPI_HDR_PT_E::ZBC_NC DPI DMA
-                                                                 instructions. When clear, DPI_DMA_INSTR_HDR_S[PTR] is big-endian for
-                                                                 these instructions. When set, DPI_DMA_INSTR_HDR_S[PTR] is little-endian
-                                                                 for these instructions. */
-        uint64_t ncb_tag               : 1;  /**< [ 34: 34](R/W) NCB tag enable. It allows DMA Read/Write transactions over NCB to be mapped to
-                                                                 individual request queues by using tags. This enables more parallelism, giving a
-                                                                 performance boost. */
+        uint64_t reserved_33           : 1;
+        uint64_t ncb_tag_dis           : 1;  /**< [ 34: 34](R/W) NCB tag disable. DMA read/write transactions over NCB are mapped to individual
+                                                                 request queues by using tags. If this bit is set, all NCB DMA transactions will
+                                                                 use a tag of 0x0, reducing performance. */
         uint64_t reserved_35_36        : 2;
         uint64_t wqecsmode             : 2;  /**< [ 38: 37](R/W) WQE completion status mode. Relevant for DPI DMA instructions with
                                                                  DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::WQP when [WQECSDIS]=0.
@@ -1977,7 +2321,7 @@ typedef union
                                                                        DPI_HDR_PT_E::WQP DPI DMA instructions with DPI_CS_E::NOERR (i.e. zero)
                                                                        completion status, regardless of the DPI_HDR_PT_WQP_E selection of
                                                                        DPI_DMA_INSTR_HDR_S[PTR<2:0>]. DPI will write the completion
-                                                                       status byte for all other DPI_CS_E (i.e. non-zero) values
+                                                                       status byte for all other DPI_CS_E (i.e. nonzero) values
                                                                        when DPI_DMA_INSTR_HDR_S[PTR<2:0>] is DPI_HDR_PT_WQP_E::STATUSCA
                                                                        or DPI_HDR_PT_WQP_E::STATUSNC and [WQECSDIS] is clear.
                                                                  0x1 = DPI will perform the completion status byte write for all
@@ -1992,7 +2336,7 @@ typedef union
                                                                  See DPI_HDR_PT_E::ZBC_CA and DPI_HDR_PT_E::ZBC_NC. */
         uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
                                                                  or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
-                                                                 non-DPI_CS_E::NOERR (i.e. non-zero) completion status byte to (big-endian
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to (big-endian
                                                                  byte address) L2/DRAM address
                                                                     (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
 
@@ -2031,7 +2375,7 @@ static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000048ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004018ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_DMA_CONTROL", 1, a, 0, 0, 0);
 }
 
@@ -2086,7 +2430,7 @@ static inline uint64_t BDK_DPIX_DMA_ENGX_EN(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_DMA_ENGX_EN(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=5)))
-        return 0x86e000000080ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000004040ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMA_ENGX_EN", 2, a, b, 0, 0);
 }
 
@@ -2096,94 +2440,6 @@ static inline uint64_t BDK_DPIX_DMA_ENGX_EN(unsigned long a, unsigned long b)
 #define device_bar_BDK_DPIX_DMA_ENGX_EN(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMA_ENGX_EN(a,b) (a)
 #define arguments_BDK_DPIX_DMA_ENGX_EN(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_dma_pp#_cnt
- *
- * DPI DMA Per-Core Instruction Completion Counter Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_dma_ppx_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t cnt                   : 16; /**< [ 15:  0](R/W/H) DPI DMA per-core instruction completion counter. DPI can increment a counter upon
-                                                                 completion of a DPI DMA instruction. DPI subtracts the value written
-                                                                 from [CNT] on a software write. A nonzero [CNT] asserts the corresponding
-                                                                 DPI()_DMA_PP_INT bit and a 0->1 [CNT] transition clears the corresponding
-                                                                 DPI()_DMA_PP_INT bit.
-
-                                                                 DPI increments the [CNT] selected by DPI_DMA_INSTR_HDR_S[PTR] by one after completing
-                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 16; /**< [ 15:  0](R/W/H) DPI DMA per-core instruction completion counter. DPI can increment a counter upon
-                                                                 completion of a DPI DMA instruction. DPI subtracts the value written
-                                                                 from [CNT] on a software write. A nonzero [CNT] asserts the corresponding
-                                                                 DPI()_DMA_PP_INT bit and a 0->1 [CNT] transition clears the corresponding
-                                                                 DPI()_DMA_PP_INT bit.
-
-                                                                 DPI increments the [CNT] selected by DPI_DMA_INSTR_HDR_S[PTR] by one after completing
-                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dma_ppx_cnt_s cn; */
-} bdk_dpix_dma_ppx_cnt_t;
-
-static inline uint64_t BDK_DPIX_DMA_PPX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_DMA_PPX_CNT(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=15)))
-        return 0x86e000000c00ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0xf);
-    __bdk_csr_fatal("DPIX_DMA_PPX_CNT", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_DPIX_DMA_PPX_CNT(a,b) bdk_dpix_dma_ppx_cnt_t
-#define bustype_BDK_DPIX_DMA_PPX_CNT(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_DMA_PPX_CNT(a,b) "DPIX_DMA_PPX_CNT"
-#define device_bar_BDK_DPIX_DMA_PPX_CNT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_DMA_PPX_CNT(a,b) (a)
-#define arguments_BDK_DPIX_DMA_PPX_CNT(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_dma_pp_int
- *
- * DPI DMA Per-Core Instruction Completion Interrupt Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_dma_pp_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t complete              : 16; /**< [ 15:  0](RO/H) DPI DMA per-core instruction completion interrupt. See DPI()_DMA_PP()_CNT
-                                                                 and DPI_INTSN_E::DPI()_DMA_PP()_INT. */
-#else /* Word 0 - Little Endian */
-        uint64_t complete              : 16; /**< [ 15:  0](RO/H) DPI DMA per-core instruction completion interrupt. See DPI()_DMA_PP()_CNT
-                                                                 and DPI_INTSN_E::DPI()_DMA_PP()_INT. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dma_pp_int_s cn; */
-} bdk_dpix_dma_pp_int_t;
-
-static inline uint64_t BDK_DPIX_DMA_PP_INT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_DMA_PP_INT(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000038ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_DMA_PP_INT", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DPIX_DMA_PP_INT(a) bdk_dpix_dma_pp_int_t
-#define bustype_BDK_DPIX_DMA_PP_INT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_DMA_PP_INT(a) "DPIX_DMA_PP_INT"
-#define device_bar_BDK_DPIX_DMA_PP_INT(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_DMA_PP_INT(a) (a)
-#define arguments_BDK_DPIX_DMA_PP_INT(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_ecc_ctl
@@ -2223,7 +2479,7 @@ static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004008ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_ECC_CTL", 1, a, 0, 0, 0);
 }
 
@@ -2233,64 +2489,6 @@ static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a)
 #define device_bar_BDK_DPIX_ECC_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_ECC_CTL(a) (a)
 #define arguments_BDK_DPIX_ECC_CTL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) dpi#_ecc_int
- *
- * DPI ECC Interrupt Register
- * This register contains ECC error interrupt summary bits.
- * Internal:
- * RAM[ 0] = dpi.dma.rdb.buff.bnk0a
- * RAM[ 0] = dpi.dma.rdb.buff.bnk0b
- * RAM[ 0] = dpi.dma.rdb.buff.bnk1a
- * RAM[ 0] = dpi.dma.rdb.buff.bnk1b
- * RAM[ 0] = dpi.dma.rdb.buff.bnk3a
- * RAM[ 0] = dpi.dma.rdb.buff.bnk3b
- * RAM[ 0] = dpi.dma.rdb.buff.bnk4a
- * RAM[ 0] = dpi.dma.rdb.buff.bnk4b
- * RAM[ 0] = dpi.dma.rdb.buff.bnk6a
- * RAM[ 0] = dpi.dma.rdb.buff.bnk6b
- * RAM[ 0] = dpi.dma.rdb.buff.bnk7a
- * RAM[ 0] = dpi.dma.rdb.buff.bnk7b
- * RAM[ 0] = dpi.dma.rdb.buff.bnk9a
- * RAM[ 0] = dpi.dma.rdb.buff.bnk9b
- * RAM[ 0] = dpi.dma.rdb.buff.bnk10a
- * RAM[ 0] = dpi.dma.rdb.buff.bnk10b
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_ecc_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_47_63        : 17;
-        uint64_t ram_sbe               : 15; /**< [ 46: 32](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
-        uint64_t reserved_15_31        : 17;
-        uint64_t ram_dbe               : 15; /**< [ 14:  0](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
-#else /* Word 0 - Little Endian */
-        uint64_t ram_dbe               : 15; /**< [ 14:  0](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
-        uint64_t reserved_15_31        : 17;
-        uint64_t ram_sbe               : 15; /**< [ 46: 32](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
-        uint64_t reserved_47_63        : 17;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_ecc_int_s cn; */
-} bdk_dpix_ecc_int_t;
-
-static inline uint64_t BDK_DPIX_ECC_INT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_ECC_INT(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_ECC_INT", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DPIX_ECC_INT(a) bdk_dpix_ecc_int_t
-#define bustype_BDK_DPIX_ECC_INT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_ECC_INT(a) "DPIX_ECC_INT"
-#define device_bar_BDK_DPIX_ECC_INT(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_ECC_INT(a) (a)
-#define arguments_BDK_DPIX_ECC_INT(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_eng#_buf
@@ -2365,7 +2563,7 @@ static inline uint64_t BDK_DPIX_ENGX_BUF(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_DPIX_ENGX_BUF(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=5)))
-        return 0x86e000000880ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e0000040c0ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_ENGX_BUF", 2, a, b, 0, 0);
 }
 
@@ -2411,7 +2609,7 @@ static inline uint64_t BDK_DPIX_INFO_REG(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_DPIX_INFO_REG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000980ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004160ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INFO_REG", 1, a, 0, 0, 0);
 }
 
@@ -2482,7 +2680,7 @@ static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000b10ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004178ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -2553,7 +2751,7 @@ static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000b18ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004180ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2636,7 +2834,7 @@ static inline uint64_t BDK_DPIX_INT_REG(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DPIX_INT_REG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000b00ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004168ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INT_REG", 1, a, 0, 0, 0);
 }
 
@@ -2707,7 +2905,7 @@ static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000b08ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004170ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INT_REG_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2744,8 +2942,8 @@ typedef union
 static inline uint64_t BDK_DPIX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
-        return 0x86e0010f0000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
+        return 0x86e0010f0000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DPIX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
@@ -2772,20 +2970,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 =  This vector's DPI_MSIX_VEC()_ADDR, DPI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of DPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 =  This vector's DPI_MSIX_VEC()_ADDR, DPI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of DPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
@@ -2801,8 +2999,8 @@ typedef union
 static inline uint64_t BDK_DPIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
-        return 0x86e001000000ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=66)))
+        return 0x86e001000000ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __bdk_csr_fatal("DPIX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -2842,8 +3040,8 @@ typedef union
 static inline uint64_t BDK_DPIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
-        return 0x86e001000008ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=66)))
+        return 0x86e001000008ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __bdk_csr_fatal("DPIX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -2885,7 +3083,7 @@ static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
-        return 0x86e000000800ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+        return 0x86e0000040a0ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("DPIX_NCBX_CFG", 2, a, b, 0, 0);
 }
 
@@ -2895,47 +3093,6 @@ static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b)
 #define device_bar_BDK_DPIX_NCBX_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_NCBX_CFG(a,b) (a)
 #define arguments_BDK_DPIX_NCBX_CFG(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_pint_info
- *
- * DPI Packet Interrupt Information Register
- * This register provides DPI packet interrupt information.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_pint_info_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t iinfo                 : 6;  /**< [ 13:  8](RO/H) Packet instruction doorbell count overflow information. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t sinfo                 : 6;  /**< [  5:  0](RO/H) Packet scatter list doorbell count overflow information. */
-#else /* Word 0 - Little Endian */
-        uint64_t sinfo                 : 6;  /**< [  5:  0](RO/H) Packet scatter list doorbell count overflow information. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t iinfo                 : 6;  /**< [ 13:  8](RO/H) Packet instruction doorbell count overflow information. */
-        uint64_t reserved_14_63        : 50;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_pint_info_s cn; */
-} bdk_dpix_pint_info_t;
-
-static inline uint64_t BDK_DPIX_PINT_INFO(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_PINT_INFO(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000830ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_PINT_INFO", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DPIX_PINT_INFO(a) bdk_dpix_pint_info_t
-#define bustype_BDK_DPIX_PINT_INFO(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_PINT_INFO(a) "DPIX_PINT_INFO"
-#define device_bar_BDK_DPIX_PINT_INFO(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_PINT_INFO(a) (a)
-#define arguments_BDK_DPIX_PINT_INFO(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_pkt_err_rsp
@@ -2962,7 +3119,7 @@ static inline uint64_t BDK_DPIX_PKT_ERR_RSP(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_PKT_ERR_RSP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000078ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004098ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_PKT_ERR_RSP", 1, a, 0, 0, 0);
 }
 
@@ -3002,7 +3159,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RSP(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_REQ_ERR_RSP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000058ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004078ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_REQ_ERR_RSP", 1, a, 0, 0, 0);
 }
 
@@ -3040,7 +3197,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RSP_EN(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_DPIX_REQ_ERR_RSP_EN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000068ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004088ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_REQ_ERR_RSP_EN", 1, a, 0, 0, 0);
 }
 
@@ -3076,7 +3233,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RST(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_REQ_ERR_RST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000060ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004080ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_REQ_ERR_RST", 1, a, 0, 0, 0);
 }
 
@@ -3112,7 +3269,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RST_EN(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_DPIX_REQ_ERR_RST_EN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000070ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004090ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_REQ_ERR_RST_EN", 1, a, 0, 0, 0);
 }
 
@@ -3150,7 +3307,7 @@ static inline uint64_t BDK_DPIX_REQ_GBL_EN(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_DPIX_REQ_GBL_EN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000050ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004070ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_REQ_GBL_EN", 1, a, 0, 0, 0);
 }
 
@@ -3160,6 +3317,154 @@ static inline uint64_t BDK_DPIX_REQ_GBL_EN(unsigned long a)
 #define device_bar_BDK_DPIX_REQ_GBL_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_GBL_EN(a) (a)
 #define arguments_BDK_DPIX_REQ_GBL_EN(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_sbe_int
+ *
+ * DPI ECC SBE Interrupt Register
+ * This register contains ECC Single Bit error interrupt summary bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_sbe_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rdb_sbe               : 1;  /**< [  0:  0](R/W1C/H) Set when a single-bit error is detected in the RDB RAM. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdb_sbe               : 1;  /**< [  0:  0](R/W1C/H) Set when a single-bit error is detected in the RDB RAM. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_sbe_int_s cn; */
+} bdk_dpix_sbe_int_t;
+
+static inline uint64_t BDK_DPIX_SBE_INT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_SBE_INT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e000004188ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_SBE_INT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_SBE_INT(a) bdk_dpix_sbe_int_t
+#define bustype_BDK_DPIX_SBE_INT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_SBE_INT(a) "DPIX_SBE_INT"
+#define device_bar_BDK_DPIX_SBE_INT(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_SBE_INT(a) (a)
+#define arguments_BDK_DPIX_SBE_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_sbe_int_ena_w1c
+ *
+ * DPI SBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rdb_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_SBE_INT[RDB_SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdb_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_SBE_INT[RDB_SBE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_sbe_int_ena_w1c_s cn; */
+} bdk_dpix_sbe_int_ena_w1c_t;
+
+static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1C(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e000004198ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_SBE_INT_ENA_W1C", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_SBE_INT_ENA_W1C(a) bdk_dpix_sbe_int_ena_w1c_t
+#define bustype_BDK_DPIX_SBE_INT_ENA_W1C(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_SBE_INT_ENA_W1C(a) "DPIX_SBE_INT_ENA_W1C"
+#define device_bar_BDK_DPIX_SBE_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_SBE_INT_ENA_W1C(a) (a)
+#define arguments_BDK_DPIX_SBE_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_sbe_int_ena_w1s
+ *
+ * DPI SBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rdb_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_SBE_INT[RDB_SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdb_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_SBE_INT[RDB_SBE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_sbe_int_ena_w1s_s cn; */
+} bdk_dpix_sbe_int_ena_w1s_t;
+
+static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e0000041a0ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_SBE_INT_ENA_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_SBE_INT_ENA_W1S(a) bdk_dpix_sbe_int_ena_w1s_t
+#define bustype_BDK_DPIX_SBE_INT_ENA_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_SBE_INT_ENA_W1S(a) "DPIX_SBE_INT_ENA_W1S"
+#define device_bar_BDK_DPIX_SBE_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_SBE_INT_ENA_W1S(a) (a)
+#define arguments_BDK_DPIX_SBE_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_sbe_int_w1s
+ *
+ * DPI SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_sbe_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rdb_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_SBE_INT[RDB_SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdb_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_SBE_INT[RDB_SBE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_sbe_int_w1s_s cn; */
+} bdk_dpix_sbe_int_w1s_t;
+
+static inline uint64_t BDK_DPIX_SBE_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_SBE_INT_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e000004190ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_SBE_INT_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_SBE_INT_W1S(a) bdk_dpix_sbe_int_w1s_t
+#define bustype_BDK_DPIX_SBE_INT_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_SBE_INT_W1S(a) "DPIX_SBE_INT_W1S"
+#define device_bar_BDK_DPIX_SBE_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_SBE_INT_W1S(a) (a)
+#define arguments_BDK_DPIX_SBE_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_sli_prt#_cfg
@@ -3186,14 +3491,7 @@ typedef union
                                                                  Since QLM_CFG is simply a copy of the QLM CFG pins, it could reflect values that are not
                                                                  normal for DMA or packet operations. QLM_CFG does not indicate if a port is disabled.
                                                                  GSER()_CFG can be used for more complete QLM configuration information. */
-        uint64_t reserved_17_19        : 3;
-        uint64_t rd_mode               : 1;  /**< [ 16: 16](R/W) Read mode.
-                                                                 0 = Exact read mode. The hardware reads on a four-byte granularity. In this mode, the
-                                                                 hardware may break a given read into 3 operations to satisfy DPI rules.
-                                                                 1 = Block mode. The hardware reads more data than requested in order to minimize the
-                                                                 number of operations necessary to complete the operation. The memory region must be memory
-                                                                 like. */
-        uint64_t reserved_15           : 1;
+        uint64_t reserved_15_19        : 5;
         uint64_t molr                  : 7;  /**< [ 14:  8](R/W) Maximum outstanding load requests. Limits the number of outstanding load requests on the
                                                                  port by restricting the number of tags used by the SLI to track load responses. This value
                                                                  can range from 1 to 64 (maximum of 32 if port not configured for 8 lanes). Setting MOLR
@@ -3206,10 +3504,11 @@ typedef union
 
                                                                  When set, DPI will never issue a MAC memory space write that crosses the naturally-aligned
                                                                  boundary of size defined by MPS. */
-        uint64_t reserved_5_6          : 2;
-        uint64_t mps                   : 1;  /**< [  4:  4](R/W) Maximum payload size.
-                                                                 0 = 128B.
-                                                                 1 = 256B.
+        uint64_t mps                   : 3;  /**< [  6:  4](R/W) Maximum payload size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+
+                                                                 Larger sizes are not supported.
 
                                                                  The MPS size must not exceed the size selected by PCIE*_CFG030[MPS]. */
         uint64_t mrrs_lim              : 1;  /**< [  3:  3](R/W) MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
@@ -3220,23 +3519,25 @@ typedef union
 
                                                                  When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
                                                                  boundary of size defined by MRRS. */
-        uint64_t reserved_2            : 1;
-        uint64_t mrrs                  : 2;  /**< [  1:  0](R/W) Maximum read-request size.
+        uint64_t mrrs                  : 3;  /**< [  2:  0](R/W) Maximum read-request size.
                                                                  0x0 = 128B.
                                                                  0x1 = 256B.
                                                                  0x2 = 512B.
                                                                  0x3 = 1024B.
+
+                                                                 Larger sizes are not supported.
 
                                                                  The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mrrs                  : 2;  /**< [  1:  0](R/W) Maximum read-request size.
+        uint64_t mrrs                  : 3;  /**< [  2:  0](R/W) Maximum read-request size.
                                                                  0x0 = 128B.
                                                                  0x1 = 256B.
                                                                  0x2 = 512B.
                                                                  0x3 = 1024B.
 
+                                                                 Larger sizes are not supported.
+
                                                                  The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS]. */
-        uint64_t reserved_2            : 1;
         uint64_t mrrs_lim              : 1;  /**< [  3:  3](R/W) MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
 
                                                                  When clear, DPI is allowed to issue a MAC memory-space read that crosses the naturally-
@@ -3245,12 +3546,13 @@ typedef union
 
                                                                  When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
                                                                  boundary of size defined by MRRS. */
-        uint64_t mps                   : 1;  /**< [  4:  4](R/W) Maximum payload size.
-                                                                 0 = 128B.
-                                                                 1 = 256B.
+        uint64_t mps                   : 3;  /**< [  6:  4](R/W) Maximum payload size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+
+                                                                 Larger sizes are not supported.
 
                                                                  The MPS size must not exceed the size selected by PCIE*_CFG030[MPS]. */
-        uint64_t reserved_5_6          : 2;
         uint64_t mps_lim               : 1;  /**< [  7:  7](R/W) MAC memory space write requests cannot cross the (naturally-aligned) MPS boundary.
                                                                  When clear, DPI is allowed to issue a MAC memory- space read that crosses the naturally-
                                                                  aligned boundary of size defined by MPS. (DPI will still only cross the boundary when it
@@ -3263,14 +3565,7 @@ typedef union
                                                                  can range from 1 to 64 (maximum of 32 if port not configured for 8 lanes). Setting MOLR
                                                                  to a value of 0 halts all read traffic to the port. There are no restrictions on when this
                                                                  value can be changed. */
-        uint64_t reserved_15           : 1;
-        uint64_t rd_mode               : 1;  /**< [ 16: 16](R/W) Read mode.
-                                                                 0 = Exact read mode. The hardware reads on a four-byte granularity. In this mode, the
-                                                                 hardware may break a given read into 3 operations to satisfy DPI rules.
-                                                                 1 = Block mode. The hardware reads more data than requested in order to minimize the
-                                                                 number of operations necessary to complete the operation. The memory region must be memory
-                                                                 like. */
-        uint64_t reserved_17_19        : 3;
+        uint64_t reserved_15_19        : 5;
         uint64_t qlm_cfg               : 1;  /**< [ 20: 20](RO/H) Read only copy of the QLM CFG pin.
                                                                  0 = MAC is DPI.
                                                                  1 = Reserved.
@@ -3292,7 +3587,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
-        return 0x86e000000900ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
+        return 0x86e000004100ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("DPIX_SLI_PRTX_CFG", 2, a, b, 0, 0);
 }
 
@@ -3333,7 +3628,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_SLI_PRTX_ERR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
-        return 0x86e000000920ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
+        return 0x86e000004120ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("DPIX_SLI_PRTX_ERR", 2, a, b, 0, 0);
 }
 
@@ -3357,19 +3652,19 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t pvf                   : 16; /**< [ 31: 16](RO/H) Physical/Virtual function that caused the ErrorResponse. DPI_DMA_FUNC_SEL_S format. */
+        uint64_t pvf                   : 16; /**< [ 31: 16](RO/H) Physical/virtual function that caused the ErrorResponse. DPI_DMA_FUNC_SEL_S format. */
         uint64_t reserved_9_15         : 7;
         uint64_t lock                  : 1;  /**< [  8:  8](RO/H) DPI()_SLI_PRT()_ERR and DPI()_SLI_PRT()_ERR_INFO have captured and locked contents.
                                                                  When CNXXXX first detects an ErrorResponse, the TYPE, REQQ, and ADDR of the error is saved
                                                                  and an internal lock state is set so the data associated with the initial error is
                                                                  preserved.
 
-                                                                 Subsequent ErrorResponses will optionally raise an interrupt, but will not modify the
-                                                                 TYPE, REQQ, or ADDR fields until the internal lock state is cleared.
+                                                                 Subsequent ErrorResponses will optionally raise an interrupt, but will not modify
+                                                                 [TYPE], [REQQ], nor [ADDR] until the internal lock state is cleared.
 
                                                                  Software can clear the internal lock state by writing a 1 to the appropriate bit in either
-                                                                 DPI()_REQ_ERR_RSP or DPI()_PKT_ERR_RSP depending on the TYPE field. Once the internal lock
-                                                                 state is cleared, the next ErrorResponse will set the TYPE, REQQ, and ADDR for the new
+                                                                 DPI()_REQ_ERR_RSP or DPI()_PKT_ERR_RSP depending on [TYPE]. Once the internal lock
+                                                                 state is cleared, the next ErrorResponse will set [TYPE], [REQQ], nor [ADDR] for the new
                                                                  transaction. */
         uint64_t reserved_5_7          : 3;
         uint64_t type                  : 1;  /**< [  4:  4](RO/H) Type of transaction that caused the ErrorResponse.
@@ -3389,15 +3684,15 @@ typedef union
                                                                  and an internal lock state is set so the data associated with the initial error is
                                                                  preserved.
 
-                                                                 Subsequent ErrorResponses will optionally raise an interrupt, but will not modify the
-                                                                 TYPE, REQQ, or ADDR fields until the internal lock state is cleared.
+                                                                 Subsequent ErrorResponses will optionally raise an interrupt, but will not modify
+                                                                 [TYPE], [REQQ], nor [ADDR] until the internal lock state is cleared.
 
                                                                  Software can clear the internal lock state by writing a 1 to the appropriate bit in either
-                                                                 DPI()_REQ_ERR_RSP or DPI()_PKT_ERR_RSP depending on the TYPE field. Once the internal lock
-                                                                 state is cleared, the next ErrorResponse will set the TYPE, REQQ, and ADDR for the new
+                                                                 DPI()_REQ_ERR_RSP or DPI()_PKT_ERR_RSP depending on [TYPE]. Once the internal lock
+                                                                 state is cleared, the next ErrorResponse will set [TYPE], [REQQ], nor [ADDR] for the new
                                                                  transaction. */
         uint64_t reserved_9_15         : 7;
-        uint64_t pvf                   : 16; /**< [ 31: 16](RO/H) Physical/Virtual function that caused the ErrorResponse. DPI_DMA_FUNC_SEL_S format. */
+        uint64_t pvf                   : 16; /**< [ 31: 16](RO/H) Physical/virtual function that caused the ErrorResponse. DPI_DMA_FUNC_SEL_S format. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -3408,7 +3703,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long
 static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
-        return 0x86e000000940ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
+        return 0x86e000004140ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("DPIX_SLI_PRTX_ERR_INFO", 2, a, b, 0, 0);
 }
 

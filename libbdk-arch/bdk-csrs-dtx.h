@@ -6478,7 +6478,7 @@ static inline uint64_t BDK_DTX_SSO_BCST_RSP_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_DTX_SSO_BCST_RSP_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0feb38080ll;
+        return 0x87e0feb00080ll;
     __bdk_csr_fatal("DTX_SSO_BCST_RSP", 0, 0, 0, 0, 0);
 }
 
@@ -6524,7 +6524,7 @@ static inline uint64_t BDK_DTX_SSO_CTL_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t BDK_DTX_SSO_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0feb38060ll;
+        return 0x87e0feb00060ll;
     __bdk_csr_fatal("DTX_SSO_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -6561,7 +6561,7 @@ static inline uint64_t BDK_DTX_SSO_DATX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_SSO_DATX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0feb38040ll + 8ll * ((a) & 0x1);
+        return 0x87e0feb00040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_SSO_DATX", 1, a, 0, 0, 0);
 }
 
@@ -6598,7 +6598,7 @@ static inline uint64_t BDK_DTX_SSO_ENAX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_SSO_ENAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0feb38020ll + 8ll * ((a) & 0x1);
+        return 0x87e0feb00020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_SSO_ENAX", 1, a, 0, 0, 0);
 }
 
@@ -6633,7 +6633,7 @@ static inline uint64_t BDK_DTX_SSO_SELX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_SSO_SELX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0feb38000ll + 8ll * ((a) & 0x1);
+        return 0x87e0feb00000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_SSO_SELX", 1, a, 0, 0, 0);
 }
 

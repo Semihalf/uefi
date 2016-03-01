@@ -64,6 +64,17 @@
 #define BDK_DDF_BAR_E_DDFX_VFX_BAR4(a,b) (0x809030000000ll + 0ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function MSI-X registers. */
 
 /**
+ * Enumeration ddf_cacpart_e
+ *
+ * DDF Cache Partition Policy Enumeration
+ * Enumerates the cache partition policy.
+ */
+#define BDK_DDF_CACPART_E_EVEN (1) /**< Dedicate 64 cache lines to filter data and 64 to ganged record data. */
+#define BDK_DDF_CACPART_E_FILTER (2) /**< Dedicate 96 cache lines to filter data and 32 to ganged record data. */
+#define BDK_DDF_CACPART_E_NONE (0) /**< No cache partitioning policy. */
+#define BDK_DDF_CACPART_E_RECORD (3) /**< Dedicate 32 cache lines to filter data and 96 to ganged filter data. */
+
+/**
  * Enumeration ddf_comp_e
  *
  * DDF Completion Status Enumeration
@@ -76,25 +87,26 @@
 #define BDK_DDF_COMP_E_FULL (3) /**< Insert operation not completed due to no space (nests all full, and if
                                        DDF_INST_FIND_S[VICTEN]=1 the victim is full). */
 #define BDK_DDF_COMP_E_GOOD (1) /**< Operation completed without error. */
-#define BDK_DDF_COMP_E_HDR_ALIGN (0x10) /**< Improperly aligned header address; HDR_ADDR % 2^HDRSZP2 != 0. */
-#define BDK_DDF_COMP_E_HDR_LT_NEST (7) /**< Header is smaller than nest and won't fit all of opaque data and tag. Violates
+#define BDK_DDF_COMP_E_HDR_ALIGN (0x11) /**< Improperly aligned header address; HDR_ADDR % 2^[HDRSZP2+NWAYP2] != 0, min 16B. */
+#define BDK_DDF_COMP_E_HDR_LT_NEST (8) /**< Header is smaller than nest and won't fit all of opaque data and tag. Violates
                                        the rule VICTEN && ((HDRSZP2 >= NESTSZP2) && NBKTP2==0) || (HDRSZP2 > NESTSZP2)
                                        && NBKTP2 > 0)). */
 #define BDK_DDF_COMP_E_HDR_TOO_BIG (6) /**< Header is larger than 128B. Violates the rule 2^(NWAYP2 + HDRSZP2) <= 128. */
 #define BDK_DDF_COMP_E_ILLEGAL_QWORDS (4) /**< Instruction contained an illegal QWORDS value, must be between 1 and 16. */
-#define BDK_DDF_COMP_E_KEY_GT_HDR (9) /**< Key is larger than header, entire tag won't fit. Violates the rule
+#define BDK_DDF_COMP_E_KEY_GT_HDR (0xa) /**< Key is larger than header, entire tag won't fit. Violates the rule
                                        VICTEN && (((NBKTP2<<2) + TAGBITSM1 + 1) <= (HDRSZP2<<3)). */
-#define BDK_DDF_COMP_E_KEY_GT_NEST (8) /**< Key is larger than nest, entire tag won't fit. Violates the rule
+#define BDK_DDF_COMP_E_KEY_GT_NEST (9) /**< Key is larger than nest, entire tag won't fit. Violates the rule
                                        (NBKTP2 + TAGBITSM1+1) <= (NESTSZP2<<3). */
-#define BDK_DDF_COMP_E_KEY_TOO_SMALL (0xa) /**< Configured data won't fit in key. Violates the rule (NRANKP2 + (2 * NBKTP2) + TAGBITS) <= 256. */
+#define BDK_DDF_COMP_E_KEY_TOO_SMALL (0xb) /**< Configured data won't fit in key. Violates the rule (NRANKP2 + (2 * NBKTP2) + TAGBITS) <= 256. */
 #define BDK_DDF_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by
                                        software to indicate the DDF_RES_FIND_S/DDF_RES_MATCH_S has not yet been
                                        updated by hardware. */
-#define BDK_DDF_COMP_E_NO_HDR (0xc) /**< No header address; VICTEN && HDR_ADDR == 0. */
-#define BDK_DDF_COMP_E_NO_RANK (0xb) /**< No rank address; RANK_ADDR == 0. */
-#define BDK_DDF_COMP_E_NO_RB (0xd) /**< No record block address; RB_ADDR == 0. */
-#define BDK_DDF_COMP_E_NULL_INSERT (0xe) /**< No key specified for FIND_INSERT; {KEY3,KEY2,KEY1,KEY0} == 0x0. */
-#define BDK_DDF_COMP_E_RANK_ALIGN (0xf) /**< Improperly aligned rank address; RANK_ADDR % (2^(NWAYP2+NBKTP2+NESTP2+2)) !=0. */
+#define BDK_DDF_COMP_E_NO_HDR (0xd) /**< No header address; VICTEN && HDR_ADDR == 0. */
+#define BDK_DDF_COMP_E_NO_RANK (0xc) /**< No rank address; RANK_ADDR == 0. */
+#define BDK_DDF_COMP_E_NO_RB (0xe) /**< No record block address; RB_ADDR == 0. */
+#define BDK_DDF_COMP_E_NULL_INSERT (0xf) /**< No key specified for FIND_INSERT; {KEY3,KEY2,KEY1,KEY0} == 0x0. */
+#define BDK_DDF_COMP_E_RANK_ALIGN (0x10) /**< Improperly aligned rank address; RANK_ADDR % (2^(NESTP2+2)) !=0, min 16B. */
+#define BDK_DDF_COMP_E_WAY_TOO_BIG (7) /**< WAY exceeds number of ways. Violates the rule WAY < 2^NWAYP2. */
 
 /**
  * Enumeration ddf_op_e
@@ -137,7 +149,27 @@
  * DDF RAM Field Enumeration
  * Enumerates the relative bit positions within DDF()_PF_ECC0_CTL[CDIS].
  */
-#define BDK_DDF_RAMS_E_TBD (0) /**< Bit position for TBD. */
+#define BDK_DDF_RAMS_E_COMP_FIFO (0xf) /**< Bit position for COMP_FIFO. */
+#define BDK_DDF_RAMS_E_CQM_BPTR (3) /**< Bit position for CQM_BPTR. */
+#define BDK_DDF_RAMS_E_CQM_CTLMEM (2) /**< Bit position for CQM_CTLMEM. */
+#define BDK_DDF_RAMS_E_CQM_DONE_CNT (0xd) /**< Bit position for CQM_DONE_CNT. */
+#define BDK_DDF_RAMS_E_CQM_DONE_TIMER (0xe) /**< Bit position for CQM_DONE_TIMER. */
+#define BDK_DDF_RAMS_E_CQM_GMID (4) /**< Bit position for CQM_GMID. */
+#define BDK_DDF_RAMS_E_CQM_INSTFIF0 (5) /**< Bit position for CQM_INSTFIF0. */
+#define BDK_DDF_RAMS_E_CQM_INSTFIF1 (6) /**< Bit position for CQM_INSTFIF1. */
+#define BDK_DDF_RAMS_E_CQM_INSTFIF2 (7) /**< Bit position for CQM_INSTFIF2. */
+#define BDK_DDF_RAMS_E_CQM_INSTFIF3 (8) /**< Bit position for CQM_INSTFIF3. */
+#define BDK_DDF_RAMS_E_CQM_INSTFIF4 (9) /**< Bit position for CQM_INSTFIF4. */
+#define BDK_DDF_RAMS_E_CQM_INSTFIF5 (0xa) /**< Bit position for CQM_INSTFIF5. */
+#define BDK_DDF_RAMS_E_CQM_INSTFIF6 (0xb) /**< Bit position for CQM_INSTFIF6. */
+#define BDK_DDF_RAMS_E_CQM_INSTFIF7 (0xc) /**< Bit position for CQM_INSTFIF7. */
+#define BDK_DDF_RAMS_E_DMEM0 (0x12) /**< Bit position for DMEM0. */
+#define BDK_DDF_RAMS_E_DMEM1 (0x13) /**< Bit position for DMEM1. */
+#define BDK_DDF_RAMS_E_FPA_MEM (0x11) /**< Bit position for FPA_MEM. */
+#define BDK_DDF_RAMS_E_MBOX_MEM (0x10) /**< Bit position for MBOX_MEM. */
+#define BDK_DDF_RAMS_E_MSIX_VMEM (0x14) /**< Bit position for MSIX_VMEM. */
+#define BDK_DDF_RAMS_E_NCBI_DATFIF (0) /**< Bit position for NCBI_DATFIF. */
+#define BDK_DDF_RAMS_E_NCBO_MEM0 (1) /**< Bit position for NCBO_MEM0. */
 
 /**
  * Enumeration ddf_res_type_e
@@ -183,7 +215,7 @@ union bdk_ddf_inst_find_s
                                                                  bits from the key.
                                                                  1 = [HDR_ADDR] and [RANK_ADDR] point to an absolute rank. */
         uint64_t victen                : 1;  /**< [ 54: 54] Victim enable.
-                                                                 _ 0: No victim present in header, or do not operate on the victim.
+                                                                 _ 0 = No victim present in header, or do not operate on the victim.
                                                                  _ 1 and [OP]!=DDF_OP_E::FABS_SET: Check for victim in filter header and put in
                                                                  to header on add for overflow.
                                                                  _ 1 and [OP]=DDF_OP_E::FABS_SET: Modify the victim. */
@@ -249,7 +281,7 @@ union bdk_ddf_inst_find_s
         uint64_t nest                  : 2;  /**< [ 53: 52] Nest location. If [OP] = DDF_OP_E::FABS_SET, which nest number in the bucket,
                                                                  otherwise reserved. */
         uint64_t victen                : 1;  /**< [ 54: 54] Victim enable.
-                                                                 _ 0: No victim present in header, or do not operate on the victim.
+                                                                 _ 0 = No victim present in header, or do not operate on the victim.
                                                                  _ 1 and [OP]!=DDF_OP_E::FABS_SET: Check for victim in filter header and put in
                                                                  to header on add for overflow.
                                                                  _ 1 and [OP]=DDF_OP_E::FABS_SET: Modify the victim. */
@@ -261,7 +293,7 @@ union bdk_ddf_inst_find_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write DDF_RES_FIND_S.
+                                                                 If nonzero, specifies where to write DDF_RES_FIND_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
@@ -271,7 +303,7 @@ union bdk_ddf_inst_find_s
                                                                  <48> for forward compatibility. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write DDF_RES_FIND_S.
+                                                                 If nonzero, specifies where to write DDF_RES_FIND_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
@@ -288,16 +320,16 @@ union bdk_ddf_inst_find_s
                                                                     ...
                                                                     0x1F: SSO tag = [TAG] ^ {DDF_RES_FIND_S[RANK]<30:0>}. */
         uint64_t reserved_172_186      : 15;
-        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when DDF submits work to
+        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is nonzero, the SSO guest-group to use when DDF submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, FPA_PF_MAP() must map
                                                                  [GRP] and DDF()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when DDF submits work to SSO. */
-        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when DDF submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is nonzero, the SSO tag type to use when DDF submits work to SSO. */
+        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is nonzero, the SSO tag to use when DDF submits work to SSO. */
 #else /* Word 2 - Little Endian */
-        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when DDF submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when DDF submits work to SSO. */
-        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when DDF submits work to
+        uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is nonzero, the SSO tag to use when DDF submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is nonzero, the SSO tag type to use when DDF submits work to SSO. */
+        uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is nonzero, the SSO guest-group to use when DDF submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, FPA_PF_MAP() must map
                                                                  [GRP] and DDF()_PF_Q()_GMCTL[GMID] as valid. */
@@ -310,7 +342,7 @@ union bdk_ddf_inst_find_s
                                                                     0x1F: SSO tag = [TAG] ^ {DDF_RES_FIND_S[RANK]<30:0>}. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that DDF submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that DDF submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -320,7 +352,7 @@ union bdk_ddf_inst_find_s
                                                                  Internal:
                                                                  Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that DDF submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that DDF submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -465,7 +497,8 @@ union bdk_ddf_inst_find_s
         uint64_t reserved_380_383      : 4;
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t hdr_addr              : 64; /**< [447:384] Header IOVA. Must be non-zero when [VICTEN] is set, otherwise reserved.
+        uint64_t hdr_addr              : 64; /**< [447:384] Header IOVA. Must be nonzero when [VICTEN] is set, otherwise reserved. Must be aligned to
+                                                                 a 2^[NWAYP2 + HDRSZP2] byte boundary.
 
                                                                  If [RANK_ABS]=0, points to rank 0 way 0's header. Hardware accesses the way 0
                                                                  header at address [HDR_ADDR] + computed_rank * (2^[NWAYP2]) * (2^[HDRSZP2]).
@@ -476,7 +509,8 @@ union bdk_ddf_inst_find_s
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility. */
 #else /* Word 6 - Little Endian */
-        uint64_t hdr_addr              : 64; /**< [447:384] Header IOVA. Must be non-zero when [VICTEN] is set, otherwise reserved.
+        uint64_t hdr_addr              : 64; /**< [447:384] Header IOVA. Must be nonzero when [VICTEN] is set, otherwise reserved. Must be aligned to
+                                                                 a 2^[NWAYP2 + HDRSZP2] byte boundary.
 
                                                                  If [RANK_ABS]=0, points to rank 0 way 0's header. Hardware accesses the way 0
                                                                  header at address [HDR_ADDR] + computed_rank * (2^[NWAYP2]) * (2^[HDRSZP2]).
@@ -488,7 +522,8 @@ union bdk_ddf_inst_find_s
                                                                  <48> for forward compatibility. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t rank_addr             : 64; /**< [511:448] Must be non-zero.
+        uint64_t rank_addr             : 64; /**< [511:448] Must be nonzero. Must be aligned to a 4 * 2^[NESTSZP2] byte boundary, minimum
+                                                                 alignment of 16 bytes.
 
                                                                  If [RANK_ABS]=0, IOVA for rank 0, bucket 0, way 0, nest 0.
 
@@ -497,7 +532,8 @@ union bdk_ddf_inst_find_s
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility. */
 #else /* Word 7 - Little Endian */
-        uint64_t rank_addr             : 64; /**< [511:448] Must be non-zero.
+        uint64_t rank_addr             : 64; /**< [511:448] Must be nonzero. Must be aligned to a 4 * 2^[NESTSZP2] byte boundary, minimum
+                                                                 alignment of 16 bytes.
 
                                                                  If [RANK_ABS]=0, IOVA for rank 0, bucket 0, way 0, nest 0.
 
@@ -633,7 +669,7 @@ union bdk_ddf_inst_match_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write DDF_RES_MATCH_S.
+                                                                 If nonzero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
@@ -643,7 +679,7 @@ union bdk_ddf_inst_match_s
                                                                  <48> for forward compatibility. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write DDF_RES_MATCH_S.
+                                                                 If nonzero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
@@ -826,7 +862,7 @@ union bdk_ddf_inst_match_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write DDF_RES_MATCH_S.
+                                                                 If nonzero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
@@ -836,7 +872,7 @@ union bdk_ddf_inst_match_s
                                                                  <48> for forward compatibility. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
-                                                                 If non-zero, specifies where to write DDF_RES_MATCH_S.
+                                                                 If nonzero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
@@ -986,16 +1022,16 @@ union bdk_ddf_res_find_s
 
                                                                  Unpredictable for DDF_OP_E::FABS_SET. */
         uint64_t reserved_17_28        : 12;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
                                                                  DDF_INST_FIND_S[DONEINT]. */
         uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
         uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
                                                                  associated instruction, as enumerated by DDF_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
                                                                  before ringing the doorbell, and then poll for completion by
-                                                                 checking for a non-zero value.
+                                                                 checking for a nonzero value.
 
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the DDF
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
                                                                  coprocessor will have also completed L2/DRAM write operations for all context,
                                                                  output stream, and result data. */
 #else /* Word 0 - Little Endian */
@@ -1003,13 +1039,13 @@ union bdk_ddf_res_find_s
                                                                  associated instruction, as enumerated by DDF_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
                                                                  before ringing the doorbell, and then poll for completion by
-                                                                 checking for a non-zero value.
+                                                                 checking for a nonzero value.
 
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the DDF
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
                                                                  coprocessor will have also completed L2/DRAM write operations for all context,
                                                                  output stream, and result data. */
         uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
                                                                  DDF_INST_FIND_S[DONEINT]. */
         uint64_t reserved_17_28        : 12;
         uint64_t hitvict               : 1;  /**< [ 29: 29] Hit victim. Set if item was found, inserted, or deleted as a victim, else clear.
@@ -1261,7 +1297,7 @@ union bdk_ddf_res_match_s
 /**
  * Register (NCB) ddf#_cqm_core_obs0
  *
- * INTERNAL: CDE CQM Core Observability Debug Register
+ * INTERNAL: DDF CQM Core Observability Debug Register
  */
 typedef union
 {
@@ -1309,7 +1345,7 @@ static inline uint64_t BDK_DDFX_CQM_CORE_OBS0(unsigned long a)
 /**
  * Register (NCB) ddf#_cqm_core_obs1
  *
- * INTERNAL: CDE CQM Core Observability Debug Register
+ * INTERNAL: DDF CQM Core Observability Debug Register
  */
 typedef union
 {
@@ -1369,7 +1405,7 @@ static inline uint64_t BDK_DDFX_CQM_CORE_OBS1(unsigned long a)
 /**
  * Register (NCB) ddf#_ncbi_obs
  *
- * INTERNAL: CDE NCBI Observability Debug Register
+ * INTERNAL: DDF NCBI Observability Debug Register
  */
 typedef union
 {
@@ -1519,8 +1555,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -1533,8 +1569,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -1567,6 +1603,41 @@ static inline uint64_t BDK_DDFX_PF_BP_TEST(unsigned long a)
 #define device_bar_BDK_DDFX_PF_BP_TEST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DDFX_PF_BP_TEST(a) (a)
 #define arguments_BDK_DDFX_PF_BP_TEST(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_cac_miss_pc
+ *
+ * DDF PF Cache Miss Performance Counter Register
+ * This register controls diagnostic features.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_cac_miss_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Cache miss counter. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Cache miss counter. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_cac_miss_pc_s cn; */
+} bdk_ddfx_pf_cac_miss_pc_t;
+
+static inline uint64_t BDK_DDFX_PF_CAC_MISS_PC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_CAC_MISS_PC(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000620ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_CAC_MISS_PC", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_CAC_MISS_PC(a) bdk_ddfx_pf_cac_miss_pc_t
+#define bustype_BDK_DDFX_PF_CAC_MISS_PC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_CAC_MISS_PC(a) "DDFX_PF_CAC_MISS_PC"
+#define device_bar_BDK_DDFX_PF_CAC_MISS_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_CAC_MISS_PC(a) (a)
+#define arguments_BDK_DDFX_PF_CAC_MISS_PC(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) ddf#_pf_constants
@@ -1604,6 +1675,102 @@ static inline uint64_t BDK_DDFX_PF_CONSTANTS(unsigned long a)
 #define device_bar_BDK_DDFX_PF_CONSTANTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DDFX_PF_CONSTANTS(a) (a)
 #define arguments_BDK_DDFX_PF_CONSTANTS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_ctl
+ *
+ * DDF PF Control Register
+ * This register controls diagnostic features.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t stdn_sync_dis         : 1;  /**< [  9:  9](R/W) Disable gating of result store on receipt of all NCB store-done's associated with cache
+                                                                 flushes.  For diagnostic use only. */
+        uint64_t cacfree_thrsh         : 2;  /**< [  8:  7](R/W) Minimum number of cache entries to keep available for new instructions, equals 2^[3+CACFREE_THRSH]. */
+        uint64_t eng_disable           : 4;  /**< [  6:  3](R/W) Set to disable individual filter and record engines. Bit 0 for fproc0, bit 1 for fproc1,
+                                                                 bit 2 for rproc0, bit3 for rproc1. */
+        uint64_t synctimer_dis         : 1;  /**< [  2:  2](R/W) Cause hardware to flush entire DDF cache every 1M system clocks. */
+        uint64_t cacpart               : 2;  /**< [  1:  0](R/W) Sets cache partition policy as enumerated in DDF_CACPART_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t cacpart               : 2;  /**< [  1:  0](R/W) Sets cache partition policy as enumerated in DDF_CACPART_E. */
+        uint64_t synctimer_dis         : 1;  /**< [  2:  2](R/W) Cause hardware to flush entire DDF cache every 1M system clocks. */
+        uint64_t eng_disable           : 4;  /**< [  6:  3](R/W) Set to disable individual filter and record engines. Bit 0 for fproc0, bit 1 for fproc1,
+                                                                 bit 2 for rproc0, bit3 for rproc1. */
+        uint64_t cacfree_thrsh         : 2;  /**< [  8:  7](R/W) Minimum number of cache entries to keep available for new instructions, equals 2^[3+CACFREE_THRSH]. */
+        uint64_t stdn_sync_dis         : 1;  /**< [  9:  9](R/W) Disable gating of result store on receipt of all NCB store-done's associated with cache
+                                                                 flushes.  For diagnostic use only. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_ctl_s cn; */
+} bdk_ddfx_pf_ctl_t;
+
+static inline uint64_t BDK_DDFX_PF_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000600ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_CTL(a) bdk_ddfx_pf_ctl_t
+#define bustype_BDK_DDFX_PF_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_CTL(a) "DDFX_PF_CTL"
+#define device_bar_BDK_DDFX_PF_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_CTL(a) (a)
+#define arguments_BDK_DDFX_PF_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_ctl2
+ *
+ * DDF PF Control Register 2
+ * This register controls diagnostic features.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t cacflush              : 1;  /**< [  0:  0](R/W1S/H) When written with one, request that hardware flush the DDF cache (for all
+                                                                 streams and addresses). This bit will stay set until the flush is completed,
+                                                                 then be cleared.
+
+                                                                 New transactions may simultaneously fill the cache, and will not block this bit
+                                                                 clearing, so to insure complete emptiness all DDF()_VQ()_CTL[ENA] must be clear. */
+#else /* Word 0 - Little Endian */
+        uint64_t cacflush              : 1;  /**< [  0:  0](R/W1S/H) When written with one, request that hardware flush the DDF cache (for all
+                                                                 streams and addresses). This bit will stay set until the flush is completed,
+                                                                 then be cleared.
+
+                                                                 New transactions may simultaneously fill the cache, and will not block this bit
+                                                                 clearing, so to insure complete emptiness all DDF()_VQ()_CTL[ENA] must be clear. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_ctl2_s cn; */
+} bdk_ddfx_pf_ctl2_t;
+
+static inline uint64_t BDK_DDFX_PF_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_CTL2(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000610ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_CTL2", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_CTL2(a) bdk_ddfx_pf_ctl2_t
+#define bustype_BDK_DDFX_PF_CTL2(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_CTL2(a) "DDFX_PF_CTL2"
+#define device_bar_BDK_DDFX_PF_CTL2(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_CTL2(a) (a)
+#define arguments_BDK_DDFX_PF_CTL2(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) ddf#_pf_diag
@@ -1660,21 +1827,17 @@ typedef union
     struct bdk_ddfx_pf_diag2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t cacflush              : 1;  /**< [  0:  0](R/W1S/H) When written with one, request that hardware flush the DDF cache (for all
-                                                                 streams and addresses). This bit will stay set until the flush is completed,
-                                                                 then be cleared.
-
-                                                                 New transactions may simultaniously fill the cache, and will not block thie bit
-                                                                 clearing, so to insure complete emptiness all DDF()_VQ()_CTL[ENA] must be clear. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t gang_list_cnt         : 8;  /**< [ 31: 24](RO/H) Number of entries on the gang cache lru list. */
+        uint64_t link_list_cnt         : 8;  /**< [ 23: 16](RO/H) Number of entries on the link cache lru list. */
+        uint64_t flsh_list_cnt         : 8;  /**< [ 15:  8](RO/H) Number of entries on the flush cache lru list. */
+        uint64_t free_list_cnt         : 8;  /**< [  7:  0](RO/H) Number of entries on the free cache lru list. */
 #else /* Word 0 - Little Endian */
-        uint64_t cacflush              : 1;  /**< [  0:  0](R/W1S/H) When written with one, request that hardware flush the DDF cache (for all
-                                                                 streams and addresses). This bit will stay set until the flush is completed,
-                                                                 then be cleared.
-
-                                                                 New transactions may simultaniously fill the cache, and will not block thie bit
-                                                                 clearing, so to insure complete emptiness all DDF()_VQ()_CTL[ENA] must be clear. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t free_list_cnt         : 8;  /**< [  7:  0](RO/H) Number of entries on the free cache lru list. */
+        uint64_t flsh_list_cnt         : 8;  /**< [ 15:  8](RO/H) Number of entries on the flush cache lru list. */
+        uint64_t link_list_cnt         : 8;  /**< [ 23: 16](RO/H) Number of entries on the link cache lru list. */
+        uint64_t gang_list_cnt         : 8;  /**< [ 31: 24](RO/H) Number of entries on the gang cache lru list. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_diag2_s cn; */
@@ -1684,7 +1847,7 @@ static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000600ll + 0ll * ((a) & 0x0);
+        return 0x809000000630ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_DIAG2", 1, a, 0, 0, 0);
 }
 
@@ -2230,19 +2393,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's DDF()_PF_MSIX_VEC()_ADDR, DDF()_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of DDF()_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_DDF_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's DDF()_PF_MSIX_VEC()_ADDR, DDF()_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of DDF()_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_DDF_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -2344,8 +2507,8 @@ typedef union
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when DDF reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
-                                                                 pointers, and result structures are stored in big endian format in memory. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big-endian format in memory. */
         uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
@@ -2381,8 +2544,8 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
-                                                                 pointers, and result structures are stored in big endian format in memory. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big-endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when DDF reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
@@ -2513,13 +2676,13 @@ typedef union
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
@@ -2942,17 +3105,17 @@ typedef union
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When CDE()_VQ()_DONE_ACK is written (or CDE()_VQ()_DONE is written but this is
+                                                                 * When DDF()_VQ()_DONE_ACK is written (or DDF()_VQ()_DONE is written but this is
                                                                  not typical), the interrupt coalescing timer restarts.  Note after decrementing
-                                                                 this interrupt equation is recomputed, for example if CDE()_VQ()_DONE[DONE] >=
-                                                                 CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 this interrupt equation is recomputed, for example if DDF()_VQ()_DONE[DONE] >=
+                                                                 DDF()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
                                                                  be resent immediately.  (This covers the race case between software
                                                                  acknowledging an interrupt and a result returning.)
 
-                                                                 * When CDE()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
+                                                                 * When DDF()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
 
-                                                                 Since CDE instructions complete out-of-order, if software is using completion
+                                                                 Since DDF instructions complete out-of-order, if software is using completion
                                                                  interrupts the suggested scheme is to request a DONEINT on each request, and
                                                                  when an interrupt arrives perform a "greedy" scan for completions; even if a
                                                                  later command is acknowledged first this will not result in missing a
@@ -2978,17 +3141,17 @@ typedef union
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When CDE()_VQ()_DONE_ACK is written (or CDE()_VQ()_DONE is written but this is
+                                                                 * When DDF()_VQ()_DONE_ACK is written (or DDF()_VQ()_DONE is written but this is
                                                                  not typical), the interrupt coalescing timer restarts.  Note after decrementing
-                                                                 this interrupt equation is recomputed, for example if CDE()_VQ()_DONE[DONE] >=
-                                                                 CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 this interrupt equation is recomputed, for example if DDF()_VQ()_DONE[DONE] >=
+                                                                 DDF()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
                                                                  be resent immediately.  (This covers the race case between software
                                                                  acknowledging an interrupt and a result returning.)
 
-                                                                 * When CDE()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
+                                                                 * When DDF()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
 
-                                                                 Since CDE instructions complete out-of-order, if software is using completion
+                                                                 Since DDF instructions complete out-of-order, if software is using completion
                                                                  interrupts the suggested scheme is to request a DONEINT on each request, and
                                                                  when an interrupt arrives perform a "greedy" scan for completions; even if a
                                                                  later command is acknowledged first this will not result in missing a
@@ -3034,13 +3197,13 @@ typedef union
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to DDF()_VQ()_DONE[DONE]. Reads DDF()_VQ()_DONE[DONE].
 
                                                                  Written by software to acknowledge interrupts. If DDF()_VQ()_DONE[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  DDF()_VQ()_DONE[DONE] are satisfied. */
 #else /* Word 0 - Little Endian */
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to DDF()_VQ()_DONE[DONE]. Reads DDF()_VQ()_DONE[DONE].
 
                                                                  Written by software to acknowledge interrupts. If DDF()_VQ()_DONE[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  DDF()_VQ()_DONE[DONE] are satisfied. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
@@ -3151,11 +3314,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  DDF()_VQ()_DONE[DONE]. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  DDF()_VQ()_DONE[DONE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -3191,11 +3354,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  DDF()_VQ()_DONE[DONE]. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  DDF()_VQ()_DONE[DONE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -3343,7 +3506,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count. Counts the number of instructions for the VF for which DDF is
+        uint64_t inflight              : 8;  /**< [  7:  0](RO/H) Inflight count. Counts the number of instructions for the VF for which DDF is
                                                                  fetching, executing or responding to instructions. However this does not include
                                                                  any interrupts that are awaiting software handling (DDF()_VQ()_DONE[DONE] !=
                                                                  0x0).
@@ -3352,7 +3515,7 @@ typedef union
                                                                    1. DDF()_VQ()_CTL[ENA] is cleared by software.
                                                                    2. [INFLIGHT] is polled until equals to zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count. Counts the number of instructions for the VF for which DDF is
+        uint64_t inflight              : 8;  /**< [  7:  0](RO/H) Inflight count. Counts the number of instructions for the VF for which DDF is
                                                                  fetching, executing or responding to instructions. However this does not include
                                                                  any interrupts that are awaiting software handling (DDF()_VQ()_DONE[DONE] !=
                                                                  0x0).
@@ -3393,7 +3556,8 @@ typedef union
     struct bdk_ddfx_vqx_misc_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
@@ -3403,7 +3567,8 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_ena_w1c_s cn; */
@@ -3436,7 +3601,8 @@ typedef union
     struct bdk_ddfx_vqx_misc_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
@@ -3446,7 +3612,8 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_ena_w1s_s cn; */
@@ -3479,7 +3646,8 @@ typedef union
     struct bdk_ddfx_vqx_misc_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reserved. Never set by DDF hardware. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
@@ -3491,7 +3659,8 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reserved. Never set by DDF hardware. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_int_s cn; */
@@ -3524,7 +3693,8 @@ typedef union
     struct bdk_ddfx_vqx_misc_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
@@ -3534,7 +3704,8 @@ typedef union
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_int_w1s_s cn; */
@@ -3570,7 +3741,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer IOVA <48:7> (128-byte aligned). When written, it is the initial
                                                                  buffer starting address; when read, it is the next read pointer to be requested from L2C.
-                                                                 The PTR field is overwritten with the next pointer each time that the command buffer
+                                                                 [PTR] is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
                                                                  buffer pointer.
 
@@ -3580,7 +3751,7 @@ typedef union
         uint64_t off                   : 6;  /**< [  5:  0](RAZ) Reserved. */
         uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer IOVA <48:7> (128-byte aligned). When written, it is the initial
                                                                  buffer starting address; when read, it is the next read pointer to be requested from L2C.
-                                                                 The PTR field is overwritten with the next pointer each time that the command buffer
+                                                                 [PTR] is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
                                                                  buffer pointer.
 

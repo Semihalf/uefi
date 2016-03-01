@@ -59,8 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_TIM_BAR_E_TIM_PF_BAR0 (0x858000000000ll) /**< Base address for standard registers. */
-#define BDK_TIM_BAR_E_TIM_PF_BAR4 (0x858000f00000ll) /**< Base address for MSI-X registers. */
-#define BDK_TIM_BAR_E_TIM_VFX_BAR0(a) (0x858010000000ll + 0x100000ll * (a)) /**< Base address for standard registers. */
+#define BDK_TIM_BAR_E_TIM_PF_BAR4 (0x858000f00000ll) /**< Base address for physical-function MSI-X registers. */
+#define BDK_TIM_BAR_E_TIM_VFX_BAR0(a) (0x858010000000ll + 0x100000ll * (a)) /**< Base address for virtual function registers. */
+#define BDK_TIM_BAR_E_TIM_VFX_BAR4(a) (0x858020000000ll + 0x100000ll * (a)) /**< Base address for virtual-function MSI-X registers. */
 
 /**
  * Enumeration tim_clk_srcs_e
@@ -76,7 +77,7 @@
 /**
  * Enumeration tim_pf_int_vec_e
  *
- * TIM MSI-X Vector Enumeration
+ * TIM PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
 #define BDK_TIM_PF_INT_VEC_E_ECCERR (0) /**< See interrupt clears TIM_INT_ECCERR,
@@ -111,12 +112,12 @@ union bdk_tim_mem_bucket_s
                                                                  TIM_RING()_CTL1[ENA_PRD] is set. */
         uint64_t chunk_remainder       : 32; /**< [ 95: 64] Number of remaining entries for software to enter in the list. This number should always
                                                                  be smaller than chunk size. This field is decremented by software whenever software adds
-                                                                 an entry. If [NUM_ENTRIES] is non-zero, written to zeros by hardware when hardware
+                                                                 an entry. If [NUM_ENTRIES] is nonzero, written to zeros by hardware when hardware
                                                                  processes the entry unless TIM_RING()_CTL1[ENA_PRD] is set. */
 #else /* Word 1 - Little Endian */
         uint64_t chunk_remainder       : 32; /**< [ 95: 64] Number of remaining entries for software to enter in the list. This number should always
                                                                  be smaller than chunk size. This field is decremented by software whenever software adds
-                                                                 an entry. If [NUM_ENTRIES] is non-zero, written to zeros by hardware when hardware
+                                                                 an entry. If [NUM_ENTRIES] is nonzero, written to zeros by hardware when hardware
                                                                  processes the entry unless TIM_RING()_CTL1[ENA_PRD] is set. */
         uint64_t num_entries           : 32; /**< [127: 96] Number of entries that software added to the list. Incremented whenever software adds an
                                                                  entry. Written to zeros by hardware when hardware processes the list unless
@@ -194,26 +195,49 @@ typedef union
     struct bdk_tim_bist_result_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t msix_mem              : 1;  /**< [  6:  6](RO/H) BIST result of the MSIX memory. */
-        uint64_t tstmp_mem             : 1;  /**< [  5:  5](RO/H) BIST result of the Time Stamp memory. */
+        uint64_t reserved_8_63         : 56;
+        uint64_t pf_msix_mem           : 1;  /**< [  7:  7](RO/H) BIST result of the PF_MSIX memory. */
+        uint64_t vf_msix_mem           : 1;  /**< [  6:  6](RO/H) BIST result of the VF_MSIX memory. */
+        uint64_t tstmp_mem             : 1;  /**< [  5:  5](RO/H) BIST result of the time stamp memory. */
         uint64_t wqe_fifo              : 1;  /**< [  4:  4](RO/H) BIST result of the NCB WQE FIFO. */
         uint64_t lslr_fifo             : 1;  /**< [  3:  3](RO/H) BIST result of the NCB LSLR FIFO. */
-        uint64_t ctl2_mem              : 1;  /**< [  2:  2](RO/H) BIST result of the CTL2 memory. */
-        uint64_t ctl1_mem              : 1;  /**< [  1:  1](RO/H) BIST result of the CTL1 memory. */
+        uint64_t reserved_1_2          : 2;
         uint64_t ctl0_mem              : 1;  /**< [  0:  0](RO/H) BIST result of the CTL0 memory. */
 #else /* Word 0 - Little Endian */
         uint64_t ctl0_mem              : 1;  /**< [  0:  0](RO/H) BIST result of the CTL0 memory. */
-        uint64_t ctl1_mem              : 1;  /**< [  1:  1](RO/H) BIST result of the CTL1 memory. */
-        uint64_t ctl2_mem              : 1;  /**< [  2:  2](RO/H) BIST result of the CTL2 memory. */
+        uint64_t reserved_1_2          : 2;
         uint64_t lslr_fifo             : 1;  /**< [  3:  3](RO/H) BIST result of the NCB LSLR FIFO. */
         uint64_t wqe_fifo              : 1;  /**< [  4:  4](RO/H) BIST result of the NCB WQE FIFO. */
-        uint64_t tstmp_mem             : 1;  /**< [  5:  5](RO/H) BIST result of the Time Stamp memory. */
-        uint64_t msix_mem              : 1;  /**< [  6:  6](RO/H) BIST result of the MSIX memory. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t tstmp_mem             : 1;  /**< [  5:  5](RO/H) BIST result of the time stamp memory. */
+        uint64_t vf_msix_mem           : 1;  /**< [  6:  6](RO/H) BIST result of the VF_MSIX memory. */
+        uint64_t pf_msix_mem           : 1;  /**< [  7:  7](RO/H) BIST result of the PF_MSIX memory. */
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_bist_result_s cn; */
+    struct bdk_tim_bist_result_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t pf_msix_mem           : 1;  /**< [  7:  7](RO/H) BIST result of the PF_MSIX memory. */
+        uint64_t vf_msix_mem           : 1;  /**< [  6:  6](RO/H) BIST result of the VF_MSIX memory. */
+        uint64_t tstmp_mem             : 1;  /**< [  5:  5](RO/H) BIST result of the time stamp memory. */
+        uint64_t wqe_fifo              : 1;  /**< [  4:  4](RO/H) BIST result of the NCB WQE FIFO. */
+        uint64_t lslr_fifo             : 1;  /**< [  3:  3](RO/H) BIST result of the NCB LSLR FIFO. */
+        uint64_t reserved_2            : 1;
+        uint64_t reserved_1            : 1;
+        uint64_t ctl0_mem              : 1;  /**< [  0:  0](RO/H) BIST result of the CTL0 memory. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctl0_mem              : 1;  /**< [  0:  0](RO/H) BIST result of the CTL0 memory. */
+        uint64_t reserved_1            : 1;
+        uint64_t reserved_2            : 1;
+        uint64_t lslr_fifo             : 1;  /**< [  3:  3](RO/H) BIST result of the NCB LSLR FIFO. */
+        uint64_t wqe_fifo              : 1;  /**< [  4:  4](RO/H) BIST result of the NCB WQE FIFO. */
+        uint64_t tstmp_mem             : 1;  /**< [  5:  5](RO/H) BIST result of the time stamp memory. */
+        uint64_t vf_msix_mem           : 1;  /**< [  6:  6](RO/H) BIST result of the VF_MSIX memory. */
+        uint64_t pf_msix_mem           : 1;  /**< [  7:  7](RO/H) BIST result of the PF_MSIX memory. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn;
 } bdk_tim_bist_result_t;
 
 #define BDK_TIM_BIST_RESULT BDK_TIM_BIST_RESULT_FUNC()
@@ -255,8 +279,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -269,8 +293,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -800,7 +824,7 @@ static inline uint64_t BDK_TIM_INT0_ENA_W1S_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_TIM_INT0_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000110ll;
+        return 0x858000000108ll;
     __bdk_csr_fatal("TIM_INT0_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -858,17 +882,23 @@ typedef union
     struct bdk_tim_int_eccerr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_8_63         : 56;
+        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1C/H) MSIX PMEM memory had a double-bit error. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1C/H) MSIX PMEM memory had a single-bit error. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1C/H) MSIX VMEM memory had a double-bit error. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1C/H) MSIX VMEM memory had a single-bit error. */
         uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) TIM CTL memory had a double-bit error. */
         uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) TIM CTL memory had a single-bit error. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) TIM RDS memory had a double-bit error. */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) TIM RDS memory had a single-bit error. */
+        uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) TIM RDS memory had a single-bit error. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) TIM RDS memory had a double-bit error. */
+        uint64_t reserved_0_1          : 2;
         uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) TIM CTL memory had a single-bit error. */
         uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) TIM CTL memory had a double-bit error. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1C/H) MSIX VMEM memory had a single-bit error. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1C/H) MSIX VMEM memory had a double-bit error. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1C/H) MSIX PMEM memory had a single-bit error. */
+        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1C/H) MSIX PMEM memory had a double-bit error. */
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_int_eccerr_s cn; */
@@ -902,17 +932,23 @@ typedef union
     struct bdk_tim_int_eccerr_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_8_63         : 56;
+        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[MSIX_PMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[MSIX_PMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[MSIX_VMEM_DBE]. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[MSIX_VMEM_SBE]. */
         uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_DBE]. */
         uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[DBE]. */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[SBE]. */
+        uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[DBE]. */
+        uint64_t reserved_0_1          : 2;
         uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_SBE]. */
         uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_DBE]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[MSIX_VMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[MSIX_VMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[MSIX_PMEM_SBE]. */
+        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[MSIX_PMEM_DBE]. */
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_int_eccerr_ena_w1c_s cn; */
@@ -923,7 +959,7 @@ static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1C_FUNC(void) __attribute__ ((pur
 static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000120ll;
+        return 0x858000000110ll;
     __bdk_csr_fatal("TIM_INT_ECCERR_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -946,17 +982,23 @@ typedef union
     struct bdk_tim_int_eccerr_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_8_63         : 56;
+        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[MSIX_PMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[MSIX_PMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[MSIX_VMEM_DBE]. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[MSIX_VMEM_SBE]. */
         uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[CTL_DBE]. */
         uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[CTL_SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[DBE]. */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[SBE]. */
+        uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[DBE]. */
+        uint64_t reserved_0_1          : 2;
         uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[CTL_SBE]. */
         uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[CTL_DBE]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[MSIX_VMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[MSIX_VMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[MSIX_PMEM_SBE]. */
+        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for TIM_INT_ECCERR[MSIX_PMEM_DBE]. */
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_int_eccerr_ena_w1s_s cn; */
@@ -967,7 +1009,7 @@ static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1S_FUNC(void) __attribute__ ((pur
 static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000128ll;
+        return 0x858000000118ll;
     __bdk_csr_fatal("TIM_INT_ECCERR_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -990,17 +1032,23 @@ typedef union
     struct bdk_tim_int_eccerr_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_8_63         : 56;
+        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1S/H) Reads or sets TIM_INT_ECCERR[MSIX_PMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets TIM_INT_ECCERR[MSIX_PMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets TIM_INT_ECCERR[MSIX_VMEM_DBE]. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TIM_INT_ECCERR[MSIX_VMEM_SBE]. */
         uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_DBE]. */
         uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_INT_ECCERR[DBE]. */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_INT_ECCERR[SBE]. */
+        uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_INT_ECCERR[SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_INT_ECCERR[DBE]. */
+        uint64_t reserved_0_1          : 2;
         uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_SBE]. */
         uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_DBE]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TIM_INT_ECCERR[MSIX_VMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets TIM_INT_ECCERR[MSIX_VMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets TIM_INT_ECCERR[MSIX_PMEM_SBE]. */
+        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1S/H) Reads or sets TIM_INT_ECCERR[MSIX_PMEM_DBE]. */
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_int_eccerr_w1s_s cn; */
@@ -1076,20 +1124,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's TIM_PF_MSIX_VEC()_ADDR, TIM_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of TIM_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_TIM_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's TIM_PF_MSIX_VEC()_ADDR, TIM_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of TIM_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_TIM_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
@@ -1326,7 +1374,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
-        uint64_t be                    : 1;  /**< [ 54: 54](R/W) Ring big endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
+        uint64_t be                    : 1;  /**< [ 54: 54](R/W) Ring big-endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
         uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change [CLK_SRC]:
 
                                                                  1. TIM_RING()_CTL1[ENA] is cleared.
@@ -1336,8 +1384,8 @@ typedef union
                                                                  3. TIM_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
 
                                                                  4. TIM_RING()_CTL1[ENA] is set. */
-        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When ENA is cleared, this bit will remain set until hardware
-                                                                 completes the idling of the ring. ENA must not be re-enabled until clear. */
+        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When [ENA] is cleared, this bit will remain set until hardware
+                                                                 completes the idling of the ring. [ENA] must not be re-enabled until clear. */
         uint64_t intc                  : 2;  /**< [ 49: 48](R/W) Interval count for error. Defines how many intervals could elapse from bucket expiration
                                                                  until actual bucket traversal before hardware asserts an error. Typical value is 0x0, 0x1,
                                                                  0x2. */
@@ -1351,19 +1399,19 @@ typedef union
                                                                  TIM_MEM_BUCKET_S[NUM_ENTRIES] and TIM_MEM_BUCKET_S[CHUNK_REMAINDER] when a
                                                                  bucket is traversed. In periodic mode [ENA_DFB] and [ENA_LDWB] must also be
                                                                  clear. */
-        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of Load and Don't-Write-Back when reading timer entry cache lines. */
+        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of load and don't-write-back when reading timer entry cache lines. */
         uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to FPA. */
         uint64_t reserved_40_42        : 3;
         uint64_t bucket                : 20; /**< [ 39: 20](R/W/H) Current bucket. Should be set to 0x0 by software at enable time. Incremented once per
                                                                  bucket traversal. */
-        uint64_t bsize                 : 20; /**< [ 19:  0](R/W) Number of buckets minus one. If BSIZE = 0, there is only one bucket in the ring. */
+        uint64_t bsize                 : 20; /**< [ 19:  0](R/W) Number of buckets minus one. If [BSIZE] = 0, there is only one bucket in the ring. */
 #else /* Word 0 - Little Endian */
-        uint64_t bsize                 : 20; /**< [ 19:  0](R/W) Number of buckets minus one. If BSIZE = 0, there is only one bucket in the ring. */
+        uint64_t bsize                 : 20; /**< [ 19:  0](R/W) Number of buckets minus one. If [BSIZE] = 0, there is only one bucket in the ring. */
         uint64_t bucket                : 20; /**< [ 39: 20](R/W/H) Current bucket. Should be set to 0x0 by software at enable time. Incremented once per
                                                                  bucket traversal. */
         uint64_t reserved_40_42        : 3;
         uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to FPA. */
-        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of Load and Don't-Write-Back when reading timer entry cache lines. */
+        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of load and don't-write-back when reading timer entry cache lines. */
         uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to
                                                                  TIM_MEM_BUCKET_S[NUM_ENTRIES] and TIM_MEM_BUCKET_S[CHUNK_REMAINDER] when a
                                                                  bucket is traversed. In periodic mode [ENA_DFB] and [ENA_LDWB] must also be
@@ -1377,8 +1425,8 @@ typedef union
         uint64_t intc                  : 2;  /**< [ 49: 48](R/W) Interval count for error. Defines how many intervals could elapse from bucket expiration
                                                                  until actual bucket traversal before hardware asserts an error. Typical value is 0x0, 0x1,
                                                                  0x2. */
-        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When ENA is cleared, this bit will remain set until hardware
-                                                                 completes the idling of the ring. ENA must not be re-enabled until clear. */
+        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When [ENA] is cleared, this bit will remain set until hardware
+                                                                 completes the idling of the ring. [ENA] must not be re-enabled until clear. */
         uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change [CLK_SRC]:
 
                                                                  1. TIM_RING()_CTL1[ENA] is cleared.
@@ -1388,7 +1436,7 @@ typedef union
                                                                  3. TIM_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
 
                                                                  4. TIM_RING()_CTL1[ENA] is set. */
-        uint64_t be                    : 1;  /**< [ 54: 54](R/W) Ring big endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
+        uint64_t be                    : 1;  /**< [ 54: 54](R/W) Ring big-endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } s;
@@ -1422,11 +1470,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t csize                 : 13; /**< [ 52: 40](R/W) Number of eight-byte words per chunk. CSIZE mod(16) should be zero. */
+        uint64_t csize                 : 13; /**< [ 52: 40](R/W) Number of sixteen-byte words per chunk. [CSIZE] mod(8) should be zero. */
         uint64_t reserved_0_39         : 40;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_39         : 40;
-        uint64_t csize                 : 13; /**< [ 52: 40](R/W) Number of eight-byte words per chunk. CSIZE mod(16) should be zero. */
+        uint64_t csize                 : 13; /**< [ 52: 40](R/W) Number of sixteen-byte words per chunk. [CSIZE] mod(8) should be zero. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
@@ -1467,11 +1515,11 @@ typedef union
                                                                  Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free, or to SSO
                                                                  for all submit work operations initiated by this ring.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free, or to SSO
                                                                  for all submit work operations initiated by this ring.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
@@ -1487,7 +1535,7 @@ static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858000003800ll + 8ll * ((a) & 0x3f);
+        return 0x858000002a00ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_RINGX_GMCTL", 1, a, 0, 0, 0);
 }
 
@@ -1527,7 +1575,7 @@ static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000240ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000108ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_AURA", 1, a, 0, 0, 0);
 }
 
@@ -1565,7 +1613,7 @@ static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000230ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000100ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_BASE", 1, a, 0, 0, 0);
 }
 
@@ -1602,7 +1650,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000200ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000040ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_CTL0", 1, a, 0, 0, 0);
 }
 
@@ -1661,7 +1709,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000210ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000050ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_CTL1", 1, a, 0, 0, 0);
 }
 
@@ -1700,7 +1748,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000220ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000060ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_CTL2", 1, a, 0, 0, 0);
 }
 
@@ -1735,7 +1783,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a) __attribute_
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000100ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000020ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_FR_RN_CYCLES", 1, a, 0, 0, 0);
 }
 
@@ -1770,7 +1818,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_GPIOS(unsigned long a) __attribute__
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GPIOS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000108ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000028ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_FR_RN_GPIOS", 1, a, 0, 0, 0);
 }
 
@@ -1805,7 +1853,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a) __attribute__ (
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000110ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000030ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_FR_RN_GTI", 1, a, 0, 0, 0);
 }
 
@@ -1840,7 +1888,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a) __attribute__ (
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000118ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000038ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_FR_RN_PTP", 1, a, 0, 0, 0);
 }
 
@@ -1927,7 +1975,7 @@ static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000250ll + 0x100000ll * ((a) & 0x3f);
+        return 0x858010000110ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_REL", 1, a, 0, 0, 0);
 }
 

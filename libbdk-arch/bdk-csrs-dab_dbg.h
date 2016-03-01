@@ -56,7 +56,7 @@
  * Register (DAB32b) dab_rom_table#
  *
  * ROM table for DAP Register
- * The ROM table is for Coresight ROM
+ * The ROM table is for Coresight ROM.
  */
 typedef union
 {
@@ -90,7 +90,7 @@ static inline uint64_t BDK_DAB_ROM_TABLEX(unsigned long a)
  * Register (DAB32b) dbg#_dbgauthstatus_el1
  *
  * AP DBG Authentication Status Register
- * Debug Authentication Status register for ap core.
+ * Debug authentication status register for ap core.
  * Read only register, Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
@@ -104,7 +104,7 @@ typedef union
         uint32_t snid                  : 2;  /**< [  7:  6](RO/H) Secure non-invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values of 0x2 and 0x3.
                                                                  <00>        Not implemented. EL3 is not implemented and the processor is
-                                                                     Non-secure.
+                                                                     nonsecure.
                                                                  <10>        Implemented and disabled.
                                                                      ExternalSecureNoninvasiveDebugEnabled() == FALSE.
                                                                  <11>        Implemented and enabled.
@@ -113,46 +113,46 @@ typedef union
         uint32_t sid                   : 2;  /**< [  5:  4](RO/H) Secure invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values are 0x2 and 0x3.
                                                                  <00>        Not implemented. EL3 is not implemented and the processor is
-                                                                     Non-secure.
+                                                                     nonsecure.
                                                                  <10>        Implemented and disabled. ExternalSecureInvasiveDebugEnabled()
                                                                      == FALSE.
                                                                  <11>        Implemented and enabled. ExternalSecureInvasiveDebugEnabled()
                                                                      == TRUE.
                                                                  RTL: SID[1]=1, SID[0]=(SPIDEN || DBGEN). */
-        uint32_t nsnid                 : 2;  /**< [  3:  2](RO/H) Non-secure non-invasive debug. Possible values of this field
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO/H) Nonsecure non-invasive debug. Possible values of this field
                                                                      are:
                                                                  Other values are reserved.  For CNXXXX allowed values are 0x2 and 0x3.
                                                                  <00>        Not implemented. EL3 is not implemented and the processor is
-                                                                     Secure.
+                                                                     secure.
                                                                  <10>        Implemented and disabled. ExternalNoninvasiveDebugEnabled() ==
                                                                      FALSE.
                                                                  <11>        Implemented and enabled. ExternalNoninvasiveDebugEnabled() ==
                                                                      TRUE.
                                                                  RTL: NSNID[1]=1, NSNID[0]=(NIDEN || DBGEN). */
-        uint32_t nsid                  : 2;  /**< [  1:  0](RO/H) Non-secure invasive debug. Possible values of this field are:
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO/H) Nonsecure invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values are 0x2 and 0x3.
                                                                  <00>        Not implemented. EL3 is not implemented and the processor is
-                                                                     Secure.
+                                                                     secure.
                                                                  <10>        Implemented and disabled. ExternalInvasiveDebugEnabled() ==
                                                                      FALSE.
                                                                  <11>        Implemented and enabled. ExternalInvasiveDebugEnabled() ==
                                                                      TRUE.
                                                                  RTL: NSID[1]=1, NSID[0]= DBGEN. */
 #else /* Word 0 - Little Endian */
-        uint32_t nsid                  : 2;  /**< [  1:  0](RO/H) Non-secure invasive debug. Possible values of this field are:
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO/H) Nonsecure invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values are 0x2 and 0x3.
                                                                  <00>        Not implemented. EL3 is not implemented and the processor is
-                                                                     Secure.
+                                                                     secure.
                                                                  <10>        Implemented and disabled. ExternalInvasiveDebugEnabled() ==
                                                                      FALSE.
                                                                  <11>        Implemented and enabled. ExternalInvasiveDebugEnabled() ==
                                                                      TRUE.
                                                                  RTL: NSID[1]=1, NSID[0]= DBGEN. */
-        uint32_t nsnid                 : 2;  /**< [  3:  2](RO/H) Non-secure non-invasive debug. Possible values of this field
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO/H) Nonsecure non-invasive debug. Possible values of this field
                                                                      are:
                                                                  Other values are reserved.  For CNXXXX allowed values are 0x2 and 0x3.
                                                                  <00>        Not implemented. EL3 is not implemented and the processor is
-                                                                     Secure.
+                                                                     secure.
                                                                  <10>        Implemented and disabled. ExternalNoninvasiveDebugEnabled() ==
                                                                      FALSE.
                                                                  <11>        Implemented and enabled. ExternalNoninvasiveDebugEnabled() ==
@@ -161,7 +161,7 @@ typedef union
         uint32_t sid                   : 2;  /**< [  5:  4](RO/H) Secure invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values are 0x2 and 0x3.
                                                                  <00>        Not implemented. EL3 is not implemented and the processor is
-                                                                     Non-secure.
+                                                                     nonsecure.
                                                                  <10>        Implemented and disabled. ExternalSecureInvasiveDebugEnabled()
                                                                      == FALSE.
                                                                  <11>        Implemented and enabled. ExternalSecureInvasiveDebugEnabled()
@@ -170,7 +170,7 @@ typedef union
         uint32_t snid                  : 2;  /**< [  7:  6](RO/H) Secure non-invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values of 0x2 and 0x3.
                                                                  <00>        Not implemented. EL3 is not implemented and the processor is
-                                                                     Non-secure.
+                                                                     nonsecure.
                                                                  <10>        Implemented and disabled.
                                                                      ExternalSecureNoninvasiveDebugEnabled() == FALSE.
                                                                  <11>        Implemented and enabled.
@@ -211,7 +211,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint type. Possible values are:
                                                                  The field breaks down as follows:
                                                                   BT[3:1]: Base type.- 000: Match address. DBGBVR<n>_EL1 is the
                                                                      address of an     instruction. - 010: Mismatch address.
@@ -236,19 +236,19 @@ typedef union
                                                                  <1001>      Linked VMID match.
                                                                  <1010>      Unlinked VMID and context ID match.
                                                                  <1011>      Linked VMID and context ID match. */
-        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching
-                                                                     breakpoints, this specifies the index of the Context-matching
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For linked address matching
+                                                                     breakpoints, this specifies the index of the context-matching
                                                                      breakpoint linked to.  For non-linked breakpoints, this field is ignored. */
         uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
                                                                      which a breakpoint debug event for breakpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
-                                                                     fields. Possible values are summarised in the "Processor state
-                                                                     matching" section of the Debug specification
+                                                                     fields. Possible values are summarized in the "Processor state
+                                                                     matching" section of the debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and PMC fields. Possible values are summarised in the
+                                                                     and PMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t reserved_9_12         : 4;
@@ -256,13 +256,13 @@ typedef union
                                                                      matching breakpoint matches, regardless of the instruction set
                                                                      and execution state. In CNXXXX this field is reserved, RES1.
 
-                                                                 For Context matching breakpoints, this field is RES1 and
+                                                                 For context matching breakpoints, this field is RES1 and
                                                                      ignored. */
         uint32_t reserved_3_4          : 2;
         uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the exception level or
                                                                      levels at which a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and HMC fields. Possible values are summarised in the
+                                                                     and HMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t en                    : 1;  /**< [  0:  0](R/W) Enable breakpoint DBGBVR<n>_EL1. Possible values are:
@@ -275,7 +275,7 @@ typedef union
         uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the exception level or
                                                                      levels at which a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and HMC fields. Possible values are summarised in the
+                                                                     and HMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t reserved_3_4          : 2;
@@ -283,25 +283,25 @@ typedef union
                                                                      matching breakpoint matches, regardless of the instruction set
                                                                      and execution state. In CNXXXX this field is reserved, RES1.
 
-                                                                 For Context matching breakpoints, this field is RES1 and
+                                                                 For context matching breakpoints, this field is RES1 and
                                                                      ignored. */
         uint32_t reserved_9_12         : 4;
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and PMC fields. Possible values are summarised in the
+                                                                     and PMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
                                                                      which a breakpoint debug event for breakpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
-                                                                     fields. Possible values are summarised in the "Processor state
-                                                                     matching" section of the Debug specification
+                                                                     fields. Possible values are summarized in the "Processor state
+                                                                     matching" section of the debug specification
                                                                      (PRD03-PRDC-010486). */
-        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching
-                                                                     breakpoints, this specifies the index of the Context-matching
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For linked address matching
+                                                                     breakpoints, this specifies the index of the context-matching
                                                                      breakpoint linked to.  For non-linked breakpoints, this field is ignored. */
-        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint type. Possible values are:
                                                                  The field breaks down as follows:
                                                                   BT[3:1]: Base type.- 000: Match address. DBGBVR<n>_EL1 is the
                                                                      address of an     instruction. - 010: Mismatch address.
@@ -333,7 +333,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint type. Possible values are:
                                                                  The field breaks down as follows:
                                                                   BT[3:1]: Base type.- 000: Match address. DBGBVR<n>_EL1 is the
                                                                      address of an     instruction. - 010: Mismatch address.
@@ -358,8 +358,8 @@ typedef union
                                                                  <1001>      Linked VMID match.
                                                                  <1010>      Unlinked VMID and context ID match.
                                                                  <1011>      Linked VMID and context ID match. */
-        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching
-                                                                     breakpoints, this specifies the index of the Context-matching
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For linked address matching
+                                                                     breakpoints, this specifies the index of the context-matching
                                                                      breakpoint linked to.  For non-linked breakpoints, this field is ignored. */
         uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
                                                                      which a breakpoint debug event for breakpoint n is generated.
@@ -378,7 +378,7 @@ typedef union
                                                                      matching breakpoint matches, regardless of the instruction set
                                                                      and execution state. In CNXXXX this field is reserved, RES1.
 
-                                                                 For Context matching breakpoints, this field is RES1 and
+                                                                 For context matching breakpoints, this field is RES1 and
                                                                      ignored. */
         uint32_t reserved_3_4          : 2;
         uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the exception level or
@@ -405,7 +405,7 @@ typedef union
                                                                      matching breakpoint matches, regardless of the instruction set
                                                                      and execution state. In CNXXXX this field is reserved, RES1.
 
-                                                                 For Context matching breakpoints, this field is RES1 and
+                                                                 For context matching breakpoints, this field is RES1 and
                                                                      ignored. */
         uint32_t reserved_9_12         : 4;
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
@@ -420,10 +420,10 @@ typedef union
                                                                      fields. Possible values are summarised in the "Processor state
                                                                      matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
-        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching
-                                                                     breakpoints, this specifies the index of the Context-matching
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For linked address matching
+                                                                     breakpoints, this specifies the index of the context-matching
                                                                      breakpoint linked to.  For non-linked breakpoints, this field is ignored. */
-        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint type. Possible values are:
                                                                  The field breaks down as follows:
                                                                   BT[3:1]: Base type.- 000: Match address. DBGBVR<n>_EL1 is the
                                                                      address of an     instruction. - 010: Mismatch address.
@@ -541,7 +541,7 @@ static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b)
  * Register (DAB32b) dbg#_dbgclaimclr_el1
  *
  * AP DBG Debug Claim Tag Clear Register
- * Used by software to read the values of the CLAIM bits, and to
+ * Used by software to read the values of the [CLAIM] bits, and to
  *     clear these bits to 0.
  */
 typedef union
@@ -552,16 +552,16 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t claim                 : 8;  /**< [  7:  0](R/W) Claim clear bits. Reading this field returns the current value
-                                                                     of the CLAIM bits.
+                                                                     of the [CLAIM] bits.
                                                                  Writing a 1 to one of these bits clears the corresponding
-                                                                     CLAIM bit to 0. This is an indirect write to the CLAIM bits.
+                                                                     [CLAIM] bit to 0. This is an indirect write to the [CLAIM] bits.
                                                                  A single write operation can clear multiple bits to 0. Writing
                                                                      0 to one of these bits has no effect. */
 #else /* Word 0 - Little Endian */
         uint32_t claim                 : 8;  /**< [  7:  0](R/W) Claim clear bits. Reading this field returns the current value
-                                                                     of the CLAIM bits.
+                                                                     of the [CLAIM] bits.
                                                                  Writing a 1 to one of these bits clears the corresponding
-                                                                     CLAIM bit to 0. This is an indirect write to the CLAIM bits.
+                                                                     [CLAIM] bit to 0. This is an indirect write to the [CLAIM] bits.
                                                                  A single write operation can clear multiple bits to 0. Writing
                                                                      0 to one of these bits has no effect. */
         uint32_t reserved_8_31         : 24;
@@ -588,7 +588,7 @@ static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a)
  * Register (DAB32b) dbg#_dbgclaimset_el1
  *
  * AP DBG Debug Claim Tag Set Register
- * Used by software to set CLAIM bits to 1.
+ * Used by software to set [CLAIM] bits to 1.
  */
 typedef union
 {
@@ -598,14 +598,14 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t claim                 : 8;  /**< [  7:  0](R/W) Claim set bits. RAO.
-                                                                 Writing a 1 to one of these bits sets the corresponding CLAIM
-                                                                     bit to 1. This is an indirect write to the CLAIM bits.
+                                                                 Writing a 1 to one of these bits sets the corresponding [CLAIM]
+                                                                     bit to 1. This is an indirect write to the [CLAIM] bits.
                                                                  A single write operation can set multiple bits to 1. Writing 0
                                                                      to one of these bits has no effect. */
 #else /* Word 0 - Little Endian */
         uint32_t claim                 : 8;  /**< [  7:  0](R/W) Claim set bits. RAO.
-                                                                 Writing a 1 to one of these bits sets the corresponding CLAIM
-                                                                     bit to 1. This is an indirect write to the CLAIM bits.
+                                                                 Writing a 1 to one of these bits sets the corresponding [CLAIM]
+                                                                     bit to 1. This is an indirect write to the [CLAIM] bits.
                                                                  A single write operation can set multiple bits to 1. Writing 0
                                                                      to one of these bits has no effect. */
         uint32_t reserved_8_31         : 24;
@@ -728,6 +728,104 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask.   Ignored if E is zero.  Only objects up to 2GB
+                                                                 can be watched by a signal mask.
+                                                                 00000  No Mask.
+                                                                 00011  3 address bits masked (0x00000007).
+                                                                 00100  4 address bits masked (0x0000000f).
+                                                                 00101  5 address bits masked (0x0000001f).
+                                                                  ...
+                                                                 11111  31 address bits masked (0x7ffffffff).
+                                                                 All other values are reserved and behavior is unpredictable. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type.  Ignored if E is 0.
+                                                                 0 = Unlinked data address match.
+                                                                 1 = Linked data address match. */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number.  If the watchpoint is linked,
+                                                                 specifies the linked context breakpoint to which this watchpoint is linked.
+                                                                 For unlinked watchpoints, this field is ignored. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
+                                                                     which a watchpoint debug event for watchpoint n is generated.
+                                                                     This field must be interpreted along with the HMC and PMC
+                                                                     fields. Possible values are summarized in the "Processor state
+                                                                     matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
+                                                                     deciding when a watchpoint debug event for watchpoint n is
+                                                                     generated. This field must be interpreted along with the SSC
+                                                                     and PMC fields. Possible values are summarized in the
+                                                                     "Processor state matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select.
+                                                                 A 1 in a bit selects whether the corresponding byte in a word or double-word
+                                                                 specified byte DBGVRn_EL1 is being watched.  The lsb corresponds to
+                                                                 DBGVRn_EL1+0 and the msb corresponds to DBGVRn_EL1+7.  Only contiguous bits
+                                                                 may be set. See PRD03-PRDC-010486 for more details.. */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load store control. Ignored if E is 0.   Otherwise
+                                                                     00  Reserved, acts as if E is 0.
+                                                                     01  Match load instructions
+                                                                     10  Match store instructions
+                                                                     11  Match both load and store instructions. */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege access control. Determines the exception level or
+                                                                     levels at which a watchpoint debug event for watchpoint n is
+                                                                     generated. This field must be interpreted along with the SSC
+                                                                     and HMC fields. Possible values are summarized in the
+                                                                     "Processor state matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Watchpoint enable.  0 - disabled, 1 enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Watchpoint enable.  0 - disabled, 1 enabled. */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege access control. Determines the exception level or
+                                                                     levels at which a watchpoint debug event for watchpoint n is
+                                                                     generated. This field must be interpreted along with the SSC
+                                                                     and HMC fields. Possible values are summarized in the
+                                                                     "Processor state matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load store control. Ignored if E is 0.   Otherwise
+                                                                     00  Reserved, acts as if E is 0.
+                                                                     01  Match load instructions
+                                                                     10  Match store instructions
+                                                                     11  Match both load and store instructions. */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select.
+                                                                 A 1 in a bit selects whether the corresponding byte in a word or double-word
+                                                                 specified byte DBGVRn_EL1 is being watched.  The lsb corresponds to
+                                                                 DBGVRn_EL1+0 and the msb corresponds to DBGVRn_EL1+7.  Only contiguous bits
+                                                                 may be set. See PRD03-PRDC-010486 for more details.. */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
+                                                                     deciding when a watchpoint debug event for watchpoint n is
+                                                                     generated. This field must be interpreted along with the SSC
+                                                                     and PMC fields. Possible values are summarized in the
+                                                                     "Processor state matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
+                                                                     which a watchpoint debug event for watchpoint n is generated.
+                                                                     This field must be interpreted along with the HMC and PMC
+                                                                     fields. Possible values are summarized in the "Processor state
+                                                                     matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number.  If the watchpoint is linked,
+                                                                 specifies the linked context breakpoint to which this watchpoint is linked.
+                                                                 For unlinked watchpoints, this field is ignored. */
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type.  Ignored if E is 0.
+                                                                 0 = Unlinked data address match.
+                                                                 1 = Linked data address match. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask.   Ignored if E is zero.  Only objects up to 2GB
+                                                                 can be watched by a signal mask.
+                                                                 00000  No Mask.
+                                                                 00011  3 address bits masked (0x00000007).
+                                                                 00100  4 address bits masked (0x0000000f).
+                                                                 00101  5 address bits masked (0x0000001f).
+                                                                  ...
+                                                                 11111  31 address bits masked (0x7ffffffff).
+                                                                 All other values are reserved and behavior is unpredictable. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_dbgx_dbgwcrx_el1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask.   Ignored if E is zero.  Only objects up to 2GB
                                                                  can be watched by a signle mask.
                                                                  00000  No Mask.
                                                                  00011  3 address bits masked (0x00000007).
@@ -737,7 +835,7 @@ typedef union
                                                                  11111  31 address bits masked (0x7ffffffff).
                                                                  All other values are reserved and behaviour is unpredictable. */
         uint32_t reserved_21_23        : 3;
-        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint Type.  Ignored if E is 0.
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type.  Ignored if E is 0.
                                                                  0 - unlinked data address match.
                                                                  1 - linked data address match. */
         uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number.  If the watchpoint is linked,
@@ -746,13 +844,13 @@ typedef union
         uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
                                                                      which a watchpoint debug event for watchpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
-                                                                     fields. Possible values are summarised in the "Processor state
-                                                                     matching" section of the Debug specification
+                                                                     fields. Possible values are summarized in the "Processor state
+                                                                     matching" section of the debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a watchpoint debug event for watchpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and PMC fields. Possible values are summarised in the
+                                                                     and PMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select.
@@ -768,16 +866,16 @@ typedef union
         uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege access control. Determines the exception level or
                                                                      levels at which a watchpoint debug event for watchpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and HMC fields. Possible values are summarised in the
+                                                                     and HMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
-        uint32_t en                    : 1;  /**< [  0:  0](R/W) Watchpoint Enable.  0 - disabled, 1 enabled. */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Watchpoint enable.  0 - disabled, 1 enabled. */
 #else /* Word 0 - Little Endian */
-        uint32_t en                    : 1;  /**< [  0:  0](R/W) Watchpoint Enable.  0 - disabled, 1 enabled. */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Watchpoint enable.  0 - disabled, 1 enabled. */
         uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege access control. Determines the exception level or
                                                                      levels at which a watchpoint debug event for watchpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and HMC fields. Possible values are summarised in the
+                                                                     and HMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load store control. Ignored if E is 0.   Otherwise
@@ -793,19 +891,19 @@ typedef union
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a watchpoint debug event for watchpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and PMC fields. Possible values are summarised in the
+                                                                     and PMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
                                                                      which a watchpoint debug event for watchpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
-                                                                     fields. Possible values are summarised in the "Processor state
-                                                                     matching" section of the Debug specification
+                                                                     fields. Possible values are summarized in the "Processor state
+                                                                     matching" section of the debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number.  If the watchpoint is linked,
                                                                  specifies the linked context breakpoint to which this watchpoint is linked.
                                                                  For unlinked watchpoints, this field is ignored. */
-        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint Type.  Ignored if E is 0.
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type.  Ignored if E is 0.
                                                                  0 - unlinked data address match.
                                                                  1 - linked data address match. */
         uint32_t reserved_21_23        : 3;
@@ -820,8 +918,9 @@ typedef union
                                                                  All other values are reserved and behaviour is unpredictable. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dbgx_dbgwcrx_el1_s cn; */
+    } cn81xx;
+    /* struct bdk_dbgx_dbgwcrx_el1_s cn88xx; */
+    /* struct bdk_dbgx_dbgwcrx_el1_cn81xx cn83xx; */
 } bdk_dbgx_dbgwcrx_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -842,7 +941,7 @@ static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b)
  * Register (DAB32b) dbg#_dbgwvr#_el1_hi
  *
  * AP DBG Debug Watchpoint Value High Registers
- * Watchpoint value register - high order 32 bits.
+ * Watchpoint value register (high order 32 bits).
  */
 typedef union
 {
@@ -876,7 +975,7 @@ static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b)
  * Register (DAB32b) dbg#_dbgwvr#_el1_lo
  *
  * AP DBG Debug Watchpoint Value Low Registers
- * Watchpoint value register (low order 32 bits)
+ * Watchpoint value register (low order 32 bits).
  */
 typedef union
 {
@@ -1068,13 +1167,13 @@ typedef union
         uint32_t contextidr            : 32; /**< [ 31:  0](RO) The sampled value of CONTEXTIDR_EL1, captured on reading the
                                                                      low half of EDPCSR.
                                                                  If EL3 is implemented and using AArch32 then CONTEXTIDR is a
-                                                                     Banked register, and EDCIDSR samples the current Banked copy
+                                                                     banked register, and EDCIDSR samples the current banked copy
                                                                      of CONTEXTIDR. */
 #else /* Word 0 - Little Endian */
         uint32_t contextidr            : 32; /**< [ 31:  0](RO) The sampled value of CONTEXTIDR_EL1, captured on reading the
                                                                      low half of EDPCSR.
                                                                  If EL3 is implemented and using AArch32 then CONTEXTIDR is a
-                                                                     Banked register, and EDCIDSR samples the current Banked copy
+                                                                     banked register, and EDCIDSR samples the current banked copy
                                                                      of CONTEXTIDR. */
 #endif /* Word 0 - End */
     } s;
@@ -1108,7 +1207,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t b31                   : 1;  /**< [ 31: 31](RO) Bit 31. */
-        uint32_t u                     : 1;  /**< [ 30: 30](RO) U  - 1 indidcates processor is part of a multiprocessor system. */
+        uint32_t u                     : 1;  /**< [ 30: 30](RO) U  - 1 indicates processor is part of a multiprocessor system. */
         uint32_t reserved_24_29        : 6;
         uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. */
         uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node */
@@ -1118,7 +1217,7 @@ typedef union
         uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node */
         uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. */
         uint32_t reserved_24_29        : 6;
-        uint32_t u                     : 1;  /**< [ 30: 30](RO) U  - 1 indidcates processor is part of a multiprocessor system. */
+        uint32_t u                     : 1;  /**< [ 30: 30](RO) U  - 1 indicates processor is part of a multiprocessor system. */
         uint32_t b31                   : 1;  /**< [ 31: 31](RO) Bit 31. */
 #endif /* Word 0 - End */
     } s;
@@ -1294,11 +1393,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
-        uint32_t auxregs               : 4;  /**< [ 27: 24](RO) Indicates support for Auxiliary registers. Permitted values
+        uint32_t auxregs               : 4;  /**< [ 27: 24](RO) Indicates support for auxiliary registers. Permitted values
                                                                      for this field are:
                                                                  All other values are reserved.
                                                                  <0000>      None supported.
-                                                                 <0001>      Support for External Debug Auxiliary Control Register, EDACR. */
+                                                                 <0001>      Support for external debug auxiliary control register, EDACR. */
         uint32_t reserved_4_23         : 20;
         uint32_t pcsample              : 4;  /**< [  3:  0](RO) PCsample field.
                                                                  Indicates the level of Sample-based profiling support using
@@ -1322,11 +1421,11 @@ typedef union
                                                                      EL2 are not implemented).
                                                                  <0011>       EDPCSR, EDCIDSR, and EDVIDSR are implemented. */
         uint32_t reserved_4_23         : 20;
-        uint32_t auxregs               : 4;  /**< [ 27: 24](RO) Indicates support for Auxiliary registers. Permitted values
+        uint32_t auxregs               : 4;  /**< [ 27: 24](RO) Indicates support for auxiliary registers. Permitted values
                                                                      for this field are:
                                                                  All other values are reserved.
                                                                  <0000>      None supported.
-                                                                 <0001>      Support for External Debug Auxiliary Control Register, EDACR. */
+                                                                 <0001>      Support for external debug auxiliary control register, EDACR. */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -1484,8 +1583,8 @@ static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a)
  * Register (DAB) dbg#_eddfr
  *
  * AP DBG External Debug Feature Register
- * Provide information for external debuggers. CTX_CMDS, WRPS, BRPS, PMUVER, TRACEVER has same
- * value in the corresponding fields of ID_AA64DFR0_EL1.
+ * Provide information for external debuggers. [CTX_CMDS], [WRPS], [BRPS], [PMUVER],
+ * and [TRACEVER] have the same value in the corresponding fields of ID_AA64DFR0_EL1.
  */
 typedef union
 {
@@ -1495,7 +1594,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t ctx_cmds              : 4;  /**< [ 31: 28](RO) Number of breakpoints that are context-aware, minus 1.
-                                                                 These are the highest numbeed breakpoints. */
+                                                                 These are the highest numbered breakpoints. */
         uint64_t reserved_24_27        : 4;
         uint64_t wrps                  : 4;  /**< [ 23: 20](RO) Number of watch points, minus 1. The value of 0x0 is reserved. */
         uint64_t reserved_16_19        : 4;
@@ -1538,7 +1637,7 @@ typedef union
         uint64_t wrps                  : 4;  /**< [ 23: 20](RO) Number of watch points, minus 1. The value of 0x0 is reserved. */
         uint64_t reserved_24_27        : 4;
         uint64_t ctx_cmds              : 4;  /**< [ 31: 28](RO) Number of breakpoints that are context-aware, minus 1.
-                                                                 These are the highest numbeed breakpoints. */
+                                                                 These are the highest numbered breakpoints. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -1572,42 +1671,42 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t nse                   : 4;  /**< [  7:  4](R/W) Coarse-grained Non-secure exception catch. Possible values of
+        uint32_t nse                   : 4;  /**< [  7:  4](R/W) Coarse-grained nonsecure exception catch. Possible values of
                                                                      this field are:
-                                                                 All other values are reserved. Bits [7,4] are reserved, Reads as zero.
-                                                                 <0000>      Exception catch debug event disabled for Non-secure exception
+                                                                 All other values are reserved. Bits [7,4] are reserved, reads as zero.
+                                                                 <0000>      Exception catch debug event disabled for nonsecure exception
                                                                      levels.
-                                                                 <0010>      Exception catch debug event enabled for Non-secure EL1.
-                                                                 <0100>      Exception catch debug event enabled for Non-secure EL2.
-                                                                 <0110>      Exception catch debug event enabled for Non-secure EL1 and
+                                                                 <0010>      Exception catch debug event enabled for nonsecure EL1.
+                                                                 <0100>      Exception catch debug event enabled for nonsecure EL2.
+                                                                 <0110>      Exception catch debug event enabled for nonsecure EL1 and
                                                                      EL2. */
-        uint32_t se                    : 4;  /**< [  3:  0](R/W) Coarse-grained Secure exception catch. Possible values of this
+        uint32_t se                    : 4;  /**< [  3:  0](R/W) Coarse-grained secure exception catch. Possible values of this
                                                                      field are:
                                                                  All other values are reserved. Bits [2,0] are reserved. Reads as zero.
                                                                      Ignored if ExternalSecureInvasiveDebugEnabled() == FALSE.
                                                                  <0000>      Exception catch debug event disabled for Secure exception
                                                                      levels.
-                                                                 <0010>      Exception catch debug event enabled for Secure EL1.
-                                                                 <1000>      Exception catch debug event enabled for Secure EL3.
-                                                                 <1010>      Exception catch debug event enabled for Secure EL1 and EL3. */
+                                                                 <0010>      Exception catch debug event enabled for secure EL1.
+                                                                 <1000>      Exception catch debug event enabled for secure EL3.
+                                                                 <1010>      Exception catch debug event enabled for secure EL1 and EL3. */
 #else /* Word 0 - Little Endian */
-        uint32_t se                    : 4;  /**< [  3:  0](R/W) Coarse-grained Secure exception catch. Possible values of this
+        uint32_t se                    : 4;  /**< [  3:  0](R/W) Coarse-grained secure exception catch. Possible values of this
                                                                      field are:
                                                                  All other values are reserved. Bits [2,0] are reserved. Reads as zero.
                                                                      Ignored if ExternalSecureInvasiveDebugEnabled() == FALSE.
                                                                  <0000>      Exception catch debug event disabled for Secure exception
                                                                      levels.
-                                                                 <0010>      Exception catch debug event enabled for Secure EL1.
-                                                                 <1000>      Exception catch debug event enabled for Secure EL3.
-                                                                 <1010>      Exception catch debug event enabled for Secure EL1 and EL3. */
-        uint32_t nse                   : 4;  /**< [  7:  4](R/W) Coarse-grained Non-secure exception catch. Possible values of
+                                                                 <0010>      Exception catch debug event enabled for secure EL1.
+                                                                 <1000>      Exception catch debug event enabled for secure EL3.
+                                                                 <1010>      Exception catch debug event enabled for secure EL1 and EL3. */
+        uint32_t nse                   : 4;  /**< [  7:  4](R/W) Coarse-grained nonsecure exception catch. Possible values of
                                                                      this field are:
-                                                                 All other values are reserved. Bits [7,4] are reserved, Reads as zero.
-                                                                 <0000>      Exception catch debug event disabled for Non-secure exception
+                                                                 All other values are reserved. Bits [7,4] are reserved, reads as zero.
+                                                                 <0000>      Exception catch debug event disabled for nonsecure exception
                                                                      levels.
-                                                                 <0010>      Exception catch debug event enabled for Non-secure EL1.
-                                                                 <0100>      Exception catch debug event enabled for Non-secure EL2.
-                                                                 <0110>      Exception catch debug event enabled for Non-secure EL1 and
+                                                                 <0010>      Exception catch debug event enabled for nonsecure EL1.
+                                                                 <0100>      Exception catch debug event enabled for nonsecure EL2.
+                                                                 <0110>      Exception catch debug event enabled for nonsecure EL1 and
                                                                      EL2. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -1803,7 +1902,7 @@ static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a)
  * Register (DAB32b) dbg#_editr
  *
  * AP DBG External Debug Instruction Transfer Register
- * This register is used in Debug state for passing instructions to the processor
+ * This register is used in debug state for passing instructions to the processor
  *     for execution.
  */
 typedef union
@@ -1853,12 +1952,12 @@ typedef union
     struct bdk_dbgx_edlar_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock Access control. Writing the key value 0xC5ACCE55 unlocks the lock.
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
                                                                  Writing any other value to this register locks the lock, disabling write
                                                                  accesses to this component's registers through a memory mapped interface from internal
                                                                  software.  From external access (via DAP), this reister is write ignored. */
 #else /* Word 0 - Little Endian */
-        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock Access control. Writing the key value 0xC5ACCE55 unlocks the lock.
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
                                                                  Writing any other value to this register locks the lock, disabling write
                                                                  accesses to this component's registers through a memory mapped interface from internal
                                                                  software.  From external access (via DAP), this reister is write ignored. */
@@ -1990,7 +2089,7 @@ static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a)
  * Register (DAB32b) dbg#_edpcsr_lo
  *
  * AP DBG External Debug Program Counter Sample Low Register
- * low order 32 bits of the sampled PC.  Maybe used to capture PC values when sampling is
+ * Low order 32 bits of the sampled PC.  Maybe used to capture PC values when sampling is
  * enabled.
  * When read, causes the capture of the low PC bits, EDCIDSR (Context), EDVIDSR (VMID) and
  * EDPCSR_hi.
@@ -2438,17 +2537,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
-        uint32_t corepurq              : 1;  /**< [  3:  3](R/W) Software write "1" to set the powerup reuqest.
+        uint32_t corepurq              : 1;  /**< [  3:  3](R/W) Software write "1" to set the powerup request.
                                                                  Core powerup request. Allows a debugger to request that the
                                                                      power controller power up the core, enabling access to the
-                                                                     debug register in the Core power domain. The actions on
+                                                                     debug register in the core power domain. The actions on
                                                                      writing to this bit are:
-                                                                 This bit can be read and written when the Core power domain is
+                                                                 This bit can be read and written when the core power domain is
                                                                      powered off.
-                                                                 The power controller must not allow the Core power domain to
+                                                                 The power controller must not allow the core power domain to
                                                                      switch off while this bit is one.
-                                                                 <0> No effect.
-                                                                 <1> Request the power controller to powerup the core. */
+                                                                 0 = No effect.
+                                                                 1 = Request the power controller to powerup the core. */
         uint32_t reserved_2            : 1;
         uint32_t cwrr                  : 1;  /**< [  1:  1](WO) Warm reset request. Write only bit that reads as zero. The
                                                                     actions on writing to this bit are:
@@ -2482,17 +2581,17 @@ typedef union
                                                                  <0> No action.
                                                                  <1> Request Warm reset. */
         uint32_t reserved_2            : 1;
-        uint32_t corepurq              : 1;  /**< [  3:  3](R/W) Software write "1" to set the powerup reuqest.
+        uint32_t corepurq              : 1;  /**< [  3:  3](R/W) Software write "1" to set the powerup request.
                                                                  Core powerup request. Allows a debugger to request that the
                                                                      power controller power up the core, enabling access to the
-                                                                     debug register in the Core power domain. The actions on
+                                                                     debug register in the core power domain. The actions on
                                                                      writing to this bit are:
-                                                                 This bit can be read and written when the Core power domain is
+                                                                 This bit can be read and written when the core power domain is
                                                                      powered off.
-                                                                 The power controller must not allow the Core power domain to
+                                                                 The power controller must not allow the core power domain to
                                                                      switch off while this bit is one.
-                                                                 <0> No effect.
-                                                                 <1> Request the power controller to powerup the core. */
+                                                                 0 = No effect.
+                                                                 1 = Request the power controller to powerup the core. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
@@ -2594,10 +2693,10 @@ typedef union
                                                                  <1> The non-debug logic of the processor is in reset state. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
-                                                                 This bit is set to 1 on Cold reset to indicate the state of
-                                                                     the debug registers has been lost. Since a Cold reset is
+                                                                 This bit is set to 1 on cold reset to indicate the state of
+                                                                     the debug registers has been lost. Since a cold reset is
                                                                      required on powering up the processor, this usually indicates
-                                                                     the Core power domain has been completely powered off.
+                                                                     the core power domain has been completely powered off.
                                                                  Possible values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the
                                                                      processor is not in the powered down state.
@@ -2619,14 +2718,14 @@ typedef union
                                                                   If EDPRSR.PU is one,
                                                                   <0> The state of the debug registers in the Core power domain has not been lost.
                                                                   <1> The state of the debug registers in the Core power domain has been lost. */
-        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the Core power
+        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the core power
                                                                      domain debug registers can be accessed:
                                                                  <0> Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
                                                                  <1> Core is in a power-up state where the debug registers can be
                                                                      accessed. */
 #else /* Word 0 - Little Endian */
-        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the Core power
+        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the core power
                                                                      domain debug registers can be accessed:
                                                                  <0> Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
@@ -2634,10 +2733,10 @@ typedef union
                                                                      accessed. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
-                                                                 This bit is set to 1 on Cold reset to indicate the state of
-                                                                     the debug registers has been lost. Since a Cold reset is
+                                                                 This bit is set to 1 on cold reset to indicate the state of
+                                                                     the debug registers has been lost. Since a cold reset is
                                                                      required on powering up the processor, this usually indicates
-                                                                     the Core power domain has been completely powered off.
+                                                                     the core power domain has been completely powered off.
                                                                  Possible values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the
                                                                      processor is not in the powered down state.
@@ -2780,49 +2879,49 @@ typedef union
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 0 = The non-debug logic of the processor is not in reset state and
+                                                                 0 = The nondebug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 1 = The non-debug logic of the processor is in reset state or has
+                                                                 1 = The nondebug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 0 = The non-debug logic of the processor is not in reset state.
-                                                                 1 = The non-debug logic of the processor is in reset state. */
+                                                                 0 = The nondebug logic of the processor is not in reset state.
+                                                                 1 = The nondebug logic of the processor is in reset state. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
-                                                                 This bit is set to 1 on Cold reset to indicate the state of
-                                                                     the debug registers has been lost. Since a Cold reset is
+                                                                 This bit is set to 1 on cold reset to indicate the state of
+                                                                     the debug registers has been lost. Since a cold reset is
                                                                      required on powering up the processor, this usually indicates
-                                                                     the Core power domain has been completely powered off.
+                                                                     the core power domain has been completely powered off.
                                                                  Possible values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the
                                                                      processor is not in the powered down state.
-                                                                 There are two logical power off states for the Core power
+                                                                 There are two logical power off states for the core power
                                                                      domain:
                                                                  * Retention: The states of the debug registers, including
-                                                                     EDPRSR.SPD, in the Core power domain is preserved, and
+                                                                     EDPRSR.SPD, in the core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 * Power-down: The states of the debug registers in the Core
-                                                                     power domain is lost, and a Cold reset is asserted on leaving
+                                                                 * Power-down: The states of the debug registers in the core
+                                                                     power domain is lost, and a cold reset is asserted on leaving
                                                                      power-down state.
 
                                                                   If EDPRSR.PU is zero,
-                                                                  0 = It is now known whether the state of the degug regsiters in the Core power domain is
+                                                                  0 = It is now known whether the state of the debug registers in the core power domain is
                                                                  lost.
-                                                                  1 = The state fo the debug registers int he Core power domain is lost
+                                                                  1 = The state of the debug registers int he core power domain is lost
 
                                                                   If EDPRSR.PU is one,
-                                                                  0 = The state of the debug registers in the Core power domain has not been lost.
-                                                                  1 = The state of the debug registers in the Core power domain has been lost. */
-        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the Core power
+                                                                  0 = The state of the debug registers in the core power domain has not been lost.
+                                                                  1 = The state of the debug registers in the core power domain has been lost. */
+        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the core power
                                                                      domain debug registers can be accessed:
                                                                  0 = Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
                                                                  1 = Core is in a power-up state where the debug registers can be
                                                                      accessed. */
 #else /* Word 0 - Little Endian */
-        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the Core power
+        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the core power
                                                                      domain debug registers can be accessed:
                                                                  0 = Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
@@ -2830,43 +2929,43 @@ typedef union
                                                                      accessed. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
-                                                                 This bit is set to 1 on Cold reset to indicate the state of
-                                                                     the debug registers has been lost. Since a Cold reset is
+                                                                 This bit is set to 1 on cold reset to indicate the state of
+                                                                     the debug registers has been lost. Since a cold reset is
                                                                      required on powering up the processor, this usually indicates
-                                                                     the Core power domain has been completely powered off.
+                                                                     the core power domain has been completely powered off.
                                                                  Possible values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the
                                                                      processor is not in the powered down state.
-                                                                 There are two logical power off states for the Core power
+                                                                 There are two logical power off states for the core power
                                                                      domain:
                                                                  * Retention: The states of the debug registers, including
-                                                                     EDPRSR.SPD, in the Core power domain is preserved, and
+                                                                     EDPRSR.SPD, in the core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 * Power-down: The states of the debug registers in the Core
-                                                                     power domain is lost, and a Cold reset is asserted on leaving
+                                                                 * Power-down: The states of the debug registers in the core
+                                                                     power domain is lost, and a cold reset is asserted on leaving
                                                                      power-down state.
 
                                                                   If EDPRSR.PU is zero,
-                                                                  0 = It is now known whether the state of the degug regsiters in the Core power domain is
+                                                                  0 = It is now known whether the state of the debug registers in the core power domain is
                                                                  lost.
-                                                                  1 = The state fo the debug registers int he Core power domain is lost
+                                                                  1 = The state of the debug registers int he core power domain is lost
 
                                                                   If EDPRSR.PU is one,
-                                                                  0 = The state of the debug registers in the Core power domain has not been lost.
-                                                                  1 = The state of the debug registers in the Core power domain has been lost. */
+                                                                  0 = The state of the debug registers in the core power domain has not been lost.
+                                                                  1 = The state of the debug registers in the core power domain has been lost. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 0 = The non-debug logic of the processor is not in reset state.
-                                                                 1 = The non-debug logic of the processor is in reset state. */
+                                                                 0 = The nondebug logic of the processor is not in reset state.
+                                                                 1 = The nondebug logic of the processor is in reset state. */
         uint32_t sr                    : 1;  /**< [  3:  3](RO) Sticky core reset status bit. This bit is UNKNOWN on reads if
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 0 = The non-debug logic of the processor is not in reset state and
+                                                                 0 = The nondebug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 1 = The non-debug logic of the processor is in reset state or has
+                                                                 1 = The nondebug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t halted                : 1;  /**< [  4:  4](RO) Halted status bit. This bit is UNKNOWN on reads if EDPRSR.PU
                                                                      is zero, 0 if EDSCR.STATUS == 0x2, 1 if EDSCR.STATUS != 0x2. */
@@ -2940,7 +3039,7 @@ static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a)
  * Register (DAB32b) dbg#_edrcr
  *
  * AP DBG External Debug Reserve Control Register
- * This register is used to allow imprecise entry to Debug state
+ * This register is used to allow imprecise entry to debug state
  *     and clear sticky bits in EDSCR.
  */
 typedef union
@@ -2950,13 +3049,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_5_31         : 27;
-        uint32_t cbrrq                 : 1;  /**< [  4:  4](RO) Imprecise entry to debug state not suppported.  This bit is write ignore. */
-        uint32_t cspa                  : 1;  /**< [  3:  3](WO) Clear Sticky Pipeline Advance. This bit is used to clear the
+        uint32_t cbrrq                 : 1;  /**< [  4:  4](RO) Imprecise entry to debug state not supported.  This bit is write ignore. */
+        uint32_t cspa                  : 1;  /**< [  3:  3](WO) Clear sticky pipeline advance. This bit is used to clear the
                                                                      EDSCR.PipeAdv bit to 0. The actions on writing to this bit
                                                                      are:
                                                                  <0> No action.
                                                                  <1> Clear the EDSCR.PipeAdv bit to 0. */
-        uint32_t cse                   : 1;  /**< [  2:  2](WO) Clear Sticky Error. Used to clear the EDSCR cumulative error
+        uint32_t cse                   : 1;  /**< [  2:  2](WO) Clear sticky error. Used to clear the EDSCR cumulative error
                                                                      bits to 0. The actions on writing to this bit are:
                                                                  <0> No action.
                                                                  <1> Clear the EDSCR.{TXU, RXO, ERR} bits, and, if the processor is
@@ -2964,17 +3063,17 @@ typedef union
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t cse                   : 1;  /**< [  2:  2](WO) Clear Sticky Error. Used to clear the EDSCR cumulative error
+        uint32_t cse                   : 1;  /**< [  2:  2](WO) Clear sticky error. Used to clear the EDSCR cumulative error
                                                                      bits to 0. The actions on writing to this bit are:
                                                                  <0> No action.
                                                                  <1> Clear the EDSCR.{TXU, RXO, ERR} bits, and, if the processor is
                                                                      in Debug state, the EDSCR.ITO bit, to 0. */
-        uint32_t cspa                  : 1;  /**< [  3:  3](WO) Clear Sticky Pipeline Advance. This bit is used to clear the
+        uint32_t cspa                  : 1;  /**< [  3:  3](WO) Clear sticky pipeline advance. This bit is used to clear the
                                                                      EDSCR.PipeAdv bit to 0. The actions on writing to this bit
                                                                      are:
                                                                  <0> No action.
                                                                  <1> Clear the EDSCR.PipeAdv bit to 0. */
-        uint32_t cbrrq                 : 1;  /**< [  4:  4](RO) Imprecise entry to debug state not suppported.  This bit is write ignore. */
+        uint32_t cbrrq                 : 1;  /**< [  4:  4](RO) Imprecise entry to debug state not supported.  This bit is write ignore. */
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */
     } s;
@@ -3011,8 +3110,8 @@ typedef union
         uint32_t rxfull                : 1;  /**< [ 30: 30](RO) DTRRX is full. */
         uint32_t txfull                : 1;  /**< [ 29: 29](RO) DTRTX is full. */
         uint32_t ito                   : 1;  /**< [ 28: 28](RO) EDITR overrun.
-                                                                 If the processor is not in the Debug state, this bit is UNKNOWN.
-                                                                     ITO is set to 0 on entry to Debug state. */
+                                                                 If the processor is not in the debug state, this bit is UNKNOWN.
+                                                                     ITO is set to 0 on entry to debug state. */
         uint32_t rxo                   : 1;  /**< [ 27: 27](RO) Indicates DTRRX overrun. */
         uint32_t txu                   : 1;  /**< [ 26: 26](RO) Indicates DTRTX underrun. */
         uint32_t pipeadv               : 1;  /**< [ 25: 25](RO) Pipeline advance. This bit is set to 1 every time the processor
@@ -3027,7 +3126,7 @@ typedef union
                                                                  If the processor is not in the debug state, this bit is UNKNOWN.
                                                                      It is always valid in the debug state.  When set to 1, the ITR is empty. */
         uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Interrupt disable. Disables taking interrupts (including
-                                                                     virtual interrupts and System Error interrupts) in nondebug
+                                                                     virtual interrupts and system error interrupts) in nondebug
                                                                      state.
 
                                                                  The value of this field does not affect whether an interrupt is a
@@ -3040,7 +3139,7 @@ typedef union
                                                                  If external-invasive debug is enabled, the possible values of
                                                                      this field are:
                                                                  0x0 = Do not disable interrupts.
-                                                                 0x1 = Disable interrupts targeting Non-secure EL1.
+                                                                 0x1 = Disable interrupts targeting nonsecure EL1.
                                                                  0x2 = Disable interrupts targeting only nonsecure EL1 and nonsecure EL2. If external
                                                                  secure invasive debug is enabled, also
                                                                      disable interrupts targeting Secure EL1.
@@ -3048,7 +3147,7 @@ typedef union
                                                                      secure EL2. If external secure invasive debug is enabled, also
                                                                      disable all other interrupts. */
         uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Trap debug registers accesses unless OSLSR_EL1.OSLCK = 1 or halting is prohibited.
-                                                                 Affected registeres are the DBG()_DBGBVR()_EL1_LO, DBG()_DBGBVR()_EL1_HI,
+                                                                 Affected registers are the DBG()_DBGBVR()_EL1_LO, DBG()_DBGBVR()_EL1_HI,
                                                                  DBG()_DBGBCR()_EL1, DBG()_DBGWVR()_EL1_LO, DBG()_DBGWVR()_EL1_HI, and DBG()_DBGWCR()_EL1. */
         uint32_t ma                    : 1;  /**< [ 20: 20](R/W) Memory-access mode. Controls use of memory-access mode for
                                                                      accessing EDITR and the DCC. This bit is ignored if in non
@@ -3067,22 +3166,22 @@ typedef union
         uint32_t reserved_17           : 1;
         uint32_t sdd                   : 1;  /**< [ 16: 16](RO) Secure debug disabled.
 
-                                                                 On entry to Debug state:
+                                                                 On entry to debug state:
                                                                     If entering in secure state, SDD is set to 0.
                                                                     If entering in nonsecure state, SDD is set to the inverse of
                                                                      ExternalSecureInvasiveDebugEnabled().
 
-                                                                 In Debug state, the value of the SDD bit does not change, even
+                                                                 In debug state, the value of the SDD bit does not change, even
                                                                      if ExternalSecureInvasiveDebugEnabled() changes.
 
-                                                                 In Non-debug state:
+                                                                 In non-debug state:
                                                                     SDD returns the inverse of
                                                                      ExternalSecureInvasiveDebugEnabled(). If the authentication
                                                                      signals that control ExternalSecureInvasiveDebugEnabled()
                                                                      change, a context synchronization operation is required to
                                                                      guarantee their effect.
 
-                                                                    This bit is unaffected by the Security state of the
+                                                                    This bit is unaffected by the security state of the
                                                                      processor.
 
                                                                  If EL3 is not implemented and the implementation is non
@@ -3114,24 +3213,24 @@ typedef union
                                                                      configuration).
 
                                                                  In CNXXXX, this field is always <1111>..  All other values will be ignored. */
-        uint32_t el                    : 2;  /**< [  9:  8](RO) Exception level.  In Debug state, this gives the
+        uint32_t el                    : 2;  /**< [  9:  8](RO) Exception level.  In debug state, this gives the
                                                                      current EL of the processor.
-                                                                 In Non-debug state, this field reads as zero. */
-        uint32_t aa                    : 1;  /**< [  7:  7](RO) System Error interrupt (asynchronous abort) pending.
-                                                                     In Debug state, indicates whether a SError interrupt is
+                                                                 In nondebug state, this field reads as zero. */
+        uint32_t aa                    : 1;  /**< [  7:  7](RO) System error interrupt (asynchronous abort) pending.
+                                                                     In debug state, indicates whether a SError interrupt is
                                                                      pending:
-                                                                  If HCR_EL2.{AMO, TGE} = {1, 0} and in Non-secure EL0 or EL1,
+                                                                  If AP_HCR_EL2.{AMO, TGE} = {1, 0} and in nonsecure EL0 or EL1,
                                                                      a virtual SError interrupt.
                                                                   Otherwise, a physical SError interrupt.
                                                                  A debugger can read EDSCR to check whether a SError interrupt
                                                                      is pending without having to execute further instructions. A
                                                                      pending SError might indicate data from target memory is
                                                                      corrupted.
-                                                                  UNKNOWN in Non-debug state.
+                                                                  UNKNOWN in nondebug state.
                                                                  <0> No SError interrupt pending.
                                                                  <1> SError interrupt pending. */
         uint32_t errflg                : 1;  /**< [  6:  6](RO) Cumulative error flag. It is set to 1
-                                                                     following exceptions in Debug state and on any signaled
+                                                                     following exceptions in debug state and on any signaled
                                                                      overrun or underrun on the DTR or EDITR. */
         uint32_t status                : 6;  /**< [  5:  0](RO) Debug status flags.
                                                                  The possible values of this field are:
@@ -3167,24 +3266,24 @@ typedef union
                                                                  <110111>    Exception catch.
                                                                  <111011>    Halting step, no syndrome. */
         uint32_t errflg                : 1;  /**< [  6:  6](RO) Cumulative error flag. It is set to 1
-                                                                     following exceptions in Debug state and on any signaled
+                                                                     following exceptions in debug state and on any signaled
                                                                      overrun or underrun on the DTR or EDITR. */
-        uint32_t aa                    : 1;  /**< [  7:  7](RO) System Error interrupt (asynchronous abort) pending.
-                                                                     In Debug state, indicates whether a SError interrupt is
+        uint32_t aa                    : 1;  /**< [  7:  7](RO) System error interrupt (asynchronous abort) pending.
+                                                                     In debug state, indicates whether a SError interrupt is
                                                                      pending:
-                                                                  If HCR_EL2.{AMO, TGE} = {1, 0} and in Non-secure EL0 or EL1,
+                                                                  If AP_HCR_EL2.{AMO, TGE} = {1, 0} and in nonsecure EL0 or EL1,
                                                                      a virtual SError interrupt.
                                                                   Otherwise, a physical SError interrupt.
                                                                  A debugger can read EDSCR to check whether a SError interrupt
                                                                      is pending without having to execute further instructions. A
                                                                      pending SError might indicate data from target memory is
                                                                      corrupted.
-                                                                  UNKNOWN in Non-debug state.
+                                                                  UNKNOWN in nondebug state.
                                                                  <0> No SError interrupt pending.
                                                                  <1> SError interrupt pending. */
-        uint32_t el                    : 2;  /**< [  9:  8](RO) Exception level.  In Debug state, this gives the
+        uint32_t el                    : 2;  /**< [  9:  8](RO) Exception level.  In debug state, this gives the
                                                                      current EL of the processor.
-                                                                 In Non-debug state, this field reads as zero. */
+                                                                 In nondebug state, this field reads as zero. */
         uint32_t rw                    : 4;  /**< [ 13: 10](RO) Exception level register-width status. Read-only. In debug
                                                                      state, each bit gives the current register width status of
                                                                      each EL:
@@ -3214,22 +3313,22 @@ typedef union
         uint32_t reserved_15           : 1;
         uint32_t sdd                   : 1;  /**< [ 16: 16](RO) Secure debug disabled.
 
-                                                                 On entry to Debug state:
+                                                                 On entry to debug state:
                                                                     If entering in secure state, SDD is set to 0.
                                                                     If entering in nonsecure state, SDD is set to the inverse of
                                                                      ExternalSecureInvasiveDebugEnabled().
 
-                                                                 In Debug state, the value of the SDD bit does not change, even
+                                                                 In debug state, the value of the SDD bit does not change, even
                                                                      if ExternalSecureInvasiveDebugEnabled() changes.
 
-                                                                 In Non-debug state:
+                                                                 In non-debug state:
                                                                     SDD returns the inverse of
                                                                      ExternalSecureInvasiveDebugEnabled(). If the authentication
                                                                      signals that control ExternalSecureInvasiveDebugEnabled()
                                                                      change, a context synchronization operation is required to
                                                                      guarantee their effect.
 
-                                                                    This bit is unaffected by the Security state of the
+                                                                    This bit is unaffected by the security state of the
                                                                      processor.
 
                                                                  If EL3 is not implemented and the implementation is non
@@ -3250,10 +3349,10 @@ typedef union
                                                                  0 = Normal access mode.
                                                                  1 = Memory access mode. */
         uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Trap debug registers accesses unless OSLSR_EL1.OSLCK = 1 or halting is prohibited.
-                                                                 Affected registeres are the DBG()_DBGBVR()_EL1_LO, DBG()_DBGBVR()_EL1_HI,
+                                                                 Affected registers are the DBG()_DBGBVR()_EL1_LO, DBG()_DBGBVR()_EL1_HI,
                                                                  DBG()_DBGBCR()_EL1, DBG()_DBGWVR()_EL1_LO, DBG()_DBGWVR()_EL1_HI, and DBG()_DBGWCR()_EL1. */
         uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Interrupt disable. Disables taking interrupts (including
-                                                                     virtual interrupts and System Error interrupts) in nondebug
+                                                                     virtual interrupts and system error interrupts) in nondebug
                                                                      state.
 
                                                                  The value of this field does not affect whether an interrupt is a
@@ -3266,7 +3365,7 @@ typedef union
                                                                  If external-invasive debug is enabled, the possible values of
                                                                      this field are:
                                                                  0x0 = Do not disable interrupts.
-                                                                 0x1 = Disable interrupts targeting Non-secure EL1.
+                                                                 0x1 = Disable interrupts targeting nonsecure EL1.
                                                                  0x2 = Disable interrupts targeting only nonsecure EL1 and nonsecure EL2. If external
                                                                  secure invasive debug is enabled, also
                                                                      disable interrupts targeting Secure EL1.
@@ -3287,8 +3386,8 @@ typedef union
         uint32_t txu                   : 1;  /**< [ 26: 26](RO) Indicates DTRTX underrun. */
         uint32_t rxo                   : 1;  /**< [ 27: 27](RO) Indicates DTRRX overrun. */
         uint32_t ito                   : 1;  /**< [ 28: 28](RO) EDITR overrun.
-                                                                 If the processor is not in the Debug state, this bit is UNKNOWN.
-                                                                     ITO is set to 0 on entry to Debug state. */
+                                                                 If the processor is not in the debug state, this bit is UNKNOWN.
+                                                                     ITO is set to 0 on entry to debug state. */
         uint32_t txfull                : 1;  /**< [ 29: 29](RO) DTRTX is full. */
         uint32_t rxfull                : 1;  /**< [ 30: 30](RO) DTRRX is full. */
         uint32_t reserved_31           : 1;
@@ -3323,7 +3422,7 @@ typedef union
     struct bdk_dbgx_edvidsr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Non-secure state sample. Indicates the security state
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
                                                                      associated with the most recent EDPCSR sample. */
         uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
                                                                      recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
@@ -3354,7 +3453,7 @@ typedef union
         uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
                                                                      recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
                                                                      0, this bit is 0. */
-        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Non-secure state sample. Indicates the security state
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
                                                                      associated with the most recent EDPCSR sample. */
 #endif /* Word 0 - End */
     } s;
@@ -3387,10 +3486,10 @@ typedef union
     struct bdk_dbgx_edwar_hi_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t address               : 32; /**< [ 31:  0](RO) Records bits <63:32> of the data virtual address being accessed when a Watchpoint debug
+        uint32_t address               : 32; /**< [ 31:  0](RO) Records bits <63:32> of the data virtual address being accessed when a watchpoint debug
                                                                  event occurs. */
 #else /* Word 0 - Little Endian */
-        uint32_t address               : 32; /**< [ 31:  0](RO) Records bits <63:32> of the data virtual address being accessed when a Watchpoint debug
+        uint32_t address               : 32; /**< [ 31:  0](RO) Records bits <63:32> of the data virtual address being accessed when a watchpoint debug
                                                                  event occurs. */
 #endif /* Word 0 - End */
     } s;
@@ -3423,11 +3522,11 @@ typedef union
     struct bdk_dbgx_edwar_lo_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t address               : 32; /**< [ 31:  0](RO) Records bits <31:0> of the data virtual address being accessed when a Watchpoint debug
+        uint32_t address               : 32; /**< [ 31:  0](RO) Records bits <31:0> of the data virtual address being accessed when a watchpoint debug
                                                                  event
                                                                  occurs. */
 #else /* Word 0 - Little Endian */
-        uint32_t address               : 32; /**< [ 31:  0](RO) Records bits <31:0> of the data virtual address being accessed when a Watchpoint debug
+        uint32_t address               : 32; /**< [ 31:  0](RO) Records bits <31:0> of the data virtual address being accessed when a watchpoint debug
                                                                  event
                                                                  occurs. */
 #endif /* Word 0 - End */
@@ -3466,8 +3565,8 @@ typedef union
     struct bdk_dbgx_midr_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementor field - Cavium - 0x43.
-                                                                 The Implementer code. This field must hold an implementer code
+        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer field - Cavium - 0x43.
+                                                                 The implementer code. This field must hold an implementer code
                                                                      that has been assigned by ARM. Assigned codes include the
                                                                      following:
 
@@ -3486,7 +3585,7 @@ typedef union
                                                                  0x69    i     Intel Corporation
                                                                  </pre> */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field - used by CNXXXX to indicate major pass number. */
-        uint32_t architecture          : 4;  /**< [ 19: 16](RO) Architecure field.
+        uint32_t architecture          : 4;  /**< [ 19: 16](RO) Architecture field.
                                                                  The permitted values of this field are:
                                                                  All other values are reserved.
                                                                  <0001>      ARMv4
@@ -3510,7 +3609,7 @@ typedef union
         uint32_t partnum               : 12; /**< [ 15:  4](RO) Part number field.
                                                                  An implementation defined primary part number for the device.
                                                                  In CNXXXX, enumerated by PCC_PROD_E. */
-        uint32_t architecture          : 4;  /**< [ 19: 16](RO) Architecure field.
+        uint32_t architecture          : 4;  /**< [ 19: 16](RO) Architecture field.
                                                                  The permitted values of this field are:
                                                                  All other values are reserved.
                                                                  <0001>      ARMv4
@@ -3522,8 +3621,8 @@ typedef union
                                                                  <0111>      ARMv6
                                                                  <1111>      Defined by CPUID scheme */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field - used by CNXXXX to indicate major pass number. */
-        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementor field - Cavium - 0x43.
-                                                                 The Implementer code. This field must hold an implementer code
+        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer field - Cavium - 0x43.
+                                                                 The implementer code. This field must hold an implementer code
                                                                      that has been assigned by ARM. Assigned codes include the
                                                                      following:
 

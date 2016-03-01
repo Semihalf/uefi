@@ -597,11 +597,11 @@ typedef union
         uint64_t reserved_2_63         : 62;
         uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
-        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
+        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables nonsecure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region.
                                                                  See also DFA_ASC_REGION()_ATTR[NS_EN]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
+        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables nonsecure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region.
                                                                  See also DFA_ASC_REGION()_ATTR[NS_EN]. */
         uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
@@ -615,13 +615,13 @@ typedef union
         uint64_t reserved_2_63         : 62;
         uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
-        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
+        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables nonsecure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region.
 
                                                                  Internal:
                                                                  See also DFA_ASC_REGION()_ATTR[NS_EN]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
+        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables nonsecure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region.
 
                                                                  Internal:
@@ -1272,9 +1272,9 @@ static inline uint64_t BDK_L2C_CTL_FUNC(void)
  * Flip ECC bits to generate single-bit or double-bit ECC errors in all instances of a given
  * memory type. Encodings are as follows.
  * 0x0 = No error.
- * 0x1 = Single-bit error on ECC[0].
- * 0x2 = Single-bit error on ECC[1].
- * 0x3 = Double-bit error on ECC[1:0].
+ * 0x1 = Single-bit error on ECC<0>.
+ * 0x2 = Single-bit error on ECC<1>.
+ * 0x3 = Double-bit error on ECC<1:0>.
  *
  * L2DFLIP allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors for the purposes
  * of testing error handling code. When one (or both) of these bits are set, a PL2 that misses in
@@ -1520,23 +1520,24 @@ typedef union
         uint64_t reserved_30           : 1;
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](R/W) When set, L2 CAS operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the CAS request to be performed on the home node. For STC ops LOCK_LOCAL_STC. */
+                                                                 send the CAS request to be performed on the home node. For STC ops [LOCK_LOCAL_STC]. */
         uint64_t lock_local_stc        : 1;  /**< [ 28: 28](R/W) When set, L2 STC operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the STC request to be performed on the home node. For CAS ops LOCK_LOCAL_CAS. */
+                                                                 send the STC request to be performed on the home node. For CAS ops [LOCK_LOCAL_CAS]. */
         uint64_t lock_local_pp         : 1;  /**< [ 27: 27](R/W) When clear, L2 atomic operations (excluding CAS/STC) core initiated requests to remote
                                                                  addresses which miss at the requester will send the atomic request to be performed on the
                                                                  home node. Default operation will instead  be performed locally on the requesting node.
                                                                  For request initiated by IOB & for STC & CAS ops, see
-                                                                 LOCK_LOCAL_IOB/LOCK_LOCAL_STC/LOCK_LOCAL_CAS. */
+                                                                 [LOCK_LOCAL_IOB]/[LOCK_LOCAL_STC]/[LOCK_LOCAL_CAS]. */
         uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Selects the bit in the counter for the long timeout value (timeout used when [SHTO] is
                                                                  clear). Values supported are between 11 and 29 (for a timeout values between 2^11 and
-                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if LNGTOLEN = 28
+                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if [LNGTOLEN] = 28
                                                                  (the reset value), the timeout is between 256M and 512M core clocks. Note: a value of 0
                                                                  disables this timer. */
         uint64_t shtolen               : 5;  /**< [ 21: 17](R/W) Selects the bit in the counter for the short timeout value (timeout used when [SHTO] is
                                                                  set). Values supported are between 9 and 29 (for a timeout values between 2^9 and 2^29).
-                                                                 Actual timeout is between 1x and 2x this interval. For example if SHTOLEN = 14 (the reset
+                                                                 Actual timeout is between 1x and 2x this interval. For example if [SHTOLEN] = 14 (the
+                                                                 reset
                                                                  value), the timeout is between 16K and 32K core clocks. Note: a value of 0 disables this
                                                                  timer. */
         uint64_t shtoioen              : 1;  /**< [ 16: 16](R/W) When set, any core issues any of an IO load, atomic, acking store, acking IOBADDR, or
@@ -1564,7 +1565,8 @@ typedef union
         uint64_t lock_local_iob        : 1;  /**< [  7:  7](R/W) When set, L2 atomic operations (excluding CAS/STC) initiated by IOB to remote addresses
                                                                  which miss at the requester are performed locally on the requesting node. When clear the
                                                                  operation instead sends the atomic request to be performed on the home node. For request
-                                                                 initiated by core for STC and CAS ops; see LOCK_LOCAL_PP/LOCK_LOCAL_STC/LOCK_LOCAL_CAS.
+                                                                 initiated by core for STC and CAS ops; see
+                                                                 [LOCK_LOCAL_PP]/[LOCK_LOCAL_STC]/[LOCK_LOCAL_CAS].
                                                                  Default is set to 1 (local locks). */
         uint64_t iofrcl                : 1;  /**< [  6:  6](R/W) When set, L2C services all I/O read and write operations on the local node, regardless of
                                                                  the value of the node ID bits in the physical address. During normal operation this bit is
@@ -1596,7 +1598,8 @@ typedef union
         uint64_t lock_local_iob        : 1;  /**< [  7:  7](R/W) When set, L2 atomic operations (excluding CAS/STC) initiated by IOB to remote addresses
                                                                  which miss at the requester are performed locally on the requesting node. When clear the
                                                                  operation instead sends the atomic request to be performed on the home node. For request
-                                                                 initiated by core for STC and CAS ops; see LOCK_LOCAL_PP/LOCK_LOCAL_STC/LOCK_LOCAL_CAS.
+                                                                 initiated by core for STC and CAS ops; see
+                                                                 [LOCK_LOCAL_PP]/[LOCK_LOCAL_STC]/[LOCK_LOCAL_CAS].
                                                                  Default is set to 1 (local locks). */
         uint64_t rldd_psha             : 1;  /**< [  8:  8](R/W) When set, RLDD is assumed to return a shared response (PSHA). Default operation assumes an
                                                                  exclusive response (PEMD). Note that an incorrect assumption only causes an extra tag
@@ -1622,25 +1625,26 @@ typedef union
                                                                  hardware sets [SHTO]. */
         uint64_t shtolen               : 5;  /**< [ 21: 17](R/W) Selects the bit in the counter for the short timeout value (timeout used when [SHTO] is
                                                                  set). Values supported are between 9 and 29 (for a timeout values between 2^9 and 2^29).
-                                                                 Actual timeout is between 1x and 2x this interval. For example if SHTOLEN = 14 (the reset
+                                                                 Actual timeout is between 1x and 2x this interval. For example if [SHTOLEN] = 14 (the
+                                                                 reset
                                                                  value), the timeout is between 16K and 32K core clocks. Note: a value of 0 disables this
                                                                  timer. */
         uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Selects the bit in the counter for the long timeout value (timeout used when [SHTO] is
                                                                  clear). Values supported are between 11 and 29 (for a timeout values between 2^11 and
-                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if LNGTOLEN = 28
+                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if [LNGTOLEN] = 28
                                                                  (the reset value), the timeout is between 256M and 512M core clocks. Note: a value of 0
                                                                  disables this timer. */
         uint64_t lock_local_pp         : 1;  /**< [ 27: 27](R/W) When clear, L2 atomic operations (excluding CAS/STC) core initiated requests to remote
                                                                  addresses which miss at the requester will send the atomic request to be performed on the
                                                                  home node. Default operation will instead  be performed locally on the requesting node.
                                                                  For request initiated by IOB & for STC & CAS ops, see
-                                                                 LOCK_LOCAL_IOB/LOCK_LOCAL_STC/LOCK_LOCAL_CAS. */
+                                                                 [LOCK_LOCAL_IOB]/[LOCK_LOCAL_STC]/[LOCK_LOCAL_CAS]. */
         uint64_t lock_local_stc        : 1;  /**< [ 28: 28](R/W) When set, L2 STC operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the STC request to be performed on the home node. For CAS ops LOCK_LOCAL_CAS. */
+                                                                 send the STC request to be performed on the home node. For CAS ops [LOCK_LOCAL_CAS]. */
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](R/W) When set, L2 CAS operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the CAS request to be performed on the home node. For STC ops LOCK_LOCAL_STC. */
+                                                                 send the CAS request to be performed on the home node. For STC ops [LOCK_LOCAL_STC]. */
         uint64_t reserved_30           : 1;
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
@@ -1656,23 +1660,24 @@ typedef union
                                                                  effect.  Added in pass 2. */
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](R/W) When set, L2 CAS operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the CAS request to be performed on the home node. For STC ops LOCK_LOCAL_STC. */
+                                                                 send the CAS request to be performed on the home node. For STC ops [LOCK_LOCAL_STC]. */
         uint64_t lock_local_stc        : 1;  /**< [ 28: 28](R/W) When set, L2 STC operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the STC request to be performed on the home node. For CAS ops LOCK_LOCAL_CAS. */
+                                                                 send the STC request to be performed on the home node. For CAS ops [LOCK_LOCAL_CAS]. */
         uint64_t lock_local_pp         : 1;  /**< [ 27: 27](R/W) When clear, L2 atomic operations (excluding CAS/STC) core initiated requests to remote
                                                                  addresses which miss at the requester will send the atomic request to be performed on the
                                                                  home node. Default operation will instead  be performed locally on the requesting node.
                                                                  For request initiated by IOB & for STC & CAS ops, see
-                                                                 LOCK_LOCAL_IOB/LOCK_LOCAL_STC/LOCK_LOCAL_CAS. */
+                                                                 [LOCK_LOCAL_IOB]/[LOCK_LOCAL_STC]/[LOCK_LOCAL_CAS]. */
         uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Selects the bit in the counter for the long timeout value (timeout used when [SHTO] is
                                                                  clear). Values supported are between 11 and 29 (for a timeout values between 2^11 and
-                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if LNGTOLEN = 28
+                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if [LNGTOLEN] = 28
                                                                  (the reset value), the timeout is between 256M and 512M core clocks. Note: a value of 0
                                                                  disables this timer. */
         uint64_t shtolen               : 5;  /**< [ 21: 17](R/W) Selects the bit in the counter for the short timeout value (timeout used when [SHTO] is
                                                                  set). Values supported are between 9 and 29 (for a timeout values between 2^9 and 2^29).
-                                                                 Actual timeout is between 1x and 2x this interval. For example if SHTOLEN = 14 (the reset
+                                                                 Actual timeout is between 1x and 2x this interval. For example if [SHTOLEN] = 14 (the
+                                                                 reset
                                                                  value), the timeout is between 16K and 32K core clocks. Note: a value of 0 disables this
                                                                  timer. */
         uint64_t shtoioen              : 1;  /**< [ 16: 16](R/W) When set, any core issues any of an IO load, atomic, acking store, acking IOBADDR, or
@@ -1700,7 +1705,8 @@ typedef union
         uint64_t lock_local_iob        : 1;  /**< [  7:  7](R/W) When set, L2 atomic operations (excluding CAS/STC) initiated by IOB to remote addresses
                                                                  which miss at the requester are performed locally on the requesting node. When clear the
                                                                  operation instead sends the atomic request to be performed on the home node. For request
-                                                                 initiated by core for STC and CAS ops; see LOCK_LOCAL_PP/LOCK_LOCAL_STC/LOCK_LOCAL_CAS.
+                                                                 initiated by core for STC and CAS ops; see
+                                                                 [LOCK_LOCAL_PP]/[LOCK_LOCAL_STC]/[LOCK_LOCAL_CAS].
                                                                  Default is set to 1 (local locks). */
         uint64_t iofrcl                : 1;  /**< [  6:  6](R/W) When set, L2C services all I/O read and write operations on the local node, regardless of
                                                                  the value of the node ID bits in the physical address. During normal operation this bit is
@@ -1732,7 +1738,8 @@ typedef union
         uint64_t lock_local_iob        : 1;  /**< [  7:  7](R/W) When set, L2 atomic operations (excluding CAS/STC) initiated by IOB to remote addresses
                                                                  which miss at the requester are performed locally on the requesting node. When clear the
                                                                  operation instead sends the atomic request to be performed on the home node. For request
-                                                                 initiated by core for STC and CAS ops; see LOCK_LOCAL_PP/LOCK_LOCAL_STC/LOCK_LOCAL_CAS.
+                                                                 initiated by core for STC and CAS ops; see
+                                                                 [LOCK_LOCAL_PP]/[LOCK_LOCAL_STC]/[LOCK_LOCAL_CAS].
                                                                  Default is set to 1 (local locks). */
         uint64_t rldd_psha             : 1;  /**< [  8:  8](R/W) When set, RLDD is assumed to return a shared response (PSHA). Default operation assumes an
                                                                  exclusive response (PEMD). Note that an incorrect assumption only causes an extra tag
@@ -1758,25 +1765,26 @@ typedef union
                                                                  hardware sets [SHTO]. */
         uint64_t shtolen               : 5;  /**< [ 21: 17](R/W) Selects the bit in the counter for the short timeout value (timeout used when [SHTO] is
                                                                  set). Values supported are between 9 and 29 (for a timeout values between 2^9 and 2^29).
-                                                                 Actual timeout is between 1x and 2x this interval. For example if SHTOLEN = 14 (the reset
+                                                                 Actual timeout is between 1x and 2x this interval. For example if [SHTOLEN] = 14 (the
+                                                                 reset
                                                                  value), the timeout is between 16K and 32K core clocks. Note: a value of 0 disables this
                                                                  timer. */
         uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Selects the bit in the counter for the long timeout value (timeout used when [SHTO] is
                                                                  clear). Values supported are between 11 and 29 (for a timeout values between 2^11 and
-                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if LNGTOLEN = 28
+                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if [LNGTOLEN] = 28
                                                                  (the reset value), the timeout is between 256M and 512M core clocks. Note: a value of 0
                                                                  disables this timer. */
         uint64_t lock_local_pp         : 1;  /**< [ 27: 27](R/W) When clear, L2 atomic operations (excluding CAS/STC) core initiated requests to remote
                                                                  addresses which miss at the requester will send the atomic request to be performed on the
                                                                  home node. Default operation will instead  be performed locally on the requesting node.
                                                                  For request initiated by IOB & for STC & CAS ops, see
-                                                                 LOCK_LOCAL_IOB/LOCK_LOCAL_STC/LOCK_LOCAL_CAS. */
+                                                                 [LOCK_LOCAL_IOB]/[LOCK_LOCAL_STC]/[LOCK_LOCAL_CAS]. */
         uint64_t lock_local_stc        : 1;  /**< [ 28: 28](R/W) When set, L2 STC operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the STC request to be performed on the home node. For CAS ops LOCK_LOCAL_CAS. */
+                                                                 send the STC request to be performed on the home node. For CAS ops [LOCK_LOCAL_CAS]. */
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](R/W) When set, L2 CAS operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the CAS request to be performed on the home node. For STC ops LOCK_LOCAL_STC. */
+                                                                 send the CAS request to be performed on the home node. For STC ops [LOCK_LOCAL_STC]. */
         uint64_t ncpend                : 1;  /**< [ 30: 30](RO/H) An indication that a node change is pending.  Hardware sets this bit when
                                                                  OCX_COM_NODE[ID] is changed and clears the bit when the node change has taken
                                                                  effect.  Added in pass 2. */
@@ -1966,16 +1974,16 @@ typedef union
         uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a L2C_TAD()_INT_W1C[WRNXM] error. */
         uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a L2C_TAD()_INT_W1C[RDDISOCI] error. */
         uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a L2C_TAD()_INT_W1C[WRDISOCI] error. */
-        uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Non-secure (NS) bit of request causing error. */
+        uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Nonsecure (NS) bit of request causing error. */
         uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error.
                                                                  Internal:
-                                                                 If CMD[7]==1, use XMC_CMD_E to
-                                                                 decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
-                                                                 use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
-                                                                 CMD[4:0]. */
+                                                                 If CMD<7>==1, use XMC_CMD_E to
+                                                                 decode CMD<6:0>. If CMD<7:5>==0, use OCI_MREQ_CMD_E to decode CMD<4:0>. If CMD<7:5>==1,
+                                                                 use OCI_MFWD_CMD_E to decode CMD<4:0>. If CMD<7:5>==2, use OCI_MRSP_CMD_E to decode
+                                                                 CMD<4:0>. */
         uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If [SOURCE]<6>==0, then [SOURCE]<5:0> is
                                                                  PPID, else [SOURCE]<3:0> is BUSID of the IOB which made the request. If
-                                                                 [CMD][7]==0, this field is unpredictable. */
+                                                                 [CMD]<7>==0, this field is unpredictable. */
         uint64_t reserved_42_43        : 2;
         uint64_t node                  : 2;  /**< [ 41: 40](RO/H) CCPI node of XMC request causing error. For *NXM errors [NODE] is always the node that
                                                                  generated request causing the error (*NXM errors are logged at the home node). For *DISOCI
@@ -1993,14 +2001,14 @@ typedef union
         uint64_t reserved_42_43        : 2;
         uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If [SOURCE]<6>==0, then [SOURCE]<5:0> is
                                                                  PPID, else [SOURCE]<3:0> is BUSID of the IOB which made the request. If
-                                                                 [CMD][7]==0, this field is unpredictable. */
+                                                                 [CMD]<7>==0, this field is unpredictable. */
         uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error.
                                                                  Internal:
-                                                                 If CMD[7]==1, use XMC_CMD_E to
-                                                                 decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
-                                                                 use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
-                                                                 CMD[4:0]. */
-        uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Non-secure (NS) bit of request causing error. */
+                                                                 If CMD<7>==1, use XMC_CMD_E to
+                                                                 decode CMD<6:0>. If CMD<7:5>==0, use OCI_MREQ_CMD_E to decode CMD<4:0>. If CMD<7:5>==1,
+                                                                 use OCI_MFWD_CMD_E to decode CMD<4:0>. If CMD<7:5>==2, use OCI_MRSP_CMD_E to decode
+                                                                 CMD<4:0>. */
+        uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Nonsecure (NS) bit of request causing error. */
         uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a L2C_TAD()_INT_W1C[WRDISOCI] error. */
         uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a L2C_TAD()_INT_W1C[RDDISOCI] error. */
         uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a L2C_TAD()_INT_W1C[WRNXM] error. */
@@ -2441,10 +2449,10 @@ typedef union
         uint64_t lfbnum                : 5;  /**< [ 56: 52](RO/H) The LFB number of the entry that timed out, and have its info captures in this register. */
         uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
                                                                  Internal:
-                                                                 If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
+                                                                 If CMD<7>==1, use XMC_CMD_E to decode CMD<6:0>. If CMD<7:5>==0, use
                                                                  OCI_MREQ_CMD_E to
-                                                                 decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
-                                                                 use OCI_MRSP_CMD_E to decode CMD[4:0]. */
+                                                                 decode CMD<4:0>. If CMD<7:5>==1, use OCI_MFWD_CMD_E to decode CMD<4:0>. If CMD<7:5>==2,
+                                                                 use OCI_MRSP_CMD_E to decode CMD<4:0>. */
         uint64_t reserved_42_43        : 2;
         uint64_t node                  : 2;  /**< [ 41: 40](RO/H) Home node of the address causing the error. Similar to [ADDR] below, this can be the
                                                                  request address (if [INFOLFB] is set), else it is the replacement address (if [INFOLFB] is
@@ -2470,10 +2478,10 @@ typedef union
         uint64_t reserved_42_43        : 2;
         uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
                                                                  Internal:
-                                                                 If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
+                                                                 If CMD<7>==1, use XMC_CMD_E to decode CMD<6:0>. If CMD<7:5>==0, use
                                                                  OCI_MREQ_CMD_E to
-                                                                 decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
-                                                                 use OCI_MRSP_CMD_E to decode CMD[4:0]. */
+                                                                 decode CMD<4:0>. If CMD<7:5>==1, use OCI_MFWD_CMD_E to decode CMD<4:0>. If CMD<7:5>==2,
+                                                                 use OCI_MRSP_CMD_E to decode CMD<4:0>. */
         uint64_t lfbnum                : 5;  /**< [ 56: 52](RO/H) The LFB number of the entry that timed out, and have its info captures in this register. */
         uint64_t reserved_57_61        : 5;
         uint64_t infovab               : 1;  /**< [ 62: 62](RO/H) Logged address information is for the VAB (replacement). If both this and
@@ -2684,10 +2692,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
+        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of [MASK] includes bits set
                                                                  because of the L2C cripple fuses. */
 #else /* Word 0 - Little Endian */
-        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
+        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of [MASK] includes bits set
                                                                  because of the L2C cripple fuses. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -2722,10 +2730,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
+        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of [MASK] includes bits set
                                                                  because of the L2C cripple fuses. */
 #else /* Word 0 - Little Endian */
-        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
+        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of [MASK] includes bits set
                                                                  because of the L2C cripple fuses. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */

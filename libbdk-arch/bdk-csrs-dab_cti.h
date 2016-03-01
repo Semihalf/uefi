@@ -193,7 +193,7 @@ static inline uint64_t BDK_CTIX_CLAIMSET_EL1(unsigned long a)
  * Register (DAB32b) cti#_ctiappclear
  *
  * CTI Application Trigger Clear Register
- * Clears bits of the Application Trigger register.
+ * Clears bits of the application trigger register.
  */
 typedef union
 {
@@ -277,7 +277,7 @@ static inline uint64_t BDK_CTIX_CTIAPPPULSE(unsigned long a)
  * Register (DAB32b) cti#_ctiappset
  *
  * CTI Application Trigger Set Register
- * Sets bits of the Application Trigger register.
+ * Sets bits of the application trigger register.
  */
 typedef union
 {
@@ -917,7 +917,7 @@ typedef union
                                                                  0xa = Up to 10 triggers (0..9) implemented.
                                                                  and so on up to 0x20.
 
-                                                                 All other values are reserved. If the Trace Extension is implemented, this field
+                                                                 All other values are reserved. If the trace extension is implemented, this field
                                                                  must be at least 0x8. There is no guarantee that any of the implemented
                                                                  triggers, including the highest numbered, are connected to any components. */
         uint32_t reserved_5_7          : 3;
@@ -939,7 +939,7 @@ typedef union
                                                                  0xa = Up to 10 triggers (0..9) implemented.
                                                                  and so on up to 0x20.
 
-                                                                 All other values are reserved. If the Trace Extension is implemented, this field
+                                                                 All other values are reserved. If the trace extension is implemented, this field
                                                                  must be at least 0x8. There is no guarantee that any of the implemented
                                                                  triggers, including the highest numbered, are connected to any components. */
         uint32_t reserved_14_15        : 2;
@@ -1212,7 +1212,7 @@ typedef union
 
                                                                  If any of the following is true, writes to ACK<n> are ignored:
                                                                  * n >= CTI()_CTIDEVID[NUMTRIG], the number of implemented triggers.
-                                                                 * Output trigger n is not active
+                                                                 * Output trigger n is not active.
                                                                  * The channel mapping function output, as controlled by
                                                                      CTIOUTEN<n>, is still active.
 
@@ -1233,7 +1233,7 @@ typedef union
 
                                                                  If any of the following is true, writes to ACK<n> are ignored:
                                                                  * n >= CTI()_CTIDEVID[NUMTRIG], the number of implemented triggers.
-                                                                 * Output trigger n is not active
+                                                                 * Output trigger n is not active.
                                                                  * The channel mapping function output, as controlled by
                                                                      CTIOUTEN<n>, is still active.
 
@@ -1792,7 +1792,7 @@ typedef union
                                                                      CTI()_CTIDEVID[NUMTRIG].
                                                                  Bits [31:N] are 0.
 
-                                                                 Not implemented and not-connected input triggers are always inactive.
+                                                                 Not implemented and not connected input triggers are always inactive.
                                                                  0 = Input trigger n is inactive.
                                                                  1 = Input trigger n is active. */
 #else /* Word 0 - Little Endian */
@@ -1801,7 +1801,7 @@ typedef union
                                                                      CTI()_CTIDEVID[NUMTRIG].
                                                                  Bits [31:N] are 0.
 
-                                                                 Not implemented and not-connected input triggers are always inactive.
+                                                                 Not implemented and not connected input triggers are always inactive.
                                                                  0 = Input trigger n is inactive.
                                                                  1 = Input trigger n is active. */
         uint32_t reserved_3_31         : 29;

@@ -61,17 +61,15 @@
  * of the devices available. The value of the enumeration is formatted as defined by
  * PCC_DEV_CON_S.
  */
-#define BDK_PCC_DEV_CON_E_BCH_CN81XX (0x300) /**< BCH. */
-#define BDK_PCC_DEV_CON_E_BCH_CN83XX (0x1000) /**< BCH. */
+#define BDK_PCC_DEV_CON_E_BCH (0x300) /**< BCH (under PCCBR_BCH). */
 #define BDK_PCC_DEV_CON_E_BGXX(a) (0x180 + (a)) /**< Ethernet interface. */
-#define BDK_PCC_DEV_CON_E_CPT0_CN81XX (0x400) /**< CPT 0. */
-#define BDK_PCC_DEV_CON_E_CPT0_CN83XX (0x500) /**< CPT 0. */
-#define BDK_PCC_DEV_CON_E_CPT1 (0x600) /**< CPT 1. */
+#define BDK_PCC_DEV_CON_E_CPT0 (0x400) /**< CPT 0 (under PCCBR_CPT0). */
+#define BDK_PCC_DEV_CON_E_CPT1 (0x500) /**< CPT 1 (under PCCBR_CPT1). */
 #define BDK_PCC_DEV_CON_E_DAP (0x102) /**< Debug access point. */
-#define BDK_PCC_DEV_CON_E_DDF0 (0x700) /**< DDF. */
+#define BDK_PCC_DEV_CON_E_DDF0 (0x10500) /**< DDF (under PCCBR_DDF0). */
 #define BDK_PCC_DEV_CON_E_DFA (0x400) /**< HFA. */
-#define BDK_PCC_DEV_CON_E_DPI0 (0xe00) /**< DPI 0. */
-#define BDK_PCC_DEV_CON_E_FPA (0xc00) /**< FPA. */
+#define BDK_PCC_DEV_CON_E_DPI0 (0xb00) /**< DPI 0 (under PCCBR_DPI0). */
+#define BDK_PCC_DEV_CON_E_FPA (0x900) /**< FPA (under PCCBR_FPA). */
 #define BDK_PCC_DEV_CON_E_FUSF (0x104) /**< Field Fuses. */
 #define BDK_PCC_DEV_CON_E_GIC (0x18) /**< GIC interrupt unit. */
 #define BDK_PCC_DEV_CON_E_GPIO (0x30) /**< GPIO. */
@@ -93,65 +91,68 @@
 #define BDK_PCC_DEV_CON_E_MIO_PTP (0x40) /**< Precision time-stamping. */
 #define BDK_PCC_DEV_CON_E_MIO_TWSX(a) (0x148 + (a)) /**< TWSI. */
 #define BDK_PCC_DEV_CON_E_MPI (0x38) /**< MPI. */
-#define BDK_PCC_DEV_CON_E_MRML (0x100) /**< Master RSL bus bridge. */
+#define BDK_PCC_DEV_CON_E_MRML_CN81XX (0x100) /**< Master RSL bus bridge (under PCCBR_MRML). */
+#define BDK_PCC_DEV_CON_E_MRML_CN88XX (0x100) /**< Master RSL bus bridge. */
+#define BDK_PCC_DEV_CON_E_MRML_CN83XX (0x100) /**< Master RSL bus bridge (under PCCBR_MRML). */
 #define BDK_PCC_DEV_CON_E_NCSI (0x108) /**< NC-SI interface. */
 #define BDK_PCC_DEV_CON_E_NDF (0x58) /**< NAND flash. */
-#define BDK_PCC_DEV_CON_E_NIC_CN81XX (0x500) /**< Network interface controller. */
+#define BDK_PCC_DEV_CON_E_NIC_CN81XX (0x500) /**< Network interface controller (under PCCBR_NIC). */
 #define BDK_PCC_DEV_CON_E_NIC_CN88XX (0x20100) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
-#define BDK_PCC_DEV_CON_E_NIC_CN83XX (0x10100) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
+#define BDK_PCC_DEV_CON_E_NIC_CN83XX (0x10100) /**< Network interface controller (under PCCBR_NIC). */
 #define BDK_PCC_DEV_CON_E_OCLAX(a) (0x160 + (a)) /**< OCLA. */
 #define BDK_PCC_DEV_CON_E_OCX (0x105) /**< OCX. */
 #define BDK_PCC_DEV_CON_E_PBUS (0x10f) /**< Parallel bus. */
-#define BDK_PCC_DEV_CON_E_PCCBR_BCH_CN81XX (0x50) /**< Bridge for BCH, creating ECAM 0's bus 3. */
-#define BDK_PCC_DEV_CON_E_PCCBR_BCH_CN83XX (0x50) /**< Bridge for BCH, creating ECAM 0's bus 16. */
-#define BDK_PCC_DEV_CON_E_PCCBR_CPT0_CN81XX (0x60) /**< Bridge for CPT 0, creating ECAM 0's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCCBR_CPT0_CN83XX (0x60) /**< Bridge for CPT 0, creating ECAM 0's bus 5. */
-#define BDK_PCC_DEV_CON_E_PCCBR_CPT1 (0x68) /**< Bridge for CPT 1, creating ECAM 0's bus 6. */
-#define BDK_PCC_DEV_CON_E_PCCBR_DDF0 (0xb8) /**< Bridge for DDF0, creating ECAM 0's bus 7. */
+#define BDK_PCC_DEV_CON_E_PCCBR_BCH (0x50) /**< Bridge for BCH, creating ECAM 0's bus 3. */
+#define BDK_PCC_DEV_CON_E_PCCBR_CPT0 (0x60) /**< Bridge for CPT 0, creating ECAM 0's bus 4. */
+#define BDK_PCC_DEV_CON_E_PCCBR_CPT1 (0x68) /**< Bridge for CPT 1, creating ECAM 0's bus 5. */
+#define BDK_PCC_DEV_CON_E_PCCBR_DDF0 (0x100a0) /**< Bridge for DDF0, creating ECAM 1's bus 5. */
 #define BDK_PCC_DEV_CON_E_PCCBR_DFA (0xb0) /**< Bridge for DFA, creating ECAM 0's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCCBR_DPI0 (0xf0) /**< Bridge for DPI 0, creating ECAM 0's bus 14. */
-#define BDK_PCC_DEV_CON_E_PCCBR_FPA (0xe0) /**< Bridge for FPA, creating ECAM 0's bus 12. */
+#define BDK_PCC_DEV_CON_E_PCCBR_DPI0 (0xa0) /**< Bridge for DPI 0, creating ECAM 0's bus 11. */
+#define BDK_PCC_DEV_CON_E_PCCBR_FPA (0x90) /**< Bridge for FPA, creating ECAM 0's bus 9. */
 #define BDK_PCC_DEV_CON_E_PCCBR_MRML (8) /**< Bridge for MRML, creating ECAM 0's bus 1. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN81XX (0x78) /**< Bridge for NIC, creating ECAM 0's bus 5. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN88XX (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN83XX (0x10050) /**< Bridge for NIC, creating ECAM 1's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_PKI (0xc0) /**< Bridge for PKI, creating ECAM 0's bus 8. */
-#define BDK_PCC_DEV_CON_E_PCCBR_PKO (0xc8) /**< Bridge for PKO, creating ECAM 0's bus 9. */
-#define BDK_PCC_DEV_CON_E_PCCBR_RAD (0xa0) /**< Bridge for RAD, creating ECAM 0's bus 2. */
-#define BDK_PCC_DEV_CON_E_PCCBR_RNM_CN81XX (0x48) /**< Bridge for RNM, creating ECAM 0's bus 2. */
-#define BDK_PCC_DEV_CON_E_PCCBR_RNM_CN83XX (0x48) /**< Bridge for RNM, creating ECAM 0's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCCBR_SSO (0xd0) /**< Bridge for SSO, creating ECAM 0's bus 10. */
-#define BDK_PCC_DEV_CON_E_PCCBR_SSOW (0xd8) /**< Bridge for SSOW, creating ECAM 0's bus 11. */
-#define BDK_PCC_DEV_CON_E_PCCBR_TIM (0xe8) /**< Bridge for TIM, creating ECAM 0's bus 13. */
-#define BDK_PCC_DEV_CON_E_PCCBR_ZIP (0xa8) /**< Bridge for ZIP, creating ECAM 0's bus 3. */
+#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN83XX (0x10080) /**< Bridge for NIC, creating ECAM 1's bus 1. */
+#define BDK_PCC_DEV_CON_E_PCCBR_PKI (0x10088) /**< Bridge for PKI, creating ECAM 1's bus 2. */
+#define BDK_PCC_DEV_CON_E_PCCBR_PKO (0x10090) /**< Bridge for PKO, creating ECAM 1's bus 3. */
+#define BDK_PCC_DEV_CON_E_PCCBR_RAD_CN88XX (0xa0) /**< Bridge for RAD, creating ECAM 0's bus 2. */
+#define BDK_PCC_DEV_CON_E_PCCBR_RAD_CN83XX (0x70) /**< Bridge for RAD, creating ECAM 0's bus 6. */
+#define BDK_PCC_DEV_CON_E_PCCBR_RNM (0x48) /**< Bridge for RNM, creating ECAM 0's bus 2. */
+#define BDK_PCC_DEV_CON_E_PCCBR_SSO (0x80) /**< Bridge for SSO, creating ECAM 0's bus 7. */
+#define BDK_PCC_DEV_CON_E_PCCBR_SSOW (0x88) /**< Bridge for SSOW, creating ECAM 0's bus 8. */
+#define BDK_PCC_DEV_CON_E_PCCBR_TIM (0x98) /**< Bridge for TIM, creating ECAM 0's bus 10. */
+#define BDK_PCC_DEV_CON_E_PCCBR_ZIP_CN88XX (0xa8) /**< Bridge for ZIP, creating ECAM 0's bus 3. */
+#define BDK_PCC_DEV_CON_E_PCCBR_ZIP_CN83XX (0x10098) /**< Bridge for ZIP, creating ECAM 1's bus 4. */
 #define BDK_PCC_DEV_CON_E_PCIERC0_CN81XX (0xc0) /**< PCIe endpoint 0.
                                        Internal:
-                                       Note attributes represent those to create PCCBR_PCIERC. */
+                                       This device represents pcierc.csr (the real registers), pemrc.csr (for PCIERC's
+                                       MSI-X) and pcc_snoop_pcierc.v (for IOB to snoop PCIERC). */
 #define BDK_PCC_DEV_CON_E_PCIERC0_CN88XX (0x10080) /**< PCIe endpoint 0.
                                        Internal:
                                        Note attributes represent those to create PCCBR_PCIERC. */
-#define BDK_PCC_DEV_CON_E_PCIERC0_CN83XX (0x10080) /**< PCIe endpoint 0.
+#define BDK_PCC_DEV_CON_E_PCIERC0_CN83XX (0xc8) /**< PCIe endpoint 0.
                                        Internal:
                                        Note attributes represent those to create PCCBR_PCIERC. */
 #define BDK_PCC_DEV_CON_E_PCIERC1_CN81XX (0xc8) /**< PCIe endpoint 1. */
 #define BDK_PCC_DEV_CON_E_PCIERC1_CN88XX (0x10090) /**< PCIe endpoint 1. */
-#define BDK_PCC_DEV_CON_E_PCIERC1_CN83XX (0x10090) /**< PCIe endpoint 1. */
+#define BDK_PCC_DEV_CON_E_PCIERC1_CN83XX (0xd0) /**< PCIe endpoint 1. */
 #define BDK_PCC_DEV_CON_E_PCIERC2_CN81XX (0xd0) /**< PCIe endpoint 2. */
 #define BDK_PCC_DEV_CON_E_PCIERC2_CN88XX (0x100a0) /**< PCIe endpoint 2. */
-#define BDK_PCC_DEV_CON_E_PCIERC2_CN83XX (0x10098) /**< PCIe endpoint 2. */
+#define BDK_PCC_DEV_CON_E_PCIERC2_CN83XX (0xd8) /**< PCIe endpoint 2. */
 #define BDK_PCC_DEV_CON_E_PCIERC3_CN88XX (0x30080) /**< PCIe endpoint 3. */
-#define BDK_PCC_DEV_CON_E_PCIERC3_CN83XX (0x100a0) /**< PCIe endpoint 3. */
+#define BDK_PCC_DEV_CON_E_PCIERC3_CN83XX (0xe0) /**< PCIe endpoint 3. */
 #define BDK_PCC_DEV_CON_E_PCIERC4 (0x30090) /**< PCIe endpoint 4. */
 #define BDK_PCC_DEV_CON_E_PCIERC5 (0x300a0) /**< PCIe endpoint 5. */
 #define BDK_PCC_DEV_CON_E_PCM (0x68) /**< PCM. */
 #define BDK_PCC_DEV_CON_E_PEMX(a) (0x170 + (a)) /**< PCI controller. */
-#define BDK_PCC_DEV_CON_E_PKI (0x800) /**< PKI. */
-#define BDK_PCC_DEV_CON_E_PKO (0x900) /**< PKO. */
-#define BDK_PCC_DEV_CON_E_RAD (0x200) /**< RAID unit. */
+#define BDK_PCC_DEV_CON_E_PKI (0x10200) /**< PKI (under PCCBR_PKI). */
+#define BDK_PCC_DEV_CON_E_PKO (0x10300) /**< PKO (under PCCBR_PKO). */
+#define BDK_PCC_DEV_CON_E_RAD_CN88XX (0x200) /**< RAID unit. */
+#define BDK_PCC_DEV_CON_E_RAD_CN83XX (0x600) /**< RAID unit (under PCCBR_RAD). */
 #define BDK_PCC_DEV_CON_E_RGXX(a) (0x190 + (a)) /**< Ethernet interface. */
-#define BDK_PCC_DEV_CON_E_RNM_CN81XX (0x200) /**< Random number generator. */
+#define BDK_PCC_DEV_CON_E_RNM_CN81XX (0x200) /**< Random number generator (under PCCBR_RNM). */
 #define BDK_PCC_DEV_CON_E_RNM_CN88XX (0x48) /**< Random number generator. */
-#define BDK_PCC_DEV_CON_E_RNM_CN83XX (0x400) /**< Random number generator. */
+#define BDK_PCC_DEV_CON_E_RNM_CN83XX (0x200) /**< Random number generator (under PCCBR_RNM). */
 #define BDK_PCC_DEV_CON_E_RST (0x101) /**< Reset. */
 #define BDK_PCC_DEV_CON_E_SATA0_CN81XX (0xb0) /**< SATA 0. */
 #define BDK_PCC_DEV_CON_E_SATA0_CN88XX (0x10020) /**< SATA 0. */
@@ -177,22 +178,24 @@
 #define BDK_PCC_DEV_CON_E_SLI0_CN81XX (0x70) /**< SLI 0. */
 #define BDK_PCC_DEV_CON_E_SLI0_CN88XX (0x10010) /**< SLI 0. */
 #define BDK_PCC_DEV_CON_E_SLI1 (0x30010) /**< SLI 1. */
-#define BDK_PCC_DEV_CON_E_SLIRE0 (0x10010) /**< SLI 0. */
+#define BDK_PCC_DEV_CON_E_SLIRE0 (0xc0) /**< SLI 0. */
 #define BDK_PCC_DEV_CON_E_SMI (0x10b) /**< SMI. */
 #define BDK_PCC_DEV_CON_E_SMMU0 (0x10) /**< System memory management unit. */
 #define BDK_PCC_DEV_CON_E_SMMU1 (0x10008) /**< System memory management unit. */
 #define BDK_PCC_DEV_CON_E_SMMU2 (0x20008) /**< System memory management unit. */
 #define BDK_PCC_DEV_CON_E_SMMU3 (0x30008) /**< System memory management unit. */
-#define BDK_PCC_DEV_CON_E_SSO (0xa00) /**< SSO. */
-#define BDK_PCC_DEV_CON_E_SSOW (0xb00) /**< SSO work slots. */
-#define BDK_PCC_DEV_CON_E_TIM (0xd00) /**< TIM. */
+#define BDK_PCC_DEV_CON_E_SSO (0x700) /**< SSO (under PCCBR_SSO). */
+#define BDK_PCC_DEV_CON_E_SSOW (0x800) /**< SSO work slots (under PCCBR_SSOW). */
+#define BDK_PCC_DEV_CON_E_TIM (0xa00) /**< TIM (under PCCBR_TIM). */
 #define BDK_PCC_DEV_CON_E_TNS (0x20018) /**< Network switch. */
 #define BDK_PCC_DEV_CON_E_UAAX(a) (0x140 + (a)) /**< UART. */
-#define BDK_PCC_DEV_CON_E_USBDRDX(a) (0x80 + 8 * (a)) /**< USB interface. */
+#define BDK_PCC_DEV_CON_E_USBDRDX_CN81XX(a) (0x80 + 8 * (a)) /**< USB interface. */
+#define BDK_PCC_DEV_CON_E_USBDRDX_CN83XX(a) (0x10060 + 8 * (a)) /**< USB interface. */
 #define BDK_PCC_DEV_CON_E_USBHX(a) (0x80 + 8 * (a)) /**< USB interface. */
 #define BDK_PCC_DEV_CON_E_VRMX(a) (0x144 + (a)) /**< Voltage regulator. */
 #define BDK_PCC_DEV_CON_E_XCVX(a) (0x110 + (a)) /**< RGMII XCV. */
-#define BDK_PCC_DEV_CON_E_ZIP (0x300) /**< ZIP. */
+#define BDK_PCC_DEV_CON_E_ZIP_CN88XX (0x300) /**< ZIP. */
+#define BDK_PCC_DEV_CON_E_ZIP_CN83XX (0x10400) /**< ZIP (under PCCBR_ZIP). */
 
 /**
  * Enumeration pcc_dev_idl_e
@@ -238,7 +241,7 @@
                                        Reserved. */
 #define BDK_PCC_DEV_IDL_E_FPA_VF_CN83XX (0x53) /**< Free pool allocator virtual function. */
 #define BDK_PCC_DEV_IDL_E_FUSF (0x32) /**< Field Fuses. */
-#define BDK_PCC_DEV_IDL_E_GIC (9) /**< GIC Interrupt Unit. */
+#define BDK_PCC_DEV_IDL_E_GIC (9) /**< GIC interrupt unit. */
 #define BDK_PCC_DEV_IDL_E_GPIO (0xa) /**< GPIO. */
 #define BDK_PCC_DEV_IDL_E_GSER (0x25) /**< SerDes. */
 #define BDK_PCC_DEV_IDL_E_GTI (0x17) /**< Timer. */
@@ -253,7 +256,7 @@
 #define BDK_PCC_DEV_IDL_E_MIO_BOOT (0x11) /**< Boot-bus. */
 #define BDK_PCC_DEV_IDL_E_MIO_EMM (0x10) /**< eMMC. */
 #define BDK_PCC_DEV_IDL_E_MIO_FUS (0x31) /**< Fuses. */
-#define BDK_PCC_DEV_IDL_E_MIO_PTP (0xc) /**< Precision Time-stamping. */
+#define BDK_PCC_DEV_IDL_E_MIO_PTP (0xc) /**< Precision time-stamping. */
 #define BDK_PCC_DEV_IDL_E_MIO_TWS (0x12) /**< TWSI. */
 #define BDK_PCC_DEV_IDL_E_MIX (0xd) /**< MIX. */
 #define BDK_PCC_DEV_IDL_E_MPI (0xb) /**< MPI. */
@@ -277,7 +280,7 @@
 #define BDK_PCC_DEV_IDL_E_OSM_CN83XX (0x24) /**< Internal:
                                        Reserved. */
 #define BDK_PCC_DEV_IDL_E_PBUS (0x35) /**< Parallel bus. */
-#define BDK_PCC_DEV_IDL_E_PCCBR (2) /**< PCC Bridge. */
+#define BDK_PCC_DEV_IDL_E_PCCBR (2) /**< PCC bridge. */
 #define BDK_PCC_DEV_IDL_E_PCIERC (0x2d) /**< PCIe host bridge.
                                        Internal:
                                        Also used by fake PCCBR_PCIERC inside IOB. */
@@ -313,7 +316,7 @@
                                        Reserved. SLI, which supports only root complex. */
 #define BDK_PCC_DEV_IDL_E_SLIRE (0x38) /**< SLI, which supports both root complex and endpoint. */
 #define BDK_PCC_DEV_IDL_E_SMI (0x2b) /**< SMI. */
-#define BDK_PCC_DEV_IDL_E_SMMU (8) /**< System Memory Management Unit. */
+#define BDK_PCC_DEV_IDL_E_SMMU (8) /**< System memory management unit. */
 #define BDK_PCC_DEV_IDL_E_SSO (0x4a) /**< SSO. */
 #define BDK_PCC_DEV_IDL_E_SSOW (0x4c) /**< SSO work slots. */
 #define BDK_PCC_DEV_IDL_E_SSOW_VF (0x4d) /**< SSO work slots virtual function. */
@@ -430,12 +433,12 @@ union bdk_pcc_dev_con_s
         uint32_t reserved_18_31        : 14;
         uint32_t ecam                  : 2;  /**< [ 17: 16] ECAM number. */
         uint32_t bus                   : 8;  /**< [ 15:  8] PCI requestor bus number. */
-        uint32_t func                  : 8;  /**< [  7:  0] For ARI devices (when bus is non-zero), an eight-bit RSL function number.
+        uint32_t func                  : 8;  /**< [  7:  0] For ARI devices (when bus is nonzero), an eight-bit RSL function number.
 
                                                                  For non-ARI devices (when bus is zero), <7:3> is the device number, <2:0> the function
                                                                  number. */
 #else /* Word 0 - Little Endian */
-        uint32_t func                  : 8;  /**< [  7:  0] For ARI devices (when bus is non-zero), an eight-bit RSL function number.
+        uint32_t func                  : 8;  /**< [  7:  0] For ARI devices (when bus is nonzero), an eight-bit RSL function number.
 
                                                                  For non-ARI devices (when bus is zero), <7:3> is the device number, <2:0> the function
                                                                  number. */
@@ -800,7 +803,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR0U_FUNC(void)
  * Register (PCCPF) pccpf_xxx_bar2l
  *
  * PCC PF Base Address 2 Lower Register
- * This register is non-zero only for those devices needing two register BARs.
+ * This register is nonzero only for those devices needing two register BARs.
  */
 typedef union
 {
@@ -924,7 +927,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR2L_FUNC(void)
  * Register (PCCPF) pccpf_xxx_bar2u
  *
  * PCC PF Base Address 2 Upper Register
- * This register is non-zero only for those devices needing two register BARs.
+ * This register is nonzero only for those devices needing two register BARs.
  */
 typedef union
 {
@@ -965,7 +968,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR2U_FUNC(void)
  * Register (PCCPF) pccpf_xxx_bar4l
  *
  * PCC PF Base Address 4 Lower Register
- * This register is non-zero only for MSI-X devices.
+ * This register is nonzero only for MSI-X devices.
  */
 typedef union
 {
@@ -1089,7 +1092,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR4L_FUNC(void)
  * Register (PCCPF) pccpf_xxx_bar4u
  *
  * PCC PF Base Address 4 Upper Register
- * This register is non-zero only for MSI-X devices.
+ * This register is nonzero only for MSI-X devices.
  */
 typedef union
 {
@@ -1275,7 +1278,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is non-zero) and
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is nonzero) and
                                                                  integrated endpoint (0x9) otherwise. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
@@ -1286,7 +1289,7 @@ typedef union
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
                                                                  PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is non-zero) and
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is nonzero) and
                                                                  integrated endpoint (0x9) otherwise. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
@@ -1311,7 +1314,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is non-zero) and
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is nonzero) and
                                                                  integrated endpoint (0x9) otherwise. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If MSI-X is supported, points to
@@ -1324,7 +1327,7 @@ typedef union
                                                                  PCCPF_XXX_MSIX_CAP_HDR, else if PCCPF_XXX_VSEC_SCTL[EA] is set points to
                                                                  PCCPF_XXX_EA_CAP_HDR, else 0x0. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is non-zero) and
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is nonzero) and
                                                                  integrated endpoint (0x9) otherwise. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
@@ -1430,11 +1433,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_22_31        : 10;
         uint32_t num_entries           : 6;  /**< [ 21: 16](RO/H) Number of enhanced entries:
-                                                                   0x0 = No non-zero BARs.
-                                                                   0x1 = 1 non-zero normal or SR-IOV BARs.
-                                                                   0x2 = 2 non-zero normal or SR-IOV BARs.
-                                                                   0x3 = 3 non-zero normal or SR-IOV BARs.
-                                                                   0x4 = 4 non-zero normal or SR-IOV BARs.
+                                                                   0x0 = No nonzero BARs.
+                                                                   0x1 = 1 nonzero normal or SR-IOV BARs.
+                                                                   0x2 = 2 nonzero normal or SR-IOV BARs.
+                                                                   0x3 = 3 nonzero normal or SR-IOV BARs.
+                                                                   0x4 = 4 nonzero normal or SR-IOV BARs.
 
                                                                  CNXXXX never has more than four normal or SR-IOV BARs. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer.  No next capability. */
@@ -1443,11 +1446,11 @@ typedef union
         uint32_t pcieid                : 8;  /**< [  7:  0](RO/H) Enhanced allocation capability ID. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer.  No next capability. */
         uint32_t num_entries           : 6;  /**< [ 21: 16](RO/H) Number of enhanced entries:
-                                                                   0x0 = No non-zero BARs.
-                                                                   0x1 = 1 non-zero normal or SR-IOV BARs.
-                                                                   0x2 = 2 non-zero normal or SR-IOV BARs.
-                                                                   0x3 = 3 non-zero normal or SR-IOV BARs.
-                                                                   0x4 = 4 non-zero normal or SR-IOV BARs.
+                                                                   0x0 = No nonzero BARs.
+                                                                   0x1 = 1 nonzero normal or SR-IOV BARs.
+                                                                   0x2 = 2 nonzero normal or SR-IOV BARs.
+                                                                   0x3 = 3 nonzero normal or SR-IOV BARs.
+                                                                   0x4 = 4 nonzero normal or SR-IOV BARs.
 
                                                                  CNXXXX never has more than four normal or SR-IOV BARs. */
         uint32_t reserved_22_31        : 10;
@@ -1503,7 +1506,7 @@ static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=19))
         return 0x9c + 4 * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=19))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=24))
         return 0x9c + 4 * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=19))
         return 0x9c + 4 * ((a) & 0x1f);
@@ -1831,14 +1834,14 @@ typedef union
         uint32_t reserved_16_31        : 16;
         uint32_t nxtfn                 : 8;  /**< [ 15:  8](RO/H) Next function number. 0x0 except for PCC_DEV_IDL_E::MRML, when it points to the next MFD
                                                                  in the linked list of MFDs underneath the RSL and the value comes from
-                                                                 PCCPF_XXX_VSEC_CTL[NXTFN_NS] or PCCPF_XXX_VSEC_SCTL[NXTFN_S] for non-secure or secure
+                                                                 PCCPF_XXX_VSEC_CTL[NXTFN_NS] or PCCPF_XXX_VSEC_SCTL[NXTFN_S] for nonsecure or secure
                                                                  accesses respectively. */
         uint32_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_7          : 8;
         uint32_t nxtfn                 : 8;  /**< [ 15:  8](RO/H) Next function number. 0x0 except for PCC_DEV_IDL_E::MRML, when it points to the next MFD
                                                                  in the linked list of MFDs underneath the RSL and the value comes from
-                                                                 PCCPF_XXX_VSEC_CTL[NXTFN_NS] or PCCPF_XXX_VSEC_SCTL[NXTFN_S] for non-secure or secure
+                                                                 PCCPF_XXX_VSEC_CTL[NXTFN_NS] or PCCPF_XXX_VSEC_SCTL[NXTFN_S] for nonsecure or secure
                                                                  accesses respectively. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
@@ -1887,11 +1890,11 @@ typedef union
         uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
@@ -1942,7 +1945,40 @@ typedef union
                                                                  tie__vfbar0_offset. */
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_pccpf_xxx_sriov_bar0l_cn81xx cn83xx; */
+    struct bdk_pccpf_xxx_sriov_bar0l_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 0 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB].
+
+                                                                 Internal:
+                                                                 From PCC's tie__vfbar0_rbsz and
+                                                                 tie__vfbar0_offset. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+#else /* Word 0 - Little Endian */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 0 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB].
+
+                                                                 Internal:
+                                                                 From PCC's tie__vfbar0_rbsz and
+                                                                 tie__vfbar0_offset. */
+#endif /* Word 0 - End */
+    } cn83xx;
     struct bdk_pccpf_xxx_sriov_bar0l_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1958,11 +1994,11 @@ typedef union
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR.
                                                                  Changed in pass 2. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
@@ -2055,11 +2091,11 @@ typedef union
         uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
@@ -2088,11 +2124,11 @@ typedef union
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
@@ -2122,11 +2158,11 @@ typedef union
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR.
                                                                  Changed in pass 2. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
@@ -2218,11 +2254,11 @@ typedef union
         uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
@@ -2251,11 +2287,11 @@ typedef union
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
@@ -2285,11 +2321,11 @@ typedef union
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR.
                                                                  Changed in pass 2. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR is a memory BAR.
                                                                  1 = BAR is an I/O BAR. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
@@ -3054,14 +3090,14 @@ typedef union
     struct bdk_pccpf_xxx_vsec_cap_hdr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. If this device is on a non-zero bus, points to
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. If this device is on a nonzero bus, points to
                                                                  PCCPF_XXX_ARI_CAP_HDR, else 0x0. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
         uint32_t vsecid                : 16; /**< [ 15:  0](RO) PCIE extended capability. Indicates vendor-specific capability. */
 #else /* Word 0 - Little Endian */
         uint32_t vsecid                : 16; /**< [ 15:  0](RO) PCIE extended capability. Indicates vendor-specific capability. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. If this device is on a non-zero bus, points to
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. If this device is on a nonzero bus, points to
                                                                  PCCPF_XXX_ARI_CAP_HDR, else 0x0. */
 #endif /* Word 0 - End */
     } cn81xx;
@@ -3099,7 +3135,7 @@ typedef union
     struct bdk_pccpf_xxx_vsec_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nxtfn_ns              : 8;  /**< [ 31: 24](R/W) For non-secure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN]
+        uint32_t nxtfn_ns              : 8;  /**< [ 31: 24](R/W) For nonsecure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN]
                                                                  indicating the next valid function number for this device.
                                                                  Must be kept as 0x0 for non-MRML PCC devices. */
         uint32_t reserved_8_23         : 16;
@@ -3109,7 +3145,7 @@ typedef union
         uint32_t inst_num              : 8;  /**< [  7:  0](RO) Instance number. For blocks with multiple instances, indicates which instance number,
                                                                  otherwise 0x0; may be used to form Linux device numbers. For example for UART(1) is 0x1. */
         uint32_t reserved_8_23         : 16;
-        uint32_t nxtfn_ns              : 8;  /**< [ 31: 24](R/W) For non-secure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN]
+        uint32_t nxtfn_ns              : 8;  /**< [ 31: 24](R/W) For nonsecure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN]
                                                                  indicating the next valid function number for this device.
                                                                  Must be kept as 0x0 for non-MRML PCC devices. */
 #endif /* Word 0 - End */

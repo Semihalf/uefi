@@ -36,9 +36,6 @@ int bdk_pki_global_init(bdk_node_t node)
     for (int aura = 0; aura < fpa_const.s.auras; aura++)
     {
         BDK_CSR_MODIFY(c, node, BDK_PKI_AURAX_CFG(aura),
-            c.s.pkt_add = 0; /* Increment was already done in FPA alloc */
-            c.s.ena_red = 1; /* Enable RED */
-            c.s.ena_drop = 1; /* Enable drop */
             c.s.ena_bp = 1; /* Enable backpressure */
             c.s.bpid = aura); /* 1:1 mapping between aura and bpid */
     }
@@ -174,8 +171,11 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
         c.s.padd = 0; /* Set WQE[CHAN] */
         c.s.grp_ok = wqe_grp; /* Set WQE[GRP] */
         c.s.grp_bad = wqe_grp; /* Set WQE[GRP] */
-        c.s.laura = handle->aura); /* Set WQE[AURA] */
+        c.s.gaura = handle->aura); /* Set WQE[AURA] */
     BDK_CSR_MODIFY(c, handle->node, BDK_PKI_QPG_TBLBX(qpg),
+        c.s.pkt_add = 0; /* Increment was already done in FPA alloc */
+        c.s.ena_red = 1; /* Enable RED */
+        c.s.ena_drop = 1; /* Enable drop */
         c.s.dstat_id = handle->pki_dstat);
 
     bdk_sso_register_handle(handle);

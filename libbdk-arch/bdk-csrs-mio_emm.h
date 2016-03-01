@@ -147,9 +147,9 @@ typedef union
     struct bdk_mio_emm_buf_dat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Direct access to the 1KB data buffer memory. Address specified by MIO_EMM_BUF_IDX. */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Direct access to the 1 KB data buffer memory. Address specified by MIO_EMM_BUF_IDX. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Direct access to the 1KB data buffer memory. Address specified by MIO_EMM_BUF_IDX. */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Direct access to the 1 KB data buffer memory. Address specified by MIO_EMM_BUF_IDX. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_buf_dat_s cn; */
@@ -237,10 +237,11 @@ typedef union
 
                                                                  Bit3 of [BUS_ENA] is reserved.
 
-                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.  It might be
-                                                                 necessary
-                                                                 to set and and clear the bits several times to insure the MIO_EMM_* registers have been
-                                                                 reset properly.
+                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.
+                                                                 To ensure a proper reset the BUS_ENA bits should be cleared for a minimum of 2 EMMC_CLK
+                                                                 periods.  This period be determined by waiting twice the number of coprocessor clocks
+                                                                 specified in MIO_EMM_MODE0[CLK_HI] and MIO_EMM_MODE0[CLK_LO].
+
                                                                  Setting one or more bits will enable EMMC_CLK operation. */
 #else /* Word 0 - Little Endian */
         uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
@@ -256,10 +257,11 @@ typedef union
 
                                                                  Bit3 of [BUS_ENA] is reserved.
 
-                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.  It might be
-                                                                 necessary
-                                                                 to set and and clear the bits several times to insure the MIO_EMM_* registers have been
-                                                                 reset properly.
+                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.
+                                                                 To ensure a proper reset the BUS_ENA bits should be cleared for a minimum of 2 EMMC_CLK
+                                                                 periods.  This period be determined by waiting twice the number of coprocessor clocks
+                                                                 specified in MIO_EMM_MODE0[CLK_HI] and MIO_EMM_MODE0[CLK_LO].
+
                                                                  Setting one or more bits will enable EMMC_CLK operation. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -302,7 +304,7 @@ typedef union
         uint64_t reserved_56_58        : 3;
         uint64_t dbuf                  : 1;  /**< [ 55: 55](R/W) Specify the data buffer to be used for a block transfer. */
         uint64_t offset                : 6;  /**< [ 54: 49](R/W/H) Debug only. Specify the number of 8-byte transfers used in the command. Value is
-                                                                 64-OFFSET. The block transfer still starts at the first byte in the 512B data buffer.
+                                                                 64-OFFSET. The block transfer still starts at the first byte in the 512 B data buffer.
                                                                  Software must ensure CMD16 has updated the card block length. */
         uint64_t reserved_43_48        : 6;
         uint64_t ctype_xor             : 2;  /**< [ 42: 41](R/W) Command type override; typically zero. Value is XOR'd with the default command type. See
@@ -342,7 +344,7 @@ typedef union
                                                                  0x3 = Reserved. */
         uint64_t reserved_43_48        : 6;
         uint64_t offset                : 6;  /**< [ 54: 49](R/W/H) Debug only. Specify the number of 8-byte transfers used in the command. Value is
-                                                                 64-OFFSET. The block transfer still starts at the first byte in the 512B data buffer.
+                                                                 64-OFFSET. The block transfer still starts at the first byte in the 512 B data buffer.
                                                                  Software must ensure CMD16 has updated the card block length. */
         uint64_t dbuf                  : 1;  /**< [ 55: 55](R/W) Specify the data buffer to be used for a block transfer. */
         uint64_t reserved_56_58        : 3;
@@ -446,7 +448,7 @@ typedef union
         uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
         uint64_t dma_val               : 1;  /**< [ 59: 59](R/W/H) Software writes this bit to a 1 to indicate that hardware should perform the DMA transfer.
                                                                  Hardware clears this bit when the DMA operation completes or is terminated. */
-        uint64_t sector                : 1;  /**< [ 58: 58](R/W/H) Specify CARD_ADDR and eMMC are using sector (512B) addressing. */
+        uint64_t sector                : 1;  /**< [ 58: 58](R/W/H) Specify CARD_ADDR and eMMC are using sector (512 B) addressing. */
         uint64_t dat_null              : 1;  /**< [ 57: 57](R/W) Do not perform any eMMC commands. A DMA read returns all 0s. A DMA write tosses the data.
                                                                  In the case of a failure, this can be used to unwind the DMA engine. */
         uint64_t thres                 : 6;  /**< [ 56: 51](R/W) Number of 8-byte blocks of data that must exist in the DBUF before starting the 512-byte
@@ -456,12 +458,12 @@ typedef union
         uint64_t multi                 : 1;  /**< [ 48: 48](R/W) Perform operation using a multiple block command instead of a series of single block commands. */
         uint64_t block_cnt             : 16; /**< [ 47: 32](R/W/H) Number of blocks to read/write. Hardware decrements the block count after each successful
                                                                  block transfer. */
-        uint64_t card_addr             : 32; /**< [ 31:  0](R/W/H) Data address for media <= 2GB is a 32-bit byte address, and data address for media > 2GB
-                                                                 is a 32-bit sector (512B) address. Hardware advances the card address after each
+        uint64_t card_addr             : 32; /**< [ 31:  0](R/W/H) Data address for media <= 2 GB is a 32-bit byte address, and data address for media > 2 GB
+                                                                 is a 32-bit sector (512 B) address. Hardware advances the card address after each
                                                                  successful block transfer by 512 for byte addressing and by 1 for sector addressing. */
 #else /* Word 0 - Little Endian */
-        uint64_t card_addr             : 32; /**< [ 31:  0](R/W/H) Data address for media <= 2GB is a 32-bit byte address, and data address for media > 2GB
-                                                                 is a 32-bit sector (512B) address. Hardware advances the card address after each
+        uint64_t card_addr             : 32; /**< [ 31:  0](R/W/H) Data address for media <= 2 GB is a 32-bit byte address, and data address for media > 2 GB
+                                                                 is a 32-bit sector (512 B) address. Hardware advances the card address after each
                                                                  successful block transfer by 512 for byte addressing and by 1 for sector addressing. */
         uint64_t block_cnt             : 16; /**< [ 47: 32](R/W/H) Number of blocks to read/write. Hardware decrements the block count after each successful
                                                                  block transfer. */
@@ -472,7 +474,7 @@ typedef union
                                                                  block transfer. Zero indicates to wait for the entire block. */
         uint64_t dat_null              : 1;  /**< [ 57: 57](R/W) Do not perform any eMMC commands. A DMA read returns all 0s. A DMA write tosses the data.
                                                                  In the case of a failure, this can be used to unwind the DMA engine. */
-        uint64_t sector                : 1;  /**< [ 58: 58](R/W/H) Specify CARD_ADDR and eMMC are using sector (512B) addressing. */
+        uint64_t sector                : 1;  /**< [ 58: 58](R/W/H) Specify CARD_ADDR and eMMC are using sector (512 B) addressing. */
         uint64_t dma_val               : 1;  /**< [ 59: 59](R/W/H) Software writes this bit to a 1 to indicate that hardware should perform the DMA transfer.
                                                                  Hardware clears this bit when the DMA operation completes or is terminated. */
         uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
@@ -505,7 +507,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_FUNC(void)
  *
  * eMMC DMA Address Register
  * This register sets the address for eMMC/SD flash transfers to/from memory. Sixty-four-bit
- * operations must be used to access this register.  This register is updated by the dma
+ * operations must be used to access this register. This register is updated by the DMA
  * hardware and can be reloaded by the values placed in the MIO_EMM_DMA_FIFO_ADR.
  */
 typedef union
@@ -543,8 +545,8 @@ static inline uint64_t BDK_MIO_EMM_DMA_ADR_FUNC(void)
  *
  * eMMC DMA Configuration Register
  * This register controls the internal DMA engine used with the eMMC/SD flash controller. Sixty-
- * four-bit operations must be used to access this register.  This register is updated by the
- * hardware dma engine and can also be reloaded by writes to the MIO_EMM_DMA_FIFO_CMD register.
+ * four-bit operations must be used to access this register. This register is updated by the
+ * hardware DMA engine and can also be reloaded by writes to the MIO_EMM_DMA_FIFO_CMD register.
  */
 typedef union
 {
@@ -701,7 +703,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CFG_FUNC(void)
 /**
  * Register (RSL) mio_emm_dma_fifo_cmd
  *
- * eMMMC Internal DMA FIFO Command Register
+ * eMMC Internal DMA FIFO Command Register
  * This register specifies a command that is loaded into the eMMC internal DMA FIFO.  The FIFO is
  * used to queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA completes
  * successfully. Writes to this register store both the MIO_EMM_DMA_FIFO_CMD and the
@@ -720,14 +722,14 @@ typedef union
         uint64_t reserved_63           : 1;
         uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
         uint64_t reserved_61           : 1;
-        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable.  When set, the dma command being summitted will
-                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes.  When cleared
+        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable. When set, the DMA command being submitted will
+                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes. When cleared
                                                                  the command will generate the interrupt.
 
                                                                  For example, this field can be set for all the DMA commands submitted to the DMA
                                                                  FIFO in the case of a write to the eMMC device because the MIO_EMM_INT[DMA_DONE]
-                                                                 interrupt would signify the end of the operation.  It could be cleared on the last
-                                                                 dma command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
+                                                                 interrupt would signify the end of the operation. It could be cleared on the last
+                                                                 DMA command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
                                                                  occur when the read data from the eMMC device was available in local memory.
 
                                                                  Added in pass 2.0. */
@@ -770,14 +772,14 @@ typedef union
         uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [ENDIAN]. */
         uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [ENDIAN]. */
         uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [ENDIAN]. */
-        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable.  When set, the dma command being summitted will
-                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes.  When cleared
+        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable. When set, the DMA command being submitted will
+                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes. When cleared
                                                                  the command will generate the interrupt.
 
                                                                  For example, this field can be set for all the DMA commands submitted to the DMA
                                                                  FIFO in the case of a write to the eMMC device because the MIO_EMM_INT[DMA_DONE]
-                                                                 interrupt would signify the end of the operation.  It could be cleared on the last
-                                                                 dma command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
+                                                                 interrupt would signify the end of the operation. It could be cleared on the last
+                                                                 DMA command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
                                                                  occur when the read data from the eMMC device was available in local memory.
 
                                                                  Added in pass 2.0. */
@@ -844,14 +846,14 @@ typedef union
         uint64_t reserved_63           : 1;
         uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
         uint64_t reserved_61           : 1;
-        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable.  When set, the dma command being summitted will
-                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes.  When cleared
+        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable. When set, the DMA command being submitted will
+                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes. When cleared
                                                                  the command will generate the interrupt.
 
                                                                  For example, this field can be set for all the DMA commands submitted to the DMA
                                                                  FIFO in the case of a write to the eMMC device because the MIO_EMM_INT[DMA_DONE]
-                                                                 interrupt would signify the end of the operation.  It could be cleared on the last
-                                                                 dma command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
+                                                                 interrupt would signify the end of the operation. It could be cleared on the last
+                                                                 DMA command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
                                                                  occur when the read data from the eMMC device was available in local memory. */
         uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [ENDIAN]. */
         uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [ENDIAN]. */
@@ -892,14 +894,14 @@ typedef union
         uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine 8-bit swap enable.  See [ENDIAN]. */
         uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine 16-bit swap enable.  See [ENDIAN]. */
         uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap enable.  See [ENDIAN]. */
-        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable.  When set, the dma command being summitted will
-                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes.  When cleared
+        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable. When set, the DMA command being submitted will
+                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes. When cleared
                                                                  the command will generate the interrupt.
 
                                                                  For example, this field can be set for all the DMA commands submitted to the DMA
                                                                  FIFO in the case of a write to the eMMC device because the MIO_EMM_INT[DMA_DONE]
-                                                                 interrupt would signify the end of the operation.  It could be cleared on the last
-                                                                 dma command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
+                                                                 interrupt would signify the end of the operation. It could be cleared on the last
+                                                                 DMA command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
                                                                  occur when the read data from the eMMC device was available in local memory. */
         uint64_t reserved_61           : 1;
         uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
@@ -1279,7 +1281,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t hs_timing             : 1;  /**< [ 48: 48](RO/H) Current high-speed timing mode. Required when CLK frequency is higher than 20MHz. */
+        uint64_t hs_timing             : 1;  /**< [ 48: 48](RO/H) Current high-speed timing mode. Required when CLK frequency is higher than 20 MHz. */
         uint64_t reserved_43_47        : 5;
         uint64_t bus_width             : 3;  /**< [ 42: 40](RO/H) Current card bus mode. Out of reset, the card is in 1-bit data bus mode. Select bus width.
                                                                  0x0 = 1-bit data bus (power on).
@@ -1317,7 +1319,7 @@ typedef union
                                                                  0x7 = Reserved.
                                                                  0x8 = Reserved. */
         uint64_t reserved_43_47        : 5;
-        uint64_t hs_timing             : 1;  /**< [ 48: 48](RO/H) Current high-speed timing mode. Required when CLK frequency is higher than 20MHz. */
+        uint64_t hs_timing             : 1;  /**< [ 48: 48](RO/H) Current high-speed timing mode. Required when CLK frequency is higher than 20 MHz. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1393,20 +1395,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MIO_EMM_MSIX_VEC()_ADDR, MIO_EMM_MSIX_VEC()_CTL, and
                                                                  corresponding bit of MIO_EMM_MSIX_PBA() are RAZ/WI and does not cause a fault when
-                                                                 accessed by the non-secure world.
+                                                                 accessed by the nonsecure world.
 
                                                                  If PCCPF_MIO_EMM_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MIO_EMM_MSIX_VEC()_ADDR, MIO_EMM_MSIX_VEC()_CTL, and
                                                                  corresponding bit of MIO_EMM_MSIX_PBA() are RAZ/WI and does not cause a fault when
-                                                                 accessed by the non-secure world.
+                                                                 accessed by the nonsecure world.
 
                                                                  If PCCPF_MIO_EMM_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is

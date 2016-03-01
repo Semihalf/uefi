@@ -101,7 +101,7 @@
                                        must be cleared. */
 #define BDK_GITS_CMD_TYPE_E_CMD_DISCARD (0xf) /**< This command specifies that incoming requests with an identifier of ID will be silently discarded. */
 #define BDK_GITS_CMD_TYPE_E_CMD_INT (3) /**< This command specifies that interrupt ID must be generated for the device. */
-#define BDK_GITS_CMD_TYPE_E_CMD_INV (0xc) /**< This command specifies that the ITS must ensure that the re-distributor that currently
+#define BDK_GITS_CMD_TYPE_E_CMD_INV (0xc) /**< This command specifies that the ITS must ensure that the redistributor that currently
                                        owns interrupt ID for the device must ensure any caching associated with this index is
                                        consistent with the configuration and pending tables held in memory. */
 #define BDK_GITS_CMD_TYPE_E_CMD_INVALL (0xd) /**< This command specifies that the ITS must ensure any caching associated with the specified
@@ -119,7 +119,7 @@
                                        re-distributor specified by target address 2. */
 #define BDK_GITS_CMD_TYPE_E_CMD_MOVI (1) /**< This command specifies that the interrupt with identifier ID from device is now a member
                                        of the interrupt collection specified by collection. */
-#define BDK_GITS_CMD_TYPE_E_CMD_SYNC (5) /**< This command specifies that all actions for the specified re-distributor must be completed. */
+#define BDK_GITS_CMD_TYPE_E_CMD_SYNC (5) /**< This command specifies that all actions for the specified redistributor must be completed. */
 #define BDK_GITS_CMD_TYPE_E_CMD_UDF (0) /**< This is an undefined ITS command (value 0x0). */
 
 /**
@@ -343,7 +343,7 @@ union bdk_gits_cmd_mapc_s
         uint64_t reserved_64_127       : 64;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t v                     : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is
+        uint64_t v                     : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When [V] is
                                                                  zero, this command unmaps the specified device and translation request from
                                                                  that device will be discarded. */
         uint64_t reserved_176_190      : 15;
@@ -355,7 +355,7 @@ union bdk_gits_cmd_mapc_s
         uint64_t ta                    : 32; /**< [175:144] Target address. Specifies the physical address of the redistributor to which
                                                                  interrupts for the collection will be forwarded. */
         uint64_t reserved_176_190      : 15;
-        uint64_t v                     : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is
+        uint64_t v                     : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When [V] is
                                                                  zero, this command unmaps the specified device and translation request from
                                                                  that device will be discarded. */
 #endif /* Word 2 - End */
@@ -395,7 +395,7 @@ union bdk_gits_cmd_mapd_s
         uint64_t reserved_69_127       : 59;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t v                     : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is zero,
+        uint64_t v                     : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When [V] is zero,
                                                                  this command unmaps the specified device and translation request from that
                                                                  device will be discarded. */
         uint64_t reserved_176_190      : 15;
@@ -407,7 +407,7 @@ union bdk_gits_cmd_mapd_s
         uint64_t itta                  : 40; /**< [175:136] ITT address. Specifies bits <47:8> of the physical address of the interrupt
                                                                  translation table. Bits <7:0> of the physical address are zero. */
         uint64_t reserved_176_190      : 15;
-        uint64_t v                     : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is zero,
+        uint64_t v                     : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When [V] is zero,
                                                                  this command unmaps the specified device and translation request from that
                                                                  device will be discarded. */
 #endif /* Word 2 - End */
@@ -647,12 +647,18 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t bist                  : 9;  /**< [  8:  0](RO/H) Memory BIST status. 0 = Pass, 1 = Fail.
+        uint64_t bist                  : 9;  /**< [  8:  0](RO/H) Memory BIST status:
+                                                                   0 = Pass.
+                                                                   1 = Fail.
+
                                                                  Internal:
                                                                  [8:0]= [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 9;  /**< [  8:  0](RO/H) Memory BIST status. 0 = Pass, 1 = Fail.
+        uint64_t bist                  : 9;  /**< [  8:  0](RO/H) Memory BIST status:
+                                                                   0 = Pass.
+                                                                   1 = Fail.
+
                                                                  Internal:
                                                                  [8:0]= [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
@@ -1048,7 +1054,7 @@ static inline uint64_t BDK_GIC_ECC_INT_STATUSR_FUNC(void)
  * Register (NCB) gic_rdb_its_if_err_statusr
  *
  * GIC Redistributor Network ITS Interface Error Status Register
- * This register holds the status of errors detected on the Redistributor network interface to ITS.
+ * This register holds the status of errors detected on the redistributor network interface to ITS.
  */
 typedef union
 {
@@ -1058,7 +1064,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
         uint64_t v                     : 1;  /**< [ 61: 61](R/W1C/H) When set, the command error is valid. */
-        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when V=1. */
+        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when [V]=1. */
         uint64_t reserved_59           : 1;
         uint64_t cmd                   : 3;  /**< [ 58: 56](RO/H) ITS Command. Relevant only when [V]=1. Command encodings are
                                                                   SETLPIR = 0x1,
@@ -1104,7 +1110,7 @@ typedef union
                                                                   MOVLPIR = 0x6, and
                                                                   MOVALLR = 0x7. */
         uint64_t reserved_59           : 1;
-        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when V=1. */
+        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when [V]=1. */
         uint64_t v                     : 1;  /**< [ 61: 61](R/W1C/H) When set, the command error is valid. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
@@ -1182,7 +1188,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
         uint64_t v                     : 1;  /**< [ 61: 61](R/W1C/H) When set, the command error is valid. */
-        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when V=1. */
+        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when [V]=1. */
         uint64_t reserved_53_59        : 7;
         uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Device ID inside the RIB message. */
         uint64_t reserved_29_31        : 3;
@@ -1196,7 +1202,7 @@ typedef union
         uint64_t reserved_29_31        : 3;
         uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Device ID inside the RIB message. */
         uint64_t reserved_53_59        : 7;
-        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when V=1. */
+        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when [V]=1. */
         uint64_t v                     : 1;  /**< [ 61: 61](R/W1C/H) When set, the command error is valid. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
@@ -1465,7 +1471,7 @@ typedef union
 
                                                                  If the SPI ID is invalid, then the write has no effect.
 
-                                                                 If the register is written using a non-secure access and the value specifies a secure SPI
+                                                                 If the register is written using a nonsecure access and the value specifies a secure SPI
                                                                  and the value of the corresponding GICD_NSACR() register is less than 0x2 (i.e. does not
                                                                  permit nonsecure accesses to clear the interrupt pending state), the write has no effect. */
 #else /* Word 0 - Little Endian */
@@ -1474,7 +1480,7 @@ typedef union
 
                                                                  If the SPI ID is invalid, then the write has no effect.
 
-                                                                 If the register is written using a non-secure access and the value specifies a secure SPI
+                                                                 If the register is written using a nonsecure access and the value specifies a secure SPI
                                                                  and the value of the corresponding GICD_NSACR() register is less than 0x2 (i.e. does not
                                                                  permit nonsecure accesses to clear the interrupt pending state), the write has no effect. */
         uint32_t reserved_10_31        : 22;
@@ -1562,7 +1568,7 @@ typedef union
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
                                                                  may only be set by secure accesses.
 
-                                                                 A clear-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
+                                                                 A clear-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
@@ -1571,7 +1577,7 @@ typedef union
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
                                                                  may only be set by secure accesses.
 
-                                                                 A clear-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
+                                                                 A clear-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_gicd_icactiverx_cn81xx
@@ -1584,7 +1590,7 @@ typedef union
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
                                                                  may only be set by secure accesses.
 
-                                                                 A clear-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
+                                                                 A clear-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
@@ -1593,7 +1599,7 @@ typedef union
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
                                                                  may only be set by secure accesses.
 
-                                                                 A clear-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
+                                                                 A clear-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gicd_icactiverx_s cn88xx; */
@@ -1721,7 +1727,7 @@ static inline uint64_t BDK_GICD_ICFGRX(unsigned long a)
  *
  * GIC Distributor Interrupt Clear-Pending Registers
  * Each bit in GICD_ICPENDR() provides a clear-pending bit for each SPI supported by the GIC.
- * Writing 1 to a Clear-pending bit clears the pending status of the corresponding SPI.
+ * Writing 1 to a clear-pending bit clears the pending status of the corresponding SPI.
  */
 typedef union
 {
@@ -1937,7 +1943,7 @@ typedef union
 
                                                                  Byte accesses are permitted to these registers.
 
-                                                                 A priority field for a secure SPI is RAZ/WI to non-secure accesses. */
+                                                                 A priority field for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W) Each byte corresponds to an SPI for SPI IDs in the range 159..32.
 
@@ -1946,7 +1952,7 @@ typedef union
 
                                                                  Byte accesses are permitted to these registers.
 
-                                                                 A priority field for a secure SPI is RAZ/WI to non-secure accesses. */
+                                                                 A priority field for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_ipriorityrx_s cn; */
@@ -2219,7 +2225,7 @@ typedef union
     struct bdk_gicd_nsacrx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](SR/W) Two bits per SPI. Defines whether non-secure access is permitted to secure SPI resources.
+        uint32_t vec                   : 32; /**< [ 31:  0](SR/W) Two bits per SPI. Defines whether nonsecure access is permitted to secure SPI resources.
                                                                  0x0 = No nonsecure access is permitted to fields associated with the corresponding SPI.
                                                                  0x1 = Nonsecure read and write access is permitted to fields associated with the SPI in
                                                                  GICD_ISPENDR(). A nonsecure write access to GICD_SETSPI_NSR is permitted to
@@ -2236,7 +2242,7 @@ typedef union
 
                                                                  When GICD_(S)CTLR[DS] is one, this register is RAZ/WI. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](SR/W) Two bits per SPI. Defines whether non-secure access is permitted to secure SPI resources.
+        uint32_t vec                   : 32; /**< [ 31:  0](SR/W) Two bits per SPI. Defines whether nonsecure access is permitted to secure SPI resources.
                                                                  0x0 = No nonsecure access is permitted to fields associated with the corresponding SPI.
                                                                  0x1 = Nonsecure read and write access is permitted to fields associated with the SPI in
                                                                  GICD_ISPENDR(). A nonsecure write access to GICD_SETSPI_NSR is permitted to
@@ -2597,18 +2603,18 @@ typedef union
                                                                  If DS becomes one when ARE_S is one, then ARE for the single security state is
                                                                  RAO/WI.
 
-                                                                 When DS is set, all accesses to GICD_(S)CTLR access the single security state view
+                                                                 When [DS] is set, all accesses to GICD_(S)CTLR access the single security state view
                                                                  (below) and all bits are accessible.
 
                                                                  This bit is RAO/WI if the distributor only supports a single security state (see
                                                                  below).
 
-                                                                 Once set, DS may only be clear by a hardware reset. */
-        uint32_t are_ns                : 1;  /**< [  5:  5](SRO) Enable affinity routing for the non-secure state when set.
+                                                                 Once set, [DS] may only be clear by a hardware reset. */
+        uint32_t are_ns                : 1;  /**< [  5:  5](SRO) Enable affinity routing for the nonsecure state when set.
                                                                  In CNXXXX this bit is always 1 as only affinity routing is supported.
 
                                                                  Note: this bit is RAO/WI when ARE is one for the secure state. */
-        uint32_t are_sns               : 1;  /**< [  4:  4](RO) Enables affinity routing for the non-secure state.
+        uint32_t are_sns               : 1;  /**< [  4:  4](RO) Enables affinity routing for the nonsecure state.
                                                                  This field is fixed as RAO/WI for CNXXXX for both secure and non secure state. */
         uint32_t reserved_3            : 1;
         uint32_t enable_g1s            : 1;  /**< [  2:  2](SR/W) Enables secure group 1 interrupts.
@@ -2616,24 +2622,24 @@ typedef union
                                                                  1 = Enable G1S interrupts. */
         uint32_t enable_g1ns           : 1;  /**< [  1:  1](R/W) S - Enables nonsecure group 1 interrupts. Behaves as defined for GICv2. This
                                                                  enable also controls whether LPIs are forwarded to processors. When written
-                                                                 to zero, the RWP bit indicates whether the effects of this enable on LPIs
+                                                                 to zero, [RWP] indicates whether the effects of this enable on LPIs
                                                                  have been made visible.
 
                                                                  NS - This field is called ENABLE_G1A. It enables nonsecure group 1 interrupts. */
-        uint32_t enable_g0             : 1;  /**< [  0:  0](SR/W) Secure view or DS field is set -- Enable/disable group 0 interrupts.
+        uint32_t enable_g0             : 1;  /**< [  0:  0](SR/W) Secure view or [DS] is set -- Enable/disable group 0 interrupts.
                                                                  0 = Disable G0 interrupts.
                                                                  1 = Enable G0 interrupts.
 
                                                                  Nonsecure view -- RES0 for CNXXXX since ARE_NS is RAO. */
 #else /* Word 0 - Little Endian */
-        uint32_t enable_g0             : 1;  /**< [  0:  0](SR/W) Secure view or DS field is set -- Enable/disable group 0 interrupts.
+        uint32_t enable_g0             : 1;  /**< [  0:  0](SR/W) Secure view or [DS] is set -- Enable/disable group 0 interrupts.
                                                                  0 = Disable G0 interrupts.
                                                                  1 = Enable G0 interrupts.
 
                                                                  Nonsecure view -- RES0 for CNXXXX since ARE_NS is RAO. */
         uint32_t enable_g1ns           : 1;  /**< [  1:  1](R/W) S - Enables nonsecure group 1 interrupts. Behaves as defined for GICv2. This
                                                                  enable also controls whether LPIs are forwarded to processors. When written
-                                                                 to zero, the RWP bit indicates whether the effects of this enable on LPIs
+                                                                 to zero, [RWP] indicates whether the effects of this enable on LPIs
                                                                  have been made visible.
 
                                                                  NS - This field is called ENABLE_G1A. It enables nonsecure group 1 interrupts. */
@@ -2641,9 +2647,9 @@ typedef union
                                                                  0 = Disable G1S interrupts.
                                                                  1 = Enable G1S interrupts. */
         uint32_t reserved_3            : 1;
-        uint32_t are_sns               : 1;  /**< [  4:  4](RO) Enables affinity routing for the non-secure state.
+        uint32_t are_sns               : 1;  /**< [  4:  4](RO) Enables affinity routing for the nonsecure state.
                                                                  This field is fixed as RAO/WI for CNXXXX for both secure and non secure state. */
-        uint32_t are_ns                : 1;  /**< [  5:  5](SRO) Enable affinity routing for the non-secure state when set.
+        uint32_t are_ns                : 1;  /**< [  5:  5](SRO) Enable affinity routing for the nonsecure state when set.
                                                                  In CNXXXX this bit is always 1 as only affinity routing is supported.
 
                                                                  Note: this bit is RAO/WI when ARE is one for the secure state. */
@@ -2653,13 +2659,13 @@ typedef union
                                                                  If DS becomes one when ARE_S is one, then ARE for the single security state is
                                                                  RAO/WI.
 
-                                                                 When DS is set, all accesses to GICD_(S)CTLR access the single security state view
+                                                                 When [DS] is set, all accesses to GICD_(S)CTLR access the single security state view
                                                                  (below) and all bits are accessible.
 
                                                                  This bit is RAO/WI if the distributor only supports a single security state (see
                                                                  below).
 
-                                                                 Once set, DS may only be clear by a hardware reset. */
+                                                                 Once set, [DS] may only be clear by a hardware reset. */
         uint32_t reserved_7_30         : 24;
         uint32_t rwp                   : 1;  /**< [ 31: 31](RO/H) Register write pending.
                                                                  Indicates whether a register write is in progress.
@@ -2707,7 +2713,7 @@ typedef union
 
                                                                  If the SPI ID is invalid, then the write has no effect.
 
-                                                                 If the register is written using a non-secure access and the value specifies a secure SPI
+                                                                 If the register is written using a nonsecure access and the value specifies a secure SPI
                                                                  and the value of the corresponding GICD_NSACR() register is zero (i.e. does not permit
                                                                  nonsecure accesses to set the interrupt as pending), the write has no effect. */
 #else /* Word 0 - Little Endian */
@@ -2716,7 +2722,7 @@ typedef union
 
                                                                  If the SPI ID is invalid, then the write has no effect.
 
-                                                                 If the register is written using a non-secure access and the value specifies a secure SPI
+                                                                 If the register is written using a nonsecure access and the value specifies a secure SPI
                                                                  and the value of the corresponding GICD_NSACR() register is zero (i.e. does not permit
                                                                  nonsecure accesses to set the interrupt as pending), the write has no effect. */
         uint32_t reserved_10_31        : 22;
@@ -3139,7 +3145,7 @@ typedef union
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
                                                                  may only be set by secure accesses.
 
-                                                                 A clear-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A clear-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not active. If read as 1, the interrupt is in active state.
@@ -3147,7 +3153,7 @@ typedef union
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
                                                                  may only be set by secure accesses.
 
-                                                                 A clear-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A clear-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_gicrx_icactiver0_cn81xx
@@ -3159,7 +3165,7 @@ typedef union
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
                                                                  may only be set by secure accesses.
 
-                                                                 A clear-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A clear-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not active. If read as 1, the interrupt is in active state.
@@ -3167,7 +3173,7 @@ typedef union
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
                                                                  may only be set by secure accesses.
 
-                                                                 A clear-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A clear-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gicrx_icactiver0_s cn88xx; */
@@ -3274,7 +3280,7 @@ typedef union
 
                                                                  Bit[0] Reserved.
 
-                                                                 If a secure interrupt, then its corresponding field is RAZ/WI to non-secure accesses. */
+                                                                 If a secure interrupt, then its corresponding field is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](RO) Two bits per SGI. Defines whether an SGI is level-sensitive or edge-triggered.
                                                                  Note SGIs are always edge-triggered, so Bit[1] for an SGI is RAO and read-only.
@@ -3285,7 +3291,7 @@ typedef union
 
                                                                  Bit[0] Reserved.
 
-                                                                 If a secure interrupt, then its corresponding field is RAZ/WI to non-secure accesses. */
+                                                                 If a secure interrupt, then its corresponding field is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_icfgr0_s cn; */
@@ -3330,7 +3336,7 @@ typedef union
 
                                                                  Bit[0] Reserved.
 
-                                                                 If a secure interrupt, then its corresponding field is RAZ/WI to non-secure accesses. */
+                                                                 If a secure interrupt, then its corresponding field is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](RO) Two bits per PPI. Defines whether an PPI is level-sensitive or edge-triggered.
 
@@ -3340,7 +3346,7 @@ typedef union
 
                                                                  Bit[0] Reserved.
 
-                                                                 If a secure interrupt, then its corresponding field is RAZ/WI to non-secure accesses. */
+                                                                 If a secure interrupt, then its corresponding field is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_icfgr1_s cn; */
@@ -3384,7 +3390,7 @@ typedef union
                                                                  Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
-                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
@@ -3392,7 +3398,7 @@ typedef union
                                                                  Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
-                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_gicrx_icpendr0_cn81xx
@@ -3404,7 +3410,7 @@ typedef union
                                                                  Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
-                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
@@ -3412,7 +3418,7 @@ typedef union
                                                                  Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
-                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gicrx_icpendr0_s cn88xx; */
@@ -3697,7 +3703,7 @@ typedef union
 
                                                                  Byte accesses are permitted to these registers.
 
-                                                                 A priority field for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A priority field for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W) Each byte corresponds to an SGI or PPI for interrupt IDs in the range 31..0.
 
@@ -3706,7 +3712,7 @@ typedef union
 
                                                                  Byte accesses are permitted to these registers.
 
-                                                                 A priority field for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A priority field for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_ipriorityrx_s cn; */
@@ -3750,7 +3756,7 @@ typedef union
                                                                  Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
                                                                  set by secure accesses.
 
-                                                                 A set-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A set-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not active. If read as 1, the interrupt is in active state.
@@ -3758,7 +3764,7 @@ typedef union
                                                                  Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
                                                                  set by secure accesses.
 
-                                                                 A set-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A set-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_gicrx_isactiver0_cn81xx
@@ -3770,7 +3776,7 @@ typedef union
                                                                  Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
                                                                  set by secure accesses.
 
-                                                                 A set-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A set-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not active. If read as 1, the interrupt is in active state.
@@ -3778,7 +3784,7 @@ typedef union
                                                                  Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
                                                                  set by secure accesses.
 
-                                                                 A set-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A set-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gicrx_isactiver0_s cn88xx; */
@@ -3870,7 +3876,7 @@ typedef union
                                                                  Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
-                                                                 A set-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A set-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not pending. If read as 1, the interrupt is in pending state.
@@ -3878,7 +3884,7 @@ typedef union
                                                                  Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
-                                                                 A set-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A set-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_gicrx_ispendr0_cn81xx
@@ -3890,7 +3896,7 @@ typedef union
                                                                  Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
-                                                                 A set-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A set-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not pending. If read as 1, the interrupt is in pending state.
@@ -3898,7 +3904,7 @@ typedef union
                                                                  Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
-                                                                 A set-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+                                                                 A set-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gicrx_ispendr0_s cn88xx; */
@@ -4027,27 +4033,27 @@ typedef union
     struct bdk_gicrx_nsacr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](SR/W) Two bits per SGI or PPI. Defines whether non-secure access is permitted to secure
+        uint32_t vec                   : 32; /**< [ 31:  0](SR/W) Two bits per SGI or PPI. Defines whether nonsecure access is permitted to secure
                                                                  interrupt resources.
-                                                                 0x0 = No non-secure access is permitted to fields associated with the corresponding
+                                                                 0x0 = No nonsecure access is permitted to fields associated with the corresponding
                                                                  interrupt.
-                                                                 0x1 = Non-secure write access is permitted to generate secure group0 interrupts.
-                                                                 0x2 = Adds non-secure write access permissions to generate secure group1 interrupts.
+                                                                 0x1 = Nonsecure write access is permitted to generate secure group0 interrupts.
+                                                                 0x2 = Adds nonsecure write access permissions to generate secure group1 interrupts.
                                                                  0x3 = Reserved. Treated as 0x1.
 
-                                                                 This register is RAZ/WI for non-secure accesses.
+                                                                 This register is RAZ/WI for nonsecure accesses.
 
                                                                  When GICD_(S)CTLR[DS] is one, this register is RAZ/WI. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](SR/W) Two bits per SGI or PPI. Defines whether non-secure access is permitted to secure
+        uint32_t vec                   : 32; /**< [ 31:  0](SR/W) Two bits per SGI or PPI. Defines whether nonsecure access is permitted to secure
                                                                  interrupt resources.
-                                                                 0x0 = No non-secure access is permitted to fields associated with the corresponding
+                                                                 0x0 = No nonsecure access is permitted to fields associated with the corresponding
                                                                  interrupt.
-                                                                 0x1 = Non-secure write access is permitted to generate secure group0 interrupts.
-                                                                 0x2 = Adds non-secure write access permissions to generate secure group1 interrupts.
+                                                                 0x1 = Nonsecure write access is permitted to generate secure group0 interrupts.
+                                                                 0x2 = Adds nonsecure write access permissions to generate secure group1 interrupts.
                                                                  0x3 = Reserved. Treated as 0x1.
 
-                                                                 This register is RAZ/WI for non-secure accesses.
+                                                                 This register is RAZ/WI for nonsecure accesses.
 
                                                                  When GICD_(S)CTLR[DS] is one, this register is RAZ/WI. */
 #endif /* Word 0 - End */
@@ -4652,13 +4658,13 @@ typedef union
         uint32_t reserved_1_2          : 2;
         uint32_t enable_lpis           : 1;  /**< [  0:  0](R/W) Enable LPIs. Common to both security states. When this bit is clear,
                                                                  writes to generate physical LPIs to GICR()_SETLPIR will be ignored.
-                                                                 When a write changes this bit from zero to one, this bit becomes RAO/WI and the re-
-                                                                 distributor must load the pending table from memory to check for any pending interrupts. */
+                                                                 When a write changes this bit from zero to one, this bit becomes RAO/WI and the
+                                                                 redistributor must load the pending table from memory to check for any pending interrupts. */
 #else /* Word 0 - Little Endian */
         uint32_t enable_lpis           : 1;  /**< [  0:  0](R/W) Enable LPIs. Common to both security states. When this bit is clear,
                                                                  writes to generate physical LPIs to GICR()_SETLPIR will be ignored.
-                                                                 When a write changes this bit from zero to one, this bit becomes RAO/WI and the re-
-                                                                 distributor must load the pending table from memory to check for any pending interrupts. */
+                                                                 When a write changes this bit from zero to one, this bit becomes RAO/WI and the
+                                                                 redistributor must load the pending table from memory to check for any pending interrupts. */
         uint32_t reserved_1_2          : 2;
         uint32_t rwp                   : 1;  /**< [  3:  3](RO) Register write pending. This bit indicates whether a register write for the current
                                                                  security state (banked) is in progress or not.
@@ -4761,14 +4767,14 @@ typedef union
                                                                  Whenever a register in this set is written, the DEL3T signal of the AP being
                                                                  managed by that register is asserted.
 
-                                                                 Each register in this set is RAZ/WI for non-secure accesses. */
+                                                                 Each register in this set is RAZ/WI for nonsecure accesses. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](SWO) These write-only secure registers are used to generate non-maskable interrupts to the APs.
                                                                  The value written into these registers is not used. There is no interrupt ID for DEL3Ts.
                                                                  Whenever a register in this set is written, the DEL3T signal of the AP being
                                                                  managed by that register is asserted.
 
-                                                                 Each register in this set is RAZ/WI for non-secure accesses. */
+                                                                 Each register in this set is RAZ/WI for nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_setdel3tr_el1s_s cn; */
@@ -5142,9 +5148,9 @@ typedef union
                                                                  table or a two-level table where the first level
                                                                  contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
                                                                  support flat tables.
-                                                                 0 = Single Level. The Size field indicates a number of pages used by the ITS to store data
+                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
                                                                  associated with each table entry.
-                                                                 1 = Two Level. The Size field indicates a number of pages which contain an array of 64 bit
+                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
                                                                  descriptors to pages that are used
                                                                      to store the data associated with each table entry. Each 64 bit descriptor has the
                                                                  following format:
@@ -5156,10 +5162,10 @@ typedef union
                                                                  Note:  software must ensure that each pointer in the first level table specifies a unique
                                                                  physical address otherwise the effects are unpredictable.
                                                                  For a two level table, if an entry is invalid:
-                                                                   * If the Type field specifies a valid table type other than Interrupt Collections, the
+                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
                                                                  ITS
                                                                      discards any writes to the interrupt translation page.
-                                                                   * If the Type field specifies the Interrupt Collections table and GITS_TYPER.HCC is
+                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
@@ -5195,7 +5201,7 @@ typedef union
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
         uint64_t reserved_48_55        : 8;
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical Address. This field provides bits [41:12] of the base physical address of the
+        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
                                                                  specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
@@ -5233,7 +5239,7 @@ typedef union
                                                                  0x3 = Reserved.  Treated as 0x0.
 
                                                                  Ignored in CNXXXX. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical Address. This field provides bits [41:12] of the base physical address of the
+        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
                                                                  specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
@@ -5281,9 +5287,9 @@ typedef union
                                                                  table or a two-level table where the first level
                                                                  contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
                                                                  support flat tables.
-                                                                 0 = Single Level. The Size field indicates a number of pages used by the ITS to store data
+                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
                                                                  associated with each table entry.
-                                                                 1 = Two Level. The Size field indicates a number of pages which contain an array of 64 bit
+                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
                                                                  descriptors to pages that are used
                                                                      to store the data associated with each table entry. Each 64 bit descriptor has the
                                                                  following format:
@@ -5295,10 +5301,10 @@ typedef union
                                                                  Note:  software must ensure that each pointer in the first level table specifies a unique
                                                                  physical address otherwise the effects are unpredictable.
                                                                  For a two level table, if an entry is invalid:
-                                                                   * If the Type field specifies a valid table type other than Interrupt Collections, the
+                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
                                                                  ITS
                                                                      discards any writes to the interrupt translation page.
-                                                                   * If the Type field specifies the Interrupt Collections table and GITS_TYPER.HCC is
+                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid:
@@ -5318,9 +5324,9 @@ typedef union
                                                                  table or a two-level table where the first level
                                                                  contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
                                                                  support flat tables.
-                                                                 0 = Single Level. The Size field indicates a number of pages used by the ITS to store data
+                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
                                                                  associated with each table entry.
-                                                                 1 = Two Level. The Size field indicates a number of pages which contain an array of 64 bit
+                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
                                                                  descriptors to pages that are used
                                                                      to store the data associated with each table entry. Each 64 bit descriptor has the
                                                                  following format:
@@ -5332,10 +5338,10 @@ typedef union
                                                                  Note:  software must ensure that each pointer in the first level table specifies a unique
                                                                  physical address otherwise the effects are unpredictable.
                                                                  For a two level table, if an entry is invalid:
-                                                                   * If the Type field specifies a valid table type other than Interrupt Collections, the
+                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
                                                                  ITS
                                                                      discards any writes to the interrupt translation page.
-                                                                   * If the Type field specifies the Interrupt Collections table and GITS_TYPER.HCC is
+                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
@@ -5371,7 +5377,7 @@ typedef union
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
         uint64_t entry_size            : 8;  /**< [ 55: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. */
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical Address. This field provides bits [41:12] of the base physical address of the
+        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
                                                                  specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
@@ -5409,7 +5415,7 @@ typedef union
                                                                  0x3 = Reserved.  Treated as 0x0.
 
                                                                  Ignored in CNXXXX. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical Address. This field provides bits [41:12] of the base physical address of the
+        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
                                                                  specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
@@ -5457,9 +5463,9 @@ typedef union
                                                                  table or a two-level table where the first level
                                                                  contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
                                                                  support flat tables.
-                                                                 0 = Single Level. The Size field indicates a number of pages used by the ITS to store data
+                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
                                                                  associated with each table entry.
-                                                                 1 = Two Level. The Size field indicates a number of pages which contain an array of 64 bit
+                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
                                                                  descriptors to pages that are used
                                                                      to store the data associated with each table entry. Each 64 bit descriptor has the
                                                                  following format:
@@ -5471,10 +5477,10 @@ typedef union
                                                                  Note:  software must ensure that each pointer in the first level table specifies a unique
                                                                  physical address otherwise the effects are unpredictable.
                                                                  For a two level table, if an entry is invalid:
-                                                                   * If the Type field specifies a valid table type other than Interrupt Collections, the
+                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
                                                                  ITS
                                                                      discards any writes to the interrupt translation page.
-                                                                   * If the Type field specifies the Interrupt Collections table and GITS_TYPER.HCC is
+                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid:
@@ -5494,9 +5500,9 @@ typedef union
                                                                  table or a two-level table where the first level
                                                                  contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
                                                                  support flat tables.
-                                                                 0 = Single Level. The Size field indicates a number of pages used by the ITS to store data
+                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
                                                                  associated with each table entry.
-                                                                 1 = Two Level. The Size field indicates a number of pages which contain an array of 64 bit
+                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
                                                                  descriptors to pages that are used
                                                                      to store the data associated with each table entry. Each 64 bit descriptor has the
                                                                  following format:
@@ -5508,10 +5514,10 @@ typedef union
                                                                  Note:  software must ensure that each pointer in the first level table specifies a unique
                                                                  physical address otherwise the effects are unpredictable.
                                                                  For a two level table, if an entry is invalid:
-                                                                   * If the Type field specifies a valid table type other than Interrupt Collections, the
+                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
                                                                  ITS
                                                                      discards any writes to the interrupt translation page.
-                                                                   * If the Type field specifies the Interrupt Collections table and GITS_TYPER.HCC is
+                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table. If the Type field is
@@ -5546,21 +5552,21 @@ typedef union
                                                                  indicate "Devices","Interrupt Collections" or "Physical Processors".
                                                                  Software must provision memory for "Virtual Processors" if virtual LPIs will be enabled
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
-                                                                 0x1 = Normal Outer Non-cacheable.
-                                                                 0x2 = Normal Outer Cacheable Read-allocate, Write-through.
-                                                                 0x3 = Normal Outer Cacheable Read-allocate, Write-back.
-                                                                 0x4 = Normal Outer Cacheable Write-allocate, Write-through.
-                                                                 0x5 = Normal Outer Cacheable Write-allocate, Write-back.
-                                                                 0x6 = Normal Outer Cacheable Read-allocate, Write-allocate, Write-through.
-                                                                 0x7 = Normal Outer Cacheable Read-allocate, Write-allocate, Write-back.
+                                                                 0x1 = Normal outer non-cacheable.
+                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
+                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
+                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
+                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
+                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
+                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. */
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical Address. This field provides bits [41:12] of the base physical address of the
+        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
                                                                  specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
@@ -5598,7 +5604,7 @@ typedef union
                                                                  0x3 = Reserved.  Treated as 0x0.
 
                                                                  Ignored in CNXXXX. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical Address. This field provides bits [41:12] of the base physical address of the
+        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
                                                                  specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
@@ -5611,16 +5617,16 @@ typedef union
                                                                  physical address bits. */
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
         uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. */
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
-                                                                 0x1 = Normal Outer Non-cacheable.
-                                                                 0x2 = Normal Outer Cacheable Read-allocate, Write-through.
-                                                                 0x3 = Normal Outer Cacheable Read-allocate, Write-back.
-                                                                 0x4 = Normal Outer Cacheable Write-allocate, Write-through.
-                                                                 0x5 = Normal Outer Cacheable Write-allocate, Write-back.
-                                                                 0x6 = Normal Outer Cacheable Read-allocate, Write-allocate, Write-through.
-                                                                 0x7 = Normal Outer Cacheable Read-allocate, Write-allocate, Write-back.
+                                                                 0x1 = Normal outer non-cacheable.
+                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
+                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
+                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
+                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
+                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
+                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t tbl_type              : 3;  /**< [ 58: 56](RO) This field is read-only and specifies the type of entity that requires entries in the
@@ -5659,9 +5665,9 @@ typedef union
                                                                  table or a two-level table where the first level
                                                                  contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
                                                                  support flat tables.
-                                                                 0 = Single Level. The Size field indicates a number of pages used by the ITS to store data
+                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
                                                                  associated with each table entry.
-                                                                 1 = Two Level. The Size field indicates a number of pages which contain an array of 64 bit
+                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
                                                                  descriptors to pages that are used
                                                                      to store the data associated with each table entry. Each 64 bit descriptor has the
                                                                  following format:
@@ -5673,10 +5679,10 @@ typedef union
                                                                  Note:  software must ensure that each pointer in the first level table specifies a unique
                                                                  physical address otherwise the effects are unpredictable.
                                                                  For a two level table, if an entry is invalid:
-                                                                   * If the Type field specifies a valid table type other than Interrupt Collections, the
+                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
                                                                  ITS
                                                                      discards any writes to the interrupt translation page.
-                                                                   * If the Type field specifies the Interrupt Collections table and GITS_TYPER.HCC is
+                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid:
@@ -5697,9 +5703,9 @@ typedef union
                                                                  table or a two-level table where the first level
                                                                  contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
                                                                  support flat tables.
-                                                                 0 = Single Level. The Size field indicates a number of pages used by the ITS to store data
+                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
                                                                  associated with each table entry.
-                                                                 1 = Two Level. The Size field indicates a number of pages which contain an array of 64 bit
+                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
                                                                  descriptors to pages that are used
                                                                      to store the data associated with each table entry. Each 64 bit descriptor has the
                                                                  following format:
@@ -5711,10 +5717,10 @@ typedef union
                                                                  Note:  software must ensure that each pointer in the first level table specifies a unique
                                                                  physical address otherwise the effects are unpredictable.
                                                                  For a two level table, if an entry is invalid:
-                                                                   * If the Type field specifies a valid table type other than Interrupt Collections, the
+                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
                                                                  ITS
                                                                      discards any writes to the interrupt translation page.
-                                                                   * If the Type field specifies the Interrupt Collections table and GITS_TYPER.HCC is
+                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table. If the Type field is
@@ -5749,21 +5755,21 @@ typedef union
                                                                  indicate "Devices","Interrupt Collections" or "Physical Processors".
                                                                  Software must provision memory for "Virtual Processors" if virtual LPIs will be enabled
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
-                                                                 0x1 = Normal Outer Non-cacheable.
-                                                                 0x2 = Normal Outer Cacheable Read-allocate, Write-through.
-                                                                 0x3 = Normal Outer Cacheable Read-allocate, Write-back.
-                                                                 0x4 = Normal Outer Cacheable Write-allocate, Write-through.
-                                                                 0x5 = Normal Outer Cacheable Write-allocate, Write-back.
-                                                                 0x6 = Normal Outer Cacheable Read-allocate, Write-allocate, Write-through.
-                                                                 0x7 = Normal Outer Cacheable Read-allocate, Write-allocate, Write-back.
+                                                                 0x1 = Normal outer non-cacheable.
+                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
+                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
+                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
+                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
+                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
+                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
 
                                                                  In CNXXXX not implemented, ignored. Added in pass 2. */
         uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. Changed in pass 2. */
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical Address. This field provides bits [41:12] of the base physical address of the
+        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
                                                                  specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
@@ -5801,7 +5807,7 @@ typedef union
                                                                  0x3 = Reserved.  Treated as 0x0.
 
                                                                  Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical Address. This field provides bits [41:12] of the base physical address of the
+        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
                                                                  specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
@@ -5814,16 +5820,16 @@ typedef union
                                                                  physical address bits. */
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
         uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. Changed in pass 2. */
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
-                                                                 0x1 = Normal Outer Non-cacheable.
-                                                                 0x2 = Normal Outer Cacheable Read-allocate, Write-through.
-                                                                 0x3 = Normal Outer Cacheable Read-allocate, Write-back.
-                                                                 0x4 = Normal Outer Cacheable Write-allocate, Write-through.
-                                                                 0x5 = Normal Outer Cacheable Write-allocate, Write-back.
-                                                                 0x6 = Normal Outer Cacheable Read-allocate, Write-allocate, Write-through.
-                                                                 0x7 = Normal Outer Cacheable Read-allocate, Write-allocate, Write-back.
+                                                                 0x1 = Normal outer non-cacheable.
+                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
+                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
+                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
+                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
+                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
+                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
 
                                                                  In CNXXXX not implemented, ignored. Added in pass 2. */
         uint64_t tbl_type              : 3;  /**< [ 58: 56](RO) This field is read-only and specifies the type of entity that requires entries in the
@@ -5862,9 +5868,9 @@ typedef union
                                                                  table or a two-level table where the first level
                                                                  contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
                                                                  support flat tables.
-                                                                 0 = Single Level. The Size field indicates a number of pages used by the ITS to store data
+                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
                                                                  associated with each table entry.
-                                                                 1 = Two Level. The Size field indicates a number of pages which contain an array of 64 bit
+                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
                                                                  descriptors to pages that are used
                                                                      to store the data associated with each table entry. Each 64 bit descriptor has the
                                                                  following format:
@@ -5876,10 +5882,10 @@ typedef union
                                                                  Note:  software must ensure that each pointer in the first level table specifies a unique
                                                                  physical address otherwise the effects are unpredictable.
                                                                  For a two level table, if an entry is invalid:
-                                                                   * If the Type field specifies a valid table type other than Interrupt Collections, the
+                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
                                                                  ITS
                                                                      discards any writes to the interrupt translation page.
-                                                                   * If the Type field specifies the Interrupt Collections table and GITS_TYPER.HCC is
+                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid:
@@ -5979,7 +5985,7 @@ typedef union
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t reserved_56_58        : 3;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
                                                                  0x1 = Normal outer non-cacheable.
@@ -6024,7 +6030,7 @@ typedef union
                                                                  zero. */
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
         uint64_t reserved_48_52        : 5;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
                                                                  0x1 = Normal outer non-cacheable.
@@ -6148,7 +6154,7 @@ typedef union
                                                                  0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t reserved_56_58        : 3;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
                                                                  0x1 = Normal outer non-cacheable.
@@ -6193,7 +6199,7 @@ typedef union
                                                                  zero. */
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
         uint64_t reserved_48_52        : 5;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
                                                                  0x1 = Normal outer non-cacheable.
@@ -6245,7 +6251,7 @@ typedef union
                                                                  0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t reserved_56_58        : 3;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
                                                                  0x1 = Normal outer non-cacheable.
@@ -6292,7 +6298,7 @@ typedef union
                                                                  zero. */
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
         uint64_t reserved_48_52        : 5;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
+        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
                                                                  as the inner cacheable.
                                                                  0x1 = Normal outer non-cacheable.
@@ -6556,7 +6562,7 @@ typedef union
 
                                                                  If a write to this register changes enabled from one to zero, the ITS must ensure that any
                                                                  caches containing mapping data must be made
-                                                                 consistent with external memory and "QUIESCENT" must read as one until this has been
+                                                                 consistent with external memory and [QUIESCENT] must read as one until this has been
                                                                  completed. */
 #else /* Word 0 - Little Endian */
         uint32_t enabled               : 1;  /**< [  0:  0](R/W) Enabled:
@@ -6567,7 +6573,7 @@ typedef union
 
                                                                  If a write to this register changes enabled from one to zero, the ITS must ensure that any
                                                                  caches containing mapping data must be made
-                                                                 consistent with external memory and "QUIESCENT" must read as one until this has been
+                                                                 consistent with external memory and [QUIESCENT] must read as one until this has been
                                                                  completed. */
         uint32_t reserved_1_30         : 30;
         uint32_t quiescent             : 1;  /**< [ 31: 31](RO/H) This bit indicates whether the ITS has completed all operations following a write of
@@ -6762,8 +6768,8 @@ typedef union
     struct bdk_gits_imp_tseir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
-                                                                 DEV_ID, INT_ID, ERROR]. */
+        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear [V], [M],
+                                                                 [DEV_ID], [INT_ID], and [ERROR]. */
         uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
         uint64_t reserved_53_61        : 9;
         uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
@@ -6781,8 +6787,8 @@ typedef union
         uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
         uint64_t reserved_53_61        : 9;
         uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
-        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
-                                                                 DEV_ID, INT_ID, ERROR]. */
+        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear [V], [M],
+                                                                 [DEV_ID], [INT_ID], and [ERROR]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_imp_tseir_s cn; */
@@ -7190,7 +7196,7 @@ typedef union
                                                                  the ITS.
 
                                                                  Internal:
-                                                                 Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on,
                                                                  software must ensure that any hardware collections
                                                                  are re-mapped following power-on. */
@@ -7231,7 +7237,7 @@ typedef union
                                                                  the ITS.
 
                                                                  Internal:
-                                                                 Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on,
                                                                  software must ensure that any hardware collections
                                                                  are re-mapped following power-on. */
@@ -7254,7 +7260,7 @@ typedef union
                                                                  the ITS.
 
                                                                  Internal:
-                                                                 Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on,
                                                                  software must ensure that any hardware collections
                                                                  are re-mapped following power-on. */
@@ -7291,7 +7297,7 @@ typedef union
                                                                  the ITS.
 
                                                                  Internal:
-                                                                 Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on,
                                                                  software must ensure that any hardware collections
                                                                  are re-mapped following power-on. */
@@ -7312,7 +7318,7 @@ typedef union
                                                                  provisioning of external memory. If this field is nonzero,
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
-                                                                 NOTE: Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on, software must ensure that any hardware collections are re-mapped following power-on.
                                                                  A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
                                                                  point of view. */
@@ -7351,7 +7357,7 @@ typedef union
                                                                  provisioning of external memory. If this field is nonzero,
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
-                                                                 NOTE: Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on, software must ensure that any hardware collections are re-mapped following power-on.
                                                                  A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
                                                                  point of view. */
@@ -7382,7 +7388,7 @@ typedef union
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
                                                                  Added in pass 2.
-                                                                 NOTE: Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on, software must ensure that any hardware collections are re-mapped following power-on.
                                                                  A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
                                                                  point of view. */
@@ -7424,7 +7430,7 @@ typedef union
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
                                                                  Added in pass 2.
-                                                                 NOTE: Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on, software must ensure that any hardware collections are re-mapped following power-on.
                                                                  A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
                                                                  point of view. */

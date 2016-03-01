@@ -362,7 +362,7 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
 
     /* Have the PKO DQ watermarks count packets. This way they are equivalent
        to the queue depth */
-    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_VDQX_WM_CTL(dq),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_VFX_DQX_WM_CTL(dq / 8, dq & 7),
         c.s.kind = 1);
 
     return 0;
@@ -404,7 +404,7 @@ int bdk_pko_enable(bdk_node_t node)
     /* Open all configured descriptor queues */
     for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq+=dq_inc)
     {
-        BDK_CSR_INIT(pko_open, node, BDK_PKO_VDQX_OP_OPEN(dq));
+        BDK_CSR_INIT(pko_open, node, BDK_PKO_VFX_DQX_OP_OPEN(dq / 8, dq & 7));
         if (pko_open.s.dqstatus != BDK_PKO_DQSTATUS_E_PASS)
             bdk_error("PKO open failed with response 0x%lx\n", pko_open.u);
     }
@@ -421,7 +421,7 @@ int bdk_pko_enable(bdk_node_t node)
  */
 int bdk_pko_get_queue_depth(bdk_if_handle_t handle)
 {
-    return BDK_CSR_READ(handle->node, BDK_PKO_DQX_WM_CNT(handle->pko_queue));
+    return BDK_CSR_READ(handle->node, BDK_PKO_VFX_DQX_WM_CNT(handle->pko_queue / 8, handle->pko_queue & 7));
 }
 
 /**
@@ -626,14 +626,17 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         int lmstore_words = 0;
         /* Build the three PKO comamnd words we need */
         union bdk_pko_send_hdr_s pko_send_hdr_s;
-        pko_send_hdr_s.u = 0;
+        pko_send_hdr_s.u[0] = 0;
+        pko_send_hdr_s.u[1] = 0;
         pko_send_hdr_s.s.df = 1;
         pko_send_hdr_s.s.format = 0; /* We don't use this? */
         pko_send_hdr_s.s.total = packet->length;
         pko_send_hdr_s.s.l3ptr = 14; /* This is the offset of the IP header created by traffic-gen */
 
         bdk_lmt_cancel();
-        bdk_lmt_store(lmstore_words, pko_send_hdr_s.u);
+        bdk_lmt_store(lmstore_words, pko_send_hdr_s.u[0]);
+        lmstore_words++;
+        bdk_lmt_store(lmstore_words, pko_send_hdr_s.u[1]);
         lmstore_words++;
 
         /* PKO allows a max of 15 minus header and decrement */
@@ -641,11 +644,14 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         {
             bdk_packet_ptr_t ptr = packet->packet[seg];
             union bdk_pko_send_gather_s pko_send_gather_s;
-            pko_send_gather_s.u = 0;
+            pko_send_gather_s.u[0] = 0;
+            pko_send_gather_s.u[1] = 0;
             pko_send_gather_s.s.size = ptr.s.size;
-            pko_send_gather_s.s.subdc3 = 0x1;
+            pko_send_gather_s.s.subdc = BDK_PKO_SENDSUBDC_E_GATHER0;
             pko_send_gather_s.s.addr = ptr.s.address;
-            bdk_lmt_store(lmstore_words, pko_send_gather_s.u);
+            bdk_lmt_store(lmstore_words, pko_send_gather_s.u[0]);
+            lmstore_words++;
+            bdk_lmt_store(lmstore_words, pko_send_gather_s.u[1]);
             lmstore_words++;
         }
 
@@ -653,18 +659,21 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         if (need_decrement)
         {
             union bdk_pko_send_mem_s pko_send_mem_s;
-            pko_send_mem_s.u = 0;
+            pko_send_mem_s.u[0] = 0;
+            pko_send_mem_s.u[1] = 0;
             pko_send_mem_s.s.offset = pko_pending;
             pko_send_mem_s.s.alg = 9; /* Subtract */
-            pko_send_mem_s.s.subdc4 = 0xc;
+            pko_send_mem_s.s.subdc = BDK_PKO_SENDSUBDC_E_MEM;
             pko_send_mem_s.s.addr = node_state->pko_depth_address + handle->pko_queue * 8;
-            bdk_lmt_store(lmstore_words, pko_send_mem_s.u);
-            pko_pending = 0;
+            bdk_lmt_store(lmstore_words, pko_send_mem_s.u[0]);
             lmstore_words++;
+            bdk_lmt_store(lmstore_words, pko_send_mem_s.u[1]);
+            lmstore_words++;
+            pko_pending = 0;
         }
 
         /* Build LMTDMA store data */
-        uint64_t io_address = BDK_PKO_VDQX_OP_SENDX(handle->pko_queue, lmstore_words);
+        uint64_t io_address = BDK_PKO_VFX_DQX_OP_SENDX(handle->pko_queue / 8, handle->pko_queue & 7, lmstore_words);
         io_address = bdk_numa_get_address(handle->node, io_address);
 
         /* Increment the PKO depth. PKO will decrement it when its done. This

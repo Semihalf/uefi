@@ -370,7 +370,7 @@ typedef union
                                                                  0x2 = Read I.
                                                                  0x3 = Read V.
 
-                                                                 Hardware clears CMND to indicate operation completed. */
+                                                                 Hardware clears [CMND] to indicate operation completed. */
 #else /* Word 0 - Little Endian */
         uint64_t cmnd                  : 2;  /**< [  1:  0](R/W/H) This command will initiate a read instruction to the external voltage regulator
                                                                  into VRM_TELEMETRY_READ.
@@ -379,7 +379,7 @@ typedef union
                                                                  0x2 = Read I.
                                                                  0x3 = Read V.
 
-                                                                 Hardware clears CMND to indicate operation completed. */
+                                                                 Hardware clears [CMND] to indicate operation completed. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -582,7 +582,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
         uint64_t reset_sm              : 1;  /**< [ 12: 12](R/W) This will force the temperature conversion state machine into the reset state until
-                                                                 RESET_SM is cleared. */
+                                                                 [RESET_SM] is cleared. */
         uint64_t sw_access             : 1;  /**< [ 11: 11](R/W) If set, software controls inputs of analog temperature sensor. */
         uint64_t ts_switch             : 9;  /**< [ 10:  2](R/W) Alternate software access to control temperature sensor switches. */
         uint64_t ts_curr2en            : 1;  /**< [  1:  1](R/W) Controls curr2_en pin on analog temperature sensor block. */
@@ -593,7 +593,7 @@ typedef union
         uint64_t ts_switch             : 9;  /**< [ 10:  2](R/W) Alternate software access to control temperature sensor switches. */
         uint64_t sw_access             : 1;  /**< [ 11: 11](R/W) If set, software controls inputs of analog temperature sensor. */
         uint64_t reset_sm              : 1;  /**< [ 12: 12](R/W) This will force the temperature conversion state machine into the reset state until
-                                                                 RESET_SM is cleared. */
+                                                                 [RESET_SM] is cleared. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -632,19 +632,19 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t n_valid               : 1;  /**< [ 23: 23](RO/H) When set N_VALUE is valid. */
-        uint64_t n_value               : 11; /**< [ 22: 12](RO/H) N cycle count values after calibration initiated. Qualified by N_VALID. */
-        uint64_t temp_valid            : 1;  /**< [ 11: 11](RO/H) When set TEMP_CORRECTED is valid.
+        uint64_t n_value               : 11; /**< [ 22: 12](RO/H) N cycle count values after calibration initiated. Qualified by [N_VALID]. */
+        uint64_t temp_valid            : 1;  /**< [ 11: 11](RO/H) When set [TEMP_CORRECTED] is valid.
                                                                  This bit is pulsed on each conversion, and as such software may not be able to observe the
-                                                                 cycle in which TEMP_VALID is set. */
+                                                                 cycle in which [TEMP_VALID] is set. */
         uint64_t temp_corrected        : 11; /**< [ 10:  0](RO/H) Corrected temperature read out from the temp sensor module, in degrees C with
-                                                                 two bits of fraction. Unpredictable unless TEMP_VALID is set. */
+                                                                 two bits of fraction. Unpredictable unless [TEMP_VALID] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t temp_corrected        : 11; /**< [ 10:  0](RO/H) Corrected temperature read out from the temp sensor module, in degrees C with
-                                                                 two bits of fraction. Unpredictable unless TEMP_VALID is set. */
-        uint64_t temp_valid            : 1;  /**< [ 11: 11](RO/H) When set TEMP_CORRECTED is valid.
+                                                                 two bits of fraction. Unpredictable unless [TEMP_VALID] is set. */
+        uint64_t temp_valid            : 1;  /**< [ 11: 11](RO/H) When set [TEMP_CORRECTED] is valid.
                                                                  This bit is pulsed on each conversion, and as such software may not be able to observe the
-                                                                 cycle in which TEMP_VALID is set. */
-        uint64_t n_value               : 11; /**< [ 22: 12](RO/H) N cycle count values after calibration initiated. Qualified by N_VALID. */
+                                                                 cycle in which [TEMP_VALID] is set. */
+        uint64_t n_value               : 11; /**< [ 22: 12](RO/H) N cycle count values after calibration initiated. Qualified by [N_VALID]. */
         uint64_t n_valid               : 1;  /**< [ 23: 23](RO/H) When set N_VALUE is valid. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */

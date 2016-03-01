@@ -251,9 +251,13 @@ typedef union
         uint64_t reserved_18_63        : 46;
         uint64_t uart1_rts             : 1;  /**< [ 17: 17](RO) State of UART1_RTS_N pin strap sampled when DCOK asserts. */
         uint64_t ref_sel               : 1;  /**< [ 16: 16](RO) Reference clock select. State of UART0_RTS_N pin sampled when DCOK asserts.
-                                                                 0 = Board supplies 100Mhz to DLM_REF_CLK[1] (divided by 2 internally).
-                                                                 1 = Board supplies  50Mhz to PLL_REFCLK. */
-        uint64_t reserved_9_15         : 7;
+                                                                 0 = Board supplies 100 MHz to DLM_REF_CLK<1> (divided by 2 internally).
+                                                                 1 = Board supplies  50 MHz to PLL_REFCLK. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t rgm_supply            : 2;  /**< [ 10:  9](RO) RGMII power supply setting based on VDD_RGM_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 _ All other values reserved. */
         uint64_t emm_supply            : 3;  /**< [  8:  6](RO) EMMC power supply settings.
                                                                  0x4 = 3.3V.
                                                                  _ All other values reserved. */
@@ -281,10 +285,14 @@ typedef union
         uint64_t emm_supply            : 3;  /**< [  8:  6](RO) EMMC power supply settings.
                                                                  0x4 = 3.3V.
                                                                  _ All other values reserved. */
-        uint64_t reserved_9_15         : 7;
+        uint64_t rgm_supply            : 2;  /**< [ 10:  9](RO) RGMII power supply setting based on VDD_RGM_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 _ All other values reserved. */
+        uint64_t reserved_11_15        : 5;
         uint64_t ref_sel               : 1;  /**< [ 16: 16](RO) Reference clock select. State of UART0_RTS_N pin sampled when DCOK asserts.
-                                                                 0 = Board supplies 100Mhz to DLM_REF_CLK[1] (divided by 2 internally).
-                                                                 1 = Board supplies  50Mhz to PLL_REFCLK. */
+                                                                 0 = Board supplies 100 MHz to DLM_REF_CLK<1> (divided by 2 internally).
+                                                                 1 = Board supplies  50 MHz to PLL_REFCLK. */
         uint64_t uart1_rts             : 1;  /**< [ 17: 17](RO) State of UART1_RTS_N pin strap sampled when DCOK asserts. */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
@@ -318,7 +326,50 @@ typedef union
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_mio_boot_pin_defs_s cn83xx; */
+    struct bdk_mio_boot_pin_defs_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t uart1_rts             : 1;  /**< [ 17: 17](RO) State of UART1_RTS_N pin strap sampled when DCOK asserts. */
+        uint64_t ref_sel               : 1;  /**< [ 16: 16](RO) Reference clock select. State of UART0_RTS_N pin sampled when DCOK asserts.
+                                                                 0 = Board supplies 100 MHz to DLM_REF_CLK<1> (divided by 2 internally).
+                                                                 1 = Board supplies  50 MHz to PLL_REFCLK. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t emm_supply            : 3;  /**< [  8:  6](RO) EMMC power supply settings.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t smi_supply            : 3;  /**< [  5:  3](RO) SMI power supply setting based on VDD_SMI_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t io_supply             : 3;  /**< [  2:  0](RO) I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t io_supply             : 3;  /**< [  2:  0](RO) I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t smi_supply            : 3;  /**< [  5:  3](RO) SMI power supply setting based on VDD_SMI_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t emm_supply            : 3;  /**< [  8:  6](RO) EMMC power supply settings.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t ref_sel               : 1;  /**< [ 16: 16](RO) Reference clock select. State of UART0_RTS_N pin sampled when DCOK asserts.
+                                                                 0 = Board supplies 100 MHz to DLM_REF_CLK<1> (divided by 2 internally).
+                                                                 1 = Board supplies  50 MHz to PLL_REFCLK. */
+        uint64_t uart1_rts             : 1;  /**< [ 17: 17](RO) State of UART1_RTS_N pin strap sampled when DCOK asserts. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_mio_boot_pin_defs_t;
 
 #define BDK_MIO_BOOT_PIN_DEFS BDK_MIO_BOOT_PIN_DEFS_FUNC()
@@ -348,7 +399,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t addr                  : 17; /**< [ 16:  0](SR/W/H) End of ROM Address.  This field specifies the first invalid address in ROM_MEM();
+        uint64_t addr                  : 17; /**< [ 16:  0](SR/W/H) End of ROM address.  This field specifies the first invalid address in ROM_MEM();
                                                                  access to a ROM_MEM() address at or above this address will return a fault and zeros.
                                                                  Writes to this register which attempt to set an [ADDR] greater than the previous [ADDR]
                                                                  setting are ignored.
@@ -359,7 +410,7 @@ typedef union
                                                                  non-trusted boot resets to a value read from ROM_MEM() at address MAX - 12, just
                                                                  before the CRC. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 17; /**< [ 16:  0](SR/W/H) End of ROM Address.  This field specifies the first invalid address in ROM_MEM();
+        uint64_t addr                  : 17; /**< [ 16:  0](SR/W/H) End of ROM address.  This field specifies the first invalid address in ROM_MEM();
                                                                  access to a ROM_MEM() address at or above this address will return a fault and zeros.
                                                                  Writes to this register which attempt to set an [ADDR] greater than the previous [ADDR]
                                                                  setting are ignored.

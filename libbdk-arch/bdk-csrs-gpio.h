@@ -175,18 +175,43 @@
                                        the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_PBUS_ADX(a) (0xfa + (a)) /**< This is a bi-directional bus; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_ALEX(a) (0xe8 + (a)) /**< PBUS_ALE output; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_CE_NX(a) (0xec + (a)) /**< PBUS_CE_N output; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_CLE (0xe0) /**< PBUS_CLE output; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_DIR (0xe4) /**< PBUS_DIR output; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_DMACKX(a) (0xe6 + (a)) /**< PBUS_DMACK(0..1) output; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_DMARQX(a) (0x11a + (a)) /**< PBUS_DMARQ input; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_OE_N (0xe3) /**< PBUS_OE_N output; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_WAIT_N (0xe1) /**< PBUS_WAIT_N input; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PBUS_WE_N (0xe2) /**< PBUS_WE_N output; see PBUS chapter. */
-#define BDK_GPIO_PIN_SEL_E_PCM_BCLKX(a) (0x246 + (a)) /**< PCM BCLK is a bi-directional bus; see TDM/PCM chapter. */
-#define BDK_GPIO_PIN_SEL_E_PCM_DATAX(a) (0x24c + (a)) /**< PCM DATA is a bi-directional bus; see TDM/PCM chapter. */
-#define BDK_GPIO_PIN_SEL_E_PCM_FSYNCX(a) (0x24a + (a)) /**< PCM FSYNC is a bi-directional bus; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_ALEX(a) (0xe8 + (a)) /**< PBUS address latch enable outputs.
+                                       The ALEs maps to the following
+                                       
+                                       PBUS_ALE0 latches address  7..0
+                                       PBUS_ALE1 latches address 15..8
+                                       PBUS_ALE2 latches address 23..16
+                                       PBUS_ALE3 latches address 29..24
+                                       
+                                       See PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_CEX(a) (0xec + (a)) /**< PBUS chip enable outputs. Typically active low.
+                                       See PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_CLE (0xe0) /**< PBUS command latch enable (NAND) output.
+                                       See PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_DIR (0xe4) /**< PBUS data bus direction output.
+                                       See PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_DMACKX(a) (0xe6 + (a)) /**< PBUS DMA Acknowledge outputs.
+                                       See PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_DMARQX(a) (0x11a + (a)) /**< PBUS DMA request inputs.
+                                       See PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_OE (0xe3) /**< PBUS output enable output. Typically active low.
+                                       See PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_WAIT (0xe1) /**< PBUS wait/stall input. Typically active low.
+                                       See PBUS chapter. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_WE (0xe2) /**< PBUS write enable output. Typically active low.
+                                       See PBUS chapter */
+#define BDK_GPIO_PIN_SEL_E_PCM_BCLKX_CN81XX(a) (0x246 + (a)) /**< PCM BCLK bi-directional bus; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_BCLKX_CN83XX(a) (0x246 + (a)) /**< Internal:
+                                       CN81XX only. PCM BCLK bi-directional bus; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_DATAX_CN81XX(a) (0x24c + (a)) /**< PCM DATA bi-directional bus; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_DATAX_CN83XX(a) (0x24c + (a)) /**< Internal:
+                                       CN81XX only. PCM DATA bi-directional bus; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_FSYNCX_CN81XX(a) (0x24a + (a)) /**< PCM FSYNC bi-directional bus; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_FSYNCX_CN83XX(a) (0x24a + (a)) /**< Internal:
+                                       CN81XX only. PCM FSYNC bi-directional bus; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PTP_EVTCNT (0x252) /**< PTP event count input; see MIO_PTP_CLOCK_CFG. */
+#define BDK_GPIO_PIN_SEL_E_PTP_EXT_CLK (0x250) /**< PTP external clock input; see MIO_PTP_CLOCK_CFG. */
+#define BDK_GPIO_PIN_SEL_E_PTP_TSTMP (0x251) /**< PTP time stamp input; see MIO_PTP_CLOCK_CFG. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN81XX(a) (0x16a + (a)) /**< SATA activity LED output; see SATA chapter. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN88XX(a) (0x60 + (a)) /**< SATA activity LED output; see SATA chapter. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN83XX(a) (0x16a + (a)) /**< SATA activity LED output; see SATA chapter. */
@@ -287,8 +312,8 @@
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN83XX(a) (0xd0 + (a)) /**< SGPIO SDATAIN input; see SGPIO_RX_GP.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+                                       the input result is unpredictable (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80). */
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN81XX(a) (0xb + (a)) /**< SGPIO SDATAOUT output; see SGPIO_TX_GP. */
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN88XX(a) (0x10 + (a)) /**< SGPIO SDATAOUT output; see SGPIO_TX_GP. */
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN83XX(a) (0xb + (a)) /**< SGPIO SDATAOUT output; see SGPIO_TX_GP. */
@@ -697,7 +722,36 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gpio_clk_syncex_s cn83xx; */
+    struct bdk_gpio_clk_syncex_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..6) to select from. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
+                                                                 supported GPIO output frequency is 125 MHz.
+                                                                 0x0 = Divide by 20.
+                                                                 0x1 = Divide by 40.
+                                                                 0x2 = Divide by 80.
+                                                                 0x3 = Divide by 160. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
+                                                                 internal QLMx clock.  Note that GSER 0..3 have 4 selections each while
+                                                                 GSER 4..6 have 2 selections each. */
+#else /* Word 0 - Little Endian */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
+                                                                 internal QLMx clock.  Note that GSER 0..3 have 4 selections each while
+                                                                 GSER 4..6 have 2 selections each. */
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
+                                                                 supported GPIO output frequency is 125 MHz.
+                                                                 0x0 = Divide by 20.
+                                                                 0x1 = Divide by 40.
+                                                                 0x2 = Divide by 80.
+                                                                 0x3 = Divide by 160. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..6) to select from. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gpio_clk_syncex_t;
 
 static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1084,19 +1138,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's GPIO_MSIX_VEC()_ADDR, GPIO_MSIX_VEC()_CTL, and corresponding
                                                                  bit of GPIO_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_GPIO_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's GPIO_MSIX_VEC()_ADDR, GPIO_MSIX_VEC()_CTL, and corresponding
                                                                  bit of GPIO_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_GPIO_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
@@ -1185,11 +1239,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable GPIO interrupt multicast mode. When EN is set, GPIO<7:4> functions in multicast
+        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable GPIO interrupt multicast mode. When [EN] is set, GPIO<7:4> functions in multicast
                                                                  mode allowing these four GPIOs to interrupt multiple cores. Multicast functionality allows
                                                                  the GPIO to exist as per-core interrupts as opposed to a global interrupt. */
 #else /* Word 0 - Little Endian */
-        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable GPIO interrupt multicast mode. When EN is set, GPIO<7:4> functions in multicast
+        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable GPIO interrupt multicast mode. When [EN] is set, GPIO<7:4> functions in multicast
                                                                  mode allowing these four GPIOs to interrupt multiple cores. Multicast functionality allows
                                                                  the GPIO to exist as per-core interrupts as opposed to a global interrupt. */
         uint64_t reserved_1_63         : 63;
@@ -1587,10 +1641,10 @@ typedef union
     struct bdk_gpio_tx_clr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t clr                   : 64; /**< [ 63:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+        uint64_t clr                   : 64; /**< [ 63:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, [CLR]
                                                                  returns the GPIO_TX_DAT storage. */
 #else /* Word 0 - Little Endian */
-        uint64_t clr                   : 64; /**< [ 63:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+        uint64_t clr                   : 64; /**< [ 63:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, [CLR]
                                                                  returns the GPIO_TX_DAT storage. */
 #endif /* Word 0 - End */
     } s;
@@ -1598,10 +1652,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t clr                   : 48; /**< [ 47:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+        uint64_t clr                   : 48; /**< [ 47:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, [CLR]
                                                                  returns the GPIO_TX_DAT storage. */
 #else /* Word 0 - Little Endian */
-        uint64_t clr                   : 48; /**< [ 47:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+        uint64_t clr                   : 48; /**< [ 47:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, [CLR]
                                                                  returns the GPIO_TX_DAT storage. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -1610,10 +1664,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
-        uint64_t clr                   : 51; /**< [ 50:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+        uint64_t clr                   : 51; /**< [ 50:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, [CLR]
                                                                  returns the GPIO_TX_DAT storage. */
 #else /* Word 0 - Little Endian */
-        uint64_t clr                   : 51; /**< [ 50:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+        uint64_t clr                   : 51; /**< [ 50:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, [CLR]
                                                                  returns the GPIO_TX_DAT storage. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
@@ -1646,10 +1700,10 @@ typedef union
     struct bdk_gpio_tx_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t set                   : 64; /**< [ 63:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+        uint64_t set                   : 64; /**< [ 63:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, [SET]
                                                                  returns the GPIO_TX_DAT storage. */
 #else /* Word 0 - Little Endian */
-        uint64_t set                   : 64; /**< [ 63:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+        uint64_t set                   : 64; /**< [ 63:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, [SET]
                                                                  returns the GPIO_TX_DAT storage. */
 #endif /* Word 0 - End */
     } s;
@@ -1657,10 +1711,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t set                   : 48; /**< [ 47:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+        uint64_t set                   : 48; /**< [ 47:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, [SET]
                                                                  returns the GPIO_TX_DAT storage. */
 #else /* Word 0 - Little Endian */
-        uint64_t set                   : 48; /**< [ 47:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+        uint64_t set                   : 48; /**< [ 47:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, [SET]
                                                                  returns the GPIO_TX_DAT storage. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -1669,10 +1723,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
-        uint64_t set                   : 51; /**< [ 50:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+        uint64_t set                   : 51; /**< [ 50:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, [SET]
                                                                  returns the GPIO_TX_DAT storage. */
 #else /* Word 0 - Little Endian */
-        uint64_t set                   : 51; /**< [ 50:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+        uint64_t set                   : 51; /**< [ 50:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, [SET]
                                                                  returns the GPIO_TX_DAT storage. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */

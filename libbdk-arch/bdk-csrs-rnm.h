@@ -125,7 +125,7 @@ static inline uint64_t BDK_RNM_BIST_STATUS_FUNC(void)
  *
  * RNM Control and Status Register
  * This register is the RNM control register.
- * This register is secure only to prevent non-secure world from affecting secure-world clients
+ * This register is secure only to prevent nonsecure world from affecting secure-world clients
  * using true random numbers.
  */
 typedef union

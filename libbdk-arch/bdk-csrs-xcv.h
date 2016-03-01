@@ -123,7 +123,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t drv_byp               : 1;  /**< [ 63: 63](R/W) When set, bypass the compensation controller and use
-                                                                 DRV_NCTL and DRV_PCTL. */
+                                                                 [DRV_NCTL] and [DRV_PCTL]. */
         uint64_t reserved_61_62        : 2;
         uint64_t cmp_pctl              : 5;  /**< [ 60: 56](RO/H) PCTL drive strength from the hardware compensation controller. */
         uint64_t reserved_53_55        : 3;
@@ -160,7 +160,7 @@ typedef union
         uint64_t cmp_pctl              : 5;  /**< [ 60: 56](RO/H) PCTL drive strength from the hardware compensation controller. */
         uint64_t reserved_61_62        : 2;
         uint64_t drv_byp               : 1;  /**< [ 63: 63](R/W) When set, bypass the compensation controller and use
-                                                                 DRV_NCTL and DRV_PCTL. */
+                                                                 [DRV_NCTL] and [DRV_PCTL]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_comp_ctl_s cn; */
@@ -207,13 +207,13 @@ typedef union
         uint64_t speed                 : 2;  /**< [  1:  0](R/W) XCV operational speed:
                                                                    0x0 = 10 Mbps.
                                                                    0x1 = 100 Mbps.
-                                                                   0x2 = 1Gbps.
+                                                                   0x2 = 1 Gbps.
                                                                    0x3 = Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t speed                 : 2;  /**< [  1:  0](R/W) XCV operational speed:
                                                                    0x0 = 10 Mbps.
                                                                    0x1 = 100 Mbps.
-                                                                   0x2 = 1Gbps.
+                                                                   0x2 = 1 Gbps.
                                                                    0x3 = Reserved. */
         uint64_t lpbk_int              : 1;  /**< [  2:  2](R/W) Enable internal loopback mode. Internal loopback loops the TX datapath to the RX
                                                                  datapath. For correct operation, the following CSRs must be configured:
@@ -475,7 +475,7 @@ static inline uint64_t BDK_XCVX_INBND_STATUS(unsigned long a)
  * Register (RSL) xcv#_int
  *
  * XCV Interupt Register
- * This register flags error for TX FIFO overflow, TX FIFO underflow and Incomplete byte for
+ * This register flags error for TX FIFO overflow, TX FIFO underflow and incomplete byte for
  * 10/100 Mode.
  * It also flags status change for link duplex, link speed and link up/down.
  */
@@ -722,20 +722,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's XCV_MSIX_VEC()_ADDR, XCV_MSIX_VEC()_CTL, and corresponding
                                                                  bit of XCV_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_XCV_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's XCV_MSIX_VEC()_ADDR, XCV_MSIX_VEC()_CTL, and corresponding
                                                                  bit of XCV_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_XCV_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
@@ -818,7 +818,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) Port enable. */
         uint64_t reserved_16_62        : 47;
-        uint64_t clkrst                : 1;  /**< [ 15: 15](R/W) DLL CLK reset.  CLKRST must be set if DLL bypass mode
+        uint64_t clkrst                : 1;  /**< [ 15: 15](R/W) DLL CLK reset. [CLKRST] must be set if DLL bypass mode
                                                                  XCV_DLL_CTL[CLKRX_BYP,CLKTX_BYP] is used. */
         uint64_t reserved_12_14        : 3;
         uint64_t dllrst                : 1;  /**< [ 11: 11](R/W) DLL reset. */
@@ -839,7 +839,7 @@ typedef union
         uint64_t reserved_8_10         : 3;
         uint64_t dllrst                : 1;  /**< [ 11: 11](R/W) DLL reset. */
         uint64_t reserved_12_14        : 3;
-        uint64_t clkrst                : 1;  /**< [ 15: 15](R/W) DLL CLK reset.  CLKRST must be set if DLL bypass mode
+        uint64_t clkrst                : 1;  /**< [ 15: 15](R/W) DLL CLK reset. [CLKRST] must be set if DLL bypass mode
                                                                  XCV_DLL_CTL[CLKRX_BYP,CLKTX_BYP] is used. */
         uint64_t reserved_16_62        : 47;
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) Port enable. */

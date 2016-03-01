@@ -103,15 +103,15 @@
 #define BDK_SMMU_INT_VEC_E_NSGFSR_CN81XX (0x80) /**< See interrupt clears SMMU(0)_(S)GFSR[MULTI, UUT, FP, EF, CAF, UCIF, UCBF, SMCF, USF,
                                        ICF], sets SMMU(0)_(S)GFSRRESTORE[MULTI, UUT, FP, EF, CAF, UCIF, UCBF, SMCF, USF, ICF]
                                        and enables SMMU(0)_(S)CR0[GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE].
-                                       (GFIE is a common enable.) Applies only to non-secure mode. */
+                                       (GFIE is a common enable.) Applies only to nonsecure mode. */
 #define BDK_SMMU_INT_VEC_E_NSGFSR_CN88XX (0x100) /**< See interrupt clears SMMU(0..3)_(S)GFSR[MULTI, UUT, FP, EF, CAF, UCIF, UCBF, SMCF, USF,
                                        ICF], sets SMMU(0..3)_(S)GFSRRESTORE[MULTI, UUT, FP, EF, CAF, UCIF, UCBF, SMCF, USF, ICF]
                                        and enables SMMU(0..3)_(S)CR0[GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE].
-                                       (GFIE is a common enable.) Applies only to non-secure mode. */
+                                       (GFIE is a common enable.) Applies only to nonsecure mode. */
 #define BDK_SMMU_INT_VEC_E_NSGFSR_CN83XX (0x100) /**< See interrupt clears SMMU(0..3)_(S)GFSR[MULTI, UUT, FP, EF, CAF, UCIF, UCBF, SMCF, USF,
                                        ICF], sets SMMU(0..3)_(S)GFSRRESTORE[MULTI, UUT, FP, EF, CAF, UCIF, UCBF, SMCF, USF, ICF]
                                        and enables SMMU(0..3)_(S)CR0[GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE].
-                                       (GFIE is a common enable.) Applies only to non-secure mode. */
+                                       (GFIE is a common enable.) Applies only to nonsecure mode. */
 #define BDK_SMMU_INT_VEC_E_NSGFSR_CLEAR_CN81XX (0x81) /**< Level sensitive interrupt clear vector. */
 #define BDK_SMMU_INT_VEC_E_NSGFSR_CLEAR_CN88XX (0x101) /**< Level sensitive interrupt clear vector. */
 #define BDK_SMMU_INT_VEC_E_NSGFSR_CLEAR_CN83XX (0x101) /**< Level sensitive interrupt clear vector. */
@@ -581,12 +581,12 @@ typedef union
                                                                  0 = A walk fault did not occur.
                                                                  1 = A walk fault occurred during processing of a translation table walk. */
         uint32_t atof                  : 1;  /**< [  9:  9](RO) Stage 2 address translation operation fault. ATOs not supported. */
-        uint32_t nsattr                : 1;  /**< [  8:  8](R/W/H) Non-secure attribute.
+        uint32_t nsattr                : 1;  /**< [  8:  8](R/W/H) Nonsecure attribute.
                                                                  0 = The input transaction after SMMU()_S2CR()[NSCFG] had secure attribute.
-                                                                 1 = The input transaction after SMMU()_S2CR()[NSCFG] had non-secure attribute. */
-        uint32_t nsstate               : 1;  /**< [  7:  7](RO) Stage 2 non-secure state:
+                                                                 1 = The input transaction after SMMU()_S2CR()[NSCFG] had nonsecure attribute. */
+        uint32_t nsstate               : 1;  /**< [  7:  7](RO) Stage 2 nonsecure state:
                                                                  0 = The transaction is associated with a secure client.
-                                                                 1 = The transaction is associated with a non-secure client. */
+                                                                 1 = The transaction is associated with a nonsecure client. */
         uint32_t ind                   : 1;  /**< [  6:  6](R/W/H) Instruction, not data.
                                                                  0 = Data.
                                                                  1 = Instruction. */
@@ -611,16 +611,16 @@ typedef union
                                                                  * SMMU()_CB()_IPAFAR records the IPA that faulted at stage 2.
                                                                  This bit is RAZ/WI if SMMU()_IDR0[NTS] == 0. */
         uint32_t plvl                  : 2;  /**< [  1:  0](R/W/H) Translation table level for fault.
-                                                                 0 = Reserved.
-                                                                 1 = level 1.
-                                                                 2 = level 2.
-                                                                 3 = level 3. */
+                                                                 0x0 = Reserved.
+                                                                 0x1 = Level 1.
+                                                                 0x2 = Level 2.
+                                                                 0x3 = Level 3. */
 #else /* Word 0 - Little Endian */
         uint32_t plvl                  : 2;  /**< [  1:  0](R/W/H) Translation table level for fault.
-                                                                 0 = Reserved.
-                                                                 1 = level 1.
-                                                                 2 = level 2.
-                                                                 3 = level 3. */
+                                                                 0x0 = Reserved.
+                                                                 0x1 = Level 1.
+                                                                 0x2 = Level 2.
+                                                                 0x3 = Level 3. */
         uint32_t nested                : 1;  /**< [  2:  2](R/W/H) Indicates whether the fault is due to a nested stage 1 translation.
                                                                  0 = The fault is related to a stage 2 only translation.
                                                                  1 = The fault is related to a nested stage1 and stage 2 translation.
@@ -644,12 +644,12 @@ typedef union
         uint32_t ind                   : 1;  /**< [  6:  6](R/W/H) Instruction, not data.
                                                                  0 = Data.
                                                                  1 = Instruction. */
-        uint32_t nsstate               : 1;  /**< [  7:  7](RO) Stage 2 non-secure state:
+        uint32_t nsstate               : 1;  /**< [  7:  7](RO) Stage 2 nonsecure state:
                                                                  0 = The transaction is associated with a secure client.
-                                                                 1 = The transaction is associated with a non-secure client. */
-        uint32_t nsattr                : 1;  /**< [  8:  8](R/W/H) Non-secure attribute.
+                                                                 1 = The transaction is associated with a nonsecure client. */
+        uint32_t nsattr                : 1;  /**< [  8:  8](R/W/H) Nonsecure attribute.
                                                                  0 = The input transaction after SMMU()_S2CR()[NSCFG] had secure attribute.
-                                                                 1 = The input transaction after SMMU()_S2CR()[NSCFG] had non-secure attribute. */
+                                                                 1 = The input transaction after SMMU()_S2CR()[NSCFG] had nonsecure attribute. */
         uint32_t atof                  : 1;  /**< [  9:  9](RO) Stage 2 address translation operation fault. ATOs not supported. */
         uint32_t ptwf                  : 1;  /**< [ 10: 10](R/W/H) A walk fault on a translation table access.
                                                                  0 = A walk fault did not occur.
@@ -930,41 +930,41 @@ typedef union
                                                                  This field is ignored when SMMU()_CBA2R()[VA64] is zero.
 
                                                                  For stage 2, reserved. */
-        uint32_t nscfg                 : 2;  /**< [ 29: 28](R/W) For stage 1, non-secure configuration. Controls the non-secure attribute for any
+        uint32_t nscfg                 : 2;  /**< [ 29: 28](R/W) For stage 1, nonsecure configuration. Controls the nonsecure attribute for any
                                                                  transaction where the translation context bank translation is disabled. That is, where
                                                                  SMMU()_CB()_SCTLR[M]==0. [NSCFG] only exists in a translation context bank
-                                                                 reserved by secure software. In a non-secure translation context bank, this field is
+                                                                 reserved by secure software. In a nonsecure translation context bank, this field is
                                                                  UNK/SBZP.
-                                                                 00 = Use default NS attribute.
-                                                                 01 = Reserved.
-                                                                 10 = Secure.
-                                                                 11 = Non-secure.
+                                                                 0x0 = Use default NS attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Secure.
+                                                                 0x3 = Nonsecure.
 
                                                                  For stage 2, reserved. */
         uint32_t wacfg                 : 2;  /**< [ 27: 26](RO) Write-allocate configuration. Controls the allocation hint for write accesses where the
                                                                  translation context bank translation is disabled. That is, where
                                                                  SMMU()_CB()_SCTLR[M]==0.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Write-allocate.
-                                                                 11 = No write-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Write-allocate.
+                                                                 0x3 = No write-allocate.
 
                                                                  Ignored in CNXXXX. */
         uint32_t racfg                 : 2;  /**< [ 25: 24](RO) Read-allocate configuration. Controls the allocation hint for read accesses where the
                                                                  translation context bank translation is disabled. That is, where
                                                                  SMMU()_CB()_SCTLR[M]==0.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Read-allocate.
-                                                                 11 = No read-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Read-allocate.
+                                                                 0x3 = No read-allocate.
 
                                                                  Ignored in CNXXXX. */
         uint32_t shcfg                 : 2;  /**< [ 23: 22](RO) Shared configuration. Controls the sharable attribute of a transaction where the
                                                                  translation context bank is disabled.
-                                                                 00 = Default shareable attributes.
-                                                                 01 = Outer sharable.
-                                                                 10 = Inner sharable.
-                                                                 11 = Non-sharable.
+                                                                 0x0 = Default shareable attributes.
+                                                                 0x1 = Outer sharable.
+                                                                 0x2 = Inner sharable.
+                                                                 0x3 = Non-sharable.
 
                                                                  Ignored in CNXXXX. */
         uint32_t fb                    : 1;  /**< [ 21: 21](RAZ) For stage 1, force broadcast. Forces the broadcast of TLB maintenance operations. Ignored
@@ -1134,39 +1134,39 @@ typedef union
                                                                  For stage 2, reserved. */
         uint32_t shcfg                 : 2;  /**< [ 23: 22](RO) Shared configuration. Controls the sharable attribute of a transaction where the
                                                                  translation context bank is disabled.
-                                                                 00 = Default shareable attributes.
-                                                                 01 = Outer sharable.
-                                                                 10 = Inner sharable.
-                                                                 11 = Non-sharable.
+                                                                 0x0 = Default shareable attributes.
+                                                                 0x1 = Outer sharable.
+                                                                 0x2 = Inner sharable.
+                                                                 0x3 = Non-sharable.
 
                                                                  Ignored in CNXXXX. */
         uint32_t racfg                 : 2;  /**< [ 25: 24](RO) Read-allocate configuration. Controls the allocation hint for read accesses where the
                                                                  translation context bank translation is disabled. That is, where
                                                                  SMMU()_CB()_SCTLR[M]==0.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Read-allocate.
-                                                                 11 = No read-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Read-allocate.
+                                                                 0x3 = No read-allocate.
 
                                                                  Ignored in CNXXXX. */
         uint32_t wacfg                 : 2;  /**< [ 27: 26](RO) Write-allocate configuration. Controls the allocation hint for write accesses where the
                                                                  translation context bank translation is disabled. That is, where
                                                                  SMMU()_CB()_SCTLR[M]==0.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Write-allocate.
-                                                                 11 = No write-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Write-allocate.
+                                                                 0x3 = No write-allocate.
 
                                                                  Ignored in CNXXXX. */
-        uint32_t nscfg                 : 2;  /**< [ 29: 28](R/W) For stage 1, non-secure configuration. Controls the non-secure attribute for any
+        uint32_t nscfg                 : 2;  /**< [ 29: 28](R/W) For stage 1, nonsecure configuration. Controls the nonsecure attribute for any
                                                                  transaction where the translation context bank translation is disabled. That is, where
                                                                  SMMU()_CB()_SCTLR[M]==0. [NSCFG] only exists in a translation context bank
-                                                                 reserved by secure software. In a non-secure translation context bank, this field is
+                                                                 reserved by secure software. In a nonsecure translation context bank, this field is
                                                                  UNK/SBZP.
-                                                                 00 = Use default NS attribute.
-                                                                 01 = Reserved.
-                                                                 10 = Secure.
-                                                                 11 = Non-secure.
+                                                                 0x0 = Use default NS attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Secure.
+                                                                 0x3 = Nonsecure.
 
                                                                  For stage 2, reserved. */
         uint32_t uci                   : 1;  /**< [ 30: 30](R/W) For stage 1, user cache maintenance operation enable.
@@ -1230,7 +1230,7 @@ typedef union
         uint32_t irgn1                 : 2;  /**< [ 25: 24](R/W) For stage 1, inner cachability attributes for TTBR1 table walks.
 
                                                                  For stage 2, reserved. */
-        uint32_t epd1                  : 1;  /**< [ 23: 23](R/W) For stage 1, Translation walk disable for TTBR1 region. This bit controls whether a
+        uint32_t epd1                  : 1;  /**< [ 23: 23](R/W) For stage 1, translation walk disable for TTBR1 region. This bit controls whether a
                                                                  translation table walk is performed on a TLB miss when SMMU()_CB()_TTBR1 is
                                                                  used:
                                                                  0 = If a TLB miss occurs when TTBR1 is used a translation table walk is performed.
@@ -1270,22 +1270,22 @@ typedef union
         uint32_t epd0_sl0              : 2;  /**< [  7:  6](R/W) For stage 1, <6> is reserved. <7> is EPD0, translation walk disable for TTBR0 region. This
                                                                  bit is RES0 for hypervisor and monitor contexts. This bit controls whether a translation
                                                                  table walk is performed on a TLB miss when TTBR0 is used:
-                                                                 0 = If aTLB miss occurs when TTBR0 is used a translation table walk is performed.
-                                                                 1 = If a TLB miss occurs when TTBR0 is used no translation table walk is performed and a
+                                                                 0x0 = If aTLB miss occurs when TTBR0 is used a translation table walk is performed.
+                                                                 0x1 = If a TLB miss occurs when TTBR0 is used no translation table walk is performed and a
                                                                  L1 Translation fault is returned.
 
                                                                  For stage 2, <7:6> is SL0, starting level of the addressed regions. For 4kB page granule
                                                                  size (TG0 == 0):
-                                                                 0 = Level 2.
-                                                                 1 = Level 1.
-                                                                 2 = Level 0.
-                                                                 3 = Reserved.
+                                                                 0x0 = Level 2.
+                                                                 0x1 = Level 1.
+                                                                 0x2 = Level 0.
+                                                                 0x3 = Reserved.
 
                                                                  For 64kB page granule size (TG0 == 1):
-                                                                 0 = Level 3.
-                                                                 1 = Level 2.
-                                                                 2 = Level 1.
-                                                                 3 = Reserved. */
+                                                                 0x0 = Level 3.
+                                                                 0x1 = Level 2.
+                                                                 0x2 = Level 1.
+                                                                 0x3 = Reserved. */
         uint32_t t0sz                  : 6;  /**< [  5:  0](R/W) Size offset of the TTBR0 addressed region, encoded as a six-bit unsigned number giving the
                                                                  size of the region as 2^(64-T0SZ). */
 #else /* Word 0 - Little Endian */
@@ -1294,22 +1294,22 @@ typedef union
         uint32_t epd0_sl0              : 2;  /**< [  7:  6](R/W) For stage 1, <6> is reserved. <7> is EPD0, translation walk disable for TTBR0 region. This
                                                                  bit is RES0 for hypervisor and monitor contexts. This bit controls whether a translation
                                                                  table walk is performed on a TLB miss when TTBR0 is used:
-                                                                 0 = If aTLB miss occurs when TTBR0 is used a translation table walk is performed.
-                                                                 1 = If a TLB miss occurs when TTBR0 is used no translation table walk is performed and a
+                                                                 0x0 = If aTLB miss occurs when TTBR0 is used a translation table walk is performed.
+                                                                 0x1 = If a TLB miss occurs when TTBR0 is used no translation table walk is performed and a
                                                                  L1 Translation fault is returned.
 
                                                                  For stage 2, <7:6> is SL0, starting level of the addressed regions. For 4kB page granule
                                                                  size (TG0 == 0):
-                                                                 0 = Level 2.
-                                                                 1 = Level 1.
-                                                                 2 = Level 0.
-                                                                 3 = Reserved.
+                                                                 0x0 = Level 2.
+                                                                 0x1 = Level 1.
+                                                                 0x2 = Level 0.
+                                                                 0x3 = Reserved.
 
                                                                  For 64kB page granule size (TG0 == 1):
-                                                                 0 = Level 3.
-                                                                 1 = Level 2.
-                                                                 2 = Level 1.
-                                                                 3 = Reserved. */
+                                                                 0x0 = Level 3.
+                                                                 0x1 = Level 2.
+                                                                 0x2 = Level 1.
+                                                                 0x3 = Reserved. */
         uint32_t irgn0                 : 2;  /**< [  9:  8](RO) Inner cachability attributes for TTBR0 table walks.
                                                                  Ignored in CNXXXX. */
         uint32_t orgn0                 : 2;  /**< [ 11: 10](RO) Outer cachability attributes for TTBR0 table walks.
@@ -1339,7 +1339,7 @@ typedef union
                                                                  1 = Select ASID from SMMU()_CB()_TTBR1.
 
                                                                  For stage 2, reserved. */
-        uint32_t epd1                  : 1;  /**< [ 23: 23](R/W) For stage 1, Translation walk disable for TTBR1 region. This bit controls whether a
+        uint32_t epd1                  : 1;  /**< [ 23: 23](R/W) For stage 1, translation walk disable for TTBR1 region. This bit controls whether a
                                                                  translation table walk is performed on a TLB miss when SMMU()_CB()_TTBR1 is
                                                                  used:
                                                                  0 = If a TLB miss occurs when TTBR1 is used a translation table walk is performed.
@@ -1401,7 +1401,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t nscfg1                : 1;  /**< [ 30: 30](R/W) Non-secure attribute for the memory associated with translation table walks using
+        uint32_t nscfg1                : 1;  /**< [ 30: 30](R/W) Nonsecure attribute for the memory associated with translation table walks using
                                                                  SMMU()_CB()_TTBR1. This field only applies for secure owned context banks,
                                                                  otherwise this field is ignored. */
         uint32_t reserved_18_29        : 12;
@@ -1422,7 +1422,7 @@ typedef union
                                                                  For hypervisor and monitor contexts this field is ignored.
 
                                                                  If the value of SEP is changed, then software must invalidate any affected TLB entries. */
-        uint32_t nscfg0                : 1;  /**< [ 14: 14](R/W) Non-secure attribute for the memory associated with translation table walks using
+        uint32_t nscfg0                : 1;  /**< [ 14: 14](R/W) Nonsecure attribute for the memory associated with translation table walks using
                                                                  SMMU()_CB()_TTBR0. This field only applies for secure owned context banks,
                                                                  otherwise this field is ignored. */
         uint32_t reserved_12_13        : 2;
@@ -1486,7 +1486,7 @@ typedef union
         uint32_t hd                    : 1;  /**< [ 11: 11](RO) Hardware management of dirty bit.
                                                                  In CNXXXX, not implemented. */
         uint32_t reserved_12_13        : 2;
-        uint32_t nscfg0                : 1;  /**< [ 14: 14](R/W) Non-secure attribute for the memory associated with translation table walks using
+        uint32_t nscfg0                : 1;  /**< [ 14: 14](R/W) Nonsecure attribute for the memory associated with translation table walks using
                                                                  SMMU()_CB()_TTBR0. This field only applies for secure owned context banks,
                                                                  otherwise this field is ignored. */
         uint32_t sep                   : 3;  /**< [ 17: 15](R/W) Sign extension position. The bit position from which to sign-extend the stage 1 input
@@ -1507,7 +1507,7 @@ typedef union
 
                                                                  If the value of SEP is changed, then software must invalidate any affected TLB entries. */
         uint32_t reserved_18_29        : 12;
-        uint32_t nscfg1                : 1;  /**< [ 30: 30](R/W) Non-secure attribute for the memory associated with translation table walks using
+        uint32_t nscfg1                : 1;  /**< [ 30: 30](R/W) Nonsecure attribute for the memory associated with translation table walks using
                                                                  SMMU()_CB()_TTBR1. This field only applies for secure owned context banks,
                                                                  otherwise this field is ignored. */
         uint32_t reserved_31           : 1;
@@ -1802,15 +1802,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
-        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
 #else /* Word 0 - Little Endian */
-        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -1850,15 +1850,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
-        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
 #else /* Word 0 - Little Endian */
-        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -2147,7 +2147,7 @@ typedef union
                                                                    0 = Non-monitor context. Use VMID or ASID for TLB tagging.
                                                                    1 = Monitor context. Do not use VMID or ASID for TLB tagging.
 
-                                                                 Ignored if the bank is non-secure, or SMMU()_CBAR()[CTYPE] != 0x1. */
+                                                                 Ignored if the bank is nonsecure, or SMMU()_CBAR()[CTYPE] != 0x1. */
         uint32_t va64                  : 1;  /**< [  0:  0](RO) Descriptor format. If set, only AArch64 translations are permitted.
                                                                  For CNXXXX always set; ARM defines this as R/W to allow for 32-bit V7 format. */
 #else /* Word 0 - Little Endian */
@@ -2157,7 +2157,7 @@ typedef union
                                                                    0 = Non-monitor context. Use VMID or ASID for TLB tagging.
                                                                    1 = Monitor context. Do not use VMID or ASID for TLB tagging.
 
-                                                                 Ignored if the bank is non-secure, or SMMU()_CBAR()[CTYPE] != 0x1. */
+                                                                 Ignored if the bank is nonsecure, or SMMU()_CBAR()[CTYPE] != 0x1. */
         uint32_t e2hc                  : 1;  /**< [  2:  2](R/W) Reserved. */
         uint32_t reserved_3_15         : 13;
         uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
@@ -2188,7 +2188,7 @@ typedef union
                                                                    0 = Non-monitor context. Use VMID or ASID for TLB tagging.
                                                                    1 = Monitor context. Do not use VMID or ASID for TLB tagging.
 
-                                                                 Ignored if the bank is non-secure, or SMMU()_CBAR()[CTYPE] != 0x1. */
+                                                                 Ignored if the bank is nonsecure, or SMMU()_CBAR()[CTYPE] != 0x1. */
         uint32_t va64                  : 1;  /**< [  0:  0](RO) Descriptor format. If set, only AArch64 translations are permitted.
                                                                  For CNXXXX always set; ARM defines this as R/W to allow for 32-bit V7 format. */
 #else /* Word 0 - Little Endian */
@@ -2198,7 +2198,7 @@ typedef union
                                                                    0 = Non-monitor context. Use VMID or ASID for TLB tagging.
                                                                    1 = Monitor context. Do not use VMID or ASID for TLB tagging.
 
-                                                                 Ignored if the bank is non-secure, or SMMU()_CBAR()[CTYPE] != 0x1. */
+                                                                 Ignored if the bank is nonsecure, or SMMU()_CBAR()[CTYPE] != 0x1. */
         uint32_t reserved_2            : 1;
         uint32_t reserved_3_15         : 13;
         uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
@@ -2297,7 +2297,7 @@ typedef union
                                                                  In an interaction with the security extensions, the following restrictions apply to secure
                                                                  software: If SMMU()_SCR1[GASRAE]=0, Secure software must not set HYPC to 1 for any
                                                                  secure translation context bank. If SMMU()_SCR1[GASRAE]=1, Secure software must not
-                                                                 set HYPC to 1 for any non-secure translation context bank. Otherwise, UNPREDICTABLE
+                                                                 set HYPC to 1 for any nonsecure translation context bank. Otherwise, UNPREDICTABLE
                                                                  behavior might occur.
 
                                                                  If CTYPE=3, context bank index <2>, see [BPSHCFG_CBNDX0]. */
@@ -2354,7 +2354,7 @@ typedef union
                                                                  In an interaction with the security extensions, the following restrictions apply to secure
                                                                  software: If SMMU()_SCR1[GASRAE]=0, Secure software must not set HYPC to 1 for any
                                                                  secure translation context bank. If SMMU()_SCR1[GASRAE]=1, Secure software must not
-                                                                 set HYPC to 1 for any non-secure translation context bank. Otherwise, UNPREDICTABLE
+                                                                 set HYPC to 1 for any nonsecure translation context bank. Otherwise, UNPREDICTABLE
                                                                  behavior might occur.
 
                                                                  If CTYPE=3, context bank index <2>, see [BPSHCFG_CBNDX0]. */
@@ -3376,10 +3376,10 @@ typedef union
                                                                  1 = Stage 2 translations are supported.
 
                                                                  As stage 2 translation is not supported for secure client accesses, the value returned in
-                                                                 this field relates to SMMU capabilities for non-secure client accesses. */
+                                                                 this field relates to SMMU capabilities for nonsecure client accesses. */
         uint32_t nts                   : 1;  /**< [ 28: 28](RO) Nested translation support.
                                                                  As stage 2 (and therefore nested) translation is not supported for secure client accesses,
-                                                                 the value returned in this field relates to SMMU capabilities for non-secure client
+                                                                 the value returned in this field relates to SMMU capabilities for nonsecure client
                                                                  accesses. */
         uint32_t sms                   : 1;  /**< [ 27: 27](RO) Stream match support. */
         uint32_t atosns                : 1;  /**< [ 26: 26](RO) Address translations operation not supported.
@@ -3399,10 +3399,10 @@ typedef union
         uint32_t btm                   : 1;  /**< [ 13: 13](RO) Broadcast TLB maintenance supported. */
         uint32_t numsidb               : 4;  /**< [ 12:  9](RO) Number of supported stream ID bits. */
         uint32_t exids                 : 1;  /**< [  8:  8](RO) Extended stream IDs are supported. */
-        uint32_t numsmrg               : 8;  /**< [  7:  0](RO/H) Number of supported stream mapping registers groups. Access to this field by non-secure
+        uint32_t numsmrg               : 8;  /**< [  7:  0](RO/H) Number of supported stream mapping registers groups. Access to this field by nonsecure
                                                                  software gives the value configured in SMMU()_SCR1[NSNUMSMRGO]. */
 #else /* Word 0 - Little Endian */
-        uint32_t numsmrg               : 8;  /**< [  7:  0](RO/H) Number of supported stream mapping registers groups. Access to this field by non-secure
+        uint32_t numsmrg               : 8;  /**< [  7:  0](RO/H) Number of supported stream mapping registers groups. Access to this field by nonsecure
                                                                  software gives the value configured in SMMU()_SCR1[NSNUMSMRGO]. */
         uint32_t exids                 : 1;  /**< [  8:  8](RO) Extended stream IDs are supported. */
         uint32_t numsidb               : 4;  /**< [ 12:  9](RO) Number of supported stream ID bits. */
@@ -3424,14 +3424,14 @@ typedef union
         uint32_t sms                   : 1;  /**< [ 27: 27](RO) Stream match support. */
         uint32_t nts                   : 1;  /**< [ 28: 28](RO) Nested translation support.
                                                                  As stage 2 (and therefore nested) translation is not supported for secure client accesses,
-                                                                 the value returned in this field relates to SMMU capabilities for non-secure client
+                                                                 the value returned in this field relates to SMMU capabilities for nonsecure client
                                                                  accesses. */
         uint32_t s2ts                  : 1;  /**< [ 29: 29](RO) Stage 2 translation support.
                                                                  0 = Stage 2 translations are not supported.
                                                                  1 = Stage 2 translations are supported.
 
                                                                  As stage 2 translation is not supported for secure client accesses, the value returned in
-                                                                 this field relates to SMMU capabilities for non-secure client accesses. */
+                                                                 this field relates to SMMU capabilities for nonsecure client accesses. */
         uint32_t s1ts                  : 1;  /**< [ 30: 30](RO) Stage 1 translation support. */
         uint32_t ses                   : 1;  /**< [ 31: 31](SRO) Security extensions support. */
 #endif /* Word 0 - End */
@@ -3501,19 +3501,19 @@ typedef union
                                                                  streams.
 
                                                                  CNXXXX implements a 16-bit security state determination table. */
-        uint32_t numssdndxb            : 4;  /**< [ 11:  8](SRO) Indicates the number of SSD_Index bits for indexing the security state determination table. */
+        uint32_t numssdndxb            : 4;  /**< [ 11:  8](SRO) Indicates the number of SSD index bits for indexing the security state determination table. */
         uint32_t numcb                 : 8;  /**< [  7:  0](RO/H) Indicates the total number of implemented translation context banks in the range 0-128.
-                                                                 The value reported in NUMCB includes translation context banks that only support stage 2
+                                                                 The value reported in [NUMCB] includes translation context banks that only support stage 2
                                                                  format. The number of translation context banks that support the stage 1 format is given
-                                                                 by [NUMCB] - [NUMS2CB]. A read of this field by non-secure software gives the value
+                                                                 by [NUMCB] - [NUMS2CB]. A read of this field by nonsecure software gives the value
                                                                  configured in SMMU()_SCR1[NSNUMCBO]. */
 #else /* Word 0 - Little Endian */
         uint32_t numcb                 : 8;  /**< [  7:  0](RO/H) Indicates the total number of implemented translation context banks in the range 0-128.
-                                                                 The value reported in NUMCB includes translation context banks that only support stage 2
+                                                                 The value reported in [NUMCB] includes translation context banks that only support stage 2
                                                                  format. The number of translation context banks that support the stage 1 format is given
-                                                                 by [NUMCB] - [NUMS2CB]. A read of this field by non-secure software gives the value
+                                                                 by [NUMCB] - [NUMS2CB]. A read of this field by nonsecure software gives the value
                                                                  configured in SMMU()_SCR1[NSNUMCBO]. */
-        uint32_t numssdndxb            : 4;  /**< [ 11:  8](SRO) Indicates the number of SSD_Index bits for indexing the security state determination table. */
+        uint32_t numssdndxb            : 4;  /**< [ 11:  8](SRO) Indicates the number of SSD index bits for indexing the security state determination table. */
         uint32_t ssdtp                 : 2;  /**< [ 13: 12](SRO) Security state determination table present.
                                                                  0x0 = The security state determination address space is UNK/WI.
                                                                  0x1 = The security state determination address space is populated for up to 15-bit
@@ -3882,8 +3882,8 @@ typedef union
         uint64_t reserved_48_63        : 16;
         uint64_t pa                    : 36; /**< [ 47: 12](SRO/H) If [FAULT]=0, physical address of the completed lookup. */
         uint64_t reserved_3_11         : 9;
-        uint64_t nsec                  : 1;  /**< [  2:  2](SRO/H) If [FAULT]=0, non-secure. The final resolved secure state for the translation, matching
-                                                                 the non-secure bit passed to the L2 cache. */
+        uint64_t nsec                  : 1;  /**< [  2:  2](SRO/H) If [FAULT]=0, nonsecure. The final resolved secure state for the translation, matching
+                                                                 the nonsecure bit passed to the L2 cache. */
         uint64_t active                : 1;  /**< [  1:  1](SRO/H) Translation in progress. Set on write to SMMU()_LOOK_REQ[GO], cleared when translation
                                                                  has completed. */
         uint64_t fault                 : 1;  /**< [  0:  0](SRO/H) Fault. If 0 indicates completed successfully. If 1, the fault will not be recorded in the
@@ -3893,8 +3893,8 @@ typedef union
                                                                  error registers. */
         uint64_t active                : 1;  /**< [  1:  1](SRO/H) Translation in progress. Set on write to SMMU()_LOOK_REQ[GO], cleared when translation
                                                                  has completed. */
-        uint64_t nsec                  : 1;  /**< [  2:  2](SRO/H) If [FAULT]=0, non-secure. The final resolved secure state for the translation, matching
-                                                                 the non-secure bit passed to the L2 cache. */
+        uint64_t nsec                  : 1;  /**< [  2:  2](SRO/H) If [FAULT]=0, nonsecure. The final resolved secure state for the translation, matching
+                                                                 the nonsecure bit passed to the L2 cache. */
         uint64_t reserved_3_11         : 9;
         uint64_t pa                    : 36; /**< [ 47: 12](SRO/H) If [FAULT]=0, physical address of the completed lookup. */
         uint64_t reserved_48_63        : 16;
@@ -4072,20 +4072,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SMMU()_MSIX_VEC()_ADDR, SMMU()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of SMMU()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SMMU(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SMMU()_MSIX_VEC()_ADDR, SMMU()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of SMMU()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SMMU(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
@@ -4102,20 +4102,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SMMU()_MSIX_VEC()_ADDR, SMMU()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of SMMU()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SMMU(0)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SMMU()_MSIX_VEC()_ADDR, SMMU()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of SMMU()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SMMU(0)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
@@ -4196,7 +4196,7 @@ static inline uint64_t BDK_SMMUX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 /**
  * Register (NCB) smmu#_ns_hit_perf
  *
- * SMMU Non-secure Hits Performance Counter Register
+ * SMMU Nonsecure Hits Performance Counter Register
  */
 typedef union
 {
@@ -4204,9 +4204,9 @@ typedef union
     struct bdk_smmux_ns_hit_perf_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of hits in non-secure mode. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of hits in nonsecure mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of hits in non-secure mode. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of hits in nonsecure mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_ns_hit_perf_s cn; */
@@ -4235,7 +4235,7 @@ static inline uint64_t BDK_SMMUX_NS_HIT_PERF(unsigned long a)
  * Register (NCB32b) smmu#_nsacr
  *
  * SMMU Secure Alias for Auxiliary Configuration Register
- * Provides secure alias for non-secure register SMMU()_(S)ACR.
+ * Provides secure alias for nonsecure register SMMU()_(S)ACR.
  */
 typedef union
 {
@@ -4282,7 +4282,7 @@ static inline uint64_t BDK_SMMUX_NSACR(unsigned long a)
  * Register (NCB32b) smmu#_nscr0
  *
  * SMMU Secure Alias for Configuration Register 0
- * Provides secure alias for non-secure register SMMU()_(S)CR0.
+ * Provides secure alias for nonsecure register SMMU()_(S)CR0.
  */
 typedef union
 {
@@ -4299,7 +4299,7 @@ typedef union
                                                                  The VMID is held in SMMU()_CBA2R()[VMID16].
                                                                  The SMMU()_CBAR()[VMID] field is 0.
 
-                                                                 Only exists in the non-secure copy of this register.
+                                                                 Only exists in the nonsecure copy of this register.
 
                                                                  In pass 1, this field must be 0. */
         uint32_t hypmode               : 1;  /**< [ 30: 30](R/W) Hypervisor mode. Selects which hypervisor context is used:
@@ -4309,34 +4309,34 @@ typedef union
                                                                  If this bit is changed, TLB maintenance is required.
 
                                                                  Only exists in the non secure copy of this register. */
-        uint32_t nscfg                 : 2;  /**< [ 29: 28](SR/W) Non-secure configuration. Only exist in secure copy of register, RES0 in non-secure copy.
+        uint32_t nscfg                 : 2;  /**< [ 29: 28](SR/W) Nonsecure configuration. Only exist in secure copy of register, RES0 in nonsecure copy.
                                                                  This field only applies to secure transactions bypassing the SMMU stream mapping
                                                                  process.
-                                                                 00 = Use default NS attribute.
-                                                                 01 = Reserved.
-                                                                 10 = Secure.
-                                                                 11 = Non-secure. */
+                                                                 0x0 = Use default NS attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Secure.
+                                                                 0x3 = Nonsecure. */
         uint32_t wacfg                 : 2;  /**< [ 27: 26](RO) Write-allocate configuration, controls the allocation hint for write accesses. This field
                                                                  applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Write-allocate.
-                                                                 11 = No write-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Write-allocate.
+                                                                 0x3 = No write-allocate.
 
                                                                  Ignored in CNXXXX. */
         uint32_t racfg                 : 2;  /**< [ 25: 24](RO) Read-allocate configuration, controls the allocation hint for read accesses. This field
                                                                  applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Read-allocate.
-                                                                 11 = No read-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Read-allocate.
+                                                                 0x3 = No read-allocate.
 
                                                                  Ignored in CNXXXX. */
         uint32_t shcfg                 : 2;  /**< [ 23: 22](RO) Shared configuration. Applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default shareable attributes.
-                                                                 01 = Outer sharable.
-                                                                 10 = Inner sharable.
-                                                                 11 = Non-sharable.
+                                                                 0x0 = Default shareable attributes.
+                                                                 0x1 = Outer sharable.
+                                                                 0x2 = Inner sharable.
+                                                                 0x3 = Non-sharable.
 
                                                                  Ignored in CNXXXX. */
         uint32_t smcfcfg               : 1;  /**< [ 21: 21](RO) Stream match conflict fault configuration. Controls transactions with multiple matches in
@@ -4353,10 +4353,10 @@ typedef union
                                                                  that are not mapped to a translation context bank by setting the minimum sharability
                                                                  domain applied to any barrier.  Applies to transactions bypassing the stream mapping
                                                                  table.
-                                                                 00 = No effect.
-                                                                 01 = Inner sharable.
-                                                                 10 = Outer sharable.
-                                                                 11 = Full system.
+                                                                 0x0 = No effect.
+                                                                 0x1 = Inner sharable.
+                                                                 0x2 = Outer sharable.
+                                                                 0x3 = Full system.
 
                                                                  Ignored in CNXXXX. */
         uint32_t fb                    : 1;  /**< [ 13: 13](R/W) Force broadcast of TLB and instruction cache maintenance operations. Applies to
@@ -4372,7 +4372,7 @@ typedef union
                                                                  1 = SMMU TLBs are privately managed and are not require to respond to broadcast TLB
                                                                  maintenance operations from the wider system.
 
-                                                                 CNXXXX honors this hint, but both the secure and non-secure version must be set for
+                                                                 CNXXXX honors this hint, but both the secure and nonsecure version must be set for
                                                                  private management.
 
                                                                  Internal:
@@ -4395,10 +4395,10 @@ typedef union
 
                                                                  In CNXXXX always 1, no stalling. */
         uint32_t transientcfg          : 2;  /**< [  7:  6](RO) Transient configuration controls the transient allocation hint.
-                                                                 00 = Default transient allocation attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Non-transient.
-                                                                 11 = Transient.
+                                                                 0x0 = Default transient allocation attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Non-transient.
+                                                                 0x3 = Transient.
 
                                                                  Not implemented in CNXXXX. */
         uint32_t gcfgfie               : 1;  /**< [  5:  5](RO) Global configuration fault interrupt enable.
@@ -4465,10 +4465,10 @@ typedef union
 
                                                                  In CNXXXX always zero, as does not support configuration faults. */
         uint32_t transientcfg          : 2;  /**< [  7:  6](RO) Transient configuration controls the transient allocation hint.
-                                                                 00 = Default transient allocation attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Non-transient.
-                                                                 11 = Transient.
+                                                                 0x0 = Default transient allocation attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Non-transient.
+                                                                 0x3 = Transient.
 
                                                                  Not implemented in CNXXXX. */
         uint32_t stalld                : 1;  /**< [  8:  8](RO) Stall disable.
@@ -4492,7 +4492,7 @@ typedef union
                                                                  1 = SMMU TLBs are privately managed and are not require to respond to broadcast TLB
                                                                  maintenance operations from the wider system.
 
-                                                                 CNXXXX honors this hint, but both the secure and non-secure version must be set for
+                                                                 CNXXXX honors this hint, but both the secure and nonsecure version must be set for
                                                                  private management.
 
                                                                  Internal:
@@ -4510,10 +4510,10 @@ typedef union
                                                                  that are not mapped to a translation context bank by setting the minimum sharability
                                                                  domain applied to any barrier.  Applies to transactions bypassing the stream mapping
                                                                  table.
-                                                                 00 = No effect.
-                                                                 01 = Inner sharable.
-                                                                 10 = Outer sharable.
-                                                                 11 = Full system.
+                                                                 0x0 = No effect.
+                                                                 0x1 = Inner sharable.
+                                                                 0x2 = Outer sharable.
+                                                                 0x3 = Full system.
 
                                                                  Ignored in CNXXXX. */
         uint32_t memattr               : 4;  /**< [ 19: 16](R/W) Memory attributes for bypass transactions if MTCFG == 1. */
@@ -4527,35 +4527,35 @@ typedef union
 
                                                                  CNXXXX detects all stream match conflicts and always faults. */
         uint32_t shcfg                 : 2;  /**< [ 23: 22](RO) Shared configuration. Applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default shareable attributes.
-                                                                 01 = Outer sharable.
-                                                                 10 = Inner sharable.
-                                                                 11 = Non-sharable.
+                                                                 0x0 = Default shareable attributes.
+                                                                 0x1 = Outer sharable.
+                                                                 0x2 = Inner sharable.
+                                                                 0x3 = Non-sharable.
 
                                                                  Ignored in CNXXXX. */
         uint32_t racfg                 : 2;  /**< [ 25: 24](RO) Read-allocate configuration, controls the allocation hint for read accesses. This field
                                                                  applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Read-allocate.
-                                                                 11 = No read-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Read-allocate.
+                                                                 0x3 = No read-allocate.
 
                                                                  Ignored in CNXXXX. */
         uint32_t wacfg                 : 2;  /**< [ 27: 26](RO) Write-allocate configuration, controls the allocation hint for write accesses. This field
                                                                  applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Write-allocate.
-                                                                 11 = No write-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Write-allocate.
+                                                                 0x3 = No write-allocate.
 
                                                                  Ignored in CNXXXX. */
-        uint32_t nscfg                 : 2;  /**< [ 29: 28](SR/W) Non-secure configuration. Only exist in secure copy of register, RES0 in non-secure copy.
+        uint32_t nscfg                 : 2;  /**< [ 29: 28](SR/W) Nonsecure configuration. Only exist in secure copy of register, RES0 in nonsecure copy.
                                                                  This field only applies to secure transactions bypassing the SMMU stream mapping
                                                                  process.
-                                                                 00 = Use default NS attribute.
-                                                                 01 = Reserved.
-                                                                 10 = Secure.
-                                                                 11 = Non-secure. */
+                                                                 0x0 = Use default NS attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Secure.
+                                                                 0x3 = Nonsecure. */
         uint32_t hypmode               : 1;  /**< [ 30: 30](R/W) Hypervisor mode. Selects which hypervisor context is used:
                                                                    0 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
                                                                    1 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
@@ -4572,7 +4572,7 @@ typedef union
                                                                  The VMID is held in SMMU()_CBA2R()[VMID16].
                                                                  The SMMU()_CBAR()[VMID] field is 0.
 
-                                                                 Only exists in the non-secure copy of this register.
+                                                                 Only exists in the nonsecure copy of this register.
 
                                                                  In pass 1, this field must be 0. */
 #endif /* Word 0 - End */
@@ -4603,7 +4603,7 @@ static inline uint64_t BDK_SMMUX_NSCR0(unsigned long a)
  * Register (NCB32b) smmu#_nscr2
  *
  * SMMU Secure Alias for Configuration Register 2
- * Provides secure alias for non-secure register SMMU()_(S)CR2.
+ * Provides secure alias for nonsecure register SMMU()_(S)CR2.
  */
 typedef union
 {
@@ -4613,7 +4613,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t exsmrgenable          : 1;  /**< [ 31: 31](RO) Enables extended stream matching extension.
                                                                  In CNXXXX, extended stream matching is not implemented. */
-        uint32_t exnssmrgdisable       : 1;  /**< [ 30: 30](SRO) Disables use of extended stream match register groups by non-secure software.
+        uint32_t exnssmrgdisable       : 1;  /**< [ 30: 30](SRO) Disables use of extended stream match register groups by nonsecure software.
                                                                  Only exists in the secure copy of this register.
 
                                                                  In CNXXXX, extended stream matching is not implemented. */
@@ -4638,7 +4638,7 @@ typedef union
         uint32_t compindexenable       : 1;  /**< [ 29: 29](RO) StreamID compressed index match enable.
 
                                                                  In CNXXXX, StreamID compressed indexing is not implemented. */
-        uint32_t exnssmrgdisable       : 1;  /**< [ 30: 30](SRO) Disables use of extended stream match register groups by non-secure software.
+        uint32_t exnssmrgdisable       : 1;  /**< [ 30: 30](SRO) Disables use of extended stream match register groups by nonsecure software.
                                                                  Only exists in the secure copy of this register.
 
                                                                  In CNXXXX, extended stream matching is not implemented. */
@@ -4672,7 +4672,7 @@ static inline uint64_t BDK_SMMUX_NSCR2(unsigned long a)
  * Register (NCB) smmu#_nsgfar
  *
  * SMMU Secure Alias for Global Fault Address Register
- * Provides secure alias for non-secure register SMMU()_(S)GFAR.
+ * Provides secure alias for nonsecure register SMMU()_(S)GFAR.
  */
 typedef union
 {
@@ -4725,7 +4725,7 @@ static inline uint64_t BDK_SMMUX_NSGFAR(unsigned long a)
  * Register (NCB32b) smmu#_nsgfsr
  *
  * SMMU Secure Alias for Global Fault Status Register
- * Provides secure alias for non-secure register SMMU()_(S)GFSR.
+ * Provides secure alias for nonsecure register SMMU()_(S)GFSR.
  */
 typedef union
 {
@@ -4802,7 +4802,7 @@ static inline uint64_t BDK_SMMUX_NSGFSR(unsigned long a)
  * Register (NCB32b) smmu#_nsgfsrrestore
  *
  * SMMU Secure Alias for Global Fault Status Restore Register
- * Provides secure alias for non-secure register SMMU()_(S)GFSRRESTORE.
+ * Provides secure alias for nonsecure register SMMU()_(S)GFSRRESTORE.
  */
 typedef union
 {
@@ -4841,7 +4841,7 @@ static inline uint64_t BDK_SMMUX_NSGFSRRESTORE(unsigned long a)
  * Register (NCB32b) smmu#_nsgfsynr0
  *
  * SMMU Secure Alias for Global Fault Syndrome Register 0
- * Provides secure alias for non-secure register SMMU()_(S)GFSYNR0.
+ * Provides secure alias for nonsecure register SMMU()_(S)GFSYNR0.
  */
 typedef union
 {
@@ -4853,17 +4853,17 @@ typedef union
         uint32_t imp                   : 8;  /**< [ 15:  8](RO) Reserved for implementation. */
         uint32_t reserved_7            : 1;
         uint32_t ats                   : 1;  /**< [  6:  6](RO) Address translation operation fault. For CNXXXX zero, SMMU()_IDR0[ATOSNS] not supported. */
-        uint32_t nsattr                : 1;  /**< [  5:  5](R/W/H) Non-secure attribute.
+        uint32_t nsattr                : 1;  /**< [  5:  5](R/W/H) Nonsecure attribute.
                                                                  0 = The faulty transaction has the secure attribute.
-                                                                 1 = The faulty transaction has the non-secure attribute. */
-        uint32_t nsstate               : 1;  /**< [  4:  4](SR/W/H) Non-secure state.
+                                                                 1 = The faulty transaction has the nonsecure attribute. */
+        uint32_t nsstate               : 1;  /**< [  4:  4](SR/W/H) Nonsecure state.
                                                                  0 = The faulty transaction is associated with a secure device.
-                                                                 1 = The faulty transaction is associated with a non-secure device.
+                                                                 1 = The faulty transaction is associated with a nonsecure device.
 
                                                                  This field is only valid for the secure state.
 
                                                                  This field may read 1 in the event that a fault is encountered in relation to a
-                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]=1. */
+                                                                 nonsecure client device and where SMMU()_SCR1[GEFRO]=1. */
         uint32_t ind                   : 1;  /**< [  3:  3](R/W/H) Instruction not data.
                                                                  0 = The faulty transaction has the data access attribute.
                                                                  1 = The faulty transaction has the instruction access attribute. */
@@ -4893,17 +4893,17 @@ typedef union
         uint32_t ind                   : 1;  /**< [  3:  3](R/W/H) Instruction not data.
                                                                  0 = The faulty transaction has the data access attribute.
                                                                  1 = The faulty transaction has the instruction access attribute. */
-        uint32_t nsstate               : 1;  /**< [  4:  4](SR/W/H) Non-secure state.
+        uint32_t nsstate               : 1;  /**< [  4:  4](SR/W/H) Nonsecure state.
                                                                  0 = The faulty transaction is associated with a secure device.
-                                                                 1 = The faulty transaction is associated with a non-secure device.
+                                                                 1 = The faulty transaction is associated with a nonsecure device.
 
                                                                  This field is only valid for the secure state.
 
                                                                  This field may read 1 in the event that a fault is encountered in relation to a
-                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]=1. */
-        uint32_t nsattr                : 1;  /**< [  5:  5](R/W/H) Non-secure attribute.
+                                                                 nonsecure client device and where SMMU()_SCR1[GEFRO]=1. */
+        uint32_t nsattr                : 1;  /**< [  5:  5](R/W/H) Nonsecure attribute.
                                                                  0 = The faulty transaction has the secure attribute.
-                                                                 1 = The faulty transaction has the non-secure attribute. */
+                                                                 1 = The faulty transaction has the nonsecure attribute. */
         uint32_t ats                   : 1;  /**< [  6:  6](RO) Address translation operation fault. For CNXXXX zero, SMMU()_IDR0[ATOSNS] not supported. */
         uint32_t reserved_7            : 1;
         uint32_t imp                   : 8;  /**< [ 15:  8](RO) Reserved for implementation. */
@@ -4936,7 +4936,7 @@ static inline uint64_t BDK_SMMUX_NSGFSYNR0(unsigned long a)
  * Register (NCB32b) smmu#_nsgfsynr1
  *
  * SMMU Secure Alias for Global Fault Syndrome Register 1
- * Provides secure alias for non-secure register SMMU()_(S)GFSYNR1.
+ * Provides secure alias for nonsecure register SMMU()_(S)GFSYNR1.
  */
 typedef union
 {
@@ -4944,17 +4944,17 @@ typedef union
     struct bdk_smmux_nsgfsynr1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) The SSD_Index of the transaction that caused the fault. The SSD_Index field is only
-                                                                 accessible to configuration accesses by secure software. Non-secure configuration accesses
-                                                                 treat this field as RAZ/WI.
+        uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) The SSD index of the transaction that caused the fault. [SSD_INDEX] is only
+                                                                 accessible to configuration accesses by secure software. Nonsecure configuration
+                                                                 accesses treat this field as RAZ/WI.
 
                                                                  For CNXXXX, [SSD_INDEX] is always the same as [STREAMID]. */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) The stream ID of the transaction that caused the fault. */
 #else /* Word 0 - Little Endian */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) The stream ID of the transaction that caused the fault. */
-        uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) The SSD_Index of the transaction that caused the fault. The SSD_Index field is only
-                                                                 accessible to configuration accesses by secure software. Non-secure configuration accesses
-                                                                 treat this field as RAZ/WI.
+        uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) The SSD index of the transaction that caused the fault. [SSD_INDEX] is only
+                                                                 accessible to configuration accesses by secure software. Nonsecure configuration
+                                                                 accesses treat this field as RAZ/WI.
 
                                                                  For CNXXXX, [SSD_INDEX] is always the same as [STREAMID]. */
 #endif /* Word 0 - End */
@@ -4985,7 +4985,7 @@ static inline uint64_t BDK_SMMUX_NSGFSYNR1(unsigned long a)
  * Register (NCB32b) smmu#_nsgfsynr2
  *
  * SMMU Secure Alias for Global Fault Syndrome Register 2
- * Provides secure alias for non-secure register SMMU()_(S)GFSYNR2.
+ * Provides secure alias for nonsecure register SMMU()_(S)GFSYNR2.
  */
 typedef union
 {
@@ -5023,7 +5023,7 @@ static inline uint64_t BDK_SMMUX_NSGFSYNR2(unsigned long a)
 /**
  * Register (NCB) smmu#_nsmiss_perf
  *
- * SMMU Non-secure Misses Performance Counter Register
+ * SMMU Nonsecure Misses Performance Counter Register
  */
 typedef union
 {
@@ -5031,10 +5031,10 @@ typedef union
     struct bdk_smmux_nsmiss_perf_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in nonsecure mode which missed the IOTLB.
                                                                  Also includes sign-extension position translation faults. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in nonsecure mode which missed the IOTLB.
                                                                  Also includes sign-extension position translation faults. */
 #endif /* Word 0 - End */
     } s;
@@ -5063,7 +5063,7 @@ static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a)
 /**
  * Register (NCB) smmu#_nsptread_perf
  *
- * SMMU Non-secure Page Table Reads Performance Counter Register
+ * SMMU Nonsecure Page Table Reads Performance Counter Register
  */
 typedef union
 {
@@ -5071,9 +5071,9 @@ typedef union
     struct bdk_smmux_nsptread_perf_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to nonsecure memory. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to nonsecure memory. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsptread_perf_s cn; */
@@ -5529,7 +5529,7 @@ static inline uint64_t BDK_SMMUX_PIDR7(unsigned long a)
  * the stream mapping group to which this register belongs.
  * An SMMU()_S2CR() register reserved by secure software using
  * SMMU()_SCR1[NSNUMSMRGO] must only specify a translation context bank that is reserved by
- * secure software. An SMMU()_S2CR() register that is accessible from the non-secure
+ * secure software. An SMMU()_S2CR() register that is accessible from the nonsecure
  * state must only specify a translation context bank that is not reserved by secure software
  */
 typedef union
@@ -5541,10 +5541,10 @@ typedef union
         uint32_t imp                   : 2;  /**< [ 31: 30](RAZ) Reserved. */
         uint32_t transientcfg          : 2;  /**< [ 29: 28](RO) For CTYPE=0 or 1, transient allocate configuration.
 
-                                                                 0 = Use the default transient allocation attributes.
-                                                                 1 = Reserved.
-                                                                 2 = Non-transient.
-                                                                 3 = Transient.
+                                                                 0x0 = Use the default transient allocation attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Non-transient.
+                                                                 0x3 = Transient.
 
                                                                  For CTYPE=2, reserved.
 
@@ -5563,9 +5563,9 @@ typedef union
                                                                  For CTYPE=2, reserved. */
         uint32_t privcfg_bsu           : 2;  /**< [ 25: 24](R/W) For CTYPE=0, PRIVCFG, privileged attribute configuration.
 
-                                                                 0 = Default privilege attribute.
+                                                                 0x0 = Default privilege attribute.
 
-                                                                 1 = Privledged access never.  This encoding is reserved if SMMU()_IDR2[DIPANS] is
+                                                                 0x1 = Privledged access never.  This encoding is reserved if SMMU()_IDR2[DIPANS] is
                                                                      clear.
                                                                      When a context bank is configured to use this encoding, then any transaction from
                                                                      the upstream device is considered to be marked as privileged and any attempt to access
@@ -5579,48 +5579,48 @@ typedef union
                                                                      For E2HC banks then there are two levels of privilege and this encoding behaves as
                                                                      normal.
 
-                                                                 2 = Unprivileged.
+                                                                 0x2 = Unprivileged.
 
-                                                                 3 = Privileged.
+                                                                 0x3 = Privileged.
 
                                                                  For CTYPE=1, BSU, barrier shareability upgrade. Ignored in CNXXXX.
 
                                                                  For CTYPE=2, reserved. */
         uint32_t wacfg                 : 2;  /**< [ 23: 22](RO) For CTYPE=0 or 1, write allocate configuration.
 
-                                                                 0 = Default allocation attribute.
-                                                                 1 = Reserved.
-                                                                 2 = Write-allocate.
-                                                                 3 = No write-allocate.
+                                                                 0x0 = Default allocation attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Write-allocate.
+                                                                 0x3 = No write-allocate.
 
                                                                  For CTYPE=2, reserved.
 
                                                                  For CNXXXX not implemented. */
         uint32_t racfg                 : 2;  /**< [ 21: 20](RO) For CTYPE=0 or 1, read allocate configuration.
 
-                                                                 0 = Default allocation attribute.
-                                                                 1 = Reserved.
-                                                                 2 = Read-allocate.
-                                                                 3 = No read-allocate.
+                                                                 0x0 = Default allocation attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Read-allocate.
+                                                                 0x3 = No read-allocate.
 
                                                                  For CTYPE=2, reserved.
 
                                                                  For CNXXXX not implemented. */
-        uint32_t nscfg                 : 2;  /**< [ 19: 18](SR/W) For CTYPE=0 or 1, Non-secure configuration.
+        uint32_t nscfg                 : 2;  /**< [ 19: 18](SR/W) For CTYPE=0 or 1, Nonsecure configuration.
 
-                                                                 0 = Default security attribute.
-                                                                 1 = Reserved.
-                                                                 2 = Secure configuration.
-                                                                 3 = Non secure configuration.
+                                                                 0x0 = Default security attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Secure configuration.
+                                                                 0x3 = Non secure configuration.
 
                                                                  For CTYPE=2, reserved.
 
                                                                  This field exists only for secure stream mapping register groups. */
         uint32_t ctype                 : 2;  /**< [ 17: 16](R/W) Context register type. Indicates the meaning of the remaining fields in this register:
-                                                                 0 = Translation context bank index.
-                                                                 1 = Bypass mode.
-                                                                 2 = Fault, no index.
-                                                                 3 = Reserved. */
+                                                                 0x0 = Translation context bank index.
+                                                                 0x1 = Bypass mode.
+                                                                 0x2 = Fault, no index.
+                                                                 0x3 = Reserved. */
         uint32_t memattr               : 4;  /**< [ 15: 12](R/W) For CTYPE=0 or 1, memory attributes.
 
                                                                  For CTYPE=2, reserved. */
@@ -5636,10 +5636,10 @@ typedef union
                                                                  1 = The stream match register group is valid and SMMU()_SMR()[VALID] is used as
                                                                  an extra mask bit. CNXXXX recommends this setting. */
         uint32_t shcfg                 : 2;  /**< [  9:  8](RO) For CTYPE=0 or 1, Sharability configuration.
-                                                                 0 = Default sharability attribute.
-                                                                 1 = Outer sharable.
-                                                                 2 = Inner sharable.
-                                                                 3 = Non-sharable.
+                                                                 0x0 = Default sharability attribute.
+                                                                 0x1 = Outer sharable.
+                                                                 0x2 = Inner sharable.
+                                                                 0x3 = Non-sharable.
 
                                                                  For CTYPE=2, reserved.
 
@@ -5666,10 +5666,10 @@ typedef union
                                                                  also reserved by secure software, or specify a translation context bank configured for the
                                                                  Stage 1 context with stage 2 bypass format. */
         uint32_t shcfg                 : 2;  /**< [  9:  8](RO) For CTYPE=0 or 1, Sharability configuration.
-                                                                 0 = Default sharability attribute.
-                                                                 1 = Outer sharable.
-                                                                 2 = Inner sharable.
-                                                                 3 = Non-sharable.
+                                                                 0x0 = Default sharability attribute.
+                                                                 0x1 = Outer sharable.
+                                                                 0x2 = Inner sharable.
+                                                                 0x3 = Non-sharable.
 
                                                                  For CTYPE=2, reserved.
 
@@ -5689,45 +5689,45 @@ typedef union
 
                                                                  For CTYPE=2, reserved. */
         uint32_t ctype                 : 2;  /**< [ 17: 16](R/W) Context register type. Indicates the meaning of the remaining fields in this register:
-                                                                 0 = Translation context bank index.
-                                                                 1 = Bypass mode.
-                                                                 2 = Fault, no index.
-                                                                 3 = Reserved. */
-        uint32_t nscfg                 : 2;  /**< [ 19: 18](SR/W) For CTYPE=0 or 1, Non-secure configuration.
+                                                                 0x0 = Translation context bank index.
+                                                                 0x1 = Bypass mode.
+                                                                 0x2 = Fault, no index.
+                                                                 0x3 = Reserved. */
+        uint32_t nscfg                 : 2;  /**< [ 19: 18](SR/W) For CTYPE=0 or 1, Nonsecure configuration.
 
-                                                                 0 = Default security attribute.
-                                                                 1 = Reserved.
-                                                                 2 = Secure configuration.
-                                                                 3 = Non secure configuration.
+                                                                 0x0 = Default security attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Secure configuration.
+                                                                 0x3 = Non secure configuration.
 
                                                                  For CTYPE=2, reserved.
 
                                                                  This field exists only for secure stream mapping register groups. */
         uint32_t racfg                 : 2;  /**< [ 21: 20](RO) For CTYPE=0 or 1, read allocate configuration.
 
-                                                                 0 = Default allocation attribute.
-                                                                 1 = Reserved.
-                                                                 2 = Read-allocate.
-                                                                 3 = No read-allocate.
+                                                                 0x0 = Default allocation attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Read-allocate.
+                                                                 0x3 = No read-allocate.
 
                                                                  For CTYPE=2, reserved.
 
                                                                  For CNXXXX not implemented. */
         uint32_t wacfg                 : 2;  /**< [ 23: 22](RO) For CTYPE=0 or 1, write allocate configuration.
 
-                                                                 0 = Default allocation attribute.
-                                                                 1 = Reserved.
-                                                                 2 = Write-allocate.
-                                                                 3 = No write-allocate.
+                                                                 0x0 = Default allocation attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Write-allocate.
+                                                                 0x3 = No write-allocate.
 
                                                                  For CTYPE=2, reserved.
 
                                                                  For CNXXXX not implemented. */
         uint32_t privcfg_bsu           : 2;  /**< [ 25: 24](R/W) For CTYPE=0, PRIVCFG, privileged attribute configuration.
 
-                                                                 0 = Default privilege attribute.
+                                                                 0x0 = Default privilege attribute.
 
-                                                                 1 = Privledged access never.  This encoding is reserved if SMMU()_IDR2[DIPANS] is
+                                                                 0x1 = Privledged access never.  This encoding is reserved if SMMU()_IDR2[DIPANS] is
                                                                      clear.
                                                                      When a context bank is configured to use this encoding, then any transaction from
                                                                      the upstream device is considered to be marked as privileged and any attempt to access
@@ -5741,9 +5741,9 @@ typedef union
                                                                      For E2HC banks then there are two levels of privilege and this encoding behaves as
                                                                      normal.
 
-                                                                 2 = Unprivileged.
+                                                                 0x2 = Unprivileged.
 
-                                                                 3 = Privileged.
+                                                                 0x3 = Privileged.
 
                                                                  For CTYPE=1, BSU, barrier shareability upgrade. Ignored in CNXXXX.
 
@@ -5762,10 +5762,10 @@ typedef union
                                                                  For CTYPE=2, reserved. */
         uint32_t transientcfg          : 2;  /**< [ 29: 28](RO) For CTYPE=0 or 1, transient allocate configuration.
 
-                                                                 0 = Use the default transient allocation attributes.
-                                                                 1 = Reserved.
-                                                                 2 = Non-transient.
-                                                                 3 = Transient.
+                                                                 0x0 = Use the default transient allocation attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Non-transient.
+                                                                 0x3 = Transient.
 
                                                                  For CTYPE=2, reserved.
 
@@ -5884,8 +5884,8 @@ static inline uint64_t BDK_SMMUX_SACR(unsigned long a)
  * Register (NCB32b) smmu#_scr0
  *
  * SMMU (Secure) Configuration Register 0
- * The non-secure version of this register does not provide full top-level control of the SMMU.
- * Some fields only apply to secure or non-secure transactions.
+ * The nonsecure version of this register does not provide full top-level control of the SMMU.
+ * Some fields only apply to secure or nonsecure transactions.
  */
 typedef union
 {
@@ -5902,7 +5902,7 @@ typedef union
                                                                  The VMID is held in SMMU()_CBA2R()[VMID16].
                                                                  The SMMU()_CBAR()[VMID] field is 0.
 
-                                                                 Only exists in the non-secure copy of this register.
+                                                                 Only exists in the nonsecure copy of this register.
 
                                                                  In pass 1, this field must be 0. */
         uint32_t hypmode               : 1;  /**< [ 30: 30](R/W) Hypervisor mode. Selects which hypervisor context is used:
@@ -5912,34 +5912,34 @@ typedef union
                                                                  If this bit is changed, TLB maintenance is required.
 
                                                                  Only exists in the non secure copy of this register. */
-        uint32_t nscfg                 : 2;  /**< [ 29: 28](SR/W) Non-secure configuration. Only exist in secure copy of register, RES0 in non-secure copy.
+        uint32_t nscfg                 : 2;  /**< [ 29: 28](SR/W) Nonsecure configuration. Only exist in secure copy of register, RES0 in nonsecure copy.
                                                                  This field only applies to secure transactions bypassing the SMMU stream mapping
                                                                  process.
-                                                                 00 = Use default NS attribute.
-                                                                 01 = Reserved.
-                                                                 10 = Secure.
-                                                                 11 = Non-secure. */
+                                                                 0x0 = Use default NS attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Secure.
+                                                                 0x3 = Nonsecure. */
         uint32_t wacfg                 : 2;  /**< [ 27: 26](RO) Write-allocate configuration, controls the allocation hint for write accesses. This field
                                                                  applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Write-allocate.
-                                                                 11 = No write-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Write-allocate.
+                                                                 0x3 = No write-allocate.
 
                                                                  Ignored in CNXXXX. */
         uint32_t racfg                 : 2;  /**< [ 25: 24](RO) Read-allocate configuration, controls the allocation hint for read accesses. This field
                                                                  applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Read-allocate.
-                                                                 11 = No read-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Read-allocate.
+                                                                 0x3 = No read-allocate.
 
                                                                  Ignored in CNXXXX. */
         uint32_t shcfg                 : 2;  /**< [ 23: 22](RO) Shared configuration. Applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default shareable attributes.
-                                                                 01 = Outer sharable.
-                                                                 10 = Inner sharable.
-                                                                 11 = Non-sharable.
+                                                                 0x0 = Default shareable attributes.
+                                                                 0x1 = Outer sharable.
+                                                                 0x2 = Inner sharable.
+                                                                 0x3 = Non-sharable.
 
                                                                  Ignored in CNXXXX. */
         uint32_t smcfcfg               : 1;  /**< [ 21: 21](RO) Stream match conflict fault configuration. Controls transactions with multiple matches in
@@ -5956,10 +5956,10 @@ typedef union
                                                                  that are not mapped to a translation context bank by setting the minimum sharability
                                                                  domain applied to any barrier.  Applies to transactions bypassing the stream mapping
                                                                  table.
-                                                                 00 = No effect.
-                                                                 01 = Inner sharable.
-                                                                 10 = Outer sharable.
-                                                                 11 = Full system.
+                                                                 0x0 = No effect.
+                                                                 0x1 = Inner sharable.
+                                                                 0x2 = Outer sharable.
+                                                                 0x3 = Full system.
 
                                                                  Ignored in CNXXXX. */
         uint32_t fb                    : 1;  /**< [ 13: 13](R/W) Force broadcast of TLB and instruction cache maintenance operations. Applies to
@@ -5975,7 +5975,7 @@ typedef union
                                                                  1 = SMMU TLBs are privately managed and are not require to respond to broadcast TLB
                                                                  maintenance operations from the wider system.
 
-                                                                 CNXXXX honors this hint, but both the secure and non-secure version must be set for
+                                                                 CNXXXX honors this hint, but both the secure and nonsecure version must be set for
                                                                  private management.
 
                                                                  Internal:
@@ -5998,10 +5998,10 @@ typedef union
 
                                                                  In CNXXXX always 1, no stalling. */
         uint32_t transientcfg          : 2;  /**< [  7:  6](RO) Transient configuration controls the transient allocation hint.
-                                                                 00 = Default transient allocation attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Non-transient.
-                                                                 11 = Transient.
+                                                                 0x0 = Default transient allocation attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Non-transient.
+                                                                 0x3 = Transient.
 
                                                                  Not implemented in CNXXXX. */
         uint32_t gcfgfie               : 1;  /**< [  5:  5](RO) Global configuration fault interrupt enable.
@@ -6068,10 +6068,10 @@ typedef union
 
                                                                  In CNXXXX always zero, as does not support configuration faults. */
         uint32_t transientcfg          : 2;  /**< [  7:  6](RO) Transient configuration controls the transient allocation hint.
-                                                                 00 = Default transient allocation attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Non-transient.
-                                                                 11 = Transient.
+                                                                 0x0 = Default transient allocation attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Non-transient.
+                                                                 0x3 = Transient.
 
                                                                  Not implemented in CNXXXX. */
         uint32_t stalld                : 1;  /**< [  8:  8](RO) Stall disable.
@@ -6095,7 +6095,7 @@ typedef union
                                                                  1 = SMMU TLBs are privately managed and are not require to respond to broadcast TLB
                                                                  maintenance operations from the wider system.
 
-                                                                 CNXXXX honors this hint, but both the secure and non-secure version must be set for
+                                                                 CNXXXX honors this hint, but both the secure and nonsecure version must be set for
                                                                  private management.
 
                                                                  Internal:
@@ -6113,10 +6113,10 @@ typedef union
                                                                  that are not mapped to a translation context bank by setting the minimum sharability
                                                                  domain applied to any barrier.  Applies to transactions bypassing the stream mapping
                                                                  table.
-                                                                 00 = No effect.
-                                                                 01 = Inner sharable.
-                                                                 10 = Outer sharable.
-                                                                 11 = Full system.
+                                                                 0x0 = No effect.
+                                                                 0x1 = Inner sharable.
+                                                                 0x2 = Outer sharable.
+                                                                 0x3 = Full system.
 
                                                                  Ignored in CNXXXX. */
         uint32_t memattr               : 4;  /**< [ 19: 16](R/W) Memory attributes for bypass transactions if MTCFG == 1. */
@@ -6130,35 +6130,35 @@ typedef union
 
                                                                  CNXXXX detects all stream match conflicts and always faults. */
         uint32_t shcfg                 : 2;  /**< [ 23: 22](RO) Shared configuration. Applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default shareable attributes.
-                                                                 01 = Outer sharable.
-                                                                 10 = Inner sharable.
-                                                                 11 = Non-sharable.
+                                                                 0x0 = Default shareable attributes.
+                                                                 0x1 = Outer sharable.
+                                                                 0x2 = Inner sharable.
+                                                                 0x3 = Non-sharable.
 
                                                                  Ignored in CNXXXX. */
         uint32_t racfg                 : 2;  /**< [ 25: 24](RO) Read-allocate configuration, controls the allocation hint for read accesses. This field
                                                                  applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Read-allocate.
-                                                                 11 = No read-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Read-allocate.
+                                                                 0x3 = No read-allocate.
 
                                                                  Ignored in CNXXXX. */
         uint32_t wacfg                 : 2;  /**< [ 27: 26](RO) Write-allocate configuration, controls the allocation hint for write accesses. This field
                                                                  applies to transactions that bypass the stream mapping table.
-                                                                 00 = Default attributes.
-                                                                 01 = Reserved.
-                                                                 10 = Write-allocate.
-                                                                 11 = No write-allocate.
+                                                                 0x0 = Default attributes.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Write-allocate.
+                                                                 0x3 = No write-allocate.
 
                                                                  Ignored in CNXXXX. */
-        uint32_t nscfg                 : 2;  /**< [ 29: 28](SR/W) Non-secure configuration. Only exist in secure copy of register, RES0 in non-secure copy.
+        uint32_t nscfg                 : 2;  /**< [ 29: 28](SR/W) Nonsecure configuration. Only exist in secure copy of register, RES0 in nonsecure copy.
                                                                  This field only applies to secure transactions bypassing the SMMU stream mapping
                                                                  process.
-                                                                 00 = Use default NS attribute.
-                                                                 01 = Reserved.
-                                                                 10 = Secure.
-                                                                 11 = Non-secure. */
+                                                                 0x0 = Use default NS attribute.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Secure.
+                                                                 0x3 = Nonsecure. */
         uint32_t hypmode               : 1;  /**< [ 30: 30](R/W) Hypervisor mode. Selects which hypervisor context is used:
                                                                    0 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
                                                                    1 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
@@ -6175,7 +6175,7 @@ typedef union
                                                                  The VMID is held in SMMU()_CBA2R()[VMID16].
                                                                  The SMMU()_CBAR()[VMID] field is 0.
 
-                                                                 Only exists in the non-secure copy of this register.
+                                                                 Only exists in the nonsecure copy of this register.
 
                                                                  In pass 1, this field must be 0. */
 #endif /* Word 0 - End */
@@ -6216,10 +6216,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t nshypmodedisable      : 1;  /**< [ 30: 30](SR/W) Reserved. */
-        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Non-secure compressed index disable.
+        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Nonsecure compressed index disable.
                                                                  In CNXXXX stream compressed indexing is not implemented. */
-        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Non-secure configuration access fault report override.
-                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by non-secure accesses
+        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Nonsecure configuration access fault report override.
+                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by nonsecure accesses
                                                                  to secure-only registers.
                                                                  1 = SMMU_GFSR reports all such faults.
 
@@ -6231,10 +6231,10 @@ typedef union
                                                                  performance monitor counting.
 
                                                                  Ignored in CNXXXX, no ARM architected performance monitoring, counters are separate
-                                                                 between secure and non-secure. */
+                                                                 between secure and nonsecure. */
         uint32_t sif                   : 1;  /**< [ 26: 26](SR/W) Secure instruction fetch.
-                                                                 0 = Secure instruction fetches are permitted to non-secure memory locations.
-                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a non-secure
+                                                                 0 = Secure instruction fetches are permitted to nonsecure memory locations.
+                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a nonsecure
                                                                  memory location.
 
                                                                  Ignored in CNXXXX, no instruction fetches from IO devices. */
@@ -6246,7 +6246,7 @@ typedef union
                                                                  If SMMU()_SCR1[GEFRO]==1, all external aborts that would have been recorded in
                                                                  SMMU_GFSR are instead recorded in SMMU_SGFSR. */
         uint32_t gasrae                : 1;  /**< [ 24: 24](SR/W) Global address space restricted access enable.
-                                                                 0 = Global address space is accessible using either secure or non-secure configuration
+                                                                 0 = Global address space is accessible using either secure or nonsecure configuration
                                                                  memory accesses.
                                                                  1 = Global address space is only accessible by secure configuration memory accesses. Stage
                                                                  2 format context banks (as determined by SMMU()_CBAR()[CTYPE]) are only
@@ -6258,16 +6258,16 @@ typedef union
                                                                  configuring a secure stage 1 translation context bank.
 
                                                                  If 1, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
-                                                                 configuring a non-secure stage 1 translation context bank.
+                                                                 configuring a nonsecure stage 1 translation context bank.
 
                                                                  In CNXXXX, implementation defined register accesses are also controlled by this bit. */
-        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Non-secure number of interrupts override. Always 1 in ARMv8. */
-        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to non-secure accesses. The
+        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Nonsecure number of interrupts override. Always 1 in ARMv8. */
+        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to nonsecure accesses. The
                                                                  number of stream mapping register groups reported in SMMU()_IDR0 is reduced to the
                                                                  number indicated by NSNUMSMRGO.
 
                                                                  In CNXXXX if the value in NSNUMSMRGO exceeds the number of implemented stream match
-                                                                 register groups then non-secure software might attempt to access an unimplemented stream
+                                                                 register groups then nonsecure software might attempt to access an unimplemented stream
                                                                  match register group and such access are ignored.
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
@@ -6278,8 +6278,8 @@ typedef union
                                                                  initialized before use.
 
                                                                  These bits reset to the implemented number of stream mapping register groups. */
-        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Non-secure number of context banks override. adjusts the number of translation context
-                                                                 banks visible to non-secure accesses. The number of translation context banks reported in
+        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Nonsecure number of context banks override. adjusts the number of translation context
+                                                                 banks visible to nonsecure accesses. The number of translation context banks reported in
                                                                  SMMU()_IDR1[NUMCB] is reduced to the number indicated by SMMU()_SCR1[NSNUMCBO].
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
@@ -6289,8 +6289,8 @@ typedef union
                                                                  SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized first. */
 #else /* Word 0 - Little Endian */
-        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Non-secure number of context banks override. adjusts the number of translation context
-                                                                 banks visible to non-secure accesses. The number of translation context banks reported in
+        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Nonsecure number of context banks override. adjusts the number of translation context
+                                                                 banks visible to nonsecure accesses. The number of translation context banks reported in
                                                                  SMMU()_IDR1[NUMCB] is reduced to the number indicated by SMMU()_SCR1[NSNUMCBO].
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
@@ -6299,12 +6299,12 @@ typedef union
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
                                                                  SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized first. */
-        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to non-secure accesses. The
+        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to nonsecure accesses. The
                                                                  number of stream mapping register groups reported in SMMU()_IDR0 is reduced to the
                                                                  number indicated by NSNUMSMRGO.
 
                                                                  In CNXXXX if the value in NSNUMSMRGO exceeds the number of implemented stream match
-                                                                 register groups then non-secure software might attempt to access an unimplemented stream
+                                                                 register groups then nonsecure software might attempt to access an unimplemented stream
                                                                  match register group and such access are ignored.
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
@@ -6315,9 +6315,9 @@ typedef union
                                                                  initialized before use.
 
                                                                  These bits reset to the implemented number of stream mapping register groups. */
-        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Non-secure number of interrupts override. Always 1 in ARMv8. */
+        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Nonsecure number of interrupts override. Always 1 in ARMv8. */
         uint32_t gasrae                : 1;  /**< [ 24: 24](SR/W) Global address space restricted access enable.
-                                                                 0 = Global address space is accessible using either secure or non-secure configuration
+                                                                 0 = Global address space is accessible using either secure or nonsecure configuration
                                                                  memory accesses.
                                                                  1 = Global address space is only accessible by secure configuration memory accesses. Stage
                                                                  2 format context banks (as determined by SMMU()_CBAR()[CTYPE]) are only
@@ -6329,7 +6329,7 @@ typedef union
                                                                  configuring a secure stage 1 translation context bank.
 
                                                                  If 1, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
-                                                                 configuring a non-secure stage 1 translation context bank.
+                                                                 configuring a nonsecure stage 1 translation context bank.
 
                                                                  In CNXXXX, implementation defined register accesses are also controlled by this bit. */
         uint32_t gefro                 : 1;  /**< [ 25: 25](SR/W) Global external fault report override.
@@ -6340,8 +6340,8 @@ typedef union
                                                                  If SMMU()_SCR1[GEFRO]==1, all external aborts that would have been recorded in
                                                                  SMMU_GFSR are instead recorded in SMMU_SGFSR. */
         uint32_t sif                   : 1;  /**< [ 26: 26](SR/W) Secure instruction fetch.
-                                                                 0 = Secure instruction fetches are permitted to non-secure memory locations.
-                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a non-secure
+                                                                 0 = Secure instruction fetches are permitted to nonsecure memory locations.
+                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a nonsecure
                                                                  memory location.
 
                                                                  Ignored in CNXXXX, no instruction fetches from IO devices. */
@@ -6352,14 +6352,14 @@ typedef union
                                                                  performance monitor counting.
 
                                                                  Ignored in CNXXXX, no ARM architected performance monitoring, counters are separate
-                                                                 between secure and non-secure. */
-        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Non-secure configuration access fault report override.
-                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by non-secure accesses
+                                                                 between secure and nonsecure. */
+        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Nonsecure configuration access fault report override.
+                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by nonsecure accesses
                                                                  to secure-only registers.
                                                                  1 = SMMU_GFSR reports all such faults.
 
                                                                  In CNXXXX always zero, as does not support generation of configuration faults. */
-        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Non-secure compressed index disable.
+        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Nonsecure compressed index disable.
                                                                  In CNXXXX stream compressed indexing is not implemented. */
         uint32_t nshypmodedisable      : 1;  /**< [ 30: 30](SR/W) Reserved. */
         uint32_t reserved_31           : 1;
@@ -6371,10 +6371,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t reserved_30           : 1;
-        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Non-secure compressed index disable.
+        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Nonsecure compressed index disable.
                                                                  In CNXXXX stream compressed indexing is not implemented. */
-        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Non-secure configuration access fault report override.
-                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by non-secure accesses
+        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Nonsecure configuration access fault report override.
+                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by nonsecure accesses
                                                                  to secure-only registers.
                                                                  1 = SMMU_GFSR reports all such faults.
 
@@ -6386,10 +6386,10 @@ typedef union
                                                                  performance monitor counting.
 
                                                                  Ignored in CNXXXX, no ARM architected performance monitoring, counters are separate
-                                                                 between secure and non-secure. */
+                                                                 between secure and nonsecure. */
         uint32_t sif                   : 1;  /**< [ 26: 26](SR/W) Secure instruction fetch.
-                                                                 0 = Secure instruction fetches are permitted to non-secure memory locations.
-                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a non-secure
+                                                                 0 = Secure instruction fetches are permitted to nonsecure memory locations.
+                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a nonsecure
                                                                  memory location.
 
                                                                  Ignored in CNXXXX, no instruction fetches from IO devices. */
@@ -6401,7 +6401,7 @@ typedef union
                                                                  If SMMU()_SCR1[GEFRO]==1, all external aborts that would have been recorded in
                                                                  SMMU_GFSR are instead recorded in SMMU_SGFSR. */
         uint32_t gasrae                : 1;  /**< [ 24: 24](SR/W) Global address space restricted access enable.
-                                                                 0 = Global address space is accessible using either secure or non-secure configuration
+                                                                 0 = Global address space is accessible using either secure or nonsecure configuration
                                                                  memory accesses.
                                                                  1 = Global address space is only accessible by secure configuration memory accesses. Stage
                                                                  2 format context banks (as determined by SMMU()_CBAR()[CTYPE]) are only
@@ -6413,16 +6413,16 @@ typedef union
                                                                  configuring a secure stage 1 translation context bank.
 
                                                                  If 1, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
-                                                                 configuring a non-secure stage 1 translation context bank.
+                                                                 configuring a nonsecure stage 1 translation context bank.
 
                                                                  In CNXXXX, implementation defined register accesses are also controlled by this bit. */
-        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Non-secure number of interrupts override. Always 1 in ARMv8. */
-        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to non-secure accesses. The
+        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Nonsecure number of interrupts override. Always 1 in ARMv8. */
+        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to nonsecure accesses. The
                                                                  number of stream mapping register groups reported in SMMU()_IDR0 is reduced to the
                                                                  number indicated by NSNUMSMRGO.
 
                                                                  In CNXXXX if the value in NSNUMSMRGO exceeds the number of implemented stream match
-                                                                 register groups then non-secure software might attempt to access an unimplemented stream
+                                                                 register groups then nonsecure software might attempt to access an unimplemented stream
                                                                  match register group and such access are ignored.
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
@@ -6433,8 +6433,8 @@ typedef union
                                                                  initialized before use.
 
                                                                  These bits reset to the implemented number of stream mapping register groups. */
-        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Non-secure number of context banks override. adjusts the number of translation context
-                                                                 banks visible to non-secure accesses. The number of translation context banks reported in
+        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Nonsecure number of context banks override. adjusts the number of translation context
+                                                                 banks visible to nonsecure accesses. The number of translation context banks reported in
                                                                  SMMU()_IDR1[NUMCB] is reduced to the number indicated by SMMU()_SCR1[NSNUMCBO].
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
@@ -6444,8 +6444,8 @@ typedef union
                                                                  SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized first. */
 #else /* Word 0 - Little Endian */
-        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Non-secure number of context banks override. adjusts the number of translation context
-                                                                 banks visible to non-secure accesses. The number of translation context banks reported in
+        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Nonsecure number of context banks override. adjusts the number of translation context
+                                                                 banks visible to nonsecure accesses. The number of translation context banks reported in
                                                                  SMMU()_IDR1[NUMCB] is reduced to the number indicated by SMMU()_SCR1[NSNUMCBO].
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
@@ -6454,12 +6454,12 @@ typedef union
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
                                                                  SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized first. */
-        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to non-secure accesses. The
+        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to nonsecure accesses. The
                                                                  number of stream mapping register groups reported in SMMU()_IDR0 is reduced to the
                                                                  number indicated by NSNUMSMRGO.
 
                                                                  In CNXXXX if the value in NSNUMSMRGO exceeds the number of implemented stream match
-                                                                 register groups then non-secure software might attempt to access an unimplemented stream
+                                                                 register groups then nonsecure software might attempt to access an unimplemented stream
                                                                  match register group and such access are ignored.
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
@@ -6470,9 +6470,9 @@ typedef union
                                                                  initialized before use.
 
                                                                  These bits reset to the implemented number of stream mapping register groups. */
-        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Non-secure number of interrupts override. Always 1 in ARMv8. */
+        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Nonsecure number of interrupts override. Always 1 in ARMv8. */
         uint32_t gasrae                : 1;  /**< [ 24: 24](SR/W) Global address space restricted access enable.
-                                                                 0 = Global address space is accessible using either secure or non-secure configuration
+                                                                 0 = Global address space is accessible using either secure or nonsecure configuration
                                                                  memory accesses.
                                                                  1 = Global address space is only accessible by secure configuration memory accesses. Stage
                                                                  2 format context banks (as determined by SMMU()_CBAR()[CTYPE]) are only
@@ -6484,7 +6484,7 @@ typedef union
                                                                  configuring a secure stage 1 translation context bank.
 
                                                                  If 1, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
-                                                                 configuring a non-secure stage 1 translation context bank.
+                                                                 configuring a nonsecure stage 1 translation context bank.
 
                                                                  In CNXXXX, implementation defined register accesses are also controlled by this bit. */
         uint32_t gefro                 : 1;  /**< [ 25: 25](SR/W) Global external fault report override.
@@ -6495,8 +6495,8 @@ typedef union
                                                                  If SMMU()_SCR1[GEFRO]==1, all external aborts that would have been recorded in
                                                                  SMMU_GFSR are instead recorded in SMMU_SGFSR. */
         uint32_t sif                   : 1;  /**< [ 26: 26](SR/W) Secure instruction fetch.
-                                                                 0 = Secure instruction fetches are permitted to non-secure memory locations.
-                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a non-secure
+                                                                 0 = Secure instruction fetches are permitted to nonsecure memory locations.
+                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a nonsecure
                                                                  memory location.
 
                                                                  Ignored in CNXXXX, no instruction fetches from IO devices. */
@@ -6507,14 +6507,14 @@ typedef union
                                                                  performance monitor counting.
 
                                                                  Ignored in CNXXXX, no ARM architected performance monitoring, counters are separate
-                                                                 between secure and non-secure. */
-        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Non-secure configuration access fault report override.
-                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by non-secure accesses
+                                                                 between secure and nonsecure. */
+        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Nonsecure configuration access fault report override.
+                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by nonsecure accesses
                                                                  to secure-only registers.
                                                                  1 = SMMU_GFSR reports all such faults.
 
                                                                  In CNXXXX always zero, as does not support generation of configuration faults. */
-        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Non-secure compressed index disable.
+        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Nonsecure compressed index disable.
                                                                  In CNXXXX stream compressed indexing is not implemented. */
         uint32_t reserved_30           : 1;
         uint32_t reserved_31           : 1;
@@ -6557,7 +6557,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t exsmrgenable          : 1;  /**< [ 31: 31](RO) Enables extended stream matching extension.
                                                                  In CNXXXX, extended stream matching is not implemented. */
-        uint32_t exnssmrgdisable       : 1;  /**< [ 30: 30](SRO) Disables use of extended stream match register groups by non-secure software.
+        uint32_t exnssmrgdisable       : 1;  /**< [ 30: 30](SRO) Disables use of extended stream match register groups by nonsecure software.
                                                                  Only exists in the secure copy of this register.
 
                                                                  In CNXXXX, extended stream matching is not implemented. */
@@ -6582,7 +6582,7 @@ typedef union
         uint32_t compindexenable       : 1;  /**< [ 29: 29](RO) StreamID compressed index match enable.
 
                                                                  In CNXXXX, StreamID compressed indexing is not implemented. */
-        uint32_t exnssmrgdisable       : 1;  /**< [ 30: 30](SRO) Disables use of extended stream match register groups by non-secure software.
+        uint32_t exnssmrgdisable       : 1;  /**< [ 30: 30](SRO) Disables use of extended stream match register groups by nonsecure software.
                                                                  Only exists in the secure copy of this register.
 
                                                                  In CNXXXX, extended stream matching is not implemented. */
@@ -6796,17 +6796,17 @@ typedef union
         uint32_t imp                   : 8;  /**< [ 15:  8](RO) Reserved for implementation. */
         uint32_t reserved_7            : 1;
         uint32_t ats                   : 1;  /**< [  6:  6](RO) Address translation operation fault. For CNXXXX zero, SMMU()_IDR0[ATOSNS] not supported. */
-        uint32_t nsattr                : 1;  /**< [  5:  5](R/W/H) Non-secure attribute.
+        uint32_t nsattr                : 1;  /**< [  5:  5](R/W/H) Nonsecure attribute.
                                                                  0 = The faulty transaction has the secure attribute.
-                                                                 1 = The faulty transaction has the non-secure attribute. */
-        uint32_t nsstate               : 1;  /**< [  4:  4](SR/W/H) Non-secure state.
+                                                                 1 = The faulty transaction has the nonsecure attribute. */
+        uint32_t nsstate               : 1;  /**< [  4:  4](SR/W/H) Nonsecure state.
                                                                  0 = The faulty transaction is associated with a secure device.
-                                                                 1 = The faulty transaction is associated with a non-secure device.
+                                                                 1 = The faulty transaction is associated with a nonsecure device.
 
                                                                  This field is only valid for the secure state.
 
                                                                  This field may read 1 in the event that a fault is encountered in relation to a
-                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]=1. */
+                                                                 nonsecure client device and where SMMU()_SCR1[GEFRO]=1. */
         uint32_t ind                   : 1;  /**< [  3:  3](R/W/H) Instruction not data.
                                                                  0 = The faulty transaction has the data access attribute.
                                                                  1 = The faulty transaction has the instruction access attribute. */
@@ -6836,17 +6836,17 @@ typedef union
         uint32_t ind                   : 1;  /**< [  3:  3](R/W/H) Instruction not data.
                                                                  0 = The faulty transaction has the data access attribute.
                                                                  1 = The faulty transaction has the instruction access attribute. */
-        uint32_t nsstate               : 1;  /**< [  4:  4](SR/W/H) Non-secure state.
+        uint32_t nsstate               : 1;  /**< [  4:  4](SR/W/H) Nonsecure state.
                                                                  0 = The faulty transaction is associated with a secure device.
-                                                                 1 = The faulty transaction is associated with a non-secure device.
+                                                                 1 = The faulty transaction is associated with a nonsecure device.
 
                                                                  This field is only valid for the secure state.
 
                                                                  This field may read 1 in the event that a fault is encountered in relation to a
-                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]=1. */
-        uint32_t nsattr                : 1;  /**< [  5:  5](R/W/H) Non-secure attribute.
+                                                                 nonsecure client device and where SMMU()_SCR1[GEFRO]=1. */
+        uint32_t nsattr                : 1;  /**< [  5:  5](R/W/H) Nonsecure attribute.
                                                                  0 = The faulty transaction has the secure attribute.
-                                                                 1 = The faulty transaction has the non-secure attribute. */
+                                                                 1 = The faulty transaction has the nonsecure attribute. */
         uint32_t ats                   : 1;  /**< [  6:  6](RO) Address translation operation fault. For CNXXXX zero, SMMU()_IDR0[ATOSNS] not supported. */
         uint32_t reserved_7            : 1;
         uint32_t imp                   : 8;  /**< [ 15:  8](RO) Reserved for implementation. */
@@ -6887,17 +6887,17 @@ typedef union
     struct bdk_smmux_sgfsynr1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) The SSD_Index of the transaction that caused the fault. The SSD_Index field is only
-                                                                 accessible to configuration accesses by secure software. Non-secure configuration accesses
-                                                                 treat this field as RAZ/WI.
+        uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) The SSD index of the transaction that caused the fault. [SSD_INDEX] is only
+                                                                 accessible to configuration accesses by secure software. Nonsecure configuration
+                                                                 accesses treat this field as RAZ/WI.
 
                                                                  For CNXXXX, [SSD_INDEX] is always the same as [STREAMID]. */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) The stream ID of the transaction that caused the fault. */
 #else /* Word 0 - Little Endian */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) The stream ID of the transaction that caused the fault. */
-        uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) The SSD_Index of the transaction that caused the fault. The SSD_Index field is only
-                                                                 accessible to configuration accesses by secure software. Non-secure configuration accesses
-                                                                 treat this field as RAZ/WI.
+        uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) The SSD index of the transaction that caused the fault. [SSD_INDEX] is only
+                                                                 accessible to configuration accesses by secure software. Nonsecure configuration
+                                                                 accesses treat this field as RAZ/WI.
 
                                                                  For CNXXXX, [SSD_INDEX] is always the same as [STREAMID]. */
 #endif /* Word 0 - End */
@@ -7115,17 +7115,17 @@ typedef union
     struct bdk_smmux_ssdrx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ssd                   : 32; /**< [ 31:  0](SR/W) Security state definition, where each bit corresponds to a SSD_Index:
-                                                                 0 = Corresponding SSD_Index is acting for the secure domain.
-                                                                 1 = Non-secure domain.
+        uint32_t ssd                   : 32; /**< [ 31:  0](SR/W) Security state definition, where each bit corresponds to a SSD index:
+                                                                 0x0 = Corresponding SSD index is acting for the secure domain.
+                                                                 0x1 = Nonsecure domain.
 
                                                                  Only accessible to secure software, else RAZ/WI. CNXXXX indexes this table by stream
                                                                  identifier, and uses the result of this table to also promote interrupts to secure
                                                                  interrupts. */
 #else /* Word 0 - Little Endian */
-        uint32_t ssd                   : 32; /**< [ 31:  0](SR/W) Security state definition, where each bit corresponds to a SSD_Index:
-                                                                 0 = Corresponding SSD_Index is acting for the secure domain.
-                                                                 1 = Non-secure domain.
+        uint32_t ssd                   : 32; /**< [ 31:  0](SR/W) Security state definition, where each bit corresponds to a SSD index:
+                                                                 0x0 = Corresponding SSD index is acting for the secure domain.
+                                                                 0x1 = Nonsecure domain.
 
                                                                  Only accessible to secure software, else RAZ/WI. CNXXXX indexes this table by stream
                                                                  identifier, and uses the result of this table to also promote interrupts to secure
@@ -7336,15 +7336,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
-        uint64_t address               : 44; /**< [ 43:  0](SWO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](SWO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
 #else /* Word 0 - Little Endian */
-        uint64_t address               : 44; /**< [ 43:  0](SWO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](SWO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -7386,15 +7386,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
-        uint64_t address               : 44; /**< [ 43:  0](SWO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](SWO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
 #else /* Word 0 - Little Endian */
-        uint64_t address               : 44; /**< [ 43:  0](SWO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](SWO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -7502,7 +7502,7 @@ static inline uint64_t BDK_SMMUX_TLBIALLH(unsigned long a)
  * Register (NCB32b) smmu#_tlbiallnsnh
  *
  * SMMU TLB Invalidate Non-Secure Non-Hypervisor Register
- * Invalidate all non-secure, non-hypervisor tagged entries in the TLB. Register fields are
+ * Invalidate all nonsecure, non-hypervisor tagged entries in the TLB. Register fields are
  * identical to those in SMMU()_TLBIALLH. It can optionally apply to all unlocked entries.
  */
 typedef union
@@ -7591,15 +7591,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
-        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
 #else /* Word 0 - Little Endian */
-        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -7641,15 +7641,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
-        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
 #else /* Word 0 - Little Endian */
-        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
-                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+        uint64_t address               : 44; /**< [ 43:  0](WO) Virtual address <55:12> to be invalidated. Note: this matches the format of the
+                                                                 addresses supplied to ARMv8 processor TLBI invalidation instructions. If the
+                                                                 page size is 64kB then bits corresponding to [ADDRESS]<15:12> are ignored. The
+                                                                 address will be extended to bit <63> by copying bit <55>. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -7679,7 +7679,7 @@ static inline uint64_t BDK_SMMUX_TLBIVALH64(unsigned long a)
  * Register (NCB32b) smmu#_tlbivmid
  *
  * SMMU TLB Invalidate VMID Register
- * Invalidate all non-secure, non-hypervisor TLB entries having the specified VMID. It can
+ * Invalidate all nonsecure, non-hypervisor TLB entries having the specified VMID. It can
  * optionally apply to all entries.
  */
 typedef union
@@ -7727,7 +7727,7 @@ static inline uint64_t BDK_SMMUX_TLBIVMID(unsigned long a)
  * Register (NCB32b) smmu#_tlbivmids1
  *
  * SMMU TLB Invalidate by VMID Register
- * Invalidate all non-secure, non-hypervisor TLB entries having the specified VMID. In an
+ * Invalidate all nonsecure, non-hypervisor TLB entries having the specified VMID. In an
  * implementation using combined S1 + S2 TLB entries, this operation must invalidate any entries
  * tagged with a valid matching VMID. It operates exactly as SMMU()_TLBIVMID, except it only
  * applies to caching of entries containing information from the first stage of translation.

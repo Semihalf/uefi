@@ -197,22 +197,22 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
                                                                  corresponding
                                                                  bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SATA(0..15)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
                                                                  corresponding
                                                                  bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SATA(0..15)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
@@ -229,22 +229,22 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
                                                                  corresponding
                                                                  bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SATA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
                                                                  corresponding
                                                                  bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SATA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
@@ -262,22 +262,22 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
                                                                  corresponding
                                                                  bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SATA(0..5)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
                                                                  corresponding
                                                                  bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_SATA(0..5)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
@@ -381,14 +381,14 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Bits 7:0 of the second DWORD of BIST activate FIS.
-                                                                 0xF1 = low transition density pattern (LTDP).
-                                                                 0xB5 = high transition density pattern (HTDP).
-                                                                 0xAB = low frequency spectral component pattern (LFSCP).
-                                                                 0x7F = simultaneous switching outputs pattern (SSOP).
-                                                                 0x78 = mid frequency test pattern (MFTP).
-                                                                 0x4A = high frequency test pattern (HFTP).
-                                                                 0x7E = low frequency test pattern (LFTP).
-                                                                 else = lone bit pattern (LBP). */
+                                                                 0xF1 = Low transition density pattern (LTDP).
+                                                                 0xB5 = High transition density pattern (HTDP).
+                                                                 0xAB = Low frequency spectral component pattern (LFSCP).
+                                                                 0x7F = Simultaneous switching outputs pattern (SSOP).
+                                                                 0x78 = Mid frequency test pattern (MFTP).
+                                                                 0x4A = High frequency test pattern (HFTP).
+                                                                 0x7E = Low frequency test pattern (LFTP).
+                                                                 else = Lone bit pattern (LBP). */
         uint32_t pd                    : 8;  /**< [  7:  0](RO) Bits 23:16 of the first DWORD of the BIST activate FIS. Only the following values are
                                                                  supported:
                                                                  0x10 = Far-end retimed.
@@ -401,14 +401,14 @@ typedef union
                                                                  0xC0 = Far-end transmit only.
                                                                  0xE0 = Far-end transmit only with scrambler bypassed. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Bits 7:0 of the second DWORD of BIST activate FIS.
-                                                                 0xF1 = low transition density pattern (LTDP).
-                                                                 0xB5 = high transition density pattern (HTDP).
-                                                                 0xAB = low frequency spectral component pattern (LFSCP).
-                                                                 0x7F = simultaneous switching outputs pattern (SSOP).
-                                                                 0x78 = mid frequency test pattern (MFTP).
-                                                                 0x4A = high frequency test pattern (HFTP).
-                                                                 0x7E = low frequency test pattern (LFTP).
-                                                                 else = lone bit pattern (LBP). */
+                                                                 0xF1 = Low transition density pattern (LTDP).
+                                                                 0xB5 = High transition density pattern (HTDP).
+                                                                 0xAB = Low frequency spectral component pattern (LFSCP).
+                                                                 0x7F = Simultaneous switching outputs pattern (SSOP).
+                                                                 0x78 = Mid frequency test pattern (MFTP).
+                                                                 0x4A = High frequency test pattern (HFTP).
+                                                                 0x7E = Low frequency test pattern (LFTP).
+                                                                 else = Lone bit pattern (LBP). */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -675,7 +675,7 @@ typedef union
         uint32_t sal                   : 1;  /**< [ 25: 25](RO) Supports activity LED. */
         uint32_t sclo                  : 1;  /**< [ 24: 24](RO) Supports command list override. */
         uint32_t iss                   : 4;  /**< [ 23: 20](RO) Interface speed support. */
-        uint32_t snzo                  : 1;  /**< [ 19: 19](RO) Supports non-zero DMA offsets. */
+        uint32_t snzo                  : 1;  /**< [ 19: 19](RO) Supports nonzero DMA offsets. */
         uint32_t sam                   : 1;  /**< [ 18: 18](RO) Supports AHCI mode only. */
         uint32_t spm                   : 1;  /**< [ 17: 17](RO) Supports port multiplier. */
         uint32_t fbss                  : 1;  /**< [ 16: 16](RO) Supports FIS-based switching. */
@@ -699,7 +699,7 @@ typedef union
         uint32_t fbss                  : 1;  /**< [ 16: 16](RO) Supports FIS-based switching. */
         uint32_t spm                   : 1;  /**< [ 17: 17](RO) Supports port multiplier. */
         uint32_t sam                   : 1;  /**< [ 18: 18](RO) Supports AHCI mode only. */
-        uint32_t snzo                  : 1;  /**< [ 19: 19](RO) Supports non-zero DMA offsets. */
+        uint32_t snzo                  : 1;  /**< [ 19: 19](RO) Supports nonzero DMA offsets. */
         uint32_t iss                   : 4;  /**< [ 23: 20](RO) Interface speed support. */
         uint32_t sclo                  : 1;  /**< [ 24: 24](RO) Supports command list override. */
         uint32_t sal                   : 1;  /**< [ 25: 25](RO) Supports activity LED. */
@@ -1005,7 +1005,7 @@ typedef union
         uint32_t fbs_support           : 1;  /**< [ 15: 15](RO) FIS-based switching support (FBS_SUPPORT). */
         uint32_t dev_cp                : 1;  /**< [ 14: 14](RO) Cold presence detect (DEV_CP_DET). */
         uint32_t dev_mp                : 1;  /**< [ 13: 13](RO) Mechanical presence switch (DEV_MP_SWITCH). */
-        uint32_t encode_m              : 1;  /**< [ 12: 12](RO) 8b/10b encoding/decoding (ENCODE_MODE). */
+        uint32_t encode_m              : 1;  /**< [ 12: 12](RO) 8/10 bit encoding/decoding (ENCODE_MODE). */
         uint32_t rxoob_clk_m           : 1;  /**< [ 11: 11](RO) RX OOB clock mode (RXOOB_CLK_MODE). */
         uint32_t rx_oob_m              : 1;  /**< [ 10: 10](RO) RX OOB mode (RX_OOB_MODE). */
         uint32_t tx_oob_m              : 1;  /**< [  9:  9](RO) TX OOB mode (TX_OOB_MODE). */
@@ -1015,7 +1015,7 @@ typedef union
         uint32_t tx_oob_m              : 1;  /**< [  9:  9](RO) TX OOB mode (TX_OOB_MODE). */
         uint32_t rx_oob_m              : 1;  /**< [ 10: 10](RO) RX OOB mode (RX_OOB_MODE). */
         uint32_t rxoob_clk_m           : 1;  /**< [ 11: 11](RO) RX OOB clock mode (RXOOB_CLK_MODE). */
-        uint32_t encode_m              : 1;  /**< [ 12: 12](RO) 8b/10b encoding/decoding (ENCODE_MODE). */
+        uint32_t encode_m              : 1;  /**< [ 12: 12](RO) 8/10 bit encoding/decoding (ENCODE_MODE). */
         uint32_t dev_mp                : 1;  /**< [ 13: 13](RO) Mechanical presence switch (DEV_MP_SWITCH). */
         uint32_t dev_cp                : 1;  /**< [ 14: 14](RO) Cold presence detect (DEV_CP_DET). */
         uint32_t fbs_support           : 1;  /**< [ 15: 15](RO) FIS-based switching support (FBS_SUPPORT). */
@@ -2100,7 +2100,7 @@ typedef union
         uint32_t diag_h                : 1;  /**< [ 22: 22](R/W1C/H) Handshake error. */
         uint32_t diag_c                : 1;  /**< [ 21: 21](R/W1C/H) CRC error. */
         uint32_t diag_d                : 1;  /**< [ 20: 20](R/W1C/H) Disparity error. */
-        uint32_t diag_b                : 1;  /**< [ 19: 19](R/W1C/H) 10B to 8B decode error. */
+        uint32_t diag_b                : 1;  /**< [ 19: 19](R/W1C/H) 10/8 bit decode error. */
         uint32_t diag_w                : 1;  /**< [ 18: 18](R/W1C/H) COMWAKE detected. */
         uint32_t diag_i                : 1;  /**< [ 17: 17](R/W1C/H) PHY internal error. */
         uint32_t diag_n                : 1;  /**< [ 16: 16](R/W1C/H) PHY ready change. */
@@ -2124,7 +2124,7 @@ typedef union
         uint32_t diag_n                : 1;  /**< [ 16: 16](R/W1C/H) PHY ready change. */
         uint32_t diag_i                : 1;  /**< [ 17: 17](R/W1C/H) PHY internal error. */
         uint32_t diag_w                : 1;  /**< [ 18: 18](R/W1C/H) COMWAKE detected. */
-        uint32_t diag_b                : 1;  /**< [ 19: 19](R/W1C/H) 10B to 8B decode error. */
+        uint32_t diag_b                : 1;  /**< [ 19: 19](R/W1C/H) 10/8 bit decode error. */
         uint32_t diag_d                : 1;  /**< [ 20: 20](R/W1C/H) Disparity error. */
         uint32_t diag_c                : 1;  /**< [ 21: 21](R/W1C/H) CRC error. */
         uint32_t diag_h                : 1;  /**< [ 22: 22](R/W1C/H) Handshake error. */
@@ -2423,8 +2423,8 @@ typedef union
                                                                  SATA RAMs to 0x0.
 
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts
-                                                                 CLEAR_BIST into the correct state and then perform another CSR write operation to set
-                                                                 START_BIST (keeping CLEAR_BIST constant). CLEAR BIST completion is indicated by
+                                                                 [CLEAR_BIST] into the correct state and then perform another CSR write operation to set
+                                                                 [START_BIST] (keeping [CLEAR_BIST] constant). CLEAR BIST completion is indicated by
                                                                  SATA()_UCTL_BIST_STATUS[NDONE*] clear.
 
                                                                  A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
@@ -2446,16 +2446,16 @@ typedef union
                                                                  purposes).
 
                                                                  This signal is a multiplexer-select signal; it does not enable the host-controller clock.
-                                                                 You must set A_CLK_EN separately. A_CLK_BYP_SEL select should not be changed unless
-                                                                 A_CLK_EN is disabled. The bypass clock can be selected and running even if the host-
+                                                                 You must set [A_CLK_EN] separately. [A_CLK_BYP_SEL] select should not be changed unless
+                                                                 [A_CLK_EN] is disabled. The bypass clock can be selected and running even if the host-
                                                                  controller clock dividers are not running. */
         uint64_t a_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) Host-controller-clock divider reset. Divided clocks are not generated while the divider is
                                                                  being reset.
                                                                  This also resets the suspend-clock divider. */
         uint64_t reserved_27           : 1;
         uint64_t a_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) The host-controller clock frequency is the coprocessor-clock frequency divided by
-                                                                 A_CLKDIV_SEL. The host-controller clock frequency must be at or below 333MHz.
-                                                                 This field can be changed only when A_CLKDIV_RST = 1. The divider values are the
+                                                                 [A_CLKDIV_SEL]. The host-controller clock frequency must be at or below 333MHz.
+                                                                 This field can be changed only when [A_CLKDIV_RST] = 1. The divider values are the
                                                                  following:
                                                                  0x0 = divide by 1.
                                                                  0x1 = divide by 2.
@@ -2507,8 +2507,8 @@ typedef union
                                                                  Changed in pass 2. */
         uint64_t reserved_5_23         : 19;
         uint64_t a_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) The host-controller clock frequency is the coprocessor-clock frequency divided by
-                                                                 A_CLKDIV_SEL. The host-controller clock frequency must be at or below 333MHz.
-                                                                 This field can be changed only when A_CLKDIV_RST = 1. The divider values are the
+                                                                 [A_CLKDIV_SEL]. The host-controller clock frequency must be at or below 333MHz.
+                                                                 This field can be changed only when [A_CLKDIV_RST] = 1. The divider values are the
                                                                  following:
                                                                  0x0 = divide by 1.
                                                                  0x1 = divide by 2.
@@ -2528,8 +2528,8 @@ typedef union
                                                                  purposes).
 
                                                                  This signal is a multiplexer-select signal; it does not enable the host-controller clock.
-                                                                 You must set A_CLK_EN separately. A_CLK_BYP_SEL select should not be changed unless
-                                                                 A_CLK_EN is disabled. The bypass clock can be selected and running even if the host-
+                                                                 You must set [A_CLK_EN] separately. [A_CLK_BYP_SEL] select should not be changed unless
+                                                                 [A_CLK_EN] is disabled. The bypass clock can be selected and running even if the host-
                                                                  controller clock dividers are not running. */
         uint64_t a_clk_en              : 1;  /**< [ 30: 30](R/W) Host-controller clock enable. When set to 1, the host-controller clock is generated. This
                                                                  also enables access to UCTL registers 0x30-0xF8. */
@@ -2548,8 +2548,8 @@ typedef union
                                                                  SATA RAMs to 0x0.
 
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts
-                                                                 CLEAR_BIST into the correct state and then perform another CSR write operation to set
-                                                                 START_BIST (keeping CLEAR_BIST constant). CLEAR BIST completion is indicated by
+                                                                 [CLEAR_BIST] into the correct state and then perform another CSR write operation to set
+                                                                 [START_BIST] (keeping [CLEAR_BIST] constant). CLEAR BIST completion is indicated by
                                                                  SATA()_UCTL_BIST_STATUS[NDONE*] clear.
 
                                                                  A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
@@ -2565,8 +2565,8 @@ typedef union
                                                                  SATA RAMs to 0x0.
 
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts
-                                                                 CLEAR_BIST into the correct state and then perform another CSR write operation to set
-                                                                 START_BIST (keeping CLEAR_BIST constant). CLEAR BIST completion is indicated by
+                                                                 [CLEAR_BIST] into the correct state and then perform another CSR write operation to set
+                                                                 [START_BIST] (keeping [CLEAR_BIST] constant). CLEAR BIST completion is indicated by
                                                                  SATA()_UCTL_BIST_STATUS[NDONE*] clear.
 
                                                                  A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
@@ -2588,16 +2588,16 @@ typedef union
                                                                  purposes).
 
                                                                  This signal is a multiplexer-select signal; it does not enable the host-controller clock.
-                                                                 You must set A_CLK_EN separately. A_CLK_BYP_SEL select should not be changed unless
-                                                                 A_CLK_EN is disabled. The bypass clock can be selected and running even if the host-
+                                                                 You must set [A_CLK_EN] separately. [A_CLK_BYP_SEL] select should not be changed unless
+                                                                 [A_CLK_EN] is disabled. The bypass clock can be selected and running even if the host-
                                                                  controller clock dividers are not running. */
         uint64_t a_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) Host-controller-clock divider reset. Divided clocks are not generated while the divider is
                                                                  being reset.
                                                                  This also resets the suspend-clock divider. */
         uint64_t reserved_27           : 1;
         uint64_t a_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) The host-controller clock frequency is the coprocessor-clock frequency divided by
-                                                                 A_CLKDIV_SEL. The host-controller clock frequency must be at or below 333MHz.
-                                                                 This field can be changed only when A_CLKDIV_RST = 1. The divider values are the
+                                                                 [A_CLKDIV_SEL]. The host-controller clock frequency must be at or below 333MHz.
+                                                                 This field can be changed only when [A_CLKDIV_RST] = 1. The divider values are the
                                                                  following:
                                                                  0x0 = divide by 1.
                                                                  0x1 = divide by 2.
@@ -2647,8 +2647,8 @@ typedef union
                                                                  registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
         uint64_t reserved_5_23         : 19;
         uint64_t a_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) The host-controller clock frequency is the coprocessor-clock frequency divided by
-                                                                 A_CLKDIV_SEL. The host-controller clock frequency must be at or below 333MHz.
-                                                                 This field can be changed only when A_CLKDIV_RST = 1. The divider values are the
+                                                                 [A_CLKDIV_SEL]. The host-controller clock frequency must be at or below 333MHz.
+                                                                 This field can be changed only when [A_CLKDIV_RST] = 1. The divider values are the
                                                                  following:
                                                                  0x0 = divide by 1.
                                                                  0x1 = divide by 2.
@@ -2668,8 +2668,8 @@ typedef union
                                                                  purposes).
 
                                                                  This signal is a multiplexer-select signal; it does not enable the host-controller clock.
-                                                                 You must set A_CLK_EN separately. A_CLK_BYP_SEL select should not be changed unless
-                                                                 A_CLK_EN is disabled. The bypass clock can be selected and running even if the host-
+                                                                 You must set [A_CLK_EN] separately. [A_CLK_BYP_SEL] select should not be changed unless
+                                                                 [A_CLK_EN] is disabled. The bypass clock can be selected and running even if the host-
                                                                  controller clock dividers are not running. */
         uint64_t a_clk_en              : 1;  /**< [ 30: 30](R/W) Host-controller clock enable. When set to 1, the host-controller clock is generated. This
                                                                  also enables access to UCTL registers 0x30-0xF8. */
@@ -2688,8 +2688,8 @@ typedef union
                                                                  SATA RAMs to 0x0.
 
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts
-                                                                 CLEAR_BIST into the correct state and then perform another CSR write operation to set
-                                                                 START_BIST (keeping CLEAR_BIST constant). CLEAR BIST completion is indicated by
+                                                                 [CLEAR_BIST] into the correct state and then perform another CSR write operation to set
+                                                                 [START_BIST] (keeping [CLEAR_BIST] constant). CLEAR BIST completion is indicated by
                                                                  SATA()_UCTL_BIST_STATUS[NDONE*] clear.
 
                                                                  A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest

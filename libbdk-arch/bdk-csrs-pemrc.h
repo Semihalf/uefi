@@ -58,8 +58,7 @@
  * PEM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_PEMRC_BAR_E_PEMRCX_PF_BAR4(a) (0x87e0c0e00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers.
-                                       Note although this is described here as BAR4, the PCIERC BAR that is used is BAR number 0. */
+#define BDK_PEMRC_BAR_E_PEMRCX_PF_BAR0(a) (0x87e0c0e00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration pemrc_int_vec_e
@@ -106,7 +105,7 @@ static inline uint64_t BDK_PEMRCX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_PEMRCX_MSIX_PBAX(a,b) bdk_pemrcx_msix_pbax_t
 #define bustype_BDK_PEMRCX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMRCX_MSIX_PBAX(a,b) "PEMRCX_MSIX_PBAX"
-#define device_bar_BDK_PEMRCX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
+#define device_bar_BDK_PEMRCX_MSIX_PBAX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMRCX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_PEMRCX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -126,20 +125,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's PEM()_MSIX_VEC()_ADDR, PEM()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of PEM()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PEM(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's PEM()_MSIX_VEC()_ADDR, PEM()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of PEM()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PEM(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
@@ -156,20 +155,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's PEM()_MSIX_VEC()_ADDR, PEM()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of PEM()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PEM(0..2)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's PEM()_MSIX_VEC()_ADDR, PEM()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of PEM()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PEM(0..2)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
@@ -185,17 +184,17 @@ typedef union
 static inline uint64_t BDK_PEMRCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMRCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=3)))
-        return 0x87e0c0e00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
-        return 0x87e0c0e00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=1)))
+        return 0x87e0c0e00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
+        return 0x87e0c0e00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("PEMRCX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_PEMRCX_MSIX_VECX_ADDR(a,b) bdk_pemrcx_msix_vecx_addr_t
 #define bustype_BDK_PEMRCX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMRCX_MSIX_VECX_ADDR(a,b) "PEMRCX_MSIX_VECX_ADDR"
-#define device_bar_BDK_PEMRCX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
+#define device_bar_BDK_PEMRCX_MSIX_VECX_ADDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMRCX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_PEMRCX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -228,17 +227,17 @@ typedef union
 static inline uint64_t BDK_PEMRCX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMRCX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=3)))
-        return 0x87e0c0e00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
-        return 0x87e0c0e00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=1)))
+        return 0x87e0c0e00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
+        return 0x87e0c0e00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("PEMRCX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_PEMRCX_MSIX_VECX_CTL(a,b) bdk_pemrcx_msix_vecx_ctl_t
 #define bustype_BDK_PEMRCX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMRCX_MSIX_VECX_CTL(a,b) "PEMRCX_MSIX_VECX_CTL"
-#define device_bar_BDK_PEMRCX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
+#define device_bar_BDK_PEMRCX_MSIX_VECX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMRCX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_PEMRCX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 

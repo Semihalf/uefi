@@ -68,13 +68,13 @@
  * Enumerates the control packet types. For more information see the NC-SI standard.
  */
 #define BDK_NCSI_CTL_PKT_TYPE_E_AEN_EN (8) /**< AEN enable. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_CLR_INIT (0) /**< Clear initial. State used by the Management Controller to acknowledge that the Network
-                                       Controller is in the initial state. */
+#define BDK_NCSI_CTL_PKT_TYPE_E_CLR_INIT (0) /**< Clear initial. State used by the management controller to acknowledge that the network
+                                       controller is in the initial state. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_DIS_BCST (0x11) /**< Disable broadcast filtering.
                                        Not implemented; software should instead use a OEM commands to modify
                                        BGX()_CMR_RX_STEERING(). */
 #define BDK_NCSI_CTL_PKT_TYPE_E_DIS_CHAN (4) /**< Disable channel. Disables the NC-SI channel and to cause the forwarding of bidirectional
-                                       Management Controller packets to cease. */
+                                       management controller packets to cease. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_DIS_CHAN_NW (7) /**< Disable channel network TX. Disables the channel from transmitting pass-through packets
                                        onto the network. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_DIS_MCST (0x13) /**< Disable global multicast filtering. Not implemented. */
@@ -88,7 +88,7 @@
                                        Not implemented; software should instead use a OEM commands to modify
                                        BGX()_CMR_RX_STEERING(). */
 #define BDK_NCSI_CTL_PKT_TYPE_E_EN_CHAN (3) /**< Enable channel. Enables the NC-SI channel and to cause the forwarding of bidirectional
-                                       Management Controller packets to start. */
+                                       management controller packets to start. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_EN_CHAN_NW (6) /**< Enable channel network TX. Enables the channel to transmit pass-through packets onto the network. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_EN_MCST (0x12) /**< Enable global multicast filtering. Not implemented. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_EN_VLAN (0xc) /**< Enable VLAN.
@@ -102,7 +102,7 @@
 #define BDK_NCSI_CTL_PKT_TYPE_E_GET_PASS_STAT (0x1a) /**< Get NC-SI pass-through statistics. Not implemented. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_GET_PKT_STAT (0x18) /**< Get controller packet statistics. Not implemented. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_OEM (0x50) /**< OEM command. In CNXXXX, allows access to CSRs using NCSI_CSR_OEM_CMD_S. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_RST_CHAN (5) /**< Reset channel. Synchronously puts the Network Controller back to the initial state. */
+#define BDK_NCSI_CTL_PKT_TYPE_E_RST_CHAN (5) /**< Reset channel. Synchronously puts the network controller back to the initial state. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_SEL_PKG (1) /**< Select package. Selects a controller package to transmit packets through NC-SI.
                                        CNXXXX will drive NCSI_RXD<1:0>, NCSI_RX_ER and NCSI_CRS_DV. */
 #define BDK_NCSI_CTL_PKT_TYPE_E_SET_FLOW (0x14) /**< Set NC-SI flow control. Configure IEEE 802.3 flow control on the NC-SI. */
@@ -143,6 +143,57 @@
 #define BDK_NCSI_RESP_E_FAILED (1) /**< Command failed. */
 #define BDK_NCSI_RESP_E_UNAVAIL (2) /**< Command unavailable. */
 #define BDK_NCSI_RESP_E_UNSUP (3) /**< Command unsupported. */
+
+/**
+ * Register (RSL) ncsi_bist_status
+ *
+ * NCSI BIST Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t status                : 4;  /**< [  3:  0](RO/H) BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass
+                                                                 or never run.
+
+                                                                 Internal:
+                                                                 <0> = ncsi.rx.rx_rsp.rsp_bnk.
+                                                                 <1> = ncsi.rx.rx_pmac.pmac_bnk.
+                                                                 <2> = ncsi.rx.rx_mix.mix_bnk.
+                                                                 <3> = ncsi.tx.tx_mix.mix_bnk. */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 4;  /**< [  3:  0](RO/H) BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass
+                                                                 or never run.
+
+                                                                 Internal:
+                                                                 <0> = ncsi.rx.rx_rsp.rsp_bnk.
+                                                                 <1> = ncsi.rx.rx_pmac.pmac_bnk.
+                                                                 <2> = ncsi.rx.rx_mix.mix_bnk.
+                                                                 <3> = ncsi.tx.tx_mix.mix_bnk. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_bist_status_s cn; */
+} bdk_ncsi_bist_status_t;
+
+#define BDK_NCSI_BIST_STATUS BDK_NCSI_BIST_STATUS_FUNC()
+static inline uint64_t BDK_NCSI_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_BIST_STATUS_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e00b000b00ll;
+    __bdk_csr_fatal("NCSI_BIST_STATUS", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_NCSI_BIST_STATUS bdk_ncsi_bist_status_t
+#define bustype_BDK_NCSI_BIST_STATUS BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_BIST_STATUS "NCSI_BIST_STATUS"
+#define device_bar_BDK_NCSI_BIST_STATUS 0x0 /* PF_BAR0 */
+#define busnum_BDK_NCSI_BIST_STATUS 0
+#define arguments_BDK_NCSI_BIST_STATUS -1,-1,-1,-1
 
 /**
  * Register (RSL) ncsi_bmc2cpu_msg
@@ -979,19 +1030,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's NCSI_MSIX_VEC()_ADDR, NCSI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of NCSI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_NCSI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's NCSI_MSIX_VEC()_ADDR, NCSI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of NCSI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_NCSI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
@@ -1414,14 +1465,14 @@ typedef union
                                                                  Also see NCSI_TX_NCP_PERM()_TABLE_HI/NCSI_TX_NCP_PERM()_TABLE_LOW.
                                                                  0 = OEM command address must pass the permision table filter before being forwarded to the
                                                                  MRML. Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed.
-                                                                 1 = Bypass the permissions table and allow any secure or non-secure register access
+                                                                 1 = Bypass the permissions table and allow any secure or nonsecure register access
                                                                  in the RSL address space. */
 #else /* Word 0 - Little Endian */
         uint64_t ncsisecen             : 1;  /**< [  0:  0](SR/W) For BMC access using the OEM command, allow or deny secure access into CNXXXX.
                                                                  Also see NCSI_TX_NCP_PERM()_TABLE_HI/NCSI_TX_NCP_PERM()_TABLE_LOW.
                                                                  0 = OEM command address must pass the permision table filter before being forwarded to the
                                                                  MRML. Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed.
-                                                                 1 = Bypass the permissions table and allow any secure or non-secure register access
+                                                                 1 = Bypass the permissions table and allow any secure or nonsecure register access
                                                                  in the RSL address space. */
         uint64_t ncsien                : 1;  /**< [  1:  1](SR/W) Master enable for the NCSI block. */
         uint64_t reserved_2_63         : 62;
@@ -1632,7 +1683,7 @@ static inline uint64_t BDK_NCSI_TX_FRM_CTL_FUNC(void)
  * Register (RSL) ncsi_tx_frm_smac#_cam
  *
  * NCSI TX SMAC CAM Registers
- * These registers set TX framer Source MAC address CAM.  See NCSI_CONFIG for addition CAM config
+ * These registers set TX framer source MAC address CAM.  See NCSI_CONFIG for addition CAM config
  * options.
  */
 typedef union
@@ -1691,13 +1742,13 @@ typedef union
         uint64_t ifg                   : 6;  /**< [  5:  0](R/W) Min IFG (in refclk cycles) between packets used to determine IFGERR.
                                                                  Normally IFG is 96 bits, and with 2 bits per cycle, equates to 48.
                                                                  The CNXXXX NCSI datapath can tolerate an IFG as small as 32 bit times or 16 refclk
-                                                                 cycles. Incoming IFG values less than this may cause data corruption particularly if
+                                                                 cycles. Incoming [IFG] values less than this may cause data corruption particularly if
                                                                  FCS stripping is turned on. */
 #else /* Word 0 - Little Endian */
         uint64_t ifg                   : 6;  /**< [  5:  0](R/W) Min IFG (in refclk cycles) between packets used to determine IFGERR.
                                                                  Normally IFG is 96 bits, and with 2 bits per cycle, equates to 48.
                                                                  The CNXXXX NCSI datapath can tolerate an IFG as small as 32 bit times or 16 refclk
-                                                                 cycles. Incoming IFG values less than this may cause data corruption particularly if
+                                                                 cycles. Incoming [IFG] values less than this may cause data corruption particularly if
                                                                  FCS stripping is turned on. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
@@ -1740,10 +1791,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Byte count for jabber check. Failing packets set the JABBER interrupt and are
-                                                                 sent with opcode = JABBER. NCSI truncates the packet to CNT+1 bytes. */
+                                                                 sent with opcode = JABBER. NCSI truncates the packet to [CNT]+1 bytes. */
 #else /* Word 0 - Little Endian */
         uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Byte count for jabber check. Failing packets set the JABBER interrupt and are
-                                                                 sent with opcode = JABBER. NCSI truncates the packet to CNT+1 bytes. */
+                                                                 sent with opcode = JABBER. NCSI truncates the packet to [CNT]+1 bytes. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -1875,7 +1926,7 @@ typedef union
                                                                  overlap is harmlessly redundant.
 
                                                                  Address bit <63> is used as the secure bit, and thus to allow secure and
-                                                                 non-secure access to a given register, both the register's address with <63>=0,
+                                                                 nonsecure access to a given register, both the register's address with <63>=0,
                                                                  and register's address with <63>=1 must be within the range(s).
 
                                                                  Default values allow default access to:
@@ -1899,7 +1950,7 @@ typedef union
                                                                  overlap is harmlessly redundant.
 
                                                                  Address bit <63> is used as the secure bit, and thus to allow secure and
-                                                                 non-secure access to a given register, both the register's address with <63>=0,
+                                                                 nonsecure access to a given register, both the register's address with <63>=0,
                                                                  and register's address with <63>=1 must be within the range(s).
 
                                                                  Default values allow default access to:

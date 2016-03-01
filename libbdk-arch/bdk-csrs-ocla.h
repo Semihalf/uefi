@@ -639,7 +639,7 @@ typedef union
                                                                  OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
                                                                  detected. */
         uint64_t ddr                   : 16; /**< [ 47: 32](R/W) DDR level. When OCLA()_FIFO_DEPTH > [DDR], FIFO entries will be removed, packed into a
-                                                                 cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If non-zero
+                                                                 cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If nonzero
                                                                  must be at least 52. */
         uint64_t bp                    : 16; /**< [ 31: 16](R/W) Backpressure level. When OCLA()_FIFO_DEPTH > [BP], OCLA will signal backpressure to
                                                                  coprocessors. All-ones disables indicating backpressure. */
@@ -651,7 +651,7 @@ typedef union
         uint64_t bp                    : 16; /**< [ 31: 16](R/W) Backpressure level. When OCLA()_FIFO_DEPTH > [BP], OCLA will signal backpressure to
                                                                  coprocessors. All-ones disables indicating backpressure. */
         uint64_t ddr                   : 16; /**< [ 47: 32](R/W) DDR level. When OCLA()_FIFO_DEPTH > [DDR], FIFO entries will be removed, packed into a
-                                                                 cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If non-zero
+                                                                 cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If nonzero
                                                                  must be at least 52. */
         uint64_t overfull              : 16; /**< [ 63: 48](R/W) Stop level. When OCLA()_FIFO_DEPTH > [OVERFULL], stop capturing and set
                                                                  OCLA()_STATE_INT[OVERFULL]. This should be set to no more than
@@ -1463,20 +1463,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's OCLA()_MSIX_VEC()_ADDR, OCLA()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of OCLA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_OCLA()_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's OCLA()_MSIX_VEC()_ADDR, OCLA()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of OCLA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_OCLA()_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]

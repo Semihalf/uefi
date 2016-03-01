@@ -378,17 +378,17 @@
                                        
                                        IPv4 packet:
                                        
-                                       _ received packet length - fcs_strip_size <  PKI_WQE_S[LCPTR]+IPv4_total_length
+                                       _ received packet length - fcs_pres_size <  PKI_WQE_S[LCPTR]+IPv4_total_length
                                        
                                        IPv6 packet:
                                        
-                                       _ received packet length - fcs_strip_size
+                                       _ received packet length - fcs_pres_size
                                        < PKI_WQE_S[LCPTR] + IPv6_header(40) + ipv6_payload_length
                                        
                                        Note this check also covers IPv6 extension headers, as extension headers are included in
                                        the payload length field.
                                        
-                                       where fcs_strip_size = (PKI_CL()_STYLE()_CFG[FCS_STRIP] ? 4:0).
+                                       where fcs_pres_size = (PKI_CL()_PKIND()_CFG[FCS_PRES] ? 4:0).
                                        
                                        When PKI_CL()_STYLE()_CFG2[LEN_LC] is set for the final style of the packet,
                                        PKI hardware performs an IP_MALD check at PKI_WQE_S[LCPTR] in the packet when
@@ -670,12 +670,12 @@
  * * 'MATCH' refers to PKI_CL()_PCAM()_MATCH().
  * * 'ACTION' refers to PKI_CL()_PCAM()_ACTION() for the PCAM entry that matches.
  * * The 'Bank' column indicates which PCAM bank must contain the match data.
- * * The 'Adv' column indicates if PKI_CL()_PCAM()_ACTION()[ADVANCE] may be non-zero;
- *   'No' indicates ADVANCE must be zero; 'Yes' indicates ADVANCE may be non-zero;
+ * * The 'Adv' column indicates if PKI_CL()_PCAM()_ACTION()[ADVANCE] may be nonzero;
+ *   'No' indicates ADVANCE must be zero; 'Yes' indicates ADVANCE may be nonzero;
  *   otherwise indicates the typical ADVANCE value(s).
- * * The 'PMC' column indicates if PKI_CL()_PCAM()_ACTION()[PMC] may be non-zero.
+ * * The 'PMC' column indicates if PKI_CL()_PCAM()_ACTION()[PMC] may be nonzero.
  *   PMC is typically 0x0.
- * * The 'SETTY' column indicates if PKI_CL()_PCAM()_ACTION()[SETTY] may be non-zero,
+ * * The 'SETTY' column indicates if PKI_CL()_PCAM()_ACTION()[SETTY] may be nonzero,
  *   and if so either which values it may take or which WQE pointer field and type
  *   field will be set to the SETTY value when SETTY!=NONE (0). For example, LFTY
  *   indicates that if PKI_CL()_PCAM()_ACTION()[SETTY]!=NONE then PKI_WQE_S[LFTY] will
@@ -792,25 +792,25 @@
                                        _ MATCH<31:0> = High four bytes of destination address.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_L3_DIPLL (0x27) /**< L3 destination IPv4/IPv6 address low. This match is only performed if LC parsing
                                        was enabled.
                                        _ MATCH<31:0> = Low four bytes of destination address.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_L3_DIPMH (0x25) /**< L3 destination IPv6 address middle-high. This match is only performed if LC
                                        parsing was enabled.
                                        _ MATCH<31:0> = Middle-high four bytes of destination address.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_L3_DIPML (0x26) /**< L3 destination IPv6 address middle-low. This match is only performed if LC
                                        parsing was enabled.
                                        _ MATCH<31:0> = Middle-low four bytes of destination address.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_L3_FLAGS (0x23) /**< L3 flags summary. This match is only performed if LC parsing was enabled and IP was found
                                        (PKI_WQE_S[LCTY]==IP*).
                                        _ MATCH<31:24> = DiffSrv (IPv4) or Flowclass (IPv6).
@@ -827,25 +827,25 @@
                                        _ MATCH<31:0> = High four bytes of source address.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_L3_SIPLL (0x22) /**< L3 source IPv4/IPv6 address low. This match is only performed if LC parsing was
                                        enabled.
                                        _ MATCH<31:0> = Low four bytes of source address.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_L3_SIPMH (0x20) /**< L3 source IPv6 address middle-high. This match is only performed if LC parsing
                                        was enabled.
                                        _ MATCH<31:0> = Middle-high four bytes of source address.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_L3_SIPML (0x21) /**< L3 source IPv6 address middle-low. This match is only performed if LC parsing
                                        was enabled.
                                        _ MATCH<31:0> = Middle-low four bytes of source address.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_L4_PORT (0x30) /**< L4 destination port and flags. This match is only performed if LF parsing was enabled and
                                        IP was found (see algorithms).
                                        
@@ -858,7 +858,7 @@
                                        NONE may be the most common ACTION[SETTY] value used in this case. GTP, SW28,
                                        SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
                                        
-                                       If ACTION[SETTY]!=NONE (0), then ACTION[ADVANCE] may be non-zero (typically the
+                                       If ACTION[SETTY]!=NONE (0), then ACTION[ADVANCE] may be nonzero (typically the
                                        TCP/UDP/SCTP header size), and PKI will set PKI_WQE_S[LGTY]=ACTION[SETTY] and
                                        PKI_WQE_S[LGPTR]=ACTION[ADVANCE]+PKI_WQE_S[LFPTR] on a match. For example
                                        for proper PKI_CL()_STYLE()_ALG[TAG_GTP] calculations with GTP, ACTION[ADVANCE] should
@@ -873,7 +873,7 @@
                                        bytes PKI_WQE_S[LFPTR], as the packet need not be TCP/UDP/SCTP.)
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_LD_VNI (0x28) /**< Virtualization tunnel identifier. This match is only performed if LD parsing was enabled
                                        and NVGRE/VXLAN/VXLANGPE/GENEVE was found (PKI_WQE_S[LDTY]==NVGRE/UDP_VXLAN/UDP_GENEVE).
                                        _ MATCH<31:8> = VNI (GENEVE) / VNI (VXLAN GPE) / VNI (VXLAN) / VSID (NVGRE).
@@ -885,7 +885,7 @@
                                        _ MATCH<31:0> = Four bytes of SPI.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_LG_CUSTOM (0x39) /**< LG custom match. This match is performed if LG and any of the layers C/D/E/F
                                        parsing was enabled.
                                        
@@ -907,12 +907,12 @@
                                        _ MATCH<15:0> = First two bytes of SMAC.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 #define BDK_PKI_PCAM_TERM_E_SMACL (9) /**< L2 source MAC address low. This match is only performed if L2 parsing was enabled.
                                        _ MATCH<31:0> = Low four bytes of SMAC.
                                        
                                        Internal:
-                                       Support for this term added in software's parse engine code. */
+                                       Support for this term is added only in production microcode. */
 
 /**
  * Enumeration pki_qpgqos_e
@@ -1564,10 +1564,8 @@ union bdk_pki_wqe_s
                                                                  This is needed by software; do not remove on single-node parts. */
         uint64_t reserved_60_61        : 2;
         uint64_t aura                  : 12; /**< [ 59: 48] The guest-aura computed for the packet. PKI sets [AURA] to
-                                                                 PKI_QPG_TBL(q)[LAURA], where q is the QPG computed for the
+                                                                 PKI_QPG_TBL(q)[GAURA], where q is the QPG computed for the
                                                                  packet (see the parser document).
-
-                                                                 [AURA<11:10>] is always zero.
 
                                                                  Internal:
                                                                  q is PKI_BEWQ_S[CFG<10:0>]. [AURA] is normally calculated solely by PKI BE,
@@ -1692,10 +1690,8 @@ union bdk_pki_wqe_s
                                                                  [APAD] is PKI_BEWQ_S[APAD]. */
         uint64_t reserved_47           : 1;
         uint64_t aura                  : 12; /**< [ 59: 48] The guest-aura computed for the packet. PKI sets [AURA] to
-                                                                 PKI_QPG_TBL(q)[LAURA], where q is the QPG computed for the
+                                                                 PKI_QPG_TBL(q)[GAURA], where q is the QPG computed for the
                                                                  packet (see the parser document).
-
-                                                                 [AURA<11:10>] is always zero.
 
                                                                  Internal:
                                                                  q is PKI_BEWQ_S[CFG<10:0>]. [AURA] is normally calculated solely by PKI BE,
@@ -1929,7 +1925,7 @@ union bdk_pki_wqe_s
         uint64_t lgty                  : 5;  /**< [190:186] Custom header type parsed after normal C, D, E, or F layer parsing.
                                                                  Enumerated by PKI_LTYPE_E. (See the parser document.)
 
-                                                                 [LGTY] is set to a non-zero action[SETTY] on a PCAM hit with PCAM data
+                                                                 [LGTY] is set to a nonzero action[SETTY] on a PCAM hit with PCAM data
                                                                  extracted from a base plus PKI_CL()_PKIND()_LG_CUSTOM[OFFSET] in the
                                                                  following circumstances:
 
@@ -2114,7 +2110,7 @@ union bdk_pki_wqe_s
         uint64_t l3fr                  : 1;  /**< [144:144] Set when the outer IP (Layer C) indicates a fragment.
 
                                                                  For IPv4, parse engine sets this bit when either the MF bit is set or the offset
-                                                                 field is non-zero.
+                                                                 field is nonzero.
 
                                                                  For IPv6, parse engine sets this bit is set when the initial next header value is
                                                                  fragmentation (i.e. 44).
@@ -2184,7 +2180,7 @@ union bdk_pki_wqe_s
                                                                  Calculated by microcode and possibly modified by the PKI BE. [ERRLEV] may
                                                                  (or may not) be PKI_BEWQ_S[ERRLEV]. PKI_ERRLEV_E describes which are done
                                                                  by microcode, and which by hardware. */
-        uint64_t opcode                : 8;  /**< [135:128] Normally zero, but when non-zero and [ERRLEV] is non-zero, contains an exception
+        uint64_t opcode                : 8;  /**< [135:128] Normally zero, but when nonzero and [ERRLEV] is nonzero, contains an exception
                                                                  opcode enumerated by PKI_OPCODE_E. PKI_STYLE()_WQ2<7:0> may modify [OPCODE]
                                                                  (before hardware error checks).
 
@@ -2195,7 +2191,7 @@ union bdk_pki_wqe_s
                                                                  (or may not) be PKI_BEWQ_S[OPCODE]. PKI_OPCODE_E describes which are done
                                                                  by microcode, and which by hardware. */
 #else /* Word 2 - Little Endian */
-        uint64_t opcode                : 8;  /**< [135:128] Normally zero, but when non-zero and [ERRLEV] is non-zero, contains an exception
+        uint64_t opcode                : 8;  /**< [135:128] Normally zero, but when nonzero and [ERRLEV] is nonzero, contains an exception
                                                                  opcode enumerated by PKI_OPCODE_E. PKI_STYLE()_WQ2<7:0> may modify [OPCODE]
                                                                  (before hardware error checks).
 
@@ -2267,7 +2263,7 @@ union bdk_pki_wqe_s
         uint64_t l3fr                  : 1;  /**< [144:144] Set when the outer IP (Layer C) indicates a fragment.
 
                                                                  For IPv4, parse engine sets this bit when either the MF bit is set or the offset
-                                                                 field is non-zero.
+                                                                 field is nonzero.
 
                                                                  For IPv6, parse engine sets this bit is set when the initial next header value is
                                                                  fragmentation (i.e. 44).
@@ -2440,7 +2436,7 @@ union bdk_pki_wqe_s
         uint64_t lgty                  : 5;  /**< [190:186] Custom header type parsed after normal C, D, E, or F layer parsing.
                                                                  Enumerated by PKI_LTYPE_E. (See the parser document.)
 
-                                                                 [LGTY] is set to a non-zero action[SETTY] on a PCAM hit with PCAM data
+                                                                 [LGTY] is set to a nonzero action[SETTY] on a PCAM hit with PCAM data
                                                                  extracted from a base plus PKI_CL()_PKIND()_LG_CUSTOM[OFFSET] in the
                                                                  following circumstances:
 
@@ -3086,21 +3082,21 @@ typedef union
     struct bdk_pki_alloc_flt_debug_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_27_63        : 37;
-        uint64_t valid                 : 1;  /**< [ 26: 26](R/W/H) PKI sets this bit and loads these fields when a pointer allocation returns with
+        uint64_t reserved_29_63        : 35;
+        uint64_t valid                 : 1;  /**< [ 28: 28](R/W/H) PKI sets this bit and loads these fields when a pointer allocation returns with
                                                                  fault. Once set, this bit will prevent any further updates to this register by
                                                                  PKI. Software must clear this bit in order for PKI to log any further debug
                                                                  information on fault events. */
-        uint64_t gmid                  : 16; /**< [ 25: 10](R/W/H) GMID used for the pointer request that returned a fault. */
-        uint64_t aura                  : 10; /**< [  9:  0](R/W/H) Guest-aura used for the pointer request that returned a fault. */
+        uint64_t gmid                  : 16; /**< [ 27: 12](R/W/H) GMID used for the pointer request that returned a fault. */
+        uint64_t aura                  : 12; /**< [ 11:  0](R/W/H) Guest-aura used for the pointer request that returned a fault. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 10; /**< [  9:  0](R/W/H) Guest-aura used for the pointer request that returned a fault. */
-        uint64_t gmid                  : 16; /**< [ 25: 10](R/W/H) GMID used for the pointer request that returned a fault. */
-        uint64_t valid                 : 1;  /**< [ 26: 26](R/W/H) PKI sets this bit and loads these fields when a pointer allocation returns with
+        uint64_t aura                  : 12; /**< [ 11:  0](R/W/H) Guest-aura used for the pointer request that returned a fault. */
+        uint64_t gmid                  : 16; /**< [ 27: 12](R/W/H) GMID used for the pointer request that returned a fault. */
+        uint64_t valid                 : 1;  /**< [ 28: 28](R/W/H) PKI sets this bit and loads these fields when a pointer allocation returns with
                                                                  fault. Once set, this bit will prevent any further updates to this register by
                                                                  PKI. Software must clear this bit in order for PKI to log any further debug
                                                                  information on fault events. */
-        uint64_t reserved_27_63        : 37;
+        uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_alloc_flt_debug_s cn; */
@@ -3134,18 +3130,7 @@ typedef union
     struct bdk_pki_aurax_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t pkt_add               : 2;  /**< [ 31: 30](R/W) Specifies what to add to FPA_AURA()_CNT when PKI enqueues a packet:
-                                                                   0x0 = zero.
-                                                                   0x1 = one.
-                                                                   0x2 = The number of FPA buffers allocated; i.e. if PKI_STYLE()_BUF[DIS_WQ_DAT]
-                                                                   is set, PKI_WQE_S[BUFS]+1, else PKI_WQE_S[BUFS].
-                                                                   0x3 = PKI_WQE_S[LEN] (i.e. the packet length). */
-        uint64_t reserved_19_29        : 11;
-        uint64_t ena_red               : 1;  /**< [ 18: 18](R/W) Enable RED drop between PASS and DROP levels. See also
-                                                                 FPA_AURA()_POOL_LEVELS[RED_ENA] and FPA_AURA()_CNT_LEVELS[RED_ENA]. */
-        uint64_t ena_drop              : 1;  /**< [ 17: 17](R/W) Enable tail drop when maximum DROP level exceeded. See also
-                                                                 FPA_AURA()_POOL_LEVELS[DROP] and FPA_AURA()_CNT_LEVELS[DROP]. */
+        uint64_t reserved_17_63        : 47;
         uint64_t ena_bp                : 1;  /**< [ 16: 16](R/W) Enable asserting backpressure on BPID when maximum DROP level exceeded. See also
                                                                  FPA_AURA()_POOL_LEVELS[RED_ENA] and FPA_AURA()_CNT_LEVELS[RED_ENA]. */
         uint64_t reserved_10_15        : 6;
@@ -3155,18 +3140,7 @@ typedef union
         uint64_t reserved_10_15        : 6;
         uint64_t ena_bp                : 1;  /**< [ 16: 16](R/W) Enable asserting backpressure on BPID when maximum DROP level exceeded. See also
                                                                  FPA_AURA()_POOL_LEVELS[RED_ENA] and FPA_AURA()_CNT_LEVELS[RED_ENA]. */
-        uint64_t ena_drop              : 1;  /**< [ 17: 17](R/W) Enable tail drop when maximum DROP level exceeded. See also
-                                                                 FPA_AURA()_POOL_LEVELS[DROP] and FPA_AURA()_CNT_LEVELS[DROP]. */
-        uint64_t ena_red               : 1;  /**< [ 18: 18](R/W) Enable RED drop between PASS and DROP levels. See also
-                                                                 FPA_AURA()_POOL_LEVELS[RED_ENA] and FPA_AURA()_CNT_LEVELS[RED_ENA]. */
-        uint64_t reserved_19_29        : 11;
-        uint64_t pkt_add               : 2;  /**< [ 31: 30](R/W) Specifies what to add to FPA_AURA()_CNT when PKI enqueues a packet:
-                                                                   0x0 = zero.
-                                                                   0x1 = one.
-                                                                   0x2 = The number of FPA buffers allocated; i.e. if PKI_STYLE()_BUF[DIS_WQ_DAT]
-                                                                   is set, PKI_WQE_S[BUFS]+1, else PKI_WQE_S[BUFS].
-                                                                   0x3 = PKI_WQE_S[LEN] (i.e. the packet length). */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_aurax_cfg_s cn; */
@@ -3293,7 +3267,7 @@ typedef union
                                                                  <7> = Reserved.
                                                                  <6> = STRM.
                                                                  <5> = TAG.
-                                                                 <4> = AURA.
+                                                                 <4> = Reserved.
                                                                  <3> = CHAN.
                                                                  <2> = PBTAG.
                                                                  <1> = STYLEWQ.
@@ -3324,7 +3298,7 @@ typedef union
                                                                  <7> = Reserved.
                                                                  <6> = STRM.
                                                                  <5> = TAG.
-                                                                 <4> = AURA.
+                                                                 <4> = Reserved.
                                                                  <3> = CHAN.
                                                                  <2> = PBTAG.
                                                                  <1> = STYLEWQ.
@@ -3446,8 +3420,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3460,8 +3434,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3519,8 +3493,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3533,8 +3507,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3587,13 +3561,13 @@ typedef union
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <60> = Limit the schedule from schedule PFE requests. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3606,8 +3580,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3620,7 +3594,7 @@ typedef union
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <60> = Limit the schedule from schedule PFE requests. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bp_test2_s cn; */
@@ -3783,9 +3757,9 @@ typedef union
                                                                  Write to a non-implemented channel is ignored. Reading a non-implemented channel
                                                                  returns all zero data. */
         uint64_t reserved_10_15        : 6;
-        uint64_t bpid                  : 10; /**< [  9:  0](R/W) Bpid to receive backpressure from. Value must be 0 to 511. */
+        uint64_t bpid                  : 10; /**< [  9:  0](R/W) Bpid from which to receive backpressure. Value must be 0 to 511. */
 #else /* Word 0 - Little Endian */
-        uint64_t bpid                  : 10; /**< [  9:  0](R/W) Bpid to receive backpressure from. Value must be 0 to 511. */
+        uint64_t bpid                  : 10; /**< [  9:  0](R/W) Bpid from which to receive backpressure. Value must be 0 to 511. */
         uint64_t reserved_10_15        : 6;
         uint64_t imp                   : 1;  /**< [ 16: 16](RO/H) Implemented. This register is sparse (only indexes with values in PKI_CHAN_E are
                                                                  implemented).
@@ -4345,7 +4319,7 @@ typedef union
                                                                    0x38 = Skip LD, LE, LF parsing.
                                                                    0x3F = Skip all parsing; no further packet inspection.
 
-                                                                 The typical use of PMC<5:0> being non-zero is for Ethertypes or custom headers
+                                                                 The typical use of PMC<5:0> being nonzero is for Ethertypes or custom headers
                                                                  to indicate non-IP follows that Ethertype/custom header. This corresponds to use
                                                                  only with PKI_PCAM_TERM_E::ETHTYPE0..3, and PKI_PCAM_TERM_E::L2_CUSTOM.
 
@@ -4367,7 +4341,7 @@ typedef union
                                                                  _ else = reserved.
 
                                                                  Must be zero for invalid entries. */
-        uint64_t setty                 : 5;  /**< [ 12:  8](R/W) Set pointer type. If non-zero, indicates the layer type to be set as described under
+        uint64_t setty                 : 5;  /**< [ 12:  8](R/W) Set pointer type. If nonzero, indicates the layer type to be set as described under
                                                                  PKI_PCAM_TERM_E. Values are enumerated by PKI_LTYPE_E. Must be zero for invalid entries.
                                                                  The PKI_PCAM_TERM_E table enumerates legal/common SETTY values. */
         uint64_t advance               : 8;  /**< [  7:  0](R/W) Relative number of bytes to advance scan pointer when entry matches.
@@ -4377,7 +4351,7 @@ typedef union
         uint64_t advance               : 8;  /**< [  7:  0](R/W) Relative number of bytes to advance scan pointer when entry matches.
                                                                  Must be even. Must be zero for invalid entries and for TERMs that do not allow
                                                                  an advance as specified in the PKI_PCAM_TERM_E table. */
-        uint64_t setty                 : 5;  /**< [ 12:  8](R/W) Set pointer type. If non-zero, indicates the layer type to be set as described under
+        uint64_t setty                 : 5;  /**< [ 12:  8](R/W) Set pointer type. If nonzero, indicates the layer type to be set as described under
                                                                  PKI_PCAM_TERM_E. Values are enumerated by PKI_LTYPE_E. Must be zero for invalid entries.
                                                                  The PKI_PCAM_TERM_E table enumerates legal/common SETTY values. */
         uint64_t pf                    : 3;  /**< [ 15: 13](R/W) Parse flag to set. Specifies the parse flag to set when entry matches, see PCAM actions
@@ -4420,7 +4394,7 @@ typedef union
                                                                    0x38 = Skip LD, LE, LF parsing.
                                                                    0x3F = Skip all parsing; no further packet inspection.
 
-                                                                 The typical use of PMC<5:0> being non-zero is for Ethertypes or custom headers
+                                                                 The typical use of PMC<5:0> being nonzero is for Ethertypes or custom headers
                                                                  to indicate non-IP follows that Ethertype/custom header. This corresponds to use
                                                                  only with PKI_PCAM_TERM_E::ETHTYPE0..3, and PKI_PCAM_TERM_E::L2_CUSTOM.
 
@@ -4468,20 +4442,20 @@ typedef union
                                                                  action to be taken. See PKI_PCAM_TERM_E for comparison bit definitions.
                                                                  The field value is ternary, where each bit matches as follows:
 
-                                                                 _ DATA1<n>=0, DATA0<n>=0: Always match; data<n> don't care.
-                                                                 _ DATA1<n>=0, DATA0<n>=1: Match when data<n> == 0.
-                                                                 _ DATA1<n>=1, DATA0<n>=0: Match when data<n> == 1.
-                                                                 _ DATA1<n>=1, DATA0<n>=1: Reserved. */
+                                                                 _ [DATA1]<n>=0, [DATA0]<n>=0: Always match; data<n> don't care.
+                                                                 _ [DATA1]<n>=0, [DATA0]<n>=1: Match when data<n> == 0.
+                                                                 _ [DATA1]<n>=1, [DATA0]<n>=0: Match when data<n> == 1.
+                                                                 _ [DATA1]<n>=1, [DATA0]<n>=1: Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t data0                 : 32; /**< [ 31:  0](R/W) The packet data to compare against. Bits may be ignored in comparison based on [DATA0] and
                                                                  [DATA1]. If the entry matches, PKI_CL()_PCAM()_ACTION() will determine the
                                                                  action to be taken. See PKI_PCAM_TERM_E for comparison bit definitions.
                                                                  The field value is ternary, where each bit matches as follows:
 
-                                                                 _ DATA1<n>=0, DATA0<n>=0: Always match; data<n> don't care.
-                                                                 _ DATA1<n>=0, DATA0<n>=1: Match when data<n> == 0.
-                                                                 _ DATA1<n>=1, DATA0<n>=0: Match when data<n> == 1.
-                                                                 _ DATA1<n>=1, DATA0<n>=1: Reserved. */
+                                                                 _ [DATA1]<n>=0, [DATA0]<n>=0: Always match; data<n> don't care.
+                                                                 _ [DATA1]<n>=0, [DATA0]<n>=1: Match when data<n> == 0.
+                                                                 _ [DATA1]<n>=1, [DATA0]<n>=0: Match when data<n> == 1.
+                                                                 _ [DATA1]<n>=1, [DATA0]<n>=1: Reserved. */
         uint64_t data1                 : 32; /**< [ 63: 32](R/W) See [DATA0]. */
 #endif /* Word 0 - End */
     } s;
@@ -4527,20 +4501,20 @@ typedef union
         uint64_t term0                 : 8;  /**< [ 15:  8](R/W) Comparison type. Enumerated by PKI_PCAM_TERM_E. The field value is ternary, where each
                                                                  bit matches as follows:
 
-                                                                 _ TERM1<n>=0, TERM0<n>=0: Always match; data<n> don't care.
-                                                                 _ TERM1<n>=0, TERM0<n>=1: Match when data<n> == 0.
-                                                                 _ TERM1<n>=1, TERM0<n>=0: Match when data<n> == 1.
-                                                                 _ TERM1<n>=1, TERM0<n>=1: Reserved. */
+                                                                 _ [TERM1]<n>=0, [TERM0]<n>=0: Always match; data<n> don't care.
+                                                                 _ [TERM1]<n>=0, [TERM0]<n>=1: Match when data<n> == 0.
+                                                                 _ [TERM1]<n>=1, [TERM0]<n>=0: Match when data<n> == 1.
+                                                                 _ [TERM1]<n>=1, [TERM0]<n>=1: Reserved. */
         uint64_t style0                : 8;  /**< [  7:  0](R/W) Previous interim style. The style that must have been calculated by the port
                                                                  PKI_CL()_PKIND()_STYLE[STYLE] or as modified by previous CAM hits's
                                                                  PKI_CL()_PCAM()_ACTION()[STYLE_ADD]. This is used to form AND style matches.
 
                                                                  The field value is ternary, where each bit matches as follows:
 
-                                                                 _ STYLE1<n>=0, STYLE0<n>=0: Always match; data<n> don't care.
-                                                                 _ STYLE1<n>=0, STYLE0<n>=1: Match when data<n> == 0.
-                                                                 _ STYLE1<n>=1, STYLE0<n>=0: Match when data<n> == 1.
-                                                                 _ STYLE1<n>=1, STYLE0<n>=1: Reserved. */
+                                                                 _ [STYLE1]<n>=0, [STYLE0]<n>=0: Always match; data<n> don't care.
+                                                                 _ [STYLE1]<n>=0, [STYLE0]<n>=1: Match when data<n> == 0.
+                                                                 _ [STYLE1]<n>=1, [STYLE0]<n>=0: Match when data<n> == 1.
+                                                                 _ [STYLE1]<n>=1, [STYLE0]<n>=1: Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t style0                : 8;  /**< [  7:  0](R/W) Previous interim style. The style that must have been calculated by the port
                                                                  PKI_CL()_PKIND()_STYLE[STYLE] or as modified by previous CAM hits's
@@ -4548,17 +4522,17 @@ typedef union
 
                                                                  The field value is ternary, where each bit matches as follows:
 
-                                                                 _ STYLE1<n>=0, STYLE0<n>=0: Always match; data<n> don't care.
-                                                                 _ STYLE1<n>=0, STYLE0<n>=1: Match when data<n> == 0.
-                                                                 _ STYLE1<n>=1, STYLE0<n>=0: Match when data<n> == 1.
-                                                                 _ STYLE1<n>=1, STYLE0<n>=1: Reserved. */
+                                                                 _ [STYLE1]<n>=0, [STYLE0]<n>=0: Always match; data<n> don't care.
+                                                                 _ [STYLE1]<n>=0, [STYLE0]<n>=1: Match when data<n> == 0.
+                                                                 _ [STYLE1]<n>=1, [STYLE0]<n>=0: Match when data<n> == 1.
+                                                                 _ [STYLE1]<n>=1, [STYLE0]<n>=1: Reserved. */
         uint64_t term0                 : 8;  /**< [ 15:  8](R/W) Comparison type. Enumerated by PKI_PCAM_TERM_E. The field value is ternary, where each
                                                                  bit matches as follows:
 
-                                                                 _ TERM1<n>=0, TERM0<n>=0: Always match; data<n> don't care.
-                                                                 _ TERM1<n>=0, TERM0<n>=1: Match when data<n> == 0.
-                                                                 _ TERM1<n>=1, TERM0<n>=0: Match when data<n> == 1.
-                                                                 _ TERM1<n>=1, TERM0<n>=1: Reserved. */
+                                                                 _ [TERM1]<n>=0, [TERM0]<n>=0: Always match; data<n> don't care.
+                                                                 _ [TERM1]<n>=0, [TERM0]<n>=1: Match when data<n> == 0.
+                                                                 _ [TERM1]<n>=1, [TERM0]<n>=0: Match when data<n> == 1.
+                                                                 _ [TERM1]<n>=1, [TERM0]<n>=1: Reserved. */
         uint64_t reserved_16_31        : 16;
         uint64_t style1                : 8;  /**< [ 39: 32](R/W) See [STYLE0]. */
         uint64_t term1                 : 8;  /**< [ 47: 40](R/W) See [TERM0]. */
@@ -4614,7 +4588,7 @@ typedef union
                                                                  0x5-0x7 = Reserved.
 
                                                                  Internal:
-                                                                 Non-zero implemented only in software's parse engine code.
+                                                                 Nonzero implemented only in software's parse engine code.
 
                                                                  [LG_CUSTOM_LAYER] must be clear if PKI_GBL_PEN[CLG_PEN] is clear. */
         uint64_t fcs_pres              : 1;  /**< [  7:  7](R/W) FCS present.
@@ -4731,7 +4705,7 @@ typedef union
                                                                  0x5-0x7 = Reserved.
 
                                                                  Internal:
-                                                                 Non-zero implemented only in software's parse engine code.
+                                                                 Nonzero implemented only in software's parse engine code.
 
                                                                  [LG_CUSTOM_LAYER] must be clear if PKI_GBL_PEN[CLG_PEN] is clear. */
         uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. */
@@ -5337,10 +5311,9 @@ typedef union
                                                                  bytes following the L2 length field (excluding FCS) is at least as large as the L2
                                                                  length field value whenever the Ethertype / L2 length field is <= 1535.
 
-                                                                 The PKI L2 length check assumes that FCS is present in the packet received by PKI,
-                                                                 so [LENERR_EN] should be clear when FCS is not present in the packets received
-                                                                 (i.e. [LENERR_EN] should be clear whenever corresponding PKI_CL()_PKIND()_CFG[FCS_PRES]
-                                                                 is clear).
+                                                                 The PKI L2 length check assumes that the packet received by PKI contains a trailing FCS
+                                                                 when
+                                                                 the PKI_CL()_PKIND()_CFG[FCS_PRES] for the pkind of the packet is set.
 
                                                                  Internal:
                                                                  The parse engine clears this bit in PKI_BEWQ_S[CFG] when SNAP length checks
@@ -5387,18 +5360,18 @@ typedef union
                                                                  Parse engine only passes along field FCS_CHK, and doesn't otherwise use it. */
         uint64_t rawdrp                : 1;  /**< [ 21: 21](R/W) Allow RAW packet drop.
                                                                  0 = Never drop packets with PKI_WQE_S[RAW] set.
-                                                                 1 = Allow the PKI to drop RAW packets based on PKI_AURA()_CFG[ENA_RED/ENA_DROP].
+                                                                 1 = Allow the PKI to drop RAW packets based on PKI_QPG_TBLB()[ENA_RED/ENA_DROP].
 
                                                                  Internal:
                                                                  Parse engine only passes along field RAWDRP, and doesn't otherwise use it. */
         uint64_t drop                  : 1;  /**< [ 20: 20](R/W) Force packet dropping.
-                                                                 0 = Drop packet based on PKI_AURA()_CFG[ENA_RED/ENA_DROP].
+                                                                 0 = Drop packet based on PKI_QPG_TBLB()[ENA_RED/ENA_DROP].
                                                                  1 = Always drop the packet. Overrides [NODROP], [RAWDRP].
 
                                                                  Internal:
                                                                  Parse engine only passes along field DROP, and doesn't otherwise use it. */
         uint64_t nodrop                : 1;  /**< [ 19: 19](R/W) Disable QoS packet drop.
-                                                                 0 = Allowed to drop packet based on PKI_AURA()_CFG[ENA_RED/ENA_DROP].
+                                                                 0 = Allowed to drop packet based on PKI_QPG_TBLB()[ENA_RED/ENA_DROP].
                                                                  1 = Never drop the packet. Overrides [RAWDRP].
 
                                                                  Internal:
@@ -5427,23 +5400,23 @@ typedef union
                                                                  PKI_WQE_S[AURA] is PKI_BEWQ_S[AURA]. */
         uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. Must be zero.
                                                                  Internal:
-                                                                 Parse engine code may corrupt PKI_BEWQ_S[CFG<11>] during QPG calculations. See [QPG_BASE].
-                                                                 Effectively, PKI_BEWQ_S[CFG<11>] is unpredictable. */
+                                                                 Parse engine code may corrupt PKI_BEWQ_S[CFG<15:11>] during QPG calculations.
+                                                                 See [QPG_BASE]. Effectively, PKI_BEWQ_S[CFG<15:11>] is unpredictable. */
         uint64_t qpg_base              : 11; /**< [ 10:  0](R/W) Base index into PKI_QPG_TBL().
                                                                  Internal:
                                                                  The parse engine typically starts with [QPG_BASE], performs the
                                                                  QPG add in place, and passes the result through to PKI_BEWQ_S[CFG]. The
-                                                                 carry from the add may corrupt PKI_BEWQ_S[CFG<11>]. */
+                                                                 port shift and carry from the add may corrupt PKI_BEWQ_S[CFG<15:11>]. */
 #else /* Word 0 - Little Endian */
         uint64_t qpg_base              : 11; /**< [ 10:  0](R/W) Base index into PKI_QPG_TBL().
                                                                  Internal:
                                                                  The parse engine typically starts with [QPG_BASE], performs the
                                                                  QPG add in place, and passes the result through to PKI_BEWQ_S[CFG]. The
-                                                                 carry from the add may corrupt PKI_BEWQ_S[CFG<11>]. */
+                                                                 port shift and carry from the add may corrupt PKI_BEWQ_S[CFG<15:11>]. */
         uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. Must be zero.
                                                                  Internal:
-                                                                 Parse engine code may corrupt PKI_BEWQ_S[CFG<11>] during QPG calculations. See [QPG_BASE].
-                                                                 Effectively, PKI_BEWQ_S[CFG<11>] is unpredictable. */
+                                                                 Parse engine code may corrupt PKI_BEWQ_S[CFG<15:11>] during QPG calculations.
+                                                                 See [QPG_BASE]. Effectively, PKI_BEWQ_S[CFG<15:11>] is unpredictable. */
         uint64_t qpg_dis_aura          : 1;  /**< [ 16: 16](R/W) Disable computing aura by QPG algorithm.
 
                                                                  [QPG_DIS_AURA] should normally always be clear.
@@ -5467,20 +5440,20 @@ typedef union
                                                                  Internal:
                                                                  Parse engine only passes along field QPG_DIS_PADD, and doesn't otherwise use it. */
         uint64_t nodrop                : 1;  /**< [ 19: 19](R/W) Disable QoS packet drop.
-                                                                 0 = Allowed to drop packet based on PKI_AURA()_CFG[ENA_RED/ENA_DROP].
+                                                                 0 = Allowed to drop packet based on PKI_QPG_TBLB()[ENA_RED/ENA_DROP].
                                                                  1 = Never drop the packet. Overrides [RAWDRP].
 
                                                                  Internal:
                                                                  Parse engine only passes along field NODROP, and doesn't otherwise use it. */
         uint64_t drop                  : 1;  /**< [ 20: 20](R/W) Force packet dropping.
-                                                                 0 = Drop packet based on PKI_AURA()_CFG[ENA_RED/ENA_DROP].
+                                                                 0 = Drop packet based on PKI_QPG_TBLB()[ENA_RED/ENA_DROP].
                                                                  1 = Always drop the packet. Overrides [NODROP], [RAWDRP].
 
                                                                  Internal:
                                                                  Parse engine only passes along field DROP, and doesn't otherwise use it. */
         uint64_t rawdrp                : 1;  /**< [ 21: 21](R/W) Allow RAW packet drop.
                                                                  0 = Never drop packets with PKI_WQE_S[RAW] set.
-                                                                 1 = Allow the PKI to drop RAW packets based on PKI_AURA()_CFG[ENA_RED/ENA_DROP].
+                                                                 1 = Allow the PKI to drop RAW packets based on PKI_QPG_TBLB()[ENA_RED/ENA_DROP].
 
                                                                  Internal:
                                                                  Parse engine only passes along field RAWDRP, and doesn't otherwise use it. */
@@ -5528,10 +5501,9 @@ typedef union
                                                                  bytes following the L2 length field (excluding FCS) is at least as large as the L2
                                                                  length field value whenever the Ethertype / L2 length field is <= 1535.
 
-                                                                 The PKI L2 length check assumes that FCS is present in the packet received by PKI,
-                                                                 so [LENERR_EN] should be clear when FCS is not present in the packets received
-                                                                 (i.e. [LENERR_EN] should be clear whenever corresponding PKI_CL()_PKIND()_CFG[FCS_PRES]
-                                                                 is clear).
+                                                                 The PKI L2 length check assumes that the packet received by PKI contains a trailing FCS
+                                                                 when
+                                                                 the PKI_CL()_PKIND()_CFG[FCS_PRES] for the pkind of the packet is set.
 
                                                                  Internal:
                                                                  The parse engine clears this bit in PKI_BEWQ_S[CFG] when SNAP length checks
@@ -5771,11 +5743,17 @@ typedef union
                                                                  Parse engine only passes along field CSUM_LC, and doesn't otherwise use it. */
         uint64_t csum_lb               : 1;  /**< [  0:  0](R/W) Reserved. Must be zero.
                                                                  Internal:
-                                                                 Parse engine only passes along field CSUM_LB, and doesn't otherwise use it. */
+                                                                 Microcode replaces this bit with PKI_CL()_PKIND()_CFG[FCS_PRES]. PKI BE hardware uses it
+                                                                 for length calculation using fcs_pres_size.
+
+                                                                 where fcs_pres_size = (PKI_CL()_PKIND()_CFG[FCS_PRES]? 4 : 0). */
 #else /* Word 0 - Little Endian */
         uint64_t csum_lb               : 1;  /**< [  0:  0](R/W) Reserved. Must be zero.
                                                                  Internal:
-                                                                 Parse engine only passes along field CSUM_LB, and doesn't otherwise use it. */
+                                                                 Microcode replaces this bit with PKI_CL()_PKIND()_CFG[FCS_PRES]. PKI BE hardware uses it
+                                                                 for length calculation using fcs_pres_size.
+
+                                                                 where fcs_pres_size = (PKI_CL()_PKIND()_CFG[FCS_PRES]? 4 : 0). */
         uint64_t csum_lc               : 1;  /**< [  1:  1](R/W) When set, PKI hardware performs an outermost IPv4/IPv6 PKI_OPCODE_E::IP_CHK
                                                                  check when PKI_LTYPE(PKI_WQE_S[LCTY])_MAP[BELTYPE] equals either of
                                                                  PKI_BELTYPE_E::IP4,IP6. PKI_WQE_S[LCPTR] points to the IPv4/IPv6 header in this
@@ -6777,8 +6755,7 @@ typedef union
         uint64_t stylewq2_cdis         : 1;  /**< [ 18: 18](R/W) STYLEWQ2 ECC correction disable. */
         uint64_t tag_flip              : 2;  /**< [ 17: 16](R/W) TAG flip syndrome bits on write. */
         uint64_t tag_cdis              : 1;  /**< [ 15: 15](R/W) TAG ECC correction disable. */
-        uint64_t aura_flip             : 2;  /**< [ 14: 13](R/W) AURA flip syndrome bits on write. */
-        uint64_t aura_cdis             : 1;  /**< [ 12: 12](R/W) AURA ECC correction disable. */
+        uint64_t reserved_12_14        : 3;
         uint64_t chan_flip             : 2;  /**< [ 11: 10](R/W) CHAN flip syndrome bits on write. */
         uint64_t chan_cdis             : 1;  /**< [  9:  9](R/W) CHAN ECC correction disable. */
         uint64_t pbtag_flip            : 2;  /**< [  8:  7](R/W) PBTAG flip syndrome bits on write. */
@@ -6796,8 +6773,7 @@ typedef union
         uint64_t pbtag_flip            : 2;  /**< [  8:  7](R/W) PBTAG flip syndrome bits on write. */
         uint64_t chan_cdis             : 1;  /**< [  9:  9](R/W) CHAN ECC correction disable. */
         uint64_t chan_flip             : 2;  /**< [ 11: 10](R/W) CHAN flip syndrome bits on write. */
-        uint64_t aura_cdis             : 1;  /**< [ 12: 12](R/W) AURA ECC correction disable. */
-        uint64_t aura_flip             : 2;  /**< [ 14: 13](R/W) AURA flip syndrome bits on write. */
+        uint64_t reserved_12_14        : 3;
         uint64_t tag_cdis              : 1;  /**< [ 15: 15](R/W) TAG ECC correction disable. */
         uint64_t tag_flip              : 2;  /**< [ 17: 16](R/W) TAG flip syndrome bits on write. */
         uint64_t stylewq2_cdis         : 1;  /**< [ 18: 18](R/W) STYLEWQ2 ECC correction disable. */
@@ -6877,8 +6853,7 @@ typedef union
         uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) STRM ECC single bit error. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) TAG ECC double bit error. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) TAG ECC single bit error. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) AURA ECC double bit error. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1C/H) AURA ECC single bit error. */
+        uint64_t reserved_8_9          : 2;
         uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) CHAN ECC double bit error. */
         uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) CHAN ECC single bit error. */
         uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) PBTAG ECC double bit error. */
@@ -6896,8 +6871,7 @@ typedef union
         uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) PBTAG ECC double bit error. */
         uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) CHAN ECC single bit error. */
         uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) CHAN ECC double bit error. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1C/H) AURA ECC single bit error. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) AURA ECC double bit error. */
+        uint64_t reserved_8_9          : 2;
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) TAG ECC single bit error. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) TAG ECC double bit error. */
         uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) STRM ECC single bit error. */
@@ -6977,8 +6951,7 @@ typedef union
         uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STRM_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[TAG_DBE]. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[TAG_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[AURA_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[AURA_SBE]. */
+        uint64_t reserved_8_9          : 2;
         uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[CHAN_DBE]. */
         uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[CHAN_SBE]. */
         uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PBTAG_DBE]. */
@@ -6996,8 +6969,7 @@ typedef union
         uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PBTAG_DBE]. */
         uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[CHAN_SBE]. */
         uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[CHAN_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[AURA_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[AURA_DBE]. */
+        uint64_t reserved_8_9          : 2;
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[TAG_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[TAG_DBE]. */
         uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STRM_SBE]. */
@@ -7077,8 +7049,7 @@ typedef union
         uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STRM_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[TAG_DBE]. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[TAG_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[AURA_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[AURA_SBE]. */
+        uint64_t reserved_8_9          : 2;
         uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[CHAN_DBE]. */
         uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[CHAN_SBE]. */
         uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PBTAG_DBE]. */
@@ -7096,8 +7067,7 @@ typedef union
         uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PBTAG_DBE]. */
         uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[CHAN_SBE]. */
         uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[CHAN_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[AURA_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[AURA_DBE]. */
+        uint64_t reserved_8_9          : 2;
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[TAG_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[TAG_DBE]. */
         uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STRM_SBE]. */
@@ -7177,8 +7147,7 @@ typedef union
         uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC1_INT[STRM_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC1_INT[TAG_DBE]. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC1_INT[TAG_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC1_INT[AURA_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC1_INT[AURA_SBE]. */
+        uint64_t reserved_8_9          : 2;
         uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC1_INT[CHAN_DBE]. */
         uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC1_INT[CHAN_SBE]. */
         uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC1_INT[PBTAG_DBE]. */
@@ -7196,8 +7165,7 @@ typedef union
         uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC1_INT[PBTAG_DBE]. */
         uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC1_INT[CHAN_SBE]. */
         uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC1_INT[CHAN_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC1_INT[AURA_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC1_INT[AURA_DBE]. */
+        uint64_t reserved_8_9          : 2;
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC1_INT[TAG_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC1_INT[TAG_DBE]. */
         uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC1_INT[STRM_SBE]. */
@@ -7551,19 +7519,19 @@ typedef union
                                                                  reductions.
                                                                  1 = L4 parsing may be used.
 
-                                                                 See [L3_PEN] for supported [L3_PEN,VIRT_PEN,IL3_PEN,L4_PEN,CLG_PEN] combinations. */
+                                                                 See [L3_PEN] for supported [L3_PEN], [VIRT_PEN], [IL3_PEN], [L4_PEN,CLG_PEN] combinations. */
         uint64_t il3_pen               : 1;  /**< [  5:  5](R/W) L3 inner parsing enable. Must be zero if L3_PEN is zero.
                                                                  0 = L3 inner parsing is never used in any style. This enables internal power and latency
                                                                  reductions.
                                                                  1 = L3 inner (IP-in-IP) parsing may be used.
 
-                                                                 See [L3_PEN] for supported [L3_PEN,VIRT_PEN,IL3_PEN,L4_PEN,CLG_PEN] combinations. */
+                                                                 See [L3_PEN] for supported [L3_PEN], [VIRT_PEN], [IL3_PEN], [L4_PEN,CLG_PEN] combinations. */
         uint64_t l3_pen                : 1;  /**< [  4:  4](R/W) L3 parsing enable.
                                                                  0 = L3 parsing is never used in any style. This enables internal power and latency
                                                                  reductions.
                                                                  1 = L3 parsing may be used.
 
-                                                                 The supported [L3_PEN,VIRT_PEN,IL3_PEN,L4_PEN,CLG_PEN] combinations are:
+                                                                 The supported [L3_PEN], [VIRT_PEN], [IL3_PEN], [L4_PEN,CLG_PEN] combinations are:
 
                                                                  <pre>
                                                                  L3_PEN VIRT_PEN IL3_PEN L4_PEN CLG_PEN
@@ -7612,7 +7580,7 @@ typedef union
                                                                  reductions.
                                                                  1 = L3 parsing may be used.
 
-                                                                 The supported [L3_PEN,VIRT_PEN,IL3_PEN,L4_PEN,CLG_PEN] combinations are:
+                                                                 The supported [L3_PEN], [VIRT_PEN], [IL3_PEN], [L4_PEN,CLG_PEN] combinations are:
 
                                                                  <pre>
                                                                  L3_PEN VIRT_PEN IL3_PEN L4_PEN CLG_PEN
@@ -7626,13 +7594,13 @@ typedef union
                                                                  reductions.
                                                                  1 = L3 inner (IP-in-IP) parsing may be used.
 
-                                                                 See [L3_PEN] for supported [L3_PEN,VIRT_PEN,IL3_PEN,L4_PEN,CLG_PEN] combinations. */
+                                                                 See [L3_PEN] for supported [L3_PEN], [VIRT_PEN], [IL3_PEN], [L4_PEN,CLG_PEN] combinations. */
         uint64_t l4_pen                : 1;  /**< [  6:  6](R/W) L4 parsing enable.
                                                                  0 = L4 parsing is never used in any style. This enables internal power and latency
                                                                  reductions.
                                                                  1 = L4 parsing may be used.
 
-                                                                 See [L3_PEN] for supported [L3_PEN,VIRT_PEN,IL3_PEN,L4_PEN,CLG_PEN] combinations. */
+                                                                 See [L3_PEN] for supported [L3_PEN], [VIRT_PEN], [IL3_PEN], [L4_PEN,CLG_PEN] combinations. */
         uint64_t cl2_pen               : 1;  /**< [  7:  7](R/W) Custom L2 parsing enable.
                                                                  0 = Custom L2 is never used in any style; i.e. PKI_CL()_PKIND()_L2_CUSTOM[VALID]
                                                                  is zero for all indices. This enables internal power and latency reductions.
@@ -7940,7 +7908,7 @@ typedef union
         uint64_t clusters              : 4;  /**< [ 35: 32](R/W) Bit-mask of clusters in this cluster group. A given cluster can only be enabled
                                                                  in a single cluster group. Behavior is undefined for an ICG which receives
                                                                  traffic with a [CLUSTERS] of 0x0. ICG(0)'s entry resets to 0x3, all other
-                                                                 entries to 0x0. Valid values of CLUSTERS is: 0..3 */
+                                                                 entries to 0x0. Valid values of [CLUSTERS] are 0x0-0x3. */
         uint64_t reserved_27_31        : 5;
         uint64_t release_rqd           : 1;  /**< [ 26: 26](R/W) Reserved. Must be zero.
                                                                  Internal:
@@ -7957,16 +7925,17 @@ typedef union
                                                                  0 = IPE transitions from start directly to done without executing a sequence, and the KMEM
                                                                  bits effectively are copied through to the WQ.
                                                                  1 = Normal parse engine operation. */
-        uint64_t timer                 : 12; /**< [ 23: 12](RO/H) Current hold-off timer. Enables even spreading of cluster utilization over time; while
-                                                                 TIMER is non-zero, a cluster in this group will not start parsing. When a cluster in this
-                                                                 group starts parsing, TIMER is set to DELAY, and decrements every coprocessor-clock. TIMER
-                                                                 is zeroed if all clusters in this group are idle. */
-        uint64_t delay                 : 12; /**< [ 11:  0](R/W) Delay between cluster starts, as described under TIMER. If 0x0, a cluster can
-                                                                 start at any time relative to other clusters. DELAY should typically be
+        uint64_t timer                 : 12; /**< [ 23: 12](RO/H) Current hold-off timer. Enables even spreading of cluster utilization over time;
+                                                                 while [TIMER] is nonzero, a cluster in this group will not start parsing. When a
+                                                                 cluster in this group starts parsing, [TIMER] is set to [DELAY], and decrements
+                                                                 every coprocessor-clock. [TIMER] is zeroed if all clusters in this group are
+                                                                 idle. */
+        uint64_t delay                 : 12; /**< [ 11:  0](R/W) Delay between cluster starts, as described under [TIMER]. If 0x0, a cluster can
+                                                                 start at any time relative to other clusters. [DELAY] should typically be
                                                                  the average observed parser latency by loading with the parsing
                                                                  delay divided by the number of clusters in this cluster group which will
-                                                                 typically be 800 divided by the population count of CLUSTERS
-                                                                 (800/PKI_CONST1[CLS]). The smallest useful non-zero value is 0xA0,
+                                                                 typically be 800 divided by the population count of [CLUSTERS]
+                                                                 (800/PKI_CONST1[CLS]). The smallest useful nonzero value is 0xA0,
                                                                  corresponding to the minimum number of cycles needed to fill one cluster with
                                                                  packets.
 
@@ -7974,22 +7943,23 @@ typedef union
                                                                  The number 800 above was chosen as a typical production parse engine code
                                                                  length with some additional instruction growth. */
 #else /* Word 0 - Little Endian */
-        uint64_t delay                 : 12; /**< [ 11:  0](R/W) Delay between cluster starts, as described under TIMER. If 0x0, a cluster can
-                                                                 start at any time relative to other clusters. DELAY should typically be
+        uint64_t delay                 : 12; /**< [ 11:  0](R/W) Delay between cluster starts, as described under [TIMER]. If 0x0, a cluster can
+                                                                 start at any time relative to other clusters. [DELAY] should typically be
                                                                  the average observed parser latency by loading with the parsing
                                                                  delay divided by the number of clusters in this cluster group which will
-                                                                 typically be 800 divided by the population count of CLUSTERS
-                                                                 (800/PKI_CONST1[CLS]). The smallest useful non-zero value is 0xA0,
+                                                                 typically be 800 divided by the population count of [CLUSTERS]
+                                                                 (800/PKI_CONST1[CLS]). The smallest useful nonzero value is 0xA0,
                                                                  corresponding to the minimum number of cycles needed to fill one cluster with
                                                                  packets.
 
                                                                  Internal:
                                                                  The number 800 above was chosen as a typical production parse engine code
                                                                  length with some additional instruction growth. */
-        uint64_t timer                 : 12; /**< [ 23: 12](RO/H) Current hold-off timer. Enables even spreading of cluster utilization over time; while
-                                                                 TIMER is non-zero, a cluster in this group will not start parsing. When a cluster in this
-                                                                 group starts parsing, TIMER is set to DELAY, and decrements every coprocessor-clock. TIMER
-                                                                 is zeroed if all clusters in this group are idle. */
+        uint64_t timer                 : 12; /**< [ 23: 12](RO/H) Current hold-off timer. Enables even spreading of cluster utilization over time;
+                                                                 while [TIMER] is nonzero, a cluster in this group will not start parsing. When a
+                                                                 cluster in this group starts parsing, [TIMER] is set to [DELAY], and decrements
+                                                                 every coprocessor-clock. [TIMER] is zeroed if all clusters in this group are
+                                                                 idle. */
         uint64_t pena                  : 1;  /**< [ 24: 24](R/W) Parse enable. Must be set after PKI has been initialized and PKI_IMEM() loaded.
                                                                  0 = IPE transitions from start directly to done without executing a sequence, and the KMEM
                                                                  bits effectively are copied through to the WQ.
@@ -8009,7 +7979,7 @@ typedef union
         uint64_t clusters              : 4;  /**< [ 35: 32](R/W) Bit-mask of clusters in this cluster group. A given cluster can only be enabled
                                                                  in a single cluster group. Behavior is undefined for an ICG which receives
                                                                  traffic with a [CLUSTERS] of 0x0. ICG(0)'s entry resets to 0x3, all other
-                                                                 entries to 0x0. Valid values of CLUSTERS is: 0..3 */
+                                                                 entries to 0x0. Valid values of [CLUSTERS] are 0x0-0x3. */
         uint64_t reserved_36_47        : 12;
         uint64_t maxipe_use            : 5;  /**< [ 52: 48](R/W) Reserved. Must be 0x14.
                                                                  Internal:
@@ -8172,20 +8142,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 =  This vector's PKI_MSIX_VEC()_ADDR, PKI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of PKI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 =  This vector's PKI_MSIX_VEC()_ADDR, PKI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of PKI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
@@ -8679,9 +8649,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
-        uint64_t cl                    : 2;  /**< [ 53: 52](R/W) Cluster number to lookup within. */
+        uint64_t cl                    : 2;  /**< [ 53: 52](R/W) Cluster number within which to lookup. */
         uint64_t reserved_49_51        : 3;
-        uint64_t pcam                  : 1;  /**< [ 48: 48](R/W) PCAM number to lookup within. */
+        uint64_t pcam                  : 1;  /**< [ 48: 48](R/W) PCAM number within which to lookup. */
         uint64_t term                  : 8;  /**< [ 47: 40](R/W) Term value to lookup. */
         uint64_t style                 : 8;  /**< [ 39: 32](R/W) Style value to lookup. */
         uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to lookup. */
@@ -8689,9 +8659,9 @@ typedef union
         uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to lookup. */
         uint64_t style                 : 8;  /**< [ 39: 32](R/W) Style value to lookup. */
         uint64_t term                  : 8;  /**< [ 47: 40](R/W) Term value to lookup. */
-        uint64_t pcam                  : 1;  /**< [ 48: 48](R/W) PCAM number to lookup within. */
+        uint64_t pcam                  : 1;  /**< [ 48: 48](R/W) PCAM number within which to lookup. */
         uint64_t reserved_49_51        : 3;
-        uint64_t cl                    : 2;  /**< [ 53: 52](R/W) Cluster number to lookup within. */
+        uint64_t cl                    : 2;  /**< [ 53: 52](R/W) Cluster number within which to lookup. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
@@ -9234,11 +9204,11 @@ typedef union
                                                                  For the SSO to not discard the add-work request, FPA_PF_MAP() must map
                                                                  [GRP_BAD] and PKI_STRM()_CFG[GMID] as valid. */
         uint64_t reserved_12_15        : 4;
-        uint64_t laura                 : 12; /**< [ 11:  0](R/W) Guest-aura for QOS calculations and loading into PKI_WQE_S[AURA].
+        uint64_t gaura                 : 12; /**< [ 11:  0](R/W) Guest-aura for QOS calculations and loading into PKI_WQE_S[AURA].
                                                                  For the FPA to not discard the request, FPA_PF_MAP() must map
                                                                  [AURA] and PKI_STRM()_CFG[GMID] as valid. */
 #else /* Word 0 - Little Endian */
-        uint64_t laura                 : 12; /**< [ 11:  0](R/W) Guest-aura for QOS calculations and loading into PKI_WQE_S[AURA].
+        uint64_t gaura                 : 12; /**< [ 11:  0](R/W) Guest-aura for QOS calculations and loading into PKI_WQE_S[AURA].
                                                                  For the FPA to not discard the request, FPA_PF_MAP() must map
                                                                  [AURA] and PKI_STRM()_CFG[GMID] as valid. */
         uint64_t reserved_12_15        : 4;
@@ -9288,7 +9258,18 @@ typedef union
     struct bdk_pki_qpg_tblbx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_32_63        : 32;
+        uint64_t pkt_add               : 2;  /**< [ 31: 30](R/W) Specifies what to add to FPA_AURA()_CNT when PKI enqueues a packet:
+                                                                   0x0 = zero.
+                                                                   0x1 = one.
+                                                                   0x2 = The number of FPA buffers allocated; i.e. if PKI_STYLE()_BUF[DIS_WQ_DAT]
+                                                                   is set, PKI_WQE_S[BUFS]+1, else PKI_WQE_S[BUFS].
+                                                                   0x3 = PKI_WQE_S[LEN] (i.e. the packet length). */
+        uint64_t ena_red               : 1;  /**< [ 29: 29](R/W) Enable RED drop between PASS and DROP levels. See also
+                                                                 FPA_AURA()_POOL_LEVELS[RED_ENA] and FPA_AURA()_CNT_LEVELS[RED_ENA]. */
+        uint64_t ena_drop              : 1;  /**< [ 28: 28](R/W) Enable tail drop when maximum DROP level exceeded. See also
+                                                                 FPA_AURA()_POOL_LEVELS[DROP] and FPA_AURA()_CNT_LEVELS[DROP]. */
+        uint64_t reserved_24_27        : 4;
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Stream identifier bits <7:0>. */
         uint64_t reserved_10_15        : 6;
         uint64_t dstat_id              : 10; /**< [  9:  0](R/W) Deep statistic bucket to use for traffic to this QPG. This determines which
@@ -9302,7 +9283,18 @@ typedef union
                                                                  PKI_STAT()_STAT0..PKI_STAT()_STAT18 and PKI_STAT()_HIST0..PKI_STAT()_HIST6. */
         uint64_t reserved_10_15        : 6;
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Stream identifier bits <7:0>. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_24_27        : 4;
+        uint64_t ena_drop              : 1;  /**< [ 28: 28](R/W) Enable tail drop when maximum DROP level exceeded. See also
+                                                                 FPA_AURA()_POOL_LEVELS[DROP] and FPA_AURA()_CNT_LEVELS[DROP]. */
+        uint64_t ena_red               : 1;  /**< [ 29: 29](R/W) Enable RED drop between PASS and DROP levels. See also
+                                                                 FPA_AURA()_POOL_LEVELS[RED_ENA] and FPA_AURA()_CNT_LEVELS[RED_ENA]. */
+        uint64_t pkt_add               : 2;  /**< [ 31: 30](R/W) Specifies what to add to FPA_AURA()_CNT when PKI enqueues a packet:
+                                                                   0x0 = zero.
+                                                                   0x1 = one.
+                                                                   0x2 = The number of FPA buffers allocated; i.e. if PKI_STYLE()_BUF[DIS_WQ_DAT]
+                                                                   is set, PKI_WQE_S[BUFS]+1, else PKI_WQE_S[BUFS].
+                                                                   0x3 = PKI_WQE_S[LEN] (i.e. the packet length). */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_qpg_tblbx_s cn; */
@@ -9337,14 +9329,14 @@ typedef union
         uint64_t sop                   : 64; /**< [ 63:  0](RO/H) When set, a SOP was detected on a reassembly ID. When clear, a SOP has not yet been
                                                                  received, or an EOP was received on the reassembly ID. The total number of available
                                                                  reassembly IDs is described with the PKI_REASM_E::NUM_REASM enumeration. Not all
-                                                                 bits are implemented. Only PKI_REASM_SOP(0)[SOP]<63:0>,
-                                                                 PKI_REASM_SOP(1)[SOP]<31:0> are present in this implementation. */
+                                                                 bits are implemented. Only PKI_REASM_SOP(0)[SOP]<18:0>
+                                                                 will be nonzero in this implementation. */
 #else /* Word 0 - Little Endian */
         uint64_t sop                   : 64; /**< [ 63:  0](RO/H) When set, a SOP was detected on a reassembly ID. When clear, a SOP has not yet been
                                                                  received, or an EOP was received on the reassembly ID. The total number of available
                                                                  reassembly IDs is described with the PKI_REASM_E::NUM_REASM enumeration. Not all
-                                                                 bits are implemented. Only PKI_REASM_SOP(0)[SOP]<63:0>,
-                                                                 PKI_REASM_SOP(1)[SOP]<31:0> are present in this implementation. */
+                                                                 bits are implemented. Only PKI_REASM_SOP(0)[SOP]<18:0>
+                                                                 will be nonzero in this implementation. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_reasm_sopx_s cn; */
@@ -9445,7 +9437,7 @@ typedef union
                                                                  reset requires a longer duration. For this implementation, SW will check the bit
                                                                  which will always report not BUSY allowing SW to proceed with its flow. */
         uint64_t reserved_33_62        : 30;
-        uint64_t active                : 1;  /**< [ 32: 32](RO/H) When set, PKI is actively processing packet traffic. It is recommenced that software wait
+        uint64_t active                : 1;  /**< [ 32: 32](RO/H) When set, PKI is actively processing packet traffic. It is recommended that software wait
                                                                  until ACTIVE is clear before setting RST.
 
                                                                  Internal:
@@ -9455,7 +9447,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t rst                   : 1;  /**< [  0:  0](R/W1/H) Reset. When set to 1 by software, PKI will produce an internal reset pulse. */
         uint64_t reserved_1_31         : 31;
-        uint64_t active                : 1;  /**< [ 32: 32](RO/H) When set, PKI is actively processing packet traffic. It is recommenced that software wait
+        uint64_t active                : 1;  /**< [ 32: 32](RO/H) When set, PKI is actively processing packet traffic. It is recommended that software wait
                                                                  until ACTIVE is clear before setting RST.
 
                                                                  Internal:
@@ -10522,12 +10514,12 @@ typedef union
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer allocations/frees, or to SSO for all submit work operations related to
                                                                  PKI_QPG_TBL()[AURA]/[GRP_OK]/[GRP_BAD].
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer allocations/frees, or to SSO for all submit work operations related to
                                                                  PKI_QPG_TBL()[AURA]/[GRP_OK]/[GRP_BAD].
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -11068,23 +11060,23 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
         uint64_t ptr_sel               : 4;  /**< [ 11:  8](R/W) Which pointer to use for the bitmask in PKI_TAG_INC()_MASK.
-                                                                 0 = Absolute from start of packet.
-                                                                 1-7 = Reserved.
-                                                                 8 = Relative to start of PKI_WQE_S[LAPTR]. LAPTR must be valid (see
+                                                                 0x0 = Absolute from start of packet.
+                                                                 0x1-0x7 = Reserved.
+                                                                 0x8 = Relative to start of PKI_WQE_S[LAPTR]. LAPTR must be valid (see
                                                                  PKI_WQE_S[LAPTR]) or mask is ignored.
-                                                                 9 = Relative to start of PKI_WQE_S[LBPTR]. LBPTR must be valid (see
+                                                                 0x9 = Relative to start of PKI_WQE_S[LBPTR]. LBPTR must be valid (see
                                                                  PKI_WQE_S[LBPTR]) or mask is ignored.
-                                                                 10 = Relative to start of PKI_WQE_S[LCPTR]. LCPTR must be valid (see
+                                                                 0xA = Relative to start of PKI_WQE_S[LCPTR]. LCPTR must be valid (see
                                                                  PKI_WQE_S[LCPTR]) or mask is ignored.
-                                                                 11 = Relative to start of PKI_WQE_S[LDPTR]. LDPTR must be valid (see
+                                                                 0xB = Relative to start of PKI_WQE_S[LDPTR]. LDPTR must be valid (see
                                                                  PKI_WQE_S[LDPTR]) or mask is ignored.
-                                                                 12 = Relative to start of PKI_WQE_S[LEPTR]. LEPTR must be valid (see
+                                                                 0xC = Relative to start of PKI_WQE_S[LEPTR]. LEPTR must be valid (see
                                                                  PKI_WQE_S[LEPTR]) or mask is ignored.
-                                                                 13 = Relative to start of PKI_WQE_S[LFPTR]. LFPTR must be valid (see
+                                                                 0xD = Relative to start of PKI_WQE_S[LFPTR]. LFPTR must be valid (see
                                                                  PKI_WQE_S[LFPTR]) or mask is ignored.
-                                                                 14 = Relative to start of PKI_WQE_S[LGPTR]. LGPTR must be valid (see
+                                                                 0xE = Relative to start of PKI_WQE_S[LGPTR]. LGPTR must be valid (see
                                                                  PKI_WQE_S[LGPTR]) or mask is ignored.
-                                                                 15 = Relative to start of PKI_WQE_S[VLPTR]. VLPTR must be valid (see
+                                                                 0xF = Relative to start of PKI_WQE_S[VLPTR]. VLPTR must be valid (see
                                                                  PKI_WQE_S[VLPTR]) or mask is ignored.
 
                                                                  Internal:
@@ -11095,23 +11087,23 @@ typedef union
         uint64_t offset                : 8;  /**< [  7:  0](R/W) Offset for PKI_TAG_INC()_MASK. Number of bytes to add to the selected pointer before
                                                                  applying the mask. */
         uint64_t ptr_sel               : 4;  /**< [ 11:  8](R/W) Which pointer to use for the bitmask in PKI_TAG_INC()_MASK.
-                                                                 0 = Absolute from start of packet.
-                                                                 1-7 = Reserved.
-                                                                 8 = Relative to start of PKI_WQE_S[LAPTR]. LAPTR must be valid (see
+                                                                 0x0 = Absolute from start of packet.
+                                                                 0x1-0x7 = Reserved.
+                                                                 0x8 = Relative to start of PKI_WQE_S[LAPTR]. LAPTR must be valid (see
                                                                  PKI_WQE_S[LAPTR]) or mask is ignored.
-                                                                 9 = Relative to start of PKI_WQE_S[LBPTR]. LBPTR must be valid (see
+                                                                 0x9 = Relative to start of PKI_WQE_S[LBPTR]. LBPTR must be valid (see
                                                                  PKI_WQE_S[LBPTR]) or mask is ignored.
-                                                                 10 = Relative to start of PKI_WQE_S[LCPTR]. LCPTR must be valid (see
+                                                                 0xA = Relative to start of PKI_WQE_S[LCPTR]. LCPTR must be valid (see
                                                                  PKI_WQE_S[LCPTR]) or mask is ignored.
-                                                                 11 = Relative to start of PKI_WQE_S[LDPTR]. LDPTR must be valid (see
+                                                                 0xB = Relative to start of PKI_WQE_S[LDPTR]. LDPTR must be valid (see
                                                                  PKI_WQE_S[LDPTR]) or mask is ignored.
-                                                                 12 = Relative to start of PKI_WQE_S[LEPTR]. LEPTR must be valid (see
+                                                                 0xC = Relative to start of PKI_WQE_S[LEPTR]. LEPTR must be valid (see
                                                                  PKI_WQE_S[LEPTR]) or mask is ignored.
-                                                                 13 = Relative to start of PKI_WQE_S[LFPTR]. LFPTR must be valid (see
+                                                                 0xD = Relative to start of PKI_WQE_S[LFPTR]. LFPTR must be valid (see
                                                                  PKI_WQE_S[LFPTR]) or mask is ignored.
-                                                                 14 = Relative to start of PKI_WQE_S[LGPTR]. LGPTR must be valid (see
+                                                                 0xE = Relative to start of PKI_WQE_S[LGPTR]. LGPTR must be valid (see
                                                                  PKI_WQE_S[LGPTR]) or mask is ignored.
-                                                                 15 = Relative to start of PKI_WQE_S[VLPTR]. VLPTR must be valid (see
+                                                                 0xF = Relative to start of PKI_WQE_S[VLPTR]. VLPTR must be valid (see
                                                                  PKI_WQE_S[VLPTR]) or mask is ignored.
 
                                                                  Internal:
@@ -11148,11 +11140,11 @@ typedef union
     struct bdk_pki_tag_incx_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t en                    : 64; /**< [ 63:  0](R/W) Include byte in mask-tag algorithm. Each EN bit corresponds to 64 consecutive
+        uint64_t en                    : 64; /**< [ 63:  0](R/W) Include byte in mask-tag algorithm. Each [EN] bit corresponds to 64 consecutive
                                                                  bytes in the data stream, as controlled by PKI_TAG_INC()_CTL as described in
                                                                  PKI_WQE_S[TAG]. */
 #else /* Word 0 - Little Endian */
-        uint64_t en                    : 64; /**< [ 63:  0](R/W) Include byte in mask-tag algorithm. Each EN bit corresponds to 64 consecutive
+        uint64_t en                    : 64; /**< [ 63:  0](R/W) Include byte in mask-tag algorithm. Each [EN] bit corresponds to 64 consecutive
                                                                  bytes in the data stream, as controlled by PKI_TAG_INC()_CTL as described in
                                                                  PKI_WQE_S[TAG]. */
 #endif /* Word 0 - End */
@@ -11225,6 +11217,97 @@ static inline uint64_t BDK_PKI_TAG_SECRET_FUNC(void)
 #define device_bar_BDK_PKI_TAG_SECRET 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_TAG_SECRET 0
 #define arguments_BDK_PKI_TAG_SECRET -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_x2p_ctl
+ *
+ * INTERNAL: PKI X2P Control Insertion and Activation Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_x2p_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t sop                   : 1;  /**< [ 33: 33](RAZ) X2P SOP signal. */
+        uint64_t eop                   : 1;  /**< [ 32: 32](RAZ) X2P EOP signal. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t pnum                  : 12; /**< [ 27: 16](RAZ) X2P PNUM signal. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t pknd                  : 6;  /**< [ 13:  8](RAZ) X2P PKND signal. */
+        uint64_t perr                  : 4;  /**< [  7:  4](RAZ) X2P packet error signal. */
+        uint64_t bval                  : 4;  /**< [  3:  0](RAZ) X2P BVAL signal. */
+#else /* Word 0 - Little Endian */
+        uint64_t bval                  : 4;  /**< [  3:  0](RAZ) X2P BVAL signal. */
+        uint64_t perr                  : 4;  /**< [  7:  4](RAZ) X2P packet error signal. */
+        uint64_t pknd                  : 6;  /**< [ 13:  8](RAZ) X2P PKND signal. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t pnum                  : 12; /**< [ 27: 16](RAZ) X2P PNUM signal. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t eop                   : 1;  /**< [ 32: 32](RAZ) X2P EOP signal. */
+        uint64_t sop                   : 1;  /**< [ 33: 33](RAZ) X2P SOP signal. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_x2p_ctl_s cn; */
+} bdk_pki_x2p_ctl_t;
+
+#define BDK_PKI_X2P_CTL BDK_PKI_X2P_CTL_FUNC()
+static inline uint64_t BDK_PKI_X2P_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_X2P_CTL_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000000160ll;
+    __bdk_csr_fatal("PKI_X2P_CTL", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_X2P_CTL bdk_pki_x2p_ctl_t
+#define bustype_BDK_PKI_X2P_CTL BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_X2P_CTL "PKI_X2P_CTL"
+#define device_bar_BDK_PKI_X2P_CTL 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_X2P_CTL 0
+#define arguments_BDK_PKI_X2P_CTL -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_x2p_dat#
+ *
+ * INTERNAL: PKI X2P Data Insertion Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_x2p_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RAZ) X2P data to insert.
+                                                                 Internal:
+                                                                 DAT0: Maps to the x2p big endian bus x2p.data<63:0>.
+                                                                 DAT1: Maps to the x2p big endian bus x2p.data<127:64>. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RAZ) X2P data to insert.
+                                                                 Internal:
+                                                                 DAT0: Maps to the x2p big endian bus x2p.data<63:0>.
+                                                                 DAT1: Maps to the x2p big endian bus x2p.data<127:64>. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_x2p_datx_s cn; */
+} bdk_pki_x2p_datx_t;
+
+static inline uint64_t BDK_PKI_X2P_DATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_X2P_DATX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a>=1)&&(a<=0)))
+        return 0x86c000000140ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("PKI_X2P_DATX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_X2P_DATX(a) bdk_pki_x2p_datx_t
+#define bustype_BDK_PKI_X2P_DATX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_X2P_DATX(a) "PKI_X2P_DATX"
+#define device_bar_BDK_PKI_X2P_DATX(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_X2P_DATX(a) (a)
+#define arguments_BDK_PKI_X2P_DATX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pki_x2p_req_ofl

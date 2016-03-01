@@ -190,7 +190,7 @@ static inline uint64_t BDK_DAP_HWPOLL_CNT_FUNC(void)
  * Register (RSL32b) dap_imp_dar
  *
  * DAP Debug Authentication Register
- * This register controls the device enables and secure/non-secure access permissions. Changed in
+ * This register controls the device enables and secure/nonsecure access permissions. Changed in
  * pass 2.
  */
 typedef union
@@ -209,9 +209,9 @@ typedef union
                                                                  0 = Trace unit is discoverable by software.
                                                                  1 = Trace unit is hidden. */
         uint32_t reserved_11_27        : 17;
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on non-secure CAB accesses.
-                                                                 1 = Enable non-secure CAB accesses. */
+        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault on nonsecure CAB accesses.
+                                                                 1 = Enable nonsecure CAB accesses. */
         uint32_t caben                 : 1;  /**< [  9:  9](R/W) Enable CAB accesses from NCB and RSL devices.
                                                                  0 = Return fault for all CAB accesses.
                                                                  1 = Enable all CAB accesses.
@@ -261,9 +261,9 @@ typedef union
                                                                  1 = Enable all CAB accesses.
 
                                                                  When in trusted-mode resets to 0, else 1. */
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on non-secure CAB accesses.
-                                                                 1 = Enable non-secure CAB accesses. */
+        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault on nonsecure CAB accesses.
+                                                                 1 = Enable nonsecure CAB accesses. */
         uint32_t reserved_11_27        : 17;
         uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
                                                                  0 = Trace unit is discoverable by software.
@@ -280,9 +280,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_11_31        : 21;
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on non-secure CAB accesses.
-                                                                 1 = Enable non-secure CAB accesses. */
+        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault on nonsecure CAB accesses.
+                                                                 1 = Enable nonsecure CAB accesses. */
         uint32_t caben                 : 1;  /**< [  9:  9](R/W) Enable CAB accesses from NCB and RSL devices.
                                                                  0 = Return fault for all CAB accesses.
                                                                  1 = Enable all CAB accesses.
@@ -332,9 +332,9 @@ typedef union
                                                                  1 = Enable all CAB accesses.
 
                                                                  When in trusted-mode resets to 0, else 1. */
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on non-secure CAB accesses.
-                                                                 1 = Enable non-secure CAB accesses. */
+        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault on nonsecure CAB accesses.
+                                                                 1 = Enable nonsecure CAB accesses. */
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } cn88xxp1;
@@ -356,9 +356,9 @@ typedef union
                                                                  0 = Trace unit is discoverable by software.
                                                                  1 = Trace unit is hidden. */
         uint32_t reserved_11_27        : 17;
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on non-secure CAB accesses.
-                                                                 1 = Enable non-secure CAB accesses. */
+        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault on nonsecure CAB accesses.
+                                                                 1 = Enable nonsecure CAB accesses. */
         uint32_t caben                 : 1;  /**< [  9:  9](R/W) Enable CAB accesses from NCB and RSL devices.
                                                                  0 = Return fault for all CAB accesses.
                                                                  1 = Enable all CAB accesses.
@@ -408,9 +408,9 @@ typedef union
                                                                  1 = Enable all CAB accesses.
 
                                                                  When in trusted-mode resets to 0, else 1. */
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on non-secure CAB accesses.
-                                                                 1 = Enable non-secure CAB accesses. */
+        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault on nonsecure CAB accesses.
+                                                                 1 = Enable nonsecure CAB accesses. */
         uint32_t reserved_11_27        : 17;
         uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
                                                                  Added in pass 2.
@@ -525,13 +525,13 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t rst_on_warm           : 1;  /**< [  0:  0](R/W1S) Always reset DAR register.
-                                                                 Once set this bit cannout be cleared until the next cold reset.
-                                                                 RST_ON_WARM is set to 1 when trusted-mode changes from 0 to 1 (i.e. a
+                                                                 Once set this bit cannot be cleared until the next cold reset.
+                                                                 [RST_ON_WARM] is set to 1 when trusted-mode changes from 0 to 1 (i.e. a
                                                                  non-trusted boot is followed by a trusted boot). */
 #else /* Word 0 - Little Endian */
         uint64_t rst_on_warm           : 1;  /**< [  0:  0](R/W1S) Always reset DAR register.
-                                                                 Once set this bit cannout be cleared until the next cold reset.
-                                                                 RST_ON_WARM is set to 1 when trusted-mode changes from 0 to 1 (i.e. a
+                                                                 Once set this bit cannot be cleared until the next cold reset.
+                                                                 [RST_ON_WARM] is set to 1 when trusted-mode changes from 0 to 1 (i.e. a
                                                                  non-trusted boot is followed by a trusted boot). */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */

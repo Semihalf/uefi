@@ -82,6 +82,15 @@
                                        unpredictable and should not be used by software.
                                        
                                        This code is specific to DEFLATE processing and is N/A for compression. */
+#define BDK_ZIP_COMP_E_DSTOP (3) /**< Uncompress dynamically stopped. The ZIP coprocessor saved its state in the
+                                       context, and the ZIP coprocessor can be restarted again when more space is
+                                       available for output stream bytes. ZIP_ZRES_S[TOTALBYTESREAD] indicates the
+                                       number of input bytes processed during this invocation of the ZIP
+                                       coprocessor. ZIP_ZRES_S[TOTALBYTESWRITTEN] indicates the number of output stream
+                                       bytes written during this invocation of the ZIP coprocessor. ZIP_ZRES_S[EF] is
+                                       never set when the ZIP coprocessor returns this completion code.
+                                       
+                                       This code is N/A for compression. */
 #define BDK_ZIP_COMP_E_DTRUNC (2) /**< Output truncated. This is a fatal error and all other outputs (bytes in the
                                        output stream and ZIP_ZRES_S fields excluding ZIP_ZRES_S[COMPCODE]) from the ZIP
                                        coprocessor are unpredictable and should not be used by software. Refer to the
@@ -195,7 +204,7 @@
                                        Verify this default IVs result in the proper standard hash results. */
 #define BDK_ZIP_HASH_ALG_E_SHA256 (2) /**< SHA-256 hashing. ZIP_ZRES_S writes 64 bytes.
                                        
-                                       If ZIP_INST_S[IV] is set, ZIP_INST_S[HASH_PTR] if non-zero points to a ZIP_HASH_S
+                                       If ZIP_INST_S[IV] is set, ZIP_INST_S[HASH_PTR] if nonzero points to a ZIP_HASH_S
                                        containing the hash initial value. If ZIP_INST_S[IV] is clear, the initial hash
                                        value is the SHA-256 standard 0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
                                        0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19.
@@ -338,7 +347,7 @@ union bdk_zip_hash_s
         uint64_t prevlen               : 61; /**< [316:256] Previous length in bytes.
 
                                                                  When ZIP_INST_S[BF] and ZIP_INST_S[IV] are set, for the first chunk in a file,
-                                                                 if this value is non-zero (up to 64), hardware will read up to [PREVLEN] bytes
+                                                                 if this value is nonzero (up to 64), hardware will read up to [PREVLEN] bytes
                                                                  data in [PDATA0] ... [PDATA7] to use as header to be hashed, otherwise softwre
                                                                  must write 0x0 since there is no previous hashed block yet.
 
@@ -353,7 +362,7 @@ union bdk_zip_hash_s
         uint64_t prevlen               : 61; /**< [316:256] Previous length in bytes.
 
                                                                  When ZIP_INST_S[BF] and ZIP_INST_S[IV] are set, for the first chunk in a file,
-                                                                 if this value is non-zero (up to 64), hardware will read up to [PREVLEN] bytes
+                                                                 if this value is nonzero (up to 64), hardware will read up to [PREVLEN] bytes
                                                                  data in [PDATA0] ... [PDATA7] to use as header to be hashed, otherwise softwre
                                                                  must write 0x0 since there is no previous hashed block yet.
 
@@ -483,7 +492,7 @@ union bdk_zip_inst_s
     struct bdk_zip_inst_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When DONEINT is set and the instruction completes,
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
                                                                  ZIP_VQ()_DONE[DONE] will be incremented. */
         uint64_t reserved_56_62        : 7;
         uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
@@ -579,7 +588,7 @@ union bdk_zip_inst_s
                                                                  For compression:
                                                                  0 = first byte of input data is not the beginning of the file.
                                                                  1 = first byte of input data (after history data or not) is the beginning of the file.
-                                                                 Note that in the compress case when [HISTORYLENGTH] is non-zero, the
+                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
                                                                  beginning of the input data stream is history data. Regardless of whether history
                                                                  data is present for a compress, BF should indicate whether the first non-history byte
                                                                  (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
@@ -593,7 +602,7 @@ union bdk_zip_inst_s
                                                                  0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
                                                                  1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
                                                                  hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
-                                                                 non-zero, and create a new context. */
+                                                                 nonzero, and create a new context. */
         uint64_t reserved_3_4          : 2;
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
                                                                  1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
@@ -649,7 +658,7 @@ union bdk_zip_inst_s
                                                                  For compression:
                                                                  0 = first byte of input data is not the beginning of the file.
                                                                  1 = first byte of input data (after history data or not) is the beginning of the file.
-                                                                 Note that in the compress case when [HISTORYLENGTH] is non-zero, the
+                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
                                                                  beginning of the input data stream is history data. Regardless of whether history
                                                                  data is present for a compress, BF should indicate whether the first non-history byte
                                                                  (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
@@ -663,7 +672,7 @@ union bdk_zip_inst_s
                                                                  0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
                                                                  1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
                                                                  hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
-                                                                 non-zero, and create a new context. */
+                                                                 nonzero, and create a new context. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
                                                                  For compression, if [EF] = 1, the ZIP engine always marks the last output block
@@ -752,7 +761,7 @@ union bdk_zip_inst_s
                                                                  the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
                                                                  [DS] = 0, or indirectly if [DS] = 1). */
         uint64_t reserved_56_62        : 7;
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When DONEINT is set and the instruction completes,
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
                                                                  ZIP_VQ()_DONE[DONE] will be incremented. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -882,23 +891,23 @@ union bdk_zip_inst_s
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
         uint64_t reserved_812_831      : 20;
-        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is non-zero, the SSO guest-group to use when ZIP submits work to
+        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is nonzero, the SSO guest-group to use when ZIP submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, SSO_PF_MAP() must map
                                                                  [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
-        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP submits work to SSO. */
-        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is non-zero, the SSO tag to use when ZIP submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP submits work to SSO. */
+        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is nonzero, the SSO tag to use when ZIP submits work to SSO. */
 #else /* Word 12 - Little Endian */
-        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is non-zero, the SSO tag to use when ZIP submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP submits work to SSO. */
-        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is non-zero, the SSO guest-group to use when ZIP submits work to
+        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is nonzero, the SSO tag to use when ZIP submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP submits work to SSO. */
+        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is nonzero, the SSO guest-group to use when ZIP submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, SSO_PF_MAP() must map
                                                                  [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
         uint64_t reserved_812_831      : 20;
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
-        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that ZIP submits
+        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that ZIP submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -908,7 +917,7 @@ union bdk_zip_inst_s
                                                                  Internal:
                                                                  Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 13 - Little Endian */
-        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that ZIP submits
+        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that ZIP submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -964,7 +973,7 @@ union bdk_zip_inst_s
     struct bdk_zip_inst_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When DONEINT is set and the instruction completes,
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
                                                                  ZIP_QUE(0..7)_DONE[DONE] will be incremented. */
         uint64_t reserved_56_62        : 7;
         uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
@@ -1047,7 +1056,7 @@ union bdk_zip_inst_s
                                                                  For compression:
                                                                  0 = first byte of input data is not the beginning of the file.
                                                                  1 = first byte of input data (after history data or not) is the beginning of the file.
-                                                                 Note that in the compress case when [HISTORYLENGTH] is non-zero, the
+                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
                                                                  beginning of the input data stream is history data. Regardless of whether history
                                                                  data is present for a compress, BF should indicate whether the first non-history byte
                                                                  (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
@@ -1117,7 +1126,7 @@ union bdk_zip_inst_s
                                                                  For compression:
                                                                  0 = first byte of input data is not the beginning of the file.
                                                                  1 = first byte of input data (after history data or not) is the beginning of the file.
-                                                                 Note that in the compress case when [HISTORYLENGTH] is non-zero, the
+                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
                                                                  beginning of the input data stream is history data. Regardless of whether history
                                                                  data is present for a compress, BF should indicate whether the first non-history byte
                                                                  (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
@@ -1201,7 +1210,7 @@ union bdk_zip_inst_s
                                                                  the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
                                                                  [DS] = 0, or indirectly if [DS] = 1). */
         uint64_t reserved_56_62        : 7;
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When DONEINT is set and the instruction completes,
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
                                                                  ZIP_QUE(0..7)_DONE[DONE] will be incremented. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -1331,28 +1340,28 @@ union bdk_zip_inst_s
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
         uint64_t reserved_812_831      : 20;
-        uint64_t ggrp                  : 10; /**< [811:802] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO guest-group to use when
+        uint64_t ggrp                  : 10; /**< [811:802] Reserved. For CN83XX: If [WQ_PTR] is nonzero, the SSO guest-group to use when
                                                                  ZIP submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [801:800] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP
+        uint64_t tt                    : 2;  /**< [801:800] Reserved. For CN83XX: If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP
                                                                  submits work to SSO. */
-        uint64_t tag                   : 32; /**< [799:768] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO tag to use when ZIP
+        uint64_t tag                   : 32; /**< [799:768] Reserved. For CN83XX: If [WQ_PTR] is nonzero, the SSO tag to use when ZIP
                                                                  submits work to SSO. */
 #else /* Word 12 - Little Endian */
-        uint64_t tag                   : 32; /**< [799:768] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO tag to use when ZIP
+        uint64_t tag                   : 32; /**< [799:768] Reserved. For CN83XX: If [WQ_PTR] is nonzero, the SSO tag to use when ZIP
                                                                  submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [801:800] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP
+        uint64_t tt                    : 2;  /**< [801:800] Reserved. For CN83XX: If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP
                                                                  submits work to SSO. */
-        uint64_t ggrp                  : 10; /**< [811:802] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO guest-group to use when
+        uint64_t ggrp                  : 10; /**< [811:802] Reserved. For CN83XX: If [WQ_PTR] is nonzero, the SSO guest-group to use when
                                                                  ZIP submits work to SSO. */
         uint64_t reserved_812_831      : 20;
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
         uint64_t reserved_881_895      : 15;
-        uint64_t wq_ptr                : 49; /**< [880:832] Reserved. For CN83XX: If WQ_PTR is non-zero, it is a pointer to a work-queue
+        uint64_t wq_ptr                : 49; /**< [880:832] Reserved. For CN83XX: If WQ_PTR is nonzero, it is a pointer to a work-queue
                                                                  entry IOVA that ZIP submits work to SSO after all context, output data, and result
                                                                  write operations are visible to other CNXXXX units and the cores. */
 #else /* Word 13 - Little Endian */
-        uint64_t wq_ptr                : 49; /**< [880:832] Reserved. For CN83XX: If WQ_PTR is non-zero, it is a pointer to a work-queue
+        uint64_t wq_ptr                : 49; /**< [880:832] Reserved. For CN83XX: If WQ_PTR is nonzero, it is a pointer to a work-queue
                                                                  entry IOVA that ZIP submits work to SSO after all context, output data, and result
                                                                  write operations are visible to other CNXXXX units and the cores. */
         uint64_t reserved_881_895      : 15;
@@ -1371,7 +1380,7 @@ union bdk_zip_inst_s
     struct bdk_zip_inst_s_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When DONEINT is set and the instruction completes,
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
                                                                  ZIP_VQ()_DONE[DONE] will be incremented. */
         uint64_t reserved_56_62        : 7;
         uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
@@ -1467,7 +1476,7 @@ union bdk_zip_inst_s
                                                                  For compression:
                                                                  0 = first byte of input data is not the beginning of the file.
                                                                  1 = first byte of input data (after history data or not) is the beginning of the file.
-                                                                 Note that in the compress case when [HISTORYLENGTH] is non-zero, the
+                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
                                                                  beginning of the input data stream is history data. Regardless of whether history
                                                                  data is present for a compress, BF should indicate whether the first non-history byte
                                                                  (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
@@ -1481,7 +1490,7 @@ union bdk_zip_inst_s
                                                                  0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
                                                                  1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
                                                                  hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
-                                                                 non-zero, and create a new context. */
+                                                                 nonzero, and create a new context. */
         uint64_t op                    : 2;  /**< [  4:  3] Compression/decompression operation. Enumerated by ZIP_OP_E. */
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
                                                                  1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
@@ -1537,7 +1546,7 @@ union bdk_zip_inst_s
                                                                  For compression:
                                                                  0 = first byte of input data is not the beginning of the file.
                                                                  1 = first byte of input data (after history data or not) is the beginning of the file.
-                                                                 Note that in the compress case when [HISTORYLENGTH] is non-zero, the
+                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
                                                                  beginning of the input data stream is history data. Regardless of whether history
                                                                  data is present for a compress, BF should indicate whether the first non-history byte
                                                                  (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
@@ -1551,7 +1560,7 @@ union bdk_zip_inst_s
                                                                  0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
                                                                  1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
                                                                  hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
-                                                                 non-zero, and create a new context. */
+                                                                 nonzero, and create a new context. */
         uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
 
                                                                  For compression, if [EF] = 1, the ZIP engine always marks the last output block
@@ -1640,7 +1649,7 @@ union bdk_zip_inst_s
                                                                  the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
                                                                  [DS] = 0, or indirectly if [DS] = 1). */
         uint64_t reserved_56_62        : 7;
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When DONEINT is set and the instruction completes,
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
                                                                  ZIP_VQ()_DONE[DONE] will be incremented. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -1770,23 +1779,23 @@ union bdk_zip_inst_s
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
         uint64_t reserved_812_831      : 20;
-        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is non-zero, the SSO guest-group to use when ZIP submits work to
+        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is nonzero, the SSO guest-group to use when ZIP submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, SSO_PF_MAP() must map
                                                                  [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
-        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP submits work to SSO. */
-        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is non-zero, the SSO tag to use when ZIP submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP submits work to SSO. */
+        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is nonzero, the SSO tag to use when ZIP submits work to SSO. */
 #else /* Word 12 - Little Endian */
-        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is non-zero, the SSO tag to use when ZIP submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP submits work to SSO. */
-        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is non-zero, the SSO guest-group to use when ZIP submits work to
+        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is nonzero, the SSO tag to use when ZIP submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP submits work to SSO. */
+        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is nonzero, the SSO guest-group to use when ZIP submits work to
                                                                  SSO.
                                                                  For the SSO to not discard the add-work request, SSO_PF_MAP() must map
                                                                  [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
         uint64_t reserved_812_831      : 20;
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
-        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that ZIP submits
+        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that ZIP submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -1796,7 +1805,7 @@ union bdk_zip_inst_s
                                                                  Internal:
                                                                  Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 13 - Little Endian */
-        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that ZIP submits
+        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that ZIP submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores.
 
@@ -2307,7 +2316,7 @@ union bdk_zip_zres_s
                                                                  software can calculate the true total bits processed by the ZIP coprocessor
                                                                  using the [TOTALBITSPROCESSED] value returned by the hardware, together with the
                                                                  total number of input bytes in the compressed file. */
-        uint64_t doneint               : 1;  /**< [159:159] Done Interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
+        uint64_t doneint               : 1;  /**< [159:159] Done interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
         uint64_t reserved_155_158      : 4;
         uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
                                                                  See details in [EXBITS]. */
@@ -2336,10 +2345,10 @@ union bdk_zip_zres_s
         uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
                                                                  as enumerated by ZIP_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by checking for a non-zero
+                                                                 before ringing the doorbell, and then poll for completion by checking for a nonzero
                                                                  value.
 
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the ZIP
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the ZIP
                                                                  coprocessor will have also completed L2/DRAM write operations for all context,
                                                                  output stream, and result data.
 
@@ -2349,10 +2358,10 @@ union bdk_zip_zres_s
         uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
                                                                  as enumerated by ZIP_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by checking for a non-zero
+                                                                 before ringing the doorbell, and then poll for completion by checking for a nonzero
                                                                  value.
 
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the ZIP
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the ZIP
                                                                  coprocessor will have also completed L2/DRAM write operations for all context,
                                                                  output stream, and result data.
 
@@ -2383,7 +2392,7 @@ union bdk_zip_zres_s
         uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
                                                                  See details in [EXBITS]. */
         uint64_t reserved_155_158      : 4;
-        uint64_t doneint               : 1;  /**< [159:159] Done Interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
+        uint64_t doneint               : 1;  /**< [159:159] Done interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
         uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
                                                                  [TOTALBITSPROCESSED] indicates the number of compressed input bits consumed
                                                                  to decompress all blocks in the file. ([TOTALBITSPROCESSED] + 7)/8 is the total
@@ -2418,7 +2427,7 @@ union bdk_zip_zres_s
                                                                  read, otherwise 0x0) and [TOTALBYTESWRITTEN].
 
                                                                  This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE. When
-                                                                 ZIP_INST_S[HMIF] is set, [HSHLEN] is the total bits hashed untill the current
+                                                                 ZIP_INST_S[HMIF] is set, [HSHLEN] is the total bytes hashed until the current
                                                                  instruction. */
 #else /* Word 3 - Little Endian */
         uint64_t hshlen                : 61; /**< [252:192] Total hash length in bytes. For compression-and-hash or standalone hashing, the
@@ -2427,7 +2436,7 @@ union bdk_zip_zres_s
                                                                  read, otherwise 0x0) and [TOTALBYTESWRITTEN].
 
                                                                  This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE. When
-                                                                 ZIP_INST_S[HMIF] is set, [HSHLEN] is the total bits hashed untill the current
+                                                                 ZIP_INST_S[HMIF] is set, [HSHLEN] is the total bytes hashed until the current
                                                                  instruction. */
         uint64_t reserved_253_255      : 3;
 #endif /* Word 3 - End */
@@ -2585,7 +2594,7 @@ union bdk_zip_zres_s
                                                                  total bits processed by the ZIP coprocessor using the TOTALBITSPROCESSED
                                                                  value returned by the hardware, together with the total number of input bytes in the
                                                                  compressed file. */
-        uint64_t doneint               : 1;  /**< [159:159] Done Interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
+        uint64_t doneint               : 1;  /**< [159:159] Done interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
         uint64_t reserved_155_158      : 4;
         uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
                                                                  See details in [EXBITS]. */
@@ -2613,20 +2622,20 @@ union bdk_zip_zres_s
         uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
                                                                  as enumerated by ZIP_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by checking for a non-zero
+                                                                 before ringing the doorbell, and then poll for completion by checking for a nonzero
                                                                  value.
 
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the ZIP
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the ZIP
                                                                  coprocessor will have also completed L2/DRAM write operations for all context,
                                                                  output stream, and result data. */
 #else /* Word 2 - Little Endian */
         uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
                                                                  as enumerated by ZIP_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by checking for a non-zero
+                                                                 before ringing the doorbell, and then poll for completion by checking for a nonzero
                                                                  value.
 
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the ZIP
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the ZIP
                                                                  coprocessor will have also completed L2/DRAM write operations for all context,
                                                                  output stream, and result data. */
         uint64_t ef                    : 1;  /**< [136:136] End of file.
@@ -2653,7 +2662,7 @@ union bdk_zip_zres_s
         uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
                                                                  See details in [EXBITS]. */
         uint64_t reserved_155_158      : 4;
-        uint64_t doneint               : 1;  /**< [159:159] Done Interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
+        uint64_t doneint               : 1;  /**< [159:159] Done interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
         uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
                                                                  [TOTALBITSPROCESSED] indicates the number of compressed input bits consumed
                                                                  to decompress all blocks in the file. ([TOTALBITSPROCESSED] + 7)/8 is the total
@@ -2901,7 +2910,17 @@ typedef union
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_corex_bist_status_s cn; */
+    /* struct bdk_zip_corex_bist_status_s cn88xx; */
+    struct bdk_zip_corex_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_26_63        : 38;
+        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories. */
+#else /* Word 0 - Little Endian */
+        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories. */
+        uint64_t reserved_26_63        : 38;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_zip_corex_bist_status_t;
 
 static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3215,13 +3234,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction Load Command FIFO credits <= 8. */
+        uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction load command FIFO credits <= 8. */
         uint64_t reserved_36_47        : 12;
-        uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data Read Tag FIFOs (per core) credits <= 8. */
+        uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data read tag FIFOs (per core) credits <= 8. */
         uint64_t reserved_27_31        : 5;
-        uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store Command FIFO credits <= 4. */
+        uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store command FIFO credits <= 4. */
         uint64_t reserved_19_23        : 5;
-        uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load Command FIFO credits <= 4. */
+        uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load command FIFO credits <= 4. */
         uint64_t reserved_2_15         : 14;
         uint64_t busy                  : 1;  /**< [  1:  1](RO/H) 1: ZIP system is busy; 0: ZIP system is idle. */
         uint64_t reserved_0            : 1;
@@ -3229,13 +3248,13 @@ typedef union
         uint64_t reserved_0            : 1;
         uint64_t busy                  : 1;  /**< [  1:  1](RO/H) 1: ZIP system is busy; 0: ZIP system is idle. */
         uint64_t reserved_2_15         : 14;
-        uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load Command FIFO credits <= 4. */
+        uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load command FIFO credits <= 4. */
         uint64_t reserved_19_23        : 5;
-        uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store Command FIFO credits <= 4. */
+        uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store command FIFO credits <= 4. */
         uint64_t reserved_27_31        : 5;
-        uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data Read Tag FIFOs (per core) credits <= 8. */
+        uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data read tag FIFOs (per core) credits <= 8. */
         uint64_t reserved_36_47        : 12;
-        uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction Load Command FIFO credits <= 8. */
+        uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction load command FIFO credits <= 8. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -3243,13 +3262,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction Load Command FIFO credits <= 8. */
+        uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction load command FIFO credits <= 8. */
         uint64_t reserved_36_47        : 12;
-        uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data Read Tag FIFOs (per core) credits <= 8. */
+        uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data read tag FIFOs (per core) credits <= 8. */
         uint64_t reserved_27_31        : 5;
-        uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store Command FIFO credits <= 4. */
+        uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store command FIFO credits <= 4. */
         uint64_t reserved_19_23        : 5;
-        uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load Command FIFO credits <= 4. */
+        uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load command FIFO credits <= 4. */
         uint64_t reserved_8_15         : 8;
         uint64_t reserved_2_7          : 6;
         uint64_t busy                  : 1;  /**< [  1:  1](RO/H) 1: ZIP system is busy; 0: ZIP system is idle. */
@@ -3259,13 +3278,13 @@ typedef union
         uint64_t busy                  : 1;  /**< [  1:  1](RO/H) 1: ZIP system is busy; 0: ZIP system is idle. */
         uint64_t reserved_2_7          : 6;
         uint64_t reserved_8_15         : 8;
-        uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load Command FIFO credits <= 4. */
+        uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load command FIFO credits <= 4. */
         uint64_t reserved_19_23        : 5;
-        uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store Command FIFO credits <= 4. */
+        uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store command FIFO credits <= 4. */
         uint64_t reserved_27_31        : 5;
-        uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data Read Tag FIFOs (per core) credits <= 8. */
+        uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data read tag FIFOs (per core) credits <= 8. */
         uint64_t reserved_36_47        : 12;
-        uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction Load Command FIFO credits <= 8. */
+        uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction load command FIFO credits <= 8. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } cn;
@@ -3528,37 +3547,37 @@ typedef union
         uint64_t vmem_cdis             : 1;  /**< [ 18: 18](R/W) VMEM memory ECC correction disable. */
         uint64_t vmem_fs               : 2;  /**< [ 17: 16](R/W) Controls VMEM memory flip syndrome. */
         uint64_t reserved_15           : 1;
-        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input Data FIFO 1 ECC correction disable. */
-        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls Input Data FIFO 1 flip syndrome. */
+        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
+        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
         uint64_t reserved_11           : 1;
-        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input Data FIFO 0 ECC correction disable. */
-        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls Input Data FIFO 0 flip syndrome. */
+        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
+        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
         uint64_t reserved_7            : 1;
-        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S Pointer FIFO ECC correction disable. */
-        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S Pointer FIFO flip syndrome. */
+        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
+        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
         uint64_t reserved_3            : 1;
-        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction Queue FIFO ECC correction disable. */
-        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls Instruction Queue FIFO flip syndrome.
+        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
+        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
                                                                  0x0 = no error generation.
                                                                  0x1 = flip one bit.
                                                                  0x2 = flip one bit.
                                                                  0x3 = flip two bits. */
 #else /* Word 0 - Little Endian */
-        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls Instruction Queue FIFO flip syndrome.
+        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
                                                                  0x0 = no error generation.
                                                                  0x1 = flip one bit.
                                                                  0x2 = flip one bit.
                                                                  0x3 = flip two bits. */
-        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction Queue FIFO ECC correction disable. */
+        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
         uint64_t reserved_3            : 1;
-        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S Pointer FIFO flip syndrome. */
-        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S Pointer FIFO ECC correction disable. */
+        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
+        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
         uint64_t reserved_7            : 1;
-        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls Input Data FIFO 0 flip syndrome. */
-        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input Data FIFO 0 ECC correction disable. */
+        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
+        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
         uint64_t reserved_11           : 1;
-        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls Input Data FIFO 1 flip syndrome. */
-        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input Data FIFO 1 ECC correction disable. */
+        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
+        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
         uint64_t reserved_15           : 1;
         uint64_t vmem_fs               : 2;  /**< [ 17: 16](R/W) Controls VMEM memory flip syndrome. */
         uint64_t vmem_cdis             : 1;  /**< [ 18: 18](R/W) VMEM memory ECC correction disable. */
@@ -4049,19 +4068,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's ZIP_MSIX_VEC()_ADDR, ZIP_MSIX_VEC()_CTL, and corresponding
                                                                  bit of ZIP_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_ZIP_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's ZIP_MSIX_VEC()_ADDR, ZIP_MSIX_VEC()_CTL, and corresponding
                                                                  bit of ZIP_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_ZIP_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -4401,19 +4420,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's ZIP_PF_MSIX_VEC()_ADDR, ZIP_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of ZIP_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_ZIP_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's ZIP_PF_MSIX_VEC()_ADDR, ZIP_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of ZIP_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_ZIP_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -4498,13 +4517,13 @@ typedef union
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -4678,8 +4697,8 @@ typedef union
                                                                  * When ZIP_QUE()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
                                                                  ZIP_QUE()_DONE[DONE] >= ZIP_QUE()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 zero, the interrupt will be resent immediately.  This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.
 
                                                                  * When ZIP_QUE()_DONE_ENA_W1S[DONE_ENA] = 0, interrupts are not sent, but the counting
                                                                  described above still occurs.
@@ -4714,8 +4733,8 @@ typedef union
                                                                  * When ZIP_QUE()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
                                                                  ZIP_QUE()_DONE[DONE] >= ZIP_QUE()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 zero, the interrupt will be resent immediately.  This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.
 
                                                                  * When ZIP_QUE()_DONE_ENA_W1S[DONE_ENA] = 0, interrupts are not sent, but the counting
                                                                  described above still occurs.
@@ -4767,13 +4786,13 @@ typedef union
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to ZIP_QUE()_DONE[DONE]. Reads ZIP_QUE()_DONE[DONE].
 
                                                                  Written by software to acknowledge interrupts. If ZIP_QUE()_DONE[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  ZIP_QUE()_DONE[DONE] are satified. */
 #else /* Word 0 - Little Endian */
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to ZIP_QUE()_DONE[DONE]. Reads ZIP_QUE()_DONE[DONE].
 
                                                                  Written by software to acknowledge interrupts. If ZIP_QUE()_DONE[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  ZIP_QUE()_DONE[DONE] are satified. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
@@ -5419,7 +5438,7 @@ static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long a)
  * ZIP Queue Starting Buffer Address Registers
  * These registers set the buffer parameters for the instruction queues. When quiescent (i.e.
  * outstanding doorbell count is 0), it is safe to rewrite this register to effectively reset the
- * command buffer state machine. These registers must be programmed after SW programms the
+ * command buffer state machine. These registers must be programmed after software programms the
  * corresponding ZIP_QUE(0..7)_SBUF_CTL.
  */
 typedef union
@@ -5473,7 +5492,7 @@ static inline uint64_t BDK_ZIP_QUEX_SBUF_ADDR(unsigned long a)
  * ZIP Queue Buffer Parameter Registers
  * These registers set the buffer parameters for the instruction queues. When quiescent (i.e.
  * outstanding doorbell count is 0), it is safe to rewrite this register to effectively reset the
- * command buffer state machine. These registers must be programmed before SW programms the
+ * command buffer state machine. These registers must be programmed before software programms the
  * corresponding ZIP_QUE(0..7)_SBUF_ADDR.
  */
 typedef union
@@ -5609,12 +5628,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
         uint64_t pri                   : 8;  /**< [  7:  0](R/W) Queue priority. Each bit corresponds to a queue:
-                                                                 PRI[n]=1: Queue n has higher priority. Round-Robin between higher priority queues.
-                                                                 PRI[n]=0: Queue n has lower priority. Round-Robin between lower priority queues. */
+                                                                 PRI[{a}]=1: Queue {a} has higher priority. Round-robin between higher priority queues.
+                                                                 PRI[{a}]=0: Queue {a} has lower priority. Round-robin between lower priority queues. */
 #else /* Word 0 - Little Endian */
         uint64_t pri                   : 8;  /**< [  7:  0](R/W) Queue priority. Each bit corresponds to a queue:
-                                                                 PRI[n]=1: Queue n has higher priority. Round-Robin between higher priority queues.
-                                                                 PRI[n]=0: Queue n has lower priority. Round-Robin between lower priority queues. */
+                                                                 PRI[{a}]=1: Queue {a} has higher priority. Round-robin between higher priority queues.
+                                                                 PRI[{a}]=0: Queue {a} has lower priority. Round-robin between lower priority queues. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -6122,8 +6141,8 @@ typedef union
                                                                  * When ZIP_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
                                                                  ZIP_VQ()_DONE[DONE] >= ZIP_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 zero, the interrupt will be resent immediately.  This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.
 
                                                                  * When ZIP_VQ()_DONE_ENA_W1S[DONE_ENA] = 0, interrupts are not sent, but the counting
                                                                  described above still occurs.
@@ -6158,8 +6177,8 @@ typedef union
                                                                  * When ZIP_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
                                                                  ZIP_VQ()_DONE[DONE] >= ZIP_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 zero, the interrupt will be resent immediately.  This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.
 
                                                                  * When ZIP_VQ()_DONE_ENA_W1S[DONE_ENA] = 0, interrupts are not sent, but the counting
                                                                  described above still occurs.
@@ -6211,13 +6230,13 @@ typedef union
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to ZIP_VQ()_DONE[DONE]. Reads ZIP_VQ()_DONE[DONE].
 
                                                                  Written by software to acknowledge interrupts. If ZIP_VQ()_DONE[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  ZIP_VQ()_DONE[DONE] are satified. */
 #else /* Word 0 - Little Endian */
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to ZIP_VQ()_DONE[DONE]. Reads ZIP_VQ()_DONE[DONE].
 
                                                                  Written by software to acknowledge interrupts. If ZIP_VQ()_DONE[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  ZIP_VQ()_DONE[DONE] are satified. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
@@ -6451,7 +6470,7 @@ static inline uint64_t BDK_ZIP_VQX_ENA(unsigned long a)
  * ZIP VF Queue Starting Buffer Address Registers
  * These registers set the buffer parameters for the instruction queues. When quiescent (i.e.
  * outstanding doorbell count is 0), it is safe to rewrite this register to effectively reset the
- * command buffer state machine. These registers must be programmed after SW programms the
+ * command buffer state machine. These registers must be programmed after software programms the
  * corresponding ZIP_QUE()_SBUF_CTL.
  */
 typedef union

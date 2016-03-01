@@ -374,7 +374,7 @@ union bdk_bgx_spu_sds_skew_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_25_31        : 7;
-        uint32_t lane_skew             : 5;  /**< [ 24: 20] Lane Skew. The SerDes lane's receive skew/delay in number of code-groups (BASE-X) or
+        uint32_t lane_skew             : 5;  /**< [ 24: 20] Lane skew. The SerDes lane's receive skew/delay in number of code-groups (BASE-X) or
                                                                  blocks (40GBASE-R) relative to the earliest (least delayed) lane of the LMAC/LPCS. */
         uint32_t reserved_18_19        : 2;
         uint32_t am_lane_id            : 2;  /**< [ 17: 16] Alignment Marker ID. Valid for 40GBASE-R only. This is the PCS lane number of the
@@ -391,7 +391,7 @@ union bdk_bgx_spu_sds_skew_status_s
         uint32_t am_lane_id            : 2;  /**< [ 17: 16] Alignment Marker ID. Valid for 40GBASE-R only. This is the PCS lane number of the
                                                                  alignment marker received on the SerDes lane. */
         uint32_t reserved_18_19        : 2;
-        uint32_t lane_skew             : 5;  /**< [ 24: 20] Lane Skew. The SerDes lane's receive skew/delay in number of code-groups (BASE-X) or
+        uint32_t lane_skew             : 5;  /**< [ 24: 20] Lane skew. The SerDes lane's receive skew/delay in number of code-groups (BASE-X) or
                                                                  blocks (40GBASE-R) relative to the earliest (least delayed) lane of the LMAC/LPCS. */
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
@@ -491,7 +491,7 @@ typedef union
                                                                  </pre> */
         uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
                                                                  dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
-                                                                 and LMAC access to shared BGX resources (SMU/SPU data path, SerDes lanes) is disabled.
+                                                                 and LMAC access to shared BGX resources (data path, SerDes lanes) is disabled.
 
                                                                  When set, LMAC operation is enabled, including link bring-up, synchronization, and
                                                                  transmit/receive of idles and fault sequences. Note that configuration registers for an
@@ -499,14 +499,15 @@ typedef union
                                                                  setting this bit to enable the LMAC. This bit together with [LMAC_TYPE] is also used to
                                                                  enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
                                                                  is enabled when any of the paths are enabled. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When ENABLE = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_RX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
                                                                  layer
                                                                  drops received data and flow-control packets. */
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When ENABLE = 1 and [DATA_PKT_TX_EN] = 1, the transmission of
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_TX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
                                                                  layer
                                                                  suppresses the transmission of new data and packets for the LMAC. */
         uint64_t int_beat_gen          : 1;  /**< [ 12: 12](R/W) Internal beat generation. This bit is used for debug/test purposes and should be clear
@@ -535,8 +536,8 @@ typedef union
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and must not
                                                                  be changed when [ENABLE] = 1. */
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes Mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS Lane to a
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS lane to a
                                                                  physical SerDes lane, as follows:
 
                                                                  <pre>
@@ -549,7 +550,7 @@ typedef union
                                                                  </pre>
 
                                                                  PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
-                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when LMAC_TYPE = SGMII,
+                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
                                                                  then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
                                                                  are selected by bits <1:0>.
 
@@ -562,11 +563,12 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
-                                                                 be changed when [ENABLE] = 1. */
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and
+                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
+                                                                 IDss must be unique for each of the 4 LMACs. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes Mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS Lane to a
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS lane to a
                                                                  physical SerDes lane, as follows:
 
                                                                  <pre>
@@ -579,7 +581,7 @@ typedef union
                                                                  </pre>
 
                                                                  PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
-                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when LMAC_TYPE = SGMII,
+                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
                                                                  then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
                                                                  are selected by bits <1:0>.
 
@@ -592,8 +594,9 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
-                                                                 be changed when [ENABLE] = 1. */
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and
+                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
+                                                                 IDss must be unique for each of the 4 LMACs. */
         uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
 
                                                                  <pre>
@@ -620,19 +623,20 @@ typedef union
                                                                  during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
                                                                  TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
                                                                  RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When ENABLE = 1 and [DATA_PKT_TX_EN] = 1, the transmission of
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_TX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
                                                                  layer
                                                                  suppresses the transmission of new data and packets for the LMAC. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When ENABLE = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_RX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
                                                                  layer
                                                                  drops received data and flow-control packets. */
         uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
                                                                  dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
-                                                                 and LMAC access to shared BGX resources (SMU/SPU data path, SerDes lanes) is disabled.
+                                                                 and LMAC access to shared BGX resources (data path, SerDes lanes) is disabled.
 
                                                                  When set, LMAC operation is enabled, including link bring-up, synchronization, and
                                                                  transmit/receive of idles and fault sequences. Note that configuration registers for an
@@ -677,7 +681,7 @@ typedef union
                                                                  </pre> */
         uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
                                                                  dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
-                                                                 and LMAC access to shared BGX resources (SMU/SPU data path, SerDes lanes) is disabled.
+                                                                 and LMAC access to shared BGX resources (data path, SerDes lanes) is disabled.
 
                                                                  When set, LMAC operation is enabled, including link bring-up, synchronization, and
                                                                  transmit/receive of idles and fault sequences. Note that configuration registers for an
@@ -685,14 +689,15 @@ typedef union
                                                                  setting this bit to enable the LMAC. This bit together with [LMAC_TYPE] is also used to
                                                                  enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
                                                                  is enabled when any of the paths are enabled. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When ENABLE = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_RX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
                                                                  layer
                                                                  drops received data and flow-control packets. */
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When ENABLE = 1 and [DATA_PKT_TX_EN] = 1, the transmission of
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_TX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
                                                                  layer
                                                                  suppresses the transmission of new data and packets for the LMAC. */
         uint64_t int_beat_gen          : 1;  /**< [ 12: 12](R/W) Internal beat generation. This bit is used for debug/test purposes and should be clear
@@ -721,8 +726,8 @@ typedef union
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and must not
                                                                  be changed when [ENABLE] = 1. */
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes Mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS Lane to a
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS lane to a
                                                                  physical SerDes lane, as follows:
 
                                                                  <pre>
@@ -735,7 +740,7 @@ typedef union
                                                                  </pre>
 
                                                                  PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
-                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when LMAC_TYPE = SGMII,
+                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
                                                                  then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
                                                                  are selected by bits <1:0>.
 
@@ -748,11 +753,12 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
-                                                                 be changed when [ENABLE] = 1. */
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and
+                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
+                                                                 IDss must be unique for each of the 4 LMACs. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes Mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS Lane to a
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS lane to a
                                                                  physical SerDes lane, as follows:
 
                                                                  <pre>
@@ -765,7 +771,7 @@ typedef union
                                                                  </pre>
 
                                                                  PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
-                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when LMAC_TYPE = SGMII,
+                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
                                                                  then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
                                                                  are selected by bits <1:0>.
 
@@ -778,8 +784,9 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
-                                                                 be changed when [ENABLE] = 1. */
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and
+                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
+                                                                 IDss must be unique for each of the 4 LMACs. */
         uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
 
                                                                  <pre>
@@ -806,19 +813,20 @@ typedef union
                                                                  during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
                                                                  TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
                                                                  RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When ENABLE = 1 and [DATA_PKT_TX_EN] = 1, the transmission of
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_TX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
                                                                  layer
                                                                  suppresses the transmission of new data and packets for the LMAC. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When ENABLE = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_RX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
                                                                  layer
                                                                  drops received data and flow-control packets. */
         uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
                                                                  dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
-                                                                 and LMAC access to shared BGX resources (SMU/SPU data path, SerDes lanes) is disabled.
+                                                                 and LMAC access to shared BGX resources (data path, SerDes lanes) is disabled.
 
                                                                  When set, LMAC operation is enabled, including link bring-up, synchronization, and
                                                                  transmit/receive of idles and fault sequences. Note that configuration registers for an
@@ -857,14 +865,15 @@ typedef union
                                                                  setting this bit to enable the LMAC. This bit together with [LMAC_TYPE] is also used to
                                                                  enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
                                                                  is enabled when any of the paths are enabled. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When ENABLE = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_RX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
                                                                  layer
                                                                  drops received data and flow-control packets. */
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When ENABLE = 1 and [DATA_PKT_TX_EN] = 1, the transmission of
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_TX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
                                                                  layer
                                                                  suppresses the transmission of new data and packets for the LMAC. */
         uint64_t int_beat_gen          : 1;  /**< [ 12: 12](R/W) Internal beat generation. This bit is used for debug/test purposes and should be clear
@@ -891,8 +900,8 @@ typedef union
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and must not
                                                                  be changed when [ENABLE] = 1. */
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes Mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS Lane to a
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS lane to a
                                                                  physical SerDes lane, as follows:
 
                                                                  <pre>
@@ -905,7 +914,7 @@ typedef union
                                                                  </pre>
 
                                                                  PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
-                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when LMAC_TYPE = SGMII,
+                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
                                                                  then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
                                                                  are selected by bits <1:0>.
 
@@ -921,8 +930,8 @@ typedef union
                                                                  This field must be programmed to its final value before [ENABLE] is set, and must not
                                                                  be changed when [ENABLE] = 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes Mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS Lane to a
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS lane to a
                                                                  physical SerDes lane, as follows:
 
                                                                  <pre>
@@ -935,7 +944,7 @@ typedef union
                                                                  </pre>
 
                                                                  PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
-                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when LMAC_TYPE = SGMII,
+                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
                                                                  then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
                                                                  are selected by bits <1:0>.
 
@@ -974,14 +983,15 @@ typedef union
                                                                  during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
                                                                  TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
                                                                  RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When ENABLE = 1 and [DATA_PKT_TX_EN] = 1, the transmission of
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_TX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
                                                                  layer
                                                                  suppresses the transmission of new data and packets for the LMAC. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When ENABLE = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
                                                                  data
-                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and [DATA_PKT_RX_EN] = 0, the MAC
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
                                                                  layer
                                                                  drops received data and flow-control packets. */
         uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
@@ -1027,19 +1037,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. Assigned to the LMAC ID based on the lower 2
-                                                                 bits of the offending channel. */
-        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. Assigned to the LMAC ID based on the lower 2
-                                                                 bits of the offending channel. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
         uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
 #else /* Word 0 - Little Endian */
         uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
-        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. Assigned to the LMAC ID based on the lower 2
-                                                                 bits of the offending channel. */
-        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. Assigned to the LMAC ID based on the lower 2
-                                                                 bits of the offending channel. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -1048,19 +1054,32 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. Assigned to the LMAC ID based on the lower 2
-                                                                 bits of the offending channel. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from TNS/NIC interface. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
         uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
 #else /* Word 0 - Little Endian */
         uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
-        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. Assigned to the LMAC ID based on the lower 2
-                                                                 bits of the offending channel. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from TNS/NIC interface. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmrx_int_s cn83xx; */
+    struct bdk_bgxx_cmrx_int_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_int_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1265,19 +1284,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) If LMAC_TYPE != SGMII/QSGMII, and BGX()_SMU()_CBFC_CTL[RX_EN] or
-                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN] is set and the hardware is backpressuring any LMACs.
-                                                                 (from either PFC packets or BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all
-                                                                 channels indicated by [PHYS_BP] are backpressured, simulate physical backpressure
-                                                                 by deferring all packets on the transmitter. */
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs. (from either DRF or PFC packets or
+                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
+                                                                 backpressured,
+                                                                 simulate physical backpressure by deferring all packets on the transmitter.
+                                                                 If LMAC_TYPE != SGMII/QSGMII, BGX()_SMU()_CBFC_CTL[RX_EN] or
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN]
+                                                                 additionally need to be set. */
         uint64_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
-        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) If LMAC_TYPE != SGMII/QSGMII, and BGX()_SMU()_CBFC_CTL[RX_EN] or
-                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN] is set and the hardware is backpressuring any LMACs.
-                                                                 (from either PFC packets or BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all
-                                                                 channels indicated by [PHYS_BP] are backpressured, simulate physical backpressure
-                                                                 by deferring all packets on the transmitter. */
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs. (from either DRF or PFC packets or
+                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
+                                                                 backpressured,
+                                                                 simulate physical backpressure by deferring all packets on the transmitter.
+                                                                 If LMAC_TYPE != SGMII/QSGMII, BGX()_SMU()_CBFC_CTL[RX_EN] or
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN]
+                                                                 additionally need to be set. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -1333,15 +1356,15 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t mark                  : 7;  /**< [  6:  0](R/W) Number of eight-byte cycles to reserve in the RX FIFO. When the number of free
-                                                                 entries in the RX FIFO is less than or equal to MARK, incoming packet data is
-                                                                 dropped. Mark additionally indicates the number of entries to reserve in the RX FIFO for
-                                                                 closing partially received packets. MARK should typically be programmed to its reset
+                                                                 entries in the RX FIFO is less than or equal to [MARK], incoming packet data is
+                                                                 dropped. [MARK] additionally indicates the number of entries to reserve in the RX FIFO for
+                                                                 closing partially received packets. [MARK] should typically be programmed to its reset
                                                                  value; failure to program correctly can lead to system instability. */
 #else /* Word 0 - Little Endian */
         uint64_t mark                  : 7;  /**< [  6:  0](R/W) Number of eight-byte cycles to reserve in the RX FIFO. When the number of free
-                                                                 entries in the RX FIFO is less than or equal to MARK, incoming packet data is
-                                                                 dropped. Mark additionally indicates the number of entries to reserve in the RX FIFO for
-                                                                 closing partially received packets. MARK should typically be programmed to its reset
+                                                                 entries in the RX FIFO is less than or equal to [MARK], incoming packet data is
+                                                                 dropped. [MARK] additionally indicates the number of entries to reserve in the RX FIFO for
+                                                                 closing partially received packets. [MARK] should typically be programmed to its reset
                                                                  value; failure to program correctly can lead to system instability. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -1595,14 +1618,29 @@ typedef union
     struct bdk_bgxx_cmrx_rx_fifo_len_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t busy                  : 1;  /**< [ 13: 13](RO/H) Indicates if GMP and CMR are busy processing a packet. Used when bringing an LMAC
+                                                                 down since in low bandwidth cases, as the FIFO length may often appear to be 0x0. */
+        uint64_t fifo_len              : 13; /**< [ 12:  0](RO/H) Per-LMAC FIFO length. Useful for determining if FIFO is empty when bringing an LMAC down. */
+#else /* Word 0 - Little Endian */
+        uint64_t fifo_len              : 13; /**< [ 12:  0](RO/H) Per-LMAC FIFO length. Useful for determining if FIFO is empty when bringing an LMAC down. */
+        uint64_t busy                  : 1;  /**< [ 13: 13](RO/H) Indicates if GMP and CMR are busy processing a packet. Used when bringing an LMAC
+                                                                 down since in low bandwidth cases, as the FIFO length may often appear to be 0x0. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmrx_rx_fifo_len_s cn81xx; */
+    struct bdk_bgxx_cmrx_rx_fifo_len_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
         uint64_t fifo_len              : 13; /**< [ 12:  0](RO/H) Per-LMAC FIFO length. Useful for determining if FIFO is empty when bringing an LMAC down. */
 #else /* Word 0 - Little Endian */
         uint64_t fifo_len              : 13; /**< [ 12:  0](RO/H) Per-LMAC FIFO length. Useful for determining if FIFO is empty when bringing an LMAC down. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_rx_fifo_len_s cn; */
+    } cn88xx;
+    /* struct bdk_bgxx_cmrx_rx_fifo_len_s cn83xx; */
 } bdk_bgxx_cmrx_rx_fifo_len_t;
 
 static inline uint64_t BDK_BGXX_CMRX_RX_FIFO_LEN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1698,14 +1736,16 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t xoff                  : 16; /**< [ 15:  0](R/W1S/H) Together with BGX()_CMR()_RX_LOGL_XON, defines type of channel backpressure to
-                                                                 apply to the SMU. Do not write when HiGig2 is enabled. Writing 1 sets the same physical
-                                                                 register as that which is cleared by BGX()_CMR()_RX_LOGL_XON[XON]. An XOFF value
-                                                                 of 1 will cause a backpressure on SMU. */
+                                                                 apply to the MAC. In the case of SMU, Do not write when HiGig2 is
+                                                                 enabled. Writing 1 sets the same physical register as that which is cleared by
+                                                                 BGX()_CMR()_RX_LOGL_XON[XON]. An XOFF value of 1 will cause a backpressure on
+                                                                 the MAC. */
 #else /* Word 0 - Little Endian */
         uint64_t xoff                  : 16; /**< [ 15:  0](R/W1S/H) Together with BGX()_CMR()_RX_LOGL_XON, defines type of channel backpressure to
-                                                                 apply to the SMU. Do not write when HiGig2 is enabled. Writing 1 sets the same physical
-                                                                 register as that which is cleared by BGX()_CMR()_RX_LOGL_XON[XON]. An XOFF value
-                                                                 of 1 will cause a backpressure on SMU. */
+                                                                 apply to the MAC. In the case of SMU, Do not write when HiGig2 is
+                                                                 enabled. Writing 1 sets the same physical register as that which is cleared by
+                                                                 BGX()_CMR()_RX_LOGL_XON[XON]. An XOFF value of 1 will cause a backpressure on
+                                                                 the MAC. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -1742,6 +1782,23 @@ typedef union
         uint64_t xon                   : 16; /**< [ 15:  0](R/W1C/H) Together with BGX()_CMR()_RX_LOGL_XOFF, defines type of channel backpressure to
                                                                  apply. Do not write when HiGig2 is enabled. Writing 1 clears the same physical register as
                                                                  that which is set by XOFF. An XON value of 1 means only NIC channel BP can cause a
+                                                                 backpressure on the MAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t xon                   : 16; /**< [ 15:  0](R/W1C/H) Together with BGX()_CMR()_RX_LOGL_XOFF, defines type of channel backpressure to
+                                                                 apply. Do not write when HiGig2 is enabled. Writing 1 clears the same physical register as
+                                                                 that which is set by XOFF. An XON value of 1 means only NIC channel BP can cause a
+                                                                 backpressure on the MAC. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmrx_rx_logl_xon_s cn81xx; */
+    struct bdk_bgxx_cmrx_rx_logl_xon_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t xon                   : 16; /**< [ 15:  0](R/W1C/H) Together with BGX()_CMR()_RX_LOGL_XOFF, defines type of channel backpressure to
+                                                                 apply. Do not write when HiGig2 is enabled. Writing 1 clears the same physical register as
+                                                                 that which is set by XOFF. An XON value of 1 means only NIC channel BP can cause a
                                                                  backpressure on SMU. */
 #else /* Word 0 - Little Endian */
         uint64_t xon                   : 16; /**< [ 15:  0](R/W1C/H) Together with BGX()_CMR()_RX_LOGL_XOFF, defines type of channel backpressure to
@@ -1750,8 +1807,8 @@ typedef union
                                                                  backpressure on SMU. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_rx_logl_xon_s cn; */
+    } cn88xx;
+    /* struct bdk_bgxx_cmrx_rx_logl_xon_s cn83xx; */
 } bdk_bgxx_cmrx_rx_logl_xon_t;
 
 static inline uint64_t BDK_BGXX_CMRX_RX_LOGL_XON(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1822,10 +1879,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -1861,10 +1918,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -1905,10 +1962,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received PAUSE packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received PAUSE packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received PAUSE packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received PAUSE packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -1944,10 +2001,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received PAUSE packets. CNT will wrap and is cleared if LMAC is disabled
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received PAUSE packets. [CNT] will wrap and is cleared if LMAC is disabled
                                                                  with BGX()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received PAUSE packets. CNT will wrap and is cleared if LMAC is disabled
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received PAUSE packets. [CNT] will wrap and is cleared if LMAC is disabled
                                                                  with BGX()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -1987,10 +2044,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of filtered DMAC packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of filtered DMAC packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of filtered DMAC packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of filtered DMAC packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -2026,10 +2083,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of filtered DMAC packets. CNT will wrap and is cleared if LMAC is disabled
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of filtered DMAC packets. [CNT] will wrap and is cleared if LMAC is disabled
                                                                  with BGX()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of filtered DMAC packets. CNT will wrap and is cleared if LMAC is disabled
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of filtered DMAC packets. [CNT] will wrap and is cleared if LMAC is disabled
                                                                  with BGX()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -2068,10 +2125,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -2108,10 +2165,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of dropped packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of dropped packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of dropped packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of dropped packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -2165,10 +2222,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of error packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of error packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of error packets. CNT will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of error packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  BGX()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -2245,21 +2302,67 @@ typedef union
         uint64_t reserved_32_63        : 32;
         uint64_t msk                   : 16; /**< [ 31: 16](R/W) Backpressure channel mask. BGX can completely ignore the channel backpressure for channel
                                                                  specified by this field. Any channel in which MSK<n> is set never sends backpressure
-                                                                 information to PKO. */
-        uint64_t dis                   : 16; /**< [ 15:  0](R/W) Credit return backpressure disable. BGX stops returning channel credits for any channel
-                                                                 that is backpressured. These bits can be used to override that. If DIS<n> is set, channel
-                                                                 credits may flow back regardless of the backpressure for that channel. */
+                                                                 information to NIC. */
+        uint64_t dis                   : 16; /**< [ 15:  0](R/W) Credit return backpressure disable. BGX stops returning channel credits for any
+                                                                 channel that is backpressured. These bits can be used to override that. If
+                                                                 [DIS]<n> is set, channel credits may flow back regardless of the backpressure
+                                                                 for that channel. */
 #else /* Word 0 - Little Endian */
-        uint64_t dis                   : 16; /**< [ 15:  0](R/W) Credit return backpressure disable. BGX stops returning channel credits for any channel
-                                                                 that is backpressured. These bits can be used to override that. If DIS<n> is set, channel
-                                                                 credits may flow back regardless of the backpressure for that channel. */
+        uint64_t dis                   : 16; /**< [ 15:  0](R/W) Credit return backpressure disable. BGX stops returning channel credits for any
+                                                                 channel that is backpressured. These bits can be used to override that. If
+                                                                 [DIS]<n> is set, channel credits may flow back regardless of the backpressure
+                                                                 for that channel. */
+        uint64_t msk                   : 16; /**< [ 31: 16](R/W) Backpressure channel mask. BGX can completely ignore the channel backpressure for channel
+                                                                 specified by this field. Any channel in which MSK<n> is set never sends backpressure
+                                                                 information to NIC. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmrx_tx_channel_s cn81xx; */
+    struct bdk_bgxx_cmrx_tx_channel_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msk                   : 16; /**< [ 31: 16](R/W) Backpressure channel mask. BGX can completely ignore the channel backpressure for channel
+                                                                 specified by this field. Any channel in which MSK<n> is set never sends backpressure
+                                                                 information to TNS/NIC. */
+        uint64_t dis                   : 16; /**< [ 15:  0](R/W) Credit return backpressure disable. BGX stops returning channel credits for any
+                                                                 channel that is backpressured. These bits can be used to override that. If
+                                                                 [DIS]<n> is set, channel credits may flow back regardless of the backpressure
+                                                                 for that channel. */
+#else /* Word 0 - Little Endian */
+        uint64_t dis                   : 16; /**< [ 15:  0](R/W) Credit return backpressure disable. BGX stops returning channel credits for any
+                                                                 channel that is backpressured. These bits can be used to override that. If
+                                                                 [DIS]<n> is set, channel credits may flow back regardless of the backpressure
+                                                                 for that channel. */
+        uint64_t msk                   : 16; /**< [ 31: 16](R/W) Backpressure channel mask. BGX can completely ignore the channel backpressure for channel
+                                                                 specified by this field. Any channel in which MSK<n> is set never sends backpressure
+                                                                 information to TNS/NIC. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn88xx;
+    struct bdk_bgxx_cmrx_tx_channel_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msk                   : 16; /**< [ 31: 16](R/W) Backpressure channel mask. BGX can completely ignore the channel backpressure for channel
+                                                                 specified by this field. Any channel in which MSK<n> is set never sends backpressure
+                                                                 information to PKO. */
+        uint64_t dis                   : 16; /**< [ 15:  0](R/W) Credit return backpressure disable. BGX stops returning channel credits for any
+                                                                 channel that is backpressured. These bits can be used to override that. If
+                                                                 [DIS]<n> is set, channel credits may flow back regardless of the backpressure
+                                                                 for that channel. */
+#else /* Word 0 - Little Endian */
+        uint64_t dis                   : 16; /**< [ 15:  0](R/W) Credit return backpressure disable. BGX stops returning channel credits for any
+                                                                 channel that is backpressured. These bits can be used to override that. If
+                                                                 [DIS]<n> is set, channel credits may flow back regardless of the backpressure
+                                                                 for that channel. */
         uint64_t msk                   : 16; /**< [ 31: 16](R/W) Backpressure channel mask. BGX can completely ignore the channel backpressure for channel
                                                                  specified by this field. Any channel in which MSK<n> is set never sends backpressure
                                                                  information to PKO. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_tx_channel_s cn; */
+    } cn83xx;
 } bdk_bgxx_cmrx_tx_channel_t;
 
 static inline uint64_t BDK_BGXX_CMRX_TX_CHANNEL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2332,16 +2435,16 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t xof                   : 16; /**< [ 31: 16](RO/H) 16-bit XOF back pressure vector from HiGig2 message packet or from PFC packets. Non-
-                                                                 zero only when logical back pressure is active. All bits are 0 when LGTIM2GO=0x0. */
+                                                                 zero only when logical back pressure is active. All bits are 0 when [LGTIM2GO] = 0x0. */
         uint64_t lgtim2go              : 16; /**< [ 15:  0](RO/H) Logical packet flow back pressure time remaining. Initial value set from XOF time field of
                                                                  HiGig2 message packet received or a function of the enabled and current timers for
-                                                                 PFC packets. Non-zero only when logical back pressure is active. */
+                                                                 PFC packets. Nonzero only when logical back pressure is active. */
 #else /* Word 0 - Little Endian */
         uint64_t lgtim2go              : 16; /**< [ 15:  0](RO/H) Logical packet flow back pressure time remaining. Initial value set from XOF time field of
                                                                  HiGig2 message packet received or a function of the enabled and current timers for
-                                                                 PFC packets. Non-zero only when logical back pressure is active. */
+                                                                 PFC packets. Nonzero only when logical back pressure is active. */
         uint64_t xof                   : 16; /**< [ 31: 16](RO/H) 16-bit XOF back pressure vector from HiGig2 message packet or from PFC packets. Non-
-                                                                 zero only when logical back pressure is active. All bits are 0 when LGTIM2GO=0x0. */
+                                                                 zero only when logical back pressure is active. All bits are 0 when [LGTIM2GO] = 0x0. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -3485,13 +3588,11 @@ typedef union
                                                                  [MSK_AND]<x:y>
                                                                  _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
 
-                                                                 In single LMAC configurations, x = 63, y = 0.
-
-                                                                 In multi-LMAC configurations, x/y are set as follows:
-                                                                 _ LMAC interface 0, x = 15, y = 0.
-                                                                 _ LMAC interface 1, x = 31, y = 16.
-                                                                 _ LMAC interface 2, x = 47, y = 32.
-                                                                 _ LMAC interface 3, x = 63, y = 48. */
+                                                                 x/y are as follows:
+                                                                 _ LMAC 0: <x:y> = <15:0>.
+                                                                 _ LMAC 1: <x:y> = <31:16>.
+                                                                 _ LMAC 2: <x:y> = <47:32>.
+                                                                 _ LMAC 3: <x:y> = <63:48>. */
 #else /* Word 0 - Little Endian */
         uint64_t msk_and               : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with [MSK_AND]
                                                                  indicates backpressure as follows:
@@ -3499,13 +3600,11 @@ typedef union
                                                                  [MSK_AND]<x:y>
                                                                  _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
 
-                                                                 In single LMAC configurations, x = 63, y = 0.
-
-                                                                 In multi-LMAC configurations, x/y are set as follows:
-                                                                 _ LMAC interface 0, x = 15, y = 0.
-                                                                 _ LMAC interface 1, x = 31, y = 16.
-                                                                 _ LMAC interface 2, x = 47, y = 32.
-                                                                 _ LMAC interface 3, x = 63, y = 48. */
+                                                                 x/y are as follows:
+                                                                 _ LMAC 0: <x:y> = <15:0>.
+                                                                 _ LMAC 1: <x:y> = <31:16>.
+                                                                 _ LMAC 2: <x:y> = <47:32>.
+                                                                 _ LMAC 3: <x:y> = <63:48>. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bgxx_cmr_chan_msk_and_s cn; */
@@ -3543,13 +3642,11 @@ typedef union
                                                                  _ phys_bp_msk_or = (chan_vector<x:y> & [MSK_OR]<x:y>) != 0
                                                                  _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
 
-                                                                 In single LMAC configurations, x = 63, y = 0.
-
-                                                                 In multi-LMAC configurations, x/y are set as follows:
-                                                                 _ LMAC interface 0, x = 15, y = 0.
-                                                                 _ LMAC interface 1, x = 31, y = 16.
-                                                                 _ LMAC interface 2, x = 47, y = 32.
-                                                                 _ LMAC interface 3, x = 63, y = 48. */
+                                                                 x/y are as follows:
+                                                                 _ LMAC 0: <x:y> = <15:0>.
+                                                                 _ LMAC 1: <x:y> = <31:16>.
+                                                                 _ LMAC 2: <x:y> = <47:32>.
+                                                                 _ LMAC 3: <x:y> = <63:48>. */
 #else /* Word 0 - Little Endian */
         uint64_t msk_or                : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with [MSK_OR]
                                                                  indicates backpressure as follows:
@@ -3557,13 +3654,11 @@ typedef union
                                                                  _ phys_bp_msk_or = (chan_vector<x:y> & [MSK_OR]<x:y>) != 0
                                                                  _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
 
-                                                                 In single LMAC configurations, x = 63, y = 0.
-
-                                                                 In multi-LMAC configurations, x/y are set as follows:
-                                                                 _ LMAC interface 0, x = 15, y = 0.
-                                                                 _ LMAC interface 1, x = 31, y = 16.
-                                                                 _ LMAC interface 2, x = 47, y = 32.
-                                                                 _ LMAC interface 3, x = 63, y = 48. */
+                                                                 x/y are as follows:
+                                                                 _ LMAC 0: <x:y> = <15:0>.
+                                                                 _ LMAC 1: <x:y> = <31:16>.
+                                                                 _ LMAC 2: <x:y> = <47:32>.
+                                                                 _ LMAC 3: <x:y> = <63:48>. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bgxx_cmr_chan_msk_or_s cn; */
@@ -3675,11 +3770,9 @@ typedef union
                                                                  BGX by
                                                                  setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
                                                                  requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
+                                                                 interface.
 
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 Setting this bit to 0 does not reset the X2P interface.
                                                                  After NIC comes out of reset, software should clear this bit. */
         uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
                                                                  BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
@@ -3698,11 +3791,9 @@ typedef union
                                                                  BGX by
                                                                  setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
                                                                  requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
+                                                                 interface.
 
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 Setting this bit to 0 does not reset the X2P interface.
                                                                  After NIC comes out of reset, software should clear this bit. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
@@ -3835,24 +3926,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
-        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
-                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
-                                                                 commanded by the
-                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
-                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
-                                                                 configure
-                                                                 the rest of the BGX csr for pass through traffic.
-
-                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
-                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
-        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
-                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
-                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
-                                                                 to the NCSI interface while performing a X2P partner reset.
-                                                                 0 = Allow traffic to flow through the NCSI block. */
-        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
-                                                                 is
-                                                                 also the LMAC_ID that is eligible for steering. */
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Reserved. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) Reserved. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Reserved. */
         uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
                                                                  bytes, the packet will be removed.
                                                                  A setting of 0 means the BGX will not modify or remove the FCS bytes. */
@@ -3863,11 +3939,9 @@ typedef union
                                                                  BGX by
                                                                  setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
                                                                  requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
+                                                                 interface.
 
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 Setting this bit to 0 does not reset the X2P interface.
                                                                  After NIC comes out of reset, software should clear this bit. */
         uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
                                                                  BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
@@ -3886,11 +3960,9 @@ typedef union
                                                                  BGX by
                                                                  setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
                                                                  requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
+                                                                 interface.
 
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 Setting this bit to 0 does not reset the X2P interface.
                                                                  After NIC comes out of reset, software should clear this bit. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
@@ -3898,24 +3970,9 @@ typedef union
         uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
                                                                  bytes, the packet will be removed.
                                                                  A setting of 0 means the BGX will not modify or remove the FCS bytes. */
-        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
-                                                                 is
-                                                                 also the LMAC_ID that is eligible for steering. */
-        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
-                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
-                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
-                                                                 to the NCSI interface while performing a X2P partner reset.
-                                                                 0 = Allow traffic to flow through the NCSI block. */
-        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
-                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
-                                                                 commanded by the
-                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
-                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
-                                                                 configure
-                                                                 the rest of the BGX csr for pass through traffic.
-
-                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
-                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Reserved. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) Reserved. */
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Reserved. */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -4176,7 +4233,64 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmr_mem_ctrl_s cn; */
+    struct bdk_bgxx_cmr_mem_ctrl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_ncsi_synd         : 2;  /**< [ 35: 34](R/W) Reserved. */
+        uint64_t txb_ncsi_cor_dis      : 1;  /**< [ 33: 33](R/W) Reserved. */
+        uint64_t txb_skid_m3_synd      : 2;  /**< [ 32: 31](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m3_cor_dis   : 1;  /**< [ 30: 30](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m2_synd      : 2;  /**< [ 29: 28](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m2_cor_dis   : 1;  /**< [ 27: 27](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m1_synd      : 2;  /**< [ 26: 25](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m1_cor_dis   : 1;  /**< [ 24: 24](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m0_synd      : 2;  /**< [ 23: 22](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO. */
+        uint64_t txb_skid_m0_cor_dis   : 1;  /**< [ 21: 21](R/W) ECC-correction disable for the TXB SKID FIFO. */
+        uint64_t txb_fif_bk1_syn       : 2;  /**< [ 20: 19](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank1. */
+        uint64_t txb_fif_bk1_cdis      : 1;  /**< [ 18: 18](R/W) ECC-correction disable for the TXB main bank1. */
+        uint64_t txb_fif_bk0_syn       : 2;  /**< [ 17: 16](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank0. */
+        uint64_t txb_fif_bk0_cdis      : 1;  /**< [ 15: 15](R/W) ECC-correction disable for the TXB main bank0. */
+        uint64_t rxb_skid_synd         : 2;  /**< [ 14: 13](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB SKID FIFO. */
+        uint64_t rxb_skid_cor_dis      : 1;  /**< [ 12: 12](R/W) ECC-correction disable for the RXB SKID FIFO. */
+        uint64_t rxb_fif_bk1_syn1      : 2;  /**< [ 11: 10](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf1. */
+        uint64_t rxb_fif_bk1_cdis1     : 1;  /**< [  9:  9](R/W) ECC-correction disable for the RXB main bank1 srf1. */
+        uint64_t rxb_fif_bk1_syn0      : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk1_cdis0     : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk0_syn1      : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk0_cdis1     : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk0_syn0      : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf0. */
+        uint64_t rxb_fif_bk0_cdis0     : 1;  /**< [  0:  0](R/W) ECC-correction disable for the RXB main bank0 srf0. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_cdis0     : 1;  /**< [  0:  0](R/W) ECC-correction disable for the RXB main bank0 srf0. */
+        uint64_t rxb_fif_bk0_syn0      : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf0. */
+        uint64_t rxb_fif_bk0_cdis1     : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk0_syn1      : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk1_cdis0     : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk1_syn0      : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk1_cdis1     : 1;  /**< [  9:  9](R/W) ECC-correction disable for the RXB main bank1 srf1. */
+        uint64_t rxb_fif_bk1_syn1      : 2;  /**< [ 11: 10](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf1. */
+        uint64_t rxb_skid_cor_dis      : 1;  /**< [ 12: 12](R/W) ECC-correction disable for the RXB SKID FIFO. */
+        uint64_t rxb_skid_synd         : 2;  /**< [ 14: 13](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB SKID FIFO. */
+        uint64_t txb_fif_bk0_cdis      : 1;  /**< [ 15: 15](R/W) ECC-correction disable for the TXB main bank0. */
+        uint64_t txb_fif_bk0_syn       : 2;  /**< [ 17: 16](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank0. */
+        uint64_t txb_fif_bk1_cdis      : 1;  /**< [ 18: 18](R/W) ECC-correction disable for the TXB main bank1. */
+        uint64_t txb_fif_bk1_syn       : 2;  /**< [ 20: 19](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank1. */
+        uint64_t txb_skid_m0_cor_dis   : 1;  /**< [ 21: 21](R/W) ECC-correction disable for the TXB SKID FIFO. */
+        uint64_t txb_skid_m0_synd      : 2;  /**< [ 23: 22](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO. */
+        uint64_t txb_skid_m1_cor_dis   : 1;  /**< [ 24: 24](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m1_synd      : 2;  /**< [ 26: 25](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m2_cor_dis   : 1;  /**< [ 27: 27](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m2_synd      : 2;  /**< [ 29: 28](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m3_cor_dis   : 1;  /**< [ 30: 30](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m3_synd      : 2;  /**< [ 32: 31](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_ncsi_cor_dis      : 1;  /**< [ 33: 33](R/W) Reserved. */
+        uint64_t txb_ncsi_synd         : 2;  /**< [ 35: 34](R/W) Reserved. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_bgxx_cmr_mem_ctrl_s cn88xx; */
+    /* struct bdk_bgxx_cmr_mem_ctrl_s cn83xx; */
 } bdk_bgxx_cmr_mem_ctrl_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4256,18 +4370,18 @@ typedef union
         uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
         uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
         uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reserved. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reserved. */
         uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
         uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reserved. */
         uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
         uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
         uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
@@ -4301,18 +4415,18 @@ typedef union
         uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
         uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
         uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reserved. */
         uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
         uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reserved. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reserved. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reserved. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reserved. */
         uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
         uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
         uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
@@ -4384,7 +4498,86 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmr_mem_int_cn81xx cn83xx; */
+    struct bdk_bgxx_cmr_mem_int_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) RXB PKI SKID FIFO double-bit error. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) RXB PKI SKID FIFO double-bit error. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_mem_int_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5405,10 +5598,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of dropped NCSI packets. CNT will wrap and is cleared if NCSI is reset with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of dropped NCSI packets. [CNT] will wrap and is cleared if NCSI is reset with
                                                                  BGX()_CMR_GLOBAL_CONFIG[CMR_NCSI_RESET]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of dropped NCSI packets. CNT will wrap and is cleared if NCSI is reset with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of dropped NCSI packets. [CNT] will wrap and is cleared if NCSI is reset with
                                                                  BGX()_CMR_GLOBAL_CONFIG[CMR_NCSI_RESET]. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -5459,10 +5652,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped packets. CNT will wrap and is cleared if NCSI is reset with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped packets. [CNT] will wrap and is cleared if NCSI is reset with
                                                                  BGX()_CMR_GLOBAL_CONFIG[CMR_NCSI_RESET]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped packets. CNT will wrap and is cleared if NCSI is reset with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped packets. [CNT] will wrap and is cleared if NCSI is reset with
                                                                  BGX()_CMR_GLOBAL_CONFIG[CMR_NCSI_RESET]. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -6269,22 +6462,16 @@ typedef union
                                                                  the PREAMBLE+SFD bytes are thrown away or sent to the core as part of the packet. In
                                                                  either mode, the PREAMBLE+SFD bytes are not counted toward the packet size when checking
                                                                  against the MIN and MAX bounds. Furthermore, the bytes are skipped when locating the start
-                                                                 of the L2 header for DMAC and Control frame recognition. */
+                                                                 of the L2 header for DMAC and control frame recognition. */
         uint64_t pre_chk               : 1;  /**< [  0:  0](R/W) Check the preamble for correctness. This port is configured to send a valid 802.3 PREAMBLE
                                                                  to begin every frame. GMI checks that a valid PREAMBLE is received (based on [PRE_FREE]).
                                                                  When a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
-                                                                 sent into the core. The BGX()_SMU()_RX_INT[PCTERR] interrupt is also raised.
-
-                                                                 When BGX()_SMU()_TX_CTL[HG_EN] is set, [PRE_CHK] must be 0. If [PTP_MODE] = 1 and
-                                                                 [PRE_CHK] = 1, [PRE_STRP] must be 1. */
+                                                                 sent into the core. The BGX()_GMP()_RX_INT[PCTERR] interrupt is also raised. */
 #else /* Word 0 - Little Endian */
         uint64_t pre_chk               : 1;  /**< [  0:  0](R/W) Check the preamble for correctness. This port is configured to send a valid 802.3 PREAMBLE
                                                                  to begin every frame. GMI checks that a valid PREAMBLE is received (based on [PRE_FREE]).
                                                                  When a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
-                                                                 sent into the core. The BGX()_SMU()_RX_INT[PCTERR] interrupt is also raised.
-
-                                                                 When BGX()_SMU()_TX_CTL[HG_EN] is set, [PRE_CHK] must be 0. If [PTP_MODE] = 1 and
-                                                                 [PRE_CHK] = 1, [PRE_STRP] must be 1. */
+                                                                 sent into the core. The BGX()_GMP()_RX_INT[PCTERR] interrupt is also raised. */
         uint64_t pre_strp              : 1;  /**< [  1:  1](R/W) Strip off the preamble (when present).
                                                                  0 = PREAMBLE + SFD is sent to core as part of frame.
                                                                  1 = PREAMBLE + SFD is dropped.
@@ -6297,7 +6484,7 @@ typedef union
                                                                  the PREAMBLE+SFD bytes are thrown away or sent to the core as part of the packet. In
                                                                  either mode, the PREAMBLE+SFD bytes are not counted toward the packet size when checking
                                                                  against the MIN and MAX bounds. Furthermore, the bytes are skipped when locating the start
-                                                                 of the L2 header for DMAC and Control frame recognition. */
+                                                                 of the L2 header for DMAC and control frame recognition. */
         uint64_t ctl_drp               : 1;  /**< [  2:  2](R/W) Drop control-PAUSE frames. */
         uint64_t ctl_bck               : 1;  /**< [  3:  3](R/W) Forward PAUSE information to TX block. */
         uint64_t ctl_mcst              : 1;  /**< [  4:  4](R/W) Control PAUSE frames can match globally assigned multicast address. */
@@ -6370,22 +6557,16 @@ typedef union
                                                                  the PREAMBLE+SFD bytes are thrown away or sent to the core as part of the packet. In
                                                                  either mode, the PREAMBLE+SFD bytes are not counted toward the packet size when checking
                                                                  against the MIN and MAX bounds. Furthermore, the bytes are skipped when locating the start
-                                                                 of the L2 header for DMAC and Control frame recognition. */
+                                                                 of the L2 header for DMAC and control frame recognition. */
         uint64_t pre_chk               : 1;  /**< [  0:  0](R/W) Check the preamble for correctness. This port is configured to send a valid 802.3 PREAMBLE
                                                                  to begin every frame. GMI checks that a valid PREAMBLE is received (based on [PRE_FREE]).
                                                                  When a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
-                                                                 sent into the core. The BGX()_SMU()_RX_INT[PCTERR] interrupt is also raised.
-
-                                                                 When BGX()_SMU()_TX_CTL[HG_EN] is set, [PRE_CHK] must be 0. If [PTP_MODE] = 1 and
-                                                                 [PRE_CHK] = 1, [PRE_STRP] must be 1. */
+                                                                 sent into the core. The BGX()_GMP()_RX_INT[PCTERR] interrupt is also raised. */
 #else /* Word 0 - Little Endian */
         uint64_t pre_chk               : 1;  /**< [  0:  0](R/W) Check the preamble for correctness. This port is configured to send a valid 802.3 PREAMBLE
                                                                  to begin every frame. GMI checks that a valid PREAMBLE is received (based on [PRE_FREE]).
                                                                  When a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
-                                                                 sent into the core. The BGX()_SMU()_RX_INT[PCTERR] interrupt is also raised.
-
-                                                                 When BGX()_SMU()_TX_CTL[HG_EN] is set, [PRE_CHK] must be 0. If [PTP_MODE] = 1 and
-                                                                 [PRE_CHK] = 1, [PRE_STRP] must be 1. */
+                                                                 sent into the core. The BGX()_GMP()_RX_INT[PCTERR] interrupt is also raised. */
         uint64_t pre_strp              : 1;  /**< [  1:  1](R/W) Strip off the preamble (when present).
                                                                  0 = PREAMBLE + SFD is sent to core as part of frame.
                                                                  1 = PREAMBLE + SFD is dropped.
@@ -6398,7 +6579,7 @@ typedef union
                                                                  the PREAMBLE+SFD bytes are thrown away or sent to the core as part of the packet. In
                                                                  either mode, the PREAMBLE+SFD bytes are not counted toward the packet size when checking
                                                                  against the MIN and MAX bounds. Furthermore, the bytes are skipped when locating the start
-                                                                 of the L2 header for DMAC and Control frame recognition. */
+                                                                 of the L2 header for DMAC and control frame recognition. */
         uint64_t ctl_drp               : 1;  /**< [  2:  2](R/W) Drop control-PAUSE frames. */
         uint64_t ctl_bck               : 1;  /**< [  3:  3](R/W) Forward PAUSE information to TX block. */
         uint64_t ctl_mcst              : 1;  /**< [  4:  4](R/W) Control PAUSE frames can match globally assigned multicast address. */
@@ -6468,7 +6649,7 @@ typedef union
                                                                  the PREAMBLE+SFD bytes are thrown away or sent to the core as part of the packet. In
                                                                  either mode, the PREAMBLE+SFD bytes are not counted toward the packet size when checking
                                                                  against the MIN and MAX bounds. Furthermore, the bytes are skipped when locating the start
-                                                                 of the L2 header for DMAC and Control frame recognition. */
+                                                                 of the L2 header for DMAC and control frame recognition. */
         uint64_t pre_chk               : 1;  /**< [  0:  0](R/W) Check the preamble for correctness. This port is configured to send a valid 802.3 PREAMBLE
                                                                  to begin every frame. GMI checks that a valid PREAMBLE is received (based on [PRE_FREE]).
                                                                  When a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
@@ -6496,7 +6677,7 @@ typedef union
                                                                  the PREAMBLE+SFD bytes are thrown away or sent to the core as part of the packet. In
                                                                  either mode, the PREAMBLE+SFD bytes are not counted toward the packet size when checking
                                                                  against the MIN and MAX bounds. Furthermore, the bytes are skipped when locating the start
-                                                                 of the L2 header for DMAC and Control frame recognition. */
+                                                                 of the L2 header for DMAC and control frame recognition. */
         uint64_t ctl_drp               : 1;  /**< [  2:  2](R/W) Drop control-PAUSE frames. */
         uint64_t ctl_bck               : 1;  /**< [  3:  3](R/W) Forward PAUSE information to TX block. */
         uint64_t ctl_mcst              : 1;  /**< [  4:  4](R/W) Control PAUSE frames can match globally assigned multicast address. */
@@ -6633,7 +6814,7 @@ static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long a, unsigned long b
  * (2) in half duplex operation, the expectation is that collisions will appear
  * as either MINERR o r CAREXT errors.
  *
- * (3) JABBER An RX Jabber error indicates that a packet was received which
+ * (3) JABBER An RX jabber error indicates that a packet was received which
  * is longer than the maximum allowed packet as defined by the
  * system.  GMI will truncate the packet at the JABBER count.
  * Failure to do so could lead to system instabilty.
@@ -7003,12 +7184,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Byte count for jabber check. Failing packets set the JABBER interrupt and are optionally
-                                                                 sent with opcode = JABBER. GMI truncates the packet to CNT bytes.
-                                                                 CNT must be 8-byte aligned such that CNT<2:0> = 000. */
+                                                                 sent with opcode = JABBER. GMI truncates the packet to [CNT] bytes.
+                                                                 [CNT] must be 8-byte aligned such that CNT<2:0> = 000. */
 #else /* Word 0 - Little Endian */
         uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Byte count for jabber check. Failing packets set the JABBER interrupt and are optionally
-                                                                 sent with opcode = JABBER. GMI truncates the packet to CNT bytes.
-                                                                 CNT must be 8-byte aligned such that CNT<2:0> = 000. */
+                                                                 sent with opcode = JABBER. GMI truncates the packet to [CNT] bytes.
+                                                                 [CNT] must be 8-byte aligned such that CNT<2:0> = 000. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -7074,7 +7255,7 @@ typedef union
 
                                                                  The skip bytes are part of the packet and are
                                                                  handled by NIC. The system can determine if the UDD bytes are included in the FCS check by
-                                                                 using the FCSSEL field, if the FCS check is enabled. */
+                                                                 using [FCSSEL], if the FCS check is enabled. */
         uint64_t reserved_7            : 1;
         uint64_t len                   : 7;  /**< [  6:  0](R/W) Amount of user-defined data before the start of the L2C data, in bytes.
                                                                  Setting to 0 means L2C comes first; maximum value is 64.
@@ -7096,7 +7277,7 @@ typedef union
 
                                                                  The skip bytes are part of the packet and are
                                                                  handled by NIC. The system can determine if the UDD bytes are included in the FCS check by
-                                                                 using the FCSSEL field, if the FCS check is enabled. */
+                                                                 using [FCSSEL], if the FCS check is enabled. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -8820,7 +9001,7 @@ static inline uint64_t BDK_BGXX_GMP_PCS_INTX_W1S(unsigned long a, unsigned long 
  * Register (RSL) bgx#_gmp_pcs_link#_timer
  *
  * BGX GMP PCS Link Timer Registers
- * This is the 1.6 ms nominal Link timer register.
+ * This is the 1.6 ms nominal link timer register.
  */
 typedef union
 {
@@ -8829,12 +9010,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t count                 : 16; /**< [ 15:  0](R/W) (Coprocessor clock period * 1024) * COUNT should be 1.6 ms for SGMII/QSGMII and 10 ms
+        uint64_t count                 : 16; /**< [ 15:  0](R/W) (Coprocessor clock period * 1024) * [COUNT] should be 1.6 ms for SGMII/QSGMII and 10 ms
                                                                  otherwise,
                                                                  which is the link timer used in autonegotiation. Reset assumes a 700 MHz coprocessor
                                                                  clock for 1.6 ms link timer. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 16; /**< [ 15:  0](R/W) (Coprocessor clock period * 1024) * COUNT should be 1.6 ms for SGMII/QSGMII and 10 ms
+        uint64_t count                 : 16; /**< [ 15:  0](R/W) (Coprocessor clock period * 1024) * [COUNT] should be 1.6 ms for SGMII/QSGMII and 10 ms
                                                                  otherwise,
                                                                  which is the link timer used in autonegotiation. Reset assumes a 700 MHz coprocessor
                                                                  clock for 1.6 ms link timer. */
@@ -8893,7 +9074,13 @@ typedef union
     struct bdk_bgxx_gmp_pcs_miscx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_33_63        : 31;
+        uint64_t qsgmii_comma_wd_en    : 1;  /**< [ 32: 32](R/W) QSGMII comma watchdog byte counter enable. */
+        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and counts
+                                                                 incoming bytes to ensure state transitions in the PCS receive side state machine
+                                                                 when disparity enable is turned off and bad code groups and commas are not
+                                                                 communicated from the code group processor after code group lock. */
+        uint64_t reserved_14_15        : 2;
         uint64_t disp_en               : 1;  /**< [ 13: 13](R/W) Disparity check enable.  When LMAC_TYPE=QSGMII the running disparity check should be
                                                                  disabled
                                                                  to
@@ -8985,10 +9172,125 @@ typedef union
                                                                  1 = enable disparity checking
 
                                                                  See GSER()_LANE_MODE[LMODE]. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_14_15        : 2;
+        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and counts
+                                                                 incoming bytes to ensure state transitions in the PCS receive side state machine
+                                                                 when disparity enable is turned off and bad code groups and commas are not
+                                                                 communicated from the code group processor after code group lock. */
+        uint64_t qsgmii_comma_wd_en    : 1;  /**< [ 32: 32](R/W) QSGMII comma watchdog byte counter enable. */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_pcs_miscx_ctl_s cn81xx; */
+    struct bdk_bgxx_gmp_pcs_miscx_ctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t qsgmii_comma_wd_en    : 1;  /**< [ 32: 32](R/W) QSGMII comma watchdog byte counter enable. */
+        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and
+                                                                 counts incoming bytes to ensure state transitions in the PCS receive side state
+                                                                 machine when disparity enable is turned off and bad code groups and commas are
+                                                                 not communicated from the code group processor after code group lock. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t disp_en               : 1;  /**< [ 13: 13](R/W) Disparity check enable.  When LMAC_TYPE=QSGMII the running disparity check should be
+                                                                 disabled
+                                                                 to
+                                                                 prevent propogation across ports.
+                                                                 0 = disable disparity check
+                                                                 1 = enable disparity checking
+
+                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
+                                                                 0 = other mode selected.
+                                                                 1 = SGMII or 1000BASE-X mode selected.
+
+                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
+                                                                 GMI is checked only at SOP of every packet. */
+        uint64_t loopbck2              : 1;  /**< [ 10: 10](R/W) Sets external loopback mode to return RX data back out via the TX data path. 0 = No
+                                                                 loopback, 1 = Loopback.
+                                                                 LOOPBCK1 and LOOPBCK2 modes may not be supported simultaneously. */
+        uint64_t mac_phy               : 1;  /**< [  9:  9](R/W) MAC/PHY.
+                                                                 0 = MAC.
+                                                                 1 = PHY decides the tx_Config_Reg value to be sent during autonegotiation. */
+        uint64_t mode                  : 1;  /**< [  8:  8](R/W) Mode bit.
+
+                                                                 _ 0 = SGMII mode is selected and the following note applies.
+                                                                 The SGMII AN advertisement register (BGX()_GMP_PCS_SGM()_AN_ADV) is sent during
+                                                                 autonegotiation if BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] = 1 (PHY mode). If [MAC_PHY]
+                                                                 = 0 (MAC mode), the tx_Config_Reg<14> becomes ACK bit and <0> is always 1. All other bits
+                                                                 in tx_Config_Reg sent are 0. The PHY dictates the autonegotiation results.
+
+                                                                 _ 1 = 1000Base-X mode is selected. Autonegotiation follows IEEE 802.3 clause 37. */
+        uint64_t an_ovrd               : 1;  /**< [  7:  7](R/W) Autonegotiation results override:
+                                                                 0 = Disable.
+                                                                 1 = Enable override. Autonegotiation is allowed to happen but the results are ignored
+                                                                 when this bit is set.  Duplex and Link speed values are set from BGX()_GMP_PCS_MISC()_CTL. */
+        uint64_t samp_pt               : 7;  /**< [  6:  0](R/W) Byte number in elongated frames for 10/100 Mb/s operation for data sampling on RX side in
+                                                                 PCS. Recommended values are 0x5 for 100 Mb/s operation and 0x32 for 10 Mb/s operation.
+
+                                                                 For 10 Mb/s operation, this field should be set to a value less than 99 and greater than
+                                                                 0.
+                                                                 If set out of this range, a value of 50 is used for actual sampling internally without
+                                                                 affecting the CSR field.
+
+                                                                 For 100 Mb/s operation this field should be set to a value less than 9 and greater than 0.
+                                                                 If set out of this range, a value of 5 is used for actual sampling internally without
+                                                                 affecting the CSR field. */
+#else /* Word 0 - Little Endian */
+        uint64_t samp_pt               : 7;  /**< [  6:  0](R/W) Byte number in elongated frames for 10/100 Mb/s operation for data sampling on RX side in
+                                                                 PCS. Recommended values are 0x5 for 100 Mb/s operation and 0x32 for 10 Mb/s operation.
+
+                                                                 For 10 Mb/s operation, this field should be set to a value less than 99 and greater than
+                                                                 0.
+                                                                 If set out of this range, a value of 50 is used for actual sampling internally without
+                                                                 affecting the CSR field.
+
+                                                                 For 100 Mb/s operation this field should be set to a value less than 9 and greater than 0.
+                                                                 If set out of this range, a value of 5 is used for actual sampling internally without
+                                                                 affecting the CSR field. */
+        uint64_t an_ovrd               : 1;  /**< [  7:  7](R/W) Autonegotiation results override:
+                                                                 0 = Disable.
+                                                                 1 = Enable override. Autonegotiation is allowed to happen but the results are ignored
+                                                                 when this bit is set.  Duplex and Link speed values are set from BGX()_GMP_PCS_MISC()_CTL. */
+        uint64_t mode                  : 1;  /**< [  8:  8](R/W) Mode bit.
+
+                                                                 _ 0 = SGMII mode is selected and the following note applies.
+                                                                 The SGMII AN advertisement register (BGX()_GMP_PCS_SGM()_AN_ADV) is sent during
+                                                                 autonegotiation if BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] = 1 (PHY mode). If [MAC_PHY]
+                                                                 = 0 (MAC mode), the tx_Config_Reg<14> becomes ACK bit and <0> is always 1. All other bits
+                                                                 in tx_Config_Reg sent are 0. The PHY dictates the autonegotiation results.
+
+                                                                 _ 1 = 1000Base-X mode is selected. Autonegotiation follows IEEE 802.3 clause 37. */
+        uint64_t mac_phy               : 1;  /**< [  9:  9](R/W) MAC/PHY.
+                                                                 0 = MAC.
+                                                                 1 = PHY decides the tx_Config_Reg value to be sent during autonegotiation. */
+        uint64_t loopbck2              : 1;  /**< [ 10: 10](R/W) Sets external loopback mode to return RX data back out via the TX data path. 0 = No
+                                                                 loopback, 1 = Loopback.
+                                                                 LOOPBCK1 and LOOPBCK2 modes may not be supported simultaneously. */
+        uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
+                                                                 GMI is checked only at SOP of every packet. */
+        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
+                                                                 0 = other mode selected.
+                                                                 1 = SGMII or 1000BASE-X mode selected.
+
+                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t disp_en               : 1;  /**< [ 13: 13](R/W) Disparity check enable.  When LMAC_TYPE=QSGMII the running disparity check should be
+                                                                 disabled
+                                                                 to
+                                                                 prevent propogation across ports.
+                                                                 0 = disable disparity check
+                                                                 1 = enable disparity checking
+
+                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and
+                                                                 counts incoming bytes to ensure state transitions in the PCS receive side state
+                                                                 machine when disparity enable is turned off and bad code groups and commas are
+                                                                 not communicated from the code group processor after code group lock. */
+        uint64_t qsgmii_comma_wd_en    : 1;  /**< [ 32: 32](R/W) QSGMII comma watchdog byte counter enable. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_bgxx_gmp_pcs_miscx_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -9508,7 +9810,7 @@ static inline uint64_t BDK_BGXX_GMP_PCS_RXX_SYNC(unsigned long a, unsigned long 
  * Register (RSL) bgx#_gmp_pcs_sgm#_an_adv
  *
  * BGX GMP PCS SGMII Autonegotiation Advertisement Registers
- * This is the SGMII Autonegotiation advertisement register (sent out as tx_Config_Reg<15:0> as
+ * This is the SGMII autonegotiation advertisement register (sent out as tx_Config_Reg<15:0> as
  * defined in IEEE 802.3 clause 37). This register is sent during autonegotiation if
  * BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] is set (1 = PHY mode). If the bit is not set (0 =
  * MAC mode), then tx_Config_Reg<14> becomes ACK bit and tx_Config_Reg<0> is always 1. All other
@@ -9521,7 +9823,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t link                  : 1;  /**< [ 15: 15](R/W) Link status: 1 = Link up, 0 = Link down. */
+        uint64_t link                  : 1;  /**< [ 15: 15](R/W) Link status: 1 = Link up. 0 = Link down. */
         uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Autonegotiation acknowledgement. */
         uint64_t reserved_13           : 1;
         uint64_t dup                   : 1;  /**< [ 12: 12](R/W) Duplex mode: 1 = full duplex, 0 = half duplex. */
@@ -9543,7 +9845,7 @@ typedef union
         uint64_t dup                   : 1;  /**< [ 12: 12](R/W) Duplex mode: 1 = full duplex, 0 = half duplex. */
         uint64_t reserved_13           : 1;
         uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Autonegotiation acknowledgement. */
-        uint64_t link                  : 1;  /**< [ 15: 15](R/W) Link status: 1 = Link up, 0 = Link down. */
+        uint64_t link                  : 1;  /**< [ 15: 15](R/W) Link status: 1 = Link up. 0 = Link down. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -9569,7 +9871,7 @@ static inline uint64_t BDK_BGXX_GMP_PCS_SGMX_AN_ADV(unsigned long a, unsigned lo
  * Register (RSL) bgx#_gmp_pcs_sgm#_lp_adv
  *
  * BGX GMP PCS SGMII Link-Partner-Advertisement Registers
- * This is the SGMII Link partner advertisement register (received as rx_Config_Reg<15:0> as
+ * This is the SGMII link partner advertisement register (received as rx_Config_Reg<15:0> as
  * defined in IEEE 802.3 clause 37).
  */
 typedef union
@@ -9579,7 +9881,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t link                  : 1;  /**< [ 15: 15](RO/H) Link status: 1 = Link up, 0 = Link down. */
+        uint64_t link                  : 1;  /**< [ 15: 15](RO/H) Link status: 1 = Link up. 0 = Link down. */
         uint64_t reserved_13_14        : 2;
         uint64_t dup                   : 1;  /**< [ 12: 12](RO/H) Duplex mode: 1 = Full duplex, 0 = Half duplex. */
         uint64_t speed                 : 2;  /**< [ 11: 10](RO/H) Link speed:
@@ -9599,7 +9901,7 @@ typedef union
                                                                  0x3 = Reserved. */
         uint64_t dup                   : 1;  /**< [ 12: 12](RO/H) Duplex mode: 1 = Full duplex, 0 = Half duplex. */
         uint64_t reserved_13_14        : 2;
-        uint64_t link                  : 1;  /**< [ 15: 15](RO/H) Link status: 1 = Link up, 0 = Link down. */
+        uint64_t link                  : 1;  /**< [ 15: 15](RO/H) Link status: 1 = Link up. 0 = Link down. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -9607,7 +9909,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t link                  : 1;  /**< [ 15: 15](RO/H) Link status: 1 = Link up, 0 = Link down. */
+        uint64_t link                  : 1;  /**< [ 15: 15](RO/H) Link status: 1 = Link up. 0 = Link down. */
         uint64_t reserved_14           : 1;
         uint64_t reserved_13           : 1;
         uint64_t dup                   : 1;  /**< [ 12: 12](RO/H) Duplex mode: 1 = Full duplex, 0 = Half duplex. */
@@ -9629,7 +9931,7 @@ typedef union
         uint64_t dup                   : 1;  /**< [ 12: 12](RO/H) Duplex mode: 1 = Full duplex, 0 = Half duplex. */
         uint64_t reserved_13           : 1;
         uint64_t reserved_14           : 1;
-        uint64_t link                  : 1;  /**< [ 15: 15](RO/H) Link status: 1 = Link up, 0 = Link down. */
+        uint64_t link                  : 1;  /**< [ 15: 15](RO/H) Link status: 1 = Link up. 0 = Link down. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn;
@@ -9808,19 +10110,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's BGX()_MSIX_VEC()_ADDR, BGX()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of BGX()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_BGX()_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's BGX()_MSIX_VEC()_ADDR, BGX()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of BGX()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_BGX()_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
@@ -10042,8 +10344,9 @@ static inline uint64_t BDK_BGXX_SMUX_EXT_LOOPBACK(unsigned long a, unsigned long
  * HiGig2 TX- and RX-enable are normally set together for HiGig2 messaging. Setting just the TX
  * or RX bit results in only the HG2 message transmit or receive capability.
  *
- * Setting [PHYS_EN] and [LOGL_EN] to 1 allows link PAUSE or backpressure to PKO as per the
- * received HiGig2 message. Setting these fields to 0 disables link PAUSE and backpressure to PKO
+ * Setting [PHYS_EN] and [LOGL_EN] to 1 allows link PAUSE or backpressure to TNS/NIC as per the
+ * received HiGig2 message. Setting these fields to 0 disables link PAUSE and backpressure to
+ * TNS/NIC
  * in response to received messages.
  *
  * BGX()_SMU()_TX_CTL[HG_EN] must be set (to enable HiGig) whenever either [HG2TX_EN] or
@@ -10092,7 +10395,42 @@ typedef union
         uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_smux_hg2_control_s cn; */
+    /* struct bdk_bgxx_smux_hg2_control_s cn81xx; */
+    struct bdk_bgxx_smux_hg2_control_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t hg2tx_en              : 1;  /**< [ 18: 18](R/W) Enable transmission of HG2 physical and logical messages. When set, also disables hardware
+                                                                 autogenerated 802.3 PAUSE and PFC frames. (CNXXXX cannot generate proper 802.3 or
+                                                                 PFC frames in HiGig2 mode.) */
+        uint64_t hg2rx_en              : 1;  /**< [ 17: 17](R/W) Enable extraction and processing of HG2 message packet from RX flow. Physical and logical
+                                                                 PAUSE information is used to PAUSE physical-link, backpressure TNS/NIC. This field must be
+                                                                 set
+                                                                 when HiGig2 messages are present in the receive stream. This bit is also forwarded to CMR
+                                                                 so it can generate the required deferring signals to SMU TX and backpressure signals to
+                                                                 TNS/NIC. */
+        uint64_t phys_en               : 1;  /**< [ 16: 16](R/W) Physical-link backpressure enable for received physical HiGig2 messages. This bit enables
+                                                                 the SMU TX to CMR HG2 deferring counter to be set every time SMU RX receives and filters
+                                                                 out a valid physical HG2 message. */
+        uint64_t logl_en               : 16; /**< [ 15:  0](R/W) 16-bit logical-link backpressure enables for received HiGig2 messages or PFC packets. */
+#else /* Word 0 - Little Endian */
+        uint64_t logl_en               : 16; /**< [ 15:  0](R/W) 16-bit logical-link backpressure enables for received HiGig2 messages or PFC packets. */
+        uint64_t phys_en               : 1;  /**< [ 16: 16](R/W) Physical-link backpressure enable for received physical HiGig2 messages. This bit enables
+                                                                 the SMU TX to CMR HG2 deferring counter to be set every time SMU RX receives and filters
+                                                                 out a valid physical HG2 message. */
+        uint64_t hg2rx_en              : 1;  /**< [ 17: 17](R/W) Enable extraction and processing of HG2 message packet from RX flow. Physical and logical
+                                                                 PAUSE information is used to PAUSE physical-link, backpressure TNS/NIC. This field must be
+                                                                 set
+                                                                 when HiGig2 messages are present in the receive stream. This bit is also forwarded to CMR
+                                                                 so it can generate the required deferring signals to SMU TX and backpressure signals to
+                                                                 TNS/NIC. */
+        uint64_t hg2tx_en              : 1;  /**< [ 18: 18](R/W) Enable transmission of HG2 physical and logical messages. When set, also disables hardware
+                                                                 autogenerated 802.3 PAUSE and PFC frames. (CNXXXX cannot generate proper 802.3 or
+                                                                 PFC frames in HiGig2 mode.) */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } cn88xx;
+    /* struct bdk_bgxx_smux_hg2_control_s cn83xx; */
 } bdk_bgxx_smux_hg2_control_t;
 
 static inline uint64_t BDK_BGXX_SMUX_HG2_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -11074,7 +11412,7 @@ typedef union
                                                                  0 = Link OK; link runs normally. RS passes MAC data to PCS.
                                                                  1 = Local fault. RS layer sends continuous remote fault sequences.
                                                                  2 = Remote fault. RS layer sends continuous idle sequences.
-                                                                 3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
+                                                                 3 = Link drain. RS layer drops full packets to allow BGX and TNS/NIC to drain their FIFOs. */
         uint64_t reserved_3            : 1;
         uint64_t x4a_dis               : 1;  /**< [  2:  2](RAZ) Reserved. */
         uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
@@ -11088,7 +11426,7 @@ typedef union
                                                                  0 = Link OK; link runs normally. RS passes MAC data to PCS.
                                                                  1 = Local fault. RS layer sends continuous remote fault sequences.
                                                                  2 = Remote fault. RS layer sends continuous idle sequences.
-                                                                 3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
+                                                                 3 = Link drain. RS layer drops full packets to allow BGX and TNS/NIC to drain their FIFOs. */
         uint64_t ls_byp                : 1;  /**< [  6:  6](R/W) Bypass the link status, as determined by the XGMII receiver, and set the link status of
                                                                  the transmitter to LS. */
         uint64_t l2p_bp_conv           : 1;  /**< [  7:  7](R/W) If set, causes TX to generate 802.3 pause packets when CMR applies logical backpressure
@@ -11162,7 +11500,7 @@ typedef union
                                                                  0 = Link OK; link runs normally. RS passes MAC data to PCS.
                                                                  1 = Local fault. RS layer sends continuous remote fault sequences.
                                                                  2 = Remote fault. RS layer sends continuous idle sequences.
-                                                                 3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
+                                                                 3 = Link drain. RS layer drops full packets to allow BGX and TNS/NIC to drain their FIFOs. */
         uint64_t reserved_3            : 1;
         uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
                                                                  (XAUI, RXAUI, 10G). Added in pass 2. */
@@ -11178,7 +11516,7 @@ typedef union
                                                                  0 = Link OK; link runs normally. RS passes MAC data to PCS.
                                                                  1 = Local fault. RS layer sends continuous remote fault sequences.
                                                                  2 = Remote fault. RS layer sends continuous idle sequences.
-                                                                 3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
+                                                                 3 = Link drain. RS layer drops full packets to allow BGX and TNS/NIC to drain their FIFOs. */
         uint64_t ls_byp                : 1;  /**< [  6:  6](R/W) Bypass the link status, as determined by the XGMII receiver, and set the link status of
                                                                  the transmitter to LS. */
         uint64_t l2p_bp_conv           : 1;  /**< [  7:  7](R/W) If set, causes TX to generate 802.3 pause packets when CMR applies logical backpressure
@@ -12277,11 +12615,11 @@ typedef union
                                                                  the task) defined in the message. */
         uint64_t toggle                : 1;  /**< [ 11: 11](R/W) This bit is ignored by hardware. The value of the TOGGLE bit in transmitted next pages is
                                                                  automatically generated by hardware. */
-        uint64_t m_u                   : 11; /**< [ 10:  0](R/W) Message/Unformatted code field: When the MP bit is set, this field contains the message
+        uint64_t m_u                   : 11; /**< [ 10:  0](R/W) Message/unformatted code field: When the MP bit is set, this field contains the message
                                                                  code field (M) of the message next page. When MP is clear, this field contains the lower
                                                                  11 bits of the 43-bit unformatted code field of the unformatted next page. */
 #else /* Word 0 - Little Endian */
-        uint64_t m_u                   : 11; /**< [ 10:  0](R/W) Message/Unformatted code field: When the MP bit is set, this field contains the message
+        uint64_t m_u                   : 11; /**< [ 10:  0](R/W) Message/unformatted code field: When the MP bit is set, this field contains the message
                                                                  code field (M) of the message next page. When MP is clear, this field contains the lower
                                                                  11 bits of the 43-bit unformatted code field of the unformatted next page. */
         uint64_t toggle                : 1;  /**< [ 11: 11](R/W) This bit is ignored by hardware. The value of the TOGGLE bit in transmitted next pages is
@@ -12504,7 +12842,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t train_en              : 1;  /**< [  1:  1](R/W) BASE-R training enable */
+        uint64_t train_en              : 1;  /**< [  1:  1](R/W) BASE-R training enable. */
         uint64_t train_restart         : 1;  /**< [  0:  0](R/W1S/H) BASE-R training restart. Writing a 1 to this bit restarts the training process if
                                                                  [TRAIN_EN] is also set. This is a self-clearing bit. Software should
                                                                  wait a minimum of 1.7ms after BGX()_SPU()_INT[TRAINING_FAILURE] is set before
@@ -12514,7 +12852,7 @@ typedef union
                                                                  [TRAIN_EN] is also set. This is a self-clearing bit. Software should
                                                                  wait a minimum of 1.7ms after BGX()_SPU()_INT[TRAINING_FAILURE] is set before
                                                                  restarting the training process. */
-        uint64_t train_en              : 1;  /**< [  1:  1](R/W) BASE-R training enable */
+        uint64_t train_en              : 1;  /**< [  1:  1](R/W) BASE-R training enable. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -12849,16 +13187,16 @@ typedef union
         uint64_t prbs9                 : 1;  /**< [  3:  3](RO) 10GBASE-R PRBS9 pattern testing ability. Always 0; PRBS9 pattern testing is not supported. */
         uint64_t prbs31                : 1;  /**< [  2:  2](RO) 10GBASE-R PRBS31 pattern testing ability. Always 0; PRBS31 pattern testing is not supported. */
         uint64_t hi_ber                : 1;  /**< [  1:  1](RO/H) BASE-R PCS high bit-error rate.
-                                                                 0 = 64B/66B receiver is detecting a bit-error rate of < 10.4.
-                                                                 1 = 64B/66B receiver is detecting a bit-error rate of >= 10.4.
+                                                                 0 = 64/66 bit receiver is detecting a bit-error rate of < 10.4.
+                                                                 1 = 64/66 bit receiver is detecting a bit-error rate of >= 10.4.
 
-                                                                 This bit is a direct reflection of the state of the HI_BER variable in the 64B/66B state
+                                                                 This bit is a direct reflection of the state of the HI_BER variable in the 64 B/66 B state
                                                                  diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2. */
         uint64_t blk_lock              : 1;  /**< [  0:  0](RO/H) BASE-R PCS block lock.
                                                                  0 = No block lock.
-                                                                 1 = 64B/66B receiver for BASE-R has block lock.
+                                                                 1 = 64/66 bit receiver for BASE-R has block lock.
 
-                                                                 This bit is a direct reflection of the state of the BLOCK_LOCK variable in the 64B/66B
+                                                                 This bit is a direct reflection of the state of the BLOCK_LOCK variable in the 64 B/66 B
                                                                  state diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2.
                                                                  For a multilane logical PCS (i.e. 40GBASE-R), this bit indicates that the receiver has
                                                                  both block lock and alignment for all lanes and is identical to
@@ -12866,18 +13204,18 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t blk_lock              : 1;  /**< [  0:  0](RO/H) BASE-R PCS block lock.
                                                                  0 = No block lock.
-                                                                 1 = 64B/66B receiver for BASE-R has block lock.
+                                                                 1 = 64/66 bit receiver for BASE-R has block lock.
 
-                                                                 This bit is a direct reflection of the state of the BLOCK_LOCK variable in the 64B/66B
+                                                                 This bit is a direct reflection of the state of the BLOCK_LOCK variable in the 64 B/66 B
                                                                  state diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2.
                                                                  For a multilane logical PCS (i.e. 40GBASE-R), this bit indicates that the receiver has
                                                                  both block lock and alignment for all lanes and is identical to
                                                                  BGX()_SPU()_BR_ALGN_STATUS[ALIGND]. */
         uint64_t hi_ber                : 1;  /**< [  1:  1](RO/H) BASE-R PCS high bit-error rate.
-                                                                 0 = 64B/66B receiver is detecting a bit-error rate of < 10.4.
-                                                                 1 = 64B/66B receiver is detecting a bit-error rate of >= 10.4.
+                                                                 0 = 64/66 bit receiver is detecting a bit-error rate of < 10.4.
+                                                                 1 = 64/66 bit receiver is detecting a bit-error rate of >= 10.4.
 
-                                                                 This bit is a direct reflection of the state of the HI_BER variable in the 64B/66B state
+                                                                 This bit is a direct reflection of the state of the HI_BER variable in the 64 B/66 B state
                                                                  diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2. */
         uint64_t prbs31                : 1;  /**< [  2:  2](RO) 10GBASE-R PRBS31 pattern testing ability. Always 0; PRBS31 pattern testing is not supported. */
         uint64_t prbs9                 : 1;  /**< [  3:  3](RO) 10GBASE-R PRBS9 pattern testing ability. Always 0; PRBS9 pattern testing is not supported. */
@@ -12955,7 +13293,7 @@ typedef union
                                                                  This field is writable for test purposes, rather than read-only as specified in Std 802.3. */
         uint64_t latched_lock          : 1;  /**< [ 15: 15](R/W1S/H) Latched-block lock.
                                                                  0 = No block.
-                                                                 1 = 64B/66B receiver for BASE-R has block lock.
+                                                                 1 = 64/66 bit receiver for BASE-R has block lock.
 
                                                                  This is a latching-low version of BGX()_SPU()_BR_STATUS1[BLK_LOCK]; it stays clear
                                                                  until the register is read by software.
@@ -12964,7 +13302,7 @@ typedef union
                                                                  bit, rather than latching low read-only as specified in 802.3. */
         uint64_t latched_ber           : 1;  /**< [ 14: 14](R/W1C/H) Latched-high bit-error rate.
                                                                  0 = Not a high BER.
-                                                                 1 = 64B/66B receiver is detecting a high BER.
+                                                                 1 = 64/66 bit receiver is detecting a high BER.
 
                                                                  This is a latching-high version of BGX()_SPU()_BR_STATUS1[HI_BER]; it stays set until
                                                                  the register is read by software.
@@ -12976,7 +13314,7 @@ typedef union
         uint64_t reserved_0_13         : 14;
         uint64_t latched_ber           : 1;  /**< [ 14: 14](R/W1C/H) Latched-high bit-error rate.
                                                                  0 = Not a high BER.
-                                                                 1 = 64B/66B receiver is detecting a high BER.
+                                                                 1 = 64/66 bit receiver is detecting a high BER.
 
                                                                  This is a latching-high version of BGX()_SPU()_BR_STATUS1[HI_BER]; it stays set until
                                                                  the register is read by software.
@@ -12985,7 +13323,7 @@ typedef union
                                                                  bit, rather than latching high read-only as specified in 802.3. */
         uint64_t latched_lock          : 1;  /**< [ 15: 15](R/W1S/H) Latched-block lock.
                                                                  0 = No block.
-                                                                 1 = 64B/66B receiver for BASE-R has block lock.
+                                                                 1 = 64/66 bit receiver for BASE-R has block lock.
 
                                                                  This is a latching-low version of BGX()_SPU()_BR_STATUS1[BLK_LOCK]; it stays clear
                                                                  until the register is read by software.
@@ -13431,7 +13769,7 @@ typedef union
                                                                  variable for BASE-R as defined in 802.3 Clause 74. When FEC is enabled ([FEC_EN] is set)
                                                                  and this bit is set, the FEC decoder on the receive side signals an
                                                                  uncorrectable FEC error to the BASE-R decoder by driving a value of 2'b11 on the sync bits
-                                                                 for some of the 32 64B/66B blocks belonging to the uncorrectable FEC block. See
+                                                                 for some of the 32 64/66 bit blocks belonging to the uncorrectable FEC block. See
                                                                  802.3-2008/802.3ba-2010 section 74.7.4.5.1 for more details. */
         uint64_t fec_en                : 1;  /**< [  0:  0](R/W) BASE-R FEC enable. When this bit is set and the LPCS type is BASE-R
                                                                  (BGX()_CMR()_CONFIG[LMAC_TYPE] = 0x4), forward error correction is enabled. FEC is
@@ -13446,7 +13784,7 @@ typedef union
                                                                  variable for BASE-R as defined in 802.3 Clause 74. When FEC is enabled ([FEC_EN] is set)
                                                                  and this bit is set, the FEC decoder on the receive side signals an
                                                                  uncorrectable FEC error to the BASE-R decoder by driving a value of 2'b11 on the sync bits
-                                                                 for some of the 32 64B/66B blocks belonging to the uncorrectable FEC block. See
+                                                                 for some of the 32 64/66 bit blocks belonging to the uncorrectable FEC block. See
                                                                  802.3-2008/802.3ba-2010 section 74.7.4.5.1 for more details. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
@@ -14106,11 +14444,11 @@ typedef union
                                                                  received errors and faults will be ignored while receive packets are discarded; idles will
                                                                  be sent to the MAC layer (SMU) and the errored blocks counter
                                                                  (BGX()_SPU()_BR_STATUS2[ERR_BLKS]) will not increment. */
-        uint64_t skip_after_term       : 1;  /**< [ 11: 11](R/W) Enable sending of Idle Skip after Terminate. This bit is meaningful when the logical PCS
+        uint64_t skip_after_term       : 1;  /**< [ 11: 11](R/W) Enable sending of idle skip after terminate. This bit is meaningful when the logical PCS
                                                                  type is XAUI or RXAUI (selected by BGX()_CMR()_CONFIG[LMAC_TYPE]), and has no
-                                                                 effect otherwise. When set, the LMAC/LPCS transmits more Idle Skip columns for clock
+                                                                 effect otherwise. When set, the LMAC/LPCS transmits more idle skip columns for clock
                                                                  compensation. Typically set in HiGig/HiGig2 modes; clear otherwise. This field can be set
-                                                                 to ensure sufficient density of XAUI Idle Skip (||R||) columns with a small transmit
+                                                                 to ensure sufficient density of XAUI idle skip (||R||) columns with a small transmit
                                                                  inter-frame gap (IFG) in order to allow the link partner's receiver to delete ||R||
                                                                  columns as needed for clock rate compensation. It is usually set when the LMAC's transmit
                                                                  IFG is set to 8 bytes in HiGig/HiGig2 modes (i.e. BGX()_SMU()_TX_IFG[IFG1] +
@@ -14159,11 +14497,11 @@ typedef union
                                                                  _ 1 = Interleaved running disparity: Running disparity is computed separately for even and
                                                                  odd code-groups of an RXAUI lane, i.e. interleave lanes after PCS layer as described in
                                                                  the Marvell RXAUI Interface specification. This does not obey 6.25GHz SerDes disparity. */
-        uint64_t skip_after_term       : 1;  /**< [ 11: 11](R/W) Enable sending of Idle Skip after Terminate. This bit is meaningful when the logical PCS
+        uint64_t skip_after_term       : 1;  /**< [ 11: 11](R/W) Enable sending of idle skip after terminate. This bit is meaningful when the logical PCS
                                                                  type is XAUI or RXAUI (selected by BGX()_CMR()_CONFIG[LMAC_TYPE]), and has no
-                                                                 effect otherwise. When set, the LMAC/LPCS transmits more Idle Skip columns for clock
+                                                                 effect otherwise. When set, the LMAC/LPCS transmits more idle skip columns for clock
                                                                  compensation. Typically set in HiGig/HiGig2 modes; clear otherwise. This field can be set
-                                                                 to ensure sufficient density of XAUI Idle Skip (||R||) columns with a small transmit
+                                                                 to ensure sufficient density of XAUI idle skip (||R||) columns with a small transmit
                                                                  inter-frame gap (IFG) in order to allow the link partner's receiver to delete ||R||
                                                                  columns as needed for clock rate compensation. It is usually set when the LMAC's transmit
                                                                  IFG is set to 8 bytes in HiGig/HiGig2 modes (i.e. BGX()_SMU()_TX_IFG[IFG1] +
@@ -14452,8 +14790,9 @@ typedef union
                                                                  Setting it disables the BASE-R BER monitor state machine defined in 802.3-2008 Figure
                                                                  49-13 for 10GBASE-R and 802.3ba-2010 Figure 82-13 for 40GBASE-R. */
         uint64_t an_nonce_match_dis    : 1;  /**< [ 29: 29](R/W) Autonegotiation nonce match disable. This bit should be clear for normal operation.
-                                                                 Setting it disables Nonce Match check by forcing nonce_match variable to 0 in the Auto-
-                                                                 Negotiation arbitration state diagram, as defined in 802.3-2008 Figure 73-11. This bit can
+                                                                 Setting it disables Nonce Match check by forcing nonce_match variable to 0 in the
+                                                                 autonegotiation arbitration state diagram, as defined in 802.3-2008 Figure 73-11. This bit
+                                                                 can
                                                                  be set by software for test purposes, e.g. for running autonegotiation in loopback mode. */
         uint64_t timestamp_norm_dis    : 1;  /**< [ 28: 28](R/W) 40GBASE-R RX timestamp normalization disable. This bit controls the generation of the
                                                                  receive SOP timestamp passed to the SMU sub-block for a 40GBASE-R LMAC/LPCS. When this bit
@@ -14509,8 +14848,8 @@ typedef union
                                                                  BGX()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is set, the link training protocol is fully
                                                                  automated in hardware, whereby the contents BGX()_SPU()_BR_PMD_LD_CUP and
                                                                  BGX()_SPU()_BR_PMD_LD_REP registers are automatically updated by hardware. */
-        uint64_t an_arb_link_chk_en    : 1;  /**< [ 18: 18](R/W) Enable link status checking by autonegotiation arbitration state machine. When Auto-
-                                                                 Negotiation is enabled (BGX()_SPU()_AN_CONTROL[AN_EN] is set), this bit controls
+        uint64_t an_arb_link_chk_en    : 1;  /**< [ 18: 18](R/W) Enable link status checking by autonegotiation arbitration state machine. When
+                                                                 autonegotiation is enabled (BGX()_SPU()_AN_CONTROL[AN_EN] is set), this bit controls
                                                                  the behavior of the autonegotiation arbitration state machine when it reaches the AN GOOD
                                                                  CHECK state after DME pages are successfully exchanged, as defined in Figure 73-11 in
                                                                  802.3-2008.
@@ -14557,8 +14896,8 @@ typedef union
                                                                  & descrambler functions and FEC PN-2112 scrambler & descrambler functions for debug
                                                                  purposes. */
         uint64_t rx_buf_cor_dis        : 1;  /**< [ 17: 17](R/W) When set, disables ECC correction on all SPU receive buffer FIFOs. */
-        uint64_t an_arb_link_chk_en    : 1;  /**< [ 18: 18](R/W) Enable link status checking by autonegotiation arbitration state machine. When Auto-
-                                                                 Negotiation is enabled (BGX()_SPU()_AN_CONTROL[AN_EN] is set), this bit controls
+        uint64_t an_arb_link_chk_en    : 1;  /**< [ 18: 18](R/W) Enable link status checking by autonegotiation arbitration state machine. When
+                                                                 autonegotiation is enabled (BGX()_SPU()_AN_CONTROL[AN_EN] is set), this bit controls
                                                                  the behavior of the autonegotiation arbitration state machine when it reaches the AN GOOD
                                                                  CHECK state after DME pages are successfully exchanged, as defined in Figure 73-11 in
                                                                  802.3-2008.
@@ -14639,8 +14978,9 @@ typedef union
                                                                  Normalization improves accuracy for larger skew values but reduces the accuracy (due to
                                                                  timestamp measurement errors) for small skew values. */
         uint64_t an_nonce_match_dis    : 1;  /**< [ 29: 29](R/W) Autonegotiation nonce match disable. This bit should be clear for normal operation.
-                                                                 Setting it disables Nonce Match check by forcing nonce_match variable to 0 in the Auto-
-                                                                 Negotiation arbitration state diagram, as defined in 802.3-2008 Figure 73-11. This bit can
+                                                                 Setting it disables Nonce Match check by forcing nonce_match variable to 0 in the
+                                                                 autonegotiation arbitration state diagram, as defined in 802.3-2008 Figure 73-11. This bit
+                                                                 can
                                                                  be set by software for test purposes, e.g. for running autonegotiation in loopback mode. */
         uint64_t br_ber_mon_dis        : 1;  /**< [ 30: 30](R/W) BASE-R bit error rate monitor disable. This bit should be clear for normal operation.
                                                                  Setting it disables the BASE-R BER monitor state machine defined in 802.3-2008 Figure

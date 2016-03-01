@@ -704,7 +704,6 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
         c.s.vlan_strip = 0;
         c.s.len_l4 = 0;
         c.s.len_l3 = 0;
-        c.s.csum_sctp = 0;
         c.s.csum_l4 = 0;
         c.s.ip6_udp_opt = 0;
         c.s.splt_hdr_ena = 0;

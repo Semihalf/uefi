@@ -161,9 +161,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) Local timeout value, in coprocessor-clocks. */
+        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) Local timeout value, in coprocessor clocks. */
 #else /* Word 0 - Little Endian */
-        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) Local timeout value, in coprocessor-clocks. */
+        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) Local timeout value, in coprocessor clocks. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -197,9 +197,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
+        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor clocks. */
 #else /* Word 0 - Little Endian */
-        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
+        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor clocks. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -349,19 +349,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MRML_MSIX_VEC()_ADDR, MRML_MSIX_VEC()_CTL, and corresponding
                                                                  bit of MRML_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_MRML_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MRML_MSIX_VEC()_ADDR, MRML_MSIX_VEC()_CTL, and corresponding
                                                                  bit of MRML_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_MRML_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
                                                                  is set, all vectors are secure and function as if [SECVEC] was set. */
@@ -514,7 +514,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t sec                   : 64; /**< [ 63:  0](SR/W) RSL function secure. If set, the corresponding RSL device ID will be secure access
-                                                                 only. Read/writes from non-secure agents will be RAZ/WI.
+                                                                 only. Read/writes from nonsecure agents will be RAZ/WI.
                                                                  The register index 0..3 indicates which group of 64 functions, and bit index indicates
                                                                  which mod-64 function, for 256 function bits total.
 
@@ -526,7 +526,7 @@ typedef union
                                                                  be marked secure. */
 #else /* Word 0 - Little Endian */
         uint64_t sec                   : 64; /**< [ 63:  0](SR/W) RSL function secure. If set, the corresponding RSL device ID will be secure access
-                                                                 only. Read/writes from non-secure agents will be RAZ/WI.
+                                                                 only. Read/writes from nonsecure agents will be RAZ/WI.
                                                                  The register index 0..3 indicates which group of 64 functions, and bit index indicates
                                                                  which mod-64 function, for 256 function bits total.
 
@@ -570,13 +570,13 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) RSL function kill. Write one to set, once set cannot be cleared
                                                                  until soft reset. If set, read/writes from any agent
-                                                                 (secure/non-secure) will be RAZ/WI.
+                                                                 (secure/nonsecure) will be RAZ/WI.
                                                                  The register index 0..3 indicates which group of 64 functions, and bit index indicates
                                                                  which mod-64 function, for 256 function bits total. */
 #else /* Word 0 - Little Endian */
         uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) RSL function kill. Write one to set, once set cannot be cleared
                                                                  until soft reset. If set, read/writes from any agent
-                                                                 (secure/non-secure) will be RAZ/WI.
+                                                                 (secure/nonsecure) will be RAZ/WI.
                                                                  The register index 0..3 indicates which group of 64 functions, and bit index indicates
                                                                  which mod-64 function, for 256 function bits total. */
 #endif /* Word 0 - End */

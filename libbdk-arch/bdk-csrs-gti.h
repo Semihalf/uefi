@@ -79,7 +79,7 @@
                                        and enable sets GTI_CWD_INT_ENA_SET[CORE<{a}>]. */
 #define BDK_GTI_INT_VEC_E_ERROR (8) /**< See interrupt clears GTI_ERR_INT, interrupt sets GTI_ERR_INT_SET,
                                        enable clears GTI_ERR_INT_ENA_CLR, and enable sets GTI_ERR_INT_ENA_SET. */
-#define BDK_GTI_INT_VEC_E_MAILBOX_RX (7) /**< Timestamp mailbox has been transmitted.
+#define BDK_GTI_INT_VEC_E_MAILBOX_RX (7) /**< Timestamp mailbox has been received.
                                        See interrupt clears GTI_CC_CNTMB_INT[MBRX],
                                        interrupt sets GTI_CC_CNTMB_INT_SET[MBRX],
                                        enable clears GTI_CC_CNTMB_INT_ENA_CLR[MBRX],
@@ -94,7 +94,7 @@
                                        and enable sets GTI_CC_CNTMB_INT_ENA_SET[TXTS]. */
 #define BDK_GTI_INT_VEC_E_WAKE (0) /**< Wakeup interrupt. */
 #define BDK_GTI_INT_VEC_E_WAKE_CLEAR (1) /**< Level sensitive interrupt clear vector. */
-#define BDK_GTI_INT_VEC_E_WATCHDOG (2) /**< Non-secure watchdog (watchdog 1) interrupt. */
+#define BDK_GTI_INT_VEC_E_WATCHDOG (2) /**< Nonsecure watchdog (watchdog 1) interrupt. */
 #define BDK_GTI_INT_VEC_E_WATCHDOG_CLEAR (3) /**< Level sensitive interrupt clear vector. */
 
 /**
@@ -289,9 +289,9 @@ typedef union
     struct bdk_gti_bz_cntp_cval_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Physical Timer compare value. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Physical timer compare value. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Physical Timer compare value. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Physical timer compare value. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_cntp_cval_s cn; */
@@ -322,9 +322,9 @@ typedef union
     struct bdk_gti_bz_cntp_tval_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t timervalue            : 32; /**< [ 31:  0](R/W/H) Physical Timer timer value. */
+        uint32_t timervalue            : 32; /**< [ 31:  0](R/W/H) Physical timer timer value. */
 #else /* Word 0 - Little Endian */
-        uint32_t timervalue            : 32; /**< [ 31:  0](R/W/H) Physical Timer timer value. */
+        uint32_t timervalue            : 32; /**< [ 31:  0](R/W/H) Physical timer timer value. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_cntp_tval_s cn; */
@@ -871,10 +871,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t cnt                   : 64; /**< [ 63:  0](SR/W/H) System counter count value. The counter is also read-only accessable by the
-                                                                 non-secure world with GTI_RD_CNTCV. */
+                                                                 nonsecure world with GTI_RD_CNTCV. */
 #else /* Word 0 - Little Endian */
         uint64_t cnt                   : 64; /**< [ 63:  0](SR/W/H) System counter count value. The counter is also read-only accessable by the
-                                                                 non-secure world with GTI_RD_CNTCV. */
+                                                                 nonsecure world with GTI_RD_CNTCV. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntcv_s cn; */
@@ -976,12 +976,101 @@ typedef union
     struct bdk_gti_cc_cntmb_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+
+                                                                 Mailboxes are used as follows:
+
+                                                                 * An AP on node A does a store to node B's GTI_CC_CNTMB.
+
+                                                                 * As the store flies over CCPI/OCX on chip A, OCI signals GTI to capture a
+                                                                 transmit timestamp. GTI on chip A saves GTI_CC_CNTCV in GTI_CC_CNTMBTS, and sets
+                                                                 the GTI_CC_CNTMB_INT[TXTS] interrupt.
+
+                                                                 * As the store flies over CCPI/OCX on chip B, OCI signals GTI to capture a
+                                                                 receive timestamp. GTI on chip B saves GTI_CC_CNTCV in GTI_CC_CNTMBTS, and sets
+                                                                 the GTI_CC_CNTMB_INT[MBRX] interrupt.
+
+                                                                 * GTI on chip B writes GTI_CC_CNTMB with the mailbox value.
+
+                                                                 Note that if a CRC error occurs on the link during the store, the store will get
+                                                                 retried by CCPI resulting in multiple transmit timestamp captures and
+                                                                 TX_TIMESTAMP interrupts. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+
+                                                                 Mailboxes are used as follows:
+
+                                                                 * An AP on node A does a store to node B's GTI_CC_CNTMB.
+
+                                                                 * As the store flies over CCPI/OCX on chip A, OCI signals GTI to capture a
+                                                                 transmit timestamp. GTI on chip A saves GTI_CC_CNTCV in GTI_CC_CNTMBTS, and sets
+                                                                 the GTI_CC_CNTMB_INT[TXTS] interrupt.
+
+                                                                 * As the store flies over CCPI/OCX on chip B, OCI signals GTI to capture a
+                                                                 receive timestamp. GTI on chip B saves GTI_CC_CNTCV in GTI_CC_CNTMBTS, and sets
+                                                                 the GTI_CC_CNTMB_INT[MBRX] interrupt.
+
+                                                                 * GTI on chip B writes GTI_CC_CNTMB with the mailbox value.
+
+                                                                 Note that if a CRC error occurs on the link during the store, the store will get
+                                                                 retried by CCPI resulting in multiple transmit timestamp captures and
+                                                                 TX_TIMESTAMP interrupts. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gti_cc_cntmb_s cn; */
+    struct bdk_gti_cc_cntmb_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 For CCPI chips only.
+
+                                                                 When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+
+                                                                 Mailboxes are used as follows:
+
+                                                                 * An AP on node A does a store to node B's GTI_CC_CNTMB.
+
+                                                                 * As the store flies over CCPI/OCX on chip A, OCI signals GTI to capture a
+                                                                 transmit timestamp. GTI on chip A saves GTI_CC_CNTCV in GTI_CC_CNTMBTS, and sets
+                                                                 the GTI_CC_CNTMB_INT[TXTS] interrupt.
+
+                                                                 * As the store flies over CCPI/OCX on chip B, OCI signals GTI to capture a
+                                                                 receive timestamp. GTI on chip B saves GTI_CC_CNTCV in GTI_CC_CNTMBTS, and sets
+                                                                 the GTI_CC_CNTMB_INT[MBRX] interrupt.
+
+                                                                 * GTI on chip B writes GTI_CC_CNTMB with the mailbox value.
+
+                                                                 Note that if a CRC error occurs on the link during the store, the store will get
+                                                                 retried by CCPI resulting in multiple transmit timestamp captures and
+                                                                 TX_TIMESTAMP interrupts. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 For CCPI chips only.
+
+                                                                 When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+
+                                                                 Mailboxes are used as follows:
+
+                                                                 * An AP on node A does a store to node B's GTI_CC_CNTMB.
+
+                                                                 * As the store flies over CCPI/OCX on chip A, OCI signals GTI to capture a
+                                                                 transmit timestamp. GTI on chip A saves GTI_CC_CNTCV in GTI_CC_CNTMBTS, and sets
+                                                                 the GTI_CC_CNTMB_INT[TXTS] interrupt.
+
+                                                                 * As the store flies over CCPI/OCX on chip B, OCI signals GTI to capture a
+                                                                 receive timestamp. GTI on chip B saves GTI_CC_CNTCV in GTI_CC_CNTMBTS, and sets
+                                                                 the GTI_CC_CNTMB_INT[MBRX] interrupt.
+
+                                                                 * GTI on chip B writes GTI_CC_CNTMB with the mailbox value.
+
+                                                                 Note that if a CRC error occurs on the link during the store, the store will get
+                                                                 retried by CCPI resulting in multiple transmit timestamp captures and
+                                                                 TX_TIMESTAMP interrupts. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gti_cc_cntmb_s cn88xx; */
+    /* struct bdk_gti_cc_cntmb_cn81xx cn83xx; */
 } bdk_gti_cc_cntmb_t;
 
 #define BDK_GTI_CC_CNTMB BDK_GTI_CC_CNTMB_FUNC()
@@ -1011,11 +1100,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t mbrx                  : 1;  /**< [  1:  1](SR/W1C/H) Mailbox receive interrupt. */
-        uint64_t txts                  : 1;  /**< [  0:  0](SR/W1C/H) Transmit timestamp interrupt. */
+        uint64_t mbrx                  : 1;  /**< [  1:  1](SR/W1C/H) Mailbox receive interrupt. Set whenever CTI_CC_CNTMB is written. See
+                                                                 GTI_CC_CNTMB. */
+        uint64_t txts                  : 1;  /**< [  0:  0](SR/W1C/H) Transmit timestamp interrupt. Set whenever a transmit timestamp is captured in
+                                                                 GTI_CC_CNTMBTS. See GTI_CC_CNTMB. */
 #else /* Word 0 - Little Endian */
-        uint64_t txts                  : 1;  /**< [  0:  0](SR/W1C/H) Transmit timestamp interrupt. */
-        uint64_t mbrx                  : 1;  /**< [  1:  1](SR/W1C/H) Mailbox receive interrupt. */
+        uint64_t txts                  : 1;  /**< [  0:  0](SR/W1C/H) Transmit timestamp interrupt. Set whenever a transmit timestamp is captured in
+                                                                 GTI_CC_CNTMBTS. See GTI_CC_CNTMB. */
+        uint64_t mbrx                  : 1;  /**< [  1:  1](SR/W1C/H) Mailbox receive interrupt. Set whenever CTI_CC_CNTMB is written. See
+                                                                 GTI_CC_CNTMB. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -1162,12 +1255,33 @@ typedef union
     struct bdk_gti_cc_cntmbts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS. */
+        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+                                                                 See GTI_CC_CNTMB. */
 #else /* Word 0 - Little Endian */
-        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS. */
+        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+                                                                 See GTI_CC_CNTMB. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gti_cc_cntmbts_s cn; */
+    struct bdk_gti_cc_cntmbts_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Reserved.
+                                                                 Internal:
+                                                                 For CCPI chips only.
+
+                                                                 Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+                                                                 See GTI_CC_CNTMB. */
+#else /* Word 0 - Little Endian */
+        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Reserved.
+                                                                 Internal:
+                                                                 For CCPI chips only.
+
+                                                                 Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+                                                                 See GTI_CC_CNTMB. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gti_cc_cntmbts_s cn88xx; */
+    /* struct bdk_gti_cc_cntmbts_cn81xx cn83xx; */
 } bdk_gti_cc_cntmbts_t;
 
 #define BDK_GTI_CC_CNTMBTS BDK_GTI_CC_CNTMBTS_FUNC()
@@ -1846,7 +1960,7 @@ static inline uint64_t BDK_GTI_CTL_CNTFRQ_FUNC(void)
 /**
  * Register (NCB32b) gti_ctl_cntnsar
  *
- * GTI Control Counter Non-secure Access Secure Register
+ * GTI Control Counter Nonsecure Access Secure Register
  */
 typedef union
 {
@@ -1854,9 +1968,9 @@ typedef union
     struct bdk_gti_ctl_cntnsar_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t constant              : 32; /**< [ 31:  0](SRO) Counter non-secure access. */
+        uint32_t constant              : 32; /**< [ 31:  0](SRO) Counter nonsecure access. */
 #else /* Word 0 - Little Endian */
-        uint32_t constant              : 32; /**< [ 31:  0](SRO) Counter non-secure access. */
+        uint32_t constant              : 32; /**< [ 31:  0](SRO) Counter nonsecure access. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_cntnsar_s cn; */
@@ -2199,7 +2313,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR7_FUNC(void)
  * Register (NCB) gti_cwd_del3t
  *
  * GTI Per-core Watchdog Non-Maskable Interrupt Register
- * Generic Timer Per-core Watchdog Non-Maskable Interrupts
+ * Generic timer per-core watchdog non-maskable interrupts.
  */
 typedef union
 {
@@ -2487,7 +2601,7 @@ static inline uint64_t BDK_GTI_CWD_INT_SET_FUNC(void)
  * Register (NCB) gti_cwd_poke#
  *
  * GTI Per-core Watchdog Poke Registers
- * Per-core Watchdog poke. Writing any value to this register does the following:
+ * Per-core watchdog poke. Writing any value to this register does the following:
  * * Clears any pending interrupt generated by the associated watchdog.
  * * Resets GTI_CWD_WDOG()[STATE] to 0x0.
  * * Sets GTI_CWD_WDOG()[CNT] to (GTI_CWD_WDOG()[LEN] << 8)..
@@ -2934,19 +3048,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's GTI_MSIX_VEC()_ADDR, GTI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of GTI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_GTI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's GTI_MSIX_VEC()_ADDR, GTI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of GTI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_GTI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -3626,7 +3740,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR3(unsigned long a)
  *
  * GTI Watchdog Control Peripheral Identification Register 0
  * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -3664,7 +3778,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR0(unsigned long a)
  *
  * GTI Watchdog Control Peripheral Identification Register 1
  * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -3704,7 +3818,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR1(unsigned long a)
  *
  * GTI Watchdog Control Peripheral Identification Register 2
  * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -3746,7 +3860,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a)
  *
  * GTI Watchdog Control Peripheral Identification Register 3
  * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -3788,7 +3902,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a)
  *
  * GTI Watchdog Control Peripheral Identification Register 4
  * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -3930,7 +4044,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR7(unsigned long a)
  *
  * GTI Watchdog Control Interface Identification Register
  * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -3982,7 +4096,7 @@ static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a)
  *
  * GTI Watchdog Control and Status Register
  * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -4024,7 +4138,7 @@ static inline uint64_t BDK_GTI_WCX_WCS(unsigned long a)
  *
  * GTI Watchdog Control Compare Value Register
  * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -4060,7 +4174,7 @@ static inline uint64_t BDK_GTI_WCX_WCV(unsigned long a)
  *
  * GTI Watchdog Control Offset Register
  * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -4536,7 +4650,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR7(unsigned long a)
  *
  * GTI Watchdog Refresh Interface Identification Register
  * GTI_WR(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WR(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WR(1) accesses the nonsecure watchdog.
  */
 typedef union
 {
@@ -4588,7 +4702,7 @@ static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a)
  *
  * GTI Watchdog Refresh Register
  * GTI_WR(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WR(1) accesses the non-secure watchdog.
+ * secure-world. GTI_WR(1) accesses the nonsecure watchdog.
  */
 typedef union
 {

@@ -459,7 +459,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
-        uint32_t ri                    : 1;  /**< [  8:  8](RO/H) Complement of Ring indicator. not supported. */
+        uint32_t ri                    : 1;  /**< [  8:  8](RO/H) Complement of ring indicator. not supported. */
         uint32_t txfe                  : 1;  /**< [  7:  7](RO/H) Transmit FIFO empty. */
         uint32_t rxff                  : 1;  /**< [  6:  6](RO/H) Receive FIFO full. */
         uint32_t txff                  : 1;  /**< [  5:  5](RO/H) Transmit FIFO full. */
@@ -477,7 +477,7 @@ typedef union
         uint32_t txff                  : 1;  /**< [  5:  5](RO/H) Transmit FIFO full. */
         uint32_t rxff                  : 1;  /**< [  6:  6](RO/H) Receive FIFO full. */
         uint32_t txfe                  : 1;  /**< [  7:  7](RO/H) Transmit FIFO empty. */
-        uint32_t ri                    : 1;  /**< [  8:  8](RO/H) Complement of Ring indicator. not supported. */
+        uint32_t ri                    : 1;  /**< [  8:  8](RO/H) Complement of ring indicator. not supported. */
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
@@ -567,13 +567,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_11_31        : 21;
-        uint32_t oeic                  : 1;  /**< [ 10: 10](R/W1C) Overrun-error interrupt clear. */
-        uint32_t beic                  : 1;  /**< [  9:  9](R/W1C) Break-error interrupt clear. */
-        uint32_t peic                  : 1;  /**< [  8:  8](R/W1C) Parity-error interrupt clear. */
-        uint32_t feic                  : 1;  /**< [  7:  7](R/W1C) Framing-error interrupt clear. */
-        uint32_t rtic                  : 1;  /**< [  6:  6](R/W1C) Receive-timeout interrupt clear. */
-        uint32_t txic                  : 1;  /**< [  5:  5](R/W1C) Transmit-interrupt clear. */
-        uint32_t rxic                  : 1;  /**< [  4:  4](R/W1C) Receive-interrupt clear. */
+        uint32_t oeic                  : 1;  /**< [ 10: 10](R/W1C) Overrun error interrupt clear. */
+        uint32_t beic                  : 1;  /**< [  9:  9](R/W1C) Break error interrupt clear. */
+        uint32_t peic                  : 1;  /**< [  8:  8](R/W1C) Parity error interrupt clear. */
+        uint32_t feic                  : 1;  /**< [  7:  7](R/W1C) Framing error interrupt clear. */
+        uint32_t rtic                  : 1;  /**< [  6:  6](R/W1C) Receive timeout interrupt clear. */
+        uint32_t txic                  : 1;  /**< [  5:  5](R/W1C) Transmit interrupt clear. */
+        uint32_t rxic                  : 1;  /**< [  4:  4](R/W1C) Receive interrupt clear. */
         uint32_t dsrmic                : 1;  /**< [  3:  3](R/W1C) DSR modem interrupt clear. */
         uint32_t dcdmic                : 1;  /**< [  2:  2](R/W1C) DCD modem interrupt clear. */
         uint32_t ctsmic                : 1;  /**< [  1:  1](R/W1C) CTS modem interrupt clear. */
@@ -583,13 +583,13 @@ typedef union
         uint32_t ctsmic                : 1;  /**< [  1:  1](R/W1C) CTS modem interrupt clear. */
         uint32_t dcdmic                : 1;  /**< [  2:  2](R/W1C) DCD modem interrupt clear. */
         uint32_t dsrmic                : 1;  /**< [  3:  3](R/W1C) DSR modem interrupt clear. */
-        uint32_t rxic                  : 1;  /**< [  4:  4](R/W1C) Receive-interrupt clear. */
-        uint32_t txic                  : 1;  /**< [  5:  5](R/W1C) Transmit-interrupt clear. */
-        uint32_t rtic                  : 1;  /**< [  6:  6](R/W1C) Receive-timeout interrupt clear. */
-        uint32_t feic                  : 1;  /**< [  7:  7](R/W1C) Framing-error interrupt clear. */
-        uint32_t peic                  : 1;  /**< [  8:  8](R/W1C) Parity-error interrupt clear. */
-        uint32_t beic                  : 1;  /**< [  9:  9](R/W1C) Break-error interrupt clear. */
-        uint32_t oeic                  : 1;  /**< [ 10: 10](R/W1C) Overrun-error interrupt clear. */
+        uint32_t rxic                  : 1;  /**< [  4:  4](R/W1C) Receive interrupt clear. */
+        uint32_t txic                  : 1;  /**< [  5:  5](R/W1C) Transmit interrupt clear. */
+        uint32_t rtic                  : 1;  /**< [  6:  6](R/W1C) Receive timeout interrupt clear. */
+        uint32_t feic                  : 1;  /**< [  7:  7](R/W1C) Framing error interrupt clear. */
+        uint32_t peic                  : 1;  /**< [  8:  8](R/W1C) Parity error interrupt clear. */
+        uint32_t beic                  : 1;  /**< [  9:  9](R/W1C) Break error interrupt clear. */
+        uint32_t oeic                  : 1;  /**< [ 10: 10](R/W1C) Overrun error interrupt clear. */
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } s;
@@ -821,29 +821,29 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_11_31        : 21;
-        uint32_t oemis                 : 1;  /**< [ 10: 10](RO/H) Overrun-error interrupt status. */
-        uint32_t bemis                 : 1;  /**< [  9:  9](RO/H) Break-error interrupt status. */
-        uint32_t pemis                 : 1;  /**< [  8:  8](RO/H) Parity-error interrupt status. */
-        uint32_t femis                 : 1;  /**< [  7:  7](RO/H) Framing-error interrupt status. */
-        uint32_t rtmis                 : 1;  /**< [  6:  6](RO/H) Receive-timeout interrupt status. */
-        uint32_t txmis                 : 1;  /**< [  5:  5](RO/H) Transmit-interrupt status. */
-        uint32_t rxmis                 : 1;  /**< [  4:  4](RO/H) Receive-interrupt status. */
+        uint32_t oemis                 : 1;  /**< [ 10: 10](RO/H) Overrun error interrupt status. */
+        uint32_t bemis                 : 1;  /**< [  9:  9](RO/H) Break error interrupt status. */
+        uint32_t pemis                 : 1;  /**< [  8:  8](RO/H) Parity error interrupt status. */
+        uint32_t femis                 : 1;  /**< [  7:  7](RO/H) Framing error interrupt status. */
+        uint32_t rtmis                 : 1;  /**< [  6:  6](RO/H) Receive timeout interrupt status. */
+        uint32_t txmis                 : 1;  /**< [  5:  5](RO/H) Transmit interrupt status. */
+        uint32_t rxmis                 : 1;  /**< [  4:  4](RO/H) Receive interrupt status. */
         uint32_t dsrmmis               : 1;  /**< [  3:  3](RO/H) DSR modem interrupt status. */
         uint32_t dcdmmis               : 1;  /**< [  2:  2](RO/H) DCD modem interrupt status. */
         uint32_t ctsmmis               : 1;  /**< [  1:  1](RO/H) CTS modem interrupt status. */
-        uint32_t rimmis                : 1;  /**< [  0:  0](RO/H) Ring-indicator interrupt status. Not implemented. */
+        uint32_t rimmis                : 1;  /**< [  0:  0](RO/H) Ring indicator interrupt status. Not implemented. */
 #else /* Word 0 - Little Endian */
-        uint32_t rimmis                : 1;  /**< [  0:  0](RO/H) Ring-indicator interrupt status. Not implemented. */
+        uint32_t rimmis                : 1;  /**< [  0:  0](RO/H) Ring indicator interrupt status. Not implemented. */
         uint32_t ctsmmis               : 1;  /**< [  1:  1](RO/H) CTS modem interrupt status. */
         uint32_t dcdmmis               : 1;  /**< [  2:  2](RO/H) DCD modem interrupt status. */
         uint32_t dsrmmis               : 1;  /**< [  3:  3](RO/H) DSR modem interrupt status. */
-        uint32_t rxmis                 : 1;  /**< [  4:  4](RO/H) Receive-interrupt status. */
-        uint32_t txmis                 : 1;  /**< [  5:  5](RO/H) Transmit-interrupt status. */
-        uint32_t rtmis                 : 1;  /**< [  6:  6](RO/H) Receive-timeout interrupt status. */
-        uint32_t femis                 : 1;  /**< [  7:  7](RO/H) Framing-error interrupt status. */
-        uint32_t pemis                 : 1;  /**< [  8:  8](RO/H) Parity-error interrupt status. */
-        uint32_t bemis                 : 1;  /**< [  9:  9](RO/H) Break-error interrupt status. */
-        uint32_t oemis                 : 1;  /**< [ 10: 10](RO/H) Overrun-error interrupt status. */
+        uint32_t rxmis                 : 1;  /**< [  4:  4](RO/H) Receive interrupt status. */
+        uint32_t txmis                 : 1;  /**< [  5:  5](RO/H) Transmit interrupt status. */
+        uint32_t rtmis                 : 1;  /**< [  6:  6](RO/H) Receive timeout interrupt status. */
+        uint32_t femis                 : 1;  /**< [  7:  7](RO/H) Framing error interrupt status. */
+        uint32_t pemis                 : 1;  /**< [  8:  8](RO/H) Parity error interrupt status. */
+        uint32_t bemis                 : 1;  /**< [  9:  9](RO/H) Break error interrupt status. */
+        uint32_t oemis                 : 1;  /**< [ 10: 10](RO/H) Overrun error interrupt status. */
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } s;
@@ -926,20 +926,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's UAA()_MSIX_VEC()_ADDR, UAA()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's UAA()_MSIX_VEC()_ADDR, UAA()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
@@ -956,20 +956,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's UAA()_MSIX_VEC()_ADDR, UAA()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_UAA(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's UAA()_MSIX_VEC()_ADDR, UAA()_MSIX_VEC()_CTL, and
                                                                  corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_UAA(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
@@ -1384,29 +1384,29 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_11_31        : 21;
-        uint32_t oeris                 : 1;  /**< [ 10: 10](RO/H) Overrun-error interrupt status. */
-        uint32_t beris                 : 1;  /**< [  9:  9](RO/H) Break-error interrupt status. */
-        uint32_t peris                 : 1;  /**< [  8:  8](RO/H) Parity-error interrupt status. */
-        uint32_t feris                 : 1;  /**< [  7:  7](RO/H) Framing-error interrupt status. */
-        uint32_t rtris                 : 1;  /**< [  6:  6](RO/H) Receive-timeout interrupt status. */
-        uint32_t txris                 : 1;  /**< [  5:  5](RO/H) Transmit-interrupt status. */
-        uint32_t rxris                 : 1;  /**< [  4:  4](RO/H) Receive-interrupt status. */
+        uint32_t oeris                 : 1;  /**< [ 10: 10](RO/H) Overrun error interrupt status. */
+        uint32_t beris                 : 1;  /**< [  9:  9](RO/H) Break error interrupt status. */
+        uint32_t peris                 : 1;  /**< [  8:  8](RO/H) Parity error interrupt status. */
+        uint32_t feris                 : 1;  /**< [  7:  7](RO/H) Framing error interrupt status. */
+        uint32_t rtris                 : 1;  /**< [  6:  6](RO/H) Receive timeout interrupt status. */
+        uint32_t txris                 : 1;  /**< [  5:  5](RO/H) Transmit interrupt status. */
+        uint32_t rxris                 : 1;  /**< [  4:  4](RO/H) Receive interrupt status. */
         uint32_t dsrrmis               : 1;  /**< [  3:  3](RO/H) DSR modem interrupt status. */
         uint32_t dcdrmis               : 1;  /**< [  2:  2](RO/H) DCD modem interrupt status. */
         uint32_t ctsrmis               : 1;  /**< [  1:  1](RO/H) CTS modem interrupt status. */
-        uint32_t rirmis                : 1;  /**< [  0:  0](RO/H) Ring-indicator interrupt status. Not implemented. */
+        uint32_t rirmis                : 1;  /**< [  0:  0](RO/H) Ring indicator interrupt status. Not implemented. */
 #else /* Word 0 - Little Endian */
-        uint32_t rirmis                : 1;  /**< [  0:  0](RO/H) Ring-indicator interrupt status. Not implemented. */
+        uint32_t rirmis                : 1;  /**< [  0:  0](RO/H) Ring indicator interrupt status. Not implemented. */
         uint32_t ctsrmis               : 1;  /**< [  1:  1](RO/H) CTS modem interrupt status. */
         uint32_t dcdrmis               : 1;  /**< [  2:  2](RO/H) DCD modem interrupt status. */
         uint32_t dsrrmis               : 1;  /**< [  3:  3](RO/H) DSR modem interrupt status. */
-        uint32_t rxris                 : 1;  /**< [  4:  4](RO/H) Receive-interrupt status. */
-        uint32_t txris                 : 1;  /**< [  5:  5](RO/H) Transmit-interrupt status. */
-        uint32_t rtris                 : 1;  /**< [  6:  6](RO/H) Receive-timeout interrupt status. */
-        uint32_t feris                 : 1;  /**< [  7:  7](RO/H) Framing-error interrupt status. */
-        uint32_t peris                 : 1;  /**< [  8:  8](RO/H) Parity-error interrupt status. */
-        uint32_t beris                 : 1;  /**< [  9:  9](RO/H) Break-error interrupt status. */
-        uint32_t oeris                 : 1;  /**< [ 10: 10](RO/H) Overrun-error interrupt status. */
+        uint32_t rxris                 : 1;  /**< [  4:  4](RO/H) Receive interrupt status. */
+        uint32_t txris                 : 1;  /**< [  5:  5](RO/H) Transmit interrupt status. */
+        uint32_t rtris                 : 1;  /**< [  6:  6](RO/H) Receive timeout interrupt status. */
+        uint32_t feris                 : 1;  /**< [  7:  7](RO/H) Framing error interrupt status. */
+        uint32_t peris                 : 1;  /**< [  8:  8](RO/H) Parity error interrupt status. */
+        uint32_t beris                 : 1;  /**< [  9:  9](RO/H) Break error interrupt status. */
+        uint32_t oeris                 : 1;  /**< [ 10: 10](RO/H) Overrun error interrupt status. */
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } s;

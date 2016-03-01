@@ -193,7 +193,7 @@ static inline uint64_t BDK_SYSCTIX_CLAIMSET_EL1(unsigned long a)
  * Register (DAB32b) syscti#_ctiappclear
  *
  * SYSCTI Application Trigger Clear Register
- * Clears bits of the Application Trigger register.
+ * Clears bits of the application trigger register.
  */
 typedef union
 {
@@ -277,7 +277,7 @@ static inline uint64_t BDK_SYSCTIX_CTIAPPPULSE(unsigned long a)
  * Register (DAB32b) syscti#_ctiappset
  *
  * SYSCTI Application Trigger Set Register
- * Sets bits of the Application Trigger register.
+ * Sets bits of the application trigger register.
  */
 typedef union
 {
@@ -910,7 +910,7 @@ typedef union
                                                                  0x4 = 4 channels (0..3) implemented.
                                                                  0x5 = 5 channels (0..4) implemented.
                                                                  0x6 = 6 channels (0..5) implemented.
-                                                                 and so on up to 0x20.
+                                                                 And so on up to 0x20.
                                                                  All other values are reserved. */
         uint32_t reserved_14_15        : 2;
         uint32_t numtrig               : 6;  /**< [ 13:  8](RO) Number of triggers implemented. implementation defined. This
@@ -921,9 +921,9 @@ typedef union
                                                                  0x8 = Up to 8 triggers (0..7) implemented.
                                                                  0x9 = Up to 9 triggers (0..8) implemented.
                                                                  0xa = Up to 10 triggers (0..9) implemented.
-                                                                 and so on up to 0x20.
+                                                                 And so on up to 0x20.
 
-                                                                 All other values are reserved. If the Trace Extension is implemented, this field
+                                                                 All other values are reserved. If the trace extension is implemented, this field
                                                                  must be at least 0x8. There is no guarantee that any of the implemented
                                                                  triggers, including the highest numbered, are connected to any components. */
         uint32_t reserved_5_7          : 3;
@@ -943,9 +943,9 @@ typedef union
                                                                  0x8 = Up to 8 triggers (0..7) implemented.
                                                                  0x9 = Up to 9 triggers (0..8) implemented.
                                                                  0xa = Up to 10 triggers (0..9) implemented.
-                                                                 and so on up to 0x20.
+                                                                 And so on up to 0x20.
 
-                                                                 All other values are reserved. If the Trace Extension is implemented, this field
+                                                                 All other values are reserved. If the trace extension is implemented, this field
                                                                  must be at least 0x8. There is no guarantee that any of the implemented
                                                                  triggers, including the highest numbered, are connected to any components. */
         uint32_t reserved_14_15        : 2;
@@ -955,7 +955,7 @@ typedef union
                                                                  0x4 = 4 channels (0..3) implemented.
                                                                  0x5 = 5 channels (0..4) implemented.
                                                                  0x6 = 6 channels (0..5) implemented.
-                                                                 and so on up to 0x20.
+                                                                 And so on up to 0x20.
                                                                  All other values are reserved. */
         uint32_t reserved_22_23        : 2;
         uint32_t inout_gate            : 2;  /**< [ 25: 24](RO) Input/output options. Indicates presence of the input gate. If
@@ -1217,7 +1217,7 @@ typedef union
 
                                                                  If any of the following is true, writes to ACK<n> are ignored:
                                                                  * n >= SYSCTI()_CTIDEVID[NUMTRIG], the number of implemented triggers.
-                                                                 * Output trigger n is not active
+                                                                 * Output trigger n is not active.
                                                                  * The channel mapping function output, as controlled by
                                                                      SYSCTI()_CTIOUTEN<n>, is still active.
 
@@ -1238,7 +1238,7 @@ typedef union
 
                                                                  If any of the following is true, writes to ACK<n> are ignored:
                                                                  * n >= SYSCTI()_CTIDEVID[NUMTRIG], the number of implemented triggers.
-                                                                 * Output trigger n is not active
+                                                                 * Output trigger n is not active.
                                                                  * The channel mapping function output, as controlled by
                                                                      SYSCTI()_CTIOUTEN<n>, is still active.
 
@@ -1385,14 +1385,14 @@ typedef union
                                                                      and reads have no side effects. */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
                                                                      memory-mapped access, this field is clear. For memory-mapped
-                                                                     accesses, the value of this field is IMPLEMENTATION DEFINED.
+                                                                     accesses, the value of this field is implementation defined.
                                                                      Permitted values are:
                                                                  0 = Software lock not implemented or not memory-mapped access.
                                                                  1 = Software lock implemented and memory-mapped access. */
 #else /* Word 0 - Little Endian */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
                                                                      memory-mapped access, this field is clear. For memory-mapped
-                                                                     accesses, the value of this field is IMPLEMENTATION DEFINED.
+                                                                     accesses, the value of this field is implementation defined.
                                                                      Permitted values are:
                                                                  0 = Software lock not implemented or not memory-mapped access.
                                                                  1 = Software lock implemented and memory-mapped access. */
@@ -1610,10 +1610,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
-        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the Designer
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the designer
                                                                      has modified the component. */
 #else /* Word 0 - Little Endian */
-        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the Designer
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the designer
                                                                      has modified the component. */
         uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
         uint32_t reserved_8_31         : 24;
@@ -1848,7 +1848,7 @@ typedef union
 
                                                                  If output trigger <n> is implemented and connected, possible
                                                                      values of this bit are:
-                                                                 Otherwise it is IMPLEMENTATION DEFINED whether TROUT<n> is 0x0
+                                                                 Otherwise it is implementation defined whether TROUT<n> is 0x0
                                                                      or behaves as above.
                                                                  0 = Output trigger n is inactive.
                                                                  1 = Output trigger n is active. */
@@ -1860,7 +1860,7 @@ typedef union
 
                                                                  If output trigger <n> is implemented and connected, possible
                                                                      values of this bit are:
-                                                                 Otherwise it is IMPLEMENTATION DEFINED whether TROUT<n> is 0x0
+                                                                 Otherwise it is implementation defined whether TROUT<n> is 0x0
                                                                      or behaves as above.
                                                                  0 = Output trigger n is inactive.
                                                                  1 = Output trigger n is active. */

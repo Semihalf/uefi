@@ -685,14 +685,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t static_subbnum        : 8;  /**< [ 15:  8](RO) Static bus number. If non-zero, downstream block expects
+        uint32_t static_subbnum        : 8;  /**< [ 15:  8](RO) Static bus number. If nonzero, downstream block expects
                                                                  PCCBR_XXX_BUS[SUBBNUM] and PCCBR_XXX_BUS[SBNUM] to match this value. */
         uint32_t inst_num              : 8;  /**< [  7:  0](RO) Instance number. For blocks with multiple instances, indicates which instance number,
                                                                  otherwise 0x0; may be used to form Linux device numbers. For example for UART(1) is 0x1. */
 #else /* Word 0 - Little Endian */
         uint32_t inst_num              : 8;  /**< [  7:  0](RO) Instance number. For blocks with multiple instances, indicates which instance number,
                                                                  otherwise 0x0; may be used to form Linux device numbers. For example for UART(1) is 0x1. */
-        uint32_t static_subbnum        : 8;  /**< [ 15:  8](RO) Static bus number. If non-zero, downstream block expects
+        uint32_t static_subbnum        : 8;  /**< [ 15:  8](RO) Static bus number. If nonzero, downstream block expects
                                                                  PCCBR_XXX_BUS[SUBBNUM] and PCCBR_XXX_BUS[SBNUM] to match this value. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */

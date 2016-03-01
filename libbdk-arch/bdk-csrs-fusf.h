@@ -144,9 +144,9 @@ typedef union
         uint64_t reserved_16_31        : 16;
         uint64_t crypt_ssk_dis         : 1;  /**< [ 15: 15](SRO) SSK crypt disable.
                                                                  When set, the SSK method of ROM_CSIB_S[CRYPT] is not allowed.
-                                                                 If set, FUSF_CTL[CRYPT_NO_DIS] will typically be set, and the device flash
+                                                                 If set, FUSF_CTL[CRYPT_NO_DIS] will typically be set, the device flash
                                                                  is bound to this specific device and a SSK or ROTPK compromise does not
-                                                                 unlock this device; however loss of the firmware image without the BSSK
+                                                                 unlock this device. The loss of the firmware image without the BSSK
                                                                  stored externally makes this part's secrets inaccessible. */
         uint64_t crypt_no_dis          : 1;  /**< [ 14: 14](SRO) No-crypt disable.
                                                                  When set, the non-encryption method of ROM_CSIB_S[CRYPT] is not allowed. */
@@ -164,7 +164,7 @@ typedef union
                                                                  0x2 = Approximately 1 day when the coprocessor clock is 800 MHz.
                                                                  0x3 = Approximately 4 seconds when the coprocessor clock is 800 MHz.
 
-                                                                 If non-zero, FUSF_CTL[TZ_FORCE2] must be set. */
+                                                                 If nonzero, FUSF_CTL[TZ_FORCE2] must be set. */
         uint64_t fj_dis                : 1;  /**< [  9:  9](SRO) Flash-jump disable.
                                                                  When set, does not allow any non-trusted NBL1FW code
                                                                  execution, neither because trusted-mode is not requested, nor
@@ -188,12 +188,12 @@ typedef union
                                                                  When set, additional programming of FUSF_ROTPK(), FUSF_HUK(),
                                                                  FUSF_EK() is not allowed.
                                                                  When set, FUSF_CTL[FJ_DIS_HUK] is typically set. */
-        uint64_t ssk_lck               : 1;  /**< [  1:  1](SRO) Secret Symmetric Key fuse lockdown.
+        uint64_t ssk_lck               : 1;  /**< [  1:  1](SRO) Secret symmetric key fuse lockdown.
                                                                  When set, additional programming of FUSF_SSK() is not allowed. */
         uint64_t fusf_lck              : 1;  /**< [  0:  0](SRO) When set, further programming of all of FUSF is disabled. */
 #else /* Word 0 - Little Endian */
         uint64_t fusf_lck              : 1;  /**< [  0:  0](SRO) When set, further programming of all of FUSF is disabled. */
-        uint64_t ssk_lck               : 1;  /**< [  1:  1](SRO) Secret Symmetric Key fuse lockdown.
+        uint64_t ssk_lck               : 1;  /**< [  1:  1](SRO) Secret symmetric key fuse lockdown.
                                                                  When set, additional programming of FUSF_SSK() is not allowed. */
         uint64_t rot_lck               : 1;  /**< [  2:  2](SRO) Root-of-trust fuse lockdown.
                                                                  When set, additional programming of FUSF_ROTPK(), FUSF_HUK(),
@@ -225,7 +225,7 @@ typedef union
                                                                  0x2 = Approximately 1 day when the coprocessor clock is 800 MHz.
                                                                  0x3 = Approximately 4 seconds when the coprocessor clock is 800 MHz.
 
-                                                                 If non-zero, FUSF_CTL[TZ_FORCE2] must be set. */
+                                                                 If nonzero, FUSF_CTL[TZ_FORCE2] must be set. */
         uint64_t fj_core0              : 1;  /**< [ 12: 12](SRO) Flash-jump core 0 only.
                                                                  When set, only core 0 is available unless code authenticates.
                                                                  If set, FUSF_CTL[TZ_FORCE2] must be set. */
@@ -237,9 +237,9 @@ typedef union
                                                                  When set, the non-encryption method of ROM_CSIB_S[CRYPT] is not allowed. */
         uint64_t crypt_ssk_dis         : 1;  /**< [ 15: 15](SRO) SSK crypt disable.
                                                                  When set, the SSK method of ROM_CSIB_S[CRYPT] is not allowed.
-                                                                 If set, FUSF_CTL[CRYPT_NO_DIS] will typically be set, and the device flash
+                                                                 If set, FUSF_CTL[CRYPT_NO_DIS] will typically be set, the device flash
                                                                  is bound to this specific device and a SSK or ROTPK compromise does not
-                                                                 unlock this device; however loss of the firmware image without the BSSK
+                                                                 unlock this device. The loss of the firmware image without the BSSK
                                                                  stored externally makes this part's secrets inaccessible. */
         uint64_t reserved_16_31        : 16;
         uint64_t rom_t_cnt             : 32; /**< [ 63: 32](SRO) ROM trusted counter. One-hot encoding of TBL1FW's TrustedFirmwareNvCounter, number of
@@ -407,11 +407,12 @@ typedef union
                                                                  To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
                                                                  programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
 
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, software can write to FUSF_PROG[PROG]
+                                                                 to start the bank write and poll on [PROG]. Once PROG is clear, the bank write
+                                                                 is complete.  MIO_FUS_READ_TIMES[WRSTB_WH] set the time for the hardware to
+                                                                 clear this bit. A soft blow is still subject to lockdown fuses. After a
+                                                                 soft/warm reset, the chip behaves as though the fuses were actually blown. A
+                                                                 cold reset restores the actual fuse values. */
 #else /* Word 0 - Little Endian */
         uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
                                                                  the program operation is complete.
@@ -419,11 +420,12 @@ typedef union
                                                                  To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
                                                                  programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
 
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, software can write to FUSF_PROG[PROG]
+                                                                 to start the bank write and poll on [PROG]. Once PROG is clear, the bank write
+                                                                 is complete.  MIO_FUS_READ_TIMES[WRSTB_WH] set the time for the hardware to
+                                                                 clear this bit. A soft blow is still subject to lockdown fuses. After a
+                                                                 soft/warm reset, the chip behaves as though the fuses were actually blown. A
+                                                                 cold reset restores the actual fuse values. */
         uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
                                                                  any fuses. Hardware will clear when the program operation is complete. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
@@ -450,11 +452,12 @@ typedef union
                                                                  To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
                                                                  programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
 
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, software can write to FUSF_PROG[PROG]
+                                                                 to start the bank write and poll on [PROG]. Once PROG is clear, the bank write
+                                                                 is complete.  MIO_FUS_READ_TIMES[WRSTB_WH] set the time for the hardware to
+                                                                 clear this bit. A soft blow is still subject to lockdown fuses. After a
+                                                                 soft/warm reset, the chip behaves as though the fuses were actually blown. A
+                                                                 cold reset restores the actual fuse values. */
 #else /* Word 0 - Little Endian */
         uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
                                                                  the program operation is complete.
@@ -462,11 +465,12 @@ typedef union
                                                                  To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
                                                                  programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
 
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, software can write to FUSF_PROG[PROG]
+                                                                 to start the bank write and poll on [PROG]. Once PROG is clear, the bank write
+                                                                 is complete.  MIO_FUS_READ_TIMES[WRSTB_WH] set the time for the hardware to
+                                                                 clear this bit. A soft blow is still subject to lockdown fuses. After a
+                                                                 soft/warm reset, the chip behaves as though the fuses were actually blown. A
+                                                                 cold reset restores the actual fuse values. */
         uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
                                                                  any fuses. Hardware will clear when the program operation is complete. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
@@ -494,11 +498,12 @@ typedef union
                                                                  To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
                                                                  programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
 
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, software can write to FUSF_PROG[PROG]
+                                                                 to start the bank write and poll on [PROG]. Once PROG is clear, the bank write
+                                                                 is complete.  MIO_FUS_READ_TIMES[WRSTB_WH] set the time for the hardware to
+                                                                 clear this bit. A soft blow is still subject to lockdown fuses. After a
+                                                                 soft/warm reset, the chip behaves as though the fuses were actually blown. A
+                                                                 cold reset restores the actual fuse values. */
 #else /* Word 0 - Little Endian */
         uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
                                                                  the program operation is complete.
@@ -506,11 +511,12 @@ typedef union
                                                                  To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
                                                                  programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
 
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, software can write to FUSF_PROG[PROG]
+                                                                 to start the bank write and poll on [PROG]. Once PROG is clear, the bank write
+                                                                 is complete.  MIO_FUS_READ_TIMES[WRSTB_WH] set the time for the hardware to
+                                                                 clear this bit. A soft blow is still subject to lockdown fuses. After a
+                                                                 soft/warm reset, the chip behaves as though the fuses were actually blown. A
+                                                                 cold reset restores the actual fuse values. */
         uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
                                                                  any fuses. Hardware will clear when the program operation is complete. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
@@ -554,21 +560,29 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t pend                  : 1;  /**< [ 12: 12](SR/W/H) Software sets this bit on a write to start FUSE read operation. Hardware clears when read
-                                                                 is complete and the DAT is valid. */
+        uint64_t pend                  : 1;  /**< [ 12: 12](SR/W/H) Software sets this bit on a write to start FUSE read operation.
+                                                                 Hardware clears the bit when the read is complete and the DAT is
+                                                                 valid.  MIO_FUS_READ_TIMES[RDSTB_WH] determines the time for this
+                                                                 operation. */
         uint64_t reserved_11           : 1;
         uint64_t addr_hi               : 2;  /**< [ 10:  9](SR/W) Upper fuse address bits to extend space beyond 2k fuses. Valid range is
                                                                  0x0. Enumerated by FUSF_FUSE_NUM_E<9:8>. */
-        uint64_t efuse                 : 1;  /**< [  8:  8](SR/W) When set, return data from the efuse storage rather than the local storage. */
+        uint64_t efuse                 : 1;  /**< [  8:  8](SR/W) When set, return data from the efuse storage rather than the local storage.
+                                                                 Software should not change this field while the FUSF_RCMD[PEND] is set.
+                                                                 It should wait for the hardware to clear the bit first. */
         uint64_t addr                  : 8;  /**< [  7:  0](SR/W) The byte address of the fuse to read.  Enumerated by FUSF_FUSE_NUM_E<7:0>. */
 #else /* Word 0 - Little Endian */
         uint64_t addr                  : 8;  /**< [  7:  0](SR/W) The byte address of the fuse to read.  Enumerated by FUSF_FUSE_NUM_E<7:0>. */
-        uint64_t efuse                 : 1;  /**< [  8:  8](SR/W) When set, return data from the efuse storage rather than the local storage. */
+        uint64_t efuse                 : 1;  /**< [  8:  8](SR/W) When set, return data from the efuse storage rather than the local storage.
+                                                                 Software should not change this field while the FUSF_RCMD[PEND] is set.
+                                                                 It should wait for the hardware to clear the bit first. */
         uint64_t addr_hi               : 2;  /**< [ 10:  9](SR/W) Upper fuse address bits to extend space beyond 2k fuses. Valid range is
                                                                  0x0. Enumerated by FUSF_FUSE_NUM_E<9:8>. */
         uint64_t reserved_11           : 1;
-        uint64_t pend                  : 1;  /**< [ 12: 12](SR/W/H) Software sets this bit on a write to start FUSE read operation. Hardware clears when read
-                                                                 is complete and the DAT is valid. */
+        uint64_t pend                  : 1;  /**< [ 12: 12](SR/W/H) Software sets this bit on a write to start FUSE read operation.
+                                                                 Hardware clears the bit when the read is complete and the DAT is
+                                                                 valid.  MIO_FUS_READ_TIMES[RDSTB_WH] determines the time for this
+                                                                 operation. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -578,21 +592,29 @@ typedef union
         uint64_t reserved_24_63        : 40;
         uint64_t reserved_16_23        : 8;
         uint64_t reserved_13_15        : 3;
-        uint64_t pend                  : 1;  /**< [ 12: 12](SR/W/H) Software sets this bit on a write to start FUSE read operation. Hardware clears when read
-                                                                 is complete and the DAT is valid. */
+        uint64_t pend                  : 1;  /**< [ 12: 12](SR/W/H) Software sets this bit on a write to start FUSE read operation.
+                                                                 Hardware clears the bit when the read is complete and the DAT is
+                                                                 valid.  MIO_FUS_READ_TIMES[RDSTB_WH] determines the time for this
+                                                                 operation. */
         uint64_t reserved_11           : 1;
         uint64_t addr_hi               : 2;  /**< [ 10:  9](SR/W) Upper fuse address bits to extend space beyond 2k fuses. Valid range is
                                                                  0x0. Enumerated by FUSF_FUSE_NUM_E<9:8>. */
-        uint64_t efuse                 : 1;  /**< [  8:  8](SR/W) When set, return data from the efuse storage rather than the local storage. */
+        uint64_t efuse                 : 1;  /**< [  8:  8](SR/W) When set, return data from the efuse storage rather than the local storage.
+                                                                 Software should not change this field while the FUSF_RCMD[PEND] is set.
+                                                                 It should wait for the hardware to clear the bit first. */
         uint64_t addr                  : 8;  /**< [  7:  0](SR/W) The byte address of the fuse to read.  Enumerated by FUSF_FUSE_NUM_E<7:0>. */
 #else /* Word 0 - Little Endian */
         uint64_t addr                  : 8;  /**< [  7:  0](SR/W) The byte address of the fuse to read.  Enumerated by FUSF_FUSE_NUM_E<7:0>. */
-        uint64_t efuse                 : 1;  /**< [  8:  8](SR/W) When set, return data from the efuse storage rather than the local storage. */
+        uint64_t efuse                 : 1;  /**< [  8:  8](SR/W) When set, return data from the efuse storage rather than the local storage.
+                                                                 Software should not change this field while the FUSF_RCMD[PEND] is set.
+                                                                 It should wait for the hardware to clear the bit first. */
         uint64_t addr_hi               : 2;  /**< [ 10:  9](SR/W) Upper fuse address bits to extend space beyond 2k fuses. Valid range is
                                                                  0x0. Enumerated by FUSF_FUSE_NUM_E<9:8>. */
         uint64_t reserved_11           : 1;
-        uint64_t pend                  : 1;  /**< [ 12: 12](SR/W/H) Software sets this bit on a write to start FUSE read operation. Hardware clears when read
-                                                                 is complete and the DAT is valid. */
+        uint64_t pend                  : 1;  /**< [ 12: 12](SR/W/H) Software sets this bit on a write to start FUSE read operation.
+                                                                 Hardware clears the bit when the read is complete and the DAT is
+                                                                 valid.  MIO_FUS_READ_TIMES[RDSTB_WH] determines the time for this
+                                                                 operation. */
         uint64_t reserved_13_15        : 3;
         uint64_t reserved_16_23        : 8;
         uint64_t reserved_24_63        : 40;

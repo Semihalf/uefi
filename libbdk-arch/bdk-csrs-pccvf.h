@@ -135,7 +135,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_21_31        : 11;
-        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities List. Indicates presence of an extended capability item. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. */
         uint32_t reserved_3_19         : 17;
         uint32_t me                    : 1;  /**< [  2:  2](RO) Master enable.
                                                                  Internal:
@@ -149,7 +149,7 @@ typedef union
                                                                  Internal:
                                                                  For simplicity always one; we do not disable NCB transactions. */
         uint32_t reserved_3_19         : 17;
-        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities List. Indicates presence of an extended capability item. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. */
         uint32_t reserved_21_31        : 11;
 #endif /* Word 0 - End */
     } s;

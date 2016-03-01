@@ -132,9 +132,9 @@
                                        Cycles CMB buses from this core are clocking.  Better to have cavium specifc
                                        counters for
                                        each CMB bus. */
-#define BDK_PMU_PERF_E_CDMISS (0xe6) /**< Cycles that we don't issue an instruction because the memory system is busy.
+#define BDK_PMU_PERF_E_CDMISS (0xe6) /**< Cycles that don't issue an instruction because the memory system is busy.
                                        This include dcache miss cycles, but also
-                                       includes cycles due to uTLB misses, Page Table Walks and writebuffer full stalls.
+                                       includes cycles due to uTLB misses, page table walks and write buffer full stalls.
                                        In addition, there is a fixed overhead for recovering from each dcache miss.
                                        
                                        The following formula may be used to calculate the effective memory latency:
@@ -147,7 +147,7 @@
 #define BDK_PMU_PERF_E_CIMISS (0xd8) /**< Cycles idle due to imiss. However, if an iprefetch is already active, the machine must
                                        wait for the
                                        iprefetch to return before starting the imiss.  These lost cycles are not counted. */
-#define BDK_PMU_PERF_E_CPU_CYCLES (0x11) /**< CPU Cycles clocked. */
+#define BDK_PMU_PERF_E_CPU_CYCLES (0x11) /**< CPU cycles clocked. */
 #define BDK_PMU_PERF_E_CRYPTO_SPEC (0x77) /**< Number of crypto instructions (excpet PMUJLL and VMULL) speculatively
                                        executed. see v8 ARM ARM for definition of this class. */
 #define BDK_PMU_PERF_E_DC_CIVAC (0x1be) /**< Number of data cache clean and invalidate by virtual address to point of coherency. */
@@ -179,12 +179,12 @@
 #define BDK_PMU_PERF_E_DSB_OSH (0x1f7) /**< Number of DSB_OSH instructions retired. */
 #define BDK_PMU_PERF_E_DSB_SPEC (0x7d) /**< Number of dsb instructions. */
 #define BDK_PMU_PERF_E_DSB_SY (0x1f8) /**< Number of DSB_SY instructions retired. */
-#define BDK_PMU_PERF_E_ERET_MIS (0xe7) /**< Number of committed eret's that mispredict */
+#define BDK_PMU_PERF_E_ERET_MIS (0xe7) /**< Number of committed eret's that mispredict. */
 #define BDK_PMU_PERF_E_EXC_DABORT (0x84) /**< Number of data aborts or serrors taken to the default EL (i.e. locally taken). */
 #define BDK_PMU_PERF_E_EXC_FIQ (0x87) /**< Number of fiq exceptions taken to the default EL (i.e. locally taken).   Includes FIRQ. */
 #define BDK_PMU_PERF_E_EXC_HVC (0x8a) /**< Number of hypervisor call exceptions taken locally. The counter counts for both
-                                       Hypervisor Call exception taken locally in the hypervisor and as exceptions from
-                                       non-secure EL1. Includes all exceptions with EC=0x16. */
+                                       hypervisor call exception taken locally in the hypervisor and as exceptions from
+                                       nonsecure EL1. Includes all exceptions with EC=0x16. */
 #define BDK_PMU_PERF_E_EXC_IRQ (0x86) /**< Number of irq exceptions taken to the default EL (i.e. locally taken).   Includes VIRQ. */
 #define BDK_PMU_PERF_E_EXC_PABORT (0x83) /**< Number of instruction aborts taken to the default EL (i.e. locally taken). Includes all
                                        all exceptions with EC=0x20,0x21. */
@@ -208,7 +208,7 @@
 #define BDK_PMU_PERF_E_FLEX_EX_DEL2 (0x182) /**< Number of committed instructions issued with 2 stages pipeline delay. */
 #define BDK_PMU_PERF_E_FLEX_EX_DEL3 (0x183) /**< Number of committed instructions issued with 3 stages pipeline delay. */
 #define BDK_PMU_PERF_E_F_MASK_CYC (0x302) /**< Number of cycles during which FIQ is masked */
-#define BDK_PMU_PERF_E_GLBL_SYNC (0x1b8) /**< Number of Global Syncs broadcast from this core. */
+#define BDK_PMU_PERF_E_GLBL_SYNC (0x1b8) /**< Number of global syncs broadcast from this core. */
 #define BDK_PMU_PERF_E_IC_IALLUX (0x1ba) /**< Number of IC IALLU and IC IALLUIS executed. */
 #define BDK_PMU_PERF_E_IC_IALLU_RCVD (0x1bc) /**< Number of IC IALLUIS received. */
 #define BDK_PMU_PERF_E_IC_IVAU (0x1bb) /**< Number of IC IVAU executed. */
@@ -248,34 +248,34 @@
 #define BDK_PMU_PERF_E_L0I_TLB_REFILL (0x18f) /**< Internal:
                                        Number of uTLB misses due to i-stream.
                                        Same as L1I_TLB_REFILL as defined by ARM but left over from Octeon. */
-#define BDK_PMU_PERF_E_L1D_CACHE (4) /**< Number of level 1 data cache access. Does not include IO operations. */
+#define BDK_PMU_PERF_E_L1D_CACHE (4) /**< Number of level 1 data cache accesses. Does not include IO operations. */
 #define BDK_PMU_PERF_E_L1D_CACHE_ALLOCATE (0x1f) /**< Internal:
                                        Number of Level 1 data cache allocation without refill. Includes DC ZVA
                                        operations. */
-#define BDK_PMU_PERF_E_L1D_CACHE_INVAL (0x48) /**< Number of Level 1 data cache invalidates caused event outside the core. */
-#define BDK_PMU_PERF_E_L1D_CACHE_LD (0x40) /**< Number of Level 1 data cache access - read operations (can be hit or miss). */
+#define BDK_PMU_PERF_E_L1D_CACHE_INVAL (0x48) /**< Number of level 1 data cache invalidates caused event outside the core. */
+#define BDK_PMU_PERF_E_L1D_CACHE_LD (0x40) /**< Number of level 1 data cache access-read operations (can be hit or miss). */
 #define BDK_PMU_PERF_E_L1D_CACHE_MISS_ST (0xe9) /**< Number of stores that miss in the dcache. Similar to ARM house style L1D_CACHE_REFILL_ST
                                        (0x043) but we don't allocate on store misses. */
 #define BDK_PMU_PERF_E_L1D_CACHE_PREF (0xea) /**< Number of dcache prefetch instructions. */
-#define BDK_PMU_PERF_E_L1D_CACHE_REFILL (3) /**< Number of Level 1 data cache refills.  This counter counts only
-                                       refills that cause a new miss to be processed by the L2/Memory system.
-                                       If the miss is satisified by a previous miss, it is not counted.
+#define BDK_PMU_PERF_E_L1D_CACHE_REFILL (3) /**< Number of level 1 data cache refills.  This counter only counts
+                                       refills that cause a new miss to be processed by the L2/memory system.
+                                       If the miss is satisfied by a previous miss, it is not counted.
                                        This refill counter counts both LD misses and PREF misses. */
 #define BDK_PMU_PERF_E_L1D_CACHE_REFILL_INNER (0x44) /**< Internal:
                                        Not implemented. Number of Level 1 data cache refill, inner cluster. */
-#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_LD (0x42) /**< Number of Level 1 data cache refill - read operations caused by LD* instructions,
+#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_LD (0x42) /**< Number of level 1 data cache refill - read operations caused by LD* instructions,
                                        does not include PREF.
-                                       Counts refills that cause a new miss to be processed by the L2/Memory system.
-                                       If the miss is satisified by a previous miss, it is not counted. */
+                                       Counts refills that cause a new miss to be processed by the L2/memory system.
+                                       If the miss is satisfied by a previous miss, it is not counted. */
 #define BDK_PMU_PERF_E_L1D_CACHE_REFILL_OUTER (0x45) /**< Internal:
                                        Not implemented. Number of Level 1 data cache refill, same as 0x003
                                        L1_D_CACHE_REFILL. */
-#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_PREF (0xeb) /**< Number of Level 1 data cache refill - prefetch misses.
-                                       Counts refills that cause a new miss to be processed by the L2/Memory system.
-                                       If the miss is satisified by a previous miss, it is not counted. */
+#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_PREF (0xeb) /**< Number of level 1 data cache refill-prefetch misses.
+                                       Counts refills that cause a new miss to be processed by the L2/memory system.
+                                       If the miss is satisfied by a previous miss, it is not counted. */
 #define BDK_PMU_PERF_E_L1D_CACHE_REFILL_ST (0x43) /**< Internal:
                                        Not implemented. Number of Level 1 data cache refill - write operations. */
-#define BDK_PMU_PERF_E_L1D_CACHE_ST (0x41) /**< Number of Level 1 data cache access - write operations.  This counts stores that
+#define BDK_PMU_PERF_E_L1D_CACHE_ST (0x41) /**< Number of level 1 data cache access-write operations.  This counts stores that
                                        can either hit or miss in the dcache. */
 #define BDK_PMU_PERF_E_L1D_CACHE_WB (0x15) /**< Internal:
                                        Not implemented. Number of Level 1 data cache write-backs from the Level 1 data
@@ -306,12 +306,12 @@
 #define BDK_PMU_PERF_E_L1D_PTW_REFILL_L3_S1 (0x19c) /**< Number of dstream MTLB miss, stage1_level3, stage2. */
 #define BDK_PMU_PERF_E_L1D_TLB (0x25) /**< Number of accesses to microtlb caused by a data reference. TLB maintenance instructions do
                                        not count. */
-#define BDK_PMU_PERF_E_L1D_TLB_LD (0x4e) /**< Number of Level 1 data TLB access due to memory read operations.. */
+#define BDK_PMU_PERF_E_L1D_TLB_LD (0x4e) /**< Number of level 1 data TLB access due to memory read operations.. */
 #define BDK_PMU_PERF_E_L1D_TLB_REFILL (5) /**< Number of level 1 data TLB refills. */
-#define BDK_PMU_PERF_E_L1D_TLB_REFILL_LD (0x4c) /**< Number of Level 1 data TLB refill (as in L1D_TLB_REFILL) and due to memory read operations.. */
-#define BDK_PMU_PERF_E_L1D_TLB_REFILL_ST (0x4d) /**< Number of Level 1 data TLB refill (as in L1D_TLB_REFILL) and due to memory write operations. */
-#define BDK_PMU_PERF_E_L1D_TLB_ST (0x4f) /**< Number of Level 1 data access memory write operations. */
-#define BDK_PMU_PERF_E_L1I_CACHE (0x14) /**< Number ofinstruction memory accesses that access the L1 Icache. Counts both hits and misses. */
+#define BDK_PMU_PERF_E_L1D_TLB_REFILL_LD (0x4c) /**< Number of level 1 data TLB refill (as in L1D_TLB_REFILL) and due to memory read operations.. */
+#define BDK_PMU_PERF_E_L1D_TLB_REFILL_ST (0x4d) /**< Number of level 1 data TLB refill (as in L1D_TLB_REFILL) and due to memory write operations. */
+#define BDK_PMU_PERF_E_L1D_TLB_ST (0x4f) /**< Number of level 1 data access memory write operations. */
+#define BDK_PMU_PERF_E_L1I_CACHE (0x14) /**< Number of instruction memory accesses that access the L1 Icache. Counts both hits and misses. */
 #define BDK_PMU_PERF_E_L1I_CACHE_PREF (0xec) /**< Number of icache prefetch instructions. */
 #define BDK_PMU_PERF_E_L1I_CACHE_REFILL (1) /**< Number of level 1 instruction cache refills */
 #define BDK_PMU_PERF_E_L1I_CACHE_REFILL_PREF (0xed) /**< Number of icache prefetch instructions that miss. */
@@ -334,7 +334,7 @@
 #define BDK_PMU_PERF_E_L1I_PTW_REFILL_L2_S1 (0x1ad) /**< Number of istream MTLB miss, stage1_level2, stage2. */
 #define BDK_PMU_PERF_E_L1I_PTW_REFILL_L3_S1 (0x1ae) /**< Number of istream MTLB miss, stage1_level3, stage2. */
 #define BDK_PMU_PERF_E_L1I_TLB (0x26) /**< Number of accesses to microtlb caused by an instruction reference. */
-#define BDK_PMU_PERF_E_L1I_TLB_REFILL (2) /**< Number of Level 1 instruction TLB refill. */
+#define BDK_PMU_PERF_E_L1I_TLB_REFILL (2) /**< Number of level 1 instruction TLB refill. */
 #define BDK_PMU_PERF_E_L2C_EVENT_1 (0x4c00) /**< Internal:
                                        L2C event -code, local/remote, event, ccpi, comment (mcbuggin 21410):
                                        0000 = n/a, , , idx/way & broadcast commands, remote misses that don't allocate at
@@ -388,11 +388,11 @@
                                        L2C event */
 #define BDK_PMU_PERF_E_L2C_EVENT_9 (0x4c08) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2D_CACHE (0x16) /**< Number of Level 2 data cache access The counter counts memory-read or memory-write
-                                       operations, that the PE made, that access at least the Level 2 data or unified
+#define BDK_PMU_PERF_E_L2D_CACHE (0x16) /**< Number of level 2 data cache accesses. The counter counts memory-read or memory-write
+                                       operations, that the PE made, that access at least the level 2 data or unified
                                        cache. Each access to a cache line is counted including refills of the
-                                       Level 1 data and instruction and writes from the writebuffer. Each access to
-                                       other Level 2 data or unified memory
+                                       level 1 data and instruction and writes from the write buffer. Each access to
+                                       other level 2 data or unified memory
                                        structures, such as refill buffers, write buffers, and write-back buffers, is also
                                        counted. The counter does not count:
                                        *     Operations made by other PEs that share this cache.
@@ -454,7 +454,7 @@
                                        Not implemented. */
 #define BDK_PMU_PERF_E_MEM_ACCESS_ST (0x67) /**< Internal:
                                        Not implemented. */
-#define BDK_PMU_PERF_E_MSR_HAZTR (0xe8) /**< Number of hazard pipeline flushes */
+#define BDK_PMU_PERF_E_MSR_HAZTR (0xe8) /**< Number of hazard pipeline flushes. */
 #define BDK_PMU_PERF_E_NISSUE (0xc2) /**< Cycles no instructions were issued. */
 #define BDK_PMU_PERF_E_PC_WRITE_RETIRED (0xc) /**< Number of instruction architecturally executed that change the PC.
                                        Includes:
@@ -551,7 +551,7 @@
 #define BDK_PMU_PERF_E_VMID_OVF (0x301) /**< Number of times VMIDMap overflowed. */
 #define BDK_PMU_PERF_E_WBUF (0xdb) /**< Number of write buffer entries created. */
 #define BDK_PMU_PERF_E_WBUFFL (0xde) /**< Number of cycles that there was no available write buffer entry. */
-#define BDK_PMU_PERF_E_WBUFLD (0xdd) /**< Number of write buffere entries forced out by loads. */
+#define BDK_PMU_PERF_E_WBUFLD (0xdd) /**< Number of write buffer entries forced out by loads. */
 #define BDK_PMU_PERF_E_WBUFTR (0xdf) /**< Number of stores that found no available write buffer entries. */
 #define BDK_PMU_PERF_E_WDAT (0xdc) /**< Number of cycles on the XMD bus which are used to transfer data from the writebuffer to the L2C. */
 
@@ -602,7 +602,7 @@ static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a)
  * Register (DAB32b) pmu#_pmccfiltr_el0
  *
  * Performance Monitors Cycle Counter Filter Register
- * Determines the modes in which the Cycle Counter, PMU()_PMCCNTR_EL0,
+ * Determines the modes in which the cycle counter, PMU()_PMCCNTR_EL0,
  *     increments.
  */
 typedef union
@@ -612,37 +612,37 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count cycles in EL1.
                                                                  1 = Do not count cycles in EL1. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count cycles in EL0.
                                                                  1 = Do not count cycles in EL0. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, cycles in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, cycles in Non-secure EL1 are not counted. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, cycles in nonsecure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, cycles in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, cycles in Non-secure EL0 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, cycles in nonsecure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count cycles in EL2.
                                                                  1 = Count cycles in EL2. */
         uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, cycles in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, cycles in Secure EL3 are not counted. */
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, cycles in secure EL3 are not counted. */
         uint32_t reserved_0_25         : 26;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_25         : 26;
@@ -650,30 +650,30 @@ typedef union
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, cycles in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, cycles in Secure EL3 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, cycles in secure EL3 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count cycles in EL2.
                                                                  1 = Count cycles in EL2. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, cycles in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, cycles in Non-secure EL0 are not counted. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, cycles in nonsecure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, cycles in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, cycles in Non-secure EL1 are not counted. */
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, cycles in nonsecure EL1 are not counted. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count cycles in EL0.
                                                                  1 = Do not count cycles in EL0. */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count cycles in EL1.
@@ -701,7 +701,7 @@ static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a)
  * Register (DAB32b) pmu#_pmccntr_el0_hi
  *
  * Performance Monitors Cycle Counter High Register
- * Holds the value of the processor Cycle Counter, CCNT, that counts processor clock cycles.
+ * Holds the value of the processor cycle counter, CCNT, that counts processor clock cycles.
  */
 typedef union
 {
@@ -743,7 +743,7 @@ static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a)
  * Register (DAB32b) pmu#_pmccntr_el0_lo
  *
  * Performance Monitors Cycle Counter Low Register
- * Holds the value of the processor Cycle Counter, CCNT, that counts processor clock cycles.
+ * Holds the value of the processor cycle counter, CCNT, that counts processor clock cycles.
  */
 typedef union
 {
@@ -1036,7 +1036,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
-        uint32_t uen                   : 1;  /**< [ 19: 19](RO) User-mode Enable Register supported. PMUSERENR_EL0 is not
+        uint32_t uen                   : 1;  /**< [ 19: 19](RO) User-mode enable register supported. PMUSERENR_EL0 is not
                                                                      visible in the external debug interface, so this bit is RES0. */
         uint32_t wt                    : 1;  /**< [ 18: 18](RO) This feature is not supported, so this bit is RES0. */
         uint32_t na                    : 1;  /**< [ 17: 17](RO) This feature is not supported, so this bit is RES0. */
@@ -1087,7 +1087,7 @@ typedef union
                                                                  Not supported. */
         uint32_t na                    : 1;  /**< [ 17: 17](RO) This feature is not supported, so this bit is RES0. */
         uint32_t wt                    : 1;  /**< [ 18: 18](RO) This feature is not supported, so this bit is RES0. */
-        uint32_t uen                   : 1;  /**< [ 19: 19](RO) User-mode Enable Register supported. PMUSERENR_EL0 is not
+        uint32_t uen                   : 1;  /**< [ 19: 19](RO) User-mode enable register supported. PMUSERENR_EL0 is not
                                                                      visible in the external debug interface, so this bit is RES0. */
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
@@ -1113,7 +1113,7 @@ static inline uint64_t BDK_PMUX_PMCFGR(unsigned long a)
  * Register (DAB32b) pmu#_pmcidr0
  *
  * Performance Monitors Component Identification Register 0
- * Provides information to identify a Performance Monitor
+ * Provides information to identify a performance monitor
  *     component.
  */
 typedef union
@@ -1150,7 +1150,7 @@ static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a)
  * Register (DAB32b) pmu#_pmcidr1
  *
  * Performance Monitors Component Identification Register 1
- * Provides information to identify a Performance Monitor
+ * Provides information to identify a performance monitor
  *     component.
  */
 typedef union
@@ -1189,7 +1189,7 @@ static inline uint64_t BDK_PMUX_PMCIDR1(unsigned long a)
  * Register (DAB32b) pmu#_pmcidr2
  *
  * Performance Monitors Component Identification Register 2
- * Provides information to identify a Performance Monitor
+ * Provides information to identify a performance monitor
  *     component.
  */
 typedef union
@@ -1226,7 +1226,7 @@ static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a)
  * Register (DAB32b) pmu#_pmcidr3
  *
  * Performance Monitors Component Identification Register 3
- * Provides information to identify a Performance Monitor
+ * Provides information to identify a performance monitor
  *     component.
  */
 typedef union
@@ -1263,7 +1263,7 @@ static inline uint64_t BDK_PMUX_PMCIDR3(unsigned long a)
  * Register (DAB32b) pmu#_pmcntenclr_el0
  *
  * Performance Monitors Count Enable Clear Register
- * Disables the Cycle Count Register, PMU()_PMCCNTR_EL0, and any
+ * Disables the cycle count register, PMU()_PMCCNTR_EL0, and any
  *     implemented event counters PMEVCNTR<x>. Reading this register
  *     shows which counters are enabled.
  */
@@ -1323,7 +1323,7 @@ static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a)
  * Register (DAB32b) pmu#_pmcntenset_el0
  *
  * Performance Monitors Count Enable Set Register
- * Enables the Cycle Count Register, PMU()_PMCCNTR_EL0, and any
+ * Enables the cycle count register, PMU()_PMCCNTR_EL0, and any
  *     implemented event counters PMEVCNTR<x>. Reading this register
  *     shows which counters are enabled.
  */
@@ -1383,7 +1383,7 @@ static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a)
  * Register (DAB32b) pmu#_pmcr_el0
  *
  * Performance Monitors Control Register
- * Provides details of the Performance Monitors implementation,
+ * Provides details of the performance monitors implementation,
  *     including the number of counters implemented, and configures
  *     and controls the counters.
  */
@@ -1417,8 +1417,8 @@ typedef union
                                                                      debug device, such as an OPTIONAL trace extension, over an
                                                                      event bus. If the implementation does not include such an
                                                                      event bus, this bit is RAZ/WI.
-                                                                 This bit does not affect the generation of Performance
-                                                                     Monitors overflow interrupt requests or signaling to a cross-
+                                                                 This bit does not affect the generation of performance
+                                                                     monitors overflow interrupt requests or signaling to a cross
                                                                      trigger interface (CTI) that can be implemented as signals
                                                                      exported from the processor.
                                                                  If the implementation does not include an exported event
@@ -1482,8 +1482,8 @@ typedef union
                                                                      debug device, such as an OPTIONAL trace extension, over an
                                                                      event bus. If the implementation does not include such an
                                                                      event bus, this bit is RAZ/WI.
-                                                                 This bit does not affect the generation of Performance
-                                                                     Monitors overflow interrupt requests or signaling to a cross-
+                                                                 This bit does not affect the generation of performance
+                                                                     monitors overflow interrupt requests or signaling to a cross
                                                                      trigger interface (CTI) that can be implemented as signals
                                                                      exported from the processor.
                                                                  If the implementation does not include an exported event
@@ -1538,8 +1538,8 @@ typedef union
                                                                      debug device, such as an OPTIONAL trace extension, over an
                                                                      event bus. If the implementation does not include such an
                                                                      event bus, this bit is RAZ/WI.
-                                                                 This bit does not affect the generation of Performance
-                                                                     Monitors overflow interrupt requests or signaling to a cross-
+                                                                 This bit does not affect the generation of performance
+                                                                     monitors overflow interrupt requests or signaling to a cross
                                                                      trigger interface (CTI) that can be implemented as signals
                                                                      exported from the processor.
                                                                  If the implementation does not include an exported event
@@ -1603,8 +1603,8 @@ typedef union
                                                                      debug device, such as an OPTIONAL trace extension, over an
                                                                      event bus. If the implementation does not include such an
                                                                      event bus, this bit is RAZ/WI.
-                                                                 This bit does not affect the generation of Performance
-                                                                     Monitors overflow interrupt requests or signaling to a cross-
+                                                                 This bit does not affect the generation of performance
+                                                                     monitors overflow interrupt requests or signaling to a cross
                                                                      trigger interface (CTI) that can be implemented as signals
                                                                      exported from the processor.
                                                                  If the implementation does not include an exported event
@@ -1654,7 +1654,7 @@ static inline uint64_t BDK_PMUX_PMCR_EL0(unsigned long a)
  * Performance Monitors Device Affinity Register 0
  * Copy of the low half of the processor MPIDR_EL1 register that
  *     allows a debugger to determine which processor in a
- *     multiprocessor system the Performance Monitor component
+ *     multiprocessor system the performance monitor component
  *     relates to.
  */
 typedef union
@@ -1697,7 +1697,7 @@ static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a)
  * Performance Monitors Device Affinity Register 1
  * Copy of the high half of the processor MPIDR_EL1 register that
  *     allows a debugger to determine which processor in a
- *     multiprocessor system the Performance Monitor component
+ *     multiprocessor system the performance monitor component
  *     relates to.
  */
 typedef union
@@ -1745,8 +1745,8 @@ typedef union
     struct bdk_pmux_pmdevarch_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For Performance
-                                                                     Monitors, this is ARM Limited.
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For performance
+                                                                     monitors, this is ARM limited.
 
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
 
@@ -1755,33 +1755,33 @@ typedef union
                                                                  This field is 1 in v8-A. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
                                                                      by ARM this is the minor revision.
-                                                                 For Performance Monitors, the revision defined by v8-A is 0x0.
+                                                                 For performance monitors, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
-                                                                 For Performance Monitors:
+                                                                 For performance monitors:
                                                                   Bits [15:12] are the architecture version, 0x2.
                                                                   Bits [11:0] are the architecture part number, 0xA16.
 
-                                                                 This corresponds to Performance Monitors architecture version
+                                                                 This corresponds to performance monitors architecture version
                                                                      PMUv3. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
-                                                                 For Performance Monitors:
+                                                                 For performance monitors:
                                                                   Bits [15:12] are the architecture version, 0x2.
                                                                   Bits [11:0] are the architecture part number, 0xA16.
 
-                                                                 This corresponds to Performance Monitors architecture version
+                                                                 This corresponds to performance monitors architecture version
                                                                      PMUv3. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
                                                                      by ARM this is the minor revision.
-                                                                 For Performance Monitors, the revision defined by v8-A is 0x0.
+                                                                 For performance monitors, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For Performance
-                                                                     Monitors, this is ARM Limited.
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For performance
+                                                                     monitors, this is ARM limited.
 
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
 
@@ -1893,37 +1893,37 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL1.
                                                                  1 = Do not count events in EL1. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL0.
                                                                  1 = Do not count events in EL0. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count events in EL2.
                                                                  1 = Count events in EL2. */
         uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
         uint32_t reserved_16_25        : 10;
         uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. */
 #else /* Word 0 - Little Endian */
@@ -1933,30 +1933,30 @@ typedef union
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count events in EL2.
                                                                  1 = Count events in EL2. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL0.
                                                                  1 = Do not count events in EL0. */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL1.
@@ -1967,37 +1967,37 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL1.
                                                                  1 = Do not count events in EL1. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL0.
                                                                  1 = Do not count events in EL0. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count events in EL2.
                                                                  1 = Count events in EL2. */
         uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
         uint32_t reserved_10_25        : 16;
         uint32_t evtcount              : 10; /**< [  9:  0](R/W) Event to count. */
 #else /* Word 0 - Little Endian */
@@ -2007,30 +2007,30 @@ typedef union
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count events in EL2.
                                                                  1 = Count events in EL2. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL0.
                                                                  1 = Do not count events in EL0. */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL1.
@@ -2041,37 +2041,37 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL1.
                                                                  1 = Do not count events in EL1. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL0.
                                                                  1 = Do not count events in EL0. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count events in EL2.
                                                                  1 = Count events in EL2. */
         uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
         uint32_t reserved_16_25        : 10;
         uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
                                                                      by event counter PMU()_PMEVCNTR()_EL0.
@@ -2082,7 +2082,7 @@ typedef union
                                                                  If evtCount is programmed to an event that is reserved or not
                                                                      implemented, the behavior depends on the event type.
                                                                  For common architectural and microarchitectural events:
-                                                                  No events are counted.
+                                                                  no events are counted.
                                                                   The value read back on evtCount is the value written.
                                                                  For implementation defined events:
                                                                   It is UNPREDICTABLE what event, if any, is counted.
@@ -2105,7 +2105,7 @@ typedef union
                                                                  If evtCount is programmed to an event that is reserved or not
                                                                      implemented, the behavior depends on the event type.
                                                                  For common architectural and microarchitectural events:
-                                                                  No events are counted.
+                                                                  no events are counted.
                                                                   The value read back on evtCount is the value written.
                                                                  For implementation defined events:
                                                                   It is UNPREDICTABLE what event, if any, is counted.
@@ -2123,30 +2123,30 @@ typedef union
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count events in EL2.
                                                                  1 = Count events in EL2. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL0.
                                                                  1 = Do not count events in EL0. */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL1.
@@ -2158,37 +2158,37 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL1.
                                                                  1 = Do not count events in EL1. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL0.
                                                                  1 = Do not count events in EL0. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count events in EL2.
                                                                  1 = Count events in EL2. */
         uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
         uint32_t reserved_16_25        : 10;
         uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
                                                                      by event counter PMU()_PMEVCNTR()_EL0.
@@ -2199,7 +2199,7 @@ typedef union
                                                                  If evtCount is programmed to an event that is reserved or not
                                                                      implemented, the behavior depends on the event type.
                                                                  For common architectural and microarchitectural events:
-                                                                  No events are counted.
+                                                                  no events are counted.
                                                                   The value read back on evtCount is the value written.
                                                                  For implementation defined events:
                                                                   It is UNPREDICTABLE what event, if any, is counted.
@@ -2223,7 +2223,7 @@ typedef union
                                                                  If evtCount is programmed to an event that is reserved or not
                                                                      implemented, the behavior depends on the event type.
                                                                  For common architectural and microarchitectural events:
-                                                                  No events are counted.
+                                                                  no events are counted.
                                                                   The value read back on evtCount is the value written.
                                                                  For implementation defined events:
                                                                   It is UNPREDICTABLE what event, if any, is counted.
@@ -2242,30 +2242,30 @@ typedef union
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count events in EL2.
                                                                  1 = Count events in EL2. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
         uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in nonsecure EL0 is further
                                                                      controlled by the NSU bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL0.
                                                                  1 = Do not count events in EL0. */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in nonsecure EL1 is further
                                                                      controlled by the NSK bit. The possible values of this bit
                                                                      are:
                                                                  0 = Count events in EL1.
@@ -2293,7 +2293,7 @@ static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long a, unsigned long b)
  *
  * Performance Monitors Interrupt Enable Clear Register
  * Disables the generation of interrupt requests on overflows
- *     from the Cycle Count Register, PMU()_PMCCNTR_EL0, and the event
+ *     from the cycle count register, PMU()_PMCCNTR_EL0, and the event
  *     counters PMEVCNTR<n>_EL0. Reading the register shows which
  *     overflow interrupt requests are enabled.
  */
@@ -2360,7 +2360,7 @@ static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a)
  *
  * Performance Monitors Interrupt Enable Set Register
  * Enables the generation of interrupt requests on overflows from
- *     the Cycle Count Register, PMU()_PMCCNTR_EL0, and the event counters
+ *     the cycle count register, PMU()_PMCCNTR_EL0, and the event counters
  *     PMEVCNTR<n>_EL0. Reading the register shows which overflow
  *     interrupt requests are enabled.
  */
@@ -2426,7 +2426,7 @@ static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a)
  * Register (DAB32b) pmu#_pmitctrl
  *
  * Performance Monitors Integration Mode Control Register
- * Enables the Performance Monitors to switch from default mode
+ * Enables the performance monitors to switch from default mode
  *     into integration mode, where test software can control
  *     directly the inputs and outputs of the processor, for
  *     integration testing or topology detection.
@@ -2475,7 +2475,7 @@ static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a)
  * Register (DAB32b) pmu#_pmlar
  *
  * Performance Monitors Lock Access Register
- * Allows or disallows access to the Performance Monitors
+ * Allows or disallows access to the performance monitors
  *     registers through a memory-mapped interface.
  */
 typedef union
@@ -2515,7 +2515,7 @@ static inline uint64_t BDK_PMUX_PMLAR(unsigned long a)
  *
  * Performance Monitors Lock Status Register
  * Indicates the current status of the software lock for
- *     Performance Monitors registers.
+ *     performance monitors registers.
  */
 typedef union
 {
@@ -2528,7 +2528,7 @@ typedef union
         uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access, or when the software lock
                                                                      is not implemented, this field is RES0.
-                                                                 On External debug reset, the field resets to 1.
+                                                                 On external debug reset, the field resets to 1.
                                                                  For memory-mapped accesses when the software lock is
                                                                      implemented, possible values of this field are:
                                                                  0 = Lock clear. Writes are permitted to this component's
@@ -2551,7 +2551,7 @@ typedef union
         uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access, or when the software lock
                                                                      is not implemented, this field is RES0.
-                                                                 On External debug reset, the field resets to 1.
+                                                                 On external debug reset, the field resets to 1.
                                                                  For memory-mapped accesses when the software lock is
                                                                      implemented, possible values of this field are:
                                                                  0 = Lock clear. Writes are permitted to this component's
@@ -2646,8 +2646,8 @@ static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a)
  * Register (DAB32b) pmu#_pmovsset_el0
  *
  * Performance Monitors Overflow Flag Status Set Register
- * Sets the state of the overflow bit for the Cycle Count
- *     Register, PMU()_PMCCNTR_EL0, and each of the implemented event
+ * Sets the state of the overflow bit for the cycle count
+ *     register, PMU()_PMCCNTR_EL0, and each of the implemented event
  *     counters PMEVCNTR<x>.
  */
 typedef union
@@ -2704,7 +2704,7 @@ static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a)
  * Register (DAB32b) pmu#_pmpidr0
  *
  * Performance Monitors Peripheral Identification Register 0
- * Provides information to identify a Performance Monitor
+ * Provides information to identify a performance monitor
  *     component.
  */
 typedef union
@@ -2741,7 +2741,7 @@ static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a)
  * Register (DAB32b) pmu#_pmpidr1
  *
  * Performance Monitors Peripheral Identification Register 1
- * Provides information to identify a Performance Monitor
+ * Provides information to identify a performance monitor
  *     component.
  */
 typedef union
@@ -2780,7 +2780,7 @@ static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a)
  * Register (DAB32b) pmu#_pmpidr2
  *
  * Performance Monitors Peripheral Identification Register 2
- * Provides information to identify a Performance Monitor
+ * Provides information to identify a performance monitor
  *     component.
  */
 typedef union
@@ -2821,7 +2821,7 @@ static inline uint64_t BDK_PMUX_PMPIDR2(unsigned long a)
  * Register (DAB32b) pmu#_pmpidr3
  *
  * Performance Monitors Peripheral Identification Register 3
- * Provides information to identify a Performance Monitor
+ * Provides information to identify a performance monitor
  *     component.
  */
 typedef union
@@ -2862,7 +2862,7 @@ static inline uint64_t BDK_PMUX_PMPIDR3(unsigned long a)
  * Register (DAB32b) pmu#_pmpidr4
  *
  * Performance Monitors Peripheral Identification Register 4
- * Provides information to identify a Performance Monitor
+ * Provides information to identify a performance monitor
  *     component.
  */
 typedef union
@@ -3004,8 +3004,8 @@ static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a)
  * Register (DAB32b) pmu#_pmswinc_el0
  *
  * Performance Monitors Software Increment Register
- * Increments a counter that is configured to count the Software
- *     increment event, event0x00
+ * Increments a counter that is configured to count the software
+ *     increment event, event0x00.
  */
 typedef union
 {

@@ -105,8 +105,8 @@ typedef union
                                                                  1 = SPI_DO/DI is all from SPI_DO pin (MPI). SPI_DO pin is tristated when not transmitting.
                                                                  If WIREOR = 1, SPI_DI pin is not used by the MPI/SPI engine. */
         uint64_t clk_cont              : 1;  /**< [  2:  2](R/W) Clock control.
-                                                                 0 = clock idles to value given by IDLELO after completion of MPI/SPI transaction.
-                                                                 1 = clock never idles, requires SPI_CSn_L deassertion/assertion between commands. */
+                                                                 0 = Clock idles to value given by IDLELO after completion of MPI/SPI transaction.
+                                                                 1 = Clock never idles, requires SPI_CSn_L deassertion/assertion between commands. */
         uint64_t idlelo                : 1;  /**< [  1:  1](R/W) Clock idle low/clock invert.
                                                                  0 = SPI_CK idles high, first transition is high-to-low. This mode corresponds to SPI Block
                                                                  Guide options CPOL = 1, CPHA = 1.
@@ -125,8 +125,8 @@ typedef union
                                                                  1 = SPI_CK idles low, first transition is low-to-high. This mode corresponds to SPI Block
                                                                  Guide options CPOL = 0, CPHA = 0. */
         uint64_t clk_cont              : 1;  /**< [  2:  2](R/W) Clock control.
-                                                                 0 = clock idles to value given by IDLELO after completion of MPI/SPI transaction.
-                                                                 1 = clock never idles, requires SPI_CSn_L deassertion/assertion between commands. */
+                                                                 0 = Clock idles to value given by IDLELO after completion of MPI/SPI transaction.
+                                                                 1 = Clock never idles, requires SPI_CSn_L deassertion/assertion between commands. */
         uint64_t wireor                : 1;  /**< [  3:  3](R/W) Wire-OR DO and DI.
                                                                  0 = SPI_DO and SPI_DI are separate wires (SPI). SPI_DO pin is always driven.
                                                                  1 = SPI_DO/DI is all from SPI_DO pin (MPI). SPI_DO pin is tristated when not transmitting.
@@ -333,19 +333,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MPI_MSIX_VEC()_ADDR, MPI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of MPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_MPI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MPI_MSIX_VEC()_ADDR, MPI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of MPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_MPI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -429,11 +429,11 @@ typedef union
         uint64_t reserved_2_7          : 6;
         uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done. */
         uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy.
-                                                                 0 = no MPI/SPI transaction in progress.
+                                                                 0 = No MPI/SPI transaction in progress.
                                                                  1 = MPI/SPI engine is processing a transaction. */
 #else /* Word 0 - Little Endian */
         uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy.
-                                                                 0 = no MPI/SPI transaction in progress.
+                                                                 0 = No MPI/SPI transaction in progress.
                                                                  1 = MPI/SPI engine is processing a transaction. */
         uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done. */
         uint64_t reserved_2_7          : 6;
@@ -511,8 +511,8 @@ typedef union
         uint64_t csid                  : 2;  /**< [ 21: 20](WO) Which CS to assert for this transaction */
         uint64_t reserved_17_19        : 3;
         uint64_t leavecs               : 1;  /**< [ 16: 16](WO) Leave SPI_CSn_L asserted.
-                                                                 0 = deassert SPI_CSn_L after the transaction is done.
-                                                                 1 = leave SPI_CSn_L asserted after the transaction is done. */
+                                                                 0 = Deassert SPI_CSn_L after the transaction is done.
+                                                                 1 = Leave SPI_CSn_L asserted after the transaction is done. */
         uint64_t reserved_13_15        : 3;
         uint64_t txnum                 : 5;  /**< [ 12:  8](WO) Number of bytes to transmit. */
         uint64_t reserved_5_7          : 3;
@@ -523,8 +523,8 @@ typedef union
         uint64_t txnum                 : 5;  /**< [ 12:  8](WO) Number of bytes to transmit. */
         uint64_t reserved_13_15        : 3;
         uint64_t leavecs               : 1;  /**< [ 16: 16](WO) Leave SPI_CSn_L asserted.
-                                                                 0 = deassert SPI_CSn_L after the transaction is done.
-                                                                 1 = leave SPI_CSn_L asserted after the transaction is done. */
+                                                                 0 = Deassert SPI_CSn_L after the transaction is done.
+                                                                 1 = Leave SPI_CSn_L asserted after the transaction is done. */
         uint64_t reserved_17_19        : 3;
         uint64_t csid                  : 2;  /**< [ 21: 20](WO) Which CS to assert for this transaction */
         uint64_t reserved_22_63        : 42;

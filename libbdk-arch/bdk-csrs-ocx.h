@@ -451,12 +451,12 @@ static inline uint64_t BDK_OCX_COM_INT_W1S_FUNC(void)
  * as a reset condition controlled by RST_OCX[RST_LINK].  This link_down status is true when one
  * of the following occurs:
  *
- * * Link is not initialized (See description of UP bit).
- * * Retry Counter expired (See OCX_COM_LINK_TIMER and OCX_COM_LINK(0..2)_INT[STOP].
- * * Receive REINIT request from Link Partner (See description of REINIT bit).
- * * Detected Uncorrectable ECC error while reading the Transmit FIFOs (See
+ * * Link is not initialized (see description of [UP]).
+ * * Retry counter expired (see OCX_COM_LINK_TIMER and OCX_COM_LINK()_INT[STOP].
+ * * Receive REINIT request from Link Partner (See description of [REINIT]).
+ * * Detected uncorrectable ECC error while reading the transmit FIFOs (see
  * OCX_COM_LINK(0..2)_INT[TXFIFO_DBE]).
- * * Detected Uncorrectable ECC error while reading the Replay Buffer (See
+ * * Detected uncorrectable ECC error while reading the replay buffer (see
  * OCX_COM_LINK(0..2)_INT[REPLAY_DBE]).
  */
 typedef union
@@ -475,14 +475,13 @@ typedef union
                                                                  Diagnostic data loopback. Set to force outgoing link to inbound port.
                                                                  All data and link credits are returned and appear to come from link partner. Typically
                                                                  SerDes should be disabled during this operation. */
-        uint64_t reinit                : 1;  /**< [  7:  7](R/W) Reinitialize link. Setting this bit forces link back into init state and sets the DROP
-                                                                 bit.
+        uint64_t reinit                : 1;  /**< [  7:  7](R/W) Reinitialize link. Setting this bit forces link back into init state and sets [DROP].
                                                                  Setting the bit also causes the link to transmit a REINIT request to the link partner.
                                                                  This bit must be cleared for link to operate normally. */
         uint64_t reserved_6            : 1;
         uint64_t auto_clr              : 1;  /**< [  5:  5](R/W) When set, automatically clears the local DROP bit if link partner forces
                                                                  a reinitialization.  Typically disabled once software is running.
-                                                                 If clear, software must manage clearing the DROP bit after it has verified
+                                                                 If clear, software must manage clearing [DROP] after it has verified
                                                                  that any pending transactions have timed out. */
         uint64_t drop                  : 1;  /**< [  4:  4](R/W/H) Drop all requests on given link. Typically set by hardware when link has failed or been
                                                                  reinitialized. Cleared by software once pending link traffic is removed. (See
@@ -509,11 +508,10 @@ typedef union
                                                                  OCX_TLK(0..2)_FIFO(0..13)_CNT.) */
         uint64_t auto_clr              : 1;  /**< [  5:  5](R/W) When set, automatically clears the local DROP bit if link partner forces
                                                                  a reinitialization.  Typically disabled once software is running.
-                                                                 If clear, software must manage clearing the DROP bit after it has verified
+                                                                 If clear, software must manage clearing [DROP] after it has verified
                                                                  that any pending transactions have timed out. */
         uint64_t reserved_6            : 1;
-        uint64_t reinit                : 1;  /**< [  7:  7](R/W) Reinitialize link. Setting this bit forces link back into init state and sets the DROP
-                                                                 bit.
+        uint64_t reinit                : 1;  /**< [  7:  7](R/W) Reinitialize link. Setting this bit forces link back into init state and sets [DROP].
                                                                  Setting the bit also causes the link to transmit a REINIT request to the link partner.
                                                                  This bit must be cleared for link to operate normally. */
         uint64_t loopback              : 1;  /**< [  8:  8](R/W) Reserved.
@@ -820,10 +818,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t tout                  : 24; /**< [ 23:  0](R/W) Number of unacknowledged retry requests issued before link stops operation and
-                                                                 OCX_COM_LINK(0..2)_INT[STOP] is asserted. */
+                                                                 OCX_COM_LINK()_INT[STOP] is asserted. */
 #else /* Word 0 - Little Endian */
         uint64_t tout                  : 24; /**< [ 23:  0](R/W) Number of unacknowledged retry requests issued before link stops operation and
-                                                                 OCX_COM_LINK(0..2)_INT[STOP] is asserted. */
+                                                                 OCX_COM_LINK()_INT[STOP] is asserted. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
@@ -859,35 +857,37 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t fixed_pin             : 1;  /**< [  3:  3](RO/H) The current value of the OCI_FIXED_NODE pin. */
-        uint64_t fixed                 : 1;  /**< [  2:  2](R/W) ID Valid associated with the chip. This register is used by the link initialization
-                                                                 software to help assign IDs and is transmitted over CCPI. The FIXED field set during a
-                                                                 cold
-                                                                 reset to the value of the OCI_FIXED_NODE pin. The value is also readable in the
-                                                                 OCX_LNE(0..23)_STS_MSG[TX_META_DAT<2>] for each lane. The FIXED field of the link partner
-                                                                 can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT<2>] on each
-                                                                 valid lane or remotely reading the OCX_COM_NODE[FIXED] on the link partner. */
-        uint64_t id                    : 2;  /**< [  1:  0](R/W) Node ID associated with the chip. This register is used by the rest of the chip to
-                                                                 determine what traffic is transmitted over CCPI. The value should not match the
-                                                                 OCX_COM_LINK(0..2)_CTL[ID] of any active link. The ID field is set during a cold reset to
-                                                                 the value of the OCI_NODE_ID pins. The value is also readable in the
-                                                                 OCX_LNE(0..23)_STS_MSG[TX_META_DAT<1:0>] for each lane. The ID field of the link partner
-                                                                 can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT<1:0>] on each
-                                                                 valid lane or remotely reading the OCX_COM_NODE[ID] on the link partner. */
+        uint64_t fixed                 : 1;  /**< [  2:  2](R/W) ID valid associated with the chip. This register is used by the link
+                                                                 initialization software to help assign IDs and is transmitted over CCPI. The
+                                                                 [FIXED] field set during a cold reset to the value of the OCI_FIXED_NODE
+                                                                 pin. The value is also readable in the OCX_LNE()_STS_MSG[TX_META_DAT]<2> for
+                                                                 each lane. The [FIXED] field of the link partner can be examined by locally
+                                                                 reading the OCX_LNE()_STS_MSG[RX_META_DAT]<2> on each valid lane or remotely
+                                                                 reading the OCX_COM_NODE[FIXED] on the link partner. */
+        uint64_t id                    : 2;  /**< [  1:  0](R/W) Node ID associated with the chip. This register is used by the rest of the chip
+                                                                 to determine what traffic is transmitted over CCPI. The value should not match
+                                                                 the OCX_COM_LINK()_CTL[ID] of any active link. The ID field is set during a cold
+                                                                 reset to the value of the OCI_NODE_ID pins. The value is also readable in the
+                                                                 OCX_LNE()_STS_MSG[TX_META_DAT]<1:0> for each lane. The ID field of the link
+                                                                 partner can be examined by locally reading the
+                                                                 OCX_LNE()_STS_MSG[RX_META_DAT]<1:0> on each valid lane or remotely reading the
+                                                                 OCX_COM_NODE[ID] on the link partner. */
 #else /* Word 0 - Little Endian */
-        uint64_t id                    : 2;  /**< [  1:  0](R/W) Node ID associated with the chip. This register is used by the rest of the chip to
-                                                                 determine what traffic is transmitted over CCPI. The value should not match the
-                                                                 OCX_COM_LINK(0..2)_CTL[ID] of any active link. The ID field is set during a cold reset to
-                                                                 the value of the OCI_NODE_ID pins. The value is also readable in the
-                                                                 OCX_LNE(0..23)_STS_MSG[TX_META_DAT<1:0>] for each lane. The ID field of the link partner
-                                                                 can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT<1:0>] on each
-                                                                 valid lane or remotely reading the OCX_COM_NODE[ID] on the link partner. */
-        uint64_t fixed                 : 1;  /**< [  2:  2](R/W) ID Valid associated with the chip. This register is used by the link initialization
-                                                                 software to help assign IDs and is transmitted over CCPI. The FIXED field set during a
-                                                                 cold
-                                                                 reset to the value of the OCI_FIXED_NODE pin. The value is also readable in the
-                                                                 OCX_LNE(0..23)_STS_MSG[TX_META_DAT<2>] for each lane. The FIXED field of the link partner
-                                                                 can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT<2>] on each
-                                                                 valid lane or remotely reading the OCX_COM_NODE[FIXED] on the link partner. */
+        uint64_t id                    : 2;  /**< [  1:  0](R/W) Node ID associated with the chip. This register is used by the rest of the chip
+                                                                 to determine what traffic is transmitted over CCPI. The value should not match
+                                                                 the OCX_COM_LINK()_CTL[ID] of any active link. The ID field is set during a cold
+                                                                 reset to the value of the OCI_NODE_ID pins. The value is also readable in the
+                                                                 OCX_LNE()_STS_MSG[TX_META_DAT]<1:0> for each lane. The ID field of the link
+                                                                 partner can be examined by locally reading the
+                                                                 OCX_LNE()_STS_MSG[RX_META_DAT]<1:0> on each valid lane or remotely reading the
+                                                                 OCX_COM_NODE[ID] on the link partner. */
+        uint64_t fixed                 : 1;  /**< [  2:  2](R/W) ID valid associated with the chip. This register is used by the link
+                                                                 initialization software to help assign IDs and is transmitted over CCPI. The
+                                                                 [FIXED] field set during a cold reset to the value of the OCI_FIXED_NODE
+                                                                 pin. The value is also readable in the OCX_LNE()_STS_MSG[TX_META_DAT]<2> for
+                                                                 each lane. The [FIXED] field of the link partner can be examined by locally
+                                                                 reading the OCX_LNE()_STS_MSG[RX_META_DAT]<2> on each valid lane or remotely
+                                                                 reading the OCX_COM_NODE[FIXED] on the link partner. */
         uint64_t fixed_pin             : 1;  /**< [  3:  3](RO/H) The current value of the OCI_FIXED_NODE pin. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -2179,8 +2179,10 @@ typedef union
                                                                  OCX_QLM(0..5)_CFG[SER_LANE_BAD]. For diagnostic use only. */
         uint64_t reserved_38_39        : 2;
         uint64_t frc_stats_ena         : 1;  /**< [ 37: 37](R/W) Enable FRC statistic counters. */
-        uint64_t rx_dis_psh_skip       : 1;  /**< [ 36: 36](R/W/H) When RX_DIS_PSH_SKIP=0, skip words are destripped. When RX_DIS_PSH_SKIP=1, skip words are
-                                                                 discarded in the lane logic. If the lane is in internal loopback mode, RX_DIS_PSH_SKIP is
+        uint64_t rx_dis_psh_skip       : 1;  /**< [ 36: 36](R/W/H) When [RX_DIS_PSH_SKIP]=0, skip words are destriped. When [RX_DIS_PSH_SKIP]=1, skip words
+                                                                 are
+                                                                 discarded in the lane logic. If the lane is in internal loopback mode, [RX_DIS_PSH_SKIP]
+                                                                 is
                                                                  ignored and skip words are always discarded in the lane logic. */
         uint64_t rx_mfrm_len           : 2;  /**< [ 35: 34](R/W/H) The quantity of data received on each lane including one sync word, scrambler state,
                                                                  diagnostic word, zero or more skip words, and the data payload.
@@ -2194,7 +2196,7 @@ typedef union
         uint64_t reserved_5_31         : 27;
         uint64_t tx_lane_rev           : 1;  /**< [  4:  4](R/W) TX lane reversal. When enabled, lane destriping is performed from the most significant
                                                                  lane enabled to least significant lane enabled QLM_SELECT must be zero before changing
-                                                                 LANE_REV. */
+                                                                 [LANE_REV]. */
         uint64_t tx_mfrm_len           : 2;  /**< [  3:  2](R/W/H) The quantity of data sent on each lane including one sync word, scrambler state,
                                                                  diagnostic word, zero or more skip words, and the data payload.
                                                                  0x0 = 2048 words.
@@ -2214,7 +2216,7 @@ typedef union
                                                                  0x3 = 128 words. */
         uint64_t tx_lane_rev           : 1;  /**< [  4:  4](R/W) TX lane reversal. When enabled, lane destriping is performed from the most significant
                                                                  lane enabled to least significant lane enabled QLM_SELECT must be zero before changing
-                                                                 LANE_REV. */
+                                                                 [LANE_REV]. */
         uint64_t reserved_5_31         : 27;
         uint64_t rx_dis_scram          : 1;  /**< [ 32: 32](R/W) Disable lane scrambler. */
         uint64_t rx_dis_ukwn           : 1;  /**< [ 33: 33](R/W) Disable normal response to unknown words. They are still logged but do not cause an error
@@ -2225,8 +2227,10 @@ typedef union
                                                                  0x1 = 1024 words.
                                                                  0x2 = 512 words.
                                                                  0x3 = 128 words. */
-        uint64_t rx_dis_psh_skip       : 1;  /**< [ 36: 36](R/W/H) When RX_DIS_PSH_SKIP=0, skip words are destripped. When RX_DIS_PSH_SKIP=1, skip words are
-                                                                 discarded in the lane logic. If the lane is in internal loopback mode, RX_DIS_PSH_SKIP is
+        uint64_t rx_dis_psh_skip       : 1;  /**< [ 36: 36](R/W/H) When [RX_DIS_PSH_SKIP]=0, skip words are destriped. When [RX_DIS_PSH_SKIP]=1, skip words
+                                                                 are
+                                                                 discarded in the lane logic. If the lane is in internal loopback mode, [RX_DIS_PSH_SKIP]
+                                                                 is
                                                                  ignored and skip words are always discarded in the lane logic. */
         uint64_t frc_stats_ena         : 1;  /**< [ 37: 37](R/W) Enable FRC statistic counters. */
         uint64_t reserved_38_39        : 2;
@@ -2290,7 +2294,7 @@ typedef union
         uint64_t qlm_select            : 6;  /**< [ 37: 32](R/W/H) QLM select mask, where each bit corresponds to a QLM. A link will transmit/receive data
                                                                  using only the selected QLMs. A link is enabled if any QLM is selected. The same QLM
                                                                  should not be selected for multiple links.
-                                                                 LANE_REV has no effect on this mapping.
+                                                                 [LANE_REV] has no effect on this mapping.
 
                                                                  _ QLM_SELECT<0> = LNE(0..3) = QLM0.
                                                                  _ QLM_SELECT<1> = LNE(7..4) = QLM1.
@@ -2303,48 +2307,48 @@ typedef union
                                                                  _ LINK 2 may not select QLM0, QLM1.
                                                                  _ LINK 2 may not select QLM2 or QLM3 when LINK1 selects any QLM.
                                                                  _ LINK 0 may not select QLM2 or QLM3 when LINK1 selects any QLM.
-                                                                 _ LINK 0 automatically selects QLM0 when QLM_MANUAL<0>=0.
-                                                                 _ LINK 0 automatically selects QLM1 when QLM_MANUAL<1>=0.
-                                                                 _ LINK 0 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=0.
-                                                                 _ LINK 1 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=1.
-                                                                 _ LINK 1 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=1.
-                                                                 _ LINK 2 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=0.
-                                                                 _ LINK 3 automatically selects QLM4 when QLM_MANUAL<4>=0.
-                                                                 _ LINK 3 automatically selects QLM5 when QLM_MANUAL<5>=0.
+                                                                 _ LINK 0 automatically selects QLM0 when [QLM_MANUAL]<0>=0.
+                                                                 _ LINK 0 automatically selects QLM1 when [QLM_MANUAL]<1>=0.
+                                                                 _ LINK 0 automatically selects QLM2 when [QLM_MANUAL]<2>=0 and OCX_QLM2_CFG[SER_LOCAL]=0.
+                                                                 _ LINK 1 automatically selects QLM2 when [QLM_MANUAL]<2>=0 and OCX_QLM2_CFG[SER_LOCAL]=1.
+                                                                 _ LINK 1 automatically selects QLM3 when [QLM_MANUAL]<3>=0 and OCX_QLM3_CFG[SER_LOCAL]=1.
+                                                                 _ LINK 2 automatically selects QLM3 when [QLM_MANUAL]<3>=0 and OCX_QLM3_CFG[SER_LOCAL]=0.
+                                                                 _ LINK 3 automatically selects QLM4 when [QLM_MANUAL]<4>=0.
+                                                                 _ LINK 3 automatically selects QLM5 when [QLM_MANUAL]<5>=0.
 
-                                                                 A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
+                                                                 A link with [QLM_SELECT] = 0x0 is invalid and will never exchange traffic with the
                                                                  link partner. */
         uint64_t reserved_29_31        : 3;
-        uint64_t data_rate             : 13; /**< [ 28: 16](R/W/H) The number of rclk to transmit 32 words, where each word is 67 bits.  HW will
+        uint64_t data_rate             : 13; /**< [ 28: 16](R/W/H) The number of rclk to transmit 32 words, where each word is 67 bits.  Hardware will
                                                                  automatically
-                                                                 calculate a conservative value for this field.   SW can override the calculation by
+                                                                 calculate a conservative value for this field.   Software can override the calculation by
                                                                  writing
                                                                  TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32). */
         uint64_t low_delay             : 6;  /**< [ 15: 10](R/W) The delay before reacting to a lane low data indication, as a multiple of 64 rclks. */
         uint64_t lane_align_dis        : 1;  /**< [  9:  9](R/W/H) Disable the RX lane alignment. */
         uint64_t lane_rev              : 1;  /**< [  8:  8](R/W/H) RX lane reversal.   When enabled, lane destriping is performed from the most significant
-                                                                 lane enabled to least significant lane enabled QLM_SELECT must be zero before changing
-                                                                 LANE_REV. */
+                                                                 lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
+                                                                 [LANE_REV]. */
         uint64_t lane_rev_auto         : 1;  /**< [  7:  7](RAZ) Reserved. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
         uint64_t lane_rev_auto         : 1;  /**< [  7:  7](RAZ) Reserved. */
         uint64_t lane_rev              : 1;  /**< [  8:  8](R/W/H) RX lane reversal.   When enabled, lane destriping is performed from the most significant
-                                                                 lane enabled to least significant lane enabled QLM_SELECT must be zero before changing
-                                                                 LANE_REV. */
+                                                                 lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
+                                                                 [LANE_REV]. */
         uint64_t lane_align_dis        : 1;  /**< [  9:  9](R/W/H) Disable the RX lane alignment. */
         uint64_t low_delay             : 6;  /**< [ 15: 10](R/W) The delay before reacting to a lane low data indication, as a multiple of 64 rclks. */
-        uint64_t data_rate             : 13; /**< [ 28: 16](R/W/H) The number of rclk to transmit 32 words, where each word is 67 bits.  HW will
+        uint64_t data_rate             : 13; /**< [ 28: 16](R/W/H) The number of rclk to transmit 32 words, where each word is 67 bits.  Hardware will
                                                                  automatically
-                                                                 calculate a conservative value for this field.   SW can override the calculation by
+                                                                 calculate a conservative value for this field.   Software can override the calculation by
                                                                  writing
                                                                  TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32). */
         uint64_t reserved_29_31        : 3;
         uint64_t qlm_select            : 6;  /**< [ 37: 32](R/W/H) QLM select mask, where each bit corresponds to a QLM. A link will transmit/receive data
                                                                  using only the selected QLMs. A link is enabled if any QLM is selected. The same QLM
                                                                  should not be selected for multiple links.
-                                                                 LANE_REV has no effect on this mapping.
+                                                                 [LANE_REV] has no effect on this mapping.
 
                                                                  _ QLM_SELECT<0> = LNE(0..3) = QLM0.
                                                                  _ QLM_SELECT<1> = LNE(7..4) = QLM1.
@@ -2357,16 +2361,16 @@ typedef union
                                                                  _ LINK 2 may not select QLM0, QLM1.
                                                                  _ LINK 2 may not select QLM2 or QLM3 when LINK1 selects any QLM.
                                                                  _ LINK 0 may not select QLM2 or QLM3 when LINK1 selects any QLM.
-                                                                 _ LINK 0 automatically selects QLM0 when QLM_MANUAL<0>=0.
-                                                                 _ LINK 0 automatically selects QLM1 when QLM_MANUAL<1>=0.
-                                                                 _ LINK 0 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=0.
-                                                                 _ LINK 1 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=1.
-                                                                 _ LINK 1 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=1.
-                                                                 _ LINK 2 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=0.
-                                                                 _ LINK 3 automatically selects QLM4 when QLM_MANUAL<4>=0.
-                                                                 _ LINK 3 automatically selects QLM5 when QLM_MANUAL<5>=0.
+                                                                 _ LINK 0 automatically selects QLM0 when [QLM_MANUAL]<0>=0.
+                                                                 _ LINK 0 automatically selects QLM1 when [QLM_MANUAL]<1>=0.
+                                                                 _ LINK 0 automatically selects QLM2 when [QLM_MANUAL]<2>=0 and OCX_QLM2_CFG[SER_LOCAL]=0.
+                                                                 _ LINK 1 automatically selects QLM2 when [QLM_MANUAL]<2>=0 and OCX_QLM2_CFG[SER_LOCAL]=1.
+                                                                 _ LINK 1 automatically selects QLM3 when [QLM_MANUAL]<3>=0 and OCX_QLM3_CFG[SER_LOCAL]=1.
+                                                                 _ LINK 2 automatically selects QLM3 when [QLM_MANUAL]<3>=0 and OCX_QLM3_CFG[SER_LOCAL]=0.
+                                                                 _ LINK 3 automatically selects QLM4 when [QLM_MANUAL]<4>=0.
+                                                                 _ LINK 3 automatically selects QLM5 when [QLM_MANUAL]<5>=0.
 
-                                                                 A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
+                                                                 A link with [QLM_SELECT] = 0x0 is invalid and will never exchange traffic with the
                                                                  link partner. */
         uint64_t reserved_38_47        : 10;
         uint64_t qlm_manual            : 6;  /**< [ 53: 48](R/W/H) QLM manual mask, where each bit corresponds to a QLM. A link automatically selects a QLM
@@ -2421,7 +2425,7 @@ typedef union
         uint64_t qlm_select            : 6;  /**< [ 37: 32](R/W/H) QLM select mask, where each bit corresponds to a QLM. A link will transmit/receive data
                                                                  using only the selected QLMs. A link is enabled if any QLM is selected. The same QLM
                                                                  should not be selected for multiple links.
-                                                                 LANE_REV has no effect on this mapping.
+                                                                 [LANE_REV] has no effect on this mapping.
 
                                                                  _ QLM_SELECT<0> = LNE(0..3) = QLM0.
                                                                  _ QLM_SELECT<1> = LNE(7..4) = QLM1.
@@ -2434,50 +2438,52 @@ typedef union
                                                                  _ LINK 2 may not select QLM0, QLM1.
                                                                  _ LINK 2 may not select QLM2 or QLM3 when LINK1 selects any QLM.
                                                                  _ LINK 0 may not select QLM2 or QLM3 when LINK1 selects any QLM.
-                                                                 _ LINK 0 automatically selects QLM0 when QLM_MANUAL<0>=0.
-                                                                 _ LINK 0 automatically selects QLM1 when QLM_MANUAL<1>=0.
-                                                                 _ LINK 0 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=0.
-                                                                 _ LINK 1 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=1.
-                                                                 _ LINK 1 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=1.
-                                                                 _ LINK 2 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=0.
-                                                                 _ LINK 3 automatically selects QLM4 when QLM_MANUAL<4>=0.
-                                                                 _ LINK 3 automatically selects QLM5 when QLM_MANUAL<5>=0.
+                                                                 _ LINK 0 automatically selects QLM0 when [QLM_MANUAL]<0>=0.
+                                                                 _ LINK 0 automatically selects QLM1 when [QLM_MANUAL]<1>=0.
+                                                                 _ LINK 0 automatically selects QLM2 when [QLM_MANUAL]<2>=0 and OCX_QLM2_CFG[SER_LOCAL]=0.
+                                                                 _ LINK 1 automatically selects QLM2 when [QLM_MANUAL]<2>=0 and OCX_QLM2_CFG[SER_LOCAL]=1.
+                                                                 _ LINK 1 automatically selects QLM3 when [QLM_MANUAL]<3>=0 and OCX_QLM3_CFG[SER_LOCAL]=1.
+                                                                 _ LINK 2 automatically selects QLM3 when [QLM_MANUAL]<3>=0 and OCX_QLM3_CFG[SER_LOCAL]=0.
+                                                                 _ LINK 3 automatically selects QLM4 when [QLM_MANUAL]<4>=0.
+                                                                 _ LINK 3 automatically selects QLM5 when [QLM_MANUAL]<5>=0.
 
-                                                                 A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
+                                                                 A link with [QLM_SELECT] = 0x0 is invalid and will never exchange traffic with the
                                                                  link partner. */
         uint64_t reserved_29_31        : 3;
-        uint64_t data_rate             : 13; /**< [ 28: 16](R/W/H) The number of rclk to transmit 32 words, where each word is 67 bits.  HW will
+        uint64_t data_rate             : 13; /**< [ 28: 16](R/W/H) The number of rclk to transmit 32 words, where each word is 67 bits.  Hardware will
                                                                  automatically
-                                                                 calculate a conservative value for this field.   SW can override the calculation by
+                                                                 calculate a conservative value for this field.   Software can override the calculation by
                                                                  writing
                                                                  TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32). */
         uint64_t low_delay             : 6;  /**< [ 15: 10](R/W) The delay before reacting to a lane low data indication, as a multiple of 64 rclks. */
         uint64_t lane_align_dis        : 1;  /**< [  9:  9](R/W/H) Disable the RX lane alignment. */
         uint64_t lane_rev              : 1;  /**< [  8:  8](R/W/H) RX lane reversal.   When enabled, lane destriping is performed from the most significant
-                                                                 lane enabled to least significant lane enabled QLM_SELECT must be zero before changing
-                                                                 LANE_REV. */
-        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.   When enable, LANE_REV will be updated by HW.
+                                                                 lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
+                                                                 [LANE_REV]. */
+        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.  When enabled, [LANE_REV] will be updated by
+                                                                 hardware.
                                                                  Added in pass 2. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.   When enable, LANE_REV will be updated by HW.
+        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.  When enabled, [LANE_REV] will be updated by
+                                                                 hardware.
                                                                  Added in pass 2. */
         uint64_t lane_rev              : 1;  /**< [  8:  8](R/W/H) RX lane reversal.   When enabled, lane destriping is performed from the most significant
-                                                                 lane enabled to least significant lane enabled QLM_SELECT must be zero before changing
-                                                                 LANE_REV. */
+                                                                 lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
+                                                                 [LANE_REV]. */
         uint64_t lane_align_dis        : 1;  /**< [  9:  9](R/W/H) Disable the RX lane alignment. */
         uint64_t low_delay             : 6;  /**< [ 15: 10](R/W) The delay before reacting to a lane low data indication, as a multiple of 64 rclks. */
-        uint64_t data_rate             : 13; /**< [ 28: 16](R/W/H) The number of rclk to transmit 32 words, where each word is 67 bits.  HW will
+        uint64_t data_rate             : 13; /**< [ 28: 16](R/W/H) The number of rclk to transmit 32 words, where each word is 67 bits.  Hardware will
                                                                  automatically
-                                                                 calculate a conservative value for this field.   SW can override the calculation by
+                                                                 calculate a conservative value for this field.   Software can override the calculation by
                                                                  writing
                                                                  TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32). */
         uint64_t reserved_29_31        : 3;
         uint64_t qlm_select            : 6;  /**< [ 37: 32](R/W/H) QLM select mask, where each bit corresponds to a QLM. A link will transmit/receive data
                                                                  using only the selected QLMs. A link is enabled if any QLM is selected. The same QLM
                                                                  should not be selected for multiple links.
-                                                                 LANE_REV has no effect on this mapping.
+                                                                 [LANE_REV] has no effect on this mapping.
 
                                                                  _ QLM_SELECT<0> = LNE(0..3) = QLM0.
                                                                  _ QLM_SELECT<1> = LNE(7..4) = QLM1.
@@ -2490,16 +2496,16 @@ typedef union
                                                                  _ LINK 2 may not select QLM0, QLM1.
                                                                  _ LINK 2 may not select QLM2 or QLM3 when LINK1 selects any QLM.
                                                                  _ LINK 0 may not select QLM2 or QLM3 when LINK1 selects any QLM.
-                                                                 _ LINK 0 automatically selects QLM0 when QLM_MANUAL<0>=0.
-                                                                 _ LINK 0 automatically selects QLM1 when QLM_MANUAL<1>=0.
-                                                                 _ LINK 0 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=0.
-                                                                 _ LINK 1 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=1.
-                                                                 _ LINK 1 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=1.
-                                                                 _ LINK 2 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=0.
-                                                                 _ LINK 3 automatically selects QLM4 when QLM_MANUAL<4>=0.
-                                                                 _ LINK 3 automatically selects QLM5 when QLM_MANUAL<5>=0.
+                                                                 _ LINK 0 automatically selects QLM0 when [QLM_MANUAL]<0>=0.
+                                                                 _ LINK 0 automatically selects QLM1 when [QLM_MANUAL]<1>=0.
+                                                                 _ LINK 0 automatically selects QLM2 when [QLM_MANUAL]<2>=0 and OCX_QLM2_CFG[SER_LOCAL]=0.
+                                                                 _ LINK 1 automatically selects QLM2 when [QLM_MANUAL]<2>=0 and OCX_QLM2_CFG[SER_LOCAL]=1.
+                                                                 _ LINK 1 automatically selects QLM3 when [QLM_MANUAL]<3>=0 and OCX_QLM3_CFG[SER_LOCAL]=1.
+                                                                 _ LINK 2 automatically selects QLM3 when [QLM_MANUAL]<3>=0 and OCX_QLM3_CFG[SER_LOCAL]=0.
+                                                                 _ LINK 3 automatically selects QLM4 when [QLM_MANUAL]<4>=0.
+                                                                 _ LINK 3 automatically selects QLM5 when [QLM_MANUAL]<5>=0.
 
-                                                                 A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
+                                                                 A link with [QLM_SELECT] = 0x0 is invalid and will never exchange traffic with the
                                                                  link partner. */
         uint64_t reserved_38_47        : 10;
         uint64_t qlm_manual            : 6;  /**< [ 53: 48](R/W/H) QLM manual mask, where each bit corresponds to a QLM. A link automatically selects a QLM
@@ -2596,20 +2602,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's OCX_MSIX_VEC()_ADDR, OCX_MSIX_VEC()_CTL, and
                                                                  corresponding bit of OCX_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_OCX_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's OCX_MSIX_VEC()_ADDR, OCX_MSIX_VEC()_CTL, and
                                                                  corresponding bit of OCX_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_OCX_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
@@ -2699,16 +2705,18 @@ typedef union
                                                                  aligned to operation size. A value of 0 will produce unpredictable results. Field is
                                                                  ignored during a read (LD_OP=1). */
         uint64_t reserved_54_55        : 2;
-        uint64_t el                    : 2;  /**< [ 53: 52](R/W) Execution Level.  This field is used to supply the execution level of the generated load
+        uint64_t el                    : 2;  /**< [ 53: 52](R/W) Execution level.  This field is used to supply the execution level of the generated load
                                                                  or store command. */
-        uint64_t nsecure               : 1;  /**< [ 51: 51](R/W) Non-secure mode.  Setting this bit causes the generated load or store command to be
-                                                                 considered non-secure. */
+        uint64_t nsecure               : 1;  /**< [ 51: 51](R/W) Nonsecure mode.  Setting this bit causes the generated load or store command to be
+                                                                 considered nonsecure. */
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command sent with the read:
                                                                  0x0 = Load 1-bytes.
                                                                  0x1 = Load 2-bytes.
                                                                  0x2 = Load 4-bytes.
                                                                  0x3 = Load 8-bytes. */
-        uint64_t ld_op                 : 1;  /**< [ 48: 48](R/W) Operation Type 0=Store 1=Load operation. */
+        uint64_t ld_op                 : 1;  /**< [ 48: 48](R/W) Operation type:
+                                                                 0 = Store.
+                                                                 1 = Load operation. */
         uint64_t addr                  : 48; /**< [ 47:  0](R/W) The address used in both the load and store operations:
                                                                  <47:46> = Reserved.
                                                                  <45:44> = CCPI_ID.
@@ -2718,7 +2726,7 @@ typedef union
                                                                  When <43:36> NCB_ID is RSL (0x7E) address field is defined as:
                                                                  <47:46> = Reserved.
                                                                  <45:44> = CCPI_ID.
-                                                                 <43:36> = 0x7E
+                                                                 <43:36> = 0x7E.
                                                                  <35:32> = Reserved.
                                                                  <31:24> = RSL_ID.
                                                                  <23:0>  = RSL register offset.
@@ -2734,21 +2742,23 @@ typedef union
                                                                  When <43:36> NCB_ID is RSL (0x7E) address field is defined as:
                                                                  <47:46> = Reserved.
                                                                  <45:44> = CCPI_ID.
-                                                                 <43:36> = 0x7E
+                                                                 <43:36> = 0x7E.
                                                                  <35:32> = Reserved.
                                                                  <31:24> = RSL_ID.
                                                                  <23:0>  = RSL register offset.
 
                                                                  <2:0> are ignored in a store operation. */
-        uint64_t ld_op                 : 1;  /**< [ 48: 48](R/W) Operation Type 0=Store 1=Load operation. */
+        uint64_t ld_op                 : 1;  /**< [ 48: 48](R/W) Operation type:
+                                                                 0 = Store.
+                                                                 1 = Load operation. */
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command sent with the read:
                                                                  0x0 = Load 1-bytes.
                                                                  0x1 = Load 2-bytes.
                                                                  0x2 = Load 4-bytes.
                                                                  0x3 = Load 8-bytes. */
-        uint64_t nsecure               : 1;  /**< [ 51: 51](R/W) Non-secure mode.  Setting this bit causes the generated load or store command to be
-                                                                 considered non-secure. */
-        uint64_t el                    : 2;  /**< [ 53: 52](R/W) Execution Level.  This field is used to supply the execution level of the generated load
+        uint64_t nsecure               : 1;  /**< [ 51: 51](R/W) Nonsecure mode.  Setting this bit causes the generated load or store command to be
+                                                                 considered nonsecure. */
+        uint64_t el                    : 2;  /**< [ 53: 52](R/W) Execution level.  This field is used to supply the execution level of the generated load
                                                                  or store command. */
         uint64_t reserved_54_55        : 2;
         uint64_t wr_mask               : 8;  /**< [ 63: 56](R/W) Mask for the data to be written. When a bit is 1, the corresponding byte will be written.
@@ -2891,49 +2901,49 @@ typedef union
                                                                  0 = TX without inversion.
                                                                  1 = TX with inversion. */
         uint64_t reserved_1_2          : 2;
-        uint64_t ser_local             : 1;  /**< [  0:  0](R/W/H) _ Auto initialization may set OCX_LNK0_CFG[QLM_SELECT<2>] = 1 only if
+        uint64_t ser_local             : 1;  /**< [  0:  0](R/W/H) Auto initialization may set OCX_LNK0_CFG[QLM_SELECT<2>] = 1 only if
                                                                  OCX_QLM2_CFG[SER_LOCAL] = 0.
-                                                                 _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<2>] = 1 only if
+                                                                 Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<2>] = 1 only if
                                                                  OCX_QLM2_CFG[SER_LOCAL] = 1.
-                                                                 _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<3>] = 1 only if
+                                                                 Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<3>] = 1 only if
                                                                  OCX_QLM3_CFG[SER_LOCAL] = 1.
-                                                                 _ Auto initialization may set OCX_LNK2_CFG[QLM_SELECT<3>] = 1 only if
+                                                                 Auto initialization may set OCX_LNK2_CFG[QLM_SELECT<3>] = 1 only if
                                                                  OCX_QLM3_CFG[SER_LOCAL] = 0.
 
-                                                                 _ QLM0/1 can only participate in LNK0; therefore
+                                                                 QLM0/1 can only participate in LNK0; therefore
                                                                  OCX_QLM0/1_CFG[SER_LOCAL] has no effect.
-                                                                 _ QLM4/5 can only participate in LNK2; therefore
+                                                                 QLM4/5 can only participate in LNK2; therefore
                                                                  OCX_QLM4/5_CFG[SER_LOCAL] has no effect.
 
                                                                  During a cold reset, initialized as follows:
-                                                                 _ OCX_QLM2_CFG.SER_LOCAL = pi_oci2_link1.
-                                                                 _ OCX_QLM3_CFG.SER_LOCAL = pi_oci3_link1.
+                                                                 _ OCX_QLM2_CFG[SER_LOCAL] = pi_oci2_link1.
+                                                                 _ OCX_QLM3_CFG[SER_LOCAL] = pi_oci3_link1.
 
                                                                  The combo of pi_oci2_link1=1 and pi_oci3_link1=0 is illegal.
 
-                                                                 The combo of OCX_QLM2_CFG.SER_LOCAL=1 and OCX_QLM3_CFG.SER_LOCAL=0 is illegal. */
+                                                                 The combo of OCX_QLM2_CFG[SER_LOCAL]=1 and OCX_QLM3_CFG[SER_LOCAL]=0 is illegal. */
 #else /* Word 0 - Little Endian */
-        uint64_t ser_local             : 1;  /**< [  0:  0](R/W/H) _ Auto initialization may set OCX_LNK0_CFG[QLM_SELECT<2>] = 1 only if
+        uint64_t ser_local             : 1;  /**< [  0:  0](R/W/H) Auto initialization may set OCX_LNK0_CFG[QLM_SELECT<2>] = 1 only if
                                                                  OCX_QLM2_CFG[SER_LOCAL] = 0.
-                                                                 _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<2>] = 1 only if
+                                                                 Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<2>] = 1 only if
                                                                  OCX_QLM2_CFG[SER_LOCAL] = 1.
-                                                                 _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<3>] = 1 only if
+                                                                 Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<3>] = 1 only if
                                                                  OCX_QLM3_CFG[SER_LOCAL] = 1.
-                                                                 _ Auto initialization may set OCX_LNK2_CFG[QLM_SELECT<3>] = 1 only if
+                                                                 Auto initialization may set OCX_LNK2_CFG[QLM_SELECT<3>] = 1 only if
                                                                  OCX_QLM3_CFG[SER_LOCAL] = 0.
 
-                                                                 _ QLM0/1 can only participate in LNK0; therefore
+                                                                 QLM0/1 can only participate in LNK0; therefore
                                                                  OCX_QLM0/1_CFG[SER_LOCAL] has no effect.
-                                                                 _ QLM4/5 can only participate in LNK2; therefore
+                                                                 QLM4/5 can only participate in LNK2; therefore
                                                                  OCX_QLM4/5_CFG[SER_LOCAL] has no effect.
 
                                                                  During a cold reset, initialized as follows:
-                                                                 _ OCX_QLM2_CFG.SER_LOCAL = pi_oci2_link1.
-                                                                 _ OCX_QLM3_CFG.SER_LOCAL = pi_oci3_link1.
+                                                                 _ OCX_QLM2_CFG[SER_LOCAL] = pi_oci2_link1.
+                                                                 _ OCX_QLM3_CFG[SER_LOCAL] = pi_oci3_link1.
 
                                                                  The combo of pi_oci2_link1=1 and pi_oci3_link1=0 is illegal.
 
-                                                                 The combo of OCX_QLM2_CFG.SER_LOCAL=1 and OCX_QLM3_CFG.SER_LOCAL=0 is illegal. */
+                                                                 The combo of OCX_QLM2_CFG[SER_LOCAL]=1 and OCX_QLM3_CFG[SER_LOCAL]=0 is illegal. */
         uint64_t reserved_1_2          : 2;
         uint64_t ser_txpol             : 1;  /**< [  3:  3](R/W) SerDes lane transmit polarity:
                                                                  0 = TX without inversion.
@@ -3121,7 +3131,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
         uint64_t mcd                   : 1;  /**< [  4:  4](R/W) Master enable for all inbound MCD bits. This bit must be enabled by software. once any
-                                                                 trusted-mode validation has occurred and before any MCD traffic is generated. MCD traffic
+                                                                 trusted-mode validation has occurred and before any [MCD] traffic is generated. [MCD]
+                                                                 traffic
                                                                  is typically controlled by the OCX_TLK(0..2)_MCD_CTL register. */
         uint64_t m_req                 : 1;  /**< [  3:  3](R/W/H) Master enable for all inbound memory requests. This bit is typically set at reset but is
                                                                  cleared when operating in trusted-mode and must be enabled by software. */
@@ -3141,7 +3152,8 @@ typedef union
         uint64_t m_req                 : 1;  /**< [  3:  3](R/W/H) Master enable for all inbound memory requests. This bit is typically set at reset but is
                                                                  cleared when operating in trusted-mode and must be enabled by software. */
         uint64_t mcd                   : 1;  /**< [  4:  4](R/W) Master enable for all inbound MCD bits. This bit must be enabled by software. once any
-                                                                 trusted-mode validation has occurred and before any MCD traffic is generated. MCD traffic
+                                                                 trusted-mode validation has occurred and before any [MCD] traffic is generated. [MCD]
+                                                                 traffic
                                                                  is typically controlled by the OCX_TLK(0..2)_MCD_CTL register. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
@@ -3541,11 +3553,11 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t status                : 16; /**< [ 15:  0](RO/H) <15:14> = REPLAY Memories BIST Status <1:0>.
                                                                  <13:12> = MOC TX_FIFO BIST Status <1:0>.
-                                                                 <11:0>  = TX_FIFO[11:0] by Link VC number. */
+                                                                 <11:0>  = TX_FIFO<11:0> by Link VC number. */
 #else /* Word 0 - Little Endian */
         uint64_t status                : 16; /**< [ 15:  0](RO/H) <15:14> = REPLAY Memories BIST Status <1:0>.
                                                                  <13:12> = MOC TX_FIFO BIST Status <1:0>.
-                                                                 <11:0>  = TX_FIFO[11:0] by Link VC number. */
+                                                                 <11:0>  = TX_FIFO<11:0> by Link VC number. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -4259,18 +4271,20 @@ typedef union
         uint64_t mask                  : 9;  /**< [ 24: 16](R/W) Setting these bits mask (really matches) the corresponding bit comparison for each packet. */
         uint64_t reserved_9_15         : 7;
         uint64_t cmd                   : 5;  /**< [  8:  4](R/W) These bits are compared against the command for each packet sent over the link. If both
-                                                                 the unmasked VC and CMD bits match then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is incremented. */
+                                                                 the unmasked [VC] and [CMD] bits match then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is
+                                                                 incremented. */
         uint64_t vc                    : 4;  /**< [  3:  0](R/W) These bits are compared against the link VC number for each packet sent over the link.
-                                                                 If both the unmasked VC and CMD bits match, then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is
+                                                                 If both the unmasked [VC] and [CMD] bits match, then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is
                                                                  incremented.  Only memory and I/O traffic are monitored.  Matches are limited to
-                                                                 VC0 thru VC11. */
+                                                                 VC0 through VC11. */
 #else /* Word 0 - Little Endian */
         uint64_t vc                    : 4;  /**< [  3:  0](R/W) These bits are compared against the link VC number for each packet sent over the link.
-                                                                 If both the unmasked VC and CMD bits match, then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is
+                                                                 If both the unmasked [VC] and [CMD] bits match, then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is
                                                                  incremented.  Only memory and I/O traffic are monitored.  Matches are limited to
-                                                                 VC0 thru VC11. */
+                                                                 VC0 through VC11. */
         uint64_t cmd                   : 5;  /**< [  8:  4](R/W) These bits are compared against the command for each packet sent over the link. If both
-                                                                 the unmasked VC and CMD bits match then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is incremented. */
+                                                                 the unmasked [VC] and [CMD] bits match then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is
+                                                                 incremented. */
         uint64_t reserved_9_15         : 7;
         uint64_t mask                  : 9;  /**< [ 24: 16](R/W) Setting these bits mask (really matches) the corresponding bit comparison for each packet. */
         uint64_t reserved_25_63        : 39;
@@ -4551,7 +4565,8 @@ static inline uint64_t BDK_OCX_TLKX_STATUS(unsigned long a)
  * For diagnostic use only. This register is typically written by hardware after accesses to the
  * SLI_WIN_* registers. Contains the address, read size and write mask to used for the window
  * operation. Write data should be written first and placed in the OCX_WIN_WR_DATA register.
- * Writing this register starts the operation. A second write to this register while an operation
+ * Writing this register starts the operation. A second write operation to this register while an
+ * operation
  * is in progress will stall.
  */
 typedef union
@@ -4565,16 +4580,18 @@ typedef union
                                                                  aligned to operation size. A value of 0 will produce unpredictable results. Field is
                                                                  ignored during a read (LD_OP=1). */
         uint64_t reserved_54_55        : 2;
-        uint64_t el                    : 2;  /**< [ 53: 52](R/W) Execution Level.  This field is used to supply the execution level of the generated load
+        uint64_t el                    : 2;  /**< [ 53: 52](R/W) Execution level.  This field is used to supply the execution level of the generated load
                                                                  or store command. */
-        uint64_t nsecure               : 1;  /**< [ 51: 51](R/W) Non-secure mode.  Setting this bit causes the generated load or store command to be
-                                                                 considered non-secure. */
+        uint64_t nsecure               : 1;  /**< [ 51: 51](R/W) Nonsecure mode.  Setting this bit causes the generated load or store command to be
+                                                                 considered nonsecure. */
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command sent with the read:
                                                                  0x0 = Load 1-bytes.
                                                                  0x1 = Load 2-bytes.
                                                                  0x2 = Load 4-bytes.
                                                                  0x3 = Load 8-bytes. */
-        uint64_t ld_op                 : 1;  /**< [ 48: 48](R/W) Operation Type 0=Store 1=Load operation. */
+        uint64_t ld_op                 : 1;  /**< [ 48: 48](R/W) Operation type:
+                                                                 0 = Store.
+                                                                 1 = Load operation. */
         uint64_t addr                  : 48; /**< [ 47:  0](R/W) The address used in both the load and store operations:
                                                                  <47:46> = Reserved.
                                                                  <45:44> = CCPI_ID.
@@ -4584,7 +4601,7 @@ typedef union
                                                                  When <43:36> NCB_ID is RSL (0x7E) address field is defined as:
                                                                  <47:46> = Reserved.
                                                                  <45:44> = CCPI_ID.
-                                                                 <43:36> = 0x7E
+                                                                 <43:36> = 0x7E.
                                                                  <35:32> = Reserved.
                                                                  <31:24> = RSL_ID.
                                                                  <23:0>  = RSL register offset.
@@ -4600,21 +4617,23 @@ typedef union
                                                                  When <43:36> NCB_ID is RSL (0x7E) address field is defined as:
                                                                  <47:46> = Reserved.
                                                                  <45:44> = CCPI_ID.
-                                                                 <43:36> = 0x7E
+                                                                 <43:36> = 0x7E.
                                                                  <35:32> = Reserved.
                                                                  <31:24> = RSL_ID.
                                                                  <23:0>  = RSL register offset.
 
                                                                  <2:0> are ignored in a store operation. */
-        uint64_t ld_op                 : 1;  /**< [ 48: 48](R/W) Operation Type 0=Store 1=Load operation. */
+        uint64_t ld_op                 : 1;  /**< [ 48: 48](R/W) Operation type:
+                                                                 0 = Store.
+                                                                 1 = Load operation. */
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command sent with the read:
                                                                  0x0 = Load 1-bytes.
                                                                  0x1 = Load 2-bytes.
                                                                  0x2 = Load 4-bytes.
                                                                  0x3 = Load 8-bytes. */
-        uint64_t nsecure               : 1;  /**< [ 51: 51](R/W) Non-secure mode.  Setting this bit causes the generated load or store command to be
-                                                                 considered non-secure. */
-        uint64_t el                    : 2;  /**< [ 53: 52](R/W) Execution Level.  This field is used to supply the execution level of the generated load
+        uint64_t nsecure               : 1;  /**< [ 51: 51](R/W) Nonsecure mode.  Setting this bit causes the generated load or store command to be
+                                                                 considered nonsecure. */
+        uint64_t el                    : 2;  /**< [ 53: 52](R/W) Execution level.  This field is used to supply the execution level of the generated load
                                                                  or store command. */
         uint64_t reserved_54_55        : 2;
         uint64_t wr_mask               : 8;  /**< [ 63: 56](R/W) Mask for the data to be written. When a bit is 1, the corresponding byte will be written.

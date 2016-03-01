@@ -167,7 +167,7 @@ typedef union
                                                                     0        1        0      1       2 3 0 1 6 7 4 5
                                                                     1        0        0      1       4 5 6 7 0 1 2 3
                                                                  </pre> */
-        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine 0-1 size. SIZE is specified in number of bus transfers, where one transfer is
+        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine 0-1 size. [SIZE] is specified in number of bus transfers, where one transfer is
                                                                  equal to the following number of bytes, dependent on PBUS_DMA_TIM()[WIDTH] and
                                                                  PBUS_DMA_TIM()[DDR]:
                                                                  _ If WIDTH=0, DDR=0, then transfer is 2 bytes.
@@ -177,7 +177,7 @@ typedef union
         uint64_t reserved_0_35         : 36;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_35         : 36;
-        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine 0-1 size. SIZE is specified in number of bus transfers, where one transfer is
+        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine 0-1 size. [SIZE] is specified in number of bus transfers, where one transfer is
                                                                  equal to the following number of bytes, dependent on PBUS_DMA_TIM()[WIDTH] and
                                                                  PBUS_DMA_TIM()[DDR]:
                                                                  _ If WIDTH=0, DDR=0, then transfer is 2 bytes.
@@ -253,9 +253,9 @@ typedef union
                                                                  for an engine. For read operations, the data bus is normally sampled on the same
                                                                  coprocessor-clock edge that drives PBUS_OE inactive (and also active in DDR mode). This
                                                                  parameter can delay that sampling edge by up to seven coprocessor-clock cycles.
-                                                                 The number of coprocessor-clock cycles counted by the OE_A and DMACK_H + PAUSE timing
-                                                                 parameters must be greater than [RD_DLY]. */
-        uint64_t ddr                   : 1;  /**< [ 56: 56](R/W) DDR mode. If DDR is set, then WE_N must be less than WE_A. */
+                                                                 The number of coprocessor-clock cycles counted by the [OE_A] and [DMACK_H] +
+                                                                 [PAUSE] timing parameters must be greater than [RD_DLY]. */
+        uint64_t ddr                   : 1;  /**< [ 56: 56](R/W) DDR mode. If DDR is set, then [WE_N] must be less than [WE_A]. */
         uint64_t width                 : 1;  /**< [ 55: 55](R/W) DMA bus width (0 = 16 bits, 1 = 32 bits). */
         uint64_t reserved_48_54        : 7;
         uint64_t pause                 : 6;  /**< [ 47: 42](R/W) Pause count. */
@@ -267,11 +267,11 @@ typedef union
         uint64_t dmack_s               : 6;  /**< [ 11:  6](R/W) DMA acknowledgment setup count. */
         uint64_t dmarq                 : 6;  /**< [  5:  0](R/W) DMA request glitch filter count. Number of coprocessor clocks
                                                                  the DMA request must be active before request is recognized.
-                                                                 (Must be non-zero.) */
+                                                                 (Must be nonzero.) */
 #else /* Word 0 - Little Endian */
         uint64_t dmarq                 : 6;  /**< [  5:  0](R/W) DMA request glitch filter count. Number of coprocessor clocks
                                                                  the DMA request must be active before request is recognized.
-                                                                 (Must be non-zero.) */
+                                                                 (Must be nonzero.) */
         uint64_t dmack_s               : 6;  /**< [ 11:  6](R/W) DMA acknowledgment setup count. */
         uint64_t oe_a                  : 6;  /**< [ 17: 12](R/W) Output enable asserted count. */
         uint64_t oe_n                  : 6;  /**< [ 23: 18](R/W) Output enable negated count. */
@@ -281,13 +281,13 @@ typedef union
         uint64_t pause                 : 6;  /**< [ 47: 42](R/W) Pause count. */
         uint64_t reserved_48_54        : 7;
         uint64_t width                 : 1;  /**< [ 55: 55](R/W) DMA bus width (0 = 16 bits, 1 = 32 bits). */
-        uint64_t ddr                   : 1;  /**< [ 56: 56](R/W) DDR mode. If DDR is set, then WE_N must be less than WE_A. */
+        uint64_t ddr                   : 1;  /**< [ 56: 56](R/W) DDR mode. If DDR is set, then [WE_N] must be less than [WE_A]. */
         uint64_t rd_dly                : 3;  /**< [ 59: 57](R/W) Read sample delay. This field specifies the read sample delay in coprocessor-clock cycles
                                                                  for an engine. For read operations, the data bus is normally sampled on the same
                                                                  coprocessor-clock edge that drives PBUS_OE inactive (and also active in DDR mode). This
                                                                  parameter can delay that sampling edge by up to seven coprocessor-clock cycles.
-                                                                 The number of coprocessor-clock cycles counted by the OE_A and DMACK_H + PAUSE timing
-                                                                 parameters must be greater than [RD_DLY]. */
+                                                                 The number of coprocessor-clock cycles counted by the [OE_A] and [DMACK_H] +
+                                                                 [PAUSE] timing parameters must be greater than [RD_DLY]. */
         uint64_t tim_mult              : 2;  /**< [ 61: 60](R/W) Timing multiplier. This field specifies the timing multiplier for an engine. The timing
                                                                  multiplier applies to all timing parameters, except for [DMARQ] and [RD_DLY], which simply
                                                                  count coprocessor-clock cycles. [TIM_MULT] is encoded as follows:
@@ -603,20 +603,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's PBUS_MSIX_VEC()_ADDR, PBUS_MSIX_VEC()_CTL, and corresponding
                                                                  bit of PBUS_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PBUS_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's PBUS_MSIX_VEC()_ADDR, PBUS_MSIX_VEC()_CTL, and corresponding
                                                                  bit of PBUS_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PBUS_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
@@ -710,8 +710,8 @@ typedef union
 
                                                                  Specifies how much of PBUS_AD is used at maxiumum for the address transfers.
 
-                                                                 Fewer bits may be required based on the region size ({SIZE]), which may
-                                                                 eliminate the need for address multiplexing.  E.g. a region of 64KB requires
+                                                                 Fewer bits may be required based on the region size ([SIZE]), which may
+                                                                 eliminate the need for address multiplexing.  E.g. a region of 64 KB requires
                                                                  only 16 bits of address, and will use only PBUS_AD<15:0> regardless of
                                                                  [A_WIDTH], allowing PBUS_AD[31:16> to only be used for data.
 
@@ -755,7 +755,7 @@ typedef union
                                                                  See also [A_WIDTH].
                                                                   0 =  8 bits on PBUS_AD<31:24>.
                                                                   1 = 16 bits on PBUS_AD<31:16>. */
-        uint64_t dmack                 : 2;  /**< [ 43: 42](R/W) Region DMACK. If non-zero, this field asserts the corresponding
+        uint64_t dmack                 : 2;  /**< [ 43: 42](R/W) Region DMACK. If nonzero, this field asserts the corresponding
                                                                  PBUS_DMACK<n> pin when an access to this region is performed.
                                                                  DMACK is encoded as follows:
                                                                   0x0 = Disabled.
@@ -835,7 +835,7 @@ typedef union
                                                                    0x1 = 1x multiplier.
                                                                    0x2 = 2x multiplier.
                                                                    0x3 = 8x multiplier. */
-        uint64_t dmack                 : 2;  /**< [ 43: 42](R/W) Region DMACK. If non-zero, this field asserts the corresponding
+        uint64_t dmack                 : 2;  /**< [ 43: 42](R/W) Region DMACK. If nonzero, this field asserts the corresponding
                                                                  PBUS_DMACK<n> pin when an access to this region is performed.
                                                                  DMACK is encoded as follows:
                                                                   0x0 = Disabled.
@@ -861,8 +861,8 @@ typedef union
 
                                                                  Specifies how much of PBUS_AD is used at maxiumum for the address transfers.
 
-                                                                 Fewer bits may be required based on the region size ({SIZE]), which may
-                                                                 eliminate the need for address multiplexing.  E.g. a region of 64KB requires
+                                                                 Fewer bits may be required based on the region size ([SIZE]), which may
+                                                                 eliminate the need for address multiplexing.  E.g. a region of 64 KB requires
                                                                  only 16 bits of address, and will use only PBUS_AD<15:0> regardless of
                                                                  [A_WIDTH], allowing PBUS_AD[31:16> to only be used for data.
 
@@ -936,49 +936,63 @@ typedef union
     struct bdk_pbus_regx_tim_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pagem                 : 1;  /**< [ 63: 63](R/W) Region page mode enable. */
-        uint64_t waitm                 : 1;  /**< [ 62: 62](R/W) Region wait mode enable. */
+        uint64_t pagem                 : 1;  /**< [ 63: 63](R/W) Region page mode enable.
+                                                                 When set, the returned data from the target device can uses than one page
+                                                                 (two, four and 8 pages of data) to complete the operation.  If this bit is
+                                                                 not set, only single accesses are used. */
+        uint64_t waitm                 : 1;  /**< [ 62: 62](R/W) Region wait mode enable.
+                                                                 When set, the hardware waits for the PBUS_WAIT signal to be deasserted
+                                                                 (or [OE] expires which ever occurs first) before finishing the data cycle.
+                                                                 Note that this bit should not be set with PAGEM. */
         uint64_t pages                 : 2;  /**< [ 61: 60](R/W) Region page size.
                                                                   0x0 = 8 bytes.
                                                                   0x1 = 2 bytes.
                                                                   0x2 = 4 bytes.
-                                                                  0x3 = 8 bytes. */
-        uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be non-zero to ensure legal transitions on the corresponding
-                                                                 pbus outputs. */
-        uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be non-zero to ensure legal transitions on the corresponding
-                                                                 pbus outputs. */
+                                                                  0x3 = 8 bytes.
+                                                                  These bits are only valid when PBUS_REG_TIM[PAGM] is set. */
+        uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be nonzero to ensure legal transitions on
+                                                                 the corresponding PBUS outputs. */
+        uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be nonzero to ensure legal transitions on
+                                                                 the corresponding PBUS outputs. */
         uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 1 when [WAITM] is set. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
-        uint64_t we                    : 6;  /**< [ 23: 18](R/W) Region write-enable count. Must be non-zero to ensure legal transitions on the
-                                                                 corresponding pbus outputs. */
-        uint64_t oe                    : 6;  /**< [ 17: 12](R/W) Region output-enable count. Must be non-zero to ensure legal transitions on the
-                                                                 corresponding pbus outputs. */
+        uint64_t we                    : 6;  /**< [ 23: 18](R/W) Region write-enable count. Must be nonzero to ensure legal
+                                                                 transitions on the corresponding PBUS outputs. */
+        uint64_t oe                    : 6;  /**< [ 17: 12](R/W) Region output-enable count. Must be nonzero to ensure legal
+                                                                 transitions on the corresponding PBUS outputs. */
         uint64_t ce                    : 6;  /**< [ 11:  6](R/W) Region chip-enable count. */
         uint64_t adr                   : 6;  /**< [  5:  0](R/W) Region address count. */
 #else /* Word 0 - Little Endian */
         uint64_t adr                   : 6;  /**< [  5:  0](R/W) Region address count. */
         uint64_t ce                    : 6;  /**< [ 11:  6](R/W) Region chip-enable count. */
-        uint64_t oe                    : 6;  /**< [ 17: 12](R/W) Region output-enable count. Must be non-zero to ensure legal transitions on the
-                                                                 corresponding pbus outputs. */
-        uint64_t we                    : 6;  /**< [ 23: 18](R/W) Region write-enable count. Must be non-zero to ensure legal transitions on the
-                                                                 corresponding pbus outputs. */
+        uint64_t oe                    : 6;  /**< [ 17: 12](R/W) Region output-enable count. Must be nonzero to ensure legal
+                                                                 transitions on the corresponding PBUS outputs. */
+        uint64_t we                    : 6;  /**< [ 23: 18](R/W) Region write-enable count. Must be nonzero to ensure legal
+                                                                 transitions on the corresponding PBUS outputs. */
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
         uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 1 when [WAITM] is set. */
-        uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be non-zero to ensure legal transitions on the corresponding
-                                                                 pbus outputs. */
-        uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be non-zero to ensure legal transitions on the corresponding
-                                                                 pbus outputs. */
+        uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be nonzero to ensure legal transitions on
+                                                                 the corresponding PBUS outputs. */
+        uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be nonzero to ensure legal transitions on
+                                                                 the corresponding PBUS outputs. */
         uint64_t pages                 : 2;  /**< [ 61: 60](R/W) Region page size.
                                                                   0x0 = 8 bytes.
                                                                   0x1 = 2 bytes.
                                                                   0x2 = 4 bytes.
-                                                                  0x3 = 8 bytes. */
-        uint64_t waitm                 : 1;  /**< [ 62: 62](R/W) Region wait mode enable. */
-        uint64_t pagem                 : 1;  /**< [ 63: 63](R/W) Region page mode enable. */
+                                                                  0x3 = 8 bytes.
+                                                                  These bits are only valid when PBUS_REG_TIM[PAGM] is set. */
+        uint64_t waitm                 : 1;  /**< [ 62: 62](R/W) Region wait mode enable.
+                                                                 When set, the hardware waits for the PBUS_WAIT signal to be deasserted
+                                                                 (or [OE] expires which ever occurs first) before finishing the data cycle.
+                                                                 Note that this bit should not be set with PAGEM. */
+        uint64_t pagem                 : 1;  /**< [ 63: 63](R/W) Region page mode enable.
+                                                                 When set, the returned data from the target device can uses than one page
+                                                                 (two, four and 8 pages of data) to complete the operation.  If this bit is
+                                                                 not set, only single accesses are used. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_regx_tim_s cn; */

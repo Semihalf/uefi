@@ -78,12 +78,12 @@
  *   * "Server" refers to the code running on another node which is serving an image
  *     into the client.
  */
-#define BDK_ROM_XFER_MSG_E_BOOT_DONE (0x2002) /**< Client is indicating boot process is complate and no additional messages will be sent by
+#define BDK_ROM_XFER_MSG_E_BOOT_DONE (0x2002) /**< Client is indicating boot process is complete and no additional messages will be sent by
                                        the client ROM code.
-                                       Server must repond with SERVER_ACK or SERVER_ERROR. */
+                                       Server must respond with SERVER_ACK or SERVER_ERROR. */
 #define BDK_ROM_XFER_MSG_E_BOOT_ERROR (0x2001) /**< Client is indicating boot process has an error and no additional messages will be sent by
                                        the client ROM code.
-                                       Server must repond with SERVER_ACK or SERVER_ERROR. */
+                                       Server must respond with SERVER_ACK or SERVER_ERROR. */
 #define BDK_ROM_XFER_MSG_E_BOOT_READX(a) (0x3000 + (a)) /**< Client is requesting boot data block number {a} from the server.
                                        Server must respond with SERVER_ERROR, or:
                                        * Read a 8 KB block corresponding to the specified offset from the flash (or other image).
@@ -94,7 +94,7 @@
                                        * IO write 0xDEDE_DEDE_DEDE_DEDE to the client node address KEY_MEM(0) + 8KB.
                                        * Respond with SERVER_ACK. */
 #define BDK_ROM_XFER_MSG_E_BOOT_START (0x2000) /**< Client is requesting boot sequence to start.
-                                       Server must repond with SERVER_ACK or SERVER_ERROR. */
+                                       Server must respond with SERVER_ACK or SERVER_ERROR. */
 #define BDK_ROM_XFER_MSG_E_FAILX_CN81XX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E. */
 #define BDK_ROM_XFER_MSG_E_FAILX_CN88XX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E.
                                        Added in pass 2. */
@@ -144,7 +144,7 @@ union bdk_rom_clib_s
         uint64_t offset                : 64; /**< [191:128] Offset address. The flash address for first byte of image.
                                                                  Must be 0x20000 for NBL1FW, 0x50000 for TBL1FW.
 
-                                                                 In NBL1FW, the first 256 bytes are ignored, should be zeroes or random data.
+                                                                 In NBL1FW, the first 256 bytes are ignored, should be zeros or random data.
 
                                                                  In TBL1FW, the first 256 bytes of the image should be
                                                                  random data for cypher security.  The first instruction
@@ -158,7 +158,7 @@ union bdk_rom_clib_s
         uint64_t offset                : 64; /**< [191:128] Offset address. The flash address for first byte of image.
                                                                  Must be 0x20000 for NBL1FW, 0x50000 for TBL1FW.
 
-                                                                 In NBL1FW, the first 256 bytes are ignored, should be zeroes or random data.
+                                                                 In NBL1FW, the first 256 bytes are ignored, should be zeros or random data.
 
                                                                  In TBL1FW, the first 256 bytes of the image should be
                                                                  random data for cypher security.  The first instruction
@@ -210,13 +210,13 @@ union bdk_rom_clib_s
         uint64_t csib_sign0            : 64; /**< [575:512] CSIB signature, word 0. If this ROM_CLIB_S corresponds to a trusted image, this
                                                                  contains a EC-DSA signature across the 256 bytes of the ROM_CSIB_S. The
                                                                  signature must authenticate against ROM_CSIB_S[ROTPK*] for trusted boot to proceed.
-                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little endian
+                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little-endian
                                                                  format. */
 #else /* Word 8 - Little Endian */
         uint64_t csib_sign0            : 64; /**< [575:512] CSIB signature, word 0. If this ROM_CLIB_S corresponds to a trusted image, this
                                                                  contains a EC-DSA signature across the 256 bytes of the ROM_CSIB_S. The
                                                                  signature must authenticate against ROM_CSIB_S[ROTPK*] for trusted boot to proceed.
-                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little endian
+                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little-endian
                                                                  format. */
 #endif /* Word 8 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
@@ -446,13 +446,13 @@ union bdk_rom_csib_s
                                                                  An ECDSA-with-SHA256 signature used to validate this certificate.
                                                                  ROM boot compares an AES256 hash of ROTPK0..3 with FUSF_ROTPK().
                                                                  These fields are to be interpreted as a coordinate pair (Qx,Qy)
-                                                                 of 256-bit integers in little endian format. */
+                                                                 of 256-bit integers in little-endian format. */
 #else /* Word 8 - Little Endian */
         uint64_t rotpk0                : 64; /**< [575:512] Public key, word 0.
                                                                  An ECDSA-with-SHA256 signature used to validate this certificate.
                                                                  ROM boot compares an AES256 hash of ROTPK0..3 with FUSF_ROTPK().
                                                                  These fields are to be interpreted as a coordinate pair (Qx,Qy)
-                                                                 of 256-bit integers in little endian format. */
+                                                                 of 256-bit integers in little-endian format. */
 #endif /* Word 8 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
         uint64_t rotpk1                : 64; /**< [639:576] Public key, word 1. */

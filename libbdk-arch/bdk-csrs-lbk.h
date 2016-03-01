@@ -227,9 +227,23 @@ typedef union
 
                                                                  Internal:
                                                                  lbk.v takes this from input straps set by the instantiation. */
-        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO.
+                                                                 For LBK0, 0x1000.
+                                                                 For LBK1, 0x3000.
+                                                                 For LBK2, 0x1000.
+                                                                 For LBK3, 0x3000.
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
 #else /* Word 0 - Little Endian */
-        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO.
+                                                                 For LBK0, 0x1000.
+                                                                 For LBK1, 0x3000.
+                                                                 For LBK2, 0x1000.
+                                                                 For LBK3, 0x3000.
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t src                   : 4;  /**< [ 27: 24](RO) What blocks this LBK connects. Enumerated by LBK_CONNECT_E.
                                                                  For LBK0, indicates LBK_CONNECT_E::PKO(0).
                                                                  For LBK1, indicates LBK_CONNECT_E::NIC(0).
@@ -265,9 +279,17 @@ typedef union
 
                                                                  Internal:
                                                                  lbk.v takes this from input straps set by the instantiation. */
-        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO.
+                                                                 For LBK0, 0x3000.
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
 #else /* Word 0 - Little Endian */
-        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO.
+                                                                 For LBK0, 0x3000.
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t src                   : 4;  /**< [ 27: 24](RO) What blocks this LBK receives traffic from. Enumerated by LBK_CONNECT_E.
                                                                  For LBK0, indicates LBK_CONNECT_E::NIC(0).
 
@@ -691,20 +713,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's LBK()_MSIX_VEC()_ADDR, LBK()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of LBK()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_LBK_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's LBK()_MSIX_VEC()_ADDR, LBK()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of LBK()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_LBK_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
@@ -789,9 +811,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When set, causes a reset of Loopback, except RSL. */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When set, causes a reset of LBK, excluding RSL. */
 #else /* Word 0 - Little Endian */
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When set, causes a reset of Loopback, except RSL. */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When set, causes a reset of LBK, excluding RSL. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;

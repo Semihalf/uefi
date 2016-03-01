@@ -668,8 +668,8 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
                                                                  [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only.
@@ -678,8 +678,8 @@ typedef union
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -724,15 +724,15 @@ typedef union
         uint64_t reserved_11_12        : 2;
         uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
                                                                  [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only.
@@ -782,8 +782,8 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
                                                                  [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only.
@@ -792,8 +792,8 @@ typedef union
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -838,15 +838,15 @@ typedef union
         uint64_t reserved_11_12        : 2;
         uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
                                                                  [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only.
@@ -894,8 +894,8 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
                                                                  [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only.
@@ -904,8 +904,8 @@ typedef union
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -950,15 +950,15 @@ typedef union
         uint64_t reserved_11_12        : 2;
         uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
                                                                  [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only.
@@ -1007,8 +1007,8 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
                                                                  [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only.
@@ -1017,8 +1017,8 @@ typedef union
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -1063,15 +1063,15 @@ typedef union
         uint64_t reserved_11_12        : 2;
         uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
                                                                  [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only.
@@ -1461,20 +1461,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's L2C_TAD()_MSIX_VEC()_ADDR, L2C_TAD()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of L2C_TAD()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_L2C_TAD_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's L2C_TAD()_MSIX_VEC()_ADDR, L2C_TAD()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of L2C_TAD()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_L2C_TAD_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
@@ -1556,10 +1556,10 @@ static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long
  *
  * Level 2 Cache TAD RTG Error Information Registers
  * This register records error information for all RTG SBE/DBE errors.
- * The priority of errors (lowest to highest) is SBE, DBE. An error locks the SYN, WAY,
- * and L2IDX fields for equal or lower priority errors until cleared by software.
+ * The priority of errors (lowest to highest) is SBE, DBE. An error locks [SYN], [WAY],
+ * and [L2IDX] for equal or lower priority errors until cleared by software.
  * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
- * L2IDX[19:7] is the L2 block index associated with the command which had no way to allocate.
+ * [L2IDX]<19:7> is the L2 block index associated with the command which had no way to allocate.
  * Added in pass 2.
  */
 typedef union
@@ -1694,7 +1694,7 @@ static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a)
  *
  * Level 2 Cache TAD Quad Error Information Registers
  * This register records error information for all L2D/SBF/FBF errors.
- * An error locks the [L2DIDX] and [SYN] fields and set the bit corresponding to the error
+ * An error locks the [L2DIDX] and [SYN] fields and sets the bit corresponding to the error
  * received.
  * DBE errors take priority and overwrite an earlier logged SBE error. Only one of SBE/DBE is set
  * at any given time and serves to document which error the [L2DIDX]/[SYN] is associated with.
@@ -1718,10 +1718,10 @@ typedef union
         uint64_t qdnum                 : 3;  /**< [ 17: 15](RO/H) Quad containing the error. */
         uint64_t qdhlf                 : 1;  /**< [ 14: 14](RO/H) Quad half of the containing the error. */
         uint64_t l2didx                : 14; /**< [ 13:  0](RO/H) For L2D errors, index within the quad-half containing the error. For SBF and FBF errors
-                                                                 [13:5] is 0x0 and [4:0] is the index of the error ([4:1] is lfbnum[3:0], [0] is addr[5]). */
+                                                                 <13:5> is 0x0 and <4:0> is the index of the error (<4:1> is lfbnum<3:0>, <0> is addr<5>). */
 #else /* Word 0 - Little Endian */
         uint64_t l2didx                : 14; /**< [ 13:  0](RO/H) For L2D errors, index within the quad-half containing the error. For SBF and FBF errors
-                                                                 [13:5] is 0x0 and [4:0] is the index of the error ([4:1] is lfbnum[3:0], [0] is addr[5]). */
+                                                                 <13:5> is 0x0 and <4:0> is the index of the error (<4:1> is lfbnum<3:0>, <0> is addr<5>). */
         uint64_t qdhlf                 : 1;  /**< [ 14: 14](RO/H) Quad half of the containing the error. */
         uint64_t qdnum                 : 3;  /**< [ 17: 15](RO/H) Quad containing the error. */
         uint64_t reserved_18_31        : 14;
@@ -1789,6 +1789,25 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
+        uint64_t xmdmskfl              : 2;  /**< [ 49: 48](RO/H) Reserved, always zero. */
+        uint64_t reserved_18_47        : 30;
+        uint64_t lrulfbfl              : 1;  /**< [ 17: 17](RO) Reserved, always zero. */
+        uint64_t lrufl                 : 1;  /**< [ 16: 16](RO/H) BIST failure status for tag LRU. */
+        uint64_t tagfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for TAG ways. */
+#else /* Word 0 - Little Endian */
+        uint64_t tagfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for TAG ways. */
+        uint64_t lrufl                 : 1;  /**< [ 16: 16](RO/H) BIST failure status for tag LRU. */
+        uint64_t lrulfbfl              : 1;  /**< [ 17: 17](RO) Reserved, always zero. */
+        uint64_t reserved_18_47        : 30;
+        uint64_t xmdmskfl              : 2;  /**< [ 49: 48](RO/H) Reserved, always zero. */
+        uint64_t reserved_50_63        : 14;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_l2c_tadx_ttg_bist_status_s cn88xx; */
+    struct bdk_l2c_tadx_ttg_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_50_63        : 14;
         uint64_t xmdmskfl              : 2;  /**< [ 49: 48](RO/H) BIST failure status for RSTP XMDMSK memories. */
         uint64_t reserved_18_47        : 30;
         uint64_t lrulfbfl              : 1;  /**< [ 17: 17](RO) Reserved, always zero. */
@@ -1802,9 +1821,7 @@ typedef union
         uint64_t xmdmskfl              : 2;  /**< [ 49: 48](RO/H) BIST failure status for RSTP XMDMSK memories. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_l2c_tadx_ttg_bist_status_s cn88xx; */
-    /* struct bdk_l2c_tadx_ttg_bist_status_cn81xx cn83xx; */
+    } cn83xx;
 } bdk_l2c_tadx_ttg_bist_status_t;
 
 static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1831,11 +1848,11 @@ static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a)
  *
  * Level 2 Cache TAD Tag Error Information Registers
  * This register records error information for all TAG SBE/DBE/NOWAY errors.
- * The priority of errors (lowest to highest) is NOWAY, SBE, DBE. An error locks the SYN, WAY,
- * and L2IDX fields for equal or lower priority errors until cleared by software.
+ * The priority of errors (lowest to highest) is NOWAY, SBE, DBE. An error locks [SYN], [WAY],
+ * and [L2IDX] for equal or lower priority errors until cleared by software.
  * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
- * A NOWAY error does not change the value of the SYN field, and leaves WAY unpredictable.
- * L2IDX[19:7] is the L2 block index associated with the command which had no way to allocate.
+ * A NOWAY error does not change the value of the [SYN] field, and leaves [WAY] unpredictable.
+ * [L2IDX]<19:7> is the L2 block index associated with the command which had no way to allocate.
  */
 typedef union
 {

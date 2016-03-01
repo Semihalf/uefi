@@ -278,10 +278,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t stretch               : 1;  /**< [  1:  1](R/W) Clock Stretching enable.
-                                                                 When enabled and device in Master mode, it allows slave device
+        uint64_t stretch               : 1;  /**< [  1:  1](R/W) Clock stretching enable.
+                                                                 When enabled and device in master mode, it allows slave device
                                                                  to extend low period of the clock. During the clock extension period, the SCL output from
-                                                                 Master device is disabled. */
+                                                                 master device is disabled. */
         uint64_t hs_mode               : 1;  /**< [  0:  0](R/W) I2C bus high-speed mode.
 
                                                                  0 = Open drain drive on TWS_SCL. TWS_SCL clock signal high-to-low ratio is 1 to 1.
@@ -303,10 +303,10 @@ typedef union
                                                                  and after each act or nack to give a slave a chance to stretch the clock.
                                                                  TWS_SCL clock signal high-to-low ratio is 1 to 2.
                                                                  OSCL output frequency divisor is 15. */
-        uint64_t stretch               : 1;  /**< [  1:  1](R/W) Clock Stretching enable.
-                                                                 When enabled and device in Master mode, it allows slave device
+        uint64_t stretch               : 1;  /**< [  1:  1](R/W) Clock stretching enable.
+                                                                 When enabled and device in master mode, it allows slave device
                                                                  to extend low period of the clock. During the clock extension period, the SCL output from
-                                                                 Master device is disabled. */
+                                                                 master device is disabled. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -390,20 +390,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MIO_TWS()_MSIX_VEC()_ADDR, MIO_TWS()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of MIO_TWS()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_MIO_TWS()_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MIO_TWS()_MSIX_VEC()_ADDR, MIO_TWS()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of MIO_TWS()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_MIO_TWS()_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
@@ -505,7 +505,7 @@ typedef union
         uint64_t v                     : 1;  /**< [ 63: 63](RC/W/H) Valid bit. Set on a write operation (should always be written with a 1). Cleared when a
                                                                  TWSI master-mode operation completes, a TWSI configuration register access completes, or
                                                                  when the TWSI device reads the register if [SLONLY] = 1. */
-        uint64_t slonly                : 1;  /**< [ 62: 62](R/W) Slave-only mode.
+        uint64_t slonly                : 1;  /**< [ 62: 62](R/W) Slave only mode.
 
                                                                  When this bit is set, no operations are initiated with a write operation. Only the D field
                                                                  is updated in this case.
@@ -545,7 +545,7 @@ typedef union
 
                                                                  Note that when mastering a 7-bit OP, ADDR<6:0> should not take any of the values 0x78,
                                                                  0x79, 0x7A nor 0x7B. (These 7-bit addresses are reserved to extend to 10-bit addressing). */
-        uint64_t ia                    : 5;  /**< [ 39: 35](R/W) Internal Address. Used when launching a combined master-mode operation. The lower 3
+        uint64_t ia                    : 5;  /**< [ 39: 35](R/W) Internal address. Used when launching a combined master-mode operation. The lower 3
                                                                  address bits are contained in [EOP_IA]. */
         uint64_t eop_ia                : 3;  /**< [ 34: 32](R/W) Extra opcode, used when OP<3:0> = 0x6 and [SLONLY] = 0.
                                                                  0x0 = TWSI slave address register (TWSI_SLAVE_ADD).
@@ -590,7 +590,7 @@ typedef union
 
                                                                  Also provides the lower 3 bits of internal address when launching a combined master-mode
                                                                  operation. */
-        uint64_t ia                    : 5;  /**< [ 39: 35](R/W) Internal Address. Used when launching a combined master-mode operation. The lower 3
+        uint64_t ia                    : 5;  /**< [ 39: 35](R/W) Internal address. Used when launching a combined master-mode operation. The lower 3
                                                                  address bits are contained in [EOP_IA]. */
         uint64_t addr                  : 10; /**< [ 49: 40](R/W) Address field. The address of the remote device for a master-mode operation. ADDR<9:7> are
                                                                  only used for 10-bit addressing.
@@ -625,7 +625,7 @@ typedef union
                                                                  master-mode operation. */
         uint64_t eia                   : 1;  /**< [ 61: 61](R/W) Extended internal address. Sends an additional internal address byte (the MSB of IA is
                                                                  from MIO_TWS()_SW_TWSI_EXT[IA]). */
-        uint64_t slonly                : 1;  /**< [ 62: 62](R/W) Slave-only mode.
+        uint64_t slonly                : 1;  /**< [ 62: 62](R/W) Slave only mode.
 
                                                                  When this bit is set, no operations are initiated with a write operation. Only the D field
                                                                  is updated in this case.

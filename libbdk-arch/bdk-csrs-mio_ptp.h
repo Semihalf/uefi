@@ -68,9 +68,13 @@
  * Enumerates the different external signal sources for PTP.
  * Note that CCPI reference clocks cannot be selected.
  */
+#define BDK_MIO_PTP_EXT_SEL_E_GPIO (0) /**< Select GPIO pin as the input source. The specific GPIO pin used is selected by
+                                       setting GPIO_BIT_CFG()[PIN_SEL] to GPIO_PIN_SEL_E::PTP_EXT_CLK,
+                                       GPIO_PIN_SEL_E::PTP_TSTMP, or GPIO_PIN_SEL_E::PTP_EVTCNT. */
 #define BDK_MIO_PTP_EXT_SEL_E_GPIOX(a) (0 + (a)) /**< Normal GPIO inputs. */
-#define BDK_MIO_PTP_EXT_SEL_E_GSER_REFX(a) (0x80 + (a)) /**< GSER0-GSER3 reference clock. */
-#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX(a) (0x38 + (a)) /**< GSER0-7 reference clock. */
+#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN81XX(a) (0x38 + (a)) /**< Select GSER0-GSER3 reference clock as the input source. */
+#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN88XX(a) (0x38 + (a)) /**< GSER0-7 reference clock. */
+#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN83XX(a) (0x38 + (a)) /**< Select GSER0-GSER6 reference clock as the input source. */
 
 /**
  * Enumeration mio_ptp_int_vec_e
@@ -128,7 +132,7 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_HI_INCR_FUNC(void)
  * Register (NCB) mio_ptp_ckout_lo_incr
  *
  * PTP Clock Out Low Increment Register
- * This register contains the PTP CKOUTthreshold increment on pre-inverted PTP_CKOUT falling
+ * This register contains the PTP CKOUT threshold increment on pre-inverted PTP_CKOUT falling
  * edge. See MIO_PTP_CKOUT_THRESH_HI for details.
  */
 typedef union
@@ -258,10 +262,10 @@ typedef union
         uint64_t ckout                 : 1;  /**< [ 41: 41](RO/H) PTP CKOUT; reflects ptp__ckout after [CKOUT_INV] inverter. */
         uint64_t pps                   : 1;  /**< [ 40: 40](RO/H) PTP PPS output; reflects ptp__pps after [PPS_INV] inverter. */
         uint64_t ext_clk_edge          : 2;  /**< [ 39: 38](R/W) External clock input edge:
-                                                                 00 = Rising edge.
-                                                                 01 = Falling edge.
-                                                                 10 = Both rising and falling edge.
-                                                                 11 = Reserved. */
+                                                                 0x0 = Rising edge.
+                                                                 0x1 = Falling edge.
+                                                                 0x2 = Both rising and falling edge.
+                                                                 0x3 = Reserved. */
         uint64_t reserved_32_37        : 6;
         uint64_t pps_inv               : 1;  /**< [ 31: 31](R/W) Invert PTP PPS.
                                                                  0 = Don't invert.
@@ -308,10 +312,10 @@ typedef union
                                                                  1 = Invert. */
         uint64_t reserved_32_37        : 6;
         uint64_t ext_clk_edge          : 2;  /**< [ 39: 38](R/W) External clock input edge:
-                                                                 00 = Rising edge.
-                                                                 01 = Falling edge.
-                                                                 10 = Both rising and falling edge.
-                                                                 11 = Reserved. */
+                                                                 0x0 = Rising edge.
+                                                                 0x1 = Falling edge.
+                                                                 0x2 = Both rising and falling edge.
+                                                                 0x3 = Reserved. */
         uint64_t pps                   : 1;  /**< [ 40: 40](RO/H) PTP PPS output; reflects ptp__pps after [PPS_INV] inverter. */
         uint64_t ckout                 : 1;  /**< [ 41: 41](RO/H) PTP CKOUT; reflects ptp__ckout after [CKOUT_INV] inverter. */
         uint64_t reserved_42_63        : 22;
@@ -377,7 +381,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_COMP_FUNC(void)
  * Register (NCB) mio_ptp_clock_hi
  *
  * PTP Clock High Register
- * This register provides bits<95:32> of the PTP clock. Writes to MIO_PTP_CLOCK_HI also clear
+ * This register provides bits <95:32> of the PTP clock. Writes to MIO_PTP_CLOCK_HI also clear
  * MIO_PTP_CLOCK_LO. To update all 96 bits, write MIO_PTP_CLOCK_HI followed by MIO_PTP_CLOCK_LO.
  * MIO_PTP_CLOCK_CFG[PTP_EN] needs to be enabled before writing this register.
  */
@@ -413,7 +417,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_HI_FUNC(void)
  * Register (NCB) mio_ptp_clock_lo
  *
  * PTP Clock Low Register
- * This register provides bits<31:0> of the PTP clock.  MIO_PTP_CLOCK_CFG[PTP_EN] needs to be
+ * This register provides bits <31:0> of the PTP clock.  MIO_PTP_CLOCK_CFG[PTP_EN] needs to be
  * enabled before writing this register.
  */
 typedef union
@@ -450,7 +454,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_LO_FUNC(void)
  * Register (NCB) mio_ptp_dpll_err_int
  *
  * PTP Digital PLL Error Interrupt Register
- * This register contains the Digital PLL error event.
+ * This register contains the digital PLL error event.
  */
 typedef union
 {
@@ -488,7 +492,7 @@ static inline uint64_t BDK_MIO_PTP_DPLL_ERR_INT_FUNC(void)
  * Register (NCB) mio_ptp_dpll_err_thresh
  *
  * PTP Digital PLL Error Threshold Register
- * This register configures the Digital PLL error interrupt.
+ * This register configures the digital PLL error interrupt.
  */
 typedef union
 {
@@ -528,7 +532,7 @@ static inline uint64_t BDK_MIO_PTP_DPLL_ERR_THRESH_FUNC(void)
  * Register (NCB) mio_ptp_dpll_incr
  *
  * PTP Digital PLL Increment Register
- * This register contains the Digital PLL increment on each coprocessor clock rising edge.
+ * This register contains the digital PLL increment on each coprocessor clock rising edge.
  * Zero disables the digital PLL.
  */
 typedef union
@@ -811,21 +815,21 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MIO_PTP_MSIX_VEC()_ADDR, MIO_PTP_MSIX_VEC()_CTL, and
                                                                  corresponding
                                                                  bit of MIO_PTP_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
                                                                  If PCCPF_MIO_PTP_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's MIO_PTP_MSIX_VEC()_ADDR, MIO_PTP_MSIX_VEC()_CTL, and
                                                                  corresponding
                                                                  bit of MIO_PTP_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
                                                                  If PCCPF_MIO_PTP_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */

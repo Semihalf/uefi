@@ -61,7 +61,7 @@
 #define BDK_FPA_BAR_E_FPA_PF_BAR0 (0x828000000000ll) /**< Base address for standard registers. */
 #define BDK_FPA_BAR_E_FPA_PF_BAR4 (0x828300000000ll) /**< Base address for MSI-X registers. */
 #define BDK_FPA_BAR_E_FPA_VFX_BAR0(a) (0x828400000000ll + 0x400000ll * (a)) /**< Base address for virtual function standard registers. */
-#define BDK_FPA_BAR_E_FPA_VFX_BAR4(a) (0x828700000000ll + 0x400000ll * (a)) /**< Base address for virtual function MSI-X registers. */
+#define BDK_FPA_BAR_E_FPA_VFX_BAR4(a) (0x828700000000ll + 0x100000ll * (a)) /**< Base address for virtual function MSI-X registers. */
 
 /**
  * Enumeration fpa_pf_int_vec_e
@@ -125,7 +125,7 @@ union bdk_fpa_free_addr_s
         uint64_t fabs                  : 1;  /**< [ 14: 14] Free absolute. */
         uint64_t reserved_12_13        : 2;
         uint64_t dwb_count             : 9;  /**< [ 11:  3] Number of cache lines for which the hardware (in IOB) should try to execute
-                                                                 'don't-write- back' commands. The hardware starts from the free operation's
+                                                                 'don't-write-back' commands. The hardware starts from the free operation's
                                                                  FPA_VHAURA()_OP_FREE()[ADDR] (i.e. to where the address points) and marches
                                                                  forward linearly for [DWB_COUNT] cache lines. As the DWB command can modify the
                                                                  value of memory locations, software must ensure that the maximum addressed DWB'd
@@ -136,7 +136,7 @@ union bdk_fpa_free_addr_s
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
         uint64_t dwb_count             : 9;  /**< [ 11:  3] Number of cache lines for which the hardware (in IOB) should try to execute
-                                                                 'don't-write- back' commands. The hardware starts from the free operation's
+                                                                 'don't-write-back' commands. The hardware starts from the free operation's
                                                                  FPA_VHAURA()_OP_FREE()[ADDR] (i.e. to where the address points) and marches
                                                                  forward linearly for [DWB_COUNT] cache lines. As the DWB command can modify the
                                                                  value of memory locations, software must ensure that the maximum addressed DWB'd
@@ -156,7 +156,7 @@ union bdk_fpa_free_addr_s
  *
  * FPA Address Range Error Information Register
  * When any FPA_VF()_INT[RANGE] error occurs, this register is latched with
- * additional error information. The POOL and ADDR fields must be used from a single
+ * additional error information. [POOL} and [ADDR] must be used from a single
  * read of this register to avoid a race whereby a new range error changes this
  * register.
  */
@@ -166,13 +166,13 @@ typedef union
     struct bdk_fpa_addr_range_error_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pool                  : 8;  /**< [ 63: 56](RO/H) Pool that address was sent to. */
+        uint64_t pool                  : 8;  /**< [ 63: 56](RO/H) Pool to which address was sent. */
         uint64_t reserved_49_55        : 7;
         uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Failing IOVA. */
 #else /* Word 0 - Little Endian */
         uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Failing IOVA. */
         uint64_t reserved_49_55        : 7;
-        uint64_t pool                  : 8;  /**< [ 63: 56](RO/H) Pool that address was sent to. */
+        uint64_t pool                  : 8;  /**< [ 63: 56](RO/H) Pool to which address was sent. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_addr_range_error_s cn; */
@@ -264,7 +264,7 @@ static inline uint64_t BDK_FPA_AURAX_CFG(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_FPA_AURAX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
-        return 0x828100020110ll + 0x40000ll * ((a) & 0x1ff);
+        return 0x828040008110ll + 0x10000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_AURAX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -356,7 +356,7 @@ static inline uint64_t BDK_FPA_AURAX_CNT_LEVELS(unsigned long a) __attribute__ (
 static inline uint64_t BDK_FPA_AURAX_CNT_LEVELS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
-        return 0x828100020310ll + 0x40000ll * ((a) & 0x1ff);
+        return 0x828040008310ll + 0x10000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_AURAX_CNT_LEVELS", 1, a, 0, 0, 0);
 }
 
@@ -380,10 +380,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t pool                  : 6;  /**< [  5:  0](R/W) Indicates which HW pool corresponds to each aura. Must not be larger than the
+        uint64_t pool                  : 6;  /**< [  5:  0](R/W) Indicates which hardware pool corresponds to each aura. Must not be larger than the
                                                                  number of pools; see FPA_GEN_CFG[POOLS]. */
 #else /* Word 0 - Little Endian */
-        uint64_t pool                  : 6;  /**< [  5:  0](R/W) Indicates which HW pool corresponds to each aura. Must not be larger than the
+        uint64_t pool                  : 6;  /**< [  5:  0](R/W) Indicates which hardware pool corresponds to each aura. Must not be larger than the
                                                                  number of pools; see FPA_GEN_CFG[POOLS]. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
@@ -395,7 +395,7 @@ static inline uint64_t BDK_FPA_AURAX_POOL(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_FPA_AURAX_POOL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
-        return 0x828100020100ll + 0x40000ll * ((a) & 0x1ff);
+        return 0x828040008100ll + 0x10000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_AURAX_POOL", 1, a, 0, 0, 0);
 }
 
@@ -501,7 +501,7 @@ static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a) __attribute__ 
 static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
-        return 0x828100020300ll + 0x40000ll * ((a) & 0x1ff);
+        return 0x828040008300ll + 0x10000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_AURAX_POOL_LEVELS", 1, a, 0, 0, 0);
 }
 
@@ -597,8 +597,8 @@ typedef union
         uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <47:46> = BP_CFG15.
                                                                    <45:44> = BP_CFG14.
                                                                    <43:42> = BP_CFG13.
@@ -623,8 +623,8 @@ typedef union
         uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <47:46> = BP_CFG15.
                                                                    <45:44> = BP_CFG14.
                                                                    <43:42> = BP_CFG13.
@@ -814,6 +814,47 @@ static inline uint64_t BDK_FPA_CONST1_FUNC(void)
 #define device_bar_BDK_FPA_CONST1 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_CONST1 0
 #define arguments_BDK_FPA_CONST1 -1,-1,-1,-1
+
+/**
+ * Register (NCB) fpa_dwb_info
+ *
+ * FPA DWB Information Register
+ * Internal:
+ * This register provides information for the current DWB logic status.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_fpa_dwb_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t dwb_pending           : 6;  /**< [  5:  0](RO/H) Internal:
+                                                                 Number of outstanding dwb requests in DWB queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t dwb_pending           : 6;  /**< [  5:  0](RO/H) Internal:
+                                                                 Number of outstanding dwb requests in DWB queue. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_fpa_dwb_info_s cn; */
+} bdk_fpa_dwb_info_t;
+
+#define BDK_FPA_DWB_INFO BDK_FPA_DWB_INFO_FUNC()
+static inline uint64_t BDK_FPA_DWB_INFO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_FPA_DWB_INFO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000468ll;
+    __bdk_csr_fatal("FPA_DWB_INFO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_FPA_DWB_INFO bdk_fpa_dwb_info_t
+#define bustype_BDK_FPA_DWB_INFO BDK_CSR_TYPE_NCB
+#define basename_BDK_FPA_DWB_INFO "FPA_DWB_INFO"
+#define device_bar_BDK_FPA_DWB_INFO 0x0 /* PF_BAR0 */
+#define busnum_BDK_FPA_DWB_INFO 0
+#define arguments_BDK_FPA_DWB_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) fpa_ecc_ctl
@@ -1335,14 +1376,14 @@ typedef union
                                                                  <0> = SSO.
                                                                  <1> = PKO queue.
                                                                  <2> = PKI.
-                                                                 <3> = Reserved.
+                                                                 <3> = CPT1.
                                                                  <4> = ZIP.
                                                                  <5> = TIM.
                                                                  <6> = RAD.
                                                                  <7> = PKO send commands.
-                                                                 <8> = Reserved.
+                                                                 <8> = CPT0.
                                                                  <9> = DPI.
-                                                                 <10> = Reserved.
+                                                                 <10> = DDF.
                                                                  <11> = BCH.
                                                                  <19:12> = Reserved.
 
@@ -1356,14 +1397,14 @@ typedef union
                                                                  <0> = SSO.
                                                                  <1> = PKO queue.
                                                                  <2> = PKI.
-                                                                 <3> = Reserved.
+                                                                 <3> = CPT1.
                                                                  <4> = ZIP.
                                                                  <5> = TIM.
                                                                  <6> = RAD.
                                                                  <7> = PKO send commands.
-                                                                 <8> = Reserved.
+                                                                 <8> = CPT0.
                                                                  <9> = DPI.
-                                                                 <10> = Reserved.
+                                                                 <10> = DDF.
                                                                  <11> = BCH.
                                                                  <19:12> = Reserved.
 
@@ -1407,7 +1448,9 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
  *
  * FPA PF VF-Mapping Registers
  * These registers map GMIDs and guest aura-sets to hardware aura-sets. An aura-set is
- * a naturally aligned set of 16 auras.
+ * a naturally aligned set of 16 auras. This table provides a few extra entries (40
+ * instead of 32) in case software needs to have an entry mapped to two guests when
+ * e.g. migrating traffic or otherwise reprovisioning.
  *
  * * Regardless of this mapping table, GMID 0x0 is always invalid and use of 0x0 will
  * cause a FPA_GEN_INT[GMID0] error.
@@ -1520,20 +1563,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's FPA_PF_MSIX_VEC()_ADDR, FPA_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of FPA_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_FPA_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's FPA_PF_MSIX_VEC()_ADDR, FPA_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of FPA_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_FPA_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
@@ -1621,13 +1664,17 @@ typedef union
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1; i.e. setting
                                                                  [STACK_STRM] to 0x0 would put the stack into the PF's memory translation space.
 
-                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc.
+
+                                                                 Only global reset can reset this register. */
         uint64_t ptr_strm              : 8;  /**< [ 23: 16](R/W) Pointer stream. Low 8 bits of the SMMU stream identifier to use
                                                                  when issuing don't write back commands on pointer returns from FPA_VHAURA()_OP_FREE().
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
 
-                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc.
+
+                                                                 Only global reset can reset this register. */
         uint64_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
@@ -1636,14 +1683,18 @@ typedef union
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
 
-                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc.
+
+                                                                 Only global reset can reset this register. */
         uint64_t stack_strm            : 8;  /**< [ 31: 24](R/W) Stack stream. Low 8 bits of the SMMU stream identifier to use for
                                                                  requests when issuing pool load/stores associated with FPA_POOL()_STACK_ADDR.
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1; i.e. setting
                                                                  [STACK_STRM] to 0x0 would put the stack into the PF's memory translation space.
 
-                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc.
+
+                                                                 Only global reset can reset this register. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -1654,7 +1705,7 @@ static inline uint64_t BDK_FPA_PF_VFX_GMCTL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_FPA_PF_VFX_GMCTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828100001000ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828040001000ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_PF_VFX_GMCTL", 1, a, 0, 0, 0);
 }
 
@@ -1744,7 +1795,7 @@ static inline uint64_t BDK_FPA_POOLX_CFG(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_FPA_POOLX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828100010100ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828040004100ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -1815,7 +1866,7 @@ static inline uint64_t BDK_FPA_POOLX_FPF_MARKS(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_FPA_POOLX_FPF_MARKS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828100010110ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828040004110ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_FPF_MARKS", 1, a, 0, 0, 0);
 }
 
@@ -1853,7 +1904,7 @@ static inline uint64_t BDK_FPA_POOLX_OP_PC(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_FPA_POOLX_OP_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828100010280ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828040004280ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_OP_PC", 1, a, 0, 0, 0);
 }
 
@@ -1893,7 +1944,7 @@ static inline uint64_t BDK_FPA_POOLX_STACK_ADDR(unsigned long a) __attribute__ (
 static inline uint64_t BDK_FPA_POOLX_STACK_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828100010240ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828040004240ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_STACK_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -1931,7 +1982,7 @@ static inline uint64_t BDK_FPA_POOLX_STACK_BASE(unsigned long a) __attribute__ (
 static inline uint64_t BDK_FPA_POOLX_STACK_BASE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828100010220ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828040004220ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_STACK_BASE", 1, a, 0, 0, 0);
 }
 
@@ -1971,7 +2022,7 @@ static inline uint64_t BDK_FPA_POOLX_STACK_END(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_FPA_POOLX_STACK_END(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828100010230ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828040004230ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_STACK_END", 1, a, 0, 0, 0);
 }
 
@@ -2173,13 +2224,15 @@ typedef union
     struct bdk_fpa_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t dwbq_busy             : 1;  /**< [  1:  1](RO/H) When 1, the DWBQ queue is non-empty. */
+        uint64_t reserved_3_63         : 61;
+        uint64_t dwbq_busy             : 1;  /**< [  2:  2](RO/H) When 1, the DWBQ queue is non-empty. */
+        uint64_t fpa_busy              : 1;  /**< [  1:  1](R/W1/H) When 1, FPA is active, ignoring CSR read/write activity. */
         uint64_t inp_busy              : 1;  /**< [  0:  0](R/W1/H) When 1, an input queue is non-empty. */
 #else /* Word 0 - Little Endian */
         uint64_t inp_busy              : 1;  /**< [  0:  0](R/W1/H) When 1, an input queue is non-empty. */
-        uint64_t dwbq_busy             : 1;  /**< [  1:  1](RO/H) When 1, the DWBQ queue is non-empty. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t fpa_busy              : 1;  /**< [  1:  1](R/W1/H) When 1, FPA is active, ignoring CSR read/write activity. */
+        uint64_t dwbq_busy             : 1;  /**< [  2:  2](RO/H) When 1, the DWBQ queue is non-empty. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_status_s cn; */
@@ -2214,11 +2267,13 @@ typedef union
     struct bdk_fpa_unmap_info_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_32_63        : 32;
+        uint64_t gaura                 : 16; /**< [ 31: 16](RO/H) Failing GAURA. */
         uint64_t gmid                  : 16; /**< [ 15:  0](RO/H) Failing GMID. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](RO/H) Failing GMID. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t gaura                 : 16; /**< [ 31: 16](RO/H) Failing GAURA. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_unmap_info_s cn; */
@@ -2512,7 +2567,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
-        return 0x8287000f0000ll + 0x400000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
+        return 0x8287000f0000ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("FPA_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
@@ -2557,7 +2612,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 static inline uint64_t BDK_FPA_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
-        return 0x828700000000ll + 0x400000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
+        return 0x828700000000ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("FPA_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -2598,7 +2653,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
 static inline uint64_t BDK_FPA_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
-        return 0x828700000008ll + 0x400000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
+        return 0x828700000008ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("FPA_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -2847,10 +2902,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t addr                  : 64; /**< [ 63:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte
-                                                                 aligned. Bits<63:49> are ignored (as they are typically sign extensions of bit <48>). */
+                                                                 aligned. Bits <63:49> are ignored (as they are typically sign extensions of bit
+                                                                 <48>). */
 #else /* Word 0 - Little Endian */
         uint64_t addr                  : 64; /**< [ 63:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte
-                                                                 aligned. Bits<63:49> are ignored (as they are typically sign extensions of bit <48>). */
+                                                                 aligned. Bits <63:49> are ignored (as they are typically sign extensions of bit
+                                                                 <48>). */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_op_freex_s cn; */
@@ -2902,7 +2959,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_AVAILABLE(unsigned long a) __attribute__ 
 static inline uint64_t BDK_FPA_VHPOOLX_AVAILABLE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828400010150ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828400004150ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VHPOOLX_AVAILABLE", 1, a, 0, 0, 0);
 }
 
@@ -2941,7 +2998,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_END_ADDR(unsigned long a) __attribute__ (
 static inline uint64_t BDK_FPA_VHPOOLX_END_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828400010210ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828400004210ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VHPOOLX_END_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -2980,7 +3037,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_START_ADDR(unsigned long a) __attribute__
 static inline uint64_t BDK_FPA_VHPOOLX_START_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828400010200ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828400004200ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VHPOOLX_START_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -3020,7 +3077,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_THRESHOLD(unsigned long a) __attribute__ 
 static inline uint64_t BDK_FPA_VHPOOLX_THRESHOLD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x828400010160ll + 0x400000ll * ((a) & 0x1f);
+        return 0x828400004160ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VHPOOLX_THRESHOLD", 1, a, 0, 0, 0);
 }
 

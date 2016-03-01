@@ -99,7 +99,7 @@ typedef union
                                                                  Used to detect framing errors and
                                                                  therefore must have a correct value even if GEN=0. */
         uint64_t numslots              : 10; /**< [ 15:  6](R/W) Number of 8-bit slots in a frame.
-                                                                 This, along with EXTRABIT and Fbclk
+                                                                 This, along with [EXTRABIT] and Fbclk
                                                                  determines FSYNC frequency when GEN = 1.
                                                                  Also used to detect framing errors and
                                                                  therefore must have a correct value even if GEN = 0. */
@@ -169,7 +169,7 @@ typedef union
                                                                  transmit memory region.  LSB vs MSB is determined from the setting of
                                                                  PCM_TE()_TDM_CFG[LSBFIRST]. */
         uint64_t numslots              : 10; /**< [ 15:  6](R/W) Number of 8-bit slots in a frame.
-                                                                 This, along with EXTRABIT and Fbclk
+                                                                 This, along with [EXTRABIT] and Fbclk
                                                                  determines FSYNC frequency when GEN = 1.
                                                                  Also used to detect framing errors and
                                                                  therefore must have a correct value even if GEN = 0. */
@@ -197,7 +197,7 @@ static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x806000100000ll + 0x10000ll * ((a) & 0x1);
+        return 0x806000000000ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PCM_CLKX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -231,7 +231,7 @@ static inline uint64_t BDK_PCM_CLKX_DBG(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_PCM_CLKX_DBG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x806000100038ll + 0x10000ll * ((a) & 0x1);
+        return 0x806000000038ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PCM_CLKX_DBG", 1, a, 0, 0, 0);
 }
 
@@ -255,12 +255,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t deltasamp             : 16; /**< [ 63: 48](R/W) Signed number of ECLKs to move sampled BCLK edge.
                                                                  The complete number of ECLKs to move is:
-                                                                   _ NUMSAMP + 2 + 1 + DELTASAMP
+                                                                   _ [NUMSAMP] + 2 + 1 + [DELTASAMP]
 
-                                                                 _ NUMSAMP to compensate for sampling delay.
+                                                                 _ [NUMSAMP] to compensate for sampling delay.
                                                                  _ + 2 to compensate for dual-rank synchronizer.
                                                                  _ + 1 for uncertainity.
-                                                                 + + DELTASAMP to CMA/debugging. */
+                                                                 + + [DELTASAMP] to CMA/debugging. */
         uint64_t numsamp               : 16; /**< [ 47: 32](R/W) Number of ECLK samples to detect BCLK change when receiving clock. */
         uint64_t n                     : 32; /**< [ 31:  0](R/W) Determines BCLK frequency when generating clock.
                                                                  _ Fbclk = Feclk * N / 2^32
@@ -278,12 +278,12 @@ typedef union
         uint64_t numsamp               : 16; /**< [ 47: 32](R/W) Number of ECLK samples to detect BCLK change when receiving clock. */
         uint64_t deltasamp             : 16; /**< [ 63: 48](R/W) Signed number of ECLKs to move sampled BCLK edge.
                                                                  The complete number of ECLKs to move is:
-                                                                   _ NUMSAMP + 2 + 1 + DELTASAMP
+                                                                   _ [NUMSAMP] + 2 + 1 + [DELTASAMP]
 
-                                                                 _ NUMSAMP to compensate for sampling delay.
+                                                                 _ [NUMSAMP] to compensate for sampling delay.
                                                                  _ + 2 to compensate for dual-rank synchronizer.
                                                                  _ + 1 for uncertainity.
-                                                                 + + DELTASAMP to CMA/debugging. */
+                                                                 + + [DELTASAMP] to CMA/debugging. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_clkx_gen_s cn; */
@@ -293,7 +293,7 @@ static inline uint64_t BDK_PCM_CLKX_GEN(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_PCM_CLKX_GEN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x806000100008ll + 0x10000ll * ((a) & 0x1);
+        return 0x806000000008ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PCM_CLKX_GEN", 1, a, 0, 0, 0);
 }
 
@@ -357,19 +357,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's PCM_MSIX_VEC()_ADDR, PCM_MSIX_VEC()_CTL, and corresponding
                                                                  bit of PCM_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PCM_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's PCM_MSIX_VEC()_ADDR, PCM_MSIX_VEC()_CTL, and corresponding
                                                                  bit of PCM_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_PCM_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -453,13 +453,17 @@ typedef union
                                                                  1 = L2C read responses are outstanding.
 
                                                                  When restarting after stopping a running TDM engine, software must wait for
-                                                                 RDPEND to read 0 before writing PCMn_TDM_CFG[ENABLE] to a 1. */
+                                                                 [RDPEND] to read 0 before writing PCMn_TDM_CFG[ENABLE] to a 1. */
         uint64_t reserved_54_62        : 9;
         uint64_t rxslots               : 10; /**< [ 53: 44](R/W) Number of 8-bit slots to receive per frame (number of slots in a receive
-                                                                 superframe). */
+                                                                 superframe).
+                                                                 Maximum value is 512 slots. Zero means no slot is provisioned. Note that the sum of all
+                                                                 ones in PCM_TE()_RXMASK() must equal the value of this field. */
         uint64_t reserved_42_43        : 2;
         uint64_t txslots               : 10; /**< [ 41: 32](R/W) Number of 8-bit slots to transmit per frame (number of slots in a transmit
-                                                                 superframe). */
+                                                                 superframe).
+                                                                 Maximum value is 512 slots. Zero means no slot is provisioned. Note that the sum of all
+                                                                 ones in PCM_TE()_TXMASK() must equal the value of this field. */
         uint64_t reserved_30_31        : 2;
         uint64_t rxst                  : 10; /**< [ 29: 20](R/W) Number of frame writes for interrupt. */
         uint64_t reserved_19           : 1;
@@ -473,20 +477,20 @@ typedef union
                                                                  transmit memory region.
 
                                                                  There are only 16B of buffer for each engine
-                                                                 so the seetings for FETCHSIZ and THRESH must be
+                                                                 so the seetings for [FETCHSIZ] and [THRESH] must be
                                                                  such that the buffer will not be overrun:
 
-                                                                 _ THRESH + min(FETCHSIZ + 1,TXSLOTS) must be <= 16. */
+                                                                 _ [THRESH] + min([FETCHSIZ] + 1,[TXSLOTS]) must be <= 16. */
 #else /* Word 0 - Little Endian */
         uint64_t thresh                : 4;  /**< [  3:  0](R/W) If number of bytes remaining in the DMA fifo is <=
                                                                  [THRESH], initiate a fetch of timeslot data from the
                                                                  transmit memory region.
 
                                                                  There are only 16B of buffer for each engine
-                                                                 so the seetings for FETCHSIZ and THRESH must be
+                                                                 so the seetings for [FETCHSIZ] and [THRESH] must be
                                                                  such that the buffer will not be overrun:
 
-                                                                 _ THRESH + min(FETCHSIZ + 1,TXSLOTS) must be <= 16. */
+                                                                 _ [THRESH] + min([FETCHSIZ] + 1,[TXSLOTS]) must be <= 16. */
         uint64_t fetchsiz              : 4;  /**< [  7:  4](R/W) FETCHSIZ+1 timeslots are read when threshold is reached. */
         uint64_t txrd                  : 10; /**< [ 17:  8](R/W) Number of frame reads for interrupt. */
         uint64_t useldt                : 1;  /**< [ 18: 18](R/W) Use LDT.
@@ -496,17 +500,21 @@ typedef union
         uint64_t rxst                  : 10; /**< [ 29: 20](R/W) Number of frame writes for interrupt. */
         uint64_t reserved_30_31        : 2;
         uint64_t txslots               : 10; /**< [ 41: 32](R/W) Number of 8-bit slots to transmit per frame (number of slots in a transmit
-                                                                 superframe). */
+                                                                 superframe).
+                                                                 Maximum value is 512 slots. Zero means no slot is provisioned. Note that the sum of all
+                                                                 ones in PCM_TE()_TXMASK() must equal the value of this field. */
         uint64_t reserved_42_43        : 2;
         uint64_t rxslots               : 10; /**< [ 53: 44](R/W) Number of 8-bit slots to receive per frame (number of slots in a receive
-                                                                 superframe). */
+                                                                 superframe).
+                                                                 Maximum value is 512 slots. Zero means no slot is provisioned. Note that the sum of all
+                                                                 ones in PCM_TE()_RXMASK() must equal the value of this field. */
         uint64_t reserved_54_62        : 9;
         uint64_t rdpend                : 1;  /**< [ 63: 63](RO/H) Reads pending.
                                                                  0 = No L2C read responses pending.
                                                                  1 = L2C read responses are outstanding.
 
                                                                  When restarting after stopping a running TDM engine, software must wait for
-                                                                 RDPEND to read 0 before writing PCMn_TDM_CFG[ENABLE] to a 1. */
+                                                                 [RDPEND] to read 0 before writing PCMn_TDM_CFG[ENABLE] to a 1. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_dma_cfg_s cn; */
@@ -516,7 +524,7 @@ static inline uint64_t BDK_PCM_TEX_DMA_CFG(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PCM_TEX_DMA_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100018ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000018ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_DMA_CFG", 1, a, 0, 0, 0);
 }
 
@@ -567,7 +575,7 @@ static inline uint64_t BDK_PCM_TEX_INT_ENA_W1C(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100078ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000078ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -618,7 +626,7 @@ static inline uint64_t BDK_PCM_TEX_INT_ENA_W1S(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100070ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000070ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -668,7 +676,7 @@ static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100028ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000028ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_INT_SUM", 1, a, 0, 0, 0);
 }
 
@@ -719,7 +727,7 @@ static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100020ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000020ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_INT_SUM_W1S", 1, a, 0, 0, 0);
 }
 
@@ -755,7 +763,7 @@ static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100068ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000068ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_RXADDR", 1, a, 0, 0, 0);
 }
 
@@ -791,7 +799,7 @@ static inline uint64_t BDK_PCM_TEX_RXCNT(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_PCM_TEX_RXCNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100060ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000060ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_RXCNT", 1, a, 0, 0, 0);
 }
 
@@ -843,7 +851,7 @@ static inline uint64_t BDK_PCM_TEX_RXMSKX(unsigned long a, unsigned long b) __at
 static inline uint64_t BDK_PCM_TEX_RXMSKX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=7)))
-        return 0x8060001000c0ll + 0x10000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+        return 0x8060000000c0ll + 0x10000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("PCM_TEX_RXMSKX", 2, a, b, 0, 0);
 }
 
@@ -881,7 +889,7 @@ static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100058ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000058ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_RXSTART", 1, a, 0, 0, 0);
 }
 
@@ -943,7 +951,7 @@ static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100010ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000010ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_TDM_CFG", 1, a, 0, 0, 0);
 }
 
@@ -977,7 +985,7 @@ static inline uint64_t BDK_PCM_TEX_TDM_DBG(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PCM_TEX_TDM_DBG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100030ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000030ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_TDM_DBG", 1, a, 0, 0, 0);
 }
 
@@ -1017,7 +1025,7 @@ static inline uint64_t BDK_PCM_TEX_TXADDR(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCM_TEX_TXADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100050ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000050ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_TXADDR", 1, a, 0, 0, 0);
 }
 
@@ -1053,7 +1061,7 @@ static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100048ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000048ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_TXCNT", 1, a, 0, 0, 0);
 }
 
@@ -1105,7 +1113,7 @@ static inline uint64_t BDK_PCM_TEX_TXMSKX(unsigned long a, unsigned long b) __at
 static inline uint64_t BDK_PCM_TEX_TXMSKX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=7)))
-        return 0x806000100080ll + 0x10000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+        return 0x806000000080ll + 0x10000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("PCM_TEX_TXMSKX", 2, a, b, 0, 0);
 }
 
@@ -1143,7 +1151,7 @@ static inline uint64_t BDK_PCM_TEX_TXSTART(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PCM_TEX_TXSTART(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
-        return 0x806000100040ll + 0x10000ll * ((a) & 0x3);
+        return 0x806000000040ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_TXSTART", 1, a, 0, 0, 0);
 }
 

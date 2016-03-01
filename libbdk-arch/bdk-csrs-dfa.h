@@ -114,14 +114,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t ns_en                 : 1;  /**< [  0:  0](SR/W) Enables non-secure access to a region.
+        uint64_t ns_en                 : 1;  /**< [  0:  0](SR/W) Enables nonsecure access to a region.
                                                                  If a HFA access falls outside all ASC regions, then then the cache line at
                                                                  DFA_ASC_REGION(0)_START[ADDR] will be read.
                                                                  Therefore for proper HFA access to DLC, DFA_ASC_REGION(0)_ATTR[NS_EN] must be
                                                                  enabled along with a corresponding valid DFA_ASC_REGION(0)_START[ADDR] and
                                                                  DFA_ASC_REGION(0)_END[ADDR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ns_en                 : 1;  /**< [  0:  0](SR/W) Enables non-secure access to a region.
+        uint64_t ns_en                 : 1;  /**< [  0:  0](SR/W) Enables nonsecure access to a region.
                                                                  If a HFA access falls outside all ASC regions, then then the cache line at
                                                                  DFA_ASC_REGION(0)_START[ADDR] will be read.
                                                                  Therefore for proper HFA access to DLC, DFA_ASC_REGION(0)_ATTR[NS_EN] must be
@@ -214,7 +214,7 @@ typedef union
                                                                  physical address to a physical address that would normally be computed by the
                                                                  SMMU (which is being bypassed for these HFA accesses).
 
-                                                                 This offset should not include a non-secure offset, as LMC()_NS_CTL[ADR_OFFSET]
+                                                                 This offset should not include a nonsecure offset, as LMC()_NS_CTL[ADR_OFFSET]
                                                                  is applied to these transactions by LMC. */
         uint64_t reserved_0_19         : 20;
 #else /* Word 0 - Little Endian */
@@ -227,7 +227,7 @@ typedef union
                                                                  physical address to a physical address that would normally be computed by the
                                                                  SMMU (which is being bypassed for these HFA accesses).
 
-                                                                 This offset should not include a non-secure offset, as LMC()_NS_CTL[ADR_OFFSET]
+                                                                 This offset should not include a nonsecure offset, as LMC()_NS_CTL[ADR_OFFSET]
                                                                  is applied to these transactions by LMC. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
@@ -475,13 +475,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
-        uint64_t dlcclear_bist         : 1;  /**< [ 10: 10](R/W) When DLCSTART_BIST is written 0->1, if DLCCLEAR_BIST=1, all previous DLC BIST state is
+        uint64_t dlcclear_bist         : 1;  /**< [ 10: 10](R/W) When [DLCSTART_BIST] is written 0->1, if [DLCCLEAR_BIST]=1, all previous DLC BIST state is
                                                                  cleared. Note the following:
-                                                                 DLCCLEAR_BIST must be written to 1 before DLCSTART_BIST is written to 1 using a separate
-                                                                 CSR write operation.
-                                                                 DLCCLEAR_BIST must not be changed after writing DLCSTART_BIST 0->1 until the BIST
-                                                                 operation completes. */
-        uint64_t dlcstart_bist         : 1;  /**< [  9:  9](R/W) When software writes DLCSTART_BIST=0->1, a BIST is executed for the DLC sub-block RAMs
+
+                                                                 * [DLCCLEAR_BIST] must be written to 1 before [DLCSTART_BIST] is written to 1
+                                                                 using a separate CSR write operation.
+
+                                                                 * [DLCCLEAR_BIST] must not be changed after writing [DLCSTART_BIST] 0->1 until
+                                                                 the BIST operation completes. */
+        uint64_t dlcstart_bist         : 1;  /**< [  9:  9](R/W) When software writes [DLCSTART_BIST]=0->1, a BIST is executed for the DLC sub-block RAMs
                                                                  which contains DCLK domain asynchronous RAMs. Note the following:
                                                                  This bit should only be written after DCLK has been enabled by software and is stable.
                                                                  (See LMC initialization routine for details on how to enable the DDR3/4 memory
@@ -572,18 +574,20 @@ typedef union
                                                                  definitions which support an additional REPL field. When clear, replication mode is
                                                                  disabled, and HFA interprets HFA instructions and node-arc formats which do not have
                                                                  address replication information. */
-        uint64_t dlcstart_bist         : 1;  /**< [  9:  9](R/W) When software writes DLCSTART_BIST=0->1, a BIST is executed for the DLC sub-block RAMs
+        uint64_t dlcstart_bist         : 1;  /**< [  9:  9](R/W) When software writes [DLCSTART_BIST]=0->1, a BIST is executed for the DLC sub-block RAMs
                                                                  which contains DCLK domain asynchronous RAMs. Note the following:
                                                                  This bit should only be written after DCLK has been enabled by software and is stable.
                                                                  (See LMC initialization routine for details on how to enable the DDR3/4 memory
                                                                  (DCLK)--which requires LMC PLL init, clock divider, and proper DLL initialization
                                                                  sequence.) */
-        uint64_t dlcclear_bist         : 1;  /**< [ 10: 10](R/W) When DLCSTART_BIST is written 0->1, if DLCCLEAR_BIST=1, all previous DLC BIST state is
+        uint64_t dlcclear_bist         : 1;  /**< [ 10: 10](R/W) When [DLCSTART_BIST] is written 0->1, if [DLCCLEAR_BIST]=1, all previous DLC BIST state is
                                                                  cleared. Note the following:
-                                                                 DLCCLEAR_BIST must be written to 1 before DLCSTART_BIST is written to 1 using a separate
-                                                                 CSR write operation.
-                                                                 DLCCLEAR_BIST must not be changed after writing DLCSTART_BIST 0->1 until the BIST
-                                                                 operation completes. */
+
+                                                                 * [DLCCLEAR_BIST] must be written to 1 before [DLCSTART_BIST] is written to 1
+                                                                 using a separate CSR write operation.
+
+                                                                 * [DLCCLEAR_BIST] must not be changed after writing [DLCSTART_BIST] 0->1 until
+                                                                 the BIST operation completes. */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
@@ -1106,8 +1110,8 @@ typedef union
         uint64_t rdptr                 : 43; /**< [ 48:  6](R/W/H) Represents the 64-byte-aligned IOVA of the current instruction in the HFA instruction
                                                                  FIFO in main memory. The RDPTR must be seeded by software at boot time, and is then
                                                                  maintained thereafter by HFA hardware. During the seed write operation (by software),
-                                                                 RDPTR<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
-                                                                 operation (by software), the most-recent contents of the RDPTR register are returned at
+                                                                 [RDPTR]<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
+                                                                 operation (by software), the most-recent contents of the [RDPTR] register are returned at
                                                                  the time the NCB-inbound bus is driven.
 
                                                                  Since HFA hardware updates this register, its contents are unpredictable in software
@@ -1119,8 +1123,8 @@ typedef union
         uint64_t rdptr                 : 43; /**< [ 48:  6](R/W/H) Represents the 64-byte-aligned IOVA of the current instruction in the HFA instruction
                                                                  FIFO in main memory. The RDPTR must be seeded by software at boot time, and is then
                                                                  maintained thereafter by HFA hardware. During the seed write operation (by software),
-                                                                 RDPTR<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
-                                                                 operation (by software), the most-recent contents of the RDPTR register are returned at
+                                                                 [RDPTR]<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
+                                                                 operation (by software), the most-recent contents of the [RDPTR] register are returned at
                                                                  the time the NCB-inbound bus is driven.
 
                                                                  Since HFA hardware updates this register, its contents are unpredictable in software
@@ -1165,14 +1169,14 @@ typedef union
                                                                  DFA_INT_STATUS[DONE_CNT].
 
                                                                  Written by software to acknowledge interrupts.  If DFA_INT_STATUS[DONE_CNT] is
-                                                                 still non-zero the interrupt will be re-sent if the conditions described in
+                                                                 still nonzero the interrupt will be re-sent if the conditions described in
                                                                  DFA_INT_STATUS[DONE_CNT] are satified. */
 #else /* Word 0 - Little Endian */
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to DFA_INT_STATUS[DONE_CNT]. Reads
                                                                  DFA_INT_STATUS[DONE_CNT].
 
                                                                  Written by software to acknowledge interrupts.  If DFA_INT_STATUS[DONE_CNT] is
-                                                                 still non-zero the interrupt will be re-sent if the conditions described in
+                                                                 still nonzero the interrupt will be re-sent if the conditions described in
                                                                  DFA_INT_STATUS[DONE_CNT] are satified. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
@@ -1338,7 +1342,7 @@ typedef union
                                                                  region, the CSR read response data is unpredictable. */
         uint64_t reserved_17           : 1;
         uint64_t asc_rg_err            : 1;  /**< [ 16: 16](R/W1C/H) ASC regions error. HTEs (or backdoor CSR HFA memory region reads) has tried
-                                                                 to access DRAM secure region address space while non-secure access is not enabled or
+                                                                 to access DRAM secure region address space while nonsecure access is not enabled or
                                                                  accessed address is not defined by any of the DFA's ASC regions.
                                                                  See DFA_ASC_REGION(0..3)_START/END/ATTR/OFFSET. */
         uint64_t reserved_15           : 1;
@@ -1375,7 +1379,7 @@ typedef union
                                                                  is here in case hardware credit/debit scheme is not working. */
         uint64_t reserved_15           : 1;
         uint64_t asc_rg_err            : 1;  /**< [ 16: 16](R/W1C/H) ASC regions error. HTEs (or backdoor CSR HFA memory region reads) has tried
-                                                                 to access DRAM secure region address space while non-secure access is not enabled or
+                                                                 to access DRAM secure region address space while nonsecure access is not enabled or
                                                                  accessed address is not defined by any of the DFA's ASC regions.
                                                                  See DFA_ASC_REGION(0..3)_START/END/ATTR/OFFSET. */
         uint64_t reserved_17           : 1;
@@ -1934,19 +1938,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's DFA_MSIX_VEC()_ADDR, DFA_MSIX_VEC()_CTL, and corresponding
                                                                  bit of DFA_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_DFA_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's DFA_MSIX_VEC()_ADDR, DFA_MSIX_VEC()_CTL, and corresponding
                                                                  bit of DFA_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_DFA_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -2474,18 +2478,18 @@ typedef union
 
                                                                  1 = Events are selected on a per-graph basis (VGID = virtual graph ID).
                                                                  Only EVSEL = [0...31] can be used in conjunction with
-                                                                 PMODE = 1. DFA_PFC_GCTL[VGID] specifies the virtual graph ID used across all four
+                                                                 [PMODE] = 1. DFA_PFC_GCTL[VGID] specifies the virtual graph ID used across all four
                                                                  performance counters. */
         uint64_t ednode                : 2;  /**< [ 21: 20](R/W) Ending DNODE Selector.
-                                                                 When ENODE=0/1(*DNODE), this field is used to further specify the Ending DNODE transition
-                                                                 sub-type:
+                                                                 When [ENODE]=0/1(*DNODE), this field is used to further specify the ending DNODE
+                                                                 transition  sub-type:
                                                                  0x0 = ALL DNODE sub-types.
                                                                  0x1 = ->D2e (explicit DNODE transition node-arc alone transitions to DNODE).
                                                                  0x2 = ->D2i (implicit DNODE transition:arc-present triggers transition).
                                                                  0x3 = ->D1r (rescan DNODE transition). */
         uint64_t enode                 : 4;  /**< [ 19: 16](R/W) Ending node selector.
-                                                                 When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the ENODE field is used to select Ending
-                                                                 Node, and the SNODE field is used to select the Starting Node.
+                                                                 When DFA_PFCx_CTL[EVSEL]=Node Transition(31), [ENODE] is used to select ending
+                                                                 node, and the SNODE field is used to select the starting node.
                                                                  0x0 = LDNODE.
                                                                  0x1 = SDNODE.
                                                                  0x2 = LCNODE.
@@ -2497,8 +2501,8 @@ typedef union
                                                                  0x8 = LONODE.
                                                                  0x9 = SONODE. */
         uint64_t snode                 : 4;  /**< [ 15: 12](R/W) Starting node selector.
-                                                                 When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the SNODE field is used to select Starting
-                                                                 Node, and the ENODE field is used to select the Ending Node.
+                                                                 When DFA_PFCx_CTL[EVSEL]=Node Transition(31), [SNODE] is used to select starting
+                                                                 node, and the ENODE field is used to select the ending node.
                                                                  0x0 = LDNODE.
                                                                  0x1 = SDNODE.
                                                                  0x2 = LCNODE.
@@ -2567,8 +2571,8 @@ typedef union
                                                                  clear the count value. This allows software to maintain 'cumulative' counters to avoid
                                                                  hardware wraparound. */
         uint64_t snode                 : 4;  /**< [ 15: 12](R/W) Starting node selector.
-                                                                 When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the SNODE field is used to select Starting
-                                                                 Node, and the ENODE field is used to select the Ending Node.
+                                                                 When DFA_PFCx_CTL[EVSEL]=Node Transition(31), [SNODE] is used to select starting
+                                                                 node, and the ENODE field is used to select the ending node.
                                                                  0x0 = LDNODE.
                                                                  0x1 = SDNODE.
                                                                  0x2 = LCNODE.
@@ -2580,8 +2584,8 @@ typedef union
                                                                  0x8 = LONODE.
                                                                  0x9 = SONODE. */
         uint64_t enode                 : 4;  /**< [ 19: 16](R/W) Ending node selector.
-                                                                 When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the ENODE field is used to select Ending
-                                                                 Node, and the SNODE field is used to select the Starting Node.
+                                                                 When DFA_PFCx_CTL[EVSEL]=Node Transition(31), [ENODE] is used to select ending
+                                                                 node, and the SNODE field is used to select the starting node.
                                                                  0x0 = LDNODE.
                                                                  0x1 = SDNODE.
                                                                  0x2 = LCNODE.
@@ -2593,8 +2597,8 @@ typedef union
                                                                  0x8 = LONODE.
                                                                  0x9 = SONODE. */
         uint64_t ednode                : 2;  /**< [ 21: 20](R/W) Ending DNODE Selector.
-                                                                 When ENODE=0/1(*DNODE), this field is used to further specify the Ending DNODE transition
-                                                                 sub-type:
+                                                                 When [ENODE]=0/1(*DNODE), this field is used to further specify the ending DNODE
+                                                                 transition  sub-type:
                                                                  0x0 = ALL DNODE sub-types.
                                                                  0x1 = ->D2e (explicit DNODE transition node-arc alone transitions to DNODE).
                                                                  0x2 = ->D2i (implicit DNODE transition:arc-present triggers transition).
@@ -2606,7 +2610,7 @@ typedef union
 
                                                                  1 = Events are selected on a per-graph basis (VGID = virtual graph ID).
                                                                  Only EVSEL = [0...31] can be used in conjunction with
-                                                                 PMODE = 1. DFA_PFC_GCTL[VGID] specifies the virtual graph ID used across all four
+                                                                 [PMODE] = 1. DFA_PFC_GCTL[VGID] specifies the virtual graph ID used across all four
                                                                  performance counters. */
         uint64_t vgid                  : 8;  /**< [ 30: 23](R/W) Virtual graph ID. When PMODE = 1 (per-graph selector), this field is used to
                                                                  select/monitor only those events which are associated with this selected VGID (virtual

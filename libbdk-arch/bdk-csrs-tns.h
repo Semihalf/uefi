@@ -738,19 +738,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's TNS_MSIX_VEC()_ADDR, TNS_MSIX_VEC()_CTL, and corresponding
                                                                  bit of TNS_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_TNS_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's TNS_MSIX_VEC()_ADDR, TNS_MSIX_VEC()_CTL, and corresponding
                                                                  bit of TNS_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_TNS_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -1883,7 +1883,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_FEN_W1S_FUNC(void)
  * TNS RDMA Interrupt First Status Register
  * RDMA Interrupt First Status Register.
  * Indicates which interrupt asserted first.
- * This register holds its non-zero value until all TNS_RDMA_INT_STAT_W1S register bits,
+ * This register holds its nonzero value until all TNS_RDMA_INT_STAT_W1S register bits,
  * as enabled by TNS_RDMA_INT_FIRST_EN_W1S, are cleared to 0x0.
  */
 typedef union

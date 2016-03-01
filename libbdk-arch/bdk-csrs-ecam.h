@@ -164,13 +164,58 @@ union bdk_ecam_cfg_addr_s
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_ecam_cfg_addr_s_s cn88xx; */
-    /* struct bdk_ecam_cfg_addr_s_s cn83xx; */
+    struct bdk_ecam_cfg_addr_s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t io                    : 1;  /**< [ 47: 47] Indicates I/O space. */
+        uint64_t reserved_46           : 1;
+        uint64_t node                  : 2;  /**< [ 45: 44] CCPI node number. */
+        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..1) DID. 0x48 + ECAM number. */
+        uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Setup. Allow certain PCC
+                                                                 configuration registers to be written for boot-time initialization. Treated as 0
+                                                                 unless in secure mode. */
+        uint64_t bcst                  : 1;  /**< [ 34: 34] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Broadcast. Write to all PCC
+                                                                 blocks for fast configuration. Treated as 0 unless in secure mode and SETUP is
+                                                                 set. */
+        uint64_t reserved_28_33        : 6;
+        uint64_t bus                   : 8;  /**< [ 27: 20] Bus number. */
+        uint64_t func                  : 8;  /**< [ 19: 12] Function number. Note this assumes an ARI device; for external PCI devices that do not
+                                                                 support ARI this contains both the device and function number. */
+        uint64_t addr                  : 12; /**< [ 11:  0] Register address within the device. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 12; /**< [ 11:  0] Register address within the device. */
+        uint64_t func                  : 8;  /**< [ 19: 12] Function number. Note this assumes an ARI device; for external PCI devices that do not
+                                                                 support ARI this contains both the device and function number. */
+        uint64_t bus                   : 8;  /**< [ 27: 20] Bus number. */
+        uint64_t reserved_28_33        : 6;
+        uint64_t bcst                  : 1;  /**< [ 34: 34] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Broadcast. Write to all PCC
+                                                                 blocks for fast configuration. Treated as 0 unless in secure mode and SETUP is
+                                                                 set. */
+        uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Setup. Allow certain PCC
+                                                                 configuration registers to be written for boot-time initialization. Treated as 0
+                                                                 unless in secure mode. */
+        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..1) DID. 0x48 + ECAM number. */
+        uint64_t node                  : 2;  /**< [ 45: 44] CCPI node number. */
+        uint64_t reserved_46           : 1;
+        uint64_t io                    : 1;  /**< [ 47: 47] Indicates I/O space. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn83xx;
 };
 
 /**
  * Register (RSL) ecam#_bus#_nsdis
  *
- * ECAM Bus Non-secure Disable Registers
+ * ECAM Bus Nonsecure Disable Registers
  */
 typedef union
 {
@@ -179,14 +224,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM bus in non-secure mode. If set, the indexed ECAM bus number is RAO/WI
-                                                                 when accessed via the ECAM space with non-secure transactions. Note this affects only ECAM
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM bus in nonsecure mode. If set, the indexed ECAM bus number is RAO/WI
+                                                                 when accessed via the ECAM space with nonsecure transactions. Note this affects only ECAM
                                                                  configuration access, not normal I/O mapped memory accesses to the device. ECAM 0, bus 0
                                                                  (corresponding to RSL devices) is not generally disabled, instead  may be used to disable
                                                                  RSL discovery. */
 #else /* Word 0 - Little Endian */
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM bus in non-secure mode. If set, the indexed ECAM bus number is RAO/WI
-                                                                 when accessed via the ECAM space with non-secure transactions. Note this affects only ECAM
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM bus in nonsecure mode. If set, the indexed ECAM bus number is RAO/WI
+                                                                 when accessed via the ECAM space with nonsecure transactions. Note this affects only ECAM
                                                                  configuration access, not normal I/O mapped memory accesses to the device. ECAM 0, bus 0
                                                                  (corresponding to RSL devices) is not generally disabled, instead  may be used to disable
                                                                  RSL discovery. */
@@ -201,8 +246,8 @@ static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=255)))
         return 0x87e048030000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=255)))
-        return 0x87e048030000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=255)))
+        return 0x87e048030000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=255)))
         return 0x87e048030000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_BUSX_NSDIS", 2, a, b, 0, 0);
@@ -228,7 +273,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM bus. If set, the indexed ECAM bus number is secured and RAO/WI when
-                                                                 accessed via the ECAM space with non-secure transactions. This bit overrides
+                                                                 accessed via the ECAM space with nonsecure transactions. This bit overrides
                                                                  ECAM()_BUS()_NSDIS[DIS]. */
         uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM bus in secure mode. If set, the indexed ECAM bus number is RAO/WI when
                                                                  accessed via the ECAM space with secure transactions. This bit is similar to the non-
@@ -238,7 +283,7 @@ typedef union
                                                                  accessed via the ECAM space with secure transactions. This bit is similar to the non-
                                                                  secure ECAM()_BUS()_NSDIS[DIS]. */
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM bus. If set, the indexed ECAM bus number is secured and RAO/WI when
-                                                                 accessed via the ECAM space with non-secure transactions. This bit overrides
+                                                                 accessed via the ECAM space with nonsecure transactions. This bit overrides
                                                                  ECAM()_BUS()_NSDIS[DIS]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
@@ -251,8 +296,8 @@ static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=255)))
         return 0x87e048020000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=255)))
-        return 0x87e048020000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=255)))
+        return 0x87e048020000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=255)))
         return 0x87e048020000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_BUSX_SDIS", 2, a, b, 0, 0);
@@ -279,14 +324,14 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM bus kill.
-                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 Write one to set. Once set, cannot be cleared until soft reset. If set,
                                                                  the indexed ECAM bus/function/device number is RAO/WI when accessed via
-                                                                 the ECAM space with any (secure/non-secure) transactions. */
+                                                                 the ECAM space with any (secure/nonsecure) transactions. */
 #else /* Word 0 - Little Endian */
         uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM bus kill.
-                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 Write one to set. Once set, cannot be cleared until soft reset. If set,
                                                                  the indexed ECAM bus/function/device number is RAO/WI when accessed via
-                                                                 the ECAM space with any (secure/non-secure) transactions. */
+                                                                 the ECAM space with any (secure/nonsecure) transactions. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -298,8 +343,8 @@ static inline uint64_t BDK_ECAMX_BUSX_SKILL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=255)))
         return 0x87e048080000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=255)))
-        return 0x87e048080000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=255)))
+        return 0x87e048080000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=3) && (b<=255)))
         return 0x87e048080000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_BUSX_SKILL", 2, a, b, 0, 0);
@@ -325,6 +370,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
+        uint64_t ecams                 : 8;  /**< [  7:  0](RO) Number of ECAM units. */
+#else /* Word 0 - Little Endian */
+        uint64_t ecams                 : 8;  /**< [  7:  0](RO) Number of ECAM units. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ecamx_const_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
         uint64_t ecams                 : 8;  /**< [  7:  0](RO) Number of ECAM units.
                                                                  Internal:
                                                                  FIXME after update unit count, need reset_matches_size: "ECAM()_CONST,a" */
@@ -334,8 +389,8 @@ typedef union
                                                                  FIXME after update unit count, need reset_matches_size: "ECAM()_CONST,a" */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ecamx_const_s cn; */
+    } cn81xx;
+    /* struct bdk_ecamx_const_s cn83xx; */
 } bdk_ecamx_const_t;
 
 static inline uint64_t BDK_ECAMX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -343,8 +398,8 @@ static inline uint64_t BDK_ECAMX_CONST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x87e048000200ll + 0x1000000ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e048000200ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e048000200ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("ECAMX_CONST", 1, a, 0, 0, 0);
 }
 
@@ -358,7 +413,7 @@ static inline uint64_t BDK_ECAMX_CONST(unsigned long a)
 /**
  * Register (RSL) ecam#_dev#_nsdis
  *
- * ECAM Device Non-secure Disable Registers
+ * ECAM Device Nonsecure Disable Registers
  */
 typedef union
 {
@@ -367,14 +422,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM device in non-secure mode. If set, the specified device
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM device in nonsecure mode. If set, the specified device
                                                                  number on bus 0 are RAO/WI when accessed via the ECAM space with
-                                                                 non-secure transactions. Note this affects only ECAM configuration
+                                                                 nonsecure transactions. Note this affects only ECAM configuration
                                                                  access, not normal I/O mapped memory accesses to the device. */
 #else /* Word 0 - Little Endian */
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM device in non-secure mode. If set, the specified device
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM device in nonsecure mode. If set, the specified device
                                                                  number on bus 0 are RAO/WI when accessed via the ECAM space with
-                                                                 non-secure transactions. Note this affects only ECAM configuration
+                                                                 nonsecure transactions. Note this affects only ECAM configuration
                                                                  access, not normal I/O mapped memory accesses to the device. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -387,8 +442,8 @@ static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=31)))
         return 0x87e048070000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=31)))
-        return 0x87e048070000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=31)))
+        return 0x87e048070000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=31)))
         return 0x87e048070000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
     __bdk_csr_fatal("ECAMX_DEVX_NSDIS", 2, a, b, 0, 0);
@@ -414,19 +469,19 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM device. If set, the indexed device number on bus 0 are
-                                                                 secured and RAO/WI when accessed via the ECAM space with non-secure
+                                                                 secured and RAO/WI when accessed via the ECAM space with nonsecure
                                                                  transactions. This bit overrides ECAM()_DEV()_NSDIS[DIS]. */
         uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM device in secure mode. If set, ECAM secure
                                                                  read/write operations to the indexed device number on bus 0
                                                                  are RAO/WI when accessed via the ECAM space. This bit is
-                                                                 similar to the non-secure ECAM()_DEV()_NSDIS[DIS]. */
+                                                                 similar to the nonsecure ECAM()_DEV()_NSDIS[DIS]. */
 #else /* Word 0 - Little Endian */
         uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM device in secure mode. If set, ECAM secure
                                                                  read/write operations to the indexed device number on bus 0
                                                                  are RAO/WI when accessed via the ECAM space. This bit is
-                                                                 similar to the non-secure ECAM()_DEV()_NSDIS[DIS]. */
+                                                                 similar to the nonsecure ECAM()_DEV()_NSDIS[DIS]. */
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM device. If set, the indexed device number on bus 0 are
-                                                                 secured and RAO/WI when accessed via the ECAM space with non-secure
+                                                                 secured and RAO/WI when accessed via the ECAM space with nonsecure
                                                                  transactions. This bit overrides ECAM()_DEV()_NSDIS[DIS]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
@@ -439,8 +494,8 @@ static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=31)))
         return 0x87e048060000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=31)))
-        return 0x87e048060000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=31)))
+        return 0x87e048060000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=31)))
         return 0x87e048060000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
     __bdk_csr_fatal("ECAMX_DEVX_SDIS", 2, a, b, 0, 0);
@@ -467,14 +522,14 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM device kill.
-                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 Write one to set. Once set, cannot be cleared until soft reset. If set,
                                                                  the indexed ECAM bus/function/device number is RAO/WI when accessed via
-                                                                 the ECAM space with any (secure/non-secure) transactions. */
+                                                                 the ECAM space with any (secure/nonsecure) transactions. */
 #else /* Word 0 - Little Endian */
         uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM device kill.
-                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 Write one to set. Once set, cannot be cleared until soft reset. If set,
                                                                  the indexed ECAM bus/function/device number is RAO/WI when accessed via
-                                                                 the ECAM space with any (secure/non-secure) transactions. */
+                                                                 the ECAM space with any (secure/nonsecure) transactions. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -486,8 +541,8 @@ static inline uint64_t BDK_ECAMX_DEVX_SKILL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=31)))
         return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=31)))
-        return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=31)))
+        return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=3) && (b<=31)))
         return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
     __bdk_csr_fatal("ECAMX_DEVX_SKILL", 2, a, b, 0, 0);
@@ -524,8 +579,8 @@ static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x87e048000000ll + 0x1000000ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e048000000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e048000000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e048000000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("ECAMX_NOP_OF", 1, a, 0, 0, 0);
@@ -562,8 +617,8 @@ static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x87e048000080ll + 0x1000000ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e048000080ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e048000080ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e048000080ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("ECAMX_NOP_ONF", 1, a, 0, 0, 0);
@@ -600,8 +655,8 @@ static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x87e048000100ll + 0x1000000ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e048000100ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e048000100ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e048000100ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("ECAMX_NOP_ZF", 1, a, 0, 0, 0);
@@ -638,8 +693,8 @@ static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x87e048000180ll + 0x1000000ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e048000180ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e048000180ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e048000180ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("ECAMX_NOP_ZNF", 1, a, 0, 0, 0);
@@ -655,7 +710,7 @@ static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a)
 /**
  * Register (RSL) ecam#_rsl#_nsdis
  *
- * ECAM RSL Function Non-secure Disable Registers
+ * ECAM RSL Function Nonsecure Disable Registers
  * This register is only implemented for ECAM0 which sources RSL.
  */
 typedef union
@@ -665,13 +720,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM RSL function in non-secure mode. If set, the specified RSL function number
-                                                                 (under ECAM 0 bus 1) is RAO/WI when accessed via the ECAM space with non-secure
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM RSL function in nonsecure mode. If set, the specified RSL function number
+                                                                 (under ECAM 0 bus 1) is RAO/WI when accessed via the ECAM space with nonsecure
                                                                  transactions. Note this affects only ECAM configuration access, not normal I/O mapped
                                                                  memory accesses to the device. */
 #else /* Word 0 - Little Endian */
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM RSL function in non-secure mode. If set, the specified RSL function number
-                                                                 (under ECAM 0 bus 1) is RAO/WI when accessed via the ECAM space with non-secure
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM RSL function in nonsecure mode. If set, the specified RSL function number
+                                                                 (under ECAM 0 bus 1) is RAO/WI when accessed via the ECAM space with nonsecure
                                                                  transactions. Note this affects only ECAM configuration access, not normal I/O mapped
                                                                  memory accesses to the device. */
         uint64_t reserved_1_63         : 63;
@@ -685,8 +740,8 @@ static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=255)))
         return 0x87e048050000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=255)))
-        return 0x87e048050000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=255)))
+        return 0x87e048050000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=255)))
         return 0x87e048050000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_RSLX_NSDIS", 2, a, b, 0, 0);
@@ -713,19 +768,19 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM RSL function. If set, the indexed RSL function number (under ECAM 0
-                                                                 bus 1) is secured and RAO/WI when accessed via the ECAM space with non-secure
+                                                                 bus 1) is secured and RAO/WI when accessed via the ECAM space with nonsecure
                                                                  transactions. This bit overrides ECAM()_RSL()_NSDIS[DIS]. */
         uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM RSL function in secure mode. If set, ECAM secure read/write operations to the
                                                                  indexed
                                                                  RSL function number (under ECAM 0 bus 1) are RAO/WI when accessed via the ECAM
-                                                                 space. This bit is similar to the non-secure ECAM()_RSL()_NSDIS[DIS]. */
+                                                                 space. This bit is similar to the nonsecure ECAM()_RSL()_NSDIS[DIS]. */
 #else /* Word 0 - Little Endian */
         uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM RSL function in secure mode. If set, ECAM secure read/write operations to the
                                                                  indexed
                                                                  RSL function number (under ECAM 0 bus 1) are RAO/WI when accessed via the ECAM
-                                                                 space. This bit is similar to the non-secure ECAM()_RSL()_NSDIS[DIS]. */
+                                                                 space. This bit is similar to the nonsecure ECAM()_RSL()_NSDIS[DIS]. */
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM RSL function. If set, the indexed RSL function number (under ECAM 0
-                                                                 bus 1) is secured and RAO/WI when accessed via the ECAM space with non-secure
+                                                                 bus 1) is secured and RAO/WI when accessed via the ECAM space with nonsecure
                                                                  transactions. This bit overrides ECAM()_RSL()_NSDIS[DIS]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
@@ -738,8 +793,8 @@ static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=255)))
         return 0x87e048040000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=255)))
-        return 0x87e048040000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=255)))
+        return 0x87e048040000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=255)))
         return 0x87e048040000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_RSLX_SDIS", 2, a, b, 0, 0);
@@ -766,14 +821,14 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM function kill.
-                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 Write one to set. Once set, cannot be cleared until soft reset. If set,
                                                                  the indexed ECAM bus/function/device number is RAO/WI when accessed via
-                                                                 the ECAM space with any (secure/non-secure) transactions. */
+                                                                 the ECAM space with any (secure/nonsecure) transactions. */
 #else /* Word 0 - Little Endian */
         uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM function kill.
-                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 Write one to set. Once set, cannot be cleared until soft reset. If set,
                                                                  the indexed ECAM bus/function/device number is RAO/WI when accessed via
-                                                                 the ECAM space with any (secure/non-secure) transactions. */
+                                                                 the ECAM space with any (secure/nonsecure) transactions. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -785,8 +840,8 @@ static inline uint64_t BDK_ECAMX_RSLX_SKILL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=255)))
         return 0x87e048090000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=255)))
-        return 0x87e048090000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=255)))
+        return 0x87e048090000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=3) && (b<=255)))
         return 0x87e048090000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_RSLX_SKILL", 2, a, b, 0, 0);

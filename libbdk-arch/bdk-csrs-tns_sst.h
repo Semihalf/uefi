@@ -31655,10 +31655,10 @@ typedef union
     struct bdk_tns_se_tcam_scrbx_scrbx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t scrub_row_intvl       : 10; /**< [ 31: 22](R/W) When set to 0 scrubbing is disabled. When non-zero it is the interval in
+        uint32_t scrub_row_intvl       : 10; /**< [ 31: 22](R/W) When set to 0 scrubbing is disabled. When nonzero it is the interval in
                                                                  switch-clock cycles
                                                                  between scrubbing adjacent rows */
-        uint32_t scrub_last_to_1st_row_intvl : 16;/**< [ 21:  6](R/W) When set to 0 this interval is disabled. When non-zero it is the interval in
+        uint32_t scrub_last_to_1st_row_intvl : 16;/**< [ 21:  6](R/W) When set to 0 this interval is disabled. When nonzero it is the interval in
                                                                  switch-clock cycles
                                                                  between scrubbing last row and first row (i.e. new scrub cycle)
                                                                  gives granularity upto 0.1ms with 600MHz switch-clock
@@ -31684,12 +31684,12 @@ typedef union
         uint32_t flip_db_ecc           : 1;  /**< [  3:  3](R/W) -- */
         uint32_t flip_sb_ecc           : 1;  /**< [  4:  4](R/W) -- */
         uint32_t unused                : 1;  /**< [  5:  5](R/W) -- */
-        uint32_t scrub_last_to_1st_row_intvl : 16;/**< [ 21:  6](R/W) When set to 0 this interval is disabled. When non-zero it is the interval in
+        uint32_t scrub_last_to_1st_row_intvl : 16;/**< [ 21:  6](R/W) When set to 0 this interval is disabled. When nonzero it is the interval in
                                                                  switch-clock cycles
                                                                  between scrubbing last row and first row (i.e. new scrub cycle)
                                                                  gives granularity upto 0.1ms with 600MHz switch-clock
                                                                  Not implemented in Pass1 */
-        uint32_t scrub_row_intvl       : 10; /**< [ 31: 22](R/W) When set to 0 scrubbing is disabled. When non-zero it is the interval in
+        uint32_t scrub_row_intvl       : 10; /**< [ 31: 22](R/W) When set to 0 scrubbing is disabled. When nonzero it is the interval in
                                                                  switch-clock cycles
                                                                  between scrubbing adjacent rows */
 #endif /* Word 0 - End */
@@ -41366,11 +41366,11 @@ typedef union
         uint64_t rp                    : 9;  /**< [ 38: 30](R/W/H) Identify the QCN reaction point to update */
         uint64_t byte_en               : 1;  /**< [ 29: 29](R/W/H) Value with which to update the byte_upd_en field of qcn_mem_cfg */
         uint64_t timer_en              : 1;  /**< [ 28: 28](R/W/H) Value with which to update the timer_upd_en field of qcn_mem_cfg */
-        uint64_t target_rate           : 14; /**< [ 27: 14](R/W/H) If non-zero, update the target rate of qcn_mem_cfg */
-        uint64_t current_rate          : 14; /**< [ 13:  0](R/W/H) If non-zero, update the current rate of qcn_mem_cfg */
+        uint64_t target_rate           : 14; /**< [ 27: 14](R/W/H) If nonzero, update the target rate of qcn_mem_cfg */
+        uint64_t current_rate          : 14; /**< [ 13:  0](R/W/H) If nonzero, update the current rate of qcn_mem_cfg */
 #else /* Word 0 - Little Endian */
-        uint64_t current_rate          : 14; /**< [ 13:  0](R/W/H) If non-zero, update the current rate of qcn_mem_cfg */
-        uint64_t target_rate           : 14; /**< [ 27: 14](R/W/H) If non-zero, update the target rate of qcn_mem_cfg */
+        uint64_t current_rate          : 14; /**< [ 13:  0](R/W/H) If nonzero, update the current rate of qcn_mem_cfg */
+        uint64_t target_rate           : 14; /**< [ 27: 14](R/W/H) If nonzero, update the target rate of qcn_mem_cfg */
         uint64_t timer_en              : 1;  /**< [ 28: 28](R/W/H) Value with which to update the timer_upd_en field of qcn_mem_cfg */
         uint64_t byte_en               : 1;  /**< [ 29: 29](R/W/H) Value with which to update the byte_upd_en field of qcn_mem_cfg */
         uint64_t rp                    : 9;  /**< [ 38: 30](R/W/H) Identify the QCN reaction point to update */

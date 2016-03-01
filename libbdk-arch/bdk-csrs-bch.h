@@ -82,31 +82,33 @@ union bdk_bch_cword_s
     struct bdk_bch_cword_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ecc_gen               : 1;  /**< [ 63: 63] Indicates the BCH function:
-                                                                   0 = Perform a block correction.
-                                                                   1 = Perform a copy operation.
-                                                                   2 = Perform a parity generation.
-                                                                   3 = Perform a copy operation. */
-        uint64_t reserved_36_62        : 27;
+        uint64_t ecc_gen               : 2;  /**< [ 63: 62] Indicates the BCH function:
+                                                                   0x0 = Perform a block correction.
+                                                                   0x1 = Perform a copy operation.
+                                                                   0x2 = Perform a parity generation.
+                                                                   0x3 = Perform a copy operation. */
+        uint64_t reserved_36_61        : 26;
         uint64_t ecc_level             : 4;  /**< [ 35: 32] Indicates the maximum number of errors within a data block that can be corrected.
                                                                  The number of parity bytes is equal to ceiling(15 * [ECC_LEVEL])/8.
                                                                  Must be 4, 8, 16, 24, 32, 40, 48, 56, 60, or 64. */
         uint64_t reserved_12_31        : 20;
         uint64_t size                  : 12; /**< [ 11:  0] Indicates the size in bytes of the data block. [SIZE] must be a multiple of two
-                                                                 bytes (i.e. [SIZE]<0> must be 0). */
+                                                                 bytes (i.e. [SIZE]<0> must be 0).
+                                                                 For copy mode, the maximum [SIZE] is 3800 decimal. */
 #else /* Word 0 - Little Endian */
         uint64_t size                  : 12; /**< [ 11:  0] Indicates the size in bytes of the data block. [SIZE] must be a multiple of two
-                                                                 bytes (i.e. [SIZE]<0> must be 0). */
+                                                                 bytes (i.e. [SIZE]<0> must be 0).
+                                                                 For copy mode, the maximum [SIZE] is 3800 decimal. */
         uint64_t reserved_12_31        : 20;
         uint64_t ecc_level             : 4;  /**< [ 35: 32] Indicates the maximum number of errors within a data block that can be corrected.
                                                                  The number of parity bytes is equal to ceiling(15 * [ECC_LEVEL])/8.
                                                                  Must be 4, 8, 16, 24, 32, 40, 48, 56, 60, or 64. */
-        uint64_t reserved_36_62        : 27;
-        uint64_t ecc_gen               : 1;  /**< [ 63: 63] Indicates the BCH function:
-                                                                   0 = Perform a block correction.
-                                                                   1 = Perform a copy operation.
-                                                                   2 = Perform a parity generation.
-                                                                   3 = Perform a copy operation. */
+        uint64_t reserved_36_61        : 26;
+        uint64_t ecc_gen               : 2;  /**< [ 63: 62] Indicates the BCH function:
+                                                                   0x0 = Perform a block correction.
+                                                                   0x1 = Perform a copy operation.
+                                                                   0x2 = Perform a parity generation.
+                                                                   0x3 = Perform a copy operation. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_cword_s_s cn; */
@@ -156,7 +158,7 @@ union bdk_bch_oword_s
         uint64_t fw                    : 1;  /**< [ 57: 57] When set, indicates that BCH can modify any byte in any (128-byte) cache line
                                                                  touched by L2/DRAM addresses BCH_OWORD_S[PTR] through BCH_OWORD_S[PTR] + SIZE -
                                                                  1, where SIZE is BCH_CWORD_S[SIZE] when BCH_CWORD_S[ECC_GEN] = 0, else SIZE is
-                                                                 the number of parity bytes selected by BCH_CWORD_S[ECC_LEVEL]. Setting FW can
+                                                                 the number of parity bytes selected by BCH_CWORD_S[ECC_LEVEL]. Setting [FW] can
                                                                  improve hardware performance, as some DRAM load operations can be avoided on L2
                                                                  cache misses. */
         uint64_t nc                    : 1;  /**< [ 56: 56] When set, indicates that BCH should not allocate L2 cache space for the parity/
@@ -175,7 +177,7 @@ union bdk_bch_oword_s
         uint64_t fw                    : 1;  /**< [ 57: 57] When set, indicates that BCH can modify any byte in any (128-byte) cache line
                                                                  touched by L2/DRAM addresses BCH_OWORD_S[PTR] through BCH_OWORD_S[PTR] + SIZE -
                                                                  1, where SIZE is BCH_CWORD_S[SIZE] when BCH_CWORD_S[ECC_GEN] = 0, else SIZE is
-                                                                 the number of parity bytes selected by BCH_CWORD_S[ECC_LEVEL]. Setting FW can
+                                                                 the number of parity bytes selected by BCH_CWORD_S[ECC_LEVEL]. Setting [FW] can
                                                                  improve hardware performance, as some DRAM load operations can be avoided on L2
                                                                  cache misses. */
         uint64_t reserved_58_63        : 6;
@@ -319,8 +321,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = Reserved.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -333,8 +335,8 @@ typedef union
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
                                                                    <23:22> = Reserved.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -759,20 +761,20 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's BCH_PF_MSIX_VEC()_ADDR, BCH_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of BCH_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_BCH_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's BCH_PF_MSIX_VEC()_ADDR, BCH_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of BCH_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_BCH_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
@@ -863,13 +865,13 @@ typedef union
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free operations initiated by this queue.
-                                                                 Must be non-zero or FPA will drop requests; see FPA_PF_MAP(). */
+                                                                 Must be nonzero or FPA will drop requests; see FPA_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free operations initiated by this queue.
-                                                                 Must be non-zero or FPA will drop requests; see FPA_PF_MAP(). */
+                                                                 Must be nonzero or FPA will drop requests; see FPA_PF_MAP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -1033,11 +1035,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_22_63        : 42;
-        uint64_t early_term            : 4;  /**< [ 21: 18](R/W) Threshold of zero delta interations before declaring early termination.
+        uint64_t early_term            : 4;  /**< [ 21: 18](R/W) Threshold of zero delta iterations before declaring early termination.
                                                                  0 will force all iterations to run.  For diagnostic use only. */
         uint64_t one_cmd               : 1;  /**< [ 17: 17](RAZ) Execute a single operation at a time.  For diagnostic use only. */
-        uint64_t erase_disable         : 1;  /**< [ 16: 16](R/W) When [ERASE_DISABLE]=0, erased blocks bypass the BCH correction.   The 16B result word
-                                                                 contains an erased block indication.
+        uint64_t erase_disable         : 1;  /**< [ 16: 16](R/W) When [ERASE_DISABLE]=0, erased blocks bypass the BCH correction. The 16 byte
+                                                                 result word contains an erased block indication.
 
                                                                  A block is considered erased if the number of zeros found in the block (data+ECC) is
                                                                  less than half the ECC level.   For instance, a 2 KB block using ECC32 is considered
@@ -1053,14 +1055,14 @@ typedef union
         uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands. [MAX_READ] is a throttle to control NCB
                                                                  usage. Values greater than 0x8 are illegal. */
         uint64_t reserved_6_15         : 10;
-        uint64_t erase_disable         : 1;  /**< [ 16: 16](R/W) When [ERASE_DISABLE]=0, erased blocks bypass the BCH correction.   The 16B result word
-                                                                 contains an erased block indication.
+        uint64_t erase_disable         : 1;  /**< [ 16: 16](R/W) When [ERASE_DISABLE]=0, erased blocks bypass the BCH correction. The 16 byte
+                                                                 result word contains an erased block indication.
 
                                                                  A block is considered erased if the number of zeros found in the block (data+ECC) is
                                                                  less than half the ECC level.   For instance, a 2 KB block using ECC32 is considered
                                                                  erased if few than 16 zeroes are found in the 2048+60 bytes. */
         uint64_t one_cmd               : 1;  /**< [ 17: 17](RAZ) Execute a single operation at a time.  For diagnostic use only. */
-        uint64_t early_term            : 4;  /**< [ 21: 18](R/W) Threshold of zero delta interations before declaring early termination.
+        uint64_t early_term            : 4;  /**< [ 21: 18](R/W) Threshold of zero delta iterations before declaring early termination.
                                                                  0 will force all iterations to run.  For diagnostic use only. */
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */

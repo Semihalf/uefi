@@ -283,11 +283,11 @@ typedef union
                                                                  Used to power down the common clock input receiver to reduce power consumption
                                                                  if the common clock input is not used.
                                                                  If the common clock QLMC_REFCLK1_P/N input is unused program the
-                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1fd.
+                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1FD.
                                                                  If the common clock QLMC_REFCLK0_P/N input is unused program the
-                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1fe.
+                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1FE.
                                                                  If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
-                                                                 GSER(4)_ANA_SEL[ANA_SEL] field to 0x1fc.
+                                                                 GSER(4)_ANA_SEL[ANA_SEL] field to 0x1FC.
                                                                  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
         uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that only
@@ -297,11 +297,11 @@ typedef union
                                                                  Used to power down the common clock input receiver to reduce power consumption
                                                                  if the common clock input is not used.
                                                                  If the common clock QLMC_REFCLK1_P/N input is unused program the
-                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1fd.
+                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1FD.
                                                                  If the common clock QLMC_REFCLK0_P/N input is unused program the
-                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1fe.
+                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1FE.
                                                                  If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
-                                                                 GSER(4)_ANA_SEL[ANA_SEL] field to 0x1fc.
+                                                                 GSER(4)_ANA_SEL[ANA_SEL] field to 0x1FC.
                                                                  For diagnostic use only. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -385,17 +385,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For Base-R links the terminating condition for link training receiver adaptation
+        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For BASE-R links the terminating condition for link training receiver adaptation
                                                                  is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
                                                                  expires the receiver adaptation process is concluded and the link is considered good.
-                                                                 Note that when Base-R link training is performed under software control,
+                                                                 Note that when BASE-R link training is performed under software control,
                                                                  (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
                                                                  and not used.
 
                                                                  Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during Base-R link training under hardware control.  For diagnostic use only.
+                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only.
                                                                  Added in pass 2. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
+        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX BASE-R link training is to be performed under software control.
 
                                                                  See GSER()_BR_RX()_EER[EXT_EER]. */
         uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
@@ -429,18 +429,18 @@ typedef union
                                                                  disabled to complete the request and get the rxtrain state machine back to idle. Note that
                                                                  it is illegal to set both the preset and initialize bits at the same time. For diagnostic
                                                                  use only. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
+        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX BASE-R link training is to be performed under software control.
 
                                                                  See GSER()_BR_RX()_EER[EXT_EER]. */
-        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For Base-R links the terminating condition for link training receiver adaptation
+        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For BASE-R links the terminating condition for link training receiver adaptation
                                                                  is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
                                                                  expires the receiver adaptation process is concluded and the link is considered good.
-                                                                 Note that when Base-R link training is performed under software control,
+                                                                 Note that when BASE-R link training is performed under software control,
                                                                  (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
                                                                  and not used.
 
                                                                  Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during Base-R link training under hardware control.  For diagnostic use only.
+                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only.
                                                                  Added in pass 2. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -450,7 +450,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t reserved_3            : 1;
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
+        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX BASE-R link training is to be performed under software control.
 
                                                                  See GSER()_BR_RX()_EER[EXT_EER]. */
         uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
@@ -484,7 +484,7 @@ typedef union
                                                                  disabled to complete the request and get the rxtrain state machine back to idle. Note that
                                                                  it is illegal to set both the preset and initialize bits at the same time. For diagnostic
                                                                  use only. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
+        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX BASE-R link training is to be performed under software control.
 
                                                                  See GSER()_BR_RX()_EER[EXT_EER]. */
         uint64_t reserved_3            : 1;
@@ -495,16 +495,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For Base-R links the terminating condition for link training receiver adaptation
+        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For BASE-R links the terminating condition for link training receiver adaptation
                                                                  is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
                                                                  expires the receiver adaptation process is concluded and the link is considered good.
-                                                                 Note that when Base-R link training is performed under software control,
+                                                                 Note that when BASE-R link training is performed under software control,
                                                                  (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
                                                                  and not used.
 
                                                                  Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during Base-R link training under hardware control.  For diagnostic use only. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
+                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only. */
+        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX BASE-R link training is to be performed under software control.
 
                                                                  See GSER()_BR_RX()_EER[EXT_EER]. */
         uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
@@ -538,18 +538,18 @@ typedef union
                                                                  disabled to complete the request and get the rxtrain state machine back to idle. Note that
                                                                  it is illegal to set both the preset and initialize bits at the same time. For diagnostic
                                                                  use only. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
+        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX BASE-R link training is to be performed under software control.
 
                                                                  See GSER()_BR_RX()_EER[EXT_EER]. */
-        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For Base-R links the terminating condition for link training receiver adaptation
+        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For BASE-R links the terminating condition for link training receiver adaptation
                                                                  is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
                                                                  expires the receiver adaptation process is concluded and the link is considered good.
-                                                                 Note that when Base-R link training is performed under software control,
+                                                                 Note that when BASE-R link training is performed under software control,
                                                                  (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
                                                                  and not used.
 
                                                                  Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during Base-R link training under hardware control.  For diagnostic use only. */
+                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -580,8 +580,8 @@ static inline uint64_t BDK_GSERX_BR_RXX_CTL(unsigned long a, unsigned long b)
  * Register (RSL) gser#_br_rx#_eer
  *
  * GSER Base-R RX Equalization Evaluation Request Register
- * GSER software Base-R RX Link Training equalization evaluation request (EER). A write to
- * RXT_EER initiates a equalization request to the RAW PCS. A read of this register returns the
+ * GSER software BASE-R RX link training equalization evaluation request (EER). A write to
+ * [RXT_EER] initiates a equalization request to the RAW PCS. A read of this register returns the
  * equalization status message and a valid bit indicating it was updated. These registers are for
  * diagnostic use only.
  */
@@ -592,19 +592,19 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t rxt_eer               : 1;  /**< [ 15: 15](WO) When RX Base-R Link Training is being performed under software control,
+        uint64_t rxt_eer               : 1;  /**< [ 15: 15](WO) When RX BASE-R link training is being performed under software control,
                                                                  (GSER()_BR_RX()_CTL[RXT_SWM] is set), writing this bit initiates an equalization
                                                                  request to the RAW PCS. Reading this bit always returns a zero.
 
-                                                                 When auto-negotiated link training is not present and link speed >= 5Gbaud,
+                                                                 When auto-negotiated link training is not present and link speed >= 5 Gbaud,
                                                                  including XFI, receiver (only) equalization should be manually performed.
                                                                  After GSER()_BR_RX()_CTL[RXT_SWM] is set, writing this CSR with
                                                                  [RXT_EER]=1 initiates this manual equalization. The operation may take up to
                                                                  2 milliseconds, and then hardware sets [RXT_ESV]. [RXT_ESM] can be
                                                                  ignored after these receiver-only equalizations. The SerDes input should
-                                                                 be a pattern (something similar to the Base-R training sequence, ideally)
+                                                                 be a pattern (something similar to the BASE-R training sequence, ideally)
                                                                  during this receiver-only training. If DFE is to be disabled
-                                                                 (recommended for 5Gbaud and below), do it prior to this receiver-only
+                                                                 (recommended for 5 Gbaud and below), do it prior to this receiver-only
                                                                  initialization. (GSER()_LANE()_RX_VALBBD_CTRL_0, GSER()_LANE()_RX_VALBBD_CTRL_1,
                                                                  and GSER()_LANE()_RX_VALBBD_CTRL_2 configure the DFE.) */
         uint64_t rxt_esv               : 1;  /**< [ 14: 14](R/W) When performing an equalization request (RXT_EER), this bit, when set, indicates that the
@@ -652,19 +652,19 @@ typedef union
         uint64_t rxt_esv               : 1;  /**< [ 14: 14](R/W) When performing an equalization request (RXT_EER), this bit, when set, indicates that the
                                                                  Equalization Status (RXT_ESM) is valid. When issuing a RXT_EER request, it is expected
                                                                  that RXT_ESV will get written to zero so that a valid RXT_ESM can be determined. */
-        uint64_t rxt_eer               : 1;  /**< [ 15: 15](WO) When RX Base-R Link Training is being performed under software control,
+        uint64_t rxt_eer               : 1;  /**< [ 15: 15](WO) When RX BASE-R link training is being performed under software control,
                                                                  (GSER()_BR_RX()_CTL[RXT_SWM] is set), writing this bit initiates an equalization
                                                                  request to the RAW PCS. Reading this bit always returns a zero.
 
-                                                                 When auto-negotiated link training is not present and link speed >= 5Gbaud,
+                                                                 When auto-negotiated link training is not present and link speed >= 5 Gbaud,
                                                                  including XFI, receiver (only) equalization should be manually performed.
                                                                  After GSER()_BR_RX()_CTL[RXT_SWM] is set, writing this CSR with
                                                                  [RXT_EER]=1 initiates this manual equalization. The operation may take up to
                                                                  2 milliseconds, and then hardware sets [RXT_ESV]. [RXT_ESM] can be
                                                                  ignored after these receiver-only equalizations. The SerDes input should
-                                                                 be a pattern (something similar to the Base-R training sequence, ideally)
+                                                                 be a pattern (something similar to the BASE-R training sequence, ideally)
                                                                  during this receiver-only training. If DFE is to be disabled
-                                                                 (recommended for 5Gbaud and below), do it prior to this receiver-only
+                                                                 (recommended for 5 Gbaud and below), do it prior to this receiver-only
                                                                  initialization. (GSER()_LANE()_RX_VALBBD_CTRL_0, GSER()_LANE()_RX_VALBBD_CTRL_1,
                                                                  and GSER()_LANE()_RX_VALBBD_CTRL_2 configure the DFE.) */
         uint64_t reserved_16_63        : 48;
@@ -704,10 +704,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t txt_swm               : 1;  /**< [  0:  0](R/W) Set when TX Base-R Link Training is to be performed under software control. For diagnostic
+        uint64_t txt_swm               : 1;  /**< [  0:  0](R/W) Set when TX BASE-R link training is to be performed under software control. For diagnostic
                                                                  use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t txt_swm               : 1;  /**< [  0:  0](R/W) Set when TX Base-R Link Training is to be performed under software control. For diagnostic
+        uint64_t txt_swm               : 1;  /**< [  0:  0](R/W) Set when TX BASE-R link training is to be performed under software control. For diagnostic
                                                                  use only. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -746,16 +746,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t txt_cur               : 14; /**< [ 13:  0](R/W) When TX Base-R Link Training is being performed under software control,
-                                                                 (GSER()_BR_TX()_CTL[TXT_SWM] is set), this is the Coefficient Update to be written to the
+        uint64_t txt_cur               : 14; /**< [ 13:  0](R/W) When TX BASE-R link training is being performed under software control,
+                                                                 (GSER()_BR_TX()_CTL[TXT_SWM] is set), this is the coefficient update to be written to the
                                                                  PHY.
                                                                  For diagnostic use only.
                                                                  <13:9> = TX_POST<4:0>.
                                                                  <8:4> = TX_SWING<4:0>.
                                                                  <3:0> = TX_PRE<3:0>. */
 #else /* Word 0 - Little Endian */
-        uint64_t txt_cur               : 14; /**< [ 13:  0](R/W) When TX Base-R Link Training is being performed under software control,
-                                                                 (GSER()_BR_TX()_CTL[TXT_SWM] is set), this is the Coefficient Update to be written to the
+        uint64_t txt_cur               : 14; /**< [ 13:  0](R/W) When TX BASE-R link training is being performed under software control,
+                                                                 (GSER()_BR_TX()_CTL[TXT_SWM] is set), this is the coefficient update to be written to the
                                                                  PHY.
                                                                  For diagnostic use only.
                                                                  <13:9> = TX_POST<4:0>.
@@ -790,7 +790,7 @@ static inline uint64_t BDK_GSERX_BR_TXX_CUR(unsigned long a, unsigned long b)
  * Register (RSL) gser#_br_tx#_ini
  *
  * GSER Base-R TX Coefficient Tap Initialize Register
- * GSER Base-R Link Training TX taps equalization initialize value. When Base-R hardware link
+ * GSER BASE-R link training TX taps equalization initialize value. When BASE-R hardware link
  * training is enabled the transmitter
  * equalizer taps (Pre/Swing/Post) are initialized with the values in this register.  Also,
  * during 10GBase-KR hardware link training if a
@@ -806,30 +806,30 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t txt_post_init         : 5;  /**< [ 13:  9](R/W/H) During TX Base-R link training, the TX post-tap value that is used
+        uint64_t txt_post_init         : 5;  /**< [ 13:  9](R/W/H) During TX BASE-R link training, the TX post-tap value that is used
                                                                  when the initialize coefficients update is received. It is also the TX post-tap
-                                                                 value used when the Base-R link training begins.
+                                                                 value used when the BASE-R link training begins.
                                                                  For diagnostic use only. */
-        uint64_t txt_swing_init        : 5;  /**< [  8:  4](R/W/H) During TX Base-R link training, the TX swing-tap value that is used
+        uint64_t txt_swing_init        : 5;  /**< [  8:  4](R/W/H) During TX BASE-R link training, the TX swing-tap value that is used
                                                                  when the initialize coefficients update is received. It is also the TX swing-tap
-                                                                 value used when the Base-R link training begins.
+                                                                 value used when the BASE-R link training begins.
                                                                  For diagnostic use only. */
-        uint64_t txt_pre_init          : 4;  /**< [  3:  0](R/W/H) During TX Base-R link training, the TX pre-tap value that is used
+        uint64_t txt_pre_init          : 4;  /**< [  3:  0](R/W/H) During TX BASE-R link training, the TX pre-tap value that is used
                                                                  when the initialize coefficients update is received. It is also the TX pre-tap
-                                                                 value used when the Base-R link training begins.
+                                                                 value used when the BASE-R link training begins.
                                                                  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t txt_pre_init          : 4;  /**< [  3:  0](R/W/H) During TX Base-R link training, the TX pre-tap value that is used
+        uint64_t txt_pre_init          : 4;  /**< [  3:  0](R/W/H) During TX BASE-R link training, the TX pre-tap value that is used
                                                                  when the initialize coefficients update is received. It is also the TX pre-tap
-                                                                 value used when the Base-R link training begins.
+                                                                 value used when the BASE-R link training begins.
                                                                  For diagnostic use only. */
-        uint64_t txt_swing_init        : 5;  /**< [  8:  4](R/W/H) During TX Base-R link training, the TX swing-tap value that is used
+        uint64_t txt_swing_init        : 5;  /**< [  8:  4](R/W/H) During TX BASE-R link training, the TX swing-tap value that is used
                                                                  when the initialize coefficients update is received. It is also the TX swing-tap
-                                                                 value used when the Base-R link training begins.
+                                                                 value used when the BASE-R link training begins.
                                                                  For diagnostic use only. */
-        uint64_t txt_post_init         : 5;  /**< [ 13:  9](R/W/H) During TX Base-R link training, the TX post-tap value that is used
+        uint64_t txt_post_init         : 5;  /**< [ 13:  9](R/W/H) During TX BASE-R link training, the TX post-tap value that is used
                                                                  when the initialize coefficients update is received. It is also the TX post-tap
-                                                                 value used when the Base-R link training begins.
+                                                                 value used when the BASE-R link training begins.
                                                                  For diagnostic use only. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
@@ -866,29 +866,29 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t txt_pre               : 4;  /**< [ 13: 10](RO/H) After TX Base-R Link Training, this is the resultant POST Tap value that was
-                                                                 written to the PHY.  This field has no meaning if TX Base-R Link Training was
+        uint64_t txt_pre               : 4;  /**< [ 13: 10](RO/H) After TX BASE-R link training, this is the resultant POST Tap value that was
+                                                                 written to the PHY.  This field has no meaning if TX BASE-R link training was
                                                                  not performed.
                                                                  For diagnostic use only. */
-        uint64_t txt_swing             : 5;  /**< [  9:  5](RO/H) After TX Base-R Link Training, this is the resultant SWING Tap value that was
-                                                                 written to the PHY.  This field has no meaning if TX Base-R Link Training was
+        uint64_t txt_swing             : 5;  /**< [  9:  5](RO/H) After TX BASE-R link training, this is the resultant SWING Tap value that was
+                                                                 written to the PHY.  This field has no meaning if TX BASE-R link training was
                                                                  not performed.
                                                                  For diagnostic use only. */
-        uint64_t txt_post              : 5;  /**< [  4:  0](RO/H) After TX Base-R Link Training, this is the resultant POST Tap value that was
-                                                                 written to the PHY.  This field has no meaning if TX Base-R Link Training was
+        uint64_t txt_post              : 5;  /**< [  4:  0](RO/H) After TX BASE-R link training, this is the resultant POST Tap value that was
+                                                                 written to the PHY.  This field has no meaning if TX BASE-R link training was
                                                                  not performed.
                                                                  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t txt_post              : 5;  /**< [  4:  0](RO/H) After TX Base-R Link Training, this is the resultant POST Tap value that was
-                                                                 written to the PHY.  This field has no meaning if TX Base-R Link Training was
+        uint64_t txt_post              : 5;  /**< [  4:  0](RO/H) After TX BASE-R link training, this is the resultant POST Tap value that was
+                                                                 written to the PHY.  This field has no meaning if TX BASE-R link training was
                                                                  not performed.
                                                                  For diagnostic use only. */
-        uint64_t txt_swing             : 5;  /**< [  9:  5](RO/H) After TX Base-R Link Training, this is the resultant SWING Tap value that was
-                                                                 written to the PHY.  This field has no meaning if TX Base-R Link Training was
+        uint64_t txt_swing             : 5;  /**< [  9:  5](RO/H) After TX BASE-R link training, this is the resultant SWING Tap value that was
+                                                                 written to the PHY.  This field has no meaning if TX BASE-R link training was
                                                                  not performed.
                                                                  For diagnostic use only. */
-        uint64_t txt_pre               : 4;  /**< [ 13: 10](RO/H) After TX Base-R Link Training, this is the resultant POST Tap value that was
-                                                                 written to the PHY.  This field has no meaning if TX Base-R Link Training was
+        uint64_t txt_pre               : 4;  /**< [ 13: 10](RO/H) After TX BASE-R link training, this is the resultant POST Tap value that was
+                                                                 written to the PHY.  This field has no meaning if TX BASE-R link training was
                                                                  not performed.
                                                                  For diagnostic use only. */
         uint64_t reserved_14_63        : 50;
@@ -1343,7 +1343,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (Band Gap Reference) reference (all external and internal currents
+        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (band gap reference) reference (all external and internal currents
                                                                  are affected).
                                                                  For diagnostic use only. */
         uint64_t pcs_sds_trim_chp_reg  : 2;  /**< [  5:  4](R/W) Trim current going to CML-CMOS stage at output of VCO.
@@ -1363,7 +1363,7 @@ typedef union
                                                                  For diagnostic use only. */
         uint64_t pcs_sds_trim_chp_reg  : 2;  /**< [  5:  4](R/W) Trim current going to CML-CMOS stage at output of VCO.
                                                                  For diagnostic use only. */
-        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (Band Gap Reference) reference (all external and internal currents
+        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (band gap reference) reference (all external and internal currents
                                                                  are affected).
                                                                  For diagnostic use only. */
         uint64_t reserved_10_63        : 54;
@@ -1376,7 +1376,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (Band Gap Reference) reference (all external and internal currents
+        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (band gap reference) reference (all external and internal currents
                                                                  are affected).
                                                                  For diagnostic use only. */
         uint64_t pcs_sds_trim_chp_reg  : 2;  /**< [  5:  4](R/W) Trim current going to CML-CMOS stage at output of VCO.
@@ -1398,7 +1398,7 @@ typedef union
         uint64_t pcs_sds_trim_chp_reg  : 2;  /**< [  5:  4](R/W) Trim current going to CML-CMOS stage at output of VCO.
                                                                  For diagnostic use only.
                                                                  Changed in pass 2. */
-        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (Band Gap Reference) reference (all external and internal currents
+        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (band gap reference) reference (all external and internal currents
                                                                  are affected).
                                                                  For diagnostic use only. */
         uint64_t reserved_10_63        : 54;
@@ -1570,7 +1570,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t pll_div_ovrrd_en      : 1;  /**< [ 14: 14](R/W) Override Global Power state machine and mac_pcs_pll_div control signal.
+        uint64_t pll_div_ovrrd_en      : 1;  /**< [ 14: 14](R/W) Override global power state machine and mac_pcs_pll_div control signal.
                                                                  When asserted, pcs_sds_pll_div is specified from
                                                                  GSER()_LANE()_PCS_PLL_CTLIFC_0[PLL_DIV_OVRRD_VAL],
                                                                  global power state machine and mac_pcs_pll_div control signals are ignored.
@@ -1630,7 +1630,7 @@ typedef union
         uint64_t pcs_sds_pll_lock_override : 1;/**< [  9:  9](R/W) Not used.
                                                                  For diagnostic use only. */
         uint64_t reserved_10_13        : 4;
-        uint64_t pll_div_ovrrd_en      : 1;  /**< [ 14: 14](R/W) Override Global Power state machine and mac_pcs_pll_div control signal.
+        uint64_t pll_div_ovrrd_en      : 1;  /**< [ 14: 14](R/W) Override global power state machine and mac_pcs_pll_div control signal.
                                                                  When asserted, pcs_sds_pll_div is specified from
                                                                  GSER()_LANE()_PCS_PLL_CTLIFC_0[PLL_DIV_OVRRD_VAL],
                                                                  global power state machine and mac_pcs_pll_div control signals are ignored.
@@ -1797,7 +1797,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
         uint64_t sds_pcs_glbl_status   : 6;  /**< [ 13:  8](RO/H) Spare reserved for future use. Read data should be ignored. */
-        uint64_t sds_pcs_pll_lock      : 1;  /**< [  7:  7](RO/H) Status signal from Global indicates that PLL is locked. Not a true "lock" signal.
+        uint64_t sds_pcs_pll_lock      : 1;  /**< [  7:  7](RO/H) Status signal from global indicates that PLL is locked. Not a true "lock" signal.
                                                                  Used to debug/test the PLL. */
         uint64_t sds_pcs_clock_ready   : 1;  /**< [  6:  6](RO/H) Clock status signal, can be overridden with (I_PLL_CTRL_EN == 1).
                                                                  0 = Clock not ready.
@@ -1810,7 +1810,7 @@ typedef union
         uint64_t sds_pcs_clock_ready   : 1;  /**< [  6:  6](RO/H) Clock status signal, can be overridden with (I_PLL_CTRL_EN == 1).
                                                                  0 = Clock not ready.
                                                                  1 = Clock ready. */
-        uint64_t sds_pcs_pll_lock      : 1;  /**< [  7:  7](RO/H) Status signal from Global indicates that PLL is locked. Not a true "lock" signal.
+        uint64_t sds_pcs_pll_lock      : 1;  /**< [  7:  7](RO/H) Status signal from global indicates that PLL is locked. Not a true "lock" signal.
                                                                  Used to debug/test the PLL. */
         uint64_t sds_pcs_glbl_status   : 6;  /**< [ 13:  8](RO/H) Spare reserved for future use. Read data should be ignored. */
         uint64_t reserved_14_63        : 50;
@@ -1822,7 +1822,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t reserved_14_15        : 2;
         uint64_t sds_pcs_glbl_status   : 6;  /**< [ 13:  8](RO/H) Spare reserved for future use. Read data should be ignored. */
-        uint64_t sds_pcs_pll_lock      : 1;  /**< [  7:  7](RO/H) Status signal from Global indicates that PLL is locked. Not a true "lock" signal.
+        uint64_t sds_pcs_pll_lock      : 1;  /**< [  7:  7](RO/H) Status signal from global indicates that PLL is locked. Not a true "lock" signal.
                                                                  Used to debug/test the PLL. */
         uint64_t sds_pcs_clock_ready   : 1;  /**< [  6:  6](RO/H) Clock status signal, can be overridden with (I_PLL_CTRL_EN == 1).
                                                                  0 = Clock not ready.
@@ -1835,7 +1835,7 @@ typedef union
         uint64_t sds_pcs_clock_ready   : 1;  /**< [  6:  6](RO/H) Clock status signal, can be overridden with (I_PLL_CTRL_EN == 1).
                                                                  0 = Clock not ready.
                                                                  1 = Clock ready. */
-        uint64_t sds_pcs_pll_lock      : 1;  /**< [  7:  7](RO/H) Status signal from Global indicates that PLL is locked. Not a true "lock" signal.
+        uint64_t sds_pcs_pll_lock      : 1;  /**< [  7:  7](RO/H) Status signal from global indicates that PLL is locked. Not a true "lock" signal.
                                                                  Used to debug/test the PLL. */
         uint64_t sds_pcs_glbl_status   : 6;  /**< [ 13:  8](RO/H) Spare reserved for future use. Read data should be ignored. */
         uint64_t reserved_14_15        : 2;
@@ -1878,7 +1878,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t pcs_sds_tad_8_5       : 4;  /**< [  8:  5](R/W) AMON Specific mode selection.
+        uint64_t pcs_sds_tad_8_5       : 4;  /**< [  8:  5](R/W) AMON specific mode selection.
                                                                  Set GSER()_GLBL_TM_ADMON[AMON_ON].
                                                                  Decodes 0x0 - 0x4 require GSER()_GLBL_TM_ADMON[LSEL] set.
                                                                  Decodes 0x5 - 0x5 do not require GSER()_GLBL_TM_ADMON[LSEL] set.
@@ -1895,12 +1895,12 @@ typedef union
                                                                  0x8 = Global external 100ua reference current.
                                                                  0x9 = Global Rterm calibration reference voltage.
                                                                  0xA = Global Rterm calibration comparator voltage.
-                                                                 0xB = Global Force VCNT through DAC.
+                                                                 0xB = Global force VCNT through DAC.
                                                                  0xC = Global VDD voltage.
                                                                  0xD = Global VDDCLK voltage.
                                                                  0xE = Global PLL regulate VCO supply.
                                                                  0xF = Global VCTRL for VCO varactor control. */
-        uint64_t pcs_sds_tad_4_0       : 5;  /**< [  4:  0](R/W) DMON Specific mode selection.
+        uint64_t pcs_sds_tad_4_0       : 5;  /**< [  4:  0](R/W) DMON specific mode selection.
                                                                  Set GSER()_GLBL_TM_ADMON[DMON_ON].
                                                                  Decodes 0x0 - 0xe require GSER()_GLBL_TM_ADMON[LSEL] set.
                                                                  Decodes 0xf - 0x1f do not require GSER()_GLBL_TM_ADMON[LSEL] set.
@@ -1928,7 +1928,7 @@ typedef union
                                                                  0x13 = Div 8 of core clock (core_clk_out).
                                                                  0x14-0x1F: Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t pcs_sds_tad_4_0       : 5;  /**< [  4:  0](R/W) DMON Specific mode selection.
+        uint64_t pcs_sds_tad_4_0       : 5;  /**< [  4:  0](R/W) DMON specific mode selection.
                                                                  Set GSER()_GLBL_TM_ADMON[DMON_ON].
                                                                  Decodes 0x0 - 0xe require GSER()_GLBL_TM_ADMON[LSEL] set.
                                                                  Decodes 0xf - 0x1f do not require GSER()_GLBL_TM_ADMON[LSEL] set.
@@ -1955,7 +1955,7 @@ typedef union
                                                                  0x12 = Buffered refclk.
                                                                  0x13 = Div 8 of core clock (core_clk_out).
                                                                  0x14-0x1F: Reserved. */
-        uint64_t pcs_sds_tad_8_5       : 4;  /**< [  8:  5](R/W) AMON Specific mode selection.
+        uint64_t pcs_sds_tad_8_5       : 4;  /**< [  8:  5](R/W) AMON specific mode selection.
                                                                  Set GSER()_GLBL_TM_ADMON[AMON_ON].
                                                                  Decodes 0x0 - 0x4 require GSER()_GLBL_TM_ADMON[LSEL] set.
                                                                  Decodes 0x5 - 0x5 do not require GSER()_GLBL_TM_ADMON[LSEL] set.
@@ -1972,7 +1972,7 @@ typedef union
                                                                  0x8 = Global external 100ua reference current.
                                                                  0x9 = Global Rterm calibration reference voltage.
                                                                  0xA = Global Rterm calibration comparator voltage.
-                                                                 0xB = Global Force VCNT through DAC.
+                                                                 0xB = Global force VCNT through DAC.
                                                                  0xC = Global VDD voltage.
                                                                  0xD = Global VDDCLK voltage.
                                                                  0xE = Global PLL regulate VCO supply.
@@ -2254,18 +2254,18 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t lbert_err_ovbit14     : 1;  /**< [ 15: 15](RO/H) If this bit is set, multiply LBERT_ERR_CNT by 128.
-                                                                 If this bit is set and LBERT_ERR_CNT = 2^15-1, signals
+        uint64_t lbert_err_ovbit14     : 1;  /**< [ 15: 15](RO/H) If this bit is set, multiply [LBERT_ERR_CNT] by 128.
+                                                                 If this bit is set and [LBERT_ERR_CNT] = 2^15-1, signals
                                                                  overflow of the counter. */
         uint64_t lbert_err_cnt         : 15; /**< [ 14:  0](RO/H) Current error count.
-                                                                 If LBERT_ERR_OVBIT14 field is active, then multiply
+                                                                 If [LBERT_ERR_OVBIT14] is active, then multiply
                                                                  count by 128. */
 #else /* Word 0 - Little Endian */
         uint64_t lbert_err_cnt         : 15; /**< [ 14:  0](RO/H) Current error count.
-                                                                 If LBERT_ERR_OVBIT14 field is active, then multiply
+                                                                 If [LBERT_ERR_OVBIT14] is active, then multiply
                                                                  count by 128. */
-        uint64_t lbert_err_ovbit14     : 1;  /**< [ 15: 15](RO/H) If this bit is set, multiply LBERT_ERR_CNT by 128.
-                                                                 If this bit is set and LBERT_ERR_CNT = 2^15-1, signals
+        uint64_t lbert_err_ovbit14     : 1;  /**< [ 15: 15](RO/H) If this bit is set, multiply [LBERT_ERR_CNT] by 128.
+                                                                 If this bit is set and [LBERT_ERR_CNT] = 2^15-1, signals
                                                                  overflow of the counter. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -2356,9 +2356,9 @@ typedef union
         uint64_t use_pma_polarity      : 1;  /**< [ 15: 15](R/W) If set, the PMA control is used to define the polarity.
                                                                  If not set, GSER()_LANE()_RX_CFG_0[CFG_RX_POL_INVERT]
                                                                  is used. */
-        uint64_t cfg_pcs_loopback      : 1;  /**< [ 14: 14](R/W) Assert for Parallel Loopback Raw PCS TX to Raw PCS RX. */
-        uint64_t pcs_tx_mode_ovrrd_en  : 1;  /**< [ 13: 13](R/W) Override enable for Raw PCS TX data width. */
-        uint64_t pcs_rx_mode_ovrrd_en  : 1;  /**< [ 12: 12](R/W) Override enable for Raw PCS RX data width. */
+        uint64_t cfg_pcs_loopback      : 1;  /**< [ 14: 14](R/W) Assert for parallel loopback raw PCS TX to Raw PCS RX. */
+        uint64_t pcs_tx_mode_ovrrd_en  : 1;  /**< [ 13: 13](R/W) Override enable for raw PCS TX data width. */
+        uint64_t pcs_rx_mode_ovrrd_en  : 1;  /**< [ 12: 12](R/W) Override enable for raw PCS RX data width. */
         uint64_t cfg_eie_det_cnt       : 4;  /**< [ 11:  8](R/W) EIE detect state machine required number of consecutive
                                                                  PHY EIE status assertions to determine EIE and assert Raw
                                                                  PCS output pcs_mac_rx_eie_det_sts. */
@@ -2388,9 +2388,9 @@ typedef union
         uint64_t cfg_eie_det_cnt       : 4;  /**< [ 11:  8](R/W) EIE detect state machine required number of consecutive
                                                                  PHY EIE status assertions to determine EIE and assert Raw
                                                                  PCS output pcs_mac_rx_eie_det_sts. */
-        uint64_t pcs_rx_mode_ovrrd_en  : 1;  /**< [ 12: 12](R/W) Override enable for Raw PCS RX data width. */
-        uint64_t pcs_tx_mode_ovrrd_en  : 1;  /**< [ 13: 13](R/W) Override enable for Raw PCS TX data width. */
-        uint64_t cfg_pcs_loopback      : 1;  /**< [ 14: 14](R/W) Assert for Parallel Loopback Raw PCS TX to Raw PCS RX. */
+        uint64_t pcs_rx_mode_ovrrd_en  : 1;  /**< [ 12: 12](R/W) Override enable for raw PCS RX data width. */
+        uint64_t pcs_tx_mode_ovrrd_en  : 1;  /**< [ 13: 13](R/W) Override enable for raw PCS TX data width. */
+        uint64_t cfg_pcs_loopback      : 1;  /**< [ 14: 14](R/W) Assert for parallel loopback raw PCS TX to Raw PCS RX. */
         uint64_t use_pma_polarity      : 1;  /**< [ 15: 15](R/W) If set, the PMA control is used to define the polarity.
                                                                  If not set, GSER()_LANE()_RX_CFG_0[CFG_RX_POL_INVERT]
                                                                  is used. */
@@ -2671,13 +2671,13 @@ typedef union
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CFG_LANE_PWR_OFF_OVRRD_VAL]. */
         uint64_t cfg_tx_pstate_req_ovrrd_en : 1;/**< [  2:  2](R/W) Override mac_pcs_txX_pstate[1:0] signal with the value specified in
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_PSTATE_REQ_OVRRD_VAL].
-                                                                 When using this field to change the TX Power State, you must also set
+                                                                 When using this field to change the TX power state, you must also set
                                                                  the override enable bits for the lane_mode, soft_reset and lane_pwr_off
                                                                  fields.  The corresponding orrd_val fields should be programmed so as
                                                                  not to cause undesired changes. */
         uint64_t cfg_rx_pstate_req_ovrrd_en : 1;/**< [  1:  1](R/W) Override mac_pcs_rxX_pstate[1:0] signal with the value specified in
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CFG_RX_PSTATE_REQ_OVRRD_VAL].
-                                                                 When using this field to change the RX Power State, you must also set
+                                                                 When using this field to change the RX power state, you must also set
                                                                  the override enable bits for the lane_mode, soft_reset and lane_pwr_off
                                                                  fields.  The corresponding orrd_val fields should be programmed so as
                                                                  not to cause undesired changes. */
@@ -2688,13 +2688,13 @@ typedef union
                                                                  is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_LANE_MODE_REQ_OVRRD_VAL]. */
         uint64_t cfg_rx_pstate_req_ovrrd_en : 1;/**< [  1:  1](R/W) Override mac_pcs_rxX_pstate[1:0] signal with the value specified in
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CFG_RX_PSTATE_REQ_OVRRD_VAL].
-                                                                 When using this field to change the RX Power State, you must also set
+                                                                 When using this field to change the RX power state, you must also set
                                                                  the override enable bits for the lane_mode, soft_reset and lane_pwr_off
                                                                  fields.  The corresponding orrd_val fields should be programmed so as
                                                                  not to cause undesired changes. */
         uint64_t cfg_tx_pstate_req_ovrrd_en : 1;/**< [  2:  2](R/W) Override mac_pcs_txX_pstate[1:0] signal with the value specified in
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_PSTATE_REQ_OVRRD_VAL].
-                                                                 When using this field to change the TX Power State, you must also set
+                                                                 When using this field to change the TX power state, you must also set
                                                                  the override enable bits for the lane_mode, soft_reset and lane_pwr_off
                                                                  fields.  The corresponding orrd_val fields should be programmed so as
                                                                  not to cause undesired changes. */
@@ -3529,8 +3529,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t rx_chpd_ovrrd_val     : 1;  /**< [ 15: 15](R/W) Not supported. */
         uint64_t pcs_sds_rx_os_men     : 1;  /**< [ 14: 14](R/W) RX Offset manual enable. */
-        uint64_t eie_en_ovrrd_en       : 1;  /**< [ 13: 13](R/W) Override enable for Electrical-Idle-Exit circuit. */
-        uint64_t eie_en_ovrrd_val      : 1;  /**< [ 12: 12](R/W) Override value for Electrical-Idle-Exit circuit. */
+        uint64_t eie_en_ovrrd_en       : 1;  /**< [ 13: 13](R/W) Override enable for electrical-idle-exit circuit. */
+        uint64_t eie_en_ovrrd_val      : 1;  /**< [ 12: 12](R/W) Override value for electrical-idle-exit circuit. */
         uint64_t reserved_11           : 1;
         uint64_t rx_pcie_mode_ovrrd_en : 1;  /**< [ 10: 10](R/W) Override enable for RX_PCIE_MODE_OVRRD_VAL. */
         uint64_t rx_pcie_mode_ovrrd_val : 1; /**< [  9:  9](R/W) Override value for RX_PCIE_MODE_OVRRD_VAL;
@@ -3558,8 +3558,8 @@ typedef union
                                                                  0x1 = VDDA. */
         uint64_t rx_pcie_mode_ovrrd_en : 1;  /**< [ 10: 10](R/W) Override enable for RX_PCIE_MODE_OVRRD_VAL. */
         uint64_t reserved_11           : 1;
-        uint64_t eie_en_ovrrd_val      : 1;  /**< [ 12: 12](R/W) Override value for Electrical-Idle-Exit circuit. */
-        uint64_t eie_en_ovrrd_en       : 1;  /**< [ 13: 13](R/W) Override enable for Electrical-Idle-Exit circuit. */
+        uint64_t eie_en_ovrrd_val      : 1;  /**< [ 12: 12](R/W) Override value for electrical-idle-exit circuit. */
+        uint64_t eie_en_ovrrd_en       : 1;  /**< [ 13: 13](R/W) Override enable for electrical-idle-exit circuit. */
         uint64_t pcs_sds_rx_os_men     : 1;  /**< [ 14: 14](R/W) RX Offset manual enable. */
         uint64_t rx_chpd_ovrrd_val     : 1;  /**< [ 15: 15](R/W) Not supported. */
         uint64_t reserved_16_63        : 48;
@@ -3602,7 +3602,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t pcs_sds_rx_terminate_to_vdda : 1;/**< [ 14: 14](R/W) RX Termination control:
+        uint64_t pcs_sds_rx_terminate_to_vdda : 1;/**< [ 14: 14](R/W) RX termination control:
                                                                  0 = Floating.
                                                                  1 = Terminate to sds_vdda. */
         uint64_t pcs_sds_rx_sampler_boost : 2;/**< [ 13: 12](R/W) Controls amount of boost.
@@ -3628,7 +3628,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
+                                                                 5 Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL]
                                                                  should both be set, [RX_SDS_RX_AGC_MVAL] has the pre and post settings,
                                                                  and GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_ZERO] controls equalizer
@@ -3659,7 +3659,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
+                                                                 5 Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL]
                                                                  should both be set, [RX_SDS_RX_AGC_MVAL] has the pre and post settings,
                                                                  and GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_ZERO] controls equalizer
@@ -3676,7 +3676,7 @@ typedef union
                                                                  For diagnostic use only. */
         uint64_t pcs_sds_rx_sampler_boost : 2;/**< [ 13: 12](R/W) Controls amount of boost.
                                                                  Note that this control can negatively impact reliability. */
-        uint64_t pcs_sds_rx_terminate_to_vdda : 1;/**< [ 14: 14](R/W) RX Termination control:
+        uint64_t pcs_sds_rx_terminate_to_vdda : 1;/**< [ 14: 14](R/W) RX termination control:
                                                                  0 = Floating.
                                                                  1 = Terminate to sds_vdda. */
         uint64_t reserved_15_63        : 49;
@@ -3942,7 +3942,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
+                                                                 5 Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. [RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL] should both be set,
                                                                  GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the pre and post settings,
                                                                  and GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_ZERO] controls equalizer
@@ -3952,7 +3952,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
+                                                                 5 Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. [RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL] should both be set,
                                                                  GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the pre and post settings,
                                                                  and GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_ZERO] controls equalizer
@@ -3975,7 +3975,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
+                                                                 5 Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. [RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL] should both be set,
                                                                  GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the pre and post settings,
                                                                  and GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_ZERO] controls equalizer
@@ -3985,7 +3985,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
+                                                                 5 Gbaud, pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. [RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL] should both be set,
                                                                  GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the pre and post settings,
                                                                  and GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_ZERO] controls equalizer
@@ -4040,7 +4040,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud,
+                                                                 5 Gbaud,
                                                                  pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL]
                                                                  should both be set, GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the
@@ -4049,7 +4049,7 @@ typedef union
 
                                                                  The [PCS_SDS_RX_CTLE_ZERO] setting should be derived from signal integrity
                                                                  simulations with the IBIS-AMI model supplied by Cavium when auto-negotiated
-                                                                 link training is not present and link speed < 5Gbaud. */
+                                                                 link training is not present and link speed < 5 Gbaud. */
         uint64_t rx_ctle_pole_ovrrd_en : 1;  /**< [  9:  9](R/W) Equalizer pole adjustment override enable. */
         uint64_t rx_ctle_pole_ovrrd_val : 4; /**< [  8:  5](R/W) Equalizer pole adjustment override value.
                                                                  RX pre-correlation sample counter control
@@ -4082,7 +4082,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud,
+                                                                 5 Gbaud,
                                                                  pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL]
                                                                  should both be set, GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the
@@ -4091,7 +4091,7 @@ typedef union
 
                                                                  The [PCS_SDS_RX_CTLE_ZERO] setting should be derived from signal integrity
                                                                  simulations with the IBIS-AMI model supplied by Cavium when auto-negotiated
-                                                                 link training is not present and link speed < 5Gbaud. */
+                                                                 link training is not present and link speed < 5 Gbaud. */
         uint64_t pcs_sds_rx_ctle_bias_ctrl : 2;/**< [ 15: 14](R/W) CTLE bias trim bits.
                                                                  0x0 = -10%.
                                                                  0x1 =  0%.
@@ -4118,7 +4118,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud,
+                                                                 5 Gbaud,
                                                                  pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL]
                                                                  should both be set, GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the
@@ -4127,7 +4127,7 @@ typedef union
 
                                                                  The [PCS_SDS_RX_CTLE_ZERO] setting should be derived from signal integrity
                                                                  simulations with the IBIS-AMI model supplied by Cavium when auto-negotiated
-                                                                 link training is not present and link speed < 5Gbaud. */
+                                                                 link training is not present and link speed < 5 Gbaud. */
         uint64_t rx_ctle_pole_ovrrd_en : 1;  /**< [  9:  9](R/W) Equalizer pole adjustment override enable. */
         uint64_t rx_ctle_pole_ovrrd_val : 4; /**< [  8:  5](R/W) Equalizer pole adjustment override value.
                                                                  RX pre-correlation sample counter control
@@ -4160,7 +4160,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5Gbaud,
+                                                                 5 Gbaud,
                                                                  pre-CTLE, post-CTLE, and peaking control settings should be manually
                                                                  configured. GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL]
                                                                  should both be set, GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the
@@ -4169,7 +4169,7 @@ typedef union
 
                                                                  The [PCS_SDS_RX_CTLE_ZERO] setting should be derived from signal integrity
                                                                  simulations with the IBIS-AMI model supplied by Cavium when auto-negotiated
-                                                                 link training is not present and link speed < 5Gbaud. */
+                                                                 link training is not present and link speed < 5 Gbaud. */
         uint64_t pcs_sds_rx_ctle_bias_ctrl : 2;/**< [ 15: 14](R/W) CTLE bias trim bits.
                                                                  Changed in pass 2.
                                                                  0x0 = -10%.
@@ -4235,7 +4235,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, non-SATA/PCIe, and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL],
                                                                  setting [CFG_RX_LCTRL<8>], clearing [CFG_RX_LCTRL<1>], clearing all of
@@ -4262,7 +4262,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, non-SATA/PCIe, and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL],
                                                                  setting [CFG_RX_LCTRL<8>], clearing [CFG_RX_LCTRL<1>], clearing all of
@@ -4300,7 +4300,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, non-SATA/PCIe, and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL],
                                                                  setting [CFG_RX_LCTRL<8>], clearing [CFG_RX_LCTRL<1>], clearing all of
@@ -4327,7 +4327,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, non-SATA/PCIe, and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL],
                                                                  setting [CFG_RX_LCTRL<8>], clearing [CFG_RX_LCTRL<1>], clearing all of
@@ -4377,20 +4377,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB clock enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB clock enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX electrical-idle-exit
+                                                                 detect enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX electrical-idle-exit
+                                                                 detect enable. */
         uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
         uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
+        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ eval.
                                                                  When asserted, training mode is controlled by
                                                                  CFG_RX_EQ_EVAL_OVRRD_VAL. */
         uint64_t reserved_6            : 1;
         uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX Power State machine with
+                                                                 signal from the RX power state machine with
                                                                  CFG_RX_DLL_LOCKEN in register
                                                                  GSER()_LANE()_RX_CFG_1. */
         uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
@@ -4409,21 +4409,21 @@ typedef union
                                                                  to cfg_rx_errdet_ctrl in registers
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
         uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX Power State machine with
+                                                                 signal from the RX power state machine with
                                                                  CFG_RX_DLL_LOCKEN in register
                                                                  GSER()_LANE()_RX_CFG_1. */
         uint64_t reserved_6            : 1;
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
+        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ eval.
                                                                  When asserted, training mode is controlled by
                                                                  CFG_RX_EQ_EVAL_OVRRD_VAL. */
         uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
         uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX electrical-idle-exit
+                                                                 detect enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX electrical-idle-exit
+                                                                 detect enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB clock enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB clock enable. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
@@ -4431,20 +4431,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB clock enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB clock enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX electrical-idle-exit
+                                                                 detect enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX electrical-idle-exit
+                                                                 detect enable. */
         uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
         uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
+        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ eval.
                                                                  When asserted, training mode is controlled by
                                                                  CFG_RX_EQ_EVAL_OVRRD_VAL. */
         uint64_t reserved_6            : 1;
         uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX Power State machine with
+                                                                 signal from the RX power state machine with
                                                                  CFG_RX_DLL_LOCKEN in register
                                                                  GSER()_LANE()_RX_CFG_1. */
         uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
@@ -4457,21 +4457,21 @@ typedef union
                                                                  to cfg_rx_errdet_ctrl in registers
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
         uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX Power State machine with
+                                                                 signal from the RX power state machine with
                                                                  CFG_RX_DLL_LOCKEN in register
                                                                  GSER()_LANE()_RX_CFG_1. */
         uint64_t reserved_6            : 1;
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
+        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ eval.
                                                                  When asserted, training mode is controlled by
                                                                  CFG_RX_EQ_EVAL_OVRRD_VAL. */
         uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
         uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX electrical-idle-exit
+                                                                 detect enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX electrical-idle-exit
+                                                                 detect enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB clock enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB clock enable. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn88xxp1;
@@ -4479,20 +4479,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB clock enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB clock enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX electrical-idle-exit
+                                                                 detect enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX electrical-idle-exit
+                                                                 detect enable. */
         uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
         uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
+        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ eval.
                                                                  When asserted, training mode is controlled by
                                                                  CFG_RX_EQ_EVAL_OVRRD_VAL. */
         uint64_t reserved_6            : 1;
         uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX Power State machine with
+                                                                 signal from the RX power state machine with
                                                                  CFG_RX_DLL_LOCKEN in register
                                                                  GSER()_LANE()_RX_CFG_1. */
         uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
@@ -4509,21 +4509,21 @@ typedef union
                                                                  to cfg_rx_errdet_ctrl in registers
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
         uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX Power State machine with
+                                                                 signal from the RX power state machine with
                                                                  CFG_RX_DLL_LOCKEN in register
                                                                  GSER()_LANE()_RX_CFG_1. */
         uint64_t reserved_6            : 1;
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
+        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ eval.
                                                                  When asserted, training mode is controlled by
                                                                  CFG_RX_EQ_EVAL_OVRRD_VAL. */
         uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
         uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX electrical-idle-exit
+                                                                 detect enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX electrical-idle-exit
+                                                                 detect enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB clock enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB clock enable. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -4921,7 +4921,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -4935,7 +4935,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -4949,7 +4949,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -4963,7 +4963,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -4978,7 +4978,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -4992,7 +4992,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5006,7 +5006,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5020,7 +5020,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5075,7 +5075,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5089,7 +5089,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5103,7 +5103,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5117,7 +5117,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5131,7 +5131,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5145,7 +5145,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5160,7 +5160,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5174,7 +5174,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5188,7 +5188,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5202,7 +5202,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5216,7 +5216,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5230,7 +5230,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5285,7 +5285,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5299,7 +5299,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5313,7 +5313,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5327,7 +5327,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5341,7 +5341,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5355,7 +5355,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5370,7 +5370,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5384,7 +5384,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5398,7 +5398,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5412,7 +5412,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5426,7 +5426,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5443,7 +5443,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
-                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 5 Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL], setting
                                                                  GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
@@ -5495,8 +5495,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t vma_fine_cfg_sel_ovrrd_en : 1;/**< [ 15: 15](R/W) Enable override of VMA fine configuration selection. */
         uint64_t vma_fine_cfg_sel_ovrrd_val : 1;/**< [ 14: 14](R/W) Override value of VMA fine configuration selection.
-                                                                 0: Coarse mode.
-                                                                 1: Fine mode. */
+                                                                 0 = Coarse mode.
+                                                                 1 = Fine mode. */
         uint64_t rx_fom_div_delta      : 1;  /**< [ 13: 13](R/W) TX figure of merit delta division-mode enable. */
         uint64_t rx_vna_ctrl_18_16     : 3;  /**< [ 12: 10](R/W) RX VMA loop control. */
         uint64_t rx_vna_ctrl_9_0       : 10; /**< [  9:  0](R/W) RX VMA loop control.
@@ -5519,8 +5519,8 @@ typedef union
         uint64_t rx_vna_ctrl_18_16     : 3;  /**< [ 12: 10](R/W) RX VMA loop control. */
         uint64_t rx_fom_div_delta      : 1;  /**< [ 13: 13](R/W) TX figure of merit delta division-mode enable. */
         uint64_t vma_fine_cfg_sel_ovrrd_val : 1;/**< [ 14: 14](R/W) Override value of VMA fine configuration selection.
-                                                                 0: Coarse mode.
-                                                                 1: Fine mode. */
+                                                                 0 = Coarse mode.
+                                                                 1 = Fine mode. */
         uint64_t vma_fine_cfg_sel_ovrrd_en : 1;/**< [ 15: 15](R/W) Enable override of VMA fine configuration selection. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -5888,7 +5888,7 @@ typedef union
         uint64_t reserved_10_13        : 4;
         uint64_t tx_resetn_ovrrd_val   : 1;  /**< [  9:  9](R/W) TX P2S reset. Active high. Override value when
                                                                  GSER()_LANE()_PWR_CTRL[TX_P2S_RESET_OVRRD_EN] is set. */
-        uint64_t tx_cm_mode            : 1;  /**< [  8:  8](R/W/H) Assert to enable fast Common-Mode charge up. For simulation purposes only. */
+        uint64_t tx_cm_mode            : 1;  /**< [  8:  8](R/W/H) Assert to enable fast common-mode charge up. For simulation purposes only. */
         uint64_t cfg_tx_swing          : 5;  /**< [  7:  3](R/W) TX output swing control.
                                                                  Default swing encoding when GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] is
                                                                  asserted.
@@ -5896,7 +5896,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25Gbaud except PCIe/SATA, the transmit swing should be manually
+                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit swing should be manually
                                                                  over-ridden. GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] should be set
                                                                  and [CFG_TX_SWING] configures the swing. A transmit swing change should be
                                                                  followed by a control interface configuration over-ride to force the
@@ -5904,7 +5904,7 @@ typedef union
 
                                                                  [CFG_TX_SWING] should be derived from signal integrity simulations
                                                                  with the IBIS-AMI model supplied by Cavium when auto-negotiated link
-                                                                 training is not present and link speed <= 6.25Gbaud.
+                                                                 training is not present and link speed <= 6.25 Gbaud.
 
                                                                  <pre>
                                                                      Frequency          Possibly useful [CFG_TX_SWING] value
@@ -5913,13 +5913,13 @@ typedef union
                                                                       10.3125 Gbaud          0xd
                                                                       other                  0x7
                                                                  </pre> */
-        uint64_t fast_rdet_mode        : 1;  /**< [  2:  2](R/W/H) Assert to enable fast RX Detection. For simulation purposes only. */
-        uint64_t fast_tristate_mode    : 1;  /**< [  1:  1](R/W/H) Assert to enable fast Tristate power up. For simulation purposes only. */
+        uint64_t fast_rdet_mode        : 1;  /**< [  2:  2](R/W/H) Assert to enable fast RX detection. For simulation purposes only. */
+        uint64_t fast_tristate_mode    : 1;  /**< [  1:  1](R/W/H) Assert to enable fast tristate power up. For simulation purposes only. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t fast_tristate_mode    : 1;  /**< [  1:  1](R/W/H) Assert to enable fast Tristate power up. For simulation purposes only. */
-        uint64_t fast_rdet_mode        : 1;  /**< [  2:  2](R/W/H) Assert to enable fast RX Detection. For simulation purposes only. */
+        uint64_t fast_tristate_mode    : 1;  /**< [  1:  1](R/W/H) Assert to enable fast tristate power up. For simulation purposes only. */
+        uint64_t fast_rdet_mode        : 1;  /**< [  2:  2](R/W/H) Assert to enable fast RX detection. For simulation purposes only. */
         uint64_t cfg_tx_swing          : 5;  /**< [  7:  3](R/W) TX output swing control.
                                                                  Default swing encoding when GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] is
                                                                  asserted.
@@ -5927,7 +5927,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25Gbaud except PCIe/SATA, the transmit swing should be manually
+                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit swing should be manually
                                                                  over-ridden. GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] should be set
                                                                  and [CFG_TX_SWING] configures the swing. A transmit swing change should be
                                                                  followed by a control interface configuration over-ride to force the
@@ -5935,7 +5935,7 @@ typedef union
 
                                                                  [CFG_TX_SWING] should be derived from signal integrity simulations
                                                                  with the IBIS-AMI model supplied by Cavium when auto-negotiated link
-                                                                 training is not present and link speed <= 6.25Gbaud.
+                                                                 training is not present and link speed <= 6.25 Gbaud.
 
                                                                  <pre>
                                                                      Frequency          Possibly useful [CFG_TX_SWING] value
@@ -5944,7 +5944,7 @@ typedef union
                                                                       10.3125 Gbaud          0xd
                                                                       other                  0x7
                                                                  </pre> */
-        uint64_t tx_cm_mode            : 1;  /**< [  8:  8](R/W/H) Assert to enable fast Common-Mode charge up. For simulation purposes only. */
+        uint64_t tx_cm_mode            : 1;  /**< [  8:  8](R/W/H) Assert to enable fast common-mode charge up. For simulation purposes only. */
         uint64_t tx_resetn_ovrrd_val   : 1;  /**< [  9:  9](R/W) TX P2S reset. Active high. Override value when
                                                                  GSER()_LANE()_PWR_CTRL[TX_P2S_RESET_OVRRD_EN] is set. */
         uint64_t reserved_10_13        : 4;
@@ -6005,7 +6005,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25Gbaud except PCIe/SATA, the transmit swing should be manually
+                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit swing should be manually
                                                                  over-ridden. [TX_SWING_OVRRD_EN] should be set and
                                                                  GSER()_LANE()_TX_CFG_0[CFG_TX_SWING] configures the swing. A transmit swing
                                                                  change should be followed by a control interface configuration over-ride to
@@ -6015,14 +6015,14 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25Gbaud except PCIe/SATA, the transmit preemphasis pre and post
+                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit preemphasis pre and post
                                                                  cursor values should be manually over-ridden.  [TX_PREMPTAP_OVRRD_VAL] should
                                                                  be set and GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] has the pre and post
                                                                  cursor values. A preemphasis control change should be followed by a control
                                                                  interface configuration override to force the new setting - see
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
         uint64_t tx_elec_idle_ovrrd_en : 1;  /**< [  7:  7](R/W) Override enable for pcs_sds_txX_elec_idle, TX electrical idle. */
-        uint64_t smpl_rate_ovrrd_en    : 1;  /**< [  6:  6](R/W) Override enable for TX Power state machine sample rate. When asserted, the TX sample is
+        uint64_t smpl_rate_ovrrd_en    : 1;  /**< [  6:  6](R/W) Override enable for TX power state machine sample rate. When asserted, the TX sample is
                                                                  specified from SMPL_RATE_OVRRD_VAL and the TX Power state machine control signal is
                                                                  ignored. */
         uint64_t smpl_rate_ovrrd_val   : 3;  /**< [  5:  3](R/W) Specifies the sample rate (strobe assertion) relative to mac_pcs_txX_clk when
@@ -6033,8 +6033,8 @@ typedef union
                                                                  0x3 = 1/8 data rate.
                                                                  0x4 = 1/16 data rate.
                                                                  0x5-7 = Reserved. */
-        uint64_t tx_datarate_ovrrd_en  : 1;  /**< [  2:  2](R/W) Override enable for RX Power state machine data rate signal. When set, rx_datarate is
-                                                                 specified from TX_DATA_RATE_OVRRD_VAL and the RX Power State Machine control signal is
+        uint64_t tx_datarate_ovrrd_en  : 1;  /**< [  2:  2](R/W) Override enable for RX power state machine data rate signal. When set, rx_datarate is
+                                                                 specified from [TX_DATARATE_OVRRD_VAL] and the RX power state machine control signal is
                                                                  ignored. */
         uint64_t tx_datarate_ovrrd_val : 2;  /**< [  1:  0](R/W) Specifies the TX data rate when TX_DATARATE_OVRRD_EN is asserted.
                                                                  0x0 = full rate.
@@ -6047,8 +6047,8 @@ typedef union
                                                                  0x1 = 1/2 data rate.
                                                                  0x2 = 1/4 data rate.
                                                                  0x3 = 1/8 data rate. */
-        uint64_t tx_datarate_ovrrd_en  : 1;  /**< [  2:  2](R/W) Override enable for RX Power state machine data rate signal. When set, rx_datarate is
-                                                                 specified from TX_DATA_RATE_OVRRD_VAL and the RX Power State Machine control signal is
+        uint64_t tx_datarate_ovrrd_en  : 1;  /**< [  2:  2](R/W) Override enable for RX power state machine data rate signal. When set, rx_datarate is
+                                                                 specified from [TX_DATARATE_OVRRD_VAL] and the RX power state machine control signal is
                                                                  ignored. */
         uint64_t smpl_rate_ovrrd_val   : 3;  /**< [  5:  3](R/W) Specifies the sample rate (strobe assertion) relative to mac_pcs_txX_clk when
                                                                  SMPL_RATE_OVRRD_EN is asserted.
@@ -6058,7 +6058,7 @@ typedef union
                                                                  0x3 = 1/8 data rate.
                                                                  0x4 = 1/16 data rate.
                                                                  0x5-7 = Reserved. */
-        uint64_t smpl_rate_ovrrd_en    : 1;  /**< [  6:  6](R/W) Override enable for TX Power state machine sample rate. When asserted, the TX sample is
+        uint64_t smpl_rate_ovrrd_en    : 1;  /**< [  6:  6](R/W) Override enable for TX power state machine sample rate. When asserted, the TX sample is
                                                                  specified from SMPL_RATE_OVRRD_VAL and the TX Power state machine control signal is
                                                                  ignored. */
         uint64_t tx_elec_idle_ovrrd_en : 1;  /**< [  7:  7](R/W) Override enable for pcs_sds_txX_elec_idle, TX electrical idle. */
@@ -6067,7 +6067,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25Gbaud except PCIe/SATA, the transmit preemphasis pre and post
+                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit preemphasis pre and post
                                                                  cursor values should be manually over-ridden.  [TX_PREMPTAP_OVRRD_VAL] should
                                                                  be set and GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] has the pre and post
                                                                  cursor values. A preemphasis control change should be followed by a control
@@ -6078,7 +6078,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25Gbaud except PCIe/SATA, the transmit swing should be manually
+                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit swing should be manually
                                                                  over-ridden. [TX_SWING_OVRRD_EN] should be set and
                                                                  GSER()_LANE()_TX_CFG_0[CFG_TX_SWING] configures the swing. A transmit swing
                                                                  change should be followed by a control interface configuration over-ride to
@@ -6131,7 +6131,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t pcs_sds_tx_dcc_en     : 1;  /**< [ 15: 15](R/W) DCC Enable. */
+        uint64_t pcs_sds_tx_dcc_en     : 1;  /**< [ 15: 15](R/W) DCC enable. */
         uint64_t reserved_3_14         : 12;
         uint64_t rcvr_test_ovrrd_en    : 1;  /**< [  2:  2](R/W) Override RX detect disable and test pulse. */
         uint64_t rcvr_test_ovrrd_val   : 1;  /**< [  1:  1](R/W) Override value for RX detect test pulse; used to create a pulse during which the receiver
@@ -6143,7 +6143,7 @@ typedef union
                                                                  detect test operation is performed. */
         uint64_t rcvr_test_ovrrd_en    : 1;  /**< [  2:  2](R/W) Override RX detect disable and test pulse. */
         uint64_t reserved_3_14         : 12;
-        uint64_t pcs_sds_tx_dcc_en     : 1;  /**< [ 15: 15](R/W) DCC Enable. */
+        uint64_t pcs_sds_tx_dcc_en     : 1;  /**< [ 15: 15](R/W) DCC enable. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -6187,13 +6187,13 @@ typedef union
         uint64_t cfg_tx_vboost_en      : 1;  /**< [ 14: 14](R/W) Specifies the value of TX VBoost enable when
                                                                  GSER()_LANE()_TX_CFG_1[TX_VBOOST_EN_OVRRD_EN] is asserted. */
         uint64_t reserved_7_13         : 7;
-        uint64_t pcs_sds_tx_gain       : 3;  /**< [  6:  4](R/W/H) TX Gain. For debug use only. */
+        uint64_t pcs_sds_tx_gain       : 3;  /**< [  6:  4](R/W/H) TX gain. For debug use only. */
         uint64_t pcs_sds_tx_srate_sel  : 3;  /**< [  3:  1](R/W/H) Reserved. */
         uint64_t cfg_tx_turbo_en       : 1;  /**< [  0:  0](R/W) Specifies value of TX turbo enable when GSER()_LANE()_TX_CFG_1[TX_TURBO_EN] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t cfg_tx_turbo_en       : 1;  /**< [  0:  0](R/W) Specifies value of TX turbo enable when GSER()_LANE()_TX_CFG_1[TX_TURBO_EN] is set. */
         uint64_t pcs_sds_tx_srate_sel  : 3;  /**< [  3:  1](R/W/H) Reserved. */
-        uint64_t pcs_sds_tx_gain       : 3;  /**< [  6:  4](R/W/H) TX Gain. For debug use only. */
+        uint64_t pcs_sds_tx_gain       : 3;  /**< [  6:  4](R/W/H) TX gain. For debug use only. */
         uint64_t reserved_7_13         : 7;
         uint64_t cfg_tx_vboost_en      : 1;  /**< [ 14: 14](R/W) Specifies the value of TX VBoost enable when
                                                                  GSER()_LANE()_TX_CFG_1[TX_VBOOST_EN_OVRRD_EN] is asserted. */
@@ -6245,7 +6245,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25Gbaud except PCIe/SATA, the transmit preemphasis pre and post
+                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit preemphasis pre and post
                                                                  cursor values should be manually over-ridden.
                                                                  GSER()_LANE()_TX_CFG_1[TX_PREMPTAP_OVRRD_VAL] should be set
                                                                  and [CFG_TX_PREMPTAP] has the pre and post cursor values. A preemphasis
@@ -6255,7 +6255,7 @@ typedef union
 
                                                                  [CFG_TX_PREMPTAP] should be derived from signal integrity simulations
                                                                  with the IBIS-AMI model supplied by Cavium when auto-negotiated link
-                                                                 training is not present and link speed <= 6.25Gbaud.
+                                                                 training is not present and link speed <= 6.25 Gbaud.
 
                                                                  <pre>
                                                                     Frequency        Possibly useful [CFG_TX_PREMPTAP] value
@@ -6273,7 +6273,7 @@ typedef union
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25Gbaud except PCIe/SATA, the transmit preemphasis pre and post
+                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit preemphasis pre and post
                                                                  cursor values should be manually over-ridden.
                                                                  GSER()_LANE()_TX_CFG_1[TX_PREMPTAP_OVRRD_VAL] should be set
                                                                  and [CFG_TX_PREMPTAP] has the pre and post cursor values. A preemphasis
@@ -6283,7 +6283,7 @@ typedef union
 
                                                                  [CFG_TX_PREMPTAP] should be derived from signal integrity simulations
                                                                  with the IBIS-AMI model supplied by Cavium when auto-negotiated link
-                                                                 training is not present and link speed <= 6.25Gbaud.
+                                                                 training is not present and link speed <= 6.25 Gbaud.
 
                                                                  <pre>
                                                                     Frequency        Possibly useful [CFG_TX_PREMPTAP] value
@@ -6448,11 +6448,13 @@ typedef union
                                                                  This register is not used for PCIE configurations. For BGX links, this register
                                                                  defaults to R_625G_REFCLK15625_RXAUI.
 
-                                                                 It is recommended that the PHY be in reset when reconfiguring the LMODE
+                                                                 It is recommended that the PHY be in reset when reconfiguring the [LMODE]
                                                                  (GSER()_PHY_CTL[PHY_RESET] is set).
 
-                                                                 Once the LMODE has been configured, and the PHY is out of reset, the table entries for the
-                                                                 selected LMODE must be updated to reflect the reference clock speed. Refer to the register
+                                                                 Once the [LMODE] has been configured, and the PHY is out of reset, the table entries for
+                                                                 the
+                                                                 selected [LMODE] must be updated to reflect the reference clock speed. Refer to the
+                                                                 register
                                                                  description and index into the table using the rate and reference speed to obtain the
                                                                  recommended values.
 
@@ -6461,7 +6463,7 @@ typedef union
                                                                  _ Write GSER()_LANE_P()_MODE_0.
                                                                  _ Write GSER()_LANE_P()_MODE_1.
 
-                                                                 where in "P(z)", z equals LMODE. */
+                                                                 where in "P(z)", z equals [LMODE]. */
 #else /* Word 0 - Little Endian */
         uint64_t lmode                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode, used to index into the PHY
                                                                  table to select electrical specs and link rate. Note that the PHY table can be modified
@@ -6484,11 +6486,13 @@ typedef union
                                                                  This register is not used for PCIE configurations. For BGX links, this register
                                                                  defaults to R_625G_REFCLK15625_RXAUI.
 
-                                                                 It is recommended that the PHY be in reset when reconfiguring the LMODE
+                                                                 It is recommended that the PHY be in reset when reconfiguring the [LMODE]
                                                                  (GSER()_PHY_CTL[PHY_RESET] is set).
 
-                                                                 Once the LMODE has been configured, and the PHY is out of reset, the table entries for the
-                                                                 selected LMODE must be updated to reflect the reference clock speed. Refer to the register
+                                                                 Once the [LMODE] has been configured, and the PHY is out of reset, the table entries for
+                                                                 the
+                                                                 selected [LMODE] must be updated to reflect the reference clock speed. Refer to the
+                                                                 register
                                                                  description and index into the table using the rate and reference speed to obtain the
                                                                  recommended values.
 
@@ -6497,7 +6501,7 @@ typedef union
                                                                  _ Write GSER()_LANE_P()_MODE_0.
                                                                  _ Write GSER()_LANE_P()_MODE_1.
 
-                                                                 where in "P(z)", z equals LMODE. */
+                                                                 where in "P(z)", z equals [LMODE]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -6531,11 +6535,13 @@ typedef union
                                                                  GSER()_SPD and the appropriate table updates are performed so the rate is obtained for the
                                                                  particular reference clock.
 
-                                                                 It is recommended that the PHY be in reset when reconfiguring the LMODE
+                                                                 It is recommended that the PHY be in reset when reconfiguring the [LMODE]
                                                                  (GSER()_PHY_CTL[PHY_RESET] is set).
 
-                                                                 Once the LMODE has been configured, and the PHY is out of reset, the table entries for the
-                                                                 selected LMODE must be updated to reflect the reference clock speed. Refer to the register
+                                                                 Once the [LMODE] has been configured, and the PHY is out of reset, the table entries for
+                                                                 the
+                                                                 selected [LMODE] must be updated to reflect the reference clock speed. Refer to the
+                                                                 register
                                                                  description and index into the table using the rate and reference speed to obtain the
                                                                  recommended values.
 
@@ -6544,7 +6550,7 @@ typedef union
                                                                  _ Write GSER()_LANE_P()_MODE_0.
                                                                  _ Write GSER()_LANE_P()_MODE_1.
 
-                                                                 where in "P(z)", z equals LMODE. */
+                                                                 where in "P(z)", z equals [LMODE]. */
 #else /* Word 0 - Little Endian */
         uint64_t lmode                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode (including all CCPI links), used to index into
                                                                  the PHY
@@ -6571,11 +6577,13 @@ typedef union
                                                                  GSER()_SPD and the appropriate table updates are performed so the rate is obtained for the
                                                                  particular reference clock.
 
-                                                                 It is recommended that the PHY be in reset when reconfiguring the LMODE
+                                                                 It is recommended that the PHY be in reset when reconfiguring the [LMODE]
                                                                  (GSER()_PHY_CTL[PHY_RESET] is set).
 
-                                                                 Once the LMODE has been configured, and the PHY is out of reset, the table entries for the
-                                                                 selected LMODE must be updated to reflect the reference clock speed. Refer to the register
+                                                                 Once the [LMODE] has been configured, and the PHY is out of reset, the table entries for
+                                                                 the
+                                                                 selected [LMODE] must be updated to reflect the reference clock speed. Refer to the
+                                                                 register
                                                                  description and index into the table using the rate and reference speed to obtain the
                                                                  recommended values.
 
@@ -6584,7 +6592,7 @@ typedef union
                                                                  _ Write GSER()_LANE_P()_MODE_0.
                                                                  _ Write GSER()_LANE_P()_MODE_1.
 
-                                                                 where in "P(z)", z equals LMODE. */
+                                                                 where in "P(z)", z equals [LMODE]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xx;
@@ -6613,11 +6621,13 @@ typedef union
                                                                  This register is not used for PCIE configurations. This register
                                                                  defaults to R_625G_REFCLK15625_RXAUI.
 
-                                                                 It is recommended that the PHY be in reset when reconfiguring the LMODE
+                                                                 It is recommended that the PHY be in reset when reconfiguring the [LMODE]
                                                                  (GSER()_PHY_CTL[PHY_RESET] is set).
 
-                                                                 Once the LMODE has been configured, and the PHY is out of reset, the table entries for the
-                                                                 selected LMODE must be updated to reflect the reference clock speed. Refer to the register
+                                                                 Once the [LMODE] has been configured, and the PHY is out of reset, the table entries for
+                                                                 the
+                                                                 selected [LMODE] must be updated to reflect the reference clock speed. Refer to the
+                                                                 register
                                                                  description and index into the table using the rate and reference speed to obtain the
                                                                  recommended values.
 
@@ -6626,7 +6636,7 @@ typedef union
                                                                  _ Write GSER()_LANE_P()_MODE_0.
                                                                  _ Write GSER()_LANE_P()_MODE_1.
 
-                                                                 where in "P(z)", z equals LMODE. */
+                                                                 where in "P(z)", z equals [LMODE]. */
 #else /* Word 0 - Little Endian */
         uint64_t lmode                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode, used to index into the PHY
                                                                  table to select electrical specs and link rate. Note that the PHY table can be modified
@@ -6649,11 +6659,13 @@ typedef union
                                                                  This register is not used for PCIE configurations. This register
                                                                  defaults to R_625G_REFCLK15625_RXAUI.
 
-                                                                 It is recommended that the PHY be in reset when reconfiguring the LMODE
+                                                                 It is recommended that the PHY be in reset when reconfiguring the [LMODE]
                                                                  (GSER()_PHY_CTL[PHY_RESET] is set).
 
-                                                                 Once the LMODE has been configured, and the PHY is out of reset, the table entries for the
-                                                                 selected LMODE must be updated to reflect the reference clock speed. Refer to the register
+                                                                 Once the [LMODE] has been configured, and the PHY is out of reset, the table entries for
+                                                                 the
+                                                                 selected [LMODE] must be updated to reflect the reference clock speed. Refer to the
+                                                                 register
                                                                  description and index into the table using the rate and reference speed to obtain the
                                                                  recommended values.
 
@@ -6662,7 +6674,7 @@ typedef union
                                                                  _ Write GSER()_LANE_P()_MODE_0.
                                                                  _ Write GSER()_LANE_P()_MODE_1.
 
-                                                                 where in "P(z)", z equals LMODE. */
+                                                                 where in "P(z)", z equals [LMODE]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
@@ -6729,8 +6741,8 @@ typedef union
 
                                                                  For SATA, [CTLE] should always be 0. */
         uint64_t pcie                  : 1;  /**< [ 12: 12](R/W/H) Selects between RX terminations.
-                                                                 0: Differential termination.
-                                                                 1: Termination between pad and SDS_VDDS.
+                                                                 0 = Differential termination.
+                                                                 1 = Termination between pad and SDS_VDDS.
 
                                                                  Recommended settings:
 
@@ -6815,23 +6827,27 @@ typedef union
         uint64_t tx_mode               : 2;  /**< [  3:  2](R/W/H) TX data width:
                                                                  0x0 = 8-bit raw data (not supported).
                                                                  0x1 = 10-bit raw data (not supported).
-                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only - software should normally not select this).
+                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8 Gb only - software should normally not select
+                                                                 this).
                                                                  0x3 = 20-bit raw data (anything software-configured). */
         uint64_t rx_mode               : 2;  /**< [  1:  0](R/W/H) RX data width:
                                                                  0x0 = 8-bit raw data (not supported).
                                                                  0x1 = 10-bit raw data (not supported).
-                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only - software should normally not select this).
+                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8 Gb only - software should normally not select
+                                                                 this).
                                                                  0x3 = 20-bit raw data (anything software-configured). */
 #else /* Word 0 - Little Endian */
         uint64_t rx_mode               : 2;  /**< [  1:  0](R/W/H) RX data width:
                                                                  0x0 = 8-bit raw data (not supported).
                                                                  0x1 = 10-bit raw data (not supported).
-                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only - software should normally not select this).
+                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8 Gb only - software should normally not select
+                                                                 this).
                                                                  0x3 = 20-bit raw data (anything software-configured). */
         uint64_t tx_mode               : 2;  /**< [  3:  2](R/W/H) TX data width:
                                                                  0x0 = 8-bit raw data (not supported).
                                                                  0x1 = 10-bit raw data (not supported).
-                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only - software should normally not select this).
+                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8 Gb only - software should normally not select
+                                                                 this).
                                                                  0x3 = 20-bit raw data (anything software-configured). */
         uint64_t reserved_4            : 1;
         uint64_t srate                 : 3;  /**< [  7:  5](R/W) Sample rate, used to generate strobe to effectively divide the clock down to a slower
@@ -6896,8 +6912,8 @@ typedef union
 
                                                                  For SATA, [TX_LDIV] should always be 0. */
         uint64_t pcie                  : 1;  /**< [ 12: 12](R/W/H) Selects between RX terminations.
-                                                                 0: Differential termination.
-                                                                 1: Termination between pad and SDS_VDDS.
+                                                                 0 = Differential termination.
+                                                                 1 = Termination between pad and SDS_VDDS.
 
                                                                  Recommended settings:
 
@@ -7767,7 +7783,7 @@ typedef union
                                                                  _ 10.3125G: 0x5
                                                                  </pre>
 
-                                                                 For SATA with 100Mhz reference clock, [PLL_RLOOP] should always be 3. */
+                                                                 For SATA with 100 MHz reference clock, [PLL_RLOOP] should always be 3. */
         uint64_t pll_pcs_div           : 9;  /**< [  8:  0](R/W/H) The divider that generates PCS_MAC_TX_CLK. The frequency of the clock is (pll_frequency /
                                                                  PLL_PCS_DIV).
 
@@ -7821,7 +7837,7 @@ typedef union
                                                                  _ 10.3125G: 0x5
                                                                  </pre>
 
-                                                                 For SATA with 100Mhz reference clock, [PLL_RLOOP] should always be 3. */
+                                                                 For SATA with 100 MHz reference clock, [PLL_RLOOP] should always be 3. */
         uint64_t pll_icp               : 4;  /**< [ 15: 12](R/W/H) PLL charge pump enable.
 
                                                                  Recommended settings, which are based on the reference clock speed:
@@ -7916,7 +7932,7 @@ typedef union
                                                                  10.3125G:  NS      NS     0x2
                                                                  </pre>
 
-                                                                 For SATA with 100Mhz reference clock, [PLL_CPADJ] should always be 2.
+                                                                 For SATA with 100 MHz reference clock, [PLL_CPADJ] should always be 2.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
         uint64_t pll_pcie3en           : 1;  /**< [ 10: 10](R/W/H) Enable PCIE3 mode.
@@ -7927,7 +7943,7 @@ typedef union
 
                                                                  For SATA, [PLL_PCIE3EN] should always be 0. */
         uint64_t pll_opr               : 1;  /**< [  9:  9](R/W/H) PLL op range:
-                                                                 0 = Use Ring Oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
+                                                                 0 = Use ring oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
                                                                  1 = Use LC-tank VCO. Recommended for rates 8 Gbaud and higher.
 
                                                                  For SATA, [PLL_OPR] should always be 0. */
@@ -7969,7 +7985,7 @@ typedef union
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
         uint64_t pll_opr               : 1;  /**< [  9:  9](R/W/H) PLL op range:
-                                                                 0 = Use Ring Oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
+                                                                 0 = Use ring oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
                                                                  1 = Use LC-tank VCO. Recommended for rates 8 Gbaud and higher.
 
                                                                  For SATA, [PLL_OPR] should always be 0. */
@@ -7995,7 +8011,7 @@ typedef union
                                                                  10.3125G:  NS      NS     0x2
                                                                  </pre>
 
-                                                                 For SATA with 100Mhz reference clock, [PLL_CPADJ] should always be 2.
+                                                                 For SATA with 100 MHz reference clock, [PLL_CPADJ] should always be 2.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
         uint64_t pll_16p5en            : 1;  /**< [ 13: 13](R/W/H) Enable for the DIV 16.5 divided down clock.
@@ -8498,8 +8514,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode, these bits enable per lane
                                                                  electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. [EIEDE] defaults to the enabled state. Once
+                                                                 EIE has been detected, [EIEDE] must be disabled, and then enabled again to perform another
                                                                  EIE detection.
                                                                  <3>: Lane 3.  Reserved.
                                                                  <2>: Lane 2.  Reserved.
@@ -8508,8 +8524,8 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode, these bits enable per lane
                                                                  electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. [EIEDE] defaults to the enabled state. Once
+                                                                 EIE has been detected, [EIEDE] must be disabled, and then enabled again to perform another
                                                                  EIE detection.
                                                                  <3>: Lane 3.  Reserved.
                                                                  <2>: Lane 2.  Reserved.
@@ -8526,8 +8542,8 @@ typedef union
         uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
                                                                  per lane
                                                                  electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. [EIEDE] defaults to the enabled state. Once
+                                                                 EIE has been detected, [EIEDE] must be disabled, and then enabled again to perform another
                                                                  EIE detection.
                                                                  <3>: Lane 3.
                                                                  <2>: Lane 2.
@@ -8537,8 +8553,8 @@ typedef union
         uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
                                                                  per lane
                                                                  electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. [EIEDE] defaults to the enabled state. Once
+                                                                 EIE has been detected, [EIEDE] must be disabled, and then enabled again to perform another
                                                                  EIE detection.
                                                                  <3>: Lane 3.
                                                                  <2>: Lane 2.
@@ -8553,8 +8569,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode, these bits enable per lane
                                                                  electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. [EIEDE] defaults to the enabled state. Once
+                                                                 EIE has been detected, [EIEDE] must be disabled, and then enabled again to perform another
                                                                  EIE detection.
                                                                  <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
                                                                  <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
@@ -8563,8 +8579,8 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode, these bits enable per lane
                                                                  electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. [EIEDE] defaults to the enabled state. Once
+                                                                 EIE has been detected, [EIEDE] must be disabled, and then enabled again to perform another
                                                                  EIE detection.
                                                                  <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
                                                                  <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
@@ -8617,8 +8633,9 @@ typedef union
         uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. For higher
                                                                  data rates, the received data needs to have sufficient low frequency content (for example,
-                                                                 idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
-                                                                 Under most conditions, EIESTS
+                                                                 idle symbols) for data transitions to be detected and for [EIESTS] to stay set
+                                                                 accordingly.
+                                                                 Under most conditions, [EIESTS]
                                                                  will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
                                                                  <7>: Lane 3.  Reserved.
                                                                  <6>: Lane 2.  Reserved.
@@ -8626,7 +8643,7 @@ typedef union
                                                                  <4>: Lane 0. */
         uint64_t eieltch               : 4;  /**< [  3:  0](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. Once an
-                                                                 EIE condition has been detected, the per-lane EIELTCH will stay set until
+                                                                 EIE condition has been detected, the per-lane [EIELTCH] will stay set until
                                                                  GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
                                                                  CDRLOCK
                                                                  is set.
@@ -8637,7 +8654,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t eieltch               : 4;  /**< [  3:  0](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. Once an
-                                                                 EIE condition has been detected, the per-lane EIELTCH will stay set until
+                                                                 EIE condition has been detected, the per-lane [EIELTCH] will stay set until
                                                                  GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
                                                                  CDRLOCK
                                                                  is set.
@@ -8648,8 +8665,9 @@ typedef union
         uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. For higher
                                                                  data rates, the received data needs to have sufficient low frequency content (for example,
-                                                                 idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
-                                                                 Under most conditions, EIESTS
+                                                                 idle symbols) for data transitions to be detected and for [EIESTS] to stay set
+                                                                 accordingly.
+                                                                 Under most conditions, [EIESTS]
                                                                  will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
                                                                  <7>: Lane 3.  Reserved.
                                                                  <6>: Lane 2.  Reserved.
@@ -8682,8 +8700,9 @@ typedef union
         uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. For higher
                                                                  data rates, the received data needs to have sufficient low frequency content (for example,
-                                                                 idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
-                                                                 Under most conditions, EIESTS
+                                                                 idle symbols) for data transitions to be detected and for [EIESTS] to stay set
+                                                                 accordingly.
+                                                                 Under most conditions, [EIESTS]
                                                                  will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
                                                                  <7>: Lane 3.
                                                                  <6>: Lane 2.
@@ -8691,7 +8710,7 @@ typedef union
                                                                  <4>: Lane 0. */
         uint64_t eieltch               : 4;  /**< [  3:  0](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. Once an
-                                                                 EIE condition has been detected, the per-lane EIELTCH will stay set until
+                                                                 EIE condition has been detected, the per-lane [EIELTCH] will stay set until
                                                                  GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
                                                                  CDRLOCK
                                                                  is set.
@@ -8702,7 +8721,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t eieltch               : 4;  /**< [  3:  0](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. Once an
-                                                                 EIE condition has been detected, the per-lane EIELTCH will stay set until
+                                                                 EIE condition has been detected, the per-lane [EIELTCH] will stay set until
                                                                  GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
                                                                  CDRLOCK
                                                                  is set.
@@ -8713,8 +8732,9 @@ typedef union
         uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. For higher
                                                                  data rates, the received data needs to have sufficient low frequency content (for example,
-                                                                 idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
-                                                                 Under most conditions, EIESTS
+                                                                 idle symbols) for data transitions to be detected and for [EIESTS] to stay set
+                                                                 accordingly.
+                                                                 Under most conditions, [EIESTS]
                                                                  will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
                                                                  <7>: Lane 3.
                                                                  <6>: Lane 2.
@@ -8746,8 +8766,9 @@ typedef union
         uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. For higher
                                                                  data rates, the received data needs to have sufficient low frequency content (for example,
-                                                                 idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
-                                                                 Under most conditions, EIESTS
+                                                                 idle symbols) for data transitions to be detected and for [EIESTS] to stay set
+                                                                 accordingly.
+                                                                 Under most conditions, [EIESTS]
                                                                  will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
                                                                  <7>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
                                                                  <6>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
@@ -8755,7 +8776,7 @@ typedef union
                                                                  <4>: Lane 0. */
         uint64_t eieltch               : 4;  /**< [  3:  0](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. Once an
-                                                                 EIE condition has been detected, the per-lane EIELTCH will stay set until
+                                                                 EIE condition has been detected, the per-lane [EIELTCH] will stay set until
                                                                  GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
                                                                  CDRLOCK
                                                                  is set.
@@ -8766,7 +8787,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t eieltch               : 4;  /**< [  3:  0](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. Once an
-                                                                 EIE condition has been detected, the per-lane EIELTCH will stay set until
+                                                                 EIE condition has been detected, the per-lane [EIELTCH] will stay set until
                                                                  GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
                                                                  CDRLOCK
                                                                  is set.
@@ -8777,8 +8798,9 @@ typedef union
         uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. For higher
                                                                  data rates, the received data needs to have sufficient low frequency content (for example,
-                                                                 idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
-                                                                 Under most conditions, EIESTS
+                                                                 idle symbols) for data transitions to be detected and for [EIESTS] to stay set
+                                                                 accordingly.
+                                                                 Under most conditions, [EIESTS]
                                                                  will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
                                                                  <7>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
                                                                  <6>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
@@ -8830,8 +8852,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t eii_filt              : 16; /**< [ 15:  0](R/W) The GSER uses electrical idle inference to determine when a RX lane has reentered
                                                                  electrical idle (EI). The PHY electrical idle exit detection supports a minimum pulse
-                                                                 width of 400ps, therefore configurations that run faster than 2.5G can indicate EI when
-                                                                 the serial lines are still driven. For rates faster than 2.5G, it takes 16K * 8 UI of
+                                                                 width of 400 ps, therefore configurations that run faster than 2.5 G can indicate EI when
+                                                                 the serial lines are still driven. For rates faster than 2.5 G, it takes 16 K * 8 UI of
                                                                  consecutive deasserted GSER()_RX_EIE_DETSTS[EIESTS] for the GSER to infer EI. In the
                                                                  event of electrical idle inference, the following happens:
                                                                  * GSER()_RX_EIE_DETSTS[CDRLOCK]<lane> is zeroed.
@@ -8842,16 +8864,17 @@ typedef union
                                                                  * GSER()_RX_EIE_DETEN[EIEDE]<lane> deasserts for a short period of time, and then is
                                                                  asserted to begin looking for the Electrical idle Exit condition.
 
-                                                                 Writing this register to a non-zero value causes the electrical idle inference to use the
-                                                                 EII_FILT count instead of the default settings. Each EII_FILT count represents 20 ns of
+                                                                 Writing this register to a nonzero value causes the electrical idle inference to use the
+                                                                 [EII_FILT] count instead of the default settings. Each [EII_FILT] count represents 20 ns
+                                                                 of
                                                                  incremental EI inference time.
 
                                                                  It is not expected that software will need to use the Electrical Idle Inference logic. */
 #else /* Word 0 - Little Endian */
         uint64_t eii_filt              : 16; /**< [ 15:  0](R/W) The GSER uses electrical idle inference to determine when a RX lane has reentered
                                                                  electrical idle (EI). The PHY electrical idle exit detection supports a minimum pulse
-                                                                 width of 400ps, therefore configurations that run faster than 2.5G can indicate EI when
-                                                                 the serial lines are still driven. For rates faster than 2.5G, it takes 16K * 8 UI of
+                                                                 width of 400 ps, therefore configurations that run faster than 2.5 G can indicate EI when
+                                                                 the serial lines are still driven. For rates faster than 2.5 G, it takes 16 K * 8 UI of
                                                                  consecutive deasserted GSER()_RX_EIE_DETSTS[EIESTS] for the GSER to infer EI. In the
                                                                  event of electrical idle inference, the following happens:
                                                                  * GSER()_RX_EIE_DETSTS[CDRLOCK]<lane> is zeroed.
@@ -8862,8 +8885,9 @@ typedef union
                                                                  * GSER()_RX_EIE_DETEN[EIEDE]<lane> deasserts for a short period of time, and then is
                                                                  asserted to begin looking for the Electrical idle Exit condition.
 
-                                                                 Writing this register to a non-zero value causes the electrical idle inference to use the
-                                                                 EII_FILT count instead of the default settings. Each EII_FILT count represents 20 ns of
+                                                                 Writing this register to a nonzero value causes the electrical idle inference to use the
+                                                                 [EII_FILT] count instead of the default settings. Each [EII_FILT] count represents 20 ns
+                                                                 of
                                                                  incremental EI inference time.
 
                                                                  It is not expected that software will need to use the Electrical Idle Inference logic. */
@@ -9097,7 +9121,7 @@ typedef union
                                                                  <1> = DFE/Samplers.
                                                                  <0> = Termination.
 
-                                                                 Software needs to clear the Termination bit in SATA mode
+                                                                 Software needs to clear the termination bit in SATA mode
                                                                  (i.e. when GSER()_CFG[SATA] is set). */
         uint64_t p2_rx_chpd            : 1;  /**< [  0:  0](R/W) RX lane power down. */
 #else /* Word 0 - Little Endian */
@@ -9109,7 +9133,7 @@ typedef union
                                                                  <1> = DFE/Samplers.
                                                                  <0> = Termination.
 
-                                                                 Software needs to clear the Termination bit in SATA mode
+                                                                 Software needs to clear the termination bit in SATA mode
                                                                  (i.e. when GSER()_CFG[SATA] is set). */
         uint64_t p2_rx_cdr_clr         : 1;  /**< [  6:  6](R/W) CDR clear; clears the frequency register in the CDR. */
         uint64_t p2_rx_cdr_coast       : 1;  /**< [  7:  7](R/W) CDR coast; freezes the frequency of the CDR. */
@@ -9161,14 +9185,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t rx_boost_hi_thrs      : 4;  /**< [ 12:  9](R/W/H) The high threshold for RX Boost.
+        uint64_t rx_boost_hi_thrs      : 4;  /**< [ 12:  9](R/W/H) The high threshold for RX boost.
                                                                  The far-end TX POST direction output, pcs_mac_rx_txpost_dir, is set to
                                                                  increment if the local RX boost value from the VMA (after RX-EQ) is
                                                                  higher than this value, and the local RX tap1 value is higher than its
                                                                  high threshold GSER()_RX_TXDIR_CTRL_1[RX_TAP1_HI_THRS].
                                                                  Note, that if GSER()_RX_TXDIR_CTRL_1[RX_TAP1_CHG_DIR]=1 then
                                                                  the direction is decrement. */
-        uint64_t rx_boost_lo_thrs      : 4;  /**< [  8:  5](R/W/H) The low threshold for RX Boost.
+        uint64_t rx_boost_lo_thrs      : 4;  /**< [  8:  5](R/W/H) The low threshold for RX boost.
                                                                  The far-end TX POST direction output, pcs_mac_rx_txpost_dir, is set to
                                                                  decrement if the local RX boost value from the VMA (after RX-EQ) is
                                                                  lower than this value, and the local RX tap1 value is lower than its
@@ -9188,14 +9212,14 @@ typedef union
                                                                  Note, that if GSER()_RX_TXDIR_CTRL_1[RX_TAP1_CHG_DIR]=1 then
                                                                  the direction is decrement.
                                                                  To disable the check against RX_BOOST_HI_VAL, assert RX_BOOST_HI_VAL[4]. */
-        uint64_t rx_boost_lo_thrs      : 4;  /**< [  8:  5](R/W/H) The low threshold for RX Boost.
+        uint64_t rx_boost_lo_thrs      : 4;  /**< [  8:  5](R/W/H) The low threshold for RX boost.
                                                                  The far-end TX POST direction output, pcs_mac_rx_txpost_dir, is set to
                                                                  decrement if the local RX boost value from the VMA (after RX-EQ) is
                                                                  lower than this value, and the local RX tap1 value is lower than its
                                                                  low threshold GSER()_RX_TXDIR_CTRL_1[RX_TAP1_LO_THRS].
                                                                  Note, that if GSER()_RX_TXDIR_CTRL_1[RX_TAP1_CHG_DIR]=1 then
                                                                  the direction is increment. */
-        uint64_t rx_boost_hi_thrs      : 4;  /**< [ 12:  9](R/W/H) The high threshold for RX Boost.
+        uint64_t rx_boost_hi_thrs      : 4;  /**< [ 12:  9](R/W/H) The high threshold for RX boost.
                                                                  The far-end TX POST direction output, pcs_mac_rx_txpost_dir, is set to
                                                                  increment if the local RX boost value from the VMA (after RX-EQ) is
                                                                  higher than this value, and the local RX tap1 value is higher than its
@@ -9422,13 +9446,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the TX driver launch amplitude in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance. */
+                                                                 rates. Used for tuning at the board level for RX eye compliance. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the TX driver launch amplitude in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance. */
+                                                                 rates. Used for tuning at the board level for RX eye compliance. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -9436,14 +9460,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the TX driver launch amplitude in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 rates. Used for tuning at the board level for RX eye compliance.
                                                                  This register is used for SATA lanes only for GSER(3). */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the TX driver launch amplitude in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 rates. Used for tuning at the board level for RX eye compliance.
                                                                  This register is used for SATA lanes only for GSER(3). */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -9453,16 +9477,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the TX driver launch amplitude in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 rates. Used for tuning at the board level for RX eye compliance.
                                                                  This register is used for SATA lanes only GSER(4..6).
 
                                                                  Only SATA lanes 0 and 1 are used. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the TX driver launch amplitude in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 rates. Used for tuning at the board level for RX eye compliance.
                                                                  This register is used for SATA lanes only GSER(4..6).
 
                                                                  Only SATA lanes 0 and 1 are used. */
@@ -9507,13 +9531,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the TX driver de-emphasis value in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance. */
+                                                                 rates. Used for tuning at the board level for RX eye compliance. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the TX driver de-emphasis value in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance. */
+                                                                 rates. Used for tuning at the board level for RX eye compliance. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -9521,14 +9545,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the TX driver de-emphasis value in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 rates. Used for tuning at the board level for RX eye compliance.
                                                                  This register is used for SATA lanes only for GSER(3). */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the TX driver de-emphasis value in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 rates. Used for tuning at the board level for RX eye compliance.
                                                                  This register is used for SATA lanes only for GSER(3). */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -9538,16 +9562,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the TX driver de-emphasis value in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 rates. Used for tuning at the board level for RX eye compliance.
 
                                                                  This register is used for SATA lanes only GSER(4..6).
                                                                  Only SATA lanes 0 and 1 are used. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the TX driver de-emphasis value in the
                                                                  case where the PHY is running at the Gen1, Gen2, and Gen3
-                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 rates. Used for tuning at the board level for RX eye compliance.
 
                                                                  This register is used for SATA lanes only GSER(4..6).
                                                                  Only SATA lanes 0 and 1 are used. */
@@ -9752,7 +9776,7 @@ static inline uint64_t BDK_GSERX_SATA_STATUS(unsigned long a)
 /**
  * Register (RSL) gser#_sata_tx_invert
  *
- * GSER SATA Tx Invert Register
+ * GSER SATA TX Invert Register
  * Lane Reset Control.
  */
 typedef union
@@ -9910,10 +9934,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t pcs_sds_oob_clk_ctrl  : 2;  /**< [ 15: 14](R/W/H) OOB clock oscillator output frequency selection:
-                                                                 0x0 = 506 Mhz (min) 682 Mhz (typ) 782 Mhz (max).
-                                                                 0x1 = 439 Mhz (min) 554 Mhz (typ) 595 Mhz (max).
-                                                                 0x2 = 379 Mhz (min) 453 Mhz (typ) 482 Mhz (max).
-                                                                 0x3 = 303 Mhz (min) 378 Mhz (typ) 414 Mhz (max).
+                                                                 0x0 = 506 MHz (min) 682 MHz (typ) 782 MHz (max).
+                                                                 0x1 = 439 MHz (min) 554 MHz (typ) 595 MHz (max).
+                                                                 0x2 = 379 MHz (min) 453 MHz (typ) 482 MHz (max).
+                                                                 0x3 = 303 MHz (min) 378 MHz (typ) 414 MHz (max).
 
                                                                  This parameter is for debugging purposes and should not
                                                                  be written in normal operation. */
@@ -9943,10 +9967,10 @@ typedef union
         uint64_t pcs_sds_rx_sdll_tune  : 3;  /**< [  6:  4](R/W) Tuning bits for the regulator and the loop filter. */
         uint64_t reserved_7_13         : 7;
         uint64_t pcs_sds_oob_clk_ctrl  : 2;  /**< [ 15: 14](R/W/H) OOB clock oscillator output frequency selection:
-                                                                 0x0 = 506 Mhz (min) 682 Mhz (typ) 782 Mhz (max).
-                                                                 0x1 = 439 Mhz (min) 554 Mhz (typ) 595 Mhz (max).
-                                                                 0x2 = 379 Mhz (min) 453 Mhz (typ) 482 Mhz (max).
-                                                                 0x3 = 303 Mhz (min) 378 Mhz (typ) 414 Mhz (max).
+                                                                 0x0 = 506 MHz (min) 682 MHz (typ) 782 MHz (max).
+                                                                 0x1 = 439 MHz (min) 554 MHz (typ) 595 MHz (max).
+                                                                 0x2 = 379 MHz (min) 453 MHz (typ) 482 MHz (max).
+                                                                 0x3 = 303 MHz (min) 378 MHz (typ) 414 MHz (max).
 
                                                                  This parameter is for debugging purposes and should not
                                                                  be written in normal operation. */

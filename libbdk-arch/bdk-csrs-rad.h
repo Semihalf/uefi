@@ -125,13 +125,13 @@ union bdk_rad_cword_s
         uint64_t dn                    : 1;  /**< [ 37: 37] When set, on completing this transaction RAD will increment RAD_VQ()_DONE_CNT. */
         uint64_t q_cmp                 : 1;  /**< [ 36: 36] Q pipe mode. Must not be set when [QOUT]=0, and must not be set when [Q_XOR] is set.
                                                                  0 = Q pipe is in normal mode.
-                                                                 1 = Q pipe is in non-zero byte detect mode. The Q RAD_OWORD_S[PTR] result is the non-zero
-                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 1 = Q pipe is in nonzero byte detect mode. The Q RAD_OWORD_S[PTR] result is the nonzero
+                                                                 detect result, which indicates the position of the first nonzero byte in the pipe result
                                                                  bytes. */
         uint64_t p_cmp                 : 1;  /**< [ 35: 35] P pipe mode. Must not be set when [POUT]=0, and must not be set when [P_XOR] is set.
                                                                  0 = P pipe is in normal mode.
-                                                                 1 = P pipe is in non-zero byte detect mode. The P RAD_OWORD_S[PTR] result is the non-zero
-                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 1 = P pipe is in nonzero byte detect mode. The P RAD_OWORD_S[PTR] result is the nonzero
+                                                                 detect result, which indicates the position of the first nonzero byte in the pipe result
                                                                  bytes. */
         uint64_t q_xor                 : 1;  /**< [ 34: 34] Indicates whether the Q output buffer bytes are the normal Q pipe result or the normal Q
                                                                  pipe result exclusive-OR'ed with the P pipe result.
@@ -156,9 +156,9 @@ union bdk_rad_cword_s
                                                                  [P_XOR] must not be set unless both [POUT,QOUT] are set, and must not be set when [P_CMP]
                                                                  is set. */
         uint64_t wqe                   : 1;  /**< [ 32: 32] SSO work queue entry submission.
-                                                                 0 = RAD_RESP_S[PTR] if non-zero contains an address to be written in L2/DRAM on
+                                                                 0 = RAD_RESP_S[PTR] if nonzero contains an address to be written in L2/DRAM on
                                                                  completion of this instruction.
-                                                                 1 = RAD_RESP_S[PTR] if non-zero contains a work queue entry pointer which RAD
+                                                                 1 = RAD_RESP_S[PTR] if nonzero contains a work queue entry pointer which RAD
                                                                  will submit to the SSO on completion of this instruction. */
         uint64_t qout                  : 1;  /**< [ 31: 31] Q pipe is used by this instruction. If set, RAD_IWORD_S[QEN] must be set for at least one
                                                                  RAD_IWORD_S. At least one of [QOUT,POUT] must be set. */
@@ -180,9 +180,9 @@ union bdk_rad_cword_s
         uint64_t qout                  : 1;  /**< [ 31: 31] Q pipe is used by this instruction. If set, RAD_IWORD_S[QEN] must be set for at least one
                                                                  RAD_IWORD_S. At least one of [QOUT,POUT] must be set. */
         uint64_t wqe                   : 1;  /**< [ 32: 32] SSO work queue entry submission.
-                                                                 0 = RAD_RESP_S[PTR] if non-zero contains an address to be written in L2/DRAM on
+                                                                 0 = RAD_RESP_S[PTR] if nonzero contains an address to be written in L2/DRAM on
                                                                  completion of this instruction.
-                                                                 1 = RAD_RESP_S[PTR] if non-zero contains a work queue entry pointer which RAD
+                                                                 1 = RAD_RESP_S[PTR] if nonzero contains a work queue entry pointer which RAD
                                                                  will submit to the SSO on completion of this instruction. */
         uint64_t p_xor                 : 1;  /**< [ 33: 33] Indicates whether the P output buffer bytes are the normal P pipe result or the normal P
                                                                  pipe result exclusive-OR'ed with the Q pipe result.
@@ -208,13 +208,13 @@ union bdk_rad_cword_s
                                                                  Must not be set unless both [POUT,QOUT] are set, and must not be set when [Q_CMP] is set. */
         uint64_t p_cmp                 : 1;  /**< [ 35: 35] P pipe mode. Must not be set when [POUT]=0, and must not be set when [P_XOR] is set.
                                                                  0 = P pipe is in normal mode.
-                                                                 1 = P pipe is in non-zero byte detect mode. The P RAD_OWORD_S[PTR] result is the non-zero
-                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 1 = P pipe is in nonzero byte detect mode. The P RAD_OWORD_S[PTR] result is the nonzero
+                                                                 detect result, which indicates the position of the first nonzero byte in the pipe result
                                                                  bytes. */
         uint64_t q_cmp                 : 1;  /**< [ 36: 36] Q pipe mode. Must not be set when [QOUT]=0, and must not be set when [Q_XOR] is set.
                                                                  0 = Q pipe is in normal mode.
-                                                                 1 = Q pipe is in non-zero byte detect mode. The Q RAD_OWORD_S[PTR] result is the non-zero
-                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 1 = Q pipe is in nonzero byte detect mode. The Q RAD_OWORD_S[PTR] result is the nonzero
+                                                                 detect result, which indicates the position of the first nonzero byte in the pipe result
                                                                  bytes. */
         uint64_t dn                    : 1;  /**< [ 37: 37] When set, on completing this transaction RAD will increment RAD_VQ()_DONE_CNT. */
         uint64_t stren                 : 1;  /**< [ 38: 38] Stream override enable.
@@ -259,13 +259,13 @@ union bdk_rad_cword_s
         uint64_t dn                    : 1;  /**< [ 37: 37] When set, on completing this transaction RAD will increment RAD_DONE_CNT. */
         uint64_t q_cmp                 : 1;  /**< [ 36: 36] Q pipe mode. Must not be set when [QOUT]=0, and must not be set when [Q_XOR] is set.
                                                                  0 = Q pipe is in normal mode.
-                                                                 1 = Q pipe is in non-zero byte detect mode. The Q RAD_OWORD_S[PTR] result is the non-zero
-                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 1 = Q pipe is in nonzero byte detect mode. The Q RAD_OWORD_S[PTR] result is the nonzero
+                                                                 detect result, which indicates the position of the first nonzero byte in the pipe result
                                                                  bytes. */
         uint64_t p_cmp                 : 1;  /**< [ 35: 35] P pipe mode. Must not be set when [POUT]=0, and must not be set when [P_XOR] is set.
                                                                  0 = P pipe is in normal mode.
-                                                                 1 = P pipe is in non-zero byte detect mode. The P RAD_OWORD_S[PTR] result is the non-zero
-                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 1 = P pipe is in nonzero byte detect mode. The P RAD_OWORD_S[PTR] result is the nonzero
+                                                                 detect result, which indicates the position of the first nonzero byte in the pipe result
                                                                  bytes. */
         uint64_t q_xor                 : 1;  /**< [ 34: 34] Indicates whether the Q output buffer bytes are the normal Q pipe result or the normal Q
                                                                  pipe result exclusive-OR'ed with the P pipe result.
@@ -334,13 +334,13 @@ union bdk_rad_cword_s
                                                                  Must not be set unless both [POUT,QOUT] are set, and must not be set when [Q_CMP] is set. */
         uint64_t p_cmp                 : 1;  /**< [ 35: 35] P pipe mode. Must not be set when [POUT]=0, and must not be set when [P_XOR] is set.
                                                                  0 = P pipe is in normal mode.
-                                                                 1 = P pipe is in non-zero byte detect mode. The P RAD_OWORD_S[PTR] result is the non-zero
-                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 1 = P pipe is in nonzero byte detect mode. The P RAD_OWORD_S[PTR] result is the nonzero
+                                                                 detect result, which indicates the position of the first nonzero byte in the pipe result
                                                                  bytes. */
         uint64_t q_cmp                 : 1;  /**< [ 36: 36] Q pipe mode. Must not be set when [QOUT]=0, and must not be set when [Q_XOR] is set.
                                                                  0 = Q pipe is in normal mode.
-                                                                 1 = Q pipe is in non-zero byte detect mode. The Q RAD_OWORD_S[PTR] result is the non-zero
-                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 1 = Q pipe is in nonzero byte detect mode. The Q RAD_OWORD_S[PTR] result is the nonzero
+                                                                 detect result, which indicates the position of the first nonzero byte in the pipe result
                                                                  bytes. */
         uint64_t dn                    : 1;  /**< [ 37: 37] When set, on completing this transaction RAD will increment RAD_DONE_CNT. */
         uint64_t stren                 : 1;  /**< [ 38: 38] Stream override enable.
@@ -380,7 +380,7 @@ union bdk_rad_iword_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t qmult                 : 8;  /**< [ 63: 56] The Q pipe multiplier for the input buffer. Must must be zero when [QEN] is not set;
-                                                                 [QMULT] must be non-zero when [QEN] is set. When [QMULT] is 1, the multiplication
+                                                                 [QMULT] must be nonzero when [QEN] is set. When [QMULT] is 1, the multiplication
                                                                  simplifies to the identity function, and the Q pipe performs the same XOR function as the
                                                                  P pipe. */
         uint64_t nc                    : 1;  /**< [ 55: 55] When set, indicates that RAD should not allocate L2 cache space for this input buffer data
@@ -419,7 +419,7 @@ union bdk_rad_iword_s
                                                                  on L2 cache misses. Setting [NC] may improve performance in some circumstances, as the L2
                                                                  cache may not be polluted with input buffer data. */
         uint64_t qmult                 : 8;  /**< [ 63: 56] The Q pipe multiplier for the input buffer. Must must be zero when [QEN] is not set;
-                                                                 [QMULT] must be non-zero when [QEN] is set. When [QMULT] is 1, the multiplication
+                                                                 [QMULT] must be nonzero when [QEN] is set. When [QMULT] is 1, the multiplication
                                                                  simplifies to the identity function, and the Q pipe performs the same XOR function as the
                                                                  P pipe. */
 #endif /* Word 0 - End */
@@ -431,7 +431,7 @@ union bdk_rad_iword_s
  * Structure rad_nzdist_s
  *
  * RAD Non-Zero Result Structure
- * Data written to RAD_OWORD_S[PTR] with non-zero result.
+ * Data written to RAD_OWORD_S[PTR] with nonzero result.
  * RAD_REG_CTL[STORE_BE] indicates the endianness of this structure.
  */
 union bdk_rad_nzdist_s
@@ -441,10 +441,10 @@ union bdk_rad_nzdist_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t nzdist                : 24; /**< [ 23:  0] Location of first pipe result byte that is non-zero. If all pipe result bytes are zero for
+        uint64_t nzdist                : 24; /**< [ 23:  0] Location of first pipe result byte that is nonzero. If all pipe result bytes are zero for
                                                                  this instruction, NZDIST = RAD_CWORD_S[SIZE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nzdist                : 24; /**< [ 23:  0] Location of first pipe result byte that is non-zero. If all pipe result bytes are zero for
+        uint64_t nzdist                : 24; /**< [ 23:  0] Location of first pipe result byte that is nonzero. If all pipe result bytes are zero for
                                                                  this instruction, NZDIST = RAD_CWORD_S[SIZE]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
@@ -484,8 +484,8 @@ union bdk_rad_oword_s
                                                                  all of the output buffer bytes.
 
                                                                  When RAD_CWORD_S[P_CMP,Q_CMP]=1, the corresponding P/Q pipe is in compare mode, and the
-                                                                 only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
-                                                                 8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
+                                                                 only output of the pipe is the nonzero detect result. In this case, [PTR] indicates the
+                                                                 8-byte location of the nonzero detect result, which is written with RAD_NZDIST_S.
 
                                                                  [P_PTR] must be naturally-aligned on an 8-byte boundary (i.e. <2:0> must be zero). */
 #else /* Word 0 - Little Endian */
@@ -497,8 +497,8 @@ union bdk_rad_oword_s
                                                                  all of the output buffer bytes.
 
                                                                  When RAD_CWORD_S[P_CMP,Q_CMP]=1, the corresponding P/Q pipe is in compare mode, and the
-                                                                 only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
-                                                                 8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
+                                                                 only output of the pipe is the nonzero detect result. In this case, [PTR] indicates the
+                                                                 8-byte location of the nonzero detect result, which is written with RAD_NZDIST_S.
 
                                                                  [P_PTR] must be naturally-aligned on an 8-byte boundary (i.e. <2:0> must be zero). */
         uint64_t reserved_49_55        : 7;
@@ -538,8 +538,8 @@ union bdk_rad_oword_s
                                                                  all of the output buffer bytes.
 
                                                                  When RAD_CWORD_S[P_CMP,Q_CMP]=1, the corresponding P/Q pipe is in compare mode, and the
-                                                                 only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
-                                                                 8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
+                                                                 only output of the pipe is the nonzero detect result. In this case, [PTR] indicates the
+                                                                 8-byte location of the nonzero detect result, which is written with RAD_NZDIST_S.
 
                                                                  [P_PTR] must be naturally-aligned on an 8-byte boundary (i.e. <2:0> must be zero). */
 #else /* Word 0 - Little Endian */
@@ -551,8 +551,8 @@ union bdk_rad_oword_s
                                                                  all of the output buffer bytes.
 
                                                                  When RAD_CWORD_S[P_CMP,Q_CMP]=1, the corresponding P/Q pipe is in compare mode, and the
-                                                                 only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
-                                                                 8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
+                                                                 only output of the pipe is the nonzero detect result. In this case, [PTR] indicates the
+                                                                 8-byte location of the nonzero detect result, which is written with RAD_NZDIST_S.
 
                                                                  [P_PTR] must be naturally-aligned on an 8-byte boundary (i.e. <2:0> must be zero). */
         uint64_t reserved_49_55        : 7;
@@ -673,13 +673,13 @@ typedef union
         uint64_t done_ack              : 21; /**< [ 20:  0](WO) Number of decrements to RAD_DONE_CNT[DONE].
 
                                                                  Written by software to acknowledge interrupts.  If RAD_DONE_CNT[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  RAD_DONE_CNT[DONE] are satified. */
 #else /* Word 0 - Little Endian */
         uint64_t done_ack              : 21; /**< [ 20:  0](WO) Number of decrements to RAD_DONE_CNT[DONE].
 
                                                                  Written by software to acknowledge interrupts.  If RAD_DONE_CNT[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  RAD_DONE_CNT[DONE] are satified. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
@@ -893,11 +893,11 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -933,12 +933,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t done                  : 1;  /**< [  1:  1](RO/H) Done interrupt. See RAD_DONE_CNT[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use RAD_DONE_ACK. To test interrupts, write non-zero to RAD_DONE_CNT[DONE]. */
+                                                                 interrupts use RAD_DONE_ACK. To test interrupts, write nonzero to RAD_DONE_CNT[DONE]. */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Doorbell interrupt.  Set to indicate error that doorbell count has overflowed. */
 #else /* Word 0 - Little Endian */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Doorbell interrupt.  Set to indicate error that doorbell count has overflowed. */
         uint64_t done                  : 1;  /**< [  1:  1](RO/H) Done interrupt. See RAD_DONE_CNT[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use RAD_DONE_ACK. To test interrupts, write non-zero to RAD_DONE_CNT[DONE]. */
+                                                                 interrupts use RAD_DONE_ACK. To test interrupts, write nonzero to RAD_DONE_CNT[DONE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -1257,19 +1257,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's RAD_MSIX_VEC()_ADDR, RAD_MSIX_VEC()_CTL, and corresponding
                                                                  bit of RAD_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_RAD_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's RAD_MSIX_VEC()_ADDR, RAD_MSIX_VEC()_CTL, and corresponding
                                                                  bit of RAD_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_RAD_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -1534,19 +1534,19 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's RAD_PF_MSIX_VEC()_ADDR, RAD_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of RAD_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_RAD_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's RAD_PF_MSIX_VEC()_ADDR, RAD_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of RAD_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
+                                                                 by the nonsecure world.
 
                                                                  If PCCPF_RAD_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -1898,18 +1898,18 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
         uint64_t inst_be               : 1;  /**< [  7:  7](R/W) Instruction/response structures (RAD_CWORD_S, RAD_IWORD_S, RAD_OWORD_S, RAD_RESP_S,
-                                                                 RAD_NZDIST_S) are big endian. */
+                                                                 RAD_NZDIST_S) are big-endian. */
         uint64_t wc_dis                : 1;  /**< [  6:  6](R/W/H) Reserved.
                                                                  Internal:
                                                                  Bug 17188 diagnostic disable. */
         uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands as a throttle to control IOB
                                                                  usage. Values greater than 0x8 are illegal. */
-        uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big endian. Generaly this is not changed as data is
+        uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big-endian. Generally, this is not changed as data is
                                                                  byte invariant. */
         uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
 #else /* Word 0 - Little Endian */
         uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
-        uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big endian. Generaly this is not changed as data is
+        uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big-endian. Generally, this is not changed as data is
                                                                  byte invariant. */
         uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands as a throttle to control IOB
                                                                  usage. Values greater than 0x8 are illegal. */
@@ -1917,7 +1917,7 @@ typedef union
                                                                  Internal:
                                                                  Bug 17188 diagnostic disable. */
         uint64_t inst_be               : 1;  /**< [  7:  7](R/W) Instruction/response structures (RAD_CWORD_S, RAD_IWORD_S, RAD_OWORD_S, RAD_RESP_S,
-                                                                 RAD_NZDIST_S) are big endian. */
+                                                                 RAD_NZDIST_S) are big-endian. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -2620,13 +2620,13 @@ typedef union
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) PF to VF mailbox interrupt. Set when RAD_VF(0)_PF_MBOX(0)
                                                                  is written. */
         uint64_t done                  : 1;  /**< [  1:  1](RO/H) Done interrupt. See RAD_VQ()_DONE_CNT[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use RAD_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use RAD_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  RAD_VQ()_DONE_CNT[DONE]. */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Doorbell interrupt.  Set to indicate error that doorbell count has overflowed. */
 #else /* Word 0 - Little Endian */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Doorbell interrupt.  Set to indicate error that doorbell count has overflowed. */
         uint64_t done                  : 1;  /**< [  1:  1](RO/H) Done interrupt. See RAD_VQ()_DONE_CNT[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use RAD_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 interrupts use RAD_VQ()_DONE_ACK. To test interrupts, write nonzero to
                                                                  RAD_VQ()_DONE_CNT[DONE]. */
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) PF to VF mailbox interrupt. Set when RAD_VF(0)_PF_MBOX(0)
                                                                  is written. */
@@ -2997,13 +2997,13 @@ typedef union
         uint64_t done_ack              : 21; /**< [ 20:  0](WO) Number of decrements to RAD_VQ()_DONE_CNT[DONE].
 
                                                                  Written by software to acknowledge interrupts.  If RAD_VQ()_DONE_CNT[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  RAD_VQ()_DONE_CNT[DONE] are satified. */
 #else /* Word 0 - Little Endian */
         uint64_t done_ack              : 21; /**< [ 20:  0](WO) Number of decrements to RAD_VQ()_DONE_CNT[DONE].
 
                                                                  Written by software to acknowledge interrupts.  If RAD_VQ()_DONE_CNT[DONE] is still
-                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 nonzero the interrupt will be re-sent if the conditions described in
                                                                  RAD_VQ()_DONE_CNT[DONE] are satified. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */

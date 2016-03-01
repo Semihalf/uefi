@@ -747,8 +747,8 @@ typedef union
         uint64_t m180                  : 1;  /**< [ 31: 31](R/W) Reserved; must be zero.
                                                                  Internal:
                                                                  Cap impedance at 180 ohm, instead of 240 ohm. */
-        uint64_t byp                   : 1;  /**< [ 30: 30](R/W) Bypass mode. When set, PTUNE,NTUNE are the compensation setting. When clear,
-                                                                 DDR__PTUNE,DDR__NTUNE are the compensation setting. */
+        uint64_t byp                   : 1;  /**< [ 30: 30](R/W) Bypass mode. When set, [PTUNE],[NTUNE] are the compensation setting. When clear,
+                                                                 [DDR__PTUNE],[DDR__NTUNE] are the compensation setting. */
         uint64_t ptune                 : 5;  /**< [ 29: 25](R/W) PCTL impedance control in bypass mode. */
         uint64_t ntune                 : 5;  /**< [ 24: 20](R/W) NCTL impedance control in bypass mode. */
         uint64_t rodt_ctl              : 4;  /**< [ 19: 16](R/W) RODT NCTL impedance control bits. This field controls ODT values during a memory read.
@@ -938,8 +938,8 @@ typedef union
                                                                    _ else = Reserved. */
         uint64_t ntune                 : 5;  /**< [ 24: 20](R/W) NCTL impedance control in bypass mode. */
         uint64_t ptune                 : 5;  /**< [ 29: 25](R/W) PCTL impedance control in bypass mode. */
-        uint64_t byp                   : 1;  /**< [ 30: 30](R/W) Bypass mode. When set, PTUNE,NTUNE are the compensation setting. When clear,
-                                                                 DDR__PTUNE,DDR__NTUNE are the compensation setting. */
+        uint64_t byp                   : 1;  /**< [ 30: 30](R/W) Bypass mode. When set, [PTUNE],[NTUNE] are the compensation setting. When clear,
+                                                                 [DDR__PTUNE],[DDR__NTUNE] are the compensation setting. */
         uint64_t m180                  : 1;  /**< [ 31: 31](R/W) Reserved; must be zero.
                                                                  Internal:
                                                                  Cap impedance at 180 ohm, instead of 240 ohm. */
@@ -1093,7 +1093,7 @@ typedef union
         uint64_t rank_ena              : 1;  /**< [ 42: 42](R/W) "RANK enable (for use with dual-rank DIMMs).
                                                                  * For dual-rank DIMMs, the [RANK_ENA] bit will enable the drive of the DDR#_DIMM*_CS*_L
                                                                  and
-                                                                 ODT_<1:0> pins differently based on the (PBANK_LSB - 1) address bit.
+                                                                 ODT_<1:0> pins differently based on the ([PBANK_LSB] - 1) address bit.
                                                                  * Write 0 for SINGLE ranked DIMMs." */
         uint64_t sref_with_dll         : 1;  /**< [ 41: 41](R/W) Self-refresh entry/exit write mode registers. When set, self-refresh entry sequence writes
                                                                  MR2 and MR1 (in this order, in all ranks), and self-refresh exit sequence writes MR1, MR0,
@@ -1104,7 +1104,7 @@ typedef union
                                                                  lines have a larger delay than the CK line. */
         uint64_t ref_zqcs_int          : 22; /**< [ 39: 18](R/W) Refresh interval is represented in number of 512 CK cycle increments. To get more precise
                                                                  control of the refresh interval, LMC()_EXT_CONFIG[REF_INT_LSBS] can be set to a
-                                                                 non-zero value.
+                                                                 nonzero value.
                                                                  ZQCS interval is represented in a number of refresh intervals. A refresh sequence is
                                                                  triggered when bits <24:18> are equal to 0x0, and a ZQCS sequence is triggered when
                                                                  <39:18>
@@ -1134,41 +1134,41 @@ typedef union
                                                                  To cause the reset, software writes this to a 1, then rewrites it to a 0. */
         uint64_t ecc_adr               : 1;  /**< [ 16: 16](R/W) Include memory reference address in the ECC calculation.
                                                                  0 = disabled, 1 = enabled. */
-        uint64_t forcewrite            : 4;  /**< [ 15: 12](R/W) Force the oldest outstanding write to complete after having waited for 2^FORCEWRITE CK
+        uint64_t forcewrite            : 4;  /**< [ 15: 12](R/W) Force the oldest outstanding write to complete after having waited for 2^[FORCEWRITE] CK
                                                                  cycles. 0 = disabled. */
         uint64_t idlepower             : 3;  /**< [ 11:  9](R/W) Enter precharge power-down mode after the memory controller has been idle for
-                                                                 2^(2+IDLEPOWER) CK cycles. 0 = disabled.
+                                                                 2^(2+[IDLEPOWER]) CK cycles. 0 = disabled.
 
                                                                  This field should only be programmed after initialization.
                                                                  LMC()_MODEREG_PARAMS0[PPD] determines whether the DRAM DLL is disabled during the
                                                                  precharge power-down. */
-        uint64_t pbank_lsb             : 4;  /**< [  8:  5](R/W) DIMM address bit select. Reverting to the explanation for ROW_LSB, PBANK_LSB would be:
-                                                                 ROW_LSB bit + num_rowbits + num_rankbits
+        uint64_t pbank_lsb             : 4;  /**< [  8:  5](R/W) DIMM address bit select. Reverting to the explanation for [ROW_LSB], [PBANK_LSB] would be:
+                                                                 [ROW_LSB] bit + num_rowbits + num_rankbits
 
                                                                  Decoding for PBANK_LSB:
 
-                                                                 0x0: DIMM = mem_adr<28>; if RANK_ENA=1, rank = mem_adr<27>.
-                                                                 0x1: DIMM = mem_adr<29>; if RANK_ENA=1, rank = mem_adr<28>.
-                                                                 0x2: DIMM = mem_adr<30>; if RANK_ENA=1, rank = mem_adr<29>.
-                                                                 0x3: DIMM = mem_adr<31>; if RANK_ENA=1, rank = mem_adr<30>.
-                                                                 0x4: DIMM = mem_adr<32>; if RANK_ENA=1, rank = mem_adr<31>.
-                                                                 0x5: DIMM = mem_adr<33>; if RANK_ENA=1, rank = mem_adr<32>.
-                                                                 0x6: DIMM = mem_adr<34>; if RANK_ENA=1, rank = mem_adr<33>.
-                                                                 0x7: DIMM = mem_adr<35>; if RANK_ENA=1, rank = mem_adr<34>.
-                                                                 0x8: DIMM = mem_adr<36>; if RANK_ENA=1, rank = mem_adr<35>.
-                                                                 0x9: DIMM = mem_adr<37>; if RANK_ENA=1, rank = mem_adr<36>.
-                                                                 0xA: DIMM = 0;           if RANK_ENA=1, rank = mem_adr<37>.
+                                                                 0x0: DIMM = mem_adr<28>; if [RANK_ENA]=1, rank = mem_adr<27>.
+                                                                 0x1: DIMM = mem_adr<29>; if [RANK_ENA]=1, rank = mem_adr<28>.
+                                                                 0x2: DIMM = mem_adr<30>; if [RANK_ENA]=1, rank = mem_adr<29>.
+                                                                 0x3: DIMM = mem_adr<31>; if [RANK_ENA]=1, rank = mem_adr<30>.
+                                                                 0x4: DIMM = mem_adr<32>; if [RANK_ENA]=1, rank = mem_adr<31>.
+                                                                 0x5: DIMM = mem_adr<33>; if [RANK_ENA]=1, rank = mem_adr<32>.
+                                                                 0x6: DIMM = mem_adr<34>; if [RANK_ENA]=1, rank = mem_adr<33>.
+                                                                 0x7: DIMM = mem_adr<35>; if [RANK_ENA]=1, rank = mem_adr<34>.
+                                                                 0x8: DIMM = mem_adr<36>; if [RANK_ENA]=1, rank = mem_adr<35>.
+                                                                 0x9: DIMM = mem_adr<37>; if [RANK_ENA]=1, rank = mem_adr<36>.
+                                                                 0xA: DIMM = 0;           if [RANK_ENA]=1, rank = mem_adr<37>.
                                                                  0xB-0xF: Reserved.
 
                                                                  For example, for a DIMM made of Samsung's K4B1G0846C-F7 1Gb (16M * 8 bit * 8 bank)
                                                                  parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
                                                                  16. So, row = mem_adr<29:16>.
 
-                                                                 With RANK_ENA = 0, PBANK_LSB = 2.
-                                                                 With RANK_ENA = 1, PBANK_LSB = 3.
+                                                                 With [RANK_ENA] = 0, [PBANK_LSB] = 2.
+                                                                 With [RANK_ENA] = 1, [PBANK_LSB] = 3.
 
                                                                  Internal:
-                                                                 When interfacing with 8H 3DS, set this 0xA regardless of RANK_ENA value. */
+                                                                 When interfacing with 8H 3DS, set this 0xA regardless of [RANK_ENA] value. */
         uint64_t row_lsb               : 3;  /**< [  4:  2](R/W) Row address bit select.
                                                                  0x0 = Address bit 14 is LSB.
                                                                  0x1 = Address bit 15 is LSB.
@@ -1185,12 +1185,13 @@ typedef union
                                                                  * Datapath width (64).
                                                                  * Number of banks (8).
                                                                  * Number of column bits of the memory part--specified indirectly by this register.
-                                                                 * Number of row bits of the memory part--specified indirectly by PBANK_LSB.
-                                                                 * Number of ranks in a DIMM--specified by RANK_ENA.
-                                                                 * Number of DIMMs in the system by the register below (PBANK_LSB).
+                                                                 * Number of row bits of the memory part--specified indirectly by [PBANK_LSB].
+                                                                 * Number of ranks in a DIMM--specified by [RANK_ENA].
+                                                                 * Number of DIMMs in the system by the register below ([PBANK_LSB]).
 
-                                                                 Col address starts from mem_addr[3] for 64b (8Bytes) DQ width. ROW_LSB is mem_adr[15] for
-                                                                 64b mode. Therefore, the ROW_LSB parameter should be set to 001 (64b).
+                                                                 Column address starts from mem_addr[3] for 64b (8Bytes) DQ width. [ROW_LSB] is
+                                                                 mem_adr[15] for 64b mode. Therefore, the [ROW_LSB] parameter should be set to
+                                                                 0x1 (64b).
 
                                                                  For example, for a DIMM made of Samsung's K4B1G0846C-F7 1GB (16M * 8 bit * 8 bank)
                                                                  parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
@@ -1238,52 +1239,53 @@ typedef union
                                                                  * Datapath width (64).
                                                                  * Number of banks (8).
                                                                  * Number of column bits of the memory part--specified indirectly by this register.
-                                                                 * Number of row bits of the memory part--specified indirectly by PBANK_LSB.
-                                                                 * Number of ranks in a DIMM--specified by RANK_ENA.
-                                                                 * Number of DIMMs in the system by the register below (PBANK_LSB).
+                                                                 * Number of row bits of the memory part--specified indirectly by [PBANK_LSB].
+                                                                 * Number of ranks in a DIMM--specified by [RANK_ENA].
+                                                                 * Number of DIMMs in the system by the register below ([PBANK_LSB]).
 
-                                                                 Col address starts from mem_addr[3] for 64b (8Bytes) DQ width. ROW_LSB is mem_adr[15] for
-                                                                 64b mode. Therefore, the ROW_LSB parameter should be set to 001 (64b).
+                                                                 Column address starts from mem_addr[3] for 64b (8Bytes) DQ width. [ROW_LSB] is
+                                                                 mem_adr[15] for 64b mode. Therefore, the [ROW_LSB] parameter should be set to
+                                                                 0x1 (64b).
 
                                                                  For example, for a DIMM made of Samsung's K4B1G0846C-F7 1GB (16M * 8 bit * 8 bank)
                                                                  parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
                                                                  16. So, row = mem_adr<29:16>.
 
                                                                  Refer to Cache-block Read Transaction Example, Cache-block Read Transaction Example. */
-        uint64_t pbank_lsb             : 4;  /**< [  8:  5](R/W) DIMM address bit select. Reverting to the explanation for ROW_LSB, PBANK_LSB would be:
-                                                                 ROW_LSB bit + num_rowbits + num_rankbits
+        uint64_t pbank_lsb             : 4;  /**< [  8:  5](R/W) DIMM address bit select. Reverting to the explanation for [ROW_LSB], [PBANK_LSB] would be:
+                                                                 [ROW_LSB] bit + num_rowbits + num_rankbits
 
                                                                  Decoding for PBANK_LSB:
 
-                                                                 0x0: DIMM = mem_adr<28>; if RANK_ENA=1, rank = mem_adr<27>.
-                                                                 0x1: DIMM = mem_adr<29>; if RANK_ENA=1, rank = mem_adr<28>.
-                                                                 0x2: DIMM = mem_adr<30>; if RANK_ENA=1, rank = mem_adr<29>.
-                                                                 0x3: DIMM = mem_adr<31>; if RANK_ENA=1, rank = mem_adr<30>.
-                                                                 0x4: DIMM = mem_adr<32>; if RANK_ENA=1, rank = mem_adr<31>.
-                                                                 0x5: DIMM = mem_adr<33>; if RANK_ENA=1, rank = mem_adr<32>.
-                                                                 0x6: DIMM = mem_adr<34>; if RANK_ENA=1, rank = mem_adr<33>.
-                                                                 0x7: DIMM = mem_adr<35>; if RANK_ENA=1, rank = mem_adr<34>.
-                                                                 0x8: DIMM = mem_adr<36>; if RANK_ENA=1, rank = mem_adr<35>.
-                                                                 0x9: DIMM = mem_adr<37>; if RANK_ENA=1, rank = mem_adr<36>.
-                                                                 0xA: DIMM = 0;           if RANK_ENA=1, rank = mem_adr<37>.
+                                                                 0x0: DIMM = mem_adr<28>; if [RANK_ENA]=1, rank = mem_adr<27>.
+                                                                 0x1: DIMM = mem_adr<29>; if [RANK_ENA]=1, rank = mem_adr<28>.
+                                                                 0x2: DIMM = mem_adr<30>; if [RANK_ENA]=1, rank = mem_adr<29>.
+                                                                 0x3: DIMM = mem_adr<31>; if [RANK_ENA]=1, rank = mem_adr<30>.
+                                                                 0x4: DIMM = mem_adr<32>; if [RANK_ENA]=1, rank = mem_adr<31>.
+                                                                 0x5: DIMM = mem_adr<33>; if [RANK_ENA]=1, rank = mem_adr<32>.
+                                                                 0x6: DIMM = mem_adr<34>; if [RANK_ENA]=1, rank = mem_adr<33>.
+                                                                 0x7: DIMM = mem_adr<35>; if [RANK_ENA]=1, rank = mem_adr<34>.
+                                                                 0x8: DIMM = mem_adr<36>; if [RANK_ENA]=1, rank = mem_adr<35>.
+                                                                 0x9: DIMM = mem_adr<37>; if [RANK_ENA]=1, rank = mem_adr<36>.
+                                                                 0xA: DIMM = 0;           if [RANK_ENA]=1, rank = mem_adr<37>.
                                                                  0xB-0xF: Reserved.
 
                                                                  For example, for a DIMM made of Samsung's K4B1G0846C-F7 1Gb (16M * 8 bit * 8 bank)
                                                                  parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
                                                                  16. So, row = mem_adr<29:16>.
 
-                                                                 With RANK_ENA = 0, PBANK_LSB = 2.
-                                                                 With RANK_ENA = 1, PBANK_LSB = 3.
+                                                                 With [RANK_ENA] = 0, [PBANK_LSB] = 2.
+                                                                 With [RANK_ENA] = 1, [PBANK_LSB] = 3.
 
                                                                  Internal:
-                                                                 When interfacing with 8H 3DS, set this 0xA regardless of RANK_ENA value. */
+                                                                 When interfacing with 8H 3DS, set this 0xA regardless of [RANK_ENA] value. */
         uint64_t idlepower             : 3;  /**< [ 11:  9](R/W) Enter precharge power-down mode after the memory controller has been idle for
-                                                                 2^(2+IDLEPOWER) CK cycles. 0 = disabled.
+                                                                 2^(2+[IDLEPOWER]) CK cycles. 0 = disabled.
 
                                                                  This field should only be programmed after initialization.
                                                                  LMC()_MODEREG_PARAMS0[PPD] determines whether the DRAM DLL is disabled during the
                                                                  precharge power-down. */
-        uint64_t forcewrite            : 4;  /**< [ 15: 12](R/W) Force the oldest outstanding write to complete after having waited for 2^FORCEWRITE CK
+        uint64_t forcewrite            : 4;  /**< [ 15: 12](R/W) Force the oldest outstanding write to complete after having waited for 2^[FORCEWRITE] CK
                                                                  cycles. 0 = disabled. */
         uint64_t ecc_adr               : 1;  /**< [ 16: 16](R/W) Include memory reference address in the ECC calculation.
                                                                  0 = disabled, 1 = enabled. */
@@ -1291,7 +1293,7 @@ typedef union
                                                                  To cause the reset, software writes this to a 1, then rewrites it to a 0. */
         uint64_t ref_zqcs_int          : 22; /**< [ 39: 18](R/W) Refresh interval is represented in number of 512 CK cycle increments. To get more precise
                                                                  control of the refresh interval, LMC()_EXT_CONFIG[REF_INT_LSBS] can be set to a
-                                                                 non-zero value.
+                                                                 nonzero value.
                                                                  ZQCS interval is represented in a number of refresh intervals. A refresh sequence is
                                                                  triggered when bits <24:18> are equal to 0x0, and a ZQCS sequence is triggered when
                                                                  <39:18>
@@ -1327,7 +1329,7 @@ typedef union
         uint64_t rank_ena              : 1;  /**< [ 42: 42](R/W) "RANK enable (for use with dual-rank DIMMs).
                                                                  * For dual-rank DIMMs, the [RANK_ENA] bit will enable the drive of the DDR#_DIMM*_CS*_L
                                                                  and
-                                                                 ODT_<1:0> pins differently based on the (PBANK_LSB - 1) address bit.
+                                                                 ODT_<1:0> pins differently based on the ([PBANK_LSB] - 1) address bit.
                                                                  * Write 0 for SINGLE ranked DIMMs." */
         uint64_t rankmask              : 4;  /**< [ 46: 43](R/W) Mask to select rank to be leveled/initialized. To write-level/read-level/initialize rank
                                                                  i, set [RANKMASK]<i>:
@@ -1463,7 +1465,7 @@ typedef union
                                                                  Internal:
                                                                  Fine rate matching max bucket size. In conjunction with the coarse rate matching logic,
                                                                  the fine rate matching logic gives software the ability to prioritize DFA reads over L2C
-                                                                 writes. Higher PERSUB values result in a lower DFA read bandwidth.
+                                                                 writes. Higher [PERSUB] values result in a lower DFA read bandwidth.
 
                                                                  0x0 = Reserved. */
         uint64_t crm_cnt               : 5;  /**< [ 38: 34](RO/H) Coarse count. */
@@ -1471,14 +1473,17 @@ typedef union
         uint64_t crm_max               : 5;  /**< [ 28: 24](R/W) Reserved.
                                                                  Internal:
                                                                  Coarse rate matching max bucket size. The coarse rate matching logic is used to control
-                                                                 the bandwidth allocated to DFA reads. CRM_MAX is subdivided into two regions with DFA
-                                                                 reads being preferred over LMC reads/writes when CRM_CNT < CRM_THR. CRM_CNT increments by
+                                                                 the bandwidth allocated to DFA reads. [CRM_MAX] is subdivided into two regions with DFA
+                                                                 reads being preferred over LMC reads/writes when [CRM_CNT] < [CRM_THR]. [CRM_CNT]
+                                                                 increments by
                                                                  1 when a DFA read is slotted and by 2 when a LMC read/write is slotted, and rolls over
-                                                                 when CRM_MAX is reached.
+                                                                 when [CRM_MAX] is reached.
 
                                                                  0x0 = Reserved. */
-        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a RD command is delayed an additional CK cycle. */
-        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a WR command is delayed an additional CK cycle. */
+        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a read command is delayed an additional
+                                                                 CK cycle. */
+        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a write command is delayed an
+                                                                 additional CK cycle. */
         uint64_t bprch                 : 2;  /**< [ 21: 20](R/W) "Back porch enable. When set, the turn-on time for the default DDR#_DQ* /DDR#_DQS_*_P/N
                                                                  drivers is delayed an additional BPRCH CK cycles.
                                                                  0x0 = 0 CK cycles.
@@ -1521,10 +1526,10 @@ typedef union
         uint64_t bwcnt                 : 1;  /**< [  1:  1](R/W) Bus utilization counter clear. Clears the LMC()_OPS_CNT, LMC()_IFB_CNT, and
                                                                  LMC()_DCLK_CNT registers. To clear the CSRs, software should first write this field to
                                                                  a one, then write this field to a zero. */
-        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM Enable. When set allows the use of JEDEC Registered DIMMs which require
+        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM enable. When set allows the use of JEDEC Registered DIMMs which require
                                                                  address and control bits to be registered in the controller. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM Enable. When set allows the use of JEDEC Registered DIMMs which require
+        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM enable. When set allows the use of JEDEC Registered DIMMs which require
                                                                  address and control bits to be registered in the controller. */
         uint64_t bwcnt                 : 1;  /**< [  1:  1](R/W) Bus utilization counter clear. Clears the LMC()_OPS_CNT, LMC()_IFB_CNT, and
                                                                  LMC()_DCLK_CNT registers. To clear the CSRs, software should first write this field to
@@ -1568,15 +1573,18 @@ typedef union
                                                                  0x1 = 1 CK cycles.
                                                                  0x2 = 2 CK cycles.
                                                                  0x3 = 3 CK cycles." */
-        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a WR command is delayed an additional CK cycle. */
-        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a RD command is delayed an additional CK cycle. */
+        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a write command is delayed an
+                                                                 additional CK cycle. */
+        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a read command is delayed an additional
+                                                                 CK cycle. */
         uint64_t crm_max               : 5;  /**< [ 28: 24](R/W) Reserved.
                                                                  Internal:
                                                                  Coarse rate matching max bucket size. The coarse rate matching logic is used to control
-                                                                 the bandwidth allocated to DFA reads. CRM_MAX is subdivided into two regions with DFA
-                                                                 reads being preferred over LMC reads/writes when CRM_CNT < CRM_THR. CRM_CNT increments by
+                                                                 the bandwidth allocated to DFA reads. [CRM_MAX] is subdivided into two regions with DFA
+                                                                 reads being preferred over LMC reads/writes when [CRM_CNT] < [CRM_THR]. [CRM_CNT]
+                                                                 increments by
                                                                  1 when a DFA read is slotted and by 2 when a LMC read/write is slotted, and rolls over
-                                                                 when CRM_MAX is reached.
+                                                                 when [CRM_MAX] is reached.
 
                                                                  0x0 = Reserved. */
         uint64_t crm_thr               : 5;  /**< [ 33: 29](R/W) Coarse rate matching threshold. */
@@ -1585,7 +1593,7 @@ typedef union
                                                                  Internal:
                                                                  Fine rate matching max bucket size. In conjunction with the coarse rate matching logic,
                                                                  the fine rate matching logic gives software the ability to prioritize DFA reads over L2C
-                                                                 writes. Higher PERSUB values result in a lower DFA read bandwidth.
+                                                                 writes. Higher [PERSUB] values result in a lower DFA read bandwidth.
 
                                                                  0x0 = Reserved. */
         uint64_t persub                : 8;  /**< [ 50: 43](R/W) Reserved.
@@ -1603,20 +1611,23 @@ typedef union
         uint64_t persub                : 8;  /**< [ 50: 43](R/W) Offset for DFA rate-matching. */
         uint64_t thrmax                : 4;  /**< [ 42: 39](R/W) Fine rate matching max bucket size. In conjunction with the coarse rate matching logic,
                                                                  the fine rate matching logic gives software the ability to prioritize DFA reads over L2C
-                                                                 writes. Higher PERSUB values result in a lower DFA read bandwidth.
+                                                                 writes. Higher [PERSUB] values result in a lower DFA read bandwidth.
 
                                                                  0x0 = Reserved. */
         uint64_t crm_cnt               : 5;  /**< [ 38: 34](RO/H) Coarse count. */
         uint64_t crm_thr               : 5;  /**< [ 33: 29](R/W) Coarse rate matching threshold. */
         uint64_t crm_max               : 5;  /**< [ 28: 24](R/W) Coarse rate matching max bucket size. The coarse rate matching logic is used to control
-                                                                 the bandwidth allocated to DFA reads. CRM_MAX is subdivided into two regions with DFA
-                                                                 reads being preferred over LMC reads/writes when CRM_CNT < CRM_THR. CRM_CNT increments by
+                                                                 the bandwidth allocated to DFA reads. [CRM_MAX] is subdivided into two regions with DFA
+                                                                 reads being preferred over LMC reads/writes when [CRM_CNT] < [CRM_THR]. [CRM_CNT]
+                                                                 increments by
                                                                  1 when a DFA read is slotted and by 2 when a LMC read/write is slotted, and rolls over
-                                                                 when CRM_MAX is reached.
+                                                                 when [CRM_MAX] is reached.
 
                                                                  0x0 = Reserved. */
-        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a RD command is delayed an additional CK cycle. */
-        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a WR command is delayed an additional CK cycle. */
+        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a read command is delayed an additional
+                                                                 CK cycle. */
+        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a write command is delayed an
+                                                                 additional CK cycle. */
         uint64_t bprch                 : 2;  /**< [ 21: 20](R/W) "Back porch enable. When set, the turn-on time for the default DDR#_DQ* /DDR#_DQS_*_P/N
                                                                  drivers is delayed an additional BPRCH CK cycles.
                                                                  0x0 = 0 CK cycles.
@@ -1660,10 +1671,10 @@ typedef union
         uint64_t bwcnt                 : 1;  /**< [  1:  1](R/W) Bus utilization counter clear. Clears the LMC()_OPS_CNT, LMC()_IFB_CNT, and
                                                                  LMC()_DCLK_CNT registers. To clear the CSRs, software should first write this field to
                                                                  a one, then write this field to a zero. */
-        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM Enable. When set allows the use of JEDEC Registered DIMMs which require
+        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM enable. When set allows the use of JEDEC Registered DIMMs which require
                                                                  address and control bits to be registered in the controller. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM Enable. When set allows the use of JEDEC Registered DIMMs which require
+        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM enable. When set allows the use of JEDEC Registered DIMMs which require
                                                                  address and control bits to be registered in the controller. */
         uint64_t bwcnt                 : 1;  /**< [  1:  1](R/W) Bus utilization counter clear. Clears the LMC()_OPS_CNT, LMC()_IFB_CNT, and
                                                                  LMC()_DCLK_CNT registers. To clear the CSRs, software should first write this field to
@@ -1708,20 +1719,23 @@ typedef union
                                                                  0x1 = 1 CK cycles.
                                                                  0x2 = 2 CK cycles.
                                                                  0x3 = 3 CK cycles." */
-        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a WR command is delayed an additional CK cycle. */
-        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a RD command is delayed an additional CK cycle. */
+        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a write command is delayed an
+                                                                 additional CK cycle. */
+        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a read command is delayed an additional
+                                                                 CK cycle. */
         uint64_t crm_max               : 5;  /**< [ 28: 24](R/W) Coarse rate matching max bucket size. The coarse rate matching logic is used to control
-                                                                 the bandwidth allocated to DFA reads. CRM_MAX is subdivided into two regions with DFA
-                                                                 reads being preferred over LMC reads/writes when CRM_CNT < CRM_THR. CRM_CNT increments by
+                                                                 the bandwidth allocated to DFA reads. [CRM_MAX] is subdivided into two regions with DFA
+                                                                 reads being preferred over LMC reads/writes when [CRM_CNT] < [CRM_THR]. [CRM_CNT]
+                                                                 increments by
                                                                  1 when a DFA read is slotted and by 2 when a LMC read/write is slotted, and rolls over
-                                                                 when CRM_MAX is reached.
+                                                                 when [CRM_MAX] is reached.
 
                                                                  0x0 = Reserved. */
         uint64_t crm_thr               : 5;  /**< [ 33: 29](R/W) Coarse rate matching threshold. */
         uint64_t crm_cnt               : 5;  /**< [ 38: 34](RO/H) Coarse count. */
         uint64_t thrmax                : 4;  /**< [ 42: 39](R/W) Fine rate matching max bucket size. In conjunction with the coarse rate matching logic,
                                                                  the fine rate matching logic gives software the ability to prioritize DFA reads over L2C
-                                                                 writes. Higher PERSUB values result in a lower DFA read bandwidth.
+                                                                 writes. Higher [PERSUB] values result in a lower DFA read bandwidth.
 
                                                                  0x0 = Reserved. */
         uint64_t persub                : 8;  /**< [ 50: 43](R/W) Offset for DFA rate-matching. */
@@ -1739,20 +1753,23 @@ typedef union
         uint64_t persub                : 8;  /**< [ 50: 43](R/W) Offset for DFA rate-matching. */
         uint64_t thrmax                : 4;  /**< [ 42: 39](R/W) Fine rate matching max bucket size. In conjunction with the coarse rate matching logic,
                                                                  the fine rate matching logic gives software the ability to prioritize DFA reads over L2C
-                                                                 writes. Higher PERSUB values result in a lower DFA read bandwidth.
+                                                                 writes. Higher [PERSUB] values result in a lower DFA read bandwidth.
 
                                                                  0x0 = Reserved. */
         uint64_t crm_cnt               : 5;  /**< [ 38: 34](RO/H) Coarse count. */
         uint64_t crm_thr               : 5;  /**< [ 33: 29](R/W) Coarse rate matching threshold. */
         uint64_t crm_max               : 5;  /**< [ 28: 24](R/W) Coarse rate matching max bucket size. The coarse rate matching logic is used to control
-                                                                 the bandwidth allocated to DFA reads. CRM_MAX is subdivided into two regions with DFA
-                                                                 reads being preferred over LMC reads/writes when CRM_CNT < CRM_THR. CRM_CNT increments by
+                                                                 the bandwidth allocated to DFA reads. [CRM_MAX] is subdivided into two regions with DFA
+                                                                 reads being preferred over LMC reads/writes when [CRM_CNT] < [CRM_THR]. [CRM_CNT]
+                                                                 increments by
                                                                  1 when a DFA read is slotted and by 2 when a LMC read/write is slotted, and rolls over
-                                                                 when CRM_MAX is reached.
+                                                                 when [CRM_MAX] is reached.
 
                                                                  0x0 = Reserved. */
-        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a RD command is delayed an additional CK cycle. */
-        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a WR command is delayed an additional CK cycle. */
+        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a read command is delayed an additional
+                                                                 CK cycle. */
+        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a write command is delayed an
+                                                                 additional CK cycle. */
         uint64_t bprch                 : 2;  /**< [ 21: 20](R/W) "Back porch enable. When set, the turn-on time for the default DDR#_DQ* /DDR#_DQS_*_P/N
                                                                  drivers is delayed an additional BPRCH CK cycles.
                                                                  0x0 = 0 CK cycles.
@@ -1797,10 +1814,10 @@ typedef union
         uint64_t bwcnt                 : 1;  /**< [  1:  1](R/W) Bus utilization counter clear. Clears the LMC()_OPS_CNT, LMC()_IFB_CNT, and
                                                                  LMC()_DCLK_CNT registers. To clear the CSRs, software should first write this field to
                                                                  a one, then write this field to a zero. */
-        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM Enable. When set allows the use of JEDEC Registered DIMMs which require
+        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM enable. When set allows the use of JEDEC Registered DIMMs which require
                                                                  address and control bits to be registered in the controller. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM Enable. When set allows the use of JEDEC Registered DIMMs which require
+        uint64_t rdimm_ena             : 1;  /**< [  0:  0](R/W) Registered DIMM enable. When set allows the use of JEDEC Registered DIMMs which require
                                                                  address and control bits to be registered in the controller. */
         uint64_t bwcnt                 : 1;  /**< [  1:  1](R/W) Bus utilization counter clear. Clears the LMC()_OPS_CNT, LMC()_IFB_CNT, and
                                                                  LMC()_DCLK_CNT registers. To clear the CSRs, software should first write this field to
@@ -1846,20 +1863,23 @@ typedef union
                                                                  0x1 = 1 CK cycles.
                                                                  0x2 = 2 CK cycles.
                                                                  0x3 = 3 CK cycles." */
-        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a WR command is delayed an additional CK cycle. */
-        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a RD command is delayed an additional CK cycle. */
+        uint64_t wodt_bprch            : 1;  /**< [ 22: 22](R/W) When set, the turn-off time for the ODT pin during a write command is delayed an
+                                                                 additional CK cycle. */
+        uint64_t rodt_bprch            : 1;  /**< [ 23: 23](R/W) When set, the turn-off time for the ODT pin during a read command is delayed an additional
+                                                                 CK cycle. */
         uint64_t crm_max               : 5;  /**< [ 28: 24](R/W) Coarse rate matching max bucket size. The coarse rate matching logic is used to control
-                                                                 the bandwidth allocated to DFA reads. CRM_MAX is subdivided into two regions with DFA
-                                                                 reads being preferred over LMC reads/writes when CRM_CNT < CRM_THR. CRM_CNT increments by
+                                                                 the bandwidth allocated to DFA reads. [CRM_MAX] is subdivided into two regions with DFA
+                                                                 reads being preferred over LMC reads/writes when [CRM_CNT] < [CRM_THR]. [CRM_CNT]
+                                                                 increments by
                                                                  1 when a DFA read is slotted and by 2 when a LMC read/write is slotted, and rolls over
-                                                                 when CRM_MAX is reached.
+                                                                 when [CRM_MAX] is reached.
 
                                                                  0x0 = Reserved. */
         uint64_t crm_thr               : 5;  /**< [ 33: 29](R/W) Coarse rate matching threshold. */
         uint64_t crm_cnt               : 5;  /**< [ 38: 34](RO/H) Coarse count. */
         uint64_t thrmax                : 4;  /**< [ 42: 39](R/W) Fine rate matching max bucket size. In conjunction with the coarse rate matching logic,
                                                                  the fine rate matching logic gives software the ability to prioritize DFA reads over L2C
-                                                                 writes. Higher PERSUB values result in a lower DFA read bandwidth.
+                                                                 writes. Higher [PERSUB] values result in a lower DFA read bandwidth.
 
                                                                  0x0 = Reserved. */
         uint64_t persub                : 8;  /**< [ 50: 43](R/W) Offset for DFA rate-matching. */
@@ -2038,7 +2058,7 @@ typedef union
 
                                                                  The LFSR polynomials are programmed by LMC()_CHAR_CTL[PRBS]. */
         uint64_t cmd_count_ext         : 2;  /**< [ 61: 60](R/W) Extension bits to the field LMC()_DBTRAIN_CTL[READ_CMD_COUNT]. This enables
-                                                                 up to 128 read and write commmands. */
+                                                                 up to 128 read and write commands. */
         uint64_t db_output_impedance   : 3;  /**< [ 59: 57](R/W) Reserved.
                                                                  Internal:
                                                                  Host interface DQ/DQS output driver impedance control.
@@ -2155,7 +2175,7 @@ typedef union
                                                                  0x2 = RZQ/5 (48 ohm).
                                                                  0x3-0x7 = Reserved. */
         uint64_t cmd_count_ext         : 2;  /**< [ 61: 60](R/W) Extension bits to the field LMC()_DBTRAIN_CTL[READ_CMD_COUNT]. This enables
-                                                                 up to 128 read and write commmands. */
+                                                                 up to 128 read and write commands. */
         uint64_t lfsr_pattern_sel      : 1;  /**< [ 62: 62](R/W) If set high, the sequence uses 32-bit LFSR pattern when generating data sequence
                                                                  during the General R/W training (LMC()_DBTRAIN_CTL[RW_TRAIN] == 1).
 
@@ -3705,7 +3725,7 @@ typedef union
         uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
                                                                  Refresh interval is represented in number of 512 CK cycle increments and is controlled by
                                                                  LMC()_CONFIG[REF_ZQCS_INT]. More precise refresh interval however (in number of
-                                                                 1 CK cycle) can be achieved by setting this field to a non-zero value. */
+                                                                 1 CK cycle) can be achieved by setting this field to a nonzero value. */
         uint64_t drive_ena_bprch       : 1;  /**< [  7:  7](R/W) Drive DQx for one cycle longer than normal during write operations. */
         uint64_t drive_ena_fprch       : 1;  /**< [  6:  6](R/W) Drive DQx starting one cycle earlier than normal during write operations. */
         uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved.
@@ -3746,7 +3766,7 @@ typedef union
         uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
                                                                  Refresh interval is represented in number of 512 CK cycle increments and is controlled by
                                                                  LMC()_CONFIG[REF_ZQCS_INT]. More precise refresh interval however (in number of
-                                                                 1 CK cycle) can be achieved by setting this field to a non-zero value. */
+                                                                 1 CK cycle) can be achieved by setting this field to a nonzero value. */
         uint64_t slot_ctl_reset_force  : 1;  /**< [ 17: 17](WO) Write 1 to reset the slot-control override for all slot-control registers. After writing a
                                                                  1 to this bit, slot-control registers will update with changes made to other timing-
                                                                  control registers. This is a one-shot operation; it automatically returns to 0 after a
@@ -3983,7 +4003,7 @@ typedef union
         uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
                                                                  Refresh interval is represented in number of 512 CK cycle increments and is controlled by
                                                                  LMC()_CONFIG[REF_ZQCS_INT]. More precise refresh interval however (in number of
-                                                                 1 CK cycle) can be achieved by setting this field to a non-zero value. */
+                                                                 1 CK cycle) can be achieved by setting this field to a nonzero value. */
         uint64_t drive_ena_bprch       : 1;  /**< [  7:  7](R/W) Drive DQx for one cycle longer than normal during write operations. */
         uint64_t drive_ena_fprch       : 1;  /**< [  6:  6](R/W) Drive DQx starting one cycle earlier than normal during write operations. */
         uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved.
@@ -4024,7 +4044,7 @@ typedef union
         uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
                                                                  Refresh interval is represented in number of 512 CK cycle increments and is controlled by
                                                                  LMC()_CONFIG[REF_ZQCS_INT]. More precise refresh interval however (in number of
-                                                                 1 CK cycle) can be achieved by setting this field to a non-zero value. */
+                                                                 1 CK cycle) can be achieved by setting this field to a nonzero value. */
         uint64_t slot_ctl_reset_force  : 1;  /**< [ 17: 17](WO) Write 1 to reset the slot-control override for all slot-control registers. After writing a
                                                                  1 to this bit, slot-control registers will update with changes made to other timing-
                                                                  control registers. This is a one-shot operation; it automatically returns to 0 after a
@@ -4261,7 +4281,7 @@ typedef union
         uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
                                                                  Refresh interval is represented in number of 512 CK cycle increments and is controlled by
                                                                  LMC()_CONFIG[REF_ZQCS_INT]. More precise refresh interval however (in number of
-                                                                 1 CK cycle) can be achieved by setting this field to a non-zero value. */
+                                                                 1 CK cycle) can be achieved by setting this field to a nonzero value. */
         uint64_t drive_ena_bprch       : 1;  /**< [  7:  7](R/W) Drive DQx for one cycle longer than normal during write operations. */
         uint64_t drive_ena_fprch       : 1;  /**< [  6:  6](R/W) Drive DQx starting one cycle earlier than normal during write operations. */
         uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved.
@@ -4300,7 +4320,7 @@ typedef union
         uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
                                                                  Refresh interval is represented in number of 512 CK cycle increments and is controlled by
                                                                  LMC()_CONFIG[REF_ZQCS_INT]. More precise refresh interval however (in number of
-                                                                 1 CK cycle) can be achieved by setting this field to a non-zero value. */
+                                                                 1 CK cycle) can be achieved by setting this field to a nonzero value. */
         uint64_t slot_ctl_reset_force  : 1;  /**< [ 17: 17](WO) Write 1 to reset the slot-control override for all slot-control registers. After writing a
                                                                  1 to this bit, slot-control registers will update with changes made to other timing-
                                                                  control registers. This is a one-shot operation; it automatically returns to 0 after a
@@ -4912,7 +4932,7 @@ typedef union
                                                                  Internal:
                                                                  Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
                                                                  either
-                                                                 LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
+                                                                 LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is nonzero). Returns a value
                                                                  of zero
                                                                  otherwise. */
         uint64_t fill_order            : 2;  /**< [ 39: 38](RO/H) Fill order for failing transaction. */
@@ -4936,7 +4956,7 @@ typedef union
                                                                  Internal:
                                                                  Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
                                                                  either
-                                                                 LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
+                                                                 LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is nonzero). Returns a value
                                                                  of zero
                                                                  otherwise. */
         uint64_t reserved_43_63        : 21;
@@ -8393,16 +8413,16 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's LMC()_MSIX_VEC()_ADDR, LMC()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of LMC()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world. */
+                                                                 by the nonsecure world. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
                                                                  1 = This vector's LMC()_MSIX_VEC()_ADDR, LMC()_MSIX_VEC()_CTL, and corresponding
                                                                  bit of LMC()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world. */
+                                                                 by the nonsecure world. */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
@@ -8479,7 +8499,7 @@ static inline uint64_t BDK_LMCX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  * Register (RSL) lmc#_ns_ctl
  *
  * LMC Non Secure Control Register
- * This register contains control parameters for handling non-secure accesses.
+ * This register contains control parameters for handling nonsecure accesses.
  */
 typedef union
 {
@@ -8494,17 +8514,17 @@ typedef union
                                                                  nonsecure mode. */
         uint64_t ns_dynamic_dis        : 1;  /**< [ 24: 24](RO) Reserved. */
         uint64_t reserved_18_23        : 6;
-        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the non-secure region of the DRAM/L2 address space.
+        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the nonsecure region of the DRAM/L2 address space.
 
-                                                                 In 4 LMC mode, this specifies the address offset <39:22> for non-secure transaction.
+                                                                 In 4 LMC mode, this specifies the address offset <39:22> for nonsecure transaction.
 
-                                                                 In 2 LMC mode, this specifies the address offset <38:21> for non-secure transaction. */
+                                                                 In 2 LMC mode, this specifies the address offset <38:21> for nonsecure transaction. */
 #else /* Word 0 - Little Endian */
-        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the non-secure region of the DRAM/L2 address space.
+        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the nonsecure region of the DRAM/L2 address space.
 
-                                                                 In 4 LMC mode, this specifies the address offset <39:22> for non-secure transaction.
+                                                                 In 4 LMC mode, this specifies the address offset <39:22> for nonsecure transaction.
 
-                                                                 In 2 LMC mode, this specifies the address offset <38:21> for non-secure transaction. */
+                                                                 In 2 LMC mode, this specifies the address offset <38:21> for nonsecure transaction. */
         uint64_t reserved_18_23        : 6;
         uint64_t ns_dynamic_dis        : 1;  /**< [ 24: 24](RO) Reserved. */
         uint64_t ns_scramble_dis       : 1;  /**< [ 25: 25](R/W) When set, this field disables data scrambling on nonsecure accesses only.
@@ -8526,17 +8546,17 @@ typedef union
         uint64_t ns_dynamic_dis        : 1;  /**< [ 24: 24](R/W) Disable optimization that dynamically reduces read latency when there are no
                                                                  longer any secure operations in flight.  For diagnostic use only. */
         uint64_t reserved_18_23        : 6;
-        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the non-secure region of the DRAM/L2 address space.
+        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the nonsecure region of the DRAM/L2 address space.
 
-                                                                 In 4 LMC mode, this specifies the address offset <39:22> for non-secure transaction.
+                                                                 In 4 LMC mode, this specifies the address offset <39:22> for nonsecure transaction.
 
-                                                                 In 2 LMC mode, this specifies the address offset <38:21> for non-secure transaction. */
+                                                                 In 2 LMC mode, this specifies the address offset <38:21> for nonsecure transaction. */
 #else /* Word 0 - Little Endian */
-        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the non-secure region of the DRAM/L2 address space.
+        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the nonsecure region of the DRAM/L2 address space.
 
-                                                                 In 4 LMC mode, this specifies the address offset <39:22> for non-secure transaction.
+                                                                 In 4 LMC mode, this specifies the address offset <39:22> for nonsecure transaction.
 
-                                                                 In 2 LMC mode, this specifies the address offset <38:21> for non-secure transaction. */
+                                                                 In 2 LMC mode, this specifies the address offset <38:21> for nonsecure transaction. */
         uint64_t reserved_18_23        : 6;
         uint64_t ns_dynamic_dis        : 1;  /**< [ 24: 24](R/W) Disable optimization that dynamically reduces read latency when there are no
                                                                  longer any secure operations in flight.  For diagnostic use only. */
@@ -8561,17 +8581,17 @@ typedef union
                                                                  Disable optimization that dynamically reduces read latency when there are no
                                                                  longer any secure operations in flight.  For diagnostic use only. */
         uint64_t reserved_18_23        : 6;
-        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the non-secure region of the DRAM/L2 address space.
+        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the nonsecure region of the DRAM/L2 address space.
 
-                                                                 In 4 LMC mode, this specifies the address offset <39:22> for non-secure transaction.
+                                                                 In 4 LMC mode, this specifies the address offset <39:22> for nonsecure transaction.
 
-                                                                 In 2 LMC mode, this specifies the address offset <38:21> for non-secure transaction. */
+                                                                 In 2 LMC mode, this specifies the address offset <38:21> for nonsecure transaction. */
 #else /* Word 0 - Little Endian */
-        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the non-secure region of the DRAM/L2 address space.
+        uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the nonsecure region of the DRAM/L2 address space.
 
-                                                                 In 4 LMC mode, this specifies the address offset <39:22> for non-secure transaction.
+                                                                 In 4 LMC mode, this specifies the address offset <39:22> for nonsecure transaction.
 
-                                                                 In 2 LMC mode, this specifies the address offset <38:21> for non-secure transaction. */
+                                                                 In 2 LMC mode, this specifies the address offset <38:21> for nonsecure transaction. */
         uint64_t reserved_18_23        : 6;
         uint64_t ns_dynamic_dis        : 1;  /**< [ 24: 24](R/W) Added in pass 2.0.
 
@@ -11304,12 +11324,12 @@ static inline uint64_t BDK_LMCX_RLEVEL_CTL(unsigned long a)
  *
  * LMC Read Level Debug Register
  * A given read of LMC()_RLEVEL_DBG returns the read-leveling pass/fail results for all
- * possible delay settings (i.e. the BITMASK) for only one byte in the last rank that the
- * hardware ran read-leveling on. LMC()_RLEVEL_CTL[BYTE] selects the particular byte. To get
- * these pass/fail results for a different rank, you must run the hardware read-leveling again.
- * For example, it is possible to get the BITMASK results for every byte of every rank if you run
- * read-leveling separately for each rank, probing LMC()_RLEVEL_DBG between each read-
- * leveling.
+ * possible delay settings (i.e. the BITMASK) for only one byte in the last rank that
+ * the hardware ran read-leveling on. LMC()_RLEVEL_CTL[BYTE] selects the particular
+ * byte. To get these pass/fail results for a different rank, you must run the hardware
+ * read-leveling again. For example, it is possible to get the [BITMASK] results for
+ * every byte of every rank if you run read-leveling separately for each rank, probing
+ * LMC()_RLEVEL_DBG between each read- leveling.
  */
 typedef union
 {
@@ -11350,24 +11370,24 @@ static inline uint64_t BDK_LMCX_RLEVEL_DBG(unsigned long a)
  * Register (RSL) lmc#_rlevel_rank#
  *
  * LMC Read Level Rank Register
- * Four of these CSRs exist per LMC, one for each rank. Read level setting is measured in units
- * of 1/4 CK, so the BYTEn values can range over 16 CK cycles. Each CSR is written by hardware
- * during a read-leveling sequence for the rank. (Hardware sets STATUS to 3 after hardware read-
- * leveling completes for the rank.)
+ * Four of these CSRs exist per LMC, one for each rank. Read level setting is measured
+ * in units of 1/4 CK, so the BYTEn values can range over 16 CK cycles. Each CSR is
+ * written by hardware during a read-leveling sequence for the rank. (Hardware sets
+ * [STATUS] to 3 after hardware read-leveling completes for the rank.)
+ *
  * If hardware is unable to find a match per LMC()_RLEVEL_CTL[OFFSET_EN] and
  * LMC()_RLEVEL_CTL[OFFSET], then hardware sets LMC()_RLEVEL_RANK()[BYTEn<5:0>] to
  * 0x0.
  *
- * Each CSR may also be written by software, but not while a read-leveling sequence is in
- * progress. (Hardware sets STATUS to 1 after a CSR write.) Software initiates a hardware read-
- * leveling sequence by programming LMC()_RLEVEL_CTL and writing INIT_START = 1 with
- * SEQ_SEL=1. See LMC()_RLEVEL_CTL.
+ * Each CSR may also be written by software, but not while a read-leveling sequence is
+ * in progress. (Hardware sets [STATUS] to 1 after a CSR write.) Software initiates a
+ * hardware read-leveling sequence by programming LMC()_RLEVEL_CTL and writing
+ * [INIT_START] = 1 with [SEQ_SEL]=1. See LMC()_RLEVEL_CTL.
  *
- * LMC()_RLEVEL_RANKi values for ranks i without attached DRAM should be set such that they do
- * not
- * increase the range of possible BYTE values for any byte lane. The easiest way to do this is to
- * set LMC()_RLEVEL_RANKi = LMC()_RLEVEL_RANKj, where j is some rank with attached DRAM whose
- * LMC()_RLEVEL_RANKj is already fully initialized.
+ * LMC()_RLEVEL_RANKi values for ranks i without attached DRAM should be set such that
+ * they do not increase the range of possible BYTE values for any byte lane. The
+ * easiest way to do this is to set LMC()_RLEVEL_RANKi = LMC()_RLEVEL_RANKj, where j is
+ * some rank with attached DRAM whose LMC()_RLEVEL_RANKj is already fully initialized.
  */
 typedef union
 {
@@ -11667,11 +11687,9 @@ typedef union
         uint64_t reserved_43_63        : 21;
         uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
                                                                  Internal:
-                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
-                                                                 either
-                                                                 LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
-                                                                 of zero
-                                                                 otherwise. */
+                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs
+                                                                 (i.e., when either LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is
+                                                                 nonzero). Returns a value of zero otherwise. */
         uint64_t fill_order            : 2;  /**< [ 39: 38](RO/H) Fill order for failing transaction. */
         uint64_t fdimm                 : 1;  /**< [ 37: 37](RO/H) Failing DIMM number. */
         uint64_t fbunk                 : 1;  /**< [ 36: 36](RO/H) Failing rank number. */
@@ -11691,11 +11709,9 @@ typedef union
         uint64_t fill_order            : 2;  /**< [ 39: 38](RO/H) Fill order for failing transaction. */
         uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
                                                                  Internal:
-                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
-                                                                 either
-                                                                 LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
-                                                                 of zero
-                                                                 otherwise. */
+                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs
+                                                                 (i.e., when either LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is
+                                                                 nonzero). Returns a value of zero otherwise. */
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
@@ -14338,7 +14354,7 @@ static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long a, unsigned long b)
  * position has its own 8-bit programmable field. When the controller does a write to that rank,
  * it sets the 4 ODT pins to the mask pins below. For example, when doing a write into Rank0, a
  * system designer may desire to terminate the lines with the resistor on DIMM0/Rank1. The mask
- * WODT_D0_R0 would then be {00000010}.
+ * [WODT_D0_R0] would then be {00000010}.
  *
  * CNXXXX drives the appropriate mask values on the ODT pins by default. If this feature is not
  * required, write 0x0 in this register. When a given RANK is selected, the WODT mask for that
@@ -14352,24 +14368,26 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
         uint64_t wodt_d1_r1            : 4;  /**< [ 27: 24](R/W) Write ODT mask DIMM1, RANK1/DIMM1 in SingleRanked.
-                                                                 If RANK_ENA=0, WODT_D1_R1<3:0> must be zero. */
+                                                                 If RANK_ENA=0, [WODT_D1_R1]<3:0> must be zero. */
         uint64_t reserved_20_23        : 4;
-        uint64_t wodt_d1_r0            : 4;  /**< [ 19: 16](R/W) Write ODT mask DIMM1, RANK0. If RANK_ENA=0, WODT_D1_R0<3,1> must be zero. */
+        uint64_t wodt_d1_r0            : 4;  /**< [ 19: 16](R/W) Write ODT mask DIMM1, RANK0. If [RANK_ENA]=0, [WODT_D1_R0]<3,1> must be zero. */
         uint64_t reserved_12_15        : 4;
-        uint64_t wodt_d0_r1            : 4;  /**< [ 11:  8](R/W) Write ODT mask DIMM0, RANK1/DIMM0 in SingleRanked. If RANK_ENA=0, WODT_D0_R1<3:0> must be
+        uint64_t wodt_d0_r1            : 4;  /**< [ 11:  8](R/W) Write ODT mask DIMM0, RANK1/DIMM0 in SingleRanked. If [RANK_ENA]=0, [WODT_D0_R1]<3:0> must
+                                                                 be
                                                                  zero. */
         uint64_t reserved_4_7          : 4;
-        uint64_t wodt_d0_r0            : 4;  /**< [  3:  0](R/W) Write ODT mask DIMM0, RANK0. If RANK_ENA=0, WODT_D0_R0<3,1> must be zero. */
+        uint64_t wodt_d0_r0            : 4;  /**< [  3:  0](R/W) Write ODT mask DIMM0, RANK0. If [RANK_ENA]=0, [WODT_D0_R0]<3,1> must be zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t wodt_d0_r0            : 4;  /**< [  3:  0](R/W) Write ODT mask DIMM0, RANK0. If RANK_ENA=0, WODT_D0_R0<3,1> must be zero. */
+        uint64_t wodt_d0_r0            : 4;  /**< [  3:  0](R/W) Write ODT mask DIMM0, RANK0. If [RANK_ENA]=0, [WODT_D0_R0]<3,1> must be zero. */
         uint64_t reserved_4_7          : 4;
-        uint64_t wodt_d0_r1            : 4;  /**< [ 11:  8](R/W) Write ODT mask DIMM0, RANK1/DIMM0 in SingleRanked. If RANK_ENA=0, WODT_D0_R1<3:0> must be
+        uint64_t wodt_d0_r1            : 4;  /**< [ 11:  8](R/W) Write ODT mask DIMM0, RANK1/DIMM0 in SingleRanked. If [RANK_ENA]=0, [WODT_D0_R1]<3:0> must
+                                                                 be
                                                                  zero. */
         uint64_t reserved_12_15        : 4;
-        uint64_t wodt_d1_r0            : 4;  /**< [ 19: 16](R/W) Write ODT mask DIMM1, RANK0. If RANK_ENA=0, WODT_D1_R0<3,1> must be zero. */
+        uint64_t wodt_d1_r0            : 4;  /**< [ 19: 16](R/W) Write ODT mask DIMM1, RANK0. If [RANK_ENA]=0, [WODT_D1_R0]<3,1> must be zero. */
         uint64_t reserved_20_23        : 4;
         uint64_t wodt_d1_r1            : 4;  /**< [ 27: 24](R/W) Write ODT mask DIMM1, RANK1/DIMM1 in SingleRanked.
-                                                                 If RANK_ENA=0, WODT_D1_R1<3:0> must be zero. */
+                                                                 If RANK_ENA=0, [WODT_D1_R1]<3:0> must be zero. */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
