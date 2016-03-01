@@ -842,13 +842,6 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
             //bdk_qlm_set_mode(node, 5, BDK_QLM_MODE_RXAUI_1X2, 6250, 0);
             //bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_XFI_2X1, 10312, 0);
         }
-        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        {
-            bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_RXAUI_1X2, 6250, 0);
-            bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_XFI_2X1, 10312, 0);
-            bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X2, 8000, 0);
-            bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_SATA_2X1, 6000, 0);
-        }
         return 0;
     }
 
