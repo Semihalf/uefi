@@ -330,9 +330,13 @@ static int vnic_setup_tx_shaping(nic_t *nic)
         c.s.chan = nic_chan_e);
 
     /* TL4 feeds TL3. We only need one entry */
-    int tl4_index = tl3_index * 4;
+    /* For CN88XX, four TL4 direct map to a TL3
+       For CN81XX and CN83XX, the mapping is 1:1. The hardware guys aren't
+       much for consistency */
+    int tl4_index = tl3_index;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
+        tl4_index = tl3_index * 4;
         BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_TL4AX_CFG(tl4_index / 4),
             c.s.tl4a = tl3_index);
     }
