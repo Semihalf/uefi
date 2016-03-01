@@ -24,22 +24,8 @@
 #
 ################################################################################
 
-[FD.Armada7040_EFI_SEC]
-BaseAddress   = 0x00000000|gArmTokenSpaceGuid.PcdFdBaseAddress  # The base address of the Firmware in SecureROM.
-Size          = 0x00100000|gArmTokenSpaceGuid.PcdFdSize         # The size in bytes of the device (64MiB).
-ErasePolarity = 1
-
-# This one is tricky, it must be: BlockSize * NumBlocks = Size
-BlockSize     = 0x00001000
-NumBlocks     = 0x100
-
-0x00000000|0x000100000
-gArmTokenSpaceGuid.PcdSecureFvBaseAddress|gArmTokenSpaceGuid.PcdSecureFvSize
-FV = FVMAIN_SEC
-
-
 [FD.Armada7040_EFI]
-BaseAddress   = 0x00100000|gArmTokenSpaceGuid.PcdFdBaseAddress  # The base address of the Firmware in NOR Flash.
+BaseAddress   = 0x00000000|gArmTokenSpaceGuid.PcdFdBaseAddress  # The base address of the Firmware in NOR Flash.
 Size          = 0x00b00000|gArmTokenSpaceGuid.PcdFdSize         # The size in bytes of the FLASH Device
 ErasePolarity = 1
 
@@ -78,29 +64,6 @@ FV = FVMAIN_COMPACT
 # module statements.
 #
 ################################################################################
-
-# SEC phase firmware volume
-[FV.FVMAIN_SEC]
-FvBaseAddress      = 0x0  # Secure ROM
-FvForceRebase      = TRUE
-FvAlignment        = 16
-ERASE_POLARITY     = 1
-MEMORY_MAPPED      = TRUE
-STICKY_WRITE       = TRUE
-LOCK_CAP           = TRUE
-LOCK_STATUS        = TRUE
-WRITE_DISABLED_CAP = TRUE
-WRITE_ENABLED_CAP  = TRUE
-WRITE_STATUS       = TRUE
-WRITE_LOCK_CAP     = TRUE
-WRITE_LOCK_STATUS  = TRUE
-READ_DISABLED_CAP  = TRUE
-READ_ENABLED_CAP   = TRUE
-READ_STATUS        = TRUE
-READ_LOCK_CAP      = TRUE
-READ_LOCK_STATUS   = TRUE
-
-  INF ArmPlatformPkg/Sec/Sec.inf
 
 # DXE phase firmware volume
 [FV.FvMain]
@@ -186,6 +149,7 @@ FvNameGuid         = 5eda4200-2c5f-43cb-9da3-0baf74b1b30c
 
 # PEI phase firmware volume
 [FV.FVMAIN_COMPACT]
+FvForceRebase      = TRUE
 FvAlignment        = 8
 ERASE_POLARITY     = 1
 MEMORY_MAPPED      = TRUE
