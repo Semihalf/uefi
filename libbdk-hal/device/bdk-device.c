@@ -194,10 +194,12 @@ static void populate_device(bdk_device_t *device)
                 memset(&ea_entry, 0, sizeof(ea_entry));
                 uint32_t *ptr = (uint32_t *)&ea_entry;
                 *ptr++ = bdk_ecam_read32(device, cap_loc);
+                asm volatile ("" ::: "memory"); /* Needed by gcc 5.0 to detect aliases on ea_entry */
                 for (int i = 0; i < ea_entry.s.entry_size; i++)
                 {
                     *ptr++ = bdk_ecam_read32(device, cap_loc + 4*i + 4);
                 }
+                asm volatile ("" ::: "memory"); /* Needed by gcc 5.0 to detect aliases on ea_entry */
                 BDK_TRACE(DEVICE_SCAN, "%s:      Enable:%d Writeable:%d Secondary Prop:0x%02x Primary Prop:0x%02x BEI:%d Size:%d\n",
                     device->name, ea_entry.s.enable, ea_entry.s.w, ea_entry.s.sec_prop, ea_entry.s.pri_prop, ea_entry.s.bei, ea_entry.s.entry_size);
                 if (ea_entry.s.entry_size > 0)
