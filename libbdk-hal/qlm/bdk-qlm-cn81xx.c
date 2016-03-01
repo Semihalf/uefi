@@ -45,8 +45,41 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
             switch (interface)
             {
                 case 0:
-                    qlm = 0;
+                {
+                    /* This BGX spans two DLMs. The index must be used to
+                       figure out which DLM we are using */
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(0));
+                    if (gserx_cfg.s.bgx)
+                    {
+                        if (gserx_cfg.s.bgx_quad) /* 4 lanes together */
+                            qlm = 0;
+                        else if (gserx_cfg.s.bgx_dual) /* 2 lanes together */
+                            qlm = (index >= 1) ? 1 : 0;
+                        else /* All lanes independent */
+                            qlm = (index >= 2) ? 1 : 0;
+                    }
+                    else
+                        qlm = 1;
                     break;
+                }
+                case 1:
+                {
+                    /* This BGX spans two DLMs. The index must be used to
+                       figure out which DLM we are using */
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(2));
+                    if (gserx_cfg.s.bgx)
+                    {
+                        if (gserx_cfg.s.bgx_quad) /* 4 lanes together */
+                            qlm = 2;
+                        else if (gserx_cfg.s.bgx_dual) /* 2 lanes together */
+                            qlm = (index >= 1) ? 3 : 2;
+                        else /* All lanes independent */
+                            qlm = (index >= 2) ? 3 : 2;
+                    }
+                    else
+                        qlm = 3;
+                    break;
+                }
                 default:
                     return -1;
             }
