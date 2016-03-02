@@ -1,0 +1,16 @@
+/dts-v1/;
+
+/ {
+cavium,bdk {
+	/* Determine how multi-node is supported for this system:
+	    0 = Multi-node is not supported
+	    1 = Multi-node is supported and booting requires two nodes
+	    2 = Multi-node is auto detected. Two nodes are used if
+		if available, otherwise fall back to single node. */
+	MULTI-NODE = "0";
+
+	/* Timeout for the boot menu in seconds. */
+	BDK-BOOT-MENU-TIMEOUT = "0";
+};
+};
+

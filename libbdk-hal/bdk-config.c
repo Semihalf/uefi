@@ -1326,6 +1326,15 @@ void __bdk_config_init(void)
         else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
             bdk_config_set_str("ASIM-CN81XX", BDK_CONFIG_BOARD_MODEL);
     }
+    else if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    {
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+            bdk_config_set_str("EMUL-CN88XX", BDK_CONFIG_BOARD_MODEL);
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+            bdk_config_set_str("EMUL-CN83XX", BDK_CONFIG_BOARD_MODEL);
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+            bdk_config_set_str("EMUL-CN81XX", BDK_CONFIG_BOARD_MODEL);
+    }
     /* Load manufacturing data from the top 64KB of flash */
     else if (config_load_file("/boot", BDK_CONFIG_MANUFACTURING_ADDRESS) != 0)
     {
