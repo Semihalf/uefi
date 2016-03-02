@@ -816,34 +816,8 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
     const int MCU_TWSI_ADDRESS = 0x60;
     int64_t data;
 
-    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR) || bdk_is_platform(BDK_PLATFORM_ASIM))
         return 0;
-
-    if (bdk_is_platform(BDK_PLATFORM_ASIM))
-    {
-        printf("N%d: QLM Config: Configuring QLMs for a sample setup\n", node);
-        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        {
-            bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_SGMII_4X1, 1250, 0);
-            bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_XAUI_1X4, 6250, 0);
-            bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
-            bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X4, 5000, 0);
-            bdk_qlm_set_mode(node, 5, BDK_QLM_MODE_PCIE_1X4, 2500, 0);
-            bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-            bdk_qlm_set_mode(node, 7, BDK_QLM_MODE_SATA_4X1, 3000, 0);
-        }
-        else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        {
-            bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
-            bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_SGMII_4X1, 1250, 0);
-            bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_XAUI_1X4, 6250, 0);
-            bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_SATA_2X1, 6000, 0);
-            // FIXME: 83xx CSRs not updated dor 4 BGX yet
-            //bdk_qlm_set_mode(node, 5, BDK_QLM_MODE_RXAUI_1X2, 6250, 0);
-            //bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_XFI_2X1, 10312, 0);
-        }
-        return 0;
-    }
 
     /* Check the two magic number bytes the MCU should return */
     data = mcu_read(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x00, 1, 1);
