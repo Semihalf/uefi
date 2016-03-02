@@ -1487,6 +1487,27 @@ int initialize_ddr_clock(bdk_node_t node,
 		DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(lmc),
 				c.s.fine_tune_mode = 1);
             }
+
+            /* Enable the trim circuit on the appropriate channels to
+               adjust the DDR clock duty cycle for chips that support
+               it. */
+            if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+                bdk_lmcx_phy_ctl_t lmc_phy_ctl;
+                int loop_interface_num;
+
+                for (loop_interface_num = 0; loop_interface_num<4; ++loop_interface_num) {
+                    if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
+                        continue;
+
+                    lmc_phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(loop_interface_num));
+                    lmc_phy_ctl.s.lv_mode = (~loop_interface_num) & 1; /* Odd LMCs = 0, Even LMCs = 1 */
+
+                    ddr_print("LMC%d: PHY_CTL                                 : 0x%016lx\n",
+                              loop_interface_num, lmc_phy_ctl.u);
+                    DRAM_CSR_WRITE(node, BDK_LMCX_PHY_CTL(loop_interface_num), lmc_phy_ctl.u);
+                }
+            }
+
         } /* Do this once */
 
     } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) */
