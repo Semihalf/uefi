@@ -360,5 +360,47 @@ cavium,bdk {
 
 	/* The boot stage to be loaded after init.bin has run. */
 	BDK-CONFIG-BOOT-NEXT-STAGE-INIT = "/fatfs/cortina-app.bin";
+
+	/**********************************************************************
+	 * The entries below are currently not used by the BDK. They are being
+	 * used only by ATF / UEFI.
+	 *
+	 * Format for TWSI configuration:
+	 *   TWSI-VAR-NAME = 0x01050E
+	 *                     ||||||
+	 *                     ||||++-- TWSI address
+	 *                     ||++---- TWSI bus
+	 *                     ++------ Node ID (0xFF = local node)
+	 *
+	 * Format for GPIO configuration:
+	 *   GPIO-VAR-NAME = 0x01001A
+	 *                     ||||||
+	 *                     ||||++-- GPIO Number
+	 *                     ||++---- GPIO polarity (0=normal, 1=inverted)
+	 *                     ++------ Node ID (0xFF = local node)
+	 *
+	 **********************************************************************/
+
+	/* TWSI bus and address for Boot Status information to BMC. */
+	//BMC-BOOT-TWSI-CONFIG = "-1";
+	BMC-BOOT-TWSI-CONFIG = "0x000520";
+
+	/* TWSI bus and address for IPMI communication to BMC
+	   -1 =  No connection exists  */
+	//BMC-IPMI-TWSI-CONFIG = "-1";
+	BMC-IPMI-TWSI-CONFIG = "0x000412";
+
+	/* GPIO pin connected to board power button */
+	//GPIO-SHUTDOWN-CTL-IN = "-1";
+	GPIO-SHUTDOWN-CTL-IN = "0x00001A";
+
+	/* GPIO pin to CPLD-BMC from Thunder to inform host initiated shutdown */
+	//GPIO-SHUTDOWN-CTL-OUT = "-1";
+	GPIO-SHUTDOWN-CTL-OUT = "0x000018";
+
+	/* RTC connection over TWSI bus of Thunder.
+	   -1 =  No connection exists  */
+	//RTC-TWSI-CONFIG = "-1";
+	RTC-TWSI-CONFIG = "0x000268";
 }; /* cavium,bdk */
 }; /* / */
