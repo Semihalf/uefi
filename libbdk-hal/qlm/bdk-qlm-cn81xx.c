@@ -41,6 +41,8 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
     {
         case BDK_IF_BGX:
         {
+            if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+                return interface * 2;
             int qlm;
             switch (interface)
             {
@@ -83,8 +85,6 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                 default:
                     return -1;
             }
-            if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-                return qlm;
             /* Make sure the QLM is powered up and out of reset */
             BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
             if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
