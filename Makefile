@@ -130,6 +130,6 @@ version:
 .PHONY: emu
 emu:
 	od -Ax -vtx1 -w1 target-bin/bdk.bin | cut -d " " -f 2 > thunder-emmc-ascii.img
-	scp thunder-emmc-ascii.img dev001:emulator_images/
-	ssh dev001 chmod o+r emulator_images/thunder-emmc-ascii.img
+	scp thunder-emmc-ascii.img dev002:emulator_images/
+	ssh dev002 chmod o+r emulator_images/thunder-emmc-ascii.img
 
