@@ -49,12 +49,7 @@ void boot_menu(void)
         bdk_menu_item(&menu, 'U', "Change baud rate and flow control", NULL, NULL);
         bdk_menu_item(&menu, 'R', "Reboot", NULL, NULL);
 
-        int key;
-        /* Jump to diags in the emulator */
-        if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-            key = 'E';
-        else
-            key = bdk_menu_display(&menu);
+        int key = bdk_menu_display(&menu);
 
         switch (key)
         {
@@ -172,16 +167,12 @@ int main(void)
         bdk_config_get_str(BDK_CONFIG_BOARD_SERIAL));
     bdk_boot_info_strapping(bdk_numa_master());
 
-    /* Jump to menu in the emulator */
-    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        goto menu;
-
     /* Check if the next boot stage is configured. */
     next_stage = bdk_config_get_str(BDK_CONFIG_BOOT_NEXT_STAGE, "BOOT");
 
     /* If no DRAM config goto the boot menu. First check for SPD addresses */
     int spd_addr = bdk_config_get_int(BDK_CONFIG_DDR_SPD_ADDR, 0 /* DIMM */, 0 /* LMC */, bdk_numa_master());
-    if ((spd_addr == 0) && !bdk_is_platform(BDK_PLATFORM_ASIM))
+    if ((spd_addr == 0) && !bdk_is_platform(BDK_PLATFORM_ASIM) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
         /* Not found, try SPD data */
         int spd_size = 0;
