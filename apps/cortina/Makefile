@@ -9,7 +9,11 @@ cortina-app.bin: app.bin images/cortina.img
 
 app: app.o $(cortina-objs) $(BDK_ROOT)/libbdk/libbdk.a
 %.o: %.d
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),distclean)
 -include app.d
+endif
+endif
 
 images/cortina.img:
 	images/cortina-convert.py images/cortina-latest.txt images/cortina.img

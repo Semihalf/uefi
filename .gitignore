@@ -13,6 +13,8 @@
 *.orig
 tags
 cscope.out
+cscope*
+TAGS
 /apps/boot/app
 /apps/diagnostics/app
 /apps/init/app

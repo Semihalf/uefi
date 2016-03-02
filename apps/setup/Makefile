@@ -11,7 +11,11 @@ setup.bin: app.bin
 
 app: $(OBJ) $(BDK_ROOT)/libbdk/libbdk.a
 %.o: %.d
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),distclean)
 -include $(DEPS)
+endif
+endif
 
 clean:
 	rm -f $(OBJ) *.d *.map *.bin app

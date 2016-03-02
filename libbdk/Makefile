@@ -83,6 +83,9 @@ $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 $(objs): $(BDK_ROOT)/libbdk/bdk.h.gch
 endif
 
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),distclean)
+
 #
 # These are needed to generate the depends files
 #
@@ -93,6 +96,8 @@ endif
 #
 -include $(deps)
 
+endif
+endif
 #
 # Clean targets
 #
