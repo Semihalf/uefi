@@ -7,16 +7,16 @@
 # Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
 #
-#* Redistributions of source code must retain the above copyright notice,
-#  this list of conditions and the following disclaimer.
+#	* Redistributions of source code must retain the above copyright notice,
+#	  this list of conditions and the following disclaimer.
 #
-#* Redistributions in binary form must reproduce the above copyright
-#  notice, this list of conditions and the following disclaimer in the
-#  documentation and/or other materials provided with the distribution.
+#	* Redistributions in binary form must reproduce the above copyright
+#	  notice, this list of conditions and the following disclaimer in the
+#	  documentation and/or other materials provided with the distribution.
 #
-#* Neither the name of Marvell nor the names of its contributors may be
-#  used to endorse or promote products derived from this software without
-#  specific prior written permission.
+#	* Neither the name of Marvell nor the names of its contributors may be
+#	  used to endorse or promote products derived from this software without
+#	  specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -50,11 +50,11 @@
   Include
 
 [Guids.common]
-  gMarvellTokenSpaceGuid = { 0xf995c6c8, 0xbc9b, 0x4e93, { 0xbd, 0xcf, 0x49, 0x90, 0xc6, 0xe7, 0x8c, 0x7f } }
+  gMarvellTokenSpaceGuid	     = { 0xf995c6c8, 0xbc9b, 0x4e93, { 0xbd, 0xcf, 0x49, 0x90, 0xc6, 0xe7, 0x8c, 0x7f } }
 
-  gShellEepromHiiGuid = { 0xb2f4c714, 0x147f, 0x4ff7, { 0x82, 0x1b, 0xce, 0x7b, 0x91, 0x7f, 0x5f, 0x2f } }
-  gShellSfHiiGuid = { 0x03a67756, 0x8cde, 0x4638, { 0x82, 0x34, 0x4a, 0x0f, 0x6d, 0x58, 0x81, 0x39 } }
-  gShellFUpdateHiiGuid = { 0x9b5d2176, 0x590a, 0x49db, { 0x89, 0x5d, 0x4a, 0x70, 0xfe, 0xad, 0xbe, 0x24 } }
+  gShellEepromHiiGuid                = { 0xb2f4c714, 0x147f, 0x4ff7, { 0x82, 0x1b, 0xce, 0x7b, 0x91, 0x7f, 0x5f, 0x2f } }
+  gShellSfHiiGuid                    = { 0x03a67756, 0x8cde, 0x4638, { 0x82, 0x34, 0x4a, 0x0f, 0x6d, 0x58, 0x81, 0x39 } }
+  gShellFUpdateHiiGuid		     = { 0x9b5d2176, 0x590a, 0x49db, { 0x89, 0x5d, 0x4a, 0x70, 0xfe, 0xad, 0xbe, 0x24 } }
 
 [PcdsFixedAtBuild.common]
 #MPP
@@ -140,4 +140,5 @@
   gEfiEepromProtocolGuid               = { 0xcd728a1f, 0x45b5, 0x4feb, { 0x98, 0xc8, 0x31, 0x3d, 0xa8, 0x11, 0x74, 0x62 }}
   gEfiSpiMasterProtocolGuid            = { 0x23de66a3, 0xf666, 0x4b3e, { 0xaa, 0xa2, 0x68, 0x9b, 0x18, 0xae, 0x2e, 0x19 }}
   gEfiSpiFlashProtocolGuid             = { 0x9accb423, 0x5bd2, 0x4fca, { 0x9b, 0x4c, 0x2e, 0x65, 0xfc, 0x25, 0xdf, 0x21 }}
+  gEfiMdioProtocolGuid		       = { 0x0d728a1f, 0x45b5, 0x4feb, { 0x98, 0xc8, 0x31, 0x3d, 0xa8, 0x11, 0x74, 0x62 }}
 
