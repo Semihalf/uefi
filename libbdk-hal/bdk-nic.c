@@ -245,6 +245,8 @@ static int vnic_setup_tx_shaping(nic_t *nic)
 {
     int tl1_index = -1;
     int tl2_index = -1;
+    int tl3_index = -1;
+    int tl4_index = -1;
     int nic_chan_e = -1;
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
@@ -254,54 +256,65 @@ static int vnic_setup_tx_shaping(nic_t *nic)
         /* TL2 feeds TL1 based on the top/bottom half. Use an independent TL1
            entry for each BGX port */
         tl2_index = tl1_index * 32 + nic->handle->index;
+        /* Each block of 4 TL3 feed TL2 */
+        tl3_index = tl2_index * 4;
+        /* Each block of 4 TL4 feed TL3 */
+        tl4_index = tl3_index * 4;
         nic_chan_e = BDK_NIC_CHAN_E_BGXX_PORTX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
     }
     else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
     {
-        /* TL1 index by NIC_LMAC_E */
-        /* TL2 index same as TL1 for straight through */
         switch (nic->ntype)
         {
             case BDK_NIC_TYPE_BGX:
                 tl1_index = BDK_NIC_LMAC_E_BGXX_LMACX(nic->handle->interface, nic->handle->index);
-                tl2_index = tl1_index;
                 nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
                 break;
             case BDK_NIC_TYPE_LBK:
                 tl1_index = BDK_NIC_LMAC_E_LBKX_CN83XX(nic->handle->index);
-                tl2_index = tl1_index;
                 nic_chan_e = BDK_NIC_CHAN_E_LBKX_CHX(nic->handle->interface, nic->handle->index);
                 break;
             default:
                 bdk_error("%s: Unsupported NIC TYPE %d\n", nic->handle->name, nic->ntype);
                 return -1;
         }
+        /* TL1 index by NIC_LMAC_E */
+        /* Set in above switch statement */
+        /* TL2 index is software defined, make it the same as TL1 for straight through */
+        tl2_index = tl1_index;
+        /* Each block of 4 TL3 feed TL2. This assumes there are never more than 4 ports per interface */
+        tl3_index = tl2_index * 4 + nic->handle->index;
+        /* TL4 index is the same as TL3, 1:1 hookup */
+        tl4_index = tl3_index;
     }
     else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
     {
-        /* TL1 index by NIC_LMAC_E */
-        /* TL2 index same as TL1 for straight through */
         switch (nic->ntype)
         {
             case BDK_NIC_TYPE_BGX:
                 tl1_index = BDK_NIC_LMAC_E_BGXX_LMACX(nic->handle->interface, nic->handle->index);
-                tl2_index = tl1_index;
                 nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
                 break;
             case BDK_NIC_TYPE_RGMII:
                 tl1_index = BDK_NIC_LMAC_E_RGXX_LMACX(nic->handle->interface, nic->handle->index);
-                tl2_index = tl1_index;
                 nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
                 break;
             case BDK_NIC_TYPE_LBK:
                 tl1_index = BDK_NIC_LMAC_E_LBKX_CN81XX(nic->handle->interface);
-                tl2_index = tl1_index;
                 nic_chan_e = BDK_NIC_CHAN_E_LBKX_CHX(nic->handle->interface, nic->handle->index);
                 break;
             default:
                 bdk_error("%s: Unsupported NIC TYPE %d\n", nic->handle->name, nic->ntype);
                 return -1;
         }
+        /* TL1 index by NIC_LMAC_E */
+        /* Set in above switch statement */
+        /* TL2 index is software defined, make it the same as TL1 for straight through */
+        tl2_index = tl1_index;
+        /* Each block of 4 TL3 feed TL2. This assumes there are never more than 4 ports per interface */
+        tl3_index = tl2_index * 4 + nic->handle->index;
+        /* TL4 index is the same as TL3, 1:1 hookup */
+        tl4_index = tl3_index;
     }
     else
     {
@@ -320,8 +333,7 @@ static int vnic_setup_tx_shaping(nic_t *nic)
             c.s.lmac = tl1_index);
     }
 
-    /* TL3 feeds Tl2. We only need one entry */
-    int tl3_index = tl2_index * 4;
+    /* TL3 feeds Tl2 */
     BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_TL3AX_CFG(tl3_index / 4),
         c.s.tl3a = tl2_index);
     BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
@@ -329,14 +341,9 @@ static int vnic_setup_tx_shaping(nic_t *nic)
     BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_TL3X_CHAN(tl3_index),
         c.s.chan = nic_chan_e);
 
-    /* TL4 feeds TL3. We only need one entry */
-    /* For CN88XX, four TL4 direct map to a TL3
-       For CN81XX and CN83XX, the mapping is 1:1. The hardware guys aren't
-       much for consistency */
-    int tl4_index = tl3_index;
+    /* TL4 feeds TL3 */
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
-        tl4_index = tl3_index * 4;
         BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_TL4AX_CFG(tl4_index / 4),
             c.s.tl4a = tl3_index);
     }
