@@ -238,15 +238,18 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     uint64_t stop_ccpi_data[BDK_NUMA_MAX_NODES][3];
     uint64_t stop_ccpi_idle[BDK_NUMA_MAX_NODES][3];
     uint64_t stop_ccpi_err[BDK_NUMA_MAX_NODES][3];
-    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
+    if (!bdk_numa_is_only_one())
     {
-        if (flags & (1 << node))
+        for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
         {
-            for (int link = 0; link < 3; link++)
+            if (flags & (1 << node))
             {
-                start_ccpi_data[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_DATA_CNT(link));
-                start_ccpi_idle[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_IDLE_CNT(link));
-                start_ccpi_err[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_ERR_CNT(link));
+                for (int link = 0; link < 3; link++)
+                {
+                    start_ccpi_data[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_DATA_CNT(link));
+                    start_ccpi_idle[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_IDLE_CNT(link));
+                    start_ccpi_err[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_ERR_CNT(link));
+                }
             }
         }
     }
@@ -357,15 +360,18 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         }
     }
     /* Get the CCPI link counters */
-    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
+    if (!bdk_numa_is_only_one())
     {
-        if (flags & (1 << node))
+        for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
         {
-            for (int link = 0; link < 3; link++)
+            if (flags & (1 << node))
             {
-                stop_ccpi_data[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_DATA_CNT(link));
-                stop_ccpi_idle[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_IDLE_CNT(link));
-                stop_ccpi_err[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_ERR_CNT(link));
+                for (int link = 0; link < 3; link++)
+                {
+                    stop_ccpi_data[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_DATA_CNT(link));
+                    stop_ccpi_idle[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_IDLE_CNT(link));
+                    stop_ccpi_err[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_ERR_CNT(link));
+                }
             }
         }
     }
