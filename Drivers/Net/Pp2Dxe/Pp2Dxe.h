@@ -1,0 +1,334 @@
+/********************************************************************************
+Copyright (C) 2016 Marvell International Ltd.
+
+Marvell BSD License Option
+
+If you received this File from Marvell, you may opt to use, redistribute and/or
+modify this File under the following licensing terms.
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+	* Redistributions of source code must retain the above copyright notice,
+	  this list of conditions and the following disclaimer.
+
+	* Redistributions in binary form must reproduce the above copyright
+	  notice, this list of conditions and the following disclaimer in the
+	  documentation and/or other materials provided with the distribution.
+
+	* Neither the name of Marvell nor the names of its contributors may be
+	  used to endorse or promote products derived from this software without
+	  specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*******************************************************************************/
+
+#ifndef __PP2_DXE_H__
+#define __PP2_DXE_H__
+
+#include <Protocol/DriverBinding.h>
+#include <Protocol/SimpleNetwork.h>
+#include <Protocol/DevicePath.h>
+#include <Protocol/Phy.h>
+
+#include <Library/BaseLib.h>
+#include <Library/BaseMemoryLib.h>
+#include <Library/MemoryAllocationLib.h>
+#include <Library/IoLib.h>
+#include <Library/DebugLib.h>
+#include <Library/PcdLib.h>
+#include <Library/NetLib.h>
+#include <Library/UefiLib.h>
+#include <Library/UefiBootServicesTableLib.h>
+#define PP2DXE_MAX_PHY	2
+
+typedef struct {
+  UINT32          Addr;
+  BOOLEAN         LinkUp;
+  BOOLEAN         Duplex;
+  PHY_SPEED       Speed;
+} PP2DXE_PORT;
+
+typedef struct {
+  UINT32                      Signature;
+  INTN			      Instance;
+  EFI_HANDLE                  Controller;
+  EFI_LOCK                    Lock;
+  EFI_SIMPLE_NETWORK_PROTOCOL Snp;
+  EFI_PHY_PROTOCOL	      *Phy;
+  PHY_DEVICE		      *PhyDev[PP2DXE_MAX_PHY];
+  PP2DXE_PORT		      Pp2Port[PP2DXE_MAX_PHY];
+  BOOLEAN		      Initialized;
+} PP2DXE_CONTEXT;
+
+#define NET_SKB_PAD 0
+#define PP2DXE_SIGNATURE	SIGNATURE_32('P', 'P', '2', 'D')
+#define INSTANCE_FROM_SNP(a)	CR((a), PP2DXE_CONTEXT, Snp, PP2DXE_SIGNATURE)
+
+/* RX buffer constants */
+#define MVPP2_SKB_SHINFO_SIZE \
+	SKB_DATA_ALIGN(sizeof(struct skb_shared_info))
+
+#define MVPP2_RX_PKT_SIZE(mtu) \
+	ALIGN((mtu) + MVPP2_MH_SIZE + MVPP2_VLAN_TAG_LEN + \
+	      ETH_HLEN + ETH_FCS_LEN, MVPP2_CPU_D_CACHE_LINE_SIZE)
+
+#define MVPP2_RX_BUF_SIZE(pkt_size)	((pkt_size) + NET_SKB_PAD)
+#define MVPP2_RX_TOTAL_SIZE(buf_size)	((buf_size) + MVPP2_SKB_SHINFO_SIZE)
+#define MVPP2_RX_MAX_PKT_SIZE(total_size) \
+	((total_size) - NET_SKB_PAD - MVPP2_SKB_SHINFO_SIZE)
+#define MVPP2_RXQ_OFFSET	NET_SKB_PAD
+
+/* Linux API */
+#define mvpp2_alloc(v)		(VOID*) 0
+#define mvpp2_free(p)		1
+#define mvpp2_memset(a, v, s)	1
+#define mvpp2_mdelay(t)		1
+#define mvpp2_prefetch(v)	1
+#define mvpp2_fls(v)		1
+#define mvpp2_is_broadcast_ether_addr(da)	\
+				1
+#define mvpp2_is_multicast_ether_addr(da)	\
+				1
+#define mvpp2_printf		
+#define mvpp2_swap		
+#define mvpp2_swab16		
+#define mvpp2_iphdr		1
+#define mvpp2_ipv6hdr		1
+//#define MVPP2_ALIGN(x, m)	ALIGN((x), (m))
+#define MVPP2_ALIGN(x, m)	1
+#define MVPP2_NULL		NULL
+#define MVPP2_ENOMEM		-1
+#define MVPP2_EINVAL		-2
+#define MVPP2_ERANGE		-3
+#define MVPP2_USEC_PER_SEC	1000000L
+
+#define dma_addr_t		UINTN
+
+/* L2 and L3 protocol macros */
+#define MV_IPPR_TCP		0
+#define MV_IPPR_UDP		1
+#define MV_IPPR_IPIP		2
+#define MV_IPPR_ICMPV6		3
+#define MV_IPPR_IGMP		4
+#define MV_ETH_P_IP		5
+#define MV_ETH_P_IPV6		6
+#define MV_ETH_P_PPP_SES	7
+#define MV_ETH_P_ARP		8
+#define MV_ETH_P_8021Q		9
+#define MV_ETH_P_8021AD		10
+#define MV_ETH_P_EDSA		11
+#define MV_PPP_IP		12
+#define MV_PPP_IPV6		13
+#define MV_ETH_ALEN		6
+
+/* PHY modes */
+#define MV_MODE_SGMII		PHY_CONNECTION_SGMII
+#define MV_MODE_RGMII		PHY_CONNECTION_RGMII
+
+/* Types */
+typedef INT8 MV_8;
+typedef UINT8 MV_U8;
+
+typedef INT16 MV_16;
+typedef UINT16 MV_U16;
+
+typedef INT32 MV_32;
+typedef UINT32 MV_U32;
+
+typedef INT64 MV_64;
+typedef UINT64 MV_U64;
+
+typedef INTN MV_LONG;		/* 32/64 */
+typedef UINTN MV_ULONG;	/* 32/64 */
+
+typedef BOOLEAN MV_BOOL;
+typedef VOID MV_VOID;
+
+typedef EFI_STATUS MV_STATUS;
+
+#define MV_TRUE			TRUE
+#define MV_FALSE		FALSE
+
+#define __iomem
+
+/* Structures */
+
+/* Individual port structure */
+struct mvpp2_port {
+	MV_U8 id;
+
+	MV_32 irq;
+
+	struct mvpp2 *priv;
+
+	/* Per-port registers' base address */
+	void __iomem *base;
+
+	struct mvpp2_rx_queue **rxqs;
+	struct mvpp2_tx_queue **txqs;
+
+	MV_32 pkt_size;
+
+	MV_U32 pending_cause_rx;
+
+	/* Per-CPU port control */
+
+	/* Flags */
+	MV_ULONG flags;
+
+	MV_U16 tx_ring_size;
+	MV_U16 rx_ring_size;
+
+	MV_32 phy_interface;
+	MV_U32 link;
+	MV_U32 duplex;
+	MV_U32 speed;
+
+	struct mvpp2_bm_pool *pool_long;
+	struct mvpp2_bm_pool *pool_short;
+
+	/* Index of first port's physical RXQ */
+	MV_U8 first_rxq;
+};
+
+/* Shared Packet Processor resources */
+struct mvpp2 {
+	/* Shared registers' base addresses */
+	MV_VOID __iomem *base;
+	MV_VOID __iomem *lms_base;
+
+	/* List of pointers to port structures */
+	struct mvpp2_port **port_list;
+
+	/* Aggregated TXQs */
+	struct mvpp2_tx_queue *aggr_txqs;
+
+	/* BM pools */
+	struct mvpp2_bm_pool *bm_pools;
+
+	/* PRS shadow table */
+	struct mvpp2_prs_shadow *prs_shadow;
+	/* PRS auxiliary table for double vlan entries control */
+	MV_BOOL *prs_double_vlans;
+
+	/* Tclk value */
+	MV_U32 tclk;
+};
+
+struct mvpp2_tx_queue {
+	/* Physical number of this Tx queue */
+	MV_U8 id;
+
+	/* Logical number of this Tx queue */
+	MV_U8 log_id;
+
+	/* Number of Tx DMA descriptors in the descriptor ring */
+	MV_32 size;
+
+	/* Number of currently used Tx DMA descriptor in the descriptor ring */
+	MV_32 count;
+
+	MV_U32 done_pkts_coal;
+
+	/* Virtual address of thex Tx DMA descriptors array */
+	struct mvpp2_tx_desc *descs;
+
+	/* DMA address of the Tx DMA descriptors array */
+	dma_addr_t descs_phys;
+
+	/* Index of the last Tx DMA descriptor */
+	MV_32 last_desc;
+
+	/* Index of the next Tx DMA descriptor to process */
+	MV_32 next_desc_to_proc;
+};
+
+struct mvpp2_rx_queue {
+	/* RX queue number, in the range 0-31 for physical RXQs */
+	MV_U8 id;
+
+	/* Num of rx descriptors in the rx descriptor ring */
+	MV_32 size;
+
+	MV_U32 pkts_coal;
+	MV_U32 time_coal;
+
+	/* Virtual address of the RX DMA descriptors array */
+	struct mvpp2_rx_desc *descs;
+
+	/* DMA address of the RX DMA descriptors array */
+	dma_addr_t descs_phys;
+
+	/* Index of the last RX DMA descriptor */
+	MV_32 last_desc;
+
+	/* Index of the next RX DMA descriptor to process */
+	MV_32 next_desc_to_proc;
+
+	/* ID of port to which physical RXQ is mapped */
+	MV_32 port;
+
+	/* Port's logic RXQ number to which physical RXQ is mapped */
+	MV_32 logic_rxq;
+};
+
+enum mvpp2_bm_type {
+	MVPP2_BM_FREE,
+	MVPP2_BM_SWF_LONG,
+	MVPP2_BM_SWF_SHORT
+};
+
+struct mvpp2_bm_pool {
+	/* Pool number in the range 0-7 */
+	MV_32 id;
+	enum mvpp2_bm_type type;
+
+	/* Buffer Pointers Pool External (BPPE) size */
+	MV_32 size;
+	/* Number of buffers for this pool */
+	MV_32 buf_num;
+	/* Pool buffer size */
+	MV_32 buf_size;
+	/* Packet size */
+	MV_32 pkt_size;
+
+	/* BPPE virtual base address */
+	MV_U32 *virt_addr;
+	/* BPPE physical base address */
+	dma_addr_t phys_addr;
+
+	/* Ports using BM pool */
+	MV_U32 port_map;
+
+};
+
+static inline MV_VOID mvpp2_write(struct mvpp2 *priv, MV_U32 offset,
+				  MV_U32 data)
+{
+}
+
+static inline MV_U32 mvpp2_read(struct mvpp2 *priv, MV_U32 offset)
+{
+  return 0;
+}
+
+static inline MV_VOID mvpp2_gmac_write(struct mvpp2_port *port, MV_U32 offset,
+				       MV_U32 data)
+{
+}
+
+static inline MV_U32 mvpp2_gmac_read(struct mvpp2_port *port, MV_U32 offset)
+{
+  return 0;
+}
+#endif

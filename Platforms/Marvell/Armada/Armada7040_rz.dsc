@@ -94,3 +94,7 @@
 
   #RamDisk
   gMarvellTokenSpaceGuid.PcdRamDiskSize|64 #64MB
+
+  # NET
+  gMarvellTokenSpaceGuid.PcdPp2PortNumber|2
+  gMarvellTokenSpaceGuid.PcdPhySmiAddresses|{ 0x0, 0x1 }
