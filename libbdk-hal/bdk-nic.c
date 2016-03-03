@@ -294,7 +294,7 @@ static int vnic_setup_tx_shaping(nic_t *nic)
                 nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
                 break;
             case BDK_NIC_TYPE_LBK:
-                tl1_index = BDK_NIC_LMAC_E_LBKX_CN81XX(nic->handle->index);
+                tl1_index = BDK_NIC_LMAC_E_LBKX_CN81XX(nic->handle->interface);
                 tl2_index = tl1_index;
                 nic_chan_e = BDK_NIC_CHAN_E_LBKX_CHX(nic->handle->interface, nic->handle->index);
                 break;
@@ -664,6 +664,7 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
     node_state->nic_map[handle->vnic] = nic;
 
     nic->node = handle->node;
+    nic->ntype = ntype;
     nic->vnic = handle->vnic;
     nic->qos = 0;
     nic->handle = handle;
