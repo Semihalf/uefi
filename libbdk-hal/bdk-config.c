@@ -1100,8 +1100,6 @@ static void config_set_defaults(void)
 
     /* Set the number of packet buffers */
     int num_packet_buffers = 4096;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        num_packet_buffers = 4;
     /* If DRAM is setup, allocate 8K buffers for 8 ports plus some slop */
     if (__bdk_is_dram_enabled(bdk_numa_master()))
         num_packet_buffers = 8192 * 16 + 1024;
