@@ -2,37 +2,6 @@
 # Load the CN81XX IOs
 @${ASIM}/configs/cn81xx-1s4p.asim
 
-# Set constants
-# FPA_CONST
-#mm8 0x828000000010 0x1d1b0002000020 secure
-# PKI_CONST
-#mm8 0x86c000000000 0x40004002000200 secure
-# PKI_CONST1
-#mm8 0x86c000000008 0x21402 secure
-# PKI_CONST2
-#mm8 0x86c000000010 0x400400080000c0 secure
-# PKO_CONST
-#mm8 0x854000d00040 0x1000 secure
-# SSO_CONST
-#mm8 0x860000001000 0x20100010000040 secure
-# SSO_CONST1
-#mm8 0x860000001008 0x1601000 secure
-# LBKX_CONST(0)
-mm8 0x87e018000010 0x4000001000 secure
-# LBKX_CONST1(0)
-mm8 0x87e018000018 0x0 secure
-# BGXX_CONST(0..1)
-mm8 0x87e0e0040000 0x400c000 secure
-mm8 0x87e0e1040000 0x400c000 secure
-# BGXX_CONST1(0..1)
-mm8 0x87e0e0040008 0x0 secure
-mm8 0x87e0e1040008 0x0 secure
-# NIC_PF_CONST
-mm8 0x843000000020 0x40a06013041808 secure
-# NIC_PF_CONST1
-mm8 0x843000000028 0x8 secure
-
-
 # Listen for uart connections on port 2000, 2001
 control n0.uaa0 connect ${UART0PORT}
 control n0.uaa1 connect ${UART1PORT}

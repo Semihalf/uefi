@@ -2,10 +2,6 @@
 # Load the CN83XX IOs
 @${ASIM}/configs/cn83xx-1s24p.asim
 
-# Set constants
-# PKO_CONST
-mm8 0x854000d00040 0x1000 secure
-
 # Listen for uart connections on port 2000, 2001
 control n0.uaa0 connect ${UART0PORT}
 control n0.uaa1 connect ${UART1PORT}
