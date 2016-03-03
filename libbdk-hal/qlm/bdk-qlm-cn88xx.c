@@ -1148,7 +1148,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     }
 
     /* Errata GSER-25992 - RX EQ Default Settings Update. Note model checks are
-       peformed in the function */
+       performed in the function */
     qlm_errata_gser_25992(node, qlm, baud_mhz);
 
     /* (GSER-27140) SERDES temperature drift sensitivity in receiver */

@@ -637,14 +637,14 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
         Current setup without DRAM:
         1) One RBDR allocated per BGX block. RBDR = (priv->rbdr, 0)
         2) One CQ allocated per BGX block. CQ = (priv->cq, 0)
-        3) One SQ allcoated per BGX port/channel. SQ = (priv->vnic, priv->qos)
-        4) One RQ allcoated per BGX port/channel. RQ = (priv->vnic, priv->qos)
+        3) One SQ allocated per BGX port/channel. SQ = (priv->vnic, priv->qos)
+        4) One RQ allocated per BGX port/channel. RQ = (priv->vnic, priv->qos)
 
         Current setup with DRAM:
         1) One RBDR allocated per BGX port/channel. RBDR = (priv->rbdr, 0)
         2) One CQ allocated per BGX port/channel. CQ = (priv->cq, 0)
-        3) One SQ allcoated per BGX port/channel. SQ = (priv->vnic, priv->qos)
-        4) One RQ allcoated per BGX port/channel. RQ = (priv->vnic, priv->qos)
+        3) One SQ allocated per BGX port/channel. SQ = (priv->vnic, priv->qos)
+        4) One RQ allocated per BGX port/channel. RQ = (priv->vnic, priv->qos)
        */
     void *sq_memory = memalign(BDK_CACHE_LINE_SIZE, 16 * SQ_ENTRIES);
     if (!sq_memory)
