@@ -34,7 +34,6 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(QLM_MARGIN);
     BDK_REQUIRE(RNM);
     BDK_REQUIRE(SATA);
-    BDK_REQUIRE(TNS);
     BDK_REQUIRE(TRAFFIC_GEN);
     BDK_REQUIRE(TWSI);
     BDK_REQUIRE(USB);
