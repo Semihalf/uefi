@@ -16,8 +16,12 @@ int __bdk_dram_get_num_lmc(bdk_node_t node)
     }
     else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
     {
-        BDK_CSR_INIT(lmcx_dll_ctl1, node, BDK_LMCX_DLL_CTL2(2)); // sample LMC1
+        BDK_CSR_INIT(lmcx_dll_ctl1, node, BDK_LMCX_DLL_CTL2(1)); // sample LMC1
         return (lmcx_dll_ctl1.s.intf_en) ? 2 : 1;
+    }
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+    {
+        return 1;
     }
     bdk_error("__bdk_dram_get_num_lmc() needs update for this chip\n");
     return 1;
