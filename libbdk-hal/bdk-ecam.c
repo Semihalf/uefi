@@ -145,6 +145,11 @@ int bdk_ecam_get_num(bdk_node_t node)
     else
     {
         BDK_CSR_INIT(ecam_const, node, BDK_ECAMX_CONST(0));
+        if (ecam_const.s.ecams == 0)
+        {
+            bdk_error("N%d.ECAM: Number of ecams incorrect in ECAMX_CONST\n", node);
+            return 1;
+        }
         return ecam_const.s.ecams;
     }
 }
