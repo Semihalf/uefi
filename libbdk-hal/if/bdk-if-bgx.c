@@ -1280,6 +1280,11 @@ static int if_init(bdk_if_handle_t handle)
             /* This chip doesn't have BGXX_CONST */
             bytes_per_port = (48<<10) / priv->num_port;
         }
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        {
+            /* Bug #27925 - BGX_CONST/CONST1 reset values missing, so sad...  */
+            bytes_per_port = (48<<10) / priv->num_port;
+        }
         else
         {
             BDK_CSR_INIT(bgxx_const, handle->node, BDK_BGXX_CONST(handle->interface));
