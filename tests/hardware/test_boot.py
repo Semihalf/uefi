@@ -121,9 +121,9 @@ def wait_for_main_menu(cnx):
     cnx.match("ilua) Interactive Lua prompt")
     cnx.match("tg) Traffic Generator")
     cnx.match("burn) Power Burn options")
+    cnx.match("ccpi) CCPI options")
     # Extra output allowed here
-    cnx.waitfor("ccpi) CCPI options")
-    cnx.match("rbt) Reboot")
+    cnx.waitfor("rbt) Reboot")
     cnx.waitfor("(INS)Menu choice []:")
 
 def boot_normal(cnx):
