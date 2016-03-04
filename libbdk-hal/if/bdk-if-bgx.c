@@ -1065,19 +1065,41 @@ static int xaui_link(bdk_if_handle_t handle)
                 if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 3))
                     lane -= 2;
             }
-            bdk_qlm_rx_equalization(handle->node, qlm, lane);
+            if (bdk_qlm_rx_equalization(handle->node, qlm, lane))
+            {
+                BDK_TRACE(BGX, "%s: Waiting for RX equalization\n", handle->name);
+                return -1;
+            }
             /* On 83xx DLM5-6 with XLAUI, Lanes 2-3 are on DLM6, not DLM5 so
                we need a second call */
             if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (qlm == 5) && (lane == -1))
-                bdk_qlm_rx_equalization(handle->node, 6, -1);
+            {
+                if (bdk_qlm_rx_equalization(handle->node, 6, -1))
+                {
+                    BDK_TRACE(BGX, "%s: Waiting for RX equalization\n", handle->name);
+                    return -1;
+                }
+            }
             /* On 81xx DLM0-1 with XLAUI, Lanes 2-3 are on DLM1, not DLM0 so
                we need a second call */
             if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 0) && (lane == -1))
-                bdk_qlm_rx_equalization(handle->node, 1, -1);
+            {
+                if (bdk_qlm_rx_equalization(handle->node, 1, -1))
+                {
+                    BDK_TRACE(BGX, "%s: Waiting for RX equalization\n", handle->name);
+                    return -1;
+                }
+            }
             /* On 83xx DLM2-3 with XLAUI, Lanes 2-3 are on DLM3, not DLM2 so
                we need a second call */
             if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 2) && (lane == -1))
-                bdk_qlm_rx_equalization(handle->node, 3, -1);
+            {
+                if (bdk_qlm_rx_equalization(handle->node, 3, -1))
+                {
+                    BDK_TRACE(BGX, "%s: Waiting for RX equalization\n", handle->name);
+                    return -1;
+                }
+            }
         }
         else if (priv->mode == BGX_MODE_RXAUI)
         {
@@ -1086,19 +1108,31 @@ static int xaui_link(bdk_if_handle_t handle)
             if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((qlm == 5) || (qlm == 6)))
             {
                 /* DLM5 and 6 are 2 lanes, so RXAUI always covers both lanes */
-                bdk_qlm_rx_equalization(handle->node, qlm, -1);
+                if (bdk_qlm_rx_equalization(handle->node, qlm, -1))
+                {
+                    BDK_TRACE(BGX, "%s: Waiting for RX equalization\n", handle->name);
+                    return -1;
+                }
             }
             if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
             {
                 /* All DLMs, so RXAUI always covers both lanes */
-                bdk_qlm_rx_equalization(handle->node, qlm, -1);
+                if (bdk_qlm_rx_equalization(handle->node, qlm, -1))
+                {
+                    BDK_TRACE(BGX, "%s: Waiting for RX equalization\n", handle->name);
+                    return -1;
+                }
             }
             else
             {
                 BDK_CSR_INIT(cmrx, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, handle->index));
                 int lane = cmrx.s.lane_to_sds & 3;
-                bdk_qlm_rx_equalization(handle->node, qlm, lane);
-                bdk_qlm_rx_equalization(handle->node, qlm, lane+1);
+                if (bdk_qlm_rx_equalization(handle->node, qlm, lane) ||
+                    bdk_qlm_rx_equalization(handle->node, qlm, lane + 1))
+                {
+                    BDK_TRACE(BGX, "%s: Waiting for RX equalization\n", handle->name);
+                    return -1;
+                }
             }
         }
 
