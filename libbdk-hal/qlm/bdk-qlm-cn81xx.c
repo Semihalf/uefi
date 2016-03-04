@@ -539,13 +539,16 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.start_bist = 1);
     }
     bdk_wait_usec(1000);
-    for (int p = sata_port; p < sata_port_end; p++)
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
-        BDK_CSR_INIT(bist, node, BDK_SATAX_UCTL_BIST_STATUS(p));
-        if (bist.u)
-            bdk_error("N%d.SATA%d: Controller failed BIST (0x%lx)\n", node, p, bist.u);
-        else
-            BDK_TRACE(SATA, "N%d.SATA%d: Passed BIST\n", node, p);
+        for (int p = sata_port; p < sata_port_end; p++)
+        {
+            BDK_CSR_INIT(bist, node, BDK_SATAX_UCTL_BIST_STATUS(p));
+            if (bist.u)
+                bdk_error("N%d.SATA%d: Controller failed BIST (0x%lx)\n", node, p, bist.u);
+            else
+                BDK_TRACE(SATA, "N%d.SATA%d: Passed BIST\n", node, p);
+        }
     }
 
     /* Apply any custom tuning */
