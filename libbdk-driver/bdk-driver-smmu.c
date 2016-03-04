@@ -36,7 +36,7 @@ static int init(bdk_device_t *device)
 }
 
 bdk_driver_t __bdk_driver_smmu = {
-    .id = 0xa000177d | (BDK_PCC_DEV_IDL_E_SMMU << 16),
+    .id = (BDK_PCC_PROD_E_GEN << 24) | BDK_PCC_VENDOR_E_CAVIUM | (BDK_PCC_DEV_IDL_E_SMMU << 16),
     .probe = probe,
     .init = init,
 };

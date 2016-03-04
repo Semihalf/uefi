@@ -7,7 +7,7 @@ BDK_REQUIRE_DEFINE(MDIO);
 /* To maintain backwards compatibility for the old MDIO API we need
    to lookup the MDIO device on the ECAM bus by ID. This defines
    the ID */
-#define MDIO_DEVID (0xa000177d | (BDK_PCC_DEV_IDL_E_SMI << 16))
+#define MDIO_DEVID ((BDK_PCC_PROD_E_GEN << 24) | BDK_PCC_VENDOR_E_CAVIUM | (BDK_PCC_DEV_IDL_E_SMI << 16))
 
 #define BDK_MDIO_TIMEOUT   100000 /* 100 millisec */
 
