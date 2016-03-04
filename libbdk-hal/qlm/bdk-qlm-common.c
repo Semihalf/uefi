@@ -1093,14 +1093,23 @@ int __bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int qlm_lane)
     if (bdk_qlm_get_mode(node, qlm) <= BDK_QLM_MODE_PCIE_1X8)
         return -1;
 
-    int fail = 0;
+    int fail = 0; /* Bitmask of lanes that failed */
     int MAX_LANES = bdk_qlm_get_lanes(node, qlm);
 
     BDK_TRACE(QLM, "N%d.QLM%d: Starting RX equalization on lane %d\n", node, qlm, qlm_lane);
     for (int lane = 0; lane < MAX_LANES; lane++)
     {
+        /* Skip lanes we don't care about */
         if ((qlm_lane != -1) && (qlm_lane != lane))
             continue;
+        /* Check that the lane has completed CDR lock */
+        BDK_CSR_INIT(eie_detsts, node, BDK_GSERX_RX_EIE_DETSTS(qlm));
+        if (((1 << lane) & eie_detsts.s.cdrlock) == 0)
+        {
+            /* Mark bad so we skip this lane below */
+            fail |= 1 << lane;
+            continue;
+        }
         /* Enable software control */
         BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_CTL(qlm, lane),
             c.s.rxt_swm = 1);
@@ -1117,7 +1126,11 @@ int __bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int qlm_lane)
            was about the same time. DXAUI and RXAUI both took 2-3ms. Put the
            timeout at 250ms, which is roughly 10x my measurements. */
         const int TIMEOUT_US = 250000; /* 250ms */
+        /* Skip lanes we don't care about */
         if ((qlm_lane != -1) && (qlm_lane != lane))
+            continue;
+        /* Skip lane if it failed CDR lock above */
+        if (fail & (1 << lane))
             continue;
         BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_BR_RXX_EER(qlm, lane), rxt_esv, ==, 1, TIMEOUT_US);
         BDK_CSR_INIT(gserx_br_rxx_eer, node, BDK_GSERX_BR_RXX_EER(qlm, lane));
@@ -1131,7 +1144,7 @@ int __bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int qlm_lane)
         else
         {
             BDK_TRACE(QLM, "N%d.QLM%d: Lane %d RX equalization timeout\n", node, qlm, lane);
-            fail = 1;
+            fail |= 1 << lane;
         }
     }
 
