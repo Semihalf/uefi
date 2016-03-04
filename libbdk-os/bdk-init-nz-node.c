@@ -236,6 +236,38 @@ static int qlm_errata_gser_25992(bdk_node_t node, int qlm, int baud_mhz)
     return 0;
 }
 
+/**
+ * Errata GSER-27882 -GSER 10GBASE-KR Transmit Equalizer
+ * Training may not update PHY Tx Taps. This function is not static
+ * so we can share it with BGX KR
+ * Applies to:
+ *     CN88XX pass 1.x, 2.x
+ * Fixed in hardware:
+ *     CN81XX
+ *     CN83XX
+ *
+ * @param node   Node to apply errata fix for
+ * @param qlm    QLM to apply errata fix to
+ * @param lane
+ *
+ * @return Zero on success, negative on failure
+ */
+int __bdk_qlm_errata_gser_27882(bdk_node_t node, int qlm, int lane)
+{
+    /* Toggle Toggle Tx Coeff Req override to force an update */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_0(qlm, lane),
+        c.s.cfg_tx_coeff_req_ovrrd_val = 1);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+        c.s.cfg_tx_coeff_req_ovrrd_en = 1);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+        c.s.ctlifc_ovrrd_req = 1);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+        c.s.cfg_tx_coeff_req_ovrrd_en = 0);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+        c.s.ctlifc_ovrrd_req = 1);
+    return 0;
+}
+
 static void restart_training(int lane)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
@@ -586,6 +618,8 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
                         trn_ld.s.ld_sr_dat = rep.u;
                         BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), trn_ld.u);
                     }
+                    /* Toggle Toggle Tx Coeff Req override to force an update */
+                    __bdk_qlm_errata_gser_27882(node, ccpi_qlm + 8, lane & 3);
 
                     if (ccpi_trace)
                     {
@@ -611,12 +645,34 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
                         bdk_dbg_uart_char(')');
 
                         BDK_CSR_INIT(tap, node, BDK_GSERX_BR_TXX_TAP(ccpi_qlm + 8, lane & 3));
-                        bdk_dbg_uart_str("post=");
+                        bdk_dbg_uart_str(",TAP(post=");
                         uart_dec2(tap.s.txt_post);
                         bdk_dbg_uart_str(",main=");
                         uart_dec2(tap.s.txt_swing);
                         bdk_dbg_uart_str(",pre=");
                         uart_dec2(tap.s.txt_pre);
+                        bdk_dbg_uart_char(')');
+#if 0
+                        BDK_CSR_INIT(mac_in, node, BDK_GSERX_LANEX_PCS_MACIFC_MON_2(ccpi_qlm + 8, lane & 3));
+                        bdk_dbg_uart_str(",MAC_IN(post=");
+                        uart_dec2(mac_in.s.tx_post);
+                        bdk_dbg_uart_str(",main=");
+                        uart_dec2(mac_in.s.tx_swing);
+                        bdk_dbg_uart_str(",pre=");
+                        uart_dec2(mac_in.s.tx_pre);
+                        bdk_dbg_uart_str(",update=");
+                        uart_dec1(mac_in.s.tx_coeff_req);
+
+                        BDK_CSR_INIT(pin1, node, BDK_GSERX_LANEX_SDS_PIN_MON_1(ccpi_qlm + 8, lane & 3));
+                        BDK_CSR_INIT(pin2, node, BDK_GSERX_LANEX_SDS_PIN_MON_2(ccpi_qlm + 8, lane & 3));
+                        bdk_dbg_uart_str("),RAW(post=");
+                        uart_dec2(pin2.s.pcs_sds_premptap >> 4);
+                        bdk_dbg_uart_str(",main=");
+                        uart_dec2(pin1.s.pcs_sds_tx_swing);
+                        bdk_dbg_uart_str(",pre=");
+                        uart_dec2(pin2.s.pcs_sds_premptap & 0xf);
+                        bdk_dbg_uart_char(')');
+#endif
                         if (training_stable)
                             bdk_dbg_uart_str(" (Ready)");
                     }
