@@ -7,38 +7,36 @@ import select
 import subprocess
 import time
 import telnetlib
-
+import logging
 #
 # Log file implementation
 #
 class Log:
     def __init__(self, filename):
         filename += time.strftime("-%Y-%m-%d-%H:%M:%S")
-        self.file = open(filename, "w")
+        logging.basicConfig(filename=filename, mode="w", level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+        self.logger = logging.getLogger('')
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.INFO)
+        fmt = logging.Formatter('%(message)s')
+        ch.setFormatter(fmt)
+        self.logger.addHandler(ch)
+
         self.outputbuf = ""
         self.saw_cr = False
 
-    def close(self):
-        self.flush()
-        self.file.close()
+        self.logInfo(str(self.logger.handlers))
 
     def flush(self):
         if self.outputbuf:
             if self.outputbuf[-1] != "\n":
                 self.outputbuf += "\n"
             for l in self.outputbuf[0:-1].split("\n"):
-                self.file.write(">>> " + l + "\n")
-                print ">>> " + l
+                self.logger.info(">>>" + l)
             self.outputbuf = ""
-        self.file.flush();
-
-    def _write(self, data):
-        self.flush()
-        self.file.write(data)
 
     def logInput(self, data):
-        self._write("<<< " + data + "\n")
-        print "<<< " + data
+        self.logger.info("<<< " + data)
 
     def logOutput(self, data):
         if data == "\n":
@@ -55,8 +53,7 @@ class Log:
             self.outputbuf += data
 
     def logInfo(self, data):
-        self._write("*** " + data + "\n")
-        print "*** " + data
+        self.logger.info("*** " + data)
 
 #
 # Implements a serial port connection. Used by GenericPort
