@@ -538,5 +538,12 @@ cavium,bdk {
 	   -1 =  No connection exists  */
 	//RTC-TWSI-CONFIG = "-1";
 	RTC-TWSI-CONFIG = "0x000068";
+
+	/* SGPIO configuration (Connector P1) */
+	SGPIO-SCLOCK-FREQ = "10000";
+	SGPIO-PIN-POWER = "29";
+	SGPIO-PIN-SCLOCK = "26";
+	SGPIO-PIN-SLOAD = "28";
+	SGPIO-PIN-SDATAOUT.N0.D0 = "27";
 }; /* cavium,bdk */
 }; /* / */
