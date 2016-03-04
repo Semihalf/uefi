@@ -1049,7 +1049,12 @@ static int xaui_link(bdk_if_handle_t handle)
         /* (GSER-21957) GSER RX Equalization may make >= 5gbaud non-KR channel better
            With DXAUI, RXAUI, XFI and XLAUI, we need to perform RX equalization when
            the link is receiving data the first time */
-        if ((priv->mode == BGX_MODE_XFI) || (priv->mode == BGX_MODE_XLAUI) ||
+        BDK_CSR_INIT(spux_control1, handle->node, BDK_BGXX_SPUX_CONTROL1(handle->interface, priv->port));
+        if (spux_control1.s.loopbck)
+        {
+            /* Skip RX equalization when in loopback */
+        }
+        else if ((priv->mode == BGX_MODE_XFI) || (priv->mode == BGX_MODE_XLAUI) ||
             (priv->mode == BGX_MODE_DXAUI))
         {
             int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
