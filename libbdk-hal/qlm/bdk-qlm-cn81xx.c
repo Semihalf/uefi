@@ -187,13 +187,9 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         switch (qlm)
         {
             case 0:
-                bgx = 0;
-                bgx_index = 0;
-                break;
-            case 1:
             {
                 bgx = 0;
-                bgx_index = 2;
+                bgx_index = 1;
                 /* Special check for RXAUI on DLM0. If DLM1, BGX will overwrite
                    index 1 with XFI's mode */
                 BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, 0));
@@ -201,14 +197,14 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                     bgx_index=0;
                 break;
             }
-            case 2:
-                bgx = 1;
-                bgx_index = 0;
+            case 1:
+                bgx = 0;
+                bgx_index = 3;
                 break;
-            case 3:
+            case 2:
             {
                 bgx = 1;
-                bgx_index = 2;
+                bgx_index = 1;
                 /* Special check for RXAUI on DLM2. If DLM3, BGX will overwrite
                    index 1 with XFI's mode */
                 BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, 2));
@@ -216,6 +212,10 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                     bgx_index=0;
                 break;
             }
+            case 3:
+                bgx = 1;
+                bgx_index = 3;
+                break;
             default:
                 return BDK_QLM_MODE_DISABLED;
         }
@@ -582,19 +582,19 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     {
         case 0:
             bgx_block = 0;
-            bgx_index = 0;
+            bgx_index = 1;
             break;
         case 1:
             bgx_block = 0;
-            bgx_index = 2;
+            bgx_index = 3;
             break;
         case 2:
             bgx_block = 1;
-            bgx_index = 0;
+            bgx_index = 1;
             break;
         case 3:
             bgx_block = 1;
-            bgx_index = 2;
+            bgx_index = 3;
             break;
         default:
             bgx_block = -1;
@@ -862,6 +862,18 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* If we're setting up the first DLM of a 4 lane interface on DLM0, go
        ahead and setup the other inteface automatically */
     if ((qlm == 0) && ((mode == BDK_QLM_MODE_XAUI_1X4) ||
+                       (mode == BDK_QLM_MODE_XLAUI_1X4) ||
+                       (mode == BDK_QLM_MODE_40G_KR4_1X4)))
+    {
+        /* Use the same reference clock for the second DLM */
+        BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
+            BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
+        return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
+    }
+
+    /* If we're setting up the first DLM of a 4 lane interface on DLM2, go
+       ahead and setup the other inteface automatically */
+    if ((qlm == 2) && ((mode == BDK_QLM_MODE_XAUI_1X4) ||
                        (mode == BDK_QLM_MODE_XLAUI_1X4) ||
                        (mode == BDK_QLM_MODE_40G_KR4_1X4)))
     {
