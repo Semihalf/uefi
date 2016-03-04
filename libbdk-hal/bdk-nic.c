@@ -507,6 +507,11 @@ static void if_receive(int unused, void *hand)
         BDK_CSR_WRITE(nic->node, BDK_NIC_QSX_RBDRX_DOOR(rbdr, rbdr_idx), rbdr_doorbell);
         /* Free all the CQs that we've processed */
         BDK_CSR_WRITE(nic->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
+        /* Yield before going through more packets. The low core count chips
+           don't have enough cores to dedicate for TX and RX. This forces
+           sharing under load. If there are enough cores, the yield does
+           nothing */
+        bdk_thread_yield();
     }
 }
 

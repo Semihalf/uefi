@@ -509,6 +509,12 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
             {
                 if (bdk_unlikely(--count == 0))
                     break;
+                /* Yield every 64K packets. The low core count chips don't
+                   have enough cores to dedicate for TX and RX. This forces
+                   sharing under load. If there are enough cores, the yield
+                   does nothing */
+                if ((count & 0xffff) == 0)
+                    bdk_thread_yield();
             }
             else
             {
