@@ -388,9 +388,9 @@ typedef union
     struct bdk_pciercx_cfg004_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t unused                : 32; /**< [ 31:  0](RO/H) Unused. */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/H) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t unused                : 32; /**< [ 31:  0](RO/H) Unused. */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/H) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg004_s cn81xx; */
@@ -435,9 +435,9 @@ typedef union
     struct bdk_pciercx_cfg005_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t unused                : 32; /**< [ 31:  0](RO/H) Unused. */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/H) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t unused                : 32; /**< [ 31:  0](RO/H) Unused. */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/H) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg005_s cn81xx; */
@@ -931,9 +931,9 @@ typedef union
     struct bdk_pciercx_cfg014_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL) Reserved. */
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_pciercx_cfg014_t;
@@ -1029,8 +1029,8 @@ typedef union
                                                                  responds by sending TS1s with the hot reset bit set, which will cause a link down event.
                                                                  Refer to 'PCIe Link-Down Reset in RC Mode' section. */
         uint32_t mam                   : 1;  /**< [ 21: 21](RO) Master abort mode. Not applicable to PCI Express, hardwired to 0. */
-        uint32_t vga16d                : 1;  /**< [ 20: 20](R/W) VGA 16-bit decode. */
-        uint32_t vgae                  : 1;  /**< [ 19: 19](R/W) VGA enable. */
+        uint32_t vga16d                : 1;  /**< [ 20: 20](RO) VGA 16-bit decode. */
+        uint32_t vgae                  : 1;  /**< [ 19: 19](RO) VGA enable. */
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
@@ -1042,8 +1042,8 @@ typedef union
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
-        uint32_t vgae                  : 1;  /**< [ 19: 19](R/W) VGA enable. */
-        uint32_t vga16d                : 1;  /**< [ 20: 20](R/W) VGA 16-bit decode. */
+        uint32_t vgae                  : 1;  /**< [ 19: 19](RO) VGA enable. */
+        uint32_t vga16d                : 1;  /**< [ 20: 20](RO) VGA 16-bit decode. */
         uint32_t mam                   : 1;  /**< [ 21: 21](RO) Master abort mode. Not applicable to PCI Express, hardwired to 0. */
         uint32_t sbrst                 : 1;  /**< [ 22: 22](R/W) Secondary bus reset. Hot reset. Causes TS1s with the hot reset bit to be sent to the link
                                                                  partner. When set, software should wait 2 ms before clearing. The link partner normally
@@ -1214,7 +1214,7 @@ typedef union
     struct bdk_pciercx_cfg016_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
+        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
                                                                  capable of generating PME messages while in that power state:
 
                                                                  _ Bit 11: If set, PME Messages can be generated from D0.
@@ -1256,7 +1256,7 @@ typedef union
                                                                  this field. */
         uint32_t d1s                   : 1;  /**< [ 25: 25](RO/WRSL) D1 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t d2s                   : 1;  /**< [ 26: 26](RO/WRSL) D2 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
+        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
                                                                  capable of generating PME messages while in that power state:
 
                                                                  _ Bit 11: If set, PME Messages can be generated from D0.
@@ -1346,52 +1346,7 @@ typedef union
         uint32_t pmdia                 : 8;  /**< [ 31: 24](RO) Data register for additional information (not supported). */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg017_s cn81xx; */
-    /* struct bdk_pciercx_cfg017_s cn88xx; */
-    struct bdk_pciercx_cfg017_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pmdia                 : 8;  /**< [ 31: 24](RO) Data register for additional information (not supported). */
-        uint32_t bpccee                : 1;  /**< [ 23: 23](RO) Bus power/clock control enable, hardwired to 0. */
-        uint32_t bd3h                  : 1;  /**< [ 22: 22](RO) B2/B3 support, hardwired to 0. */
-        uint32_t reserved_16_21        : 6;
-        uint32_t pmess                 : 1;  /**< [ 15: 15](R/W1C/H) PME status. Indicates whether or not a previously enabled PME event occurred. */
-        uint32_t pmedsia               : 2;  /**< [ 14: 13](RO) Data scale (not supported). */
-        uint32_t pmds                  : 4;  /**< [ 12:  9](RO) Data select (not supported). */
-        uint32_t pmeens                : 1;  /**< [  8:  8](R/W) PME enable. A value of 1 indicates that the device is enabled to generate PME. */
-        uint32_t reserved_4_7          : 4;
-        uint32_t nsr                   : 1;  /**< [  3:  3](RO/WRSL) No soft reset, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t reserved_2            : 1;
-        uint32_t ps                    : 2;  /**< [  1:  0](R/W) Power state. Controls the device power state:
-                                                                 0x0 = D0.
-                                                                 0x1 = D1.
-                                                                 0x2 = D2.
-                                                                 0x3 = D3.
-
-                                                                 The written value is ignored if the specific state is not supported. */
-#else /* Word 0 - Little Endian */
-        uint32_t ps                    : 2;  /**< [  1:  0](R/W) Power state. Controls the device power state:
-                                                                 0x0 = D0.
-                                                                 0x1 = D1.
-                                                                 0x2 = D2.
-                                                                 0x3 = D3.
-
-                                                                 The written value is ignored if the specific state is not supported. */
-        uint32_t reserved_2            : 1;
-        uint32_t nsr                   : 1;  /**< [  3:  3](RO/WRSL) No soft reset, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t reserved_4_7          : 4;
-        uint32_t pmeens                : 1;  /**< [  8:  8](R/W) PME enable. A value of 1 indicates that the device is enabled to generate PME. */
-        uint32_t pmds                  : 4;  /**< [ 12:  9](RO) Data select (not supported). */
-        uint32_t pmedsia               : 2;  /**< [ 14: 13](RO) Data scale (not supported). */
-        uint32_t pmess                 : 1;  /**< [ 15: 15](R/W1C/H) PME status. Indicates whether or not a previously enabled PME event occurred. */
-        uint32_t reserved_16_21        : 6;
-        uint32_t bd3h                  : 1;  /**< [ 22: 22](RO) B2/B3 support, hardwired to 0. */
-        uint32_t bpccee                : 1;  /**< [ 23: 23](RO) Bus power/clock control enable, hardwired to 0. */
-        uint32_t pmdia                 : 8;  /**< [ 31: 24](RO) Data register for additional information (not supported). */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg017_s cn; */
 } bdk_pciercx_cfg017_t;
 
 static inline uint64_t BDK_PCIERCX_CFG017(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2159,7 +2114,7 @@ typedef union
                                                                  max read request size. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
         uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
-        uint32_t pf_en                 : 1;  /**< [  9:  9](R/W) Phantom function enable. This bit should never be set; CNXXXX requests never uses phantom
+        uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable. This bit should never be set; CNXXXX requests never uses phantom
                                                                  functions. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags. */
         uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
@@ -2192,7 +2147,7 @@ typedef union
                                                                  DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
                                                                  functionality. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags. */
-        uint32_t pf_en                 : 1;  /**< [  9:  9](R/W) Phantom function enable. This bit should never be set; CNXXXX requests never uses phantom
+        uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable. This bit should never be set; CNXXXX requests never uses phantom
                                                                  functions. */
         uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
@@ -2679,11 +2634,11 @@ typedef union
         uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
                                                                  interrupt to indicate that the link bandwidth management status bit has been set. */
         uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
-        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
+        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
                                                                  link capabilities register. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
         uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
-        uint32_t rl                    : 1;  /**< [  5:  5](R/W) Retrain link. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. */
         uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
         uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
@@ -2697,10 +2652,10 @@ typedef union
                                                                  PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
                                                                  bytes is not supported. */
         uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
-        uint32_t rl                    : 1;  /**< [  5:  5](R/W) Retrain link. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. */
         uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
-        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
+        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
                                                                  link capabilities register. */
         uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
         uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
@@ -2816,59 +2771,7 @@ typedef union
                                                                  change this field. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg033_s cn88xxp1; */
-    /* struct bdk_pciercx_cfg033_s cn81xx; */
-    /* struct bdk_pciercx_cfg033_s cn83xx; */
-    struct bdk_pciercx_cfg033_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ps_num                : 13; /**< [ 31: 19](RO/WRSL) Physical slot number, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. */
-        uint32_t nccs                  : 1;  /**< [ 18: 18](RO/WRSL) No command complete support, writable through PEM()_CFG_WR. However, the application
-                                                                 must not change this field. */
-        uint32_t emip                  : 1;  /**< [ 17: 17](RO/WRSL) Electromechanical interlock present, writable through PEM()_CFG_WR. However, the
-                                                                 application must not change this field. */
-        uint32_t sp_ls                 : 2;  /**< [ 16: 15](RO/WRSL) Slot power limit scale, writable through PEM()_CFG_WR. */
-        uint32_t sp_lv                 : 8;  /**< [ 14:  7](RO/WRSL) Slot power limit value, writable through PEM()_CFG_WR. */
-        uint32_t hp_c                  : 1;  /**< [  6:  6](RO/WRSL) Hot plug capable, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. Changed in pass 2. */
-        uint32_t hp_s                  : 1;  /**< [  5:  5](RO/WRSL) Hot plug surprise, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. Changed in pass 2. */
-        uint32_t pip                   : 1;  /**< [  4:  4](RO/WRSL) Power indicator present, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t aip                   : 1;  /**< [  3:  3](RO/WRSL) Attention indicator present, writable through PEM()_CFG_WR. However, the application
-                                                                 must not change this field. */
-        uint32_t mrlsp                 : 1;  /**< [  2:  2](RO/WRSL) MRL sensor present, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. */
-        uint32_t pcp                   : 1;  /**< [  1:  1](RO/WRSL) Power controller present, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t abp                   : 1;  /**< [  0:  0](RO/WRSL) Attention button present, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-#else /* Word 0 - Little Endian */
-        uint32_t abp                   : 1;  /**< [  0:  0](RO/WRSL) Attention button present, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t pcp                   : 1;  /**< [  1:  1](RO/WRSL) Power controller present, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t mrlsp                 : 1;  /**< [  2:  2](RO/WRSL) MRL sensor present, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. */
-        uint32_t aip                   : 1;  /**< [  3:  3](RO/WRSL) Attention indicator present, writable through PEM()_CFG_WR. However, the application
-                                                                 must not change this field. */
-        uint32_t pip                   : 1;  /**< [  4:  4](RO/WRSL) Power indicator present, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t hp_s                  : 1;  /**< [  5:  5](RO/WRSL) Hot plug surprise, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. Changed in pass 2. */
-        uint32_t hp_c                  : 1;  /**< [  6:  6](RO/WRSL) Hot plug capable, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. Changed in pass 2. */
-        uint32_t sp_lv                 : 8;  /**< [ 14:  7](RO/WRSL) Slot power limit value, writable through PEM()_CFG_WR. */
-        uint32_t sp_ls                 : 2;  /**< [ 16: 15](RO/WRSL) Slot power limit scale, writable through PEM()_CFG_WR. */
-        uint32_t emip                  : 1;  /**< [ 17: 17](RO/WRSL) Electromechanical interlock present, writable through PEM()_CFG_WR. However, the
-                                                                 application must not change this field. */
-        uint32_t nccs                  : 1;  /**< [ 18: 18](RO/WRSL) No command complete support, writable through PEM()_CFG_WR. However, the application
-                                                                 must not change this field. */
-        uint32_t ps_num                : 13; /**< [ 31: 19](RO/WRSL) Physical slot number, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_pciercx_cfg033_s cn; */
 } bdk_pciercx_cfg033_t;
 
 static inline uint64_t BDK_PCIERCX_CFG033(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2999,56 +2902,7 @@ typedef union
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg034_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_25_31        : 7;
-        uint32_t dlls_c                : 1;  /**< [ 24: 24](R/W1C/H) Data link layer state changed. */
-        uint32_t emis                  : 1;  /**< [ 23: 23](RO) Electromechanical interlock status. */
-        uint32_t pds                   : 1;  /**< [ 22: 22](RO) Presence detect state. */
-        uint32_t mrlss                 : 1;  /**< [ 21: 21](RO) MRL sensor state. */
-        uint32_t ccint_d               : 1;  /**< [ 20: 20](R/W1C/H) Command completed. */
-        uint32_t pd_c                  : 1;  /**< [ 19: 19](R/W1C/H) Presence detect changed. */
-        uint32_t mrls_c                : 1;  /**< [ 18: 18](R/W1C/H) MRL sensor changed. */
-        uint32_t pf_d                  : 1;  /**< [ 17: 17](R/W1C/H) Power fault detected. */
-        uint32_t abp_d                 : 1;  /**< [ 16: 16](R/W1C/H) Attention button pressed. */
-        uint32_t reserved_13_15        : 3;
-        uint32_t dlls_en               : 1;  /**< [ 12: 12](R/W) Data link layer state changed enable. */
-        uint32_t emic                  : 1;  /**< [ 11: 11](R/W) Electromechanical interlock control. */
-        uint32_t pcc                   : 1;  /**< [ 10: 10](R/W) Power controller control. */
-        uint32_t pic                   : 2;  /**< [  9:  8](R/W) Power indicator control. */
-        uint32_t aic                   : 2;  /**< [  7:  6](R/W) Attention indicator control. */
-        uint32_t hpint_en              : 1;  /**< [  5:  5](R/W) Hot-plug interrupt enable. */
-        uint32_t ccint_en              : 1;  /**< [  4:  4](R/W) Command completed interrupt enable. */
-        uint32_t pd_en                 : 1;  /**< [  3:  3](R/W) Presence detect changed enable. */
-        uint32_t mrls_en               : 1;  /**< [  2:  2](R/W) MRL sensor changed enable. */
-        uint32_t pf_en                 : 1;  /**< [  1:  1](R/W) Power fault detected enable. */
-        uint32_t abp_en                : 1;  /**< [  0:  0](R/W) Attention button pressed enable. */
-#else /* Word 0 - Little Endian */
-        uint32_t abp_en                : 1;  /**< [  0:  0](R/W) Attention button pressed enable. */
-        uint32_t pf_en                 : 1;  /**< [  1:  1](R/W) Power fault detected enable. */
-        uint32_t mrls_en               : 1;  /**< [  2:  2](R/W) MRL sensor changed enable. */
-        uint32_t pd_en                 : 1;  /**< [  3:  3](R/W) Presence detect changed enable. */
-        uint32_t ccint_en              : 1;  /**< [  4:  4](R/W) Command completed interrupt enable. */
-        uint32_t hpint_en              : 1;  /**< [  5:  5](R/W) Hot-plug interrupt enable. */
-        uint32_t aic                   : 2;  /**< [  7:  6](R/W) Attention indicator control. */
-        uint32_t pic                   : 2;  /**< [  9:  8](R/W) Power indicator control. */
-        uint32_t pcc                   : 1;  /**< [ 10: 10](R/W) Power controller control. */
-        uint32_t emic                  : 1;  /**< [ 11: 11](R/W) Electromechanical interlock control. */
-        uint32_t dlls_en               : 1;  /**< [ 12: 12](R/W) Data link layer state changed enable. */
-        uint32_t reserved_13_15        : 3;
-        uint32_t abp_d                 : 1;  /**< [ 16: 16](R/W1C/H) Attention button pressed. */
-        uint32_t pf_d                  : 1;  /**< [ 17: 17](R/W1C/H) Power fault detected. */
-        uint32_t mrls_c                : 1;  /**< [ 18: 18](R/W1C/H) MRL sensor changed. */
-        uint32_t pd_c                  : 1;  /**< [ 19: 19](R/W1C/H) Presence detect changed. */
-        uint32_t ccint_d               : 1;  /**< [ 20: 20](R/W1C/H) Command completed. */
-        uint32_t mrlss                 : 1;  /**< [ 21: 21](RO) MRL sensor state. */
-        uint32_t pds                   : 1;  /**< [ 22: 22](RO) Presence detect state. */
-        uint32_t emis                  : 1;  /**< [ 23: 23](RO) Electromechanical interlock status. */
-        uint32_t dlls_c                : 1;  /**< [ 24: 24](R/W1C/H) Data link layer state changed. */
-        uint32_t reserved_25_31        : 7;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg034_s cn83xx; */
 } bdk_pciercx_cfg034_t;
 
 static inline uint64_t BDK_PCIERCX_CFG034(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3342,16 +3196,16 @@ typedef union
                                                                  0x0 = 4. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
         uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
-                                                                 the application must not change this field. Changed for pass 2.0. */
+                                                                 the application must not change this field. */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. Changed in pass 2. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
         uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
@@ -3361,9 +3215,9 @@ typedef union
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
         uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. Changed in pass 2. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
@@ -3371,7 +3225,7 @@ typedef union
         uint32_t reserved_14_17        : 4;
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
-                                                                 the application must not change this field. Changed for pass 2.0. */
+                                                                 the application must not change this field. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
         uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
                                                                  0x1 = 1.
@@ -4868,26 +4722,7 @@ typedef union
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg064_s cn81xx; */
-    /* struct bdk_pciercx_cfg064_s cn88xx; */
-    struct bdk_pciercx_cfg064_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the secondary PCI Express capabilities by default.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-#else /* Word 0 - Little Endian */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the secondary PCI Express capabilities by default.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg064_s cn; */
 } bdk_pciercx_cfg064_t;
 
 static inline uint64_t BDK_PCIERCX_CFG064(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5173,52 +5008,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pciercx_cfg066_cn81xx cn83xx; */
-    struct bdk_pciercx_cfg066_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. Changed in pass 2. */
-        uint32_t reserved_23           : 1;
-        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
-        uint32_t reserved_21           : 1;
-        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
-        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
-        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
-        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
-        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
-        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
-        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
-        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
-        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
-        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
-        uint32_t reserved_1_3          : 3;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1_3          : 3;
-        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
-        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
-        uint32_t reserved_6_11         : 6;
-        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
-        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
-        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
-        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
-        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
-        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
-        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
-        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
-        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
-        uint32_t reserved_21           : 1;
-        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
-        uint32_t reserved_23           : 1;
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. Changed in pass 2. */
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_pciercx_cfg066_cn81xx cn88xxp2; */
 } bdk_pciercx_cfg066_t;
 
 static inline uint64_t BDK_PCIERCX_CFG066(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5373,48 +5163,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pciercx_cfg067_cn81xx cn83xx; */
-    struct bdk_pciercx_cfg067_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. Changed in pass 2. */
-        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
-        uint32_t reserved_1_3          : 3;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1_3          : 3;
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
-        uint32_t reserved_6_11         : 6;
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
-        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. Changed in pass 2. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_pciercx_cfg067_cn81xx cn88xxp2; */
 } bdk_pciercx_cfg067_t;
 
 static inline uint64_t BDK_PCIERCX_CFG067(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6086,18 +5835,18 @@ typedef union
     struct bdk_pciercx_cfg086_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific capabilities.
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the Vendor Specific capabilities.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability.
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability.
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific capabilities.
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the Vendor Specific capabilities.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
     } cn83xx;
@@ -9279,39 +9028,47 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
-        uint32_t force_rem_txcoef_en   : 1;  /**< [ 28: 28](R/W) Force remote transmitter coefficient enable.
+        uint32_t force_rem_txcoef_en   : 1;  /**< [ 28: 28](R/W) Force remote transmitter coefficient enable as selected by
+                                                                 PCIERC()_CFG161[EQ_LANE_SEL][RATE_SEL].
                                                                  Enables the following fields:
                                                                  FORCE_REMOTE_TX_PRE_CURSOR
                                                                  FORCE_REMOTE_TX_CURSOR
                                                                  FORCE_REMOTE_TX_POST_CURSOR */
         uint32_t reserved_18_27        : 10;
-        uint32_t force_rem_txpost_cur  : 6;  /**< [ 17: 12](R/W) Force remote transmitter post-cursor.
+        uint32_t force_rem_txpost_cur  : 6;  /**< [ 17: 12](R/W) Force remote transmitter post-cursor as selected by
+                                                                 PCIERC()_CFG161[EQ_LANE_SEL][RATE_SEL].
                                                                  Indicates the coefficient value of EQ master (DSP in EQ
                                                                  Phase3/USP in EQ Phase2), instead of the value instructed
                                                                  from link partner. */
-        uint32_t force_rem_tx_cur      : 6;  /**< [ 11:  6](R/W) Force remote transmitter cursor.
+        uint32_t force_rem_tx_cur      : 6;  /**< [ 11:  6](R/W) Force remote transmitter cursoras selected by
+                                                                 PCIERC()_CFG161[EQ_LANE_SEL][RATE_SEL].
                                                                  Indicates the coefficient value of EQ master (DSP in EQ
                                                                  Phase3/USP in EQ Phase2), instead of the value instructed
                                                                  from link partner. */
-        uint32_t force_rem_txpre_cur   : 6;  /**< [  5:  0](RAZ) Force remote transmitter pre-cursor.
+        uint32_t force_rem_txpre_cur   : 6;  /**< [  5:  0](RAZ) Force remote transmitter pre-cursoras selected by
+                                                                 PCIERC()_CFG161[EQ_LANE_SEL][RATE_SEL].
                                                                  Indicates the coefficient value of EQ master (DSP in EQ
                                                                  Phase3/USP in EQ Phase2), instead of the value instructed
                                                                  from link partner. */
 #else /* Word 0 - Little Endian */
-        uint32_t force_rem_txpre_cur   : 6;  /**< [  5:  0](RAZ) Force remote transmitter pre-cursor.
+        uint32_t force_rem_txpre_cur   : 6;  /**< [  5:  0](RAZ) Force remote transmitter pre-cursoras selected by
+                                                                 PCIERC()_CFG161[EQ_LANE_SEL][RATE_SEL].
                                                                  Indicates the coefficient value of EQ master (DSP in EQ
                                                                  Phase3/USP in EQ Phase2), instead of the value instructed
                                                                  from link partner. */
-        uint32_t force_rem_tx_cur      : 6;  /**< [ 11:  6](R/W) Force remote transmitter cursor.
+        uint32_t force_rem_tx_cur      : 6;  /**< [ 11:  6](R/W) Force remote transmitter cursoras selected by
+                                                                 PCIERC()_CFG161[EQ_LANE_SEL][RATE_SEL].
                                                                  Indicates the coefficient value of EQ master (DSP in EQ
                                                                  Phase3/USP in EQ Phase2), instead of the value instructed
                                                                  from link partner. */
-        uint32_t force_rem_txpost_cur  : 6;  /**< [ 17: 12](R/W) Force remote transmitter post-cursor.
+        uint32_t force_rem_txpost_cur  : 6;  /**< [ 17: 12](R/W) Force remote transmitter post-cursor as selected by
+                                                                 PCIERC()_CFG161[EQ_LANE_SEL][RATE_SEL].
                                                                  Indicates the coefficient value of EQ master (DSP in EQ
                                                                  Phase3/USP in EQ Phase2), instead of the value instructed
                                                                  from link partner. */
         uint32_t reserved_18_27        : 10;
-        uint32_t force_rem_txcoef_en   : 1;  /**< [ 28: 28](R/W) Force remote transmitter coefficient enable.
+        uint32_t force_rem_txcoef_en   : 1;  /**< [ 28: 28](R/W) Force remote transmitter coefficient enable as selected by
+                                                                 PCIERC()_CFG161[EQ_LANE_SEL][RATE_SEL].
                                                                  Enables the following fields:
                                                                  FORCE_REMOTE_TX_PRE_CURSOR
                                                                  FORCE_REMOTE_TX_CURSOR
@@ -9774,8 +9531,8 @@ typedef union
     struct bdk_pciercx_cfg178_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
-        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO) Selected correctable counter region.
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
                                                                  0x0 = ADM RX path.
                                                                  0x1 = Layer 3 RX path.
                                                                  0x2 = Layer 2 RX path.
@@ -9794,7 +9551,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint32_t corr_count            : 8;  /**< [  7:  0](RO) Current corrected count for the selected counter. */
         uint32_t reserved_8_19         : 12;
-        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO) Selected correctable counter region.
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
                                                                  0x0 = ADM RX path.
                                                                  0x1 = Layer 3 RX path.
                                                                  0x2 = Layer 2 RX path.
@@ -9808,7 +9565,7 @@ typedef union
                                                                  0xA = AXI bridge outbound request path (not supported).
                                                                  0xB = AXI bridge outbound master completion (not supported).
                                                                  0xC - 0xF = Reserved. */
-        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg178_s cn; */
@@ -9916,8 +9673,8 @@ typedef union
     struct bdk_pciercx_cfg180_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
-        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO) Selected correctable counter region.
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113[ORR_CNT_SEL] register. */
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
                                                                  0x0 = ADM RX path.
                                                                  0x1 = Layer 3 RX path.
                                                                  0x2 = Layer 2 RX path.
@@ -9936,7 +9693,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint32_t ucorr_count           : 8;  /**< [  7:  0](RO) Current uncorrected count for the selected counter. */
         uint32_t reserved_8_19         : 12;
-        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO) Selected correctable counter region.
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
                                                                  0x0 = ADM RX path.
                                                                  0x1 = Layer 3 RX path.
                                                                  0x2 = Layer 2 RX path.
@@ -9950,7 +9707,7 @@ typedef union
                                                                  0xA = AXI bridge outbound request path (not supported).
                                                                  0xB = AXI bridge outbound master completion (not supported).
                                                                  0xC - 0xF = Reserved. */
-        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113[ORR_CNT_SEL] register. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg180_s cn; */
@@ -10868,106 +10625,7 @@ typedef union
                                                                  and status (PCIEP()_CFG017) register. */
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg450_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lpec                  : 8;  /**< [ 31: 24](R/W) Low power entrance count. The power management state waits this many clock cycles for the
-                                                                 associated completion of a CfgWr to PCIERC()_CFG017 register, power state (PS) field
-                                                                 register
-                                                                 to go low-power. This register is intended for applications that do not let the PCI
-                                                                 Express bus handle a completion for configuration request to the power management control
-                                                                 and status (PCIRC()_CFG017) register. */
-        uint32_t reserved_22_23        : 2;
-        uint32_t link_state            : 6;  /**< [ 21: 16](R/W) Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
-                                                                 is set. State encoding:
-                                                                 0x0 = DETECT_QUIET.
-                                                                 0x1 = DETECT_ACT.
-                                                                 0x2 = POLL_ACTIVE.
-                                                                 0x3 = POLL_COMPLIANCE.
-                                                                 0x4 = POLL_CONFIG.
-                                                                 0x5 = PRE_DETECT_QUIET.
-                                                                 0x6 = DETECT_WAIT.
-                                                                 0x7 = CFG_LINKWD_START.
-                                                                 0x8 = CFG_LINKWD_ACEPT.
-                                                                 0x9 = CFG_LANENUM_WAIT.
-                                                                 0xA = CFG_LANENUM_ACEPT.
-                                                                 0xB = CFG_COMPLETE.
-                                                                 0xC = CFG_IDLE.
-                                                                 0xD = RCVRY_LOCK.
-                                                                 0xE = RCVRY_SPEED.
-                                                                 0xF = RCVRY_RCVRCFG.
-                                                                 0x10 = RCVRY_IDLE.
-                                                                 0x11 = L0.
-                                                                 0x12 = L0S.
-                                                                 0x13 = L123_SEND_EIDLE.
-                                                                 0x14 = L1_IDLE.
-                                                                 0x15 = L2_IDLE.
-                                                                 0x16 = L2_WAKE.
-                                                                 0x17 = DISABLED_ENTRY.
-                                                                 0x18 = DISABLED_IDLE.
-                                                                 0x19 = DISABLED.
-                                                                 0x1A = LPBK_ENTRY.
-                                                                 0x1B = LPBK_ACTIVE.
-                                                                 0x1C = LPBK_EXIT.
-                                                                 0x1D = LPBK_EXIT_TIMEOUT.
-                                                                 0x1E = HOT_RESET_ENTRY.
-                                                                 0x1F = HOT_RESET. */
-        uint32_t force_link            : 1;  /**< [ 15: 15](WO/H) Force link. Forces the link to the state specified by [LINK_STATE]. The force link
-                                                                 pulse triggers link renegotiation.
-                                                                 As the force link is a pulse, writing a 1 to it does trigger the forced link state event,
-                                                                 even though reading it always returns a 0. */
-        uint32_t reserved_8_14         : 7;
-        uint32_t link_num              : 8;  /**< [  7:  0](R/W) Link number. */
-#else /* Word 0 - Little Endian */
-        uint32_t link_num              : 8;  /**< [  7:  0](R/W) Link number. */
-        uint32_t reserved_8_14         : 7;
-        uint32_t force_link            : 1;  /**< [ 15: 15](WO/H) Force link. Forces the link to the state specified by [LINK_STATE]. The force link
-                                                                 pulse triggers link renegotiation.
-                                                                 As the force link is a pulse, writing a 1 to it does trigger the forced link state event,
-                                                                 even though reading it always returns a 0. */
-        uint32_t link_state            : 6;  /**< [ 21: 16](R/W) Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
-                                                                 is set. State encoding:
-                                                                 0x0 = DETECT_QUIET.
-                                                                 0x1 = DETECT_ACT.
-                                                                 0x2 = POLL_ACTIVE.
-                                                                 0x3 = POLL_COMPLIANCE.
-                                                                 0x4 = POLL_CONFIG.
-                                                                 0x5 = PRE_DETECT_QUIET.
-                                                                 0x6 = DETECT_WAIT.
-                                                                 0x7 = CFG_LINKWD_START.
-                                                                 0x8 = CFG_LINKWD_ACEPT.
-                                                                 0x9 = CFG_LANENUM_WAIT.
-                                                                 0xA = CFG_LANENUM_ACEPT.
-                                                                 0xB = CFG_COMPLETE.
-                                                                 0xC = CFG_IDLE.
-                                                                 0xD = RCVRY_LOCK.
-                                                                 0xE = RCVRY_SPEED.
-                                                                 0xF = RCVRY_RCVRCFG.
-                                                                 0x10 = RCVRY_IDLE.
-                                                                 0x11 = L0.
-                                                                 0x12 = L0S.
-                                                                 0x13 = L123_SEND_EIDLE.
-                                                                 0x14 = L1_IDLE.
-                                                                 0x15 = L2_IDLE.
-                                                                 0x16 = L2_WAKE.
-                                                                 0x17 = DISABLED_ENTRY.
-                                                                 0x18 = DISABLED_IDLE.
-                                                                 0x19 = DISABLED.
-                                                                 0x1A = LPBK_ENTRY.
-                                                                 0x1B = LPBK_ACTIVE.
-                                                                 0x1C = LPBK_EXIT.
-                                                                 0x1D = LPBK_EXIT_TIMEOUT.
-                                                                 0x1E = HOT_RESET_ENTRY.
-                                                                 0x1F = HOT_RESET. */
-        uint32_t reserved_22_23        : 2;
-        uint32_t lpec                  : 8;  /**< [ 31: 24](R/W) Low power entrance count. The power management state waits this many clock cycles for the
-                                                                 associated completion of a CfgWr to PCIERC()_CFG017 register, power state (PS) field
-                                                                 register
-                                                                 to go low-power. This register is intended for applications that do not let the PCI
-                                                                 Express bus handle a completion for configuration request to the power management control
-                                                                 and status (PCIRC()_CFG017) register. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg450_s cn83xx; */
 } bdk_pciercx_cfg450_t;
 
 static inline uint64_t BDK_PCIERCX_CFG450(unsigned long a) __attribute__ ((pure, always_inline));
@@ -11067,78 +10725,7 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg451_s cn81xx; */
-    /* struct bdk_pciercx_cfg451_s cn88xx; */
-    struct bdk_pciercx_cfg451_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t easpml1               : 1;  /**< [ 30: 30](R/W/H) Enter ASPM L1 without receive in L0s. Allow core to enter ASPM L1 even when link partner
-                                                                 did not go to L0s (receive is not in L0s). When not set, core goes to ASPM L1 only after
-                                                                 idle period, during which both receive and transmit are in L0s. */
-        uint32_t l1el                  : 3;  /**< [ 29: 27](R/W) L1 entrance latency. Values correspond to:
-                                                                 0x0 = 1 ms.
-                                                                 0x1 = 2 ms.
-                                                                 0x2 = 4 ms.
-                                                                 0x3 = 8 ms.
-                                                                 0x4 = 16 ms.
-                                                                 0x5 = 32 ms.
-                                                                 0x6 or 0x7 = 64 ms. */
-        uint32_t l0el                  : 3;  /**< [ 26: 24](R/W) L0s entrance latency. Values correspond to:
-                                                                 0x0 = 1 ms.
-                                                                 0x1 = 2 ms.
-                                                                 0x2 = 3 ms.
-                                                                 0x3 = 4 ms.
-                                                                 0x4 = 5 ms.
-                                                                 0x5 = 6 ms.
-                                                                 0x6 or 0x7 = 7 ms. */
-        uint32_t n_fts_cc              : 8;  /**< [ 23: 16](R/W) N_FTS when common clock is used.
-                                                                 The number of fast training sequence (FTS) ordered sets to be transmitted when
-                                                                 transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
-                                                                 request is 255.
-                                                                 A value of zero is not supported; a value of zero can cause the LTSSM to go into the
-                                                                 recovery state when exiting from L0s. */
-        uint32_t n_fts                 : 8;  /**< [ 15:  8](R/W) N_FTS. The number of fast training sequence (FTS) ordered sets to be transmitted when
-                                                                 transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
-                                                                 request is 255.
-                                                                 A value of zero is not supported; a value of zero can cause the LTSSM to go into the
-                                                                 recovery state when exiting from L0s. */
-        uint32_t ack_freq              : 8;  /**< [  7:  0](R/W) Ack frequency. The number of pending Acks specified here (up to 255) before sending an Ack. */
-#else /* Word 0 - Little Endian */
-        uint32_t ack_freq              : 8;  /**< [  7:  0](R/W) Ack frequency. The number of pending Acks specified here (up to 255) before sending an Ack. */
-        uint32_t n_fts                 : 8;  /**< [ 15:  8](R/W) N_FTS. The number of fast training sequence (FTS) ordered sets to be transmitted when
-                                                                 transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
-                                                                 request is 255.
-                                                                 A value of zero is not supported; a value of zero can cause the LTSSM to go into the
-                                                                 recovery state when exiting from L0s. */
-        uint32_t n_fts_cc              : 8;  /**< [ 23: 16](R/W) N_FTS when common clock is used.
-                                                                 The number of fast training sequence (FTS) ordered sets to be transmitted when
-                                                                 transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
-                                                                 request is 255.
-                                                                 A value of zero is not supported; a value of zero can cause the LTSSM to go into the
-                                                                 recovery state when exiting from L0s. */
-        uint32_t l0el                  : 3;  /**< [ 26: 24](R/W) L0s entrance latency. Values correspond to:
-                                                                 0x0 = 1 ms.
-                                                                 0x1 = 2 ms.
-                                                                 0x2 = 3 ms.
-                                                                 0x3 = 4 ms.
-                                                                 0x4 = 5 ms.
-                                                                 0x5 = 6 ms.
-                                                                 0x6 or 0x7 = 7 ms. */
-        uint32_t l1el                  : 3;  /**< [ 29: 27](R/W) L1 entrance latency. Values correspond to:
-                                                                 0x0 = 1 ms.
-                                                                 0x1 = 2 ms.
-                                                                 0x2 = 4 ms.
-                                                                 0x3 = 8 ms.
-                                                                 0x4 = 16 ms.
-                                                                 0x5 = 32 ms.
-                                                                 0x6 or 0x7 = 64 ms. */
-        uint32_t easpml1               : 1;  /**< [ 30: 30](R/W/H) Enter ASPM L1 without receive in L0s. Allow core to enter ASPM L1 even when link partner
-                                                                 did not go to L0s (receive is not in L0s). When not set, core goes to ASPM L1 only after
-                                                                 idle period, during which both receive and transmit are in L0s. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg451_s cn; */
 } bdk_pciercx_cfg451_t;
 
 static inline uint64_t BDK_PCIERCX_CFG451(unsigned long a) __attribute__ ((pure, always_inline));
@@ -11398,80 +10985,7 @@ typedef union
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg452_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_22_31        : 10;
-        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
-                                                                 0x1 = x1.
-                                                                 0x3 = x2.
-                                                                 0x7 = x4.
-                                                                 0xF = x8.
-                                                                 0x1F = x16 (not supported).
-                                                                 0x3F = x32 (not supported).
-
-                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
-                                                                 be set less than 0xF to limit the number of lanes the PCIe will attempt to use. The
-                                                                 programming of this field needs to be done by software before enabling the link. See also
-                                                                 PCIERC()_CFG031[MLW].
-                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
-                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
-                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
-                                                                 x2, and x1 are supported when
-                                                                 LME = 0xF, for example. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
-        uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes. */
-        uint32_t reserved_6            : 1;
-        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
-                                                                 does not transmit InitFC DLLPs and does not establish a link. */
-        uint32_t reserved_4            : 1;
-        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
-                                                                 port only). */
-        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
-                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
-                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
-                                                                 mode, take the link through a reset sequence. */
-        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
-        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a 1 to this bit, the PCI Express bus transmits
-                                                                 the message contained in the other message register. */
-#else /* Word 0 - Little Endian */
-        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a 1 to this bit, the PCI Express bus transmits
-                                                                 the message contained in the other message register. */
-        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
-        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
-                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
-                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
-                                                                 mode, take the link through a reset sequence. */
-        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
-                                                                 port only). */
-        uint32_t reserved_4            : 1;
-        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
-                                                                 does not transmit InitFC DLLPs and does not establish a link. */
-        uint32_t reserved_6            : 1;
-        uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes. */
-        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
-                                                                 0x1 = x1.
-                                                                 0x3 = x2.
-                                                                 0x7 = x4.
-                                                                 0xF = x8.
-                                                                 0x1F = x16 (not supported).
-                                                                 0x3F = x32 (not supported).
-
-                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
-                                                                 be set less than 0xF to limit the number of lanes the PCIe will attempt to use. The
-                                                                 programming of this field needs to be done by software before enabling the link. See also
-                                                                 PCIERC()_CFG031[MLW].
-                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
-                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
-                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
-                                                                 x2, and x1 are supported when
-                                                                 LME = 0xF, for example. */
-        uint32_t reserved_22_31        : 10;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg452_cn88xx cn83xx; */
 } bdk_pciercx_cfg452_t;
 
 static inline uint64_t BDK_PCIERCX_CFG452(unsigned long a) __attribute__ ((pure, always_inline));
@@ -12514,7 +12028,8 @@ typedef union
     struct bdk_pciercx_cfg515_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_21_31        : 11;
+        uint32_t reserved_22_31        : 10;
+        uint32_t reserved_21           : 1;
         uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
@@ -12590,7 +12105,8 @@ typedef union
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
-        uint32_t reserved_21_31        : 11;
+        uint32_t reserved_21           : 1;
+        uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_pciercx_cfg515_t;
@@ -12709,7 +12225,8 @@ typedef union
         uint32_t dcbd                  : 1;  /**< [ 18: 18](R/W) Disable balance disable. Disable DC balance feature. */
         uint32_t dtdd                  : 1;  /**< [ 17: 17](R/W) DLLP transmission delay disable. Disable delay transmission of DLLPs before equalization. */
         uint32_t ed                    : 1;  /**< [ 16: 16](R/W) Equalization disable. Disable equalization feature. */
-        uint32_t reserved_12_15        : 4;
+        uint32_t reserved_13_15        : 3;
+        uint32_t rxeq_ph01_en          : 1;  /**< [ 12: 12](R/W) Rx Equalization Phase 0/Phase 1 Hold Enable. */
         uint32_t erd                   : 1;  /**< [ 11: 11](R/W) Equalization redo disable. Disable requesting reset of EIEOS count during equalization. */
         uint32_t ecrd                  : 1;  /**< [ 10: 10](R/W) Equalization EIEOS count reset disable. Disable requesting reset of EIEOS count during
                                                                  equalization. */
@@ -12729,7 +12246,8 @@ typedef union
         uint32_t ecrd                  : 1;  /**< [ 10: 10](R/W) Equalization EIEOS count reset disable. Disable requesting reset of EIEOS count during
                                                                  equalization. */
         uint32_t erd                   : 1;  /**< [ 11: 11](R/W) Equalization redo disable. Disable requesting reset of EIEOS count during equalization. */
-        uint32_t reserved_12_15        : 4;
+        uint32_t rxeq_ph01_en          : 1;  /**< [ 12: 12](R/W) Rx Equalization Phase 0/Phase 1 Hold Enable. */
+        uint32_t reserved_13_15        : 3;
         uint32_t ed                    : 1;  /**< [ 16: 16](R/W) Equalization disable. Disable equalization feature. */
         uint32_t dtdd                  : 1;  /**< [ 17: 17](R/W) DLLP transmission delay disable. Disable delay transmission of DLLPs before equalization. */
         uint32_t dcbd                  : 1;  /**< [ 18: 18](R/W) Disable balance disable. Disable DC balance feature. */
@@ -12820,40 +12338,7 @@ typedef union
         uint32_t reserved_19_31        : 13;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg548_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_19_31        : 13;
-        uint32_t dcbd                  : 1;  /**< [ 18: 18](R/W) Disable balance disable. Disable DC balance feature. */
-        uint32_t dtdd                  : 1;  /**< [ 17: 17](R/W) DLLP transmission delay disable. Disable delay transmission of DLLPs before equalization. */
-        uint32_t ed                    : 1;  /**< [ 16: 16](R/W) Equalization disable. Disable equalization feature. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t erd                   : 1;  /**< [ 11: 11](R/W) Equalization redo disable. Disable requesting reset of EIEOS count during equalization. */
-        uint32_t ecrd                  : 1;  /**< [ 10: 10](R/W) Equalization EIEOS count reset disable. Disable requesting reset of EIEOS count during
-                                                                 equalization. */
-        uint32_t ep2p3d                : 1;  /**< [  9:  9](R/W) Equalization phase 2 and phase 3 disable. This applies to downstream ports only. */
-        uint32_t dsg3                  : 1;  /**< [  8:  8](R/W) Disable scrambler for Gen3 data rate. The Gen3 scrambler/descrambler within the core needs
-                                                                 to be disabled when the scrambling function is implemented outside of the core (within the
-                                                                 PHY). */
-        uint32_t reserved_1_7          : 7;
-        uint32_t grizdnc               : 1;  /**< [  0:  0](R/W) Gen3 receiver impedance ZRX-DC not compliant. */
-#else /* Word 0 - Little Endian */
-        uint32_t grizdnc               : 1;  /**< [  0:  0](R/W) Gen3 receiver impedance ZRX-DC not compliant. */
-        uint32_t reserved_1_7          : 7;
-        uint32_t dsg3                  : 1;  /**< [  8:  8](R/W) Disable scrambler for Gen3 data rate. The Gen3 scrambler/descrambler within the core needs
-                                                                 to be disabled when the scrambling function is implemented outside of the core (within the
-                                                                 PHY). */
-        uint32_t ep2p3d                : 1;  /**< [  9:  9](R/W) Equalization phase 2 and phase 3 disable. This applies to downstream ports only. */
-        uint32_t ecrd                  : 1;  /**< [ 10: 10](R/W) Equalization EIEOS count reset disable. Disable requesting reset of EIEOS count during
-                                                                 equalization. */
-        uint32_t erd                   : 1;  /**< [ 11: 11](R/W) Equalization redo disable. Disable requesting reset of EIEOS count during equalization. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t ed                    : 1;  /**< [ 16: 16](R/W) Equalization disable. Disable equalization feature. */
-        uint32_t dtdd                  : 1;  /**< [ 17: 17](R/W) DLLP transmission delay disable. Disable delay transmission of DLLPs before equalization. */
-        uint32_t dcbd                  : 1;  /**< [ 18: 18](R/W) Disable balance disable. Disable DC balance feature. */
-        uint32_t reserved_19_31        : 13;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg548_s cn83xx; */
 } bdk_pciercx_cfg548_t;
 
 static inline uint64_t BDK_PCIERCX_CFG548(unsigned long a) __attribute__ ((pure, always_inline));
@@ -13145,7 +12630,10 @@ typedef union
     struct bdk_pciercx_cfg554_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_27_31        : 5;
+        uint32_t scefpm                : 1;  /**< [ 26: 26](R/W) Request core to send back-to-back EIEOS in Recovery.RcvrLock state until
+                                                                 presets to coefficient mapping is complete. */
+        uint32_t reserved_25           : 1;
         uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
                                                                  performed in the EQ master, when finding the highest FOM among all preset evaluations. */
         uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
@@ -13263,7 +12751,10 @@ typedef union
                                                                  _ All other encodings = Reserved. */
         uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
                                                                  performed in the EQ master, when finding the highest FOM among all preset evaluations. */
-        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_25           : 1;
+        uint32_t scefpm                : 1;  /**< [ 26: 26](R/W) Request core to send back-to-back EIEOS in Recovery.RcvrLock state until
+                                                                 presets to coefficient mapping is complete. */
+        uint32_t reserved_27_31        : 5;
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_pciercx_cfg554_cn88xxp2
@@ -13273,7 +12764,7 @@ typedef union
         uint32_t reserved_25           : 1;
         uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
                                                                  performed in the EQ master, when finding the highest FOM among all preset evaluations. */
-        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Changed in pass 2.0. Requesting of presets during the initial part
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part
                                                                  of the EQ master
                                                                  phase. Encoding scheme as follows:
 
@@ -13312,8 +12803,7 @@ typedef union
                                                                  0 = Abort the current evaluation; stop any attempt to modify the remote transmitter
                                                                  settings. Phase2 will be terminated by the 24 ms timeout.
                                                                  1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
-                                                                 require more than 2 ms to respond to the assertion of RxEqEval.
-                                                                 Changed in pass 2.0. */
+                                                                 require more than 2 ms to respond to the assertion of RxEqEval. */
         uint32_t bt                    : 1;  /**< [  4:  4](R/W) Behavior after 24 ms timeout (when optimal settings are not found).
 
                                                                  For a USP: determine the next LTSSM state from Phase2:
@@ -13354,10 +12844,9 @@ typedef union
                                                                  0 = Abort the current evaluation; stop any attempt to modify the remote transmitter
                                                                  settings. Phase2 will be terminated by the 24 ms timeout.
                                                                  1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
-                                                                 require more than 2 ms to respond to the assertion of RxEqEval.
-                                                                 Changed in pass 2.0. */
+                                                                 require more than 2 ms to respond to the assertion of RxEqEval. */
         uint32_t reserved_6_7          : 2;
-        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Changed in pass 2.0. Requesting of presets during the initial part
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part
                                                                  of the EQ master
                                                                  phase. Encoding scheme as follows:
 
@@ -13435,18 +12924,7 @@ typedef union
         uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg558_s cn81xx; */
-    /* struct bdk_pciercx_cfg558_s cn88xx; */
-    struct bdk_pciercx_cfg558_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
-        uint32_t rxstatus              : 31; /**< [ 30:  0](RO) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint32_t rxstatus              : 31; /**< [ 30:  0](RO) Reserved. */
-        uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg558_s cn; */
 } bdk_pciercx_cfg558_t;
 
 static inline uint64_t BDK_PCIERCX_CFG558(unsigned long a) __attribute__ ((pure, always_inline));
@@ -13480,6 +12958,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  This bit should not be cleared in normal operation. */
+#else /* Word 0 - Little Endian */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  This bit should not be cleared in normal operation. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg559_s cn81xx; */
+    struct bdk_pciercx_cfg559_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
         uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
                                                                  RO bits are writeable from the DBI. */
 #else /* Word 0 - Little Endian */
@@ -13487,13 +12976,14 @@ typedef union
                                                                  RO bits are writeable from the DBI. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg559_s cn; */
+    } cn83xx;
 } bdk_pciercx_cfg559_t;
 
 static inline uint64_t BDK_PCIERCX_CFG559(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG559(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000008bcll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000008bcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG559", 1, a, 0, 0, 0);
@@ -13592,5 +13082,77 @@ static inline uint64_t BDK_PCIERCX_CFG560(unsigned long a)
 #define basename_BDK_PCIERCX_CFG560(a) "PCIERCX_CFG560"
 #define busnum_BDK_PCIERCX_CFG560(a) (a)
 #define arguments_BDK_PCIERCX_CFG560(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg568
+ *
+ * PCIe RC ACE Cache Coherency Control 1 Register
+ * This register contains the five hundred sixty-eigth 32-bits of type 0 PCIe configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg568_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cfg_memtype_boundary_l_addr : 30;/**< [ 31:  2](R/W) Reserved. */
+        uint32_t reserved_1            : 1;
+        uint32_t cfg_memtype_value     : 1;  /**< [  0:  0](R/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t cfg_memtype_value     : 1;  /**< [  0:  0](R/W) Reserved. */
+        uint32_t reserved_1            : 1;
+        uint32_t cfg_memtype_boundary_l_addr : 30;/**< [ 31:  2](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg568_s cn; */
+} bdk_pciercx_cfg568_t;
+
+static inline uint64_t BDK_PCIERCX_CFG568(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG568(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000008e0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG568", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG568(a) bdk_pciercx_cfg568_t
+#define bustype_BDK_PCIERCX_CFG568(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG568(a) "PCIERCX_CFG568"
+#define busnum_BDK_PCIERCX_CFG568(a) (a)
+#define arguments_BDK_PCIERCX_CFG568(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg569
+ *
+ * PCIe RC ACE Cache Coherency Control 2 Register
+ * This register contains the five hundred sixty-eigth 32-bits of type 0 PCIe configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg569_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cfg_memtype_boundary_h_addr : 32;/**< [ 31:  0](R/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t cfg_memtype_boundary_h_addr : 32;/**< [ 31:  0](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg569_s cn; */
+} bdk_pciercx_cfg569_t;
+
+static inline uint64_t BDK_PCIERCX_CFG569(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG569(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000008e4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG569", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG569(a) bdk_pciercx_cfg569_t
+#define bustype_BDK_PCIERCX_CFG569(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG569(a) "PCIERCX_CFG569"
+#define busnum_BDK_PCIERCX_CFG569(a) (a)
+#define arguments_BDK_PCIERCX_CFG569(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_PCIERC_H__ */

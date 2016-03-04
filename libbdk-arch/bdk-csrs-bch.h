@@ -1036,7 +1036,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_22_63        : 42;
         uint64_t early_term            : 4;  /**< [ 21: 18](R/W) Threshold of zero delta iterations before declaring early termination.
-                                                                 0 will force all iterations to run.  For diagnostic use only. */
+                                                                 0x0 will force all iterations to run.  For diagnostic use only. */
         uint64_t one_cmd               : 1;  /**< [ 17: 17](RAZ) Execute a single operation at a time.  For diagnostic use only. */
         uint64_t erase_disable         : 1;  /**< [ 16: 16](R/W) When [ERASE_DISABLE]=0, erased blocks bypass the BCH correction. The 16 byte
                                                                  result word contains an erased block indication.
@@ -1063,7 +1063,7 @@ typedef union
                                                                  erased if few than 16 zeroes are found in the 2048+60 bytes. */
         uint64_t one_cmd               : 1;  /**< [ 17: 17](RAZ) Execute a single operation at a time.  For diagnostic use only. */
         uint64_t early_term            : 4;  /**< [ 21: 18](R/W) Threshold of zero delta iterations before declaring early termination.
-                                                                 0 will force all iterations to run.  For diagnostic use only. */
+                                                                 0x0 will force all iterations to run.  For diagnostic use only. */
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;

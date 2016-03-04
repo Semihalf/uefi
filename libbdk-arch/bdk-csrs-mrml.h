@@ -467,7 +467,6 @@ static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long a)
  * Register (RSL) mrml_ncb#_skill
  *
  * MRML RSL Secure Kill-Device Registers
- * Added in pass 3.
  */
 typedef union
 {
@@ -560,7 +559,6 @@ static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a)
  * Register (RSL) mrml_rsl#_skill
  *
  * MRML RSL Secure Kill-Device Registers
- * Added in pass 3.
  */
 typedef union
 {

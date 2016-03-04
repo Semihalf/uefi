@@ -185,8 +185,8 @@
 #define BDK_PKI_ETHERTYPE_E_REVARP (0x8035) /**< Reverse Address Resolution Protocol. */
 #define BDK_PKI_ETHERTYPE_E_ROCE (0x8915) /**< RDMA over Converged Ethernet. Informational only. */
 #define BDK_PKI_ETHERTYPE_E_TEBRIDGE (0x6558) /**< Transparent Ethernet Bridge. In NVGRE, always used in the GRE header protocol
-                                       field to indicate inner IP including ethernet header under GRE. Also used
-                                       in the Geneve protocol field, when the inner IP includes ethernet. */
+                                       field to indicate inner IP including Ethernet header under GRE. Also used
+                                       in the Geneve protocol field, when the inner IP includes Ethernet. */
 #define BDK_PKI_ETHERTYPE_E_VLAN (0x8100) /**< Standard VLAN Ethertype. */
 #define BDK_PKI_ETHERTYPE_E_VLAN_88A8 (0x88a8) /**< Alternative VLAN Ethertype. */
 #define BDK_PKI_ETHERTYPE_E_VLAN_9100 (0x9100) /**< Alternative VLAN Ethertype. */
@@ -706,7 +706,7 @@
                                        PKI_WQE_S[VV,VLPTR,VS]. */
 #define BDK_PKI_PCAM_TERM_E_ETHTYPE0 (0x18) /**< L2 first custom Ethertype. This match is only performed if L2 parsing was enabled.
                                        _ MATCH<31:16> = Ethertype.
-                                       _ MATCH<15:0> = Next 2 bytes following ethertype.
+                                       _ MATCH<15:0> = Next 2 bytes following Ethertype.
                                        
                                        ACTION[SETTY] has special behavior for ETHTYPE*; if ACTION[SETTY]==VLAN, then
                                        the Ethertype is treated as a VLAN and PKI_WQE_S[VV], PKI_WQE_S[VLPTR] and
@@ -3122,7 +3122,7 @@ static inline uint64_t BDK_PKI_ALLOC_FLT_DEBUG_FUNC(void)
  * Register (NCB) pki_aura#_cfg
  *
  * PKI Aura Configuration Register
- * This register configures aura backpressure, etc.
+ * This register configures aura backpressure, etc. It is indexed by VHAURA.
  */
 typedef union
 {
@@ -9126,7 +9126,7 @@ static inline uint64_t BDK_PKI_PKT_ERR_FUNC(void)
  * This register configures tag management. It is
  * suggested that this register only be written when PKI_BUF_CTL[PKI_EN] is clear and
  * must not be reconfigured without soft resetting PKI. While PKI is tolerant of
- * changes to this register and programing restrictions are not necessary for the
+ * changes to this register and programming restrictions are not necessary for the
  * general case, the suggestion is to simplify verification. Therefore do not put other
  * fields into this register unless the same constraint applies. When the number of
  * tags available increases, PKI will simply have more resources. When the number of
@@ -9259,7 +9259,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t pkt_add               : 2;  /**< [ 31: 30](R/W) Specifies what to add to FPA_AURA()_CNT when PKI enqueues a packet:
+        uint64_t pkt_add               : 2;  /**< [ 31: 30](R/W) Specifies what to add to FPA_VHAURA()_CNT when PKI enqueues a packet:
                                                                    0x0 = zero.
                                                                    0x1 = one.
                                                                    0x2 = The number of FPA buffers allocated; i.e. if PKI_STYLE()_BUF[DIS_WQ_DAT]
@@ -9288,7 +9288,7 @@ typedef union
                                                                  FPA_AURA()_POOL_LEVELS[DROP] and FPA_AURA()_CNT_LEVELS[DROP]. */
         uint64_t ena_red               : 1;  /**< [ 29: 29](R/W) Enable RED drop between PASS and DROP levels. See also
                                                                  FPA_AURA()_POOL_LEVELS[RED_ENA] and FPA_AURA()_CNT_LEVELS[RED_ENA]. */
-        uint64_t pkt_add               : 2;  /**< [ 31: 30](R/W) Specifies what to add to FPA_AURA()_CNT when PKI enqueues a packet:
+        uint64_t pkt_add               : 2;  /**< [ 31: 30](R/W) Specifies what to add to FPA_VHAURA()_CNT when PKI enqueues a packet:
                                                                    0x0 = zero.
                                                                    0x1 = one.
                                                                    0x2 = The number of FPA buffers allocated; i.e. if PKI_STYLE()_BUF[DIS_WQ_DAT]
@@ -11297,7 +11297,7 @@ typedef union
 static inline uint64_t BDK_PKI_X2P_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_X2P_DATX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a>=1)&&(a<=0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c000000140ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_X2P_DATX", 1, a, 0, 0, 0);
 }

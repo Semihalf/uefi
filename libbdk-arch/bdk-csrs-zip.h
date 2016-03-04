@@ -169,12 +169,7 @@
                                        invocations
                                        for the file plus the number of input bytes for this invocation, times 8 (8 bits per
                                        byte). */
-#define BDK_ZIP_COMP_E_TIMEOUT_CN88XX (0xc) /**< The compress or decompress operation timed out. All bytes in the output stream
-                                       and ZIP_ZRES_S fields excluding ZIP_ZRES_S[COMPCODE] and ZIP_ZRES_S[DONEINT]
-                                       from the ZIP coprocessor are unpredictable and must not be used by the
-                                       software.
-                                       Added in pass 2. */
-#define BDK_ZIP_COMP_E_TIMEOUT_CN83XX (0xc) /**< The compress or decompress operation timed out. All bytes in the output stream
+#define BDK_ZIP_COMP_E_TIMEOUT (0xc) /**< The compress or decompress operation timed out. All bytes in the output stream
                                        and ZIP_ZRES_S fields excluding ZIP_ZRES_S[COMPCODE] and ZIP_ZRES_S[DONEINT]
                                        from the ZIP coprocessor are unpredictable and must not be used by the
                                        software. */
@@ -2945,7 +2940,6 @@ static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a)
  *
  * ZIP Core Status Registers
  * These registers reflect the timeout status of ZIP cores.
- * Added in pass 2.
  */
 typedef union
 {
@@ -2988,7 +2982,7 @@ static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long a)
  * Register (NCB) zip_core_reset
  *
  * ZIP Core Reset Register
- * This register resets the ZIP cores. For diagnostic use only. Added in pass 2.
+ * This register resets the ZIP cores. For diagnostic use only.
  */
 typedef union
 {
@@ -3034,7 +3028,7 @@ static inline uint64_t BDK_ZIP_CORE_RESET_FUNC(void)
  * Register (NCB) zip_core_to_cfg
  *
  * ZIP Engine Timeout Configure Register
- * Configure the core timeout value in term of clock cycles. Added in pass 2.
+ * Configure the core timeout value in term of clock cycles.
  */
 typedef union
 {
@@ -3341,32 +3335,7 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_dbg_corex_inst_s cn83xx; */
-    struct bdk_zip_dbg_corex_inst_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
-        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, core is wait for outstanding L2C transaction(s).
-                                                                 Otherwise, there is no outstanding L2C transaction and core can be reset if needed. Added
-                                                                 in pass 2. */
-        uint64_t cto                   : 1;  /**< [ 61: 61](RO/H) Core timeout detected. When set, it indicated this core is timed out when
-                                                                 executig the current instruction with instruction ID [IID] from queue [QID].
-                                                                 Added in pass 2. */
-        uint64_t reserved_35_60        : 26;
-        uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-        uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-#else /* Word 0 - Little Endian */
-        uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-        uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-        uint64_t reserved_35_60        : 26;
-        uint64_t cto                   : 1;  /**< [ 61: 61](RO/H) Core timeout detected. When set, it indicated this core is timed out when
-                                                                 executig the current instruction with instruction ID [IID] from queue [QID].
-                                                                 Added in pass 2. */
-        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, core is wait for outstanding L2C transaction(s).
-                                                                 Otherwise, there is no outstanding L2C transaction and core can be reset if needed. Added
-                                                                 in pass 2. */
-        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_zip_dbg_corex_inst_s cn88xxp2; */
     struct bdk_zip_dbg_corex_inst_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3460,7 +3429,7 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
         uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, queue is wait for outstanding L2C transaction(s).
                                                                  Otherwise, there are no outstanding L2C transaction and queue can be reset if
-                                                                 needed. Added in pass 2. */
+                                                                 needed. */
         uint64_t reserved_56_61        : 6;
         uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
         uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_QUE(0..7)_SBUF_ADDR
@@ -3472,7 +3441,7 @@ typedef union
         uint64_t reserved_56_61        : 6;
         uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, queue is wait for outstanding L2C transaction(s).
                                                                  Otherwise, there are no outstanding L2C transaction and queue can be reset if
-                                                                 needed. Added in pass 2. */
+                                                                 needed. */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
 #endif /* Word 0 - End */
     } s;
@@ -3817,8 +3786,6 @@ static inline uint64_t BDK_ZIP_ECCE_INT_W1S_FUNC(void)
  * Register (NCB) zip_eco
  *
  * INTERNAL: ZIP ECO Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -5138,7 +5105,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Core time out detected. Added pass 2. */
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Core time out detected. */
         uint64_t reserved_5_15         : 11;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB write response error. */
@@ -5152,7 +5119,7 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB write response error. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
         uint64_t reserved_5_15         : 11;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Core time out detected. Added pass 2. */
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Core time out detected. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5663,7 +5630,7 @@ static inline uint64_t BDK_ZIP_QUE_PRI_FUNC(void)
  *
  * INERNAL: ZIP Queue Reset Register
  *
- * This register resets the ZIP instruction queues. Added in pass 2.
+ * This register resets the ZIP instruction queues.
  */
 typedef union
 {

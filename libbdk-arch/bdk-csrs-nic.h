@@ -150,16 +150,14 @@
                                        checksum and/or TSO. For example:
                                        * NIC_SEND_HDR_S[L3PTR,L4PTR,LEPTR,LFPTR] >= NIC_SEND_HDR_S[TOTAL].
                                        * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and NIC_SEND_HDR_S[L4PTR] <=
-                                       NIC_SEND_HDR_S[L3PTR].
-                                       
-                                       Added in pass 2. */
+                                       NIC_SEND_HDR_S[L3PTR]. */
 #define BDK_NIC_CQE_SEND_STATUS_E_CK_OFLOW_CN88XXP1 (0x89) /**< Checksum overflow. One or more bytes in an L3/CRC checksum region or insert point are
                                        beyond NIC_SEND_HDR_S[TOTAL]. NIC_SEND_HDR_S[CKL4] is nonzero with packet protocol length
                                        less than the minimum required to compute the checksum for the defined protocol. UDP
                                        length exceeds NIC_SEND_HDR_S[TOTAL] or does not meet minimum protocol requirements. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_OFLOW_CN88XXP2 (0x89) /**< Reserved. Not used in pass 2. */
+#define BDK_NIC_CQE_SEND_STATUS_E_CK_OFLOW_CN88XXP2 (0x89) /**< Reserved. */
 #define BDK_NIC_CQE_SEND_STATUS_E_CK_OVERLAP_CN88XXP1 (0x88) /**< Overlap between various L3/L4 checksum regions and/or CRC insert points. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_OVERLAP_CN88XXP2 (0x88) /**< Reserved. Not used in pass 2. */
+#define BDK_NIC_CQE_SEND_STATUS_E_CK_OVERLAP_CN88XXP2 (0x88) /**< Reserved. */
 #define BDK_NIC_CQE_SEND_STATUS_E_CK_PERR_CN88XXP1 (0x8b) /**< Reserved. */
 #define BDK_NIC_CQE_SEND_STATUS_E_CK_PERR_CN81XX (0x8b) /**< Checksum packet data error. Packet data error related to L3/L4/LE/LF checksum and/or
                                        TSO. For example:
@@ -175,13 +173,11 @@
                                        TSO. For example:
                                        * NIC_SEND_HDR_S[CKL3] = 1 and IPv4 IHL < 5.
                                        * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and IP version at
-                                       NIC_SEND_HDR_S[L3PTR] is not 4 or 6.
-                                       
-                                       Added in pass 2. */
+                                       NIC_SEND_HDR_S[L3PTR] is not 4 or 6. */
 #define BDK_NIC_CQE_SEND_STATUS_E_DATA_FAULT (0x84) /**< Memory fault on packet data read for NIC_SEND_GATHER_S. */
 #define BDK_NIC_CQE_SEND_STATUS_E_DATA_SEQUENCE_ERR_CN88XXP1 (0x81) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S or
                                        NIC_SEND_IMM_S. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DATA_SEQUENCE_ERR_CN88XXP2 (0x81) /**< Reserved. Not used in pass 2. */
+#define BDK_NIC_CQE_SEND_STATUS_E_DATA_SEQUENCE_ERR_CN88XXP2 (0x81) /**< Reserved. */
 #define BDK_NIC_CQE_SEND_STATUS_E_DESC_FAULT (0x10) /**< Memory fault on send descriptor read. */
 #define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN88XXP1 (0x8c) /**< Reserved. */
 #define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN81XX (0x8c) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S,
@@ -190,8 +186,6 @@
                                        NIC_SEND_IMM_S or NIC_SEND_MEM_S. */
 #define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN88XXP2 (0x8c) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S,
                                        NIC_SEND_IMM_S or NIC_SEND_MEM_S.
-                                       
-                                       Added in pass 2.
                                        
                                        Internal:
                                        Replaces DATA_SEQUENCE_ERR and MEM_SEQUENCE_ERR from pass 1. */
@@ -237,11 +231,10 @@
                                        NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]; packet was dropped. */
 #define BDK_NIC_CQE_SEND_STATUS_E_MAX_SIZE_VIOL_CN88XXP2 (0x13) /**< Maximum packet size violation. The send descriptor specified
                                        a packet larger than the lesser of 9212 bytes or
-                                       NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]; packet was dropped.
-                                       Added in pass 2. */
+                                       NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]; packet was dropped. */
 #define BDK_NIC_CQE_SEND_STATUS_E_MEM_FAULT (0x87) /**< Memory fault on NIC_SEND_MEM_S operation. */
 #define BDK_NIC_CQE_SEND_STATUS_E_MEM_SEQUENCE_ERR_CN88XXP1 (0x82) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_MEM_S. */
-#define BDK_NIC_CQE_SEND_STATUS_E_MEM_SEQUENCE_ERR_CN88XXP2 (0x82) /**< Reserved. Not used in pass 2. */
+#define BDK_NIC_CQE_SEND_STATUS_E_MEM_SEQUENCE_ERR_CN88XXP2 (0x82) /**< Reserved. */
 #define BDK_NIC_CQE_SEND_STATUS_E_SUBDC_ERR (0x12) /**< Subdescriptor code error. The send descriptor contains one or more invalid subdescriptors
                                        following NIC_SEND_HDR_S, i.e. an SQE other than immediate data with a
                                        NIC_SEND_HDR_S[SUBDC] value other than NIC_SEND_SUBDC_E::CRC, NIC_SEND_SUBDC_E::IMM,
@@ -294,11 +287,11 @@
 #define BDK_NIC_ERRLEV_E_LE_CN88XXP1 (4) /**< Reserved. */
 #define BDK_NIC_ERRLEV_E_LE_CN81XX (4) /**< Inner layer 3 error. */
 #define BDK_NIC_ERRLEV_E_LE_CN83XX (4) /**< Inner layer 3 error. */
-#define BDK_NIC_ERRLEV_E_LE_CN88XXP2 (4) /**< Inner Layer 3 error. Added in pass 2. */
+#define BDK_NIC_ERRLEV_E_LE_CN88XXP2 (4) /**< Inner Layer 3 error. */
 #define BDK_NIC_ERRLEV_E_LF_CN88XXP1 (5) /**< Reserved. */
 #define BDK_NIC_ERRLEV_E_LF_CN81XX (5) /**< Inner layer 4 error. */
 #define BDK_NIC_ERRLEV_E_LF_CN83XX (5) /**< Inner layer 4 error. */
-#define BDK_NIC_ERRLEV_E_LF_CN88XXP2 (5) /**< Inner Layer 4 error. Added in pass 2. */
+#define BDK_NIC_ERRLEV_E_LF_CN88XXP2 (5) /**< Inner Layer 4 error. */
 #define BDK_NIC_ERRLEV_E_RE (0) /**< Receive error or no error. If NIC_CQE_RX_S[ERROP]==0 (NIC_ERROP_E::RE_NONE) then no error.
                                        Else used for L1 and MAC errors. */
 
@@ -415,11 +408,11 @@
 #define BDK_NIC_ERROP_E_TUN_MAL_CN88XXP1 (0x1d) /**< Reserved. */
 #define BDK_NIC_ERROP_E_TUN_MAL_CN81XX (0x1d) /**< Tunneling header is malformed. */
 #define BDK_NIC_ERROP_E_TUN_MAL_CN83XX (0x1d) /**< Tunneling header is malformed. */
-#define BDK_NIC_ERROP_E_TUN_MAL_CN88XXP2 (0x1d) /**< Tunneling header is malformed. Added in Pass 2. */
+#define BDK_NIC_ERROP_E_TUN_MAL_CN88XXP2 (0x1d) /**< Tunneling header is malformed. */
 #define BDK_NIC_ERROP_E_TUN_PCLP_CN88XXP1 (0x1e) /**< Reserved. */
 #define BDK_NIC_ERROP_E_TUN_PCLP_CN81XX (0x1e) /**< The parsing engine stopped because it had reached the 255 byte limit. */
 #define BDK_NIC_ERROP_E_TUN_PCLP_CN83XX (0x1e) /**< The parsing engine stopped because it had reached the 255 byte limit. */
-#define BDK_NIC_ERROP_E_TUN_PCLP_CN88XXP2 (0x1e) /**< The parsing engine stopped because it had reached the 255 byte limit. Added in Pass 2. */
+#define BDK_NIC_ERROP_E_TUN_PCLP_CN88XXP2 (0x1e) /**< The parsing engine stopped because it had reached the 255 byte limit. */
 #define BDK_NIC_ERROP_E_UDP_LEN (0x63) /**< UDP length error: The UDP length field would make the UDP data longer than what remains in
                                        the IP packet (as defined by the IP header length field).
                                        NIC_QS()_RQ_GEN_CFG[LEN_L4] enables this check.
@@ -571,7 +564,7 @@
 #define BDK_NIC_L4TYPE_E_BTH_CN88XXP2 (5) /**< Reserved.
                                        Internal:
                                        Not implemented in RTL. Old definition:
-                                       RoCE base transport header. Changed mapping in pass 2. */
+                                       RoCE base transport header. Modified mapping in pass 2. */
 #define BDK_NIC_L4TYPE_E_GRE (7) /**< GRE. */
 #define BDK_NIC_L4TYPE_E_IPCOMP (3) /**< IP Compressed. Previous layer (L3/IL3) protocol value or IPv6 next header equals 108. */
 #define BDK_NIC_L4TYPE_E_IPFRAG (2) /**< Fragment. Previous layer (L3/IL3) indicated a fragment. */
@@ -586,7 +579,7 @@
 #define BDK_NIC_L4TYPE_E_NVGRE_CN88XXP1 (0xc) /**< Reserved. */
 #define BDK_NIC_L4TYPE_E_NVGRE_CN81XX (0xc) /**< NVGRE tunneling layer. */
 #define BDK_NIC_L4TYPE_E_NVGRE_CN83XX (0xc) /**< NVGRE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_NVGRE_CN88XXP2 (0xc) /**< NVGRE tunneling layer. Added in pass 2. */
+#define BDK_NIC_L4TYPE_E_NVGRE_CN88XXP2 (0xc) /**< NVGRE tunneling layer. */
 #define BDK_NIC_L4TYPE_E_OTHER (0xe) /**< Protocol Field in the L3 Layer did not match any supported by the hardware parser */
 #define BDK_NIC_L4TYPE_E_SCTP (6) /**< Reserved.
                                        Internal:
@@ -608,15 +601,15 @@
 #define BDK_NIC_L4TYPE_E_UDP_BTH_CN88XXP2 (0xb) /**< Reserved.
                                        Internal:
                                        Not implemented in RTL. Old definition:
-                                       RoCE v2, which has UDP layer with BTH layer. Added in pass 2. */
+                                       RoCE v2, which has UDP layer with BTH layer. */
 #define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN88XXP1 (9) /**< Reserved. */
 #define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN81XX (9) /**< UDP with GENEVE tunneling layer. */
 #define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN83XX (9) /**< UDP with GENEVE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN88XXP2 (9) /**< UDP with GENEVE tunneling layer. Added in pass 2. */
+#define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN88XXP2 (9) /**< UDP with GENEVE tunneling layer. */
 #define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN88XXP1 (0xa) /**< Reserved. */
 #define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN81XX (0xa) /**< UDP with VXLAN tunneling layer. */
 #define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN83XX (0xa) /**< UDP with VXLAN tunneling layer. */
-#define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN88XXP2 (0xa) /**< UDP with VXLAN tunneling layer. Added in pass 2. */
+#define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN88XXP2 (0xa) /**< UDP with VXLAN tunneling layer. */
 
 /**
  * Enumeration nic_lbk_rx_conn_e
@@ -711,9 +704,7 @@
                                        destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
                                        and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
                                        
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}.
-                                       
-                                       Added in pass 2. */
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
 #define BDK_NIC_RSS_ALG_E_INNER_IP_CN88XXP1 (8) /**< Reserved. */
 #define BDK_NIC_RSS_ALG_E_INNER_IP_CN81XX (8) /**< RSS was done on the inner layer of a tunneling packet
                                        IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
@@ -745,8 +736,6 @@
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
                                        
-                                       Added in pass 2.
-                                       
                                        Internal:
                                        This algorithm is Msoft-compatible; the
                                        NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
@@ -777,9 +766,7 @@
                                        destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
                                        NIC_CQE_RX_S[L4TY]=BTH.
                                        
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
-                                       
-                                       Added in pass 2. */
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
 #define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN88XXP1 (0xb) /**< Reserved. */
 #define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN81XX (0xb) /**< Reserved.
                                        Internal:
@@ -810,9 +797,7 @@
                                        NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
                                        NIC_CQE_RX_S[L4TY]=SCTP.
                                        
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
-                                       
-                                       Added in pass 2. */
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
 #define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN88XXP1 (9) /**< Reserved. */
 #define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN81XX (9) /**< RSS was done on the inner layer of a tunneling packet
                                        TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
@@ -841,8 +826,6 @@
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
                                        
-                                       Added in pass 2.
-                                       
                                        Internal:
                                        This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
                                        determine IPv4 vs. IPv6 hash sub-type. */
@@ -864,9 +847,7 @@
                                        destination, UDP source port, and UDP destination port. Enabled when
                                        NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
                                        
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
-                                       
-                                       Added in pass 2. */
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
 #define BDK_NIC_RSS_ALG_E_IP (2) /**< IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
                                        Any extension headers, if present, are not included in the hash. Enabled when if
                                        NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
@@ -1130,7 +1111,6 @@
  * NIC TNS Bypasss Internal TX Channel Number Enumeration
  * Enumerates the index of NIC_PF_CHAN()_TX_CFG, NIC_PF_CHAN()_SW_XOFF and NIC_PF_CHAN()_CREDIT
  * when TNS is bypassed. Also enumerates NIC_PF_TL3()_CHAN[CHAN] values.
- * Added in pass 2.
  */
 #define BDK_NIC_TX_CHAN_BYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x10 * (b) + (c)) /**< Interface {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_PORT({b})_CH({c}). */
 
@@ -1140,7 +1120,6 @@
  * NIC TNS Bypasss Internal TX Channel Number Enumeration
  * Enumerates the index of NIC_PF_CHAN()_TX_CFG, NIC_PF_CHAN()_SW_XOFF and NIC_PF_CHAN()_CREDIT
  * when TNS is not bypassed. Also enumerates NIC_PF_TL3()_CHAN[CHAN] values.
- * Added in pass 2.
  */
 #define BDK_NIC_TX_CHAN_NONBYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x20 * (b) + (c)) /**< Interface {a} LMAC {b} channel {c}. Corresponds to
                                        NIC_CHAN_E::TNS_PORT({a})_CH({b}<<5|{c}). */
@@ -1151,7 +1130,6 @@
  * NIC TX LMAC Enumeration
  * Enumerates the index of NIC_PF_LMAC()_CFG, NIC_PF_LMAC()_CFG2, NIC_PF_LMAC()_SW_XOFF and
  * NIC_PF_LMAC()_CREDIT.
- * Added in pass 2.
  */
 #define BDK_NIC_TX_LMAC_E_INTFX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< Interface {a} LMAC {b}. */
 
@@ -1232,7 +1210,6 @@
  * Format of receive completion queue entry optional tunneling extension. When
  * NIC_PF_RX_CFG[CQE_RX2_ENA] is set, this extension structure is inserted at
  * word 6 of a CQE, immediately following the NIC_CQE_RX_S.
- * Added in pass 2.
  */
 union bdk_nic_cqe_rx2_s
 {
@@ -2078,10 +2055,8 @@ union bdk_nic_send_hdr_s
                                                                  first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
                                                                  any bytes covered or inserted by NIC_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
                                                                  point to a valid IPv4 header. */
-        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner Checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4.
-                                                                 Added in pass 2. */
-        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner Checksum L3. Similar to [CKL3] but for inner IP.
-                                                                 Added in pass 2. */
+        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner Checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4. */
+        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner Checksum L3. Similar to [CKL3] but for inner IP. */
         uint64_t reserved_40_41        : 2;
         uint64_t l4ptr                 : 8;  /**< [ 39: 32] Layer 4 offset. Specifies the location of the first byte of the TCP/UDP header for L4
                                                                  checksumming and/or TSO.
@@ -2147,10 +2122,8 @@ union bdk_nic_send_hdr_s
                                                                  NIC_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap with the
                                                                  NIC_SEND_CRC_S CRC bytes). */
         uint64_t reserved_40_41        : 2;
-        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner Checksum L3. Similar to [CKL3] but for inner IP.
-                                                                 Added in pass 2. */
-        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner Checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4.
-                                                                 Added in pass 2. */
+        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner Checksum L3. Similar to [CKL3] but for inner IP. */
+        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner Checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4. */
         uint64_t ckl3                  : 1;  /**< [ 45: 45] Checksum L3. If set, NIC hardware calculates the IPv4 header checksum and inserts it into
                                                                  the packet, as described in L4 checksum. When set, [L3PTR] selects the location of the
                                                                  first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
@@ -2220,51 +2193,41 @@ union bdk_nic_send_hdr_s
                                                                  LF checksumming and/or tunneled TSO. Similar to [L4PTR], but specifies the location of the
                                                                  first byte of inner the TCP/UDP header for inner L4 checksumming and tunneled TSO, as
                                                                  directed by [CKLF], [TSO]. If [CKLF] and [CKL4] are both nonzero, then [LFPTR] must be >
-                                                                 [L4PTR] + 20.
-                                                                 Added in pass 2. */
+                                                                 [L4PTR] + 20. */
         uint64_t leptr                 : 8;  /**< [ 95: 88] Inner layer 3 IP offset. Specifies the location of the first byte of the IP packet for LE
                                                                  checksum, LF checksum and/or tunneled TSO. Similar to [L3PTR] but for inner IP as directed
                                                                  by [CKLE], [CKLF], [TSO]. If [CKLE] and [CKL3] are set, then [LEPTR] must be > [L3PTR] +
-                                                                 20.
-                                                                 Added in pass 2. */
+                                                                 20. */
         uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
                                                                  the size of the headers preceding the payload). Must be nonzero and less than [TOTAL],
-                                                                 else the send descriptor is treated as non-TSO.
-
-                                                                 Added in pass 2. */
+                                                                 else the send descriptor is treated as non-TSO. */
         uint64_t reserved_78_79        : 2;
         uint64_t tso_mps               : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
                                                                  lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be nonzero, else the send
                                                                  descriptor is treated as non-TSO.
                                                                  Must be greater than 256 to support maximum [TOTAL] value of 2**20 - 1 (the number of
-                                                                 TSO segments must be less than 4094).
-                                                                 Added in pass 2. */
+                                                                 TSO segments must be less than 4094). */
 #else /* Word 1 - Little Endian */
         uint64_t tso_mps               : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
                                                                  lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be nonzero, else the send
                                                                  descriptor is treated as non-TSO.
                                                                  Must be greater than 256 to support maximum [TOTAL] value of 2**20 - 1 (the number of
-                                                                 TSO segments must be less than 4094).
-                                                                 Added in pass 2. */
+                                                                 TSO segments must be less than 4094). */
         uint64_t reserved_78_79        : 2;
         uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
                                                                  the size of the headers preceding the payload). Must be nonzero and less than [TOTAL],
-                                                                 else the send descriptor is treated as non-TSO.
-
-                                                                 Added in pass 2. */
+                                                                 else the send descriptor is treated as non-TSO. */
         uint64_t leptr                 : 8;  /**< [ 95: 88] Inner layer 3 IP offset. Specifies the location of the first byte of the IP packet for LE
                                                                  checksum, LF checksum and/or tunneled TSO. Similar to [L3PTR] but for inner IP as directed
                                                                  by [CKLE], [CKLF], [TSO]. If [CKLE] and [CKL3] are set, then [LEPTR] must be > [L3PTR] +
-                                                                 20.
-                                                                 Added in pass 2. */
+                                                                 20. */
         uint64_t lfptr                 : 8;  /**< [103: 96] Inner layer 4 offset. Specifies the location of the first byte of the TCP/UDP header for
                                                                  LF checksumming and/or tunneled TSO. Similar to [L4PTR], but specifies the location of the
                                                                  first byte of inner the TCP/UDP header for inner L4 checksumming and tunneled TSO, as
                                                                  directed by [CKLF], [TSO]. If [CKLF] and [CKL4] are both nonzero, then [LFPTR] must be >
-                                                                 [L4PTR] + 20.
-                                                                 Added in pass 2. */
+                                                                 [L4PTR] + 20. */
         uint64_t reserved_104_127      : 24;
 #endif /* Word 1 - End */
     } s;
@@ -2692,8 +2655,7 @@ typedef union
     struct bdk_nic_pf_bist0_status_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) Group 0 Block 3 memories.
-                                                                 Added in pass 2. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) Group 0 Block 3 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](RO/H) Group 0 Block 2 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](RO/H) Group 0 Block 1 memories. */
         uint64_t blk0                  : 8;  /**< [  7:  0](RO/H) Group 0 Block 0 memories. */
@@ -2701,8 +2663,7 @@ typedef union
         uint64_t blk0                  : 8;  /**< [  7:  0](RO/H) Group 0 Block 0 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](RO/H) Group 0 Block 1 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](RO/H) Group 0 Block 2 memories. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) Group 0 Block 3 memories.
-                                                                 Added in pass 2. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) Group 0 Block 3 memories. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_nic_pf_bist0_status_t;
@@ -2837,7 +2798,6 @@ static inline uint64_t BDK_NIC_PF_BIST3_STATUS_FUNC(void)
  * Register (NCB) nic_pf_bist4_status
  *
  * NIC Memory BIST 4 Status Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -3541,9 +3501,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mpi_alg               : 1;  /**< [ 63: 63](R/W) MPI algorithm. When set, the index into the NIC_PF_MPI()_CFG register is generated off
-                                                                 the MCAM lookup.
-
-                                                                 Added in Pass 2. */
+                                                                 the MCAM lookup. */
         uint64_t reserved_31_62        : 32;
         uint64_t vnic                  : 7;  /**< [ 30: 24](RAZ) Reserved.
                                                                  Internal:
@@ -3576,9 +3534,7 @@ typedef union
                                                                  It has been moved to NIC_PF_MPI()_CFG. */
         uint64_t reserved_31_62        : 32;
         uint64_t mpi_alg               : 1;  /**< [ 63: 63](R/W) MPI algorithm. When set, the index into the NIC_PF_MPI()_CFG register is generated off
-                                                                 the MCAM lookup.
-
-                                                                 Added in Pass 2. */
+                                                                 the MCAM lookup. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_nic_pf_cpix_cfg_t;
@@ -3685,7 +3641,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_cqm_cfg_s cn88xxp1; */
     struct bdk_nic_pf_cqm_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3700,27 +3655,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn81xx;
+    /* struct bdk_nic_pf_cqm_cfg_s cn88xx; */
     /* struct bdk_nic_pf_cqm_cfg_cn81xx cn83xx; */
-    struct bdk_nic_pf_cqm_cfg_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t drop_level            : 16; /**< [ 15:  0](R/W) Drop level. The minimum FIFO level before all packets for the CQ are dropped. This value
-                                                                 can be increased to insure that once a packet has been "accepted", it will not get
-                                                                 truncated due to buffer exhaustion.
-                                                                 Must be at least 0x80.
-
-                                                                 Reset value changed in pass 2. */
-#else /* Word 0 - Little Endian */
-        uint64_t drop_level            : 16; /**< [ 15:  0](R/W) Drop level. The minimum FIFO level before all packets for the CQ are dropped. This value
-                                                                 can be increased to insure that once a packet has been "accepted", it will not get
-                                                                 truncated due to buffer exhaustion.
-                                                                 Must be at least 0x80.
-
-                                                                 Reset value changed in pass 2. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn88xxp2;
 } bdk_nic_pf_cqm_cfg_t;
 
 #define BDK_NIC_PF_CQM_CFG BDK_NIC_PF_CQM_CFG_FUNC()
@@ -3917,8 +3853,6 @@ typedef union
                                                                  Internal:
                                                                  REB memories:
 
-                                                                 Changed in pass 2.
-
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
                                                                    <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
@@ -3967,8 +3901,6 @@ typedef union
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
                                                                  Internal:
                                                                  REB memories:
-
-                                                                 Changed in pass 2.
 
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
@@ -4015,8 +3947,6 @@ typedef union
                                                                  Internal:
                                                                  REB memories:
 
-                                                                 Changed in pass 2.
-
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
                                                                    <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
@@ -4065,8 +3995,6 @@ typedef union
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
                                                                  Internal:
                                                                  REB memories:
-
-                                                                 Changed in pass 2.
 
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
@@ -4249,8 +4177,6 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-                                                                 Added in pass 2.
-
                                                                  Internal:
                                                                  REB memories:
 
@@ -4273,8 +4199,6 @@ typedef union
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
                                                                  Internal:
                                                                  REB memories:
-
-                                                                 Changed in pass 2.
 
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
@@ -4325,8 +4249,6 @@ typedef union
                                                                  Internal:
                                                                  REB memories:
 
-                                                                 Changed in pass 2.
-
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
                                                                    <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
@@ -4342,8 +4264,6 @@ typedef union
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-                                                                 Added in pass 2.
-
                                                                  Internal:
                                                                  REB memories:
 
@@ -4578,8 +4498,7 @@ typedef union
     struct bdk_nic_pf_ecc0_dbe_int_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories.
-                                                                 Added in pass 2. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Group 0 Block 2 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Group 0 Block 1 memories. */
         uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Group 0 Block 0 memories. */
@@ -4587,8 +4506,7 @@ typedef union
         uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Group 0 Block 0 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Group 0 Block 1 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Group 0 Block 2 memories. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories.
-                                                                 Added in pass 2. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_nic_pf_ecc0_dbe_int_t;
@@ -4714,8 +4632,6 @@ typedef union
                                                                  Internal:
                                                                  REB memories:
 
-                                                                 Changed in pass 2.
-
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
                                                                    <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
@@ -4764,8 +4680,6 @@ typedef union
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
                                                                  Internal:
                                                                  REB memories:
-
-                                                                 Changed in pass 2.
 
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
@@ -4812,8 +4726,6 @@ typedef union
                                                                  Internal:
                                                                  REB memories:
 
-                                                                 Changed in pass 2.
-
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
                                                                    <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
@@ -4862,8 +4774,6 @@ typedef union
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
                                                                  Internal:
                                                                  REB memories:
-
-                                                                 Changed in pass 2.
 
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
@@ -5046,8 +4956,6 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-                                                                 Added in pass 2.
-
                                                                  Internal:
                                                                  REB memories:
 
@@ -5070,8 +4978,6 @@ typedef union
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
                                                                  Internal:
                                                                  REB memories:
-
-                                                                 Changed in pass 2.
 
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
@@ -5122,8 +5028,6 @@ typedef union
                                                                  Internal:
                                                                  REB memories:
 
-                                                                 Changed in pass 2.
-
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
                                                                    <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
@@ -5139,8 +5043,6 @@ typedef union
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-                                                                 Added in pass 2.
-
                                                                  Internal:
                                                                  REB memories:
 
@@ -5216,8 +5118,6 @@ typedef union
                                                                  Internal:
                                                                  REB memories:
 
-                                                                 Changed in pass 2.
-
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
                                                                    <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
@@ -5266,8 +5166,6 @@ typedef union
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
                                                                  Internal:
                                                                  REB memories:
-
-                                                                 Changed in pass 2.
 
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
@@ -5314,8 +5212,6 @@ typedef union
                                                                  Internal:
                                                                  REB memories:
 
-                                                                 Changed in pass 2.
-
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
                                                                    <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
@@ -5364,8 +5260,6 @@ typedef union
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
                                                                  Internal:
                                                                  REB memories:
-
-                                                                 Changed in pass 2.
 
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
@@ -5548,8 +5442,6 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-                                                                 Added in pass 2.
-
                                                                  Internal:
                                                                  REB memories:
 
@@ -5572,8 +5464,6 @@ typedef union
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
                                                                  Internal:
                                                                  REB memories:
-
-                                                                 Changed in pass 2.
 
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
@@ -5624,8 +5514,6 @@ typedef union
                                                                  Internal:
                                                                  REB memories:
 
-                                                                 Changed in pass 2.
-
                                                                  Pass 1:
                                                                    <15:9> = Reserved.
                                                                    <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
@@ -5641,8 +5529,6 @@ typedef union
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-                                                                 Added in pass 2.
-
                                                                  Internal:
                                                                  REB memories:
 
@@ -5877,8 +5763,7 @@ typedef union
     struct bdk_nic_pf_ecc0_sbe_int_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories.
-                                                                 Added in pass 2. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Group 0 Block 2 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Group 0 Block 1 memories. */
         uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Group 0 Block 0 memories. */
@@ -5886,8 +5771,7 @@ typedef union
         uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Group 0 Block 0 memories. */
         uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Group 0 Block 1 memories. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Group 0 Block 2 memories. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories.
-                                                                 Added in pass 2. */
+        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_nic_pf_ecc0_sbe_int_t;
@@ -9032,8 +8916,6 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_INT_W1S_FUNC(void)
  * Register (NCB) nic_pf_eco0
  *
  * INTERNAL: ECO 0 Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -9077,8 +8959,6 @@ static inline uint64_t BDK_NIC_PF_ECO0_FUNC(void)
  * Register (NCB) nic_pf_eco1
  *
  * INTERNAL: ECO 1 Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -9122,8 +9002,6 @@ static inline uint64_t BDK_NIC_PF_ECO1_FUNC(void)
  * Register (NCB) nic_pf_eco2
  *
  * INTERNAL: ECO 2 Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -9167,8 +9045,6 @@ static inline uint64_t BDK_NIC_PF_ECO2_FUNC(void)
  * Register (NCB) nic_pf_eco3
  *
  * INTERNAL: ECO 3 Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -9212,8 +9088,6 @@ static inline uint64_t BDK_NIC_PF_ECO3_FUNC(void)
  * Register (NCB) nic_pf_eco4
  *
  * INTERNAL: ECO 4 Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -9257,8 +9131,6 @@ static inline uint64_t BDK_NIC_PF_ECO4_FUNC(void)
  * Register (NCB) nic_pf_eco5
  *
  * INTERNAL: ECO 5 Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -9631,7 +9503,6 @@ static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a)
  * Register (NCB) nic_pf_intf#_tx_fifo_status
  *
  * NIC Interface Transmit FIFO Status Registers
- * Added in pass 2.
  */
 typedef union
 {
@@ -9721,7 +9592,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a)
  * Register (NCB) nic_pf_lmac#_cfg2
  *
  * NIC LMAC Configuration Registers
- * Added in pass 2. Index enumerated by NIC_TX_LMAC_E.
+ * Index enumerated by NIC_TX_LMAC_E.
  */
 typedef union
 {
@@ -10172,7 +10043,6 @@ static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long a)
  *
  * NIC MCAM Enable Registers
  * This register enables the corresponding ECAM entry number.
- * Added in pass 2.
  */
 typedef union
 {
@@ -10215,7 +10085,6 @@ static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long a)
  * NIC MCAM Data Registers
  * This register specifies the ternary match data for the corresponding ECAM entry
  * number.
- * Added in pass 2.
  */
 typedef union
 {
@@ -10293,7 +10162,6 @@ static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long a, unsigned long b
  *
  * NIC MCAM Control Register
  * This register controls the MCAM.
- * Added in pass 2.
  */
 typedef union
 {
@@ -10341,7 +10209,6 @@ static inline uint64_t BDK_NIC_PF_MCAM_CTRL_FUNC(void)
  * Register (NCB) nic_pf_mpi#_cfg
  *
  * NIC MPI Table Registers
- * Added in pass 2.
  */
 typedef union
 {
@@ -10847,12 +10714,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dext_abs              : 1;  /**< [ 63: 63](R/W) 0 = DEXT position is relative to start of L2 (and
                                                                  thus is adjusted by NIC_RX_HDR_S[SL]).
-                                                                 1 = DEXT position is absolute.
-
-                                                                 Added in pass 2. */
-        uint64_t dext_sl               : 7;  /**< [ 62: 56](R/W) Number of 2-byte words between start of packet or start of L2 (see [DEXT_ABS]).
-
-                                                                 Added in pass 2. */
+                                                                 1 = DEXT position is absolute. */
+        uint64_t dext_sl               : 7;  /**< [ 62: 56](R/W) Number of 2-byte words between start of packet or start of L2 (see [DEXT_ABS]). */
         uint64_t reserved_42_55        : 14;
         uint64_t hdr_sl                : 5;  /**< [ 41: 37](R/W) Header skip length. Number of 2-byte words parser should skip between the start of the
                                                                  packet and the NIC_RX_HDR_S (if [RX_HDR] is set) or Ethernet address (if [RX_HDR] is
@@ -10898,14 +10761,10 @@ typedef union
                                                                  clear). For BGX, should be 0x4 if a timestamp is present; see also
                                                                  BGX()_SMU()_RX_FRM_CTL[PTP_MODE]. For TNS should be 0x8. */
         uint64_t reserved_42_55        : 14;
-        uint64_t dext_sl               : 7;  /**< [ 62: 56](R/W) Number of 2-byte words between start of packet or start of L2 (see [DEXT_ABS]).
-
-                                                                 Added in pass 2. */
+        uint64_t dext_sl               : 7;  /**< [ 62: 56](R/W) Number of 2-byte words between start of packet or start of L2 (see [DEXT_ABS]). */
         uint64_t dext_abs              : 1;  /**< [ 63: 63](R/W) 0 = DEXT position is relative to start of L2 (and
                                                                  thus is adjusted by NIC_RX_HDR_S[SL]).
-                                                                 1 = DEXT position is absolute.
-
-                                                                 Added in pass 2. */
+                                                                 1 = DEXT position is absolute. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_nic_pf_pkindx_cfg_t;
@@ -11191,7 +11050,7 @@ static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a)
  * Register (NCB) nic_pf_qs#_lock#
  *
  * NIC PF VNIC Lockdown Registers
- * Changed in pass 2 to increase lockdown bytes per QS from 64 to 96.
+ * Modified in pass 2 to increase lockdown bytes per QS from 64 to 96.
  */
 typedef union
 {
@@ -12384,7 +12243,6 @@ static inline uint64_t BDK_NIC_PF_RX_BPID_STATEX(unsigned long a)
  * Register (NCB) nic_pf_rx_cfg
  *
  * NIC Receive Configuration Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -12571,7 +12429,6 @@ static inline uint64_t BDK_NIC_PF_RX_ETYPEX(unsigned long a)
  * Register (NCB) nic_pf_rx_geneve_def
  *
  * NIC Receive GENEVE Control Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -12615,7 +12472,6 @@ static inline uint64_t BDK_NIC_PF_RX_GENEVE_DEF_FUNC(void)
  * Register (NCB) nic_pf_rx_geneve_prot_def
  *
  * NIC Receive GENEVE Protocal Definition Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -12667,7 +12523,6 @@ static inline uint64_t BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC(void)
  * Register (NCB) nic_pf_rx_nvgre_prot_def
  *
  * NIC Receive NVGRE Protocal Definition Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -12721,8 +12576,6 @@ static inline uint64_t BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC(void)
  * INTERNAL: NIC Receive RoCEv2 Control Register
  *
  * This register defines and enables RoCE version 2 parsing.
- * Added in pass 2.
- *
  * Internal:
  * Unused register.
  */
@@ -12768,7 +12621,6 @@ static inline uint64_t BDK_NIC_PF_RX_ROCEV2_DEF_FUNC(void)
  * Register (NCB) nic_pf_rx_vxlan_def#
  *
  * NIC Receive VXLAN Control Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -12815,7 +12667,6 @@ static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long a)
  * Register (NCB) nic_pf_rx_vxlan_prot_def
  *
  * NIC Receive VXLAN Protocal Definition Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -13067,62 +12918,7 @@ typedef union
     } cn88xxp1;
     /* struct bdk_nic_pf_seb_test_s cn81xx; */
     /* struct bdk_nic_pf_seb_test_s cn83xx; */
-    struct bdk_nic_pf_seb_test_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved.
-                                                                 <62> = seb_interface_1_stall.
-                                                                 <61> = seb_interface_0_stall.
-                                                                 <60> = seb_fifo_stall. */
-        uint64_t reserved_25_59        : 35;
-        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only. Added in pass 2.
-                                                                 Internal:
-                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
-                                                                 cycles to 1 co-processor cycle corresponding to the
-                                                                 NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   <23:22> = bp_cfg3.
-                                                                   <21:20> = bp_cfg2.
-                                                                   <19:18> = bp_cfg1.
-                                                                   <17:16> = bp_cfg0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   <23:22> = bp_cfg3.
-                                                                   <21:20> = bp_cfg2.
-                                                                   <19:18> = bp_cfg1.
-                                                                   <17:16> = bp_cfg0. */
-        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only. Added in pass 2.
-                                                                 Internal:
-                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
-                                                                 cycles to 1 co-processor cycle corresponding to the
-                                                                 NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
-        uint64_t reserved_25_59        : 35;
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved.
-                                                                 <62> = seb_interface_1_stall.
-                                                                 <61> = seb_interface_0_stall.
-                                                                 <60> = seb_fifo_stall. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_nic_pf_seb_test_s cn88xxp2; */
 } bdk_nic_pf_seb_test_t;
 
 #define BDK_NIC_PF_SEB_TEST BDK_NIC_PF_SEB_TEST_FUNC()
@@ -13183,7 +12979,6 @@ static inline uint64_t BDK_NIC_PF_SEND_CFG_FUNC(void)
  * Register (NCB) nic_pf_soft_reset
  *
  * NIC Soft Reset Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -13477,7 +13272,6 @@ static inline uint64_t BDK_NIC_PF_STATUS_FUNC(void)
  * INTERNAL: NIC SW SYNC Pipline CQ Counter Registers
  *
  * For diagnostic use only for debug of the NIC_PF_SW_SYNC_RX[SW_RX_SYNC] function.
- * Added in pass 2:
  */
 typedef union
 {
@@ -13520,7 +13314,6 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a)
  * INTERNAL: NIC SW SYNC Pipeline Packet Counter Registers
  *
  * For diagnostic use only for debug of the NIC_PF_SW_SYNC_RX[SW_RX_SYNC] function.
- * Added in pass 2.
  */
 typedef union
 {
@@ -14494,7 +14287,6 @@ static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a)
  * Register (NCB) nic_pf_tso_cfg
  *
  * NIC TCP Segmentation Offload Configuration Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -15791,10 +15583,10 @@ typedef union
                                                                  nonzero to globally enable averaging. NIC_PF_RRM_AVG_CFG[AVG_DLY] controls the periodicity
                                                                  of the level calculations. */
         uint64_t reserved_9_15         : 7;
-        uint64_t lines                 : 9;  /**< [  8:  0](R/W) Changed in pass 2. Size of buffers linked to this ring in 128-byte cache lines.
+        uint64_t lines                 : 9;  /**< [  8:  0](R/W) Size of buffers linked to this ring in 128-byte cache lines.
                                                                  0x0 is illegal and will get aliased to a setting of 0x1. */
 #else /* Word 0 - Little Endian */
-        uint64_t lines                 : 9;  /**< [  8:  0](R/W) Changed in pass 2. Size of buffers linked to this ring in 128-byte cache lines.
+        uint64_t lines                 : 9;  /**< [  8:  0](R/W) Size of buffers linked to this ring in 128-byte cache lines.
                                                                  0x0 is illegal and will get aliased to a setting of 0x1. */
         uint64_t reserved_9_15         : 7;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
@@ -16807,9 +16599,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
         uint64_t cq_limit              : 8;  /**< [ 31: 24](R/W/H) Threshold level for suppressing packet send, in units of 1/256th of CQ level. 0xff
                                                                  represents an empty CQ ring, 0x0 represents a full ring. Packets will not be sent from the
-                                                                 SQ if the available space in the associated CQ is less than the [CQ_LIMIT] value.
-
-                                                                 Added in pass 2. */
+                                                                 SQ if the available space in the associated CQ is less than the [CQ_LIMIT] value. */
         uint64_t reserved_20_23        : 4;
         uint64_t ena                   : 1;  /**< [ 19: 19](R/W/H) Enable SQ. Software can clear this bit at any time to disable the SQ, at which time
                                                                  hardware stops servicing the SQ and sets NIC_QS()_SQ()_STATUS[STOPPED] when
@@ -16889,9 +16679,7 @@ typedef union
         uint64_t reserved_20_23        : 4;
         uint64_t cq_limit              : 8;  /**< [ 31: 24](R/W/H) Threshold level for suppressing packet send, in units of 1/256th of CQ level. 0xff
                                                                  represents an empty CQ ring, 0x0 represents a full ring. Packets will not be sent from the
-                                                                 SQ if the available space in the associated CQ is less than the [CQ_LIMIT] value.
-
-                                                                 Added in pass 2. */
+                                                                 SQ if the available space in the associated CQ is less than the [CQ_LIMIT] value. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp2;
@@ -17320,9 +17108,7 @@ typedef union
                                                                  * A write to NIC_QS()_SQ()_DOOR causes an error.
 
                                                                  When this bit is set, NIC stops servicing the SQ and sets [STOPPED] in this register when
-                                                                 the stop operation done.
-
-                                                                 Added in pass 2. */
+                                                                 the stop operation done. */
         uint64_t reserved_16_17        : 2;
         uint64_t qcount                : 16; /**< [ 15:  0](RO/H) Number of valid entries in the SQ. Computed by hardware from
                                                                  NIC_QS()_SQ()_CFG[QSIZE], NIC_QS()_SQ()_TAIL[TAIL_PTR] and
@@ -17337,9 +17123,7 @@ typedef union
                                                                  * A write to NIC_QS()_SQ()_DOOR causes an error.
 
                                                                  When this bit is set, NIC stops servicing the SQ and sets [STOPPED] in this register when
-                                                                 the stop operation done.
-
-                                                                 Added in pass 2. */
+                                                                 the stop operation done. */
         uint64_t dpe_err               : 1;  /**< [ 19: 19](RO/H) Descriptor parsing engine error. NIC sets this bit along with NIC_VF()_INT[QS_ERR]
                                                                  when any of the following errors is detected on a send descriptor:
                                                                  * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
@@ -18471,56 +18255,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_vnicx_rss_cfg_cn81xx cn83xx; */
-    struct bdk_nic_vnicx_rss_cfg_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t rss_tun_nvgre         : 1;  /**< [ 11: 11](R/W) Enable NVGRE tunnelling support. Added in pass 2. */
-        uint64_t rss_tun_geneve        : 1;  /**< [ 10: 10](R/W) Enable GENEVE tunnelling support. Added in pass 2. */
-        uint64_t rss_tun_vxlan         : 1;  /**< [  9:  9](R/W) Enable VXLAN tunnel support. Added in pass 2. */
-        uint64_t rss_l4_bidi           : 1;  /**< [  8:  8](R/W) Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
-        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6 RSS layer. */
-        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 Unused field. Old definition:
-                                                                 Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::ROCE. */
-        uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
-                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP or NIC_RSS_ALG_E::INNER_GRE_IP. */
-        uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::UDP_IP. */
-        uint64_t rss_syn_dis           : 1;  /**< [  3:  3](R/W) Disable RSS on TCP SYN packets. If set, TCP packets with SYN & !ACK will have RSS disabled. */
-        uint64_t rss_tcp               : 1;  /**< [  2:  2](R/W) Enable TCP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::TCP_IP. */
-        uint64_t rss_ip                : 1;  /**< [  1:  1](R/W) Enable IPv4/6 RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::IP. */
-        uint64_t rss_l2etc             : 1;  /**< [  0:  0](R/W) Enable L2 extended RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::PORT. */
-#else /* Word 0 - Little Endian */
-        uint64_t rss_l2etc             : 1;  /**< [  0:  0](R/W) Enable L2 extended RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::PORT. */
-        uint64_t rss_ip                : 1;  /**< [  1:  1](R/W) Enable IPv4/6 RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::IP. */
-        uint64_t rss_tcp               : 1;  /**< [  2:  2](R/W) Enable TCP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::TCP_IP. */
-        uint64_t rss_syn_dis           : 1;  /**< [  3:  3](R/W) Disable RSS on TCP SYN packets. If set, TCP packets with SYN & !ACK will have RSS disabled. */
-        uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::UDP_IP. */
-        uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
-                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP or NIC_RSS_ALG_E::INNER_GRE_IP. */
-        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 Unused field. Old definition:
-                                                                 Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
-                                                                 NIC_RSS_ALG_E::ROCE. */
-        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6 RSS layer. */
-        uint64_t rss_l4_bidi           : 1;  /**< [  8:  8](R/W) Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
-        uint64_t rss_tun_vxlan         : 1;  /**< [  9:  9](R/W) Enable VXLAN tunnel support. Added in pass 2. */
-        uint64_t rss_tun_geneve        : 1;  /**< [ 10: 10](R/W) Enable GENEVE tunnelling support. Added in pass 2. */
-        uint64_t rss_tun_nvgre         : 1;  /**< [ 11: 11](R/W) Enable NVGRE tunnelling support. Added in pass 2. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_nic_vnicx_rss_cfg_cn81xx cn88xxp2; */
 } bdk_nic_vnicx_rss_cfg_t;
 
 static inline uint64_t BDK_NIC_VNICX_RSS_CFG(unsigned long a) __attribute__ ((pure, always_inline));

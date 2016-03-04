@@ -350,8 +350,7 @@ typedef union
 
                                                                  In CNXXXX always 0x0 as it doesn't support multicycle channel events.
 
-                                                                 For pass 1 is RO, for pass 2 changed to R/W.
-                                                                 Added in pass 2. */
+                                                                 For pass 1 is RO, for pass 2 changed to R/W. */
 #else /* Word 0 - Little Endian */
         uint32_t trig                  : 3;  /**< [  2:  0](R/W1S/H) Application trigger <x> enable.
                                                                  N is the number of ECT channels implemented as defined by
@@ -369,8 +368,7 @@ typedef union
 
                                                                  In CNXXXX always 0x0 as it doesn't support multicycle channel events.
 
-                                                                 For pass 1 is RO, for pass 2 changed to R/W.
-                                                                 Added in pass 2. */
+                                                                 For pass 1 is RO, for pass 2 changed to R/W. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } cn88xxp2;

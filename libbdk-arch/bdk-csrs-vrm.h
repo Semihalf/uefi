@@ -209,8 +209,6 @@ static inline uint64_t BDK_VRMX_DEVICE_STATUS(unsigned long a)
  * Register (RSL) vrm#_eco
  *
  * INTERNAL: VRM ECO Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -467,23 +465,7 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_vrmx_trip_s cn88xxp1; */
-    /* struct bdk_vrmx_trip_s cn81xx; */
-    /* struct bdk_vrmx_trip_s cn83xx; */
-    struct bdk_vrmx_trip_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t trip_level            : 8;  /**< [  7:  0](R/W) Changed in pass2.
-                                                                 If temperature sensed is greater than this value RST_THERMAL_ALERT[TRIP] is set,
-                                                                 and the THERMAL_TRIP_L pin asserts. */
-#else /* Word 0 - Little Endian */
-        uint64_t trip_level            : 8;  /**< [  7:  0](R/W) Changed in pass2.
-                                                                 If temperature sensed is greater than this value RST_THERMAL_ALERT[TRIP] is set,
-                                                                 and the THERMAL_TRIP_L pin asserts. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_vrmx_trip_s cn; */
 } bdk_vrmx_trip_t;
 
 static inline uint64_t BDK_VRMX_TRIP(unsigned long a) __attribute__ ((pure, always_inline));

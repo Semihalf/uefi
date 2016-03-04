@@ -351,7 +351,6 @@ static inline uint64_t BDK_KEY_MEMX(unsigned long a)
  *
  * KEY BIST Status Register
  * This register contains the controls to allow local and remote RSL access to KEY MEM.
- * This register was added in pass 2.
  */
 typedef union
 {

@@ -2636,7 +2636,7 @@ static inline uint64_t BDK_SMMUX_CIDR3(unsigned long a)
  * Register (NCB) smmu#_debug
  *
  * SMMU Debug Registers
- * This register contains debug information. Added in pass 2.
+ * This register contains debug information.
  */
 typedef union
 {
@@ -2811,80 +2811,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_smmux_diag_ctl_cn81xx cn83xx; */
-    struct bdk_smmux_diag_ctl_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t pg_cmb                : 2;  /**< [ 16: 15](SR/W) Page combining.
-                                                                 0x0 = Transactions into the TLB that miss that are to the same 4 KB page as an
-                                                                 already outstanding miss are combined into a single page table walk.
-                                                                 0x1 = Transactions into the TLB that miss that are to the same 64 KB page as an
-                                                                 already outstanding miss are combined into a single page table walk.  This will
-                                                                 improve performance, but must only be used when 64 KB is the smallest granule
-                                                                 size used across all contexts in the SMMU (all SMMU()_CB()_TCR[TG0,TG1] = 0x3).
-                                                                 0x2 = Every transaction into the TLB that misses will require a page table
-                                                                 walk. For diagnostic use only.
-                                                                 0x3 = Reserved.
-
-                                                                 Added in pass 2. */
-        uint64_t force_clks_active     : 1;  /**< [ 14: 14](SR/W) Forces the conditional clocks to be always on. For diagnostic use only. */
-        uint64_t walkers               : 6;  /**< [ 13:  8](SR/W) Number of walkers. The number of page table walkers that may
-                                                                 simultaneously be executing, minus one.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
-                                                                 For diagnostic use only. */
-        uint64_t reserved_7            : 1;
-        uint64_t throttle              : 1;  /**< [  6:  6](SR/W) Throttle throughput. For diagnostic use only. If set, limit translations to one every four
-                                                                 cycles, to insure OCLA debug FIFOs will not overrun.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's. */
-        uint64_t dis_bcstr             : 1;  /**< [  5:  5](SR/W) Reserved. */
-        uint64_t dis_wcs1              : 2;  /**< [  4:  3](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint64_t dis_wcs2              : 2;  /**< [  2:  1](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint64_t dis_tlb               : 1;  /**< [  0:  0](SR/W) Disables hitting in the TLB. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t dis_tlb               : 1;  /**< [  0:  0](SR/W) Disables hitting in the TLB. For diagnostic use only. */
-        uint64_t dis_wcs2              : 2;  /**< [  2:  1](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint64_t dis_wcs1              : 2;  /**< [  4:  3](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint64_t dis_bcstr             : 1;  /**< [  5:  5](SR/W) Reserved. */
-        uint64_t throttle              : 1;  /**< [  6:  6](SR/W) Throttle throughput. For diagnostic use only. If set, limit translations to one every four
-                                                                 cycles, to insure OCLA debug FIFOs will not overrun.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's. */
-        uint64_t reserved_7            : 1;
-        uint64_t walkers               : 6;  /**< [ 13:  8](SR/W) Number of walkers. The number of page table walkers that may
-                                                                 simultaneously be executing, minus one.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
-                                                                 For diagnostic use only. */
-        uint64_t force_clks_active     : 1;  /**< [ 14: 14](SR/W) Forces the conditional clocks to be always on. For diagnostic use only. */
-        uint64_t pg_cmb                : 2;  /**< [ 16: 15](SR/W) Page combining.
-                                                                 0x0 = Transactions into the TLB that miss that are to the same 4 KB page as an
-                                                                 already outstanding miss are combined into a single page table walk.
-                                                                 0x1 = Transactions into the TLB that miss that are to the same 64 KB page as an
-                                                                 already outstanding miss are combined into a single page table walk.  This will
-                                                                 improve performance, but must only be used when 64 KB is the smallest granule
-                                                                 size used across all contexts in the SMMU (all SMMU()_CB()_TCR[TG0,TG1] = 0x3).
-                                                                 0x2 = Every transaction into the TLB that misses will require a page table
-                                                                 walk. For diagnostic use only.
-                                                                 0x3 = Reserved.
-
-                                                                 Added in pass 2. */
-        uint64_t reserved_17_63        : 47;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_smmux_diag_ctl_cn81xx cn88xxp2; */
 } bdk_smmux_diag_ctl_t;
 
 static inline uint64_t BDK_SMMUX_DIAG_CTL(unsigned long a) __attribute__ ((pure, always_inline));

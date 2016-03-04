@@ -67,11 +67,10 @@
  * USBDRD MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_USBDRD_INT_VEC_E_UAHC_IMAN_IP (0) /**< Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP]. */
-#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE (2) /**< Changed in pass 1.1. See UAHC(0..1)_USBSTS[HSE]. */
-#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR (3) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
-#define BDK_USBDRD_INT_VEC_E_UCTL_INTSTAT (1) /**< Changed in pass 1.1.
-                                       See interrupt clears USBDRD(0..1)_UCTL_INTSTAT,
+#define BDK_USBDRD_INT_VEC_E_UAHC_IMAN_IP (0) /**< See UAHC(0)_IMAN(0)[IP]. */
+#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE (2) /**< See UAHC(0..1)_USBSTS[HSE]. */
+#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR (3) /**< Level sensitive interrupt clear vector. */
+#define BDK_USBDRD_INT_VEC_E_UCTL_INTSTAT (1) /**< See interrupt clears USBDRD(0..1)_UCTL_INTSTAT,
                                        interrupt sets USBDRD(0..1)_UCTL_INTSTAT_W1S,
                                        enable clears USBDRD(0..1)_UCTL_INTENA_W1C,
                                        and enable sets USBDRD(0..1)_UCTL_INTENA_W1S. */

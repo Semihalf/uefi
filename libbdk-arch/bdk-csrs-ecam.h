@@ -314,7 +314,6 @@ static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
  * Register (RSL) ecam#_bus#_skill
  *
  * ECAM Bus Secure Disable Registers
- * Added in pass 3.
  */
 typedef union
 {
@@ -512,7 +511,6 @@ static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b)
  * Register (RSL) ecam#_dev#_skill
  *
  * ECAM Device Secure Disable Registers
- * Added in pass 3.
  */
 typedef union
 {
@@ -811,7 +809,7 @@ static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
  * Register (RSL) ecam#_rsl#_skill
  *
  * ECAM RSL Function Secure Disable Registers
- * Added in pass 3. This register is only implemented for ECAM0 which sources RSL.
+ * This register is only implemented for ECAM0 which sources RSL.
  */
 typedef union
 {

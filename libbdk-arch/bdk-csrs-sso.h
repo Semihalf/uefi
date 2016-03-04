@@ -932,10 +932,10 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <63> = Reserved.
+                                                                 <62> = Reserved.
+                                                                 <61> = Reserved.
+                                                                 <60> = Limit the gw_csr_rxfifo from asserting valid for the next request. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
@@ -965,10 +965,10 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <63> = Reserved.
+                                                                 <62> = Reserved.
+                                                                 <61> = Reserved.
+                                                                 <60> = Limit the gw_csr_rxfifo from asserting valid for the next request. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bp_test1_s cn; */
@@ -3119,7 +3119,17 @@ typedef union
     struct bdk_sso_hwsx_gmctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_17_63        : 47;
+        uint64_t gw_indx_ena           : 1;  /**< [ 16: 16](R/W) Get work indexeded enable.
+                                                                 0 = Get work indexed operations for the given HWS will immediately return
+                                                                 NO_WORK.
+                                                                 1 = Get-work indexed operations are allowed. However software can only perform
+                                                                 get-work indexed for entries that were previously descheduled by a HWS, and have
+                                                                 a vhgroup which has a valid guest-group mapping for the GMID which is performing
+                                                                 the get-work indexed.
+
+                                                                 Violation of these conditions may result in unpredictable behavior, including
+                                                                 corruption of other GMIDs using SSO. */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) GMID assigned to this VHWS.
                                                                  Used to translate the following CSRs:
 
@@ -3161,7 +3171,17 @@ typedef union
 
                                                                  Else (if not 0x0 nor 0x1), see the CSR descriptions above for the
                                                                  transformations performed; which generally use SSO_PF_MAP(). */
-        uint64_t reserved_16_63        : 48;
+        uint64_t gw_indx_ena           : 1;  /**< [ 16: 16](R/W) Get work indexeded enable.
+                                                                 0 = Get work indexed operations for the given HWS will immediately return
+                                                                 NO_WORK.
+                                                                 1 = Get-work indexed operations are allowed. However software can only perform
+                                                                 get-work indexed for entries that were previously descheduled by a HWS, and have
+                                                                 a vhgroup which has a valid guest-group mapping for the GMID which is performing
+                                                                 the get-work indexed.
+
+                                                                 Violation of these conditions may result in unpredictable behavior, including
+                                                                 corruption of other GMIDs using SSO. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_hwsx_gmctl_s cn; */

@@ -1154,24 +1154,7 @@ typedef union
     } cn88xxp1;
     /* struct bdk_trcx_trcdevaff0_s cn81xx; */
     /* struct bdk_trcx_trcdevaff0_s cn83xx; */
-    struct bdk_trcx_trcdevaff0_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
-        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
-                                                                 Added in pass 2. */
-        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
-                                                                 Added in pass 2. */
-#else /* Word 0 - Little Endian */
-        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
-                                                                 Added in pass 2. */
-        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
-                                                                 Added in pass 2. */
-        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_trcx_trcdevaff0_s cn88xxp2; */
 } bdk_trcx_trcdevaff0_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1271,53 +1254,7 @@ typedef union
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_trcx_trcdevarch_s cn88xxp1; */
-    /* struct bdk_trcx_trcdevarch_s cn81xx; */
-    /* struct bdk_trcx_trcdevarch_s cn83xx; */
-    struct bdk_trcx_trcdevarch_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
-
-                                                                 Bits [31:28] are the JEP 106 continuation code, 0x4.
-
-                                                                 Bits [27:21] are the JEP 106 ID code, 0x3B. */
-        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
-                                                                 This field is 1 in v8-A. */
-        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
-                                                                 For TRC, the revision defined by v8-A is 0x0.
-                                                                 All other values are reserved.
-                                                                 Changed in pass 2. */
-        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
-                                                                 For TRC:
-                                                                  Bits [15:12] are the architecture version, 0x1.
-                                                                  Bits [11:0] are the architecture part number, 0xA14.
-                                                                 This corresponds to TRC architecture version TRCv2.
-                                                                 Changed in pass 2. */
-#else /* Word 0 - Little Endian */
-        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
-                                                                 For TRC:
-                                                                  Bits [15:12] are the architecture version, 0x1.
-                                                                  Bits [11:0] are the architecture part number, 0xA14.
-                                                                 This corresponds to TRC architecture version TRCv2.
-                                                                 Changed in pass 2. */
-        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
-                                                                 For TRC, the revision defined by v8-A is 0x0.
-                                                                 All other values are reserved.
-                                                                 Changed in pass 2. */
-        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
-                                                                 This field is 1 in v8-A. */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
-
-                                                                 Bits [31:28] are the JEP 106 continuation code, 0x4.
-
-                                                                 Bits [27:21] are the JEP 106 ID code, 0x3B. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_trcx_trcdevarch_s cn; */
 } bdk_trcx_trcdevarch_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1689,7 +1626,7 @@ static inline uint64_t BDK_TRCX_TRCEXTINSELR(unsigned long a)
  * Register (DAB32b) trc#_trcidr0
  *
  * ETMv4 ID Register 0
- * This register indicates the capabilities of the trace unit. Changed in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -1957,7 +1894,7 @@ static inline uint64_t BDK_TRCX_TRCIDR0(unsigned long a)
  * Register (DAB32b) trc#_trcidr1
  *
  * ETMv4 ID Register 1
- * This register indicates the capabilities of the trace unit. Changed in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -2021,7 +1958,7 @@ static inline uint64_t BDK_TRCX_TRCIDR1(unsigned long a)
  * Register (DAB32b) trc#_trcidr10
  *
  * ETMv4 ID Register 10
- * This register indicates the capabilities of the trace unit. Added in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -2061,7 +1998,7 @@ static inline uint64_t BDK_TRCX_TRCIDR10(unsigned long a)
  * Register (DAB32b) trc#_trcidr11
  *
  * ETMv4 ID Register 11
- * This register indicates the capabilities of the trace unit. Added in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -2099,7 +2036,7 @@ static inline uint64_t BDK_TRCX_TRCIDR11(unsigned long a)
  * Register (DAB32b) trc#_trcidr12
  *
  * ETMv4 ID Register 12
- * This register indicates the capabilities of the trace unit. Added in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -2139,7 +2076,7 @@ static inline uint64_t BDK_TRCX_TRCIDR12(unsigned long a)
  * Register (DAB32b) trc#_trcidr13
  *
  * ETMv4 ID Register 13
- * This register indicates the capabilities of the trace unit. Added in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -2179,7 +2116,7 @@ static inline uint64_t BDK_TRCX_TRCIDR13(unsigned long a)
  * Register (DAB32b) trc#_trcidr2
  *
  * ETMv4 ID Register 2
- * This register returns the maximum size of data address and data value. Changed in pass 2.
+ * This register returns the maximum size of data address and data value.
  */
 typedef union
 {
@@ -2405,84 +2342,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_trcx_trcidr2_cn81xx cn83xx; */
-    struct bdk_trcx_trcidr2_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. Added in pass 2. */
-        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
-                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
-
-                                                                 For CNXXXX, 0x0 as does not implement a counter. */
-        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
-                                                                   0x0 = Data value tracing is not supported. Therefore, an implementation must set
-                                                                   TRCIDR0[TRCDATA]=0x0.
-                                                                   0x4 = Maximum of 32-bit data value size.
-                                                                   0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
-                                                                   ARMv6 and ARMv7 PEs. */
-        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
-                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
-                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
-                                                                 0x4 = Maximum of 32-bit data address size.
-                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
-
-                                                                 For CNXXXX, not supported. */
-        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
-                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
-                                                                 TRC()_TRCCONFIGR[VMID] is supported.
-                                                                 For CNXXXX, 16-bit. */
-        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the context ID size. The permitted values are:
-                                                                   0x0 = Context ID tracing is not supported.
-                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
-                                                                 supported.  32 bit contextID supported.
-
-                                                                 For CNXXXX, 32-bit. */
-        uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
-                                                                 0x4 = Maximum of 32-bit address size.
-                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
-
-                                                                 For CNXXXX, 64-bit. */
-#else /* Word 0 - Little Endian */
-        uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
-                                                                 0x4 = Maximum of 32-bit address size.
-                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
-
-                                                                 For CNXXXX, 64-bit. */
-        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the context ID size. The permitted values are:
-                                                                   0x0 = Context ID tracing is not supported.
-                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
-                                                                 supported.  32 bit contextID supported.
-
-                                                                 For CNXXXX, 32-bit. */
-        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
-                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
-                                                                 TRC()_TRCCONFIGR[VMID] is supported.
-                                                                 For CNXXXX, 16-bit. */
-        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
-                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
-                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
-                                                                 0x4 = Maximum of 32-bit data address size.
-                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
-
-                                                                 For CNXXXX, not supported. */
-        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
-                                                                   0x0 = Data value tracing is not supported. Therefore, an implementation must set
-                                                                   TRCIDR0[TRCDATA]=0x0.
-                                                                   0x4 = Maximum of 32-bit data value size.
-                                                                   0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
-                                                                   ARMv6 and ARMv7 PEs. */
-        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
-                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
-
-                                                                 For CNXXXX, 0x0 as does not implement a counter. */
-        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. Added in pass 2. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_trcx_trcidr2_cn81xx cn88xxp2; */
 } bdk_trcx_trcidr2_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2503,7 +2363,7 @@ static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a)
  * Register (DAB32b) trc#_trcidr3
  *
  * ETMv4 ID Register 3
- * This register indicates the capabilities of the trace unit. Changed in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -2536,7 +2396,7 @@ typedef union
                                                                  For CNXXXX, secure exception level tracing of EL0, EL1, and EL3 is supported. */
         uint32_t reserved_14_15        : 2;
         uint32_t numprocext            : 2;  /**< [ 13: 12](RO/H) Number of processors extension bits. Expands [NUMPROC] from 3 bits to 5
-                                                                 bits. See [NUMPROC]. Added in pass 3. */
+                                                                 bits. See [NUMPROC]. */
         uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in
                                                                  TRC()_TRCCCCTLR[THRESHOLD]. When cycle counting in the instruction trace is
                                                                  supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
@@ -2547,7 +2407,7 @@ typedef union
                                                                  supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
                                                                  is 0x1, otherwise it is 0x0. */
         uint32_t numprocext            : 2;  /**< [ 13: 12](RO/H) Number of processors extension bits. Expands [NUMPROC] from 3 bits to 5
-                                                                 bits. See [NUMPROC]. Added in pass 3. */
+                                                                 bits. See [NUMPROC]. */
         uint32_t reserved_14_15        : 2;
         uint32_t els                   : 4;  /**< [ 19: 16](RO) In secure state, each bit indicates whether instruction tracing is supported
                                                                  for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_S] and
@@ -2739,7 +2599,7 @@ typedef union
                                                                  For CNXXXX, secure exception level tracing of EL0, EL1, and EL3 is supported. */
         uint32_t reserved_14_15        : 2;
         uint32_t numprocext            : 2;  /**< [ 13: 12](RO/H) Number of processors extension bits. Expands [NUMPROC] from 3 bits to 5
-                                                                 bits. See [NUMPROC]. Added in pass 3. */
+                                                                 bits. See [NUMPROC]. */
         uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in
                                                                  TRC()_TRCCCCTLR[THRESHOLD]. When cycle counting in the instruction trace is
                                                                  supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
@@ -2754,7 +2614,7 @@ typedef union
 
                                                                  For CNXXXX, no support for cycle counting so this field is not applicable. */
         uint32_t numprocext            : 2;  /**< [ 13: 12](RO/H) Number of processors extension bits. Expands [NUMPROC] from 3 bits to 5
-                                                                 bits. See [NUMPROC]. Added in pass 3. */
+                                                                 bits. See [NUMPROC]. */
         uint32_t reserved_14_15        : 2;
         uint32_t els                   : 4;  /**< [ 19: 16](RO) In secure state, each bit indicates whether instruction tracing is supported
                                                                  for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_S] and
@@ -2805,7 +2665,7 @@ static inline uint64_t BDK_TRCX_TRCIDR3(unsigned long a)
  * Register (DAB32b) trc#_trcidr4
  *
  * ETMv4 ID Register 4
- * This register indicates the capabilities of the trace unit. Changed in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -2907,7 +2767,7 @@ static inline uint64_t BDK_TRCX_TRCIDR4(unsigned long a)
  * Register (DAB32b) trc#_trcidr5
  *
  * ETMv4 ID Register 5
- * This register indicates the capabilities of the trace unit. Changed in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -3101,7 +2961,7 @@ static inline uint64_t BDK_TRCX_TRCIDR5(unsigned long a)
  * Register (DAB32b) trc#_trcidr6
  *
  * ETMv4 ID Register 6
- * This register indicates the capabilities of the trace unit. Added in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -3139,7 +2999,7 @@ static inline uint64_t BDK_TRCX_TRCIDR6(unsigned long a)
  * Register (DAB32b) trc#_trcidr7
  *
  * ETMv4 ID Register 7
- * This register indicates the capabilities of the trace unit. Added in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -3177,7 +3037,7 @@ static inline uint64_t BDK_TRCX_TRCIDR7(unsigned long a)
  * Register (DAB32b) trc#_trcidr8
  *
  * ETMv4 ID Register 8
- * This register indicates the capabilities of the trace unit. Added in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {
@@ -3223,7 +3083,7 @@ static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long a)
  * Register (DAB32b) trc#_trcidr9
  *
  * ETMv4 ID Register 9
- * This register indicates the capabilities of the trace unit. Added in pass 2.
+ * This register indicates the capabilities of the trace unit.
  */
 typedef union
 {

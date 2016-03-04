@@ -978,6 +978,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
 
+                                                                 For CCPI-enabled chips only.
+
                                                                  Mailboxes are used as follows:
 
                                                                  * An AP on node A does a store to node B's GTI_CC_CNTMB.
@@ -997,6 +999,8 @@ typedef union
                                                                  TX_TIMESTAMP interrupts. */
 #else /* Word 0 - Little Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+
+                                                                 For CCPI-enabled chips only.
 
                                                                  Mailboxes are used as follows:
 
@@ -1022,9 +1026,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) Reserved.
                                                                  Internal:
-                                                                 For CCPI chips only.
-
                                                                  When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+
+                                                                 For CCPI-enabled chips only.
 
                                                                  Mailboxes are used as follows:
 
@@ -1046,9 +1050,9 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) Reserved.
                                                                  Internal:
-                                                                 For CCPI chips only.
-
                                                                  When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+
+                                                                 For CCPI-enabled chips only.
 
                                                                  Mailboxes are used as follows:
 
@@ -1256,10 +1260,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
-                                                                 See GTI_CC_CNTMB. */
+                                                                 See GTI_CC_CNTMB.
+
+                                                                 For CCPI-enabled chips only. */
 #else /* Word 0 - Little Endian */
         uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
-                                                                 See GTI_CC_CNTMB. */
+                                                                 See GTI_CC_CNTMB.
+
+                                                                 For CCPI-enabled chips only. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_gti_cc_cntmbts_cn81xx
@@ -1267,17 +1275,17 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Reserved.
                                                                  Internal:
-                                                                 For CCPI chips only.
-
                                                                  Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
-                                                                 See GTI_CC_CNTMB. */
+                                                                 See GTI_CC_CNTMB.
+
+                                                                 For CCPI-enabled chips only. */
 #else /* Word 0 - Little Endian */
         uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Reserved.
                                                                  Internal:
-                                                                 For CCPI chips only.
-
                                                                  Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
-                                                                 See GTI_CC_CNTMB. */
+                                                                 See GTI_CC_CNTMB.
+
+                                                                 For CCPI-enabled chips only. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gti_cc_cntmbts_s cn88xx; */

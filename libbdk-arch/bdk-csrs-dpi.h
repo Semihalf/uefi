@@ -2279,9 +2279,21 @@ typedef union
         uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
                                                                  0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
                                                                  1 = Add 1 to the SLI_DMA()_CNT DMA counters. */
-        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) Relaxed ordering mode for DMA transactions */
-        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) No snoop. */
-        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) Endian swap mode for DMA.
+        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) If [O_MODE]=1 (DPTR format 0), [O_RO] is the relaxed ordering mode attribute
+                                                                 for PCIe DMA transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_RO] is MACADD<60> in the PCIE MAC address and
+                                                                 the relaxed ordering mode attribute comes from DPTR<60> in the DMA MAC pointer. */
+        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) If [O_MODE]=1 (DPTR format 0), [O_NS] is the no snoop attribute for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_NS] is MACADD<61> in the PCIE MAC Address and
+                                                                 the no snoop mode attribute comes from DPTR<61> in the DMA MAC pointer. */
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD<63:62> in the PCIE MAC address
+                                                                 and the endian swap mode comes from DPTR<63:62> in the DMA MAC pointer.
 
                                                                  See DPI_ENDIANSWAP_E. */
         uint64_t o_mode                : 1;  /**< [ 14: 14](R/W) Select PCI_POINTER mode.
@@ -2297,11 +2309,23 @@ typedef union
                                                                  RO.
                                                                  1 = DPTR format 0 is used. Use pointer values for address; use register values for ES, NS,
                                                                  RO. */
-        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) Endian swap mode for DMA.
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD<63:62> in the PCIE MAC address
+                                                                 and the endian swap mode comes from DPTR<63:62> in the DMA MAC pointer.
 
                                                                  See DPI_ENDIANSWAP_E. */
-        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) No snoop. */
-        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) Relaxed ordering mode for DMA transactions */
+        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) If [O_MODE]=1 (DPTR format 0), [O_NS] is the no snoop attribute for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_NS] is MACADD<61> in the PCIE MAC Address and
+                                                                 the no snoop mode attribute comes from DPTR<61> in the DMA MAC pointer. */
+        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) If [O_MODE]=1 (DPTR format 0), [O_RO] is the relaxed ordering mode attribute
+                                                                 for PCIe DMA transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_RO] is MACADD<60> in the PCIE MAC address and
+                                                                 the relaxed ordering mode attribute comes from DPTR<60> in the DMA MAC pointer. */
         uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
                                                                  0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
                                                                  1 = Add 1 to the SLI_DMA()_CNT DMA counters. */

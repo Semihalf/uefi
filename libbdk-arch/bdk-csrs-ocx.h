@@ -1306,7 +1306,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t disp_err              : 1;  /**< [  9:  9](R/W) Enable bit for RX disparity error encountered.  Added in pass 2. */
+        uint64_t disp_err              : 1;  /**< [  9:  9](R/W) Enable bit for RX disparity error encountered. */
         uint64_t bad_64b67b            : 1;  /**< [  8:  8](R/W) Enable bit for bad 64B/67B codeword encountered. */
         uint64_t stat_cnt_ovfl         : 1;  /**< [  7:  7](R/W) Enable bit for RX lane statistic counter overflow. */
         uint64_t stat_msg              : 1;  /**< [  6:  6](R/W) Enable bit for status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). */
@@ -1328,7 +1328,7 @@ typedef union
         uint64_t stat_msg              : 1;  /**< [  6:  6](R/W) Enable bit for status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). */
         uint64_t stat_cnt_ovfl         : 1;  /**< [  7:  7](R/W) Enable bit for RX lane statistic counter overflow. */
         uint64_t bad_64b67b            : 1;  /**< [  8:  8](R/W) Enable bit for bad 64B/67B codeword encountered. */
-        uint64_t disp_err              : 1;  /**< [  9:  9](R/W) Enable bit for RX disparity error encountered.  Added in pass 2. */
+        uint64_t disp_err              : 1;  /**< [  9:  9](R/W) Enable bit for RX disparity error encountered. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } cn88xxp2;
@@ -2461,14 +2461,12 @@ typedef union
                                                                  lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
                                                                  [LANE_REV]. */
         uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.  When enabled, [LANE_REV] will be updated by
-                                                                 hardware.
-                                                                 Added in pass 2. */
+                                                                 hardware. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
         uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.  When enabled, [LANE_REV] will be updated by
-                                                                 hardware.
-                                                                 Added in pass 2. */
+                                                                 hardware. */
         uint64_t lane_rev              : 1;  /**< [  8:  8](R/W/H) RX lane reversal.   When enabled, lane destriping is performed from the most significant
                                                                  lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
                                                                  [LANE_REV]. */
@@ -3489,7 +3487,7 @@ static inline uint64_t BDK_OCX_RLKX_SALT_LOW(unsigned long a)
  * Register (RSL) ocx_strap
  *
  * OCX Strap Register
- * This register provide read-only access to OCI straps.  Added in pass 2.
+ * This register provide read-only access to OCI straps.
  */
 typedef union
 {
@@ -3583,7 +3581,7 @@ static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long a)
  * Register (RSL) ocx_tlk#_byp_ctl
  *
  * OCX Transmit FIFO Bypass Control Register
- * This register is for diagnostic use.  Added in pass 2.
+ * This register is for diagnostic use.
  */
 typedef union
 {

@@ -1268,7 +1268,7 @@ static inline uint64_t BDK_CPTX_PF_ECO(unsigned long a)
  * Register (NCB) cpt#_pf_eng#_ucode_base
  *
  * CPT PF Engine Microcode Base Address Register
- * This register configures enging microcode fetches.
+ * This register configures engine microcode fetches.
  *
  * Only indicies 0x0 to (CPT(0)_PF_CONSTANTS[AE] + CPT(0)_PF_CONSTANTS[SE] - 1) are
  * supported.

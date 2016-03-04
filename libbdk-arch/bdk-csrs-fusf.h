@@ -481,52 +481,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_fusf_prog_cn81xx cn83xx; */
-    struct bdk_fusf_prog_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin.
-                                                                 Access changed in pass 2. */
-        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 Internal:
-                                                                 Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
-        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
-                                                                 any fuses. Hardware will clear when the program operation is complete. */
-        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
-                                                                 the program operation is complete.
-
-                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
-                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
-
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, software can write to FUSF_PROG[PROG]
-                                                                 to start the bank write and poll on [PROG]. Once PROG is clear, the bank write
-                                                                 is complete.  MIO_FUS_READ_TIMES[WRSTB_WH] set the time for the hardware to
-                                                                 clear this bit. A soft blow is still subject to lockdown fuses. After a
-                                                                 soft/warm reset, the chip behaves as though the fuses were actually blown. A
-                                                                 cold reset restores the actual fuse values. */
-#else /* Word 0 - Little Endian */
-        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
-                                                                 the program operation is complete.
-
-                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
-                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
-
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, software can write to FUSF_PROG[PROG]
-                                                                 to start the bank write and poll on [PROG]. Once PROG is clear, the bank write
-                                                                 is complete.  MIO_FUS_READ_TIMES[WRSTB_WH] set the time for the hardware to
-                                                                 clear this bit. A soft blow is still subject to lockdown fuses. After a
-                                                                 soft/warm reset, the chip behaves as though the fuses were actually blown. A
-                                                                 cold reset restores the actual fuse values. */
-        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
-                                                                 any fuses. Hardware will clear when the program operation is complete. */
-        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 Internal:
-                                                                 Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
-        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin.
-                                                                 Access changed in pass 2. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_fusf_prog_cn81xx cn88xxp2; */
 } bdk_fusf_prog_t;
 
 #define BDK_FUSF_PROG BDK_FUSF_PROG_FUNC()

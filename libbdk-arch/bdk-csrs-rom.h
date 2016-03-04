@@ -95,18 +95,12 @@
                                        * Respond with SERVER_ACK. */
 #define BDK_ROM_XFER_MSG_E_BOOT_START (0x2000) /**< Client is requesting boot sequence to start.
                                        Server must respond with SERVER_ACK or SERVER_ERROR. */
-#define BDK_ROM_XFER_MSG_E_FAILX_CN81XX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E. */
-#define BDK_ROM_XFER_MSG_E_FAILX_CN88XX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E.
-                                       Added in pass 2. */
-#define BDK_ROM_XFER_MSG_E_FAILX_CN83XX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E. */
+#define BDK_ROM_XFER_MSG_E_FAILX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E. */
 #define BDK_ROM_XFER_MSG_E_NONE (0) /**< No message. */
 #define BDK_ROM_XFER_MSG_E_SERVER_ACK (0x1000) /**< Server response indicating the client's request has been performed successfully. */
 #define BDK_ROM_XFER_MSG_E_SERVER_ERROR (0x1001) /**< Server response indicating the client's request had an error and the transfer is aborted.
                                        The client will respond with BOOT_ERROR. */
-#define BDK_ROM_XFER_MSG_E_SERVER_RETRY_CN81XX (0x1002) /**< Server response indicating it needs more time.  Client shall reset timeout counters. */
-#define BDK_ROM_XFER_MSG_E_SERVER_RETRY_CN88XX (0x1002) /**< Server response indicating it needs more time.  Client shall reset timeout counters.
-                                       Added in pass 2. */
-#define BDK_ROM_XFER_MSG_E_SERVER_RETRY_CN83XX (0x1002) /**< Server response indicating it needs more time.  Client shall reset timeout counters. */
+#define BDK_ROM_XFER_MSG_E_SERVER_RETRY (0x1002) /**< Server response indicating it needs more time.  Client shall reset timeout counters. */
 
 /**
  * Structure rom_clib_s

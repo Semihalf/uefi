@@ -75,7 +75,10 @@
 #define BDK_GSER_LMODE_E_R_3125G_REFCLK15625_XAUI (4) /**< 3.125 Gbaud at 156.25 MHz reference clock. XAUI mode. */
 #define BDK_GSER_LMODE_E_R_5G_REFCLK100 (1) /**< 5 Gbaud at 100 MHz reference clock. */
 #define BDK_GSER_LMODE_E_R_5G_REFCLK125 (0xa) /**< 5 Gbaud at 125 MHz reference clock. */
-#define BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII (7) /**< 5 Gbaud at 156.25 MHz reference clock. QSGMII mode.
+#define BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN81XX (7) /**< 5 Gbaud at 156.25 MHz reference clock. QSGMII mode. */
+#define BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN88XX (7) /**< 5 Gbaud at 156.25 MHz reference clock. QSGMII mode.
+                                       Not supported. */
+#define BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN83XX (7) /**< 5 Gbaud at 156.25 MHz reference clock. QSGMII mode.
                                        Not supported. */
 #define BDK_GSER_LMODE_E_R_625G_REFCLK15625_RXAUI (8) /**< 6.25 Gbaud at 156.25 MHz reference clock. RXAUI mode. */
 #define BDK_GSER_LMODE_E_R_8G_REFCLK100 (2) /**< 8 Gbaud at 100 MHz reference clock. */
@@ -314,7 +317,7 @@ typedef union
                                                                  GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
                                                                  Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
                                                                  CCPI links. The other GSER()_ANA_SEL registers are unused.
-                                                                 For diagnostic use only.  Added in pass 2.
+                                                                 For diagnostic use only.
 
                                                                  For non-CCPI links used to power down the common clock input receiver to reduce power
                                                                  consumption if the common clock input is not used.
@@ -334,7 +337,7 @@ typedef union
                                                                  GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
                                                                  Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
                                                                  CCPI links. The other GSER()_ANA_SEL registers are unused.
-                                                                 For diagnostic use only.  Added in pass 2.
+                                                                 For diagnostic use only.
 
                                                                  For non-CCPI links used to power down the common clock input receiver to reduce power
                                                                  consumption if the common clock input is not used.
@@ -393,8 +396,7 @@ typedef union
                                                                  and not used.
 
                                                                  Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only.
-                                                                 Added in pass 2. */
+                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only. */
         uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX BASE-R link training is to be performed under software control.
 
                                                                  See GSER()_BR_RX()_EER[EXT_EER]. */
@@ -440,8 +442,7 @@ typedef union
                                                                  and not used.
 
                                                                  Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only.
-                                                                 Added in pass 2. */
+                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -491,69 +492,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_gserx_br_rxx_ctl_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For BASE-R links the terminating condition for link training receiver adaptation
-                                                                 is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
-                                                                 expires the receiver adaptation process is concluded and the link is considered good.
-                                                                 Note that when BASE-R link training is performed under software control,
-                                                                 (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
-                                                                 and not used.
-
-                                                                 Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX BASE-R link training is to be performed under software control.
-
-                                                                 See GSER()_BR_RX()_EER[EXT_EER]. */
-        uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
-                                                                 coefficient update message that is sent to the far end transmitter. When set, a one time
-                                                                 request is made that the coefficients be set to a state where equalization is turned off.
-
-                                                                 To perform a preset, set this bit prior to link training. Link training needs to be
-                                                                 disabled to complete the request and get the rxtrain state machine back to idle. Note that
-                                                                 it is illegal to set both the preset and initialize bits at the same time. For diagnostic
-                                                                 use only. */
-        uint64_t rxt_initialize        : 1;  /**< [  0:  0](R/W) For all link training, this bit determines how to configure the initialize bit in the
-                                                                 coefficient update message that is sent to the far end transmitter of RX training. When
-                                                                 set, a request is made that the coefficients be set to its INITIALIZE state. To perform an
-                                                                 initialize prior to link training, set this bit prior to performing link training. Note
-                                                                 that it is illegal to set both the preset and initialize bits at the same time. Since the
-                                                                 far end transmitter is required to be initialized prior to starting link training, it is
-                                                                 not expected that software will need to set this bit. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t rxt_initialize        : 1;  /**< [  0:  0](R/W) For all link training, this bit determines how to configure the initialize bit in the
-                                                                 coefficient update message that is sent to the far end transmitter of RX training. When
-                                                                 set, a request is made that the coefficients be set to its INITIALIZE state. To perform an
-                                                                 initialize prior to link training, set this bit prior to performing link training. Note
-                                                                 that it is illegal to set both the preset and initialize bits at the same time. Since the
-                                                                 far end transmitter is required to be initialized prior to starting link training, it is
-                                                                 not expected that software will need to set this bit. For diagnostic use only. */
-        uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
-                                                                 coefficient update message that is sent to the far end transmitter. When set, a one time
-                                                                 request is made that the coefficients be set to a state where equalization is turned off.
-
-                                                                 To perform a preset, set this bit prior to link training. Link training needs to be
-                                                                 disabled to complete the request and get the rxtrain state machine back to idle. Note that
-                                                                 it is illegal to set both the preset and initialize bits at the same time. For diagnostic
-                                                                 use only. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX BASE-R link training is to be performed under software control.
-
-                                                                 See GSER()_BR_RX()_EER[EXT_EER]. */
-        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For BASE-R links the terminating condition for link training receiver adaptation
-                                                                 is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
-                                                                 expires the receiver adaptation process is concluded and the link is considered good.
-                                                                 Note that when BASE-R link training is performed under software control,
-                                                                 (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
-                                                                 and not used.
-
-                                                                 Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during BASE-R link training under hardware control.  For diagnostic use only. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gserx_br_rxx_ctl_cn81xx cn83xx; */
+    /* struct bdk_gserx_br_rxx_ctl_s cn81xx; */
+    /* struct bdk_gserx_br_rxx_ctl_s cn83xx; */
     /* struct bdk_gserx_br_rxx_ctl_s cn88xxp2; */
 } bdk_gserx_br_rxx_ctl_t;
 
@@ -797,7 +737,6 @@ static inline uint64_t BDK_GSERX_BR_TXX_CUR(unsigned long a, unsigned long b)
  * coefficient update request message is received from the link partner with the initialize
  * control bit set the local device transmitter
  * taps (Pre/Swing/Post) will be updated with the values in this register.
- * Added in pass 2.
  */
 typedef union
 {
@@ -1369,41 +1308,7 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_glbl_misc_config_1_s cn88xxp1; */
-    /* struct bdk_gserx_glbl_misc_config_1_s cn81xx; */
-    /* struct bdk_gserx_glbl_misc_config_1_s cn83xx; */
-    struct bdk_gserx_glbl_misc_config_1_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (band gap reference) reference (all external and internal currents
-                                                                 are affected).
-                                                                 For diagnostic use only. */
-        uint64_t pcs_sds_trim_chp_reg  : 2;  /**< [  5:  4](R/W) Trim current going to CML-CMOS stage at output of VCO.
-                                                                 For diagnostic use only.
-                                                                 Changed in pass 2. */
-        uint64_t pcs_sds_vco_reg_tr    : 2;  /**< [  3:  2](R/W) Trims regulator voltage.
-                                                                 For diagnostic use only. */
-        uint64_t pcs_sds_cvbg_en       : 1;  /**< [  1:  1](R/W) Forces 0.6 V from VDDHV onto VBG node.
-                                                                 For diagnostic use only. */
-        uint64_t pcs_sds_extvbg_en     : 1;  /**< [  0:  0](R/W) Force external VBG through AMON pin in TMA5 mode.
-                                                                 For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t pcs_sds_extvbg_en     : 1;  /**< [  0:  0](R/W) Force external VBG through AMON pin in TMA5 mode.
-                                                                 For diagnostic use only. */
-        uint64_t pcs_sds_cvbg_en       : 1;  /**< [  1:  1](R/W) Forces 0.6 V from VDDHV onto VBG node.
-                                                                 For diagnostic use only. */
-        uint64_t pcs_sds_vco_reg_tr    : 2;  /**< [  3:  2](R/W) Trims regulator voltage.
-                                                                 For diagnostic use only. */
-        uint64_t pcs_sds_trim_chp_reg  : 2;  /**< [  5:  4](R/W) Trim current going to CML-CMOS stage at output of VCO.
-                                                                 For diagnostic use only.
-                                                                 Changed in pass 2. */
-        uint64_t pcs_sds_vref_tr       : 4;  /**< [  9:  6](R/W) Trim the BGR (band gap reference) reference (all external and internal currents
-                                                                 are affected).
-                                                                 For diagnostic use only. */
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gserx_glbl_misc_config_1_s cn; */
 } bdk_gserx_glbl_misc_config_1_t;
 
 static inline uint64_t BDK_GSERX_GLBL_MISC_CONFIG_1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1711,55 +1616,7 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_glbl_pll_cfg_3_s cn88xxp1; */
-    /* struct bdk_gserx_glbl_pll_cfg_3_s cn81xx; */
-    /* struct bdk_gserx_glbl_pll_cfg_3_s cn83xx; */
-    struct bdk_gserx_glbl_pll_cfg_3_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t pcs_sds_pll_vco_amp   : 2;  /**< [  9:  8](R/W) Adjusts the VCO amplitude control current.
-                                                                 For diagnostic use only.
-                                                                 0x0 = Add 25 uA.
-                                                                 0x1 = OFF (default).
-                                                                 0x2 = Sink 25 uA.
-                                                                 0x3 = Sink 50 uA.
-
-                                                                 Changed in pass 2. */
-        uint64_t pll_bypass_uq         : 1;  /**< [  7:  7](R/W) PLL bypass enable. When asserted, multiplexes in the feedback divider clock.
-                                                                 For diagnostic use only. */
-        uint64_t pll_vctrl_sel_ovrrd_en : 1; /**< [  6:  6](R/W) Override enable for selecting current for Vctrl in open loop operation.
-                                                                 For diagnostic use only. */
-        uint64_t pll_vctrl_sel_ovrrd_val : 2;/**< [  5:  4](R/W) Override value for selecting current for Vctrl in open loop operation.
-                                                                 For diagnostic use only. */
-        uint64_t pll_vctrl_sel_lcvco_val : 2;/**< [  3:  2](R/W) Selects current for Vctrl in open loop operation for LC-tank VCO.
-                                                                 For diagnostic use only.
-                                                                 Changed in pass 2. */
-        uint64_t pll_vctrl_sel_rovco_val : 2;/**< [  1:  0](R/W) Selects current for Vctrl in open loop operation for ring oscillator VCO.
-                                                                 For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t pll_vctrl_sel_rovco_val : 2;/**< [  1:  0](R/W) Selects current for Vctrl in open loop operation for ring oscillator VCO.
-                                                                 For diagnostic use only. */
-        uint64_t pll_vctrl_sel_lcvco_val : 2;/**< [  3:  2](R/W) Selects current for Vctrl in open loop operation for LC-tank VCO.
-                                                                 For diagnostic use only.
-                                                                 Changed in pass 2. */
-        uint64_t pll_vctrl_sel_ovrrd_val : 2;/**< [  5:  4](R/W) Override value for selecting current for Vctrl in open loop operation.
-                                                                 For diagnostic use only. */
-        uint64_t pll_vctrl_sel_ovrrd_en : 1; /**< [  6:  6](R/W) Override enable for selecting current for Vctrl in open loop operation.
-                                                                 For diagnostic use only. */
-        uint64_t pll_bypass_uq         : 1;  /**< [  7:  7](R/W) PLL bypass enable. When asserted, multiplexes in the feedback divider clock.
-                                                                 For diagnostic use only. */
-        uint64_t pcs_sds_pll_vco_amp   : 2;  /**< [  9:  8](R/W) Adjusts the VCO amplitude control current.
-                                                                 For diagnostic use only.
-                                                                 0x0 = Add 25 uA.
-                                                                 0x1 = OFF (default).
-                                                                 0x2 = Sink 25 uA.
-                                                                 0x3 = Sink 50 uA.
-
-                                                                 Changed in pass 2. */
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gserx_glbl_pll_cfg_3_s cn; */
 } bdk_gserx_glbl_pll_cfg_3_t;
 
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_3(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2748,13 +2605,127 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_2(unsigned long a, unsigned lo
 #define arguments_BDK_GSERX_LANEX_PCS_CTLIFC_2(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) gser#_lane#_pcs_macifc_mon_0
+ *
+ * GSER Lane MAC to Raw PCS Interface Monitor 0 Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_lanex_pcs_macifc_mon_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t mac_pcs_tx_pstate     : 2;  /**< [ 15: 14](RO/H) Current state of the MAC to PCS TX power state<2:0> input.
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_pstate[2:0]. */
+        uint64_t mac_pcs_rx_pstate     : 2;  /**< [ 13: 12](RO/H) Current state of the MAC to PCS RX power state<2:0> input.
+
+                                                                 Internal:
+                                                                 mac_pcs_rxX_pstate[2:0]. */
+        uint64_t mac_pcs_lane_pwr_off  : 1;  /**< [ 11: 11](RO/H) Current state of the MAC to PCS lane power off input.
+                                                                 Internal:
+                                                                 mac_pcs_laneX_pwr_off. */
+        uint64_t reserved_10           : 1;
+        uint64_t mac_pcs_lane_soft_reset : 1;/**< [  9:  9](RO/H) Current state of the MAC to PCS soft reset input.
+                                                                 Internal:
+                                                                 mac_pcs_laneX_soft_reset. */
+        uint64_t mac_pcs_lane_loopbk_en : 1; /**< [  8:  8](RO/H) Current state of the MAC to PCS lane loopback enable input.
+                                                                 Internal:
+                                                                 mac_pcs_laneX_loopbk_en. */
+        uint64_t mac_pcs_rx_eie_det_en : 1;  /**< [  7:  7](RO/H) Current state of the MAC to PCS receiver electrical idle exit
+                                                                 detect enable input.
+
+                                                                 Internal:
+                                                                 mac_pcs_rxX_eie_det_en. */
+        uint64_t mac_pcs_rx_cdr_coast  : 1;  /**< [  6:  6](RO/H) Current state of the MAC to PCS lane receiver CDR coast input.
+                                                                 Internal:
+                                                                 mac_pcs_rxX_cdr_coast. */
+        uint64_t mac_pcs_tx_detrx_en   : 1;  /**< [  5:  5](RO/H) Current state of the MAC to PCS transmitter receiver detect
+                                                                 enable input.
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_detrx_en. */
+        uint64_t mac_pcs_rx_eq_eval    : 1;  /**< [  4:  4](RO/H) Current state of the MAC to PCS receiver equalizer evaluation
+                                                                 request input.
+
+                                                                 Internal:
+                                                                 mac_pcs_rxX_eq_eval. */
+        uint64_t mac_pcs_lane_mode     : 4;  /**< [  3:  0](RO/H) Current state of the MAC to PCS lane mode input.
+                                                                 Internal:
+                                                                 mac_pcs_laneX_mode[3:0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mac_pcs_lane_mode     : 4;  /**< [  3:  0](RO/H) Current state of the MAC to PCS lane mode input.
+                                                                 Internal:
+                                                                 mac_pcs_laneX_mode[3:0]. */
+        uint64_t mac_pcs_rx_eq_eval    : 1;  /**< [  4:  4](RO/H) Current state of the MAC to PCS receiver equalizer evaluation
+                                                                 request input.
+
+                                                                 Internal:
+                                                                 mac_pcs_rxX_eq_eval. */
+        uint64_t mac_pcs_tx_detrx_en   : 1;  /**< [  5:  5](RO/H) Current state of the MAC to PCS transmitter receiver detect
+                                                                 enable input.
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_detrx_en. */
+        uint64_t mac_pcs_rx_cdr_coast  : 1;  /**< [  6:  6](RO/H) Current state of the MAC to PCS lane receiver CDR coast input.
+                                                                 Internal:
+                                                                 mac_pcs_rxX_cdr_coast. */
+        uint64_t mac_pcs_rx_eie_det_en : 1;  /**< [  7:  7](RO/H) Current state of the MAC to PCS receiver electrical idle exit
+                                                                 detect enable input.
+
+                                                                 Internal:
+                                                                 mac_pcs_rxX_eie_det_en. */
+        uint64_t mac_pcs_lane_loopbk_en : 1; /**< [  8:  8](RO/H) Current state of the MAC to PCS lane loopback enable input.
+                                                                 Internal:
+                                                                 mac_pcs_laneX_loopbk_en. */
+        uint64_t mac_pcs_lane_soft_reset : 1;/**< [  9:  9](RO/H) Current state of the MAC to PCS soft reset input.
+                                                                 Internal:
+                                                                 mac_pcs_laneX_soft_reset. */
+        uint64_t reserved_10           : 1;
+        uint64_t mac_pcs_lane_pwr_off  : 1;  /**< [ 11: 11](RO/H) Current state of the MAC to PCS lane power off input.
+                                                                 Internal:
+                                                                 mac_pcs_laneX_pwr_off. */
+        uint64_t mac_pcs_rx_pstate     : 2;  /**< [ 13: 12](RO/H) Current state of the MAC to PCS RX power state<2:0> input.
+
+                                                                 Internal:
+                                                                 mac_pcs_rxX_pstate[2:0]. */
+        uint64_t mac_pcs_tx_pstate     : 2;  /**< [ 15: 14](RO/H) Current state of the MAC to PCS TX power state<2:0> input.
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_pstate[2:0]. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_pcs_macifc_mon_0_s cn; */
+} bdk_gserx_lanex_pcs_macifc_mon_0_t;
+
+static inline uint64_t BDK_GSERX_LANEX_PCS_MACIFC_MON_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_PCS_MACIFC_MON_0(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e0904c0108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    __bdk_csr_fatal("GSERX_LANEX_PCS_MACIFC_MON_0", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_GSERX_LANEX_PCS_MACIFC_MON_0(a,b) bdk_gserx_lanex_pcs_macifc_mon_0_t
+#define bustype_BDK_GSERX_LANEX_PCS_MACIFC_MON_0(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_LANEX_PCS_MACIFC_MON_0(a,b) "GSERX_LANEX_PCS_MACIFC_MON_0"
+#define device_bar_BDK_GSERX_LANEX_PCS_MACIFC_MON_0(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_GSERX_LANEX_PCS_MACIFC_MON_0(a,b) (a)
+#define arguments_BDK_GSERX_LANEX_PCS_MACIFC_MON_0(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) gser#_lane#_pcs_macifc_mon_2
  *
  * GSER Lane MAC to Raw PCS Interface Monitor 2 Register
  * These registers are for diagnostic use only.
  * These registers are reset by hardware only during chip cold reset.
  * The values of the CSR fields in these registers do not change during chip warm or soft resets.
- * Added pass 2.
  */
 typedef union
 {
@@ -2763,41 +2734,41 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t tx_coeff_req          : 1;  /**< [ 15: 15](RO/H) Indicates current state of the MAC to PCS TX coefficient request input.
+        uint64_t tx_coeff_req          : 1;  /**< [ 15: 15](RO/H) Current state of the MAC to PCS TX coefficient request input.
                                                                  Internal:
                                                                  mac_pcs_txX_coeff_req. */
-        uint64_t tx_vboost_en          : 1;  /**< [ 14: 14](RO/H) Indicates current state of the MAC to PCS TX Vboost enable input.
+        uint64_t tx_vboost_en          : 1;  /**< [ 14: 14](RO/H) Current state of the MAC to PCS TX Vboost enable input.
                                                                  Internal:
                                                                  mac_pcs_txX_vboost_en. */
-        uint64_t tx_swing              : 5;  /**< [ 13:  9](RO/H) Indicates current state of the MAC to PCS TX equalizer swing<4:0> input.
+        uint64_t tx_swing              : 5;  /**< [ 13:  9](RO/H) Current state of the MAC to PCS TX equalizer swing<4:0> input.
 
                                                                  Internal:
                                                                  mac_pcs_txX_swing[4:0]. */
-        uint64_t tx_pre                : 4;  /**< [  8:  5](RO/H) Indicates current state of the MAC to PCS TX equalizer pre emphasis<3:0> input.
+        uint64_t tx_pre                : 4;  /**< [  8:  5](RO/H) Current state of the MAC to PCS TX equalizer pre emphasis<3:0> input.
 
                                                                  Internal:
                                                                  mac_pcs_txX_pre[3:0]. */
-        uint64_t tx_post               : 5;  /**< [  4:  0](RO/H) Indicates current state of the MAC to PCS TX equalizer post emphasis<4:0> input.
+        uint64_t tx_post               : 5;  /**< [  4:  0](RO/H) Current state of the MAC to PCS TX equalizer post emphasis<4:0> input.
 
                                                                  Internal:
                                                                  mac_pcs_txX_post[4:0]. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_post               : 5;  /**< [  4:  0](RO/H) Indicates current state of the MAC to PCS TX equalizer post emphasis<4:0> input.
+        uint64_t tx_post               : 5;  /**< [  4:  0](RO/H) Current state of the MAC to PCS TX equalizer post emphasis<4:0> input.
 
                                                                  Internal:
                                                                  mac_pcs_txX_post[4:0]. */
-        uint64_t tx_pre                : 4;  /**< [  8:  5](RO/H) Indicates current state of the MAC to PCS TX equalizer pre emphasis<3:0> input.
+        uint64_t tx_pre                : 4;  /**< [  8:  5](RO/H) Current state of the MAC to PCS TX equalizer pre emphasis<3:0> input.
 
                                                                  Internal:
                                                                  mac_pcs_txX_pre[3:0]. */
-        uint64_t tx_swing              : 5;  /**< [ 13:  9](RO/H) Indicates current state of the MAC to PCS TX equalizer swing<4:0> input.
+        uint64_t tx_swing              : 5;  /**< [ 13:  9](RO/H) Current state of the MAC to PCS TX equalizer swing<4:0> input.
 
                                                                  Internal:
                                                                  mac_pcs_txX_swing[4:0]. */
-        uint64_t tx_vboost_en          : 1;  /**< [ 14: 14](RO/H) Indicates current state of the MAC to PCS TX Vboost enable input.
+        uint64_t tx_vboost_en          : 1;  /**< [ 14: 14](RO/H) Current state of the MAC to PCS TX Vboost enable input.
                                                                  Internal:
                                                                  mac_pcs_txX_vboost_en. */
-        uint64_t tx_coeff_req          : 1;  /**< [ 15: 15](RO/H) Indicates current state of the MAC to PCS TX coefficient request input.
+        uint64_t tx_coeff_req          : 1;  /**< [ 15: 15](RO/H) Current state of the MAC to PCS TX coefficient request input.
                                                                  Internal:
                                                                  mac_pcs_txX_coeff_req. */
         uint64_t reserved_16_63        : 48;
@@ -3846,61 +3817,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_lanex_rx_cfg_4_s cn88xxp1; */
-    /* struct bdk_gserx_lanex_rx_cfg_4_s cn81xx; */
-    /* struct bdk_gserx_lanex_rx_cfg_4_s cn83xx; */
-    struct bdk_gserx_lanex_rx_cfg_4_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t cfg_rx_errdet_ctrl    : 16; /**< [ 15:  0](R/W) RX adaptive equalizer control.
-                                                                 Value of pcs_sds_rx_err_det_ctrl when
-                                                                 GSER()_LANE()_RX_MISC_OVRRD[CFG_RS_ERRDET_CTRL_OVRRD_EN] is set.
-                                                                 Changed in pass 2.
-
-                                                                 <15:14>: Reserved.
-
-                                                                 <13:8>: Q/QB error sampler 0 threshold, 6.7mV/step, used for training/LMS.
-
-                                                                 <7>: Enable Window mode, after training has finished.
-
-                                                                 <6:5>: Control sds_pcs_rx_vma_status[15:8].
-
-                                                                      0x0 = window counter[19:12] (FOM).
-                                                                      0x1 = window counter[11:4].
-                                                                      0x2 = CTLE pole, SDLL_IQ.
-                                                                      0x3 = pre-CTLE gain, CTLE peak.
-
-                                                                 <4>: Offset cancellation enable.
-
-                                                                 <3:0>: Max CTLE peak setting during training when pcs_sds_rx_vma_ctl[7] is set in
-                                                                 GSER()_LANE()_RX_VMA_CTRL. */
-#else /* Word 0 - Little Endian */
-        uint64_t cfg_rx_errdet_ctrl    : 16; /**< [ 15:  0](R/W) RX adaptive equalizer control.
-                                                                 Value of pcs_sds_rx_err_det_ctrl when
-                                                                 GSER()_LANE()_RX_MISC_OVRRD[CFG_RS_ERRDET_CTRL_OVRRD_EN] is set.
-                                                                 Changed in pass 2.
-
-                                                                 <15:14>: Reserved.
-
-                                                                 <13:8>: Q/QB error sampler 0 threshold, 6.7mV/step, used for training/LMS.
-
-                                                                 <7>: Enable Window mode, after training has finished.
-
-                                                                 <6:5>: Control sds_pcs_rx_vma_status[15:8].
-
-                                                                      0x0 = window counter[19:12] (FOM).
-                                                                      0x1 = window counter[11:4].
-                                                                      0x2 = CTLE pole, SDLL_IQ.
-                                                                      0x3 = pre-CTLE gain, CTLE peak.
-
-                                                                 <4>: Offset cancellation enable.
-
-                                                                 <3:0>: Max CTLE peak setting during training when pcs_sds_rx_vma_ctl[7] is set in
-                                                                 GSER()_LANE()_RX_VMA_CTRL. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gserx_lanex_rx_cfg_4_s cn; */
 } bdk_gserx_lanex_rx_cfg_4_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -4100,85 +4017,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_lanex_rx_ctle_ctrl_s cn88xxp1; */
-    /* struct bdk_gserx_lanex_rx_ctle_ctrl_s cn81xx; */
-    /* struct bdk_gserx_lanex_rx_ctle_ctrl_s cn83xx; */
-    struct bdk_gserx_lanex_rx_ctle_ctrl_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t pcs_sds_rx_ctle_bias_ctrl : 2;/**< [ 15: 14](R/W) CTLE bias trim bits.
-                                                                 Changed in pass 2.
-                                                                 0x0 = -10%.
-                                                                 0x1 =  0%.
-                                                                 0x2 = +5%.
-                                                                 0x3 = +10%. */
-        uint64_t pcs_sds_rx_ctle_zero  : 4;  /**< [ 13: 10](R/W) Equalizer peaking control.
-
-                                                                 Recommended settings:
-
-                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5 Gbaud,
-                                                                 pre-CTLE, post-CTLE, and peaking control settings should be manually
-                                                                 configured. GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL]
-                                                                 should both be set, GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the
-                                                                 pre and post settings, and [PCS_SDS_RX_CTLE_ZERO] controls equalizer
-                                                                 peaking.
-
-                                                                 The [PCS_SDS_RX_CTLE_ZERO] setting should be derived from signal integrity
-                                                                 simulations with the IBIS-AMI model supplied by Cavium when auto-negotiated
-                                                                 link training is not present and link speed < 5 Gbaud. */
-        uint64_t rx_ctle_pole_ovrrd_en : 1;  /**< [  9:  9](R/W) Equalizer pole adjustment override enable. */
-        uint64_t rx_ctle_pole_ovrrd_val : 4; /**< [  8:  5](R/W) Equalizer pole adjustment override value.
-                                                                 RX pre-correlation sample counter control
-                                                                 bit 3: Optimize CTLE during training.
-                                                                 bit 2: Turn off DFE1 for edge samplers.
-                                                                 bits 1:0:
-                                                                 0x0 = ~ 5dB of peaking at 4.0 GHz.
-                                                                 0x1 = ~10dB of peaking at 5.0 GHz.
-                                                                 0x2 = ~15dB of peaking at 5.5 GHz.
-                                                                 0x3 = ~20dB of peaking at 6.0 GHz. */
-        uint64_t pcs_sds_rx_ctle_pole_max : 2;/**< [  4:  3](R/W) Maximum pole value (for VMA adaption, not applicable in manual mode). */
-        uint64_t pcs_sds_rx_ctle_pole_min : 2;/**< [  2:  1](R/W) Minimum pole value (for VMA adaption, not applicable in manual mode). */
-        uint64_t pcs_sds_rx_ctle_pole_step : 1;/**< [  0:  0](R/W) Step pole value (for VMA adaption, not applicable in manual mode). */
-#else /* Word 0 - Little Endian */
-        uint64_t pcs_sds_rx_ctle_pole_step : 1;/**< [  0:  0](R/W) Step pole value (for VMA adaption, not applicable in manual mode). */
-        uint64_t pcs_sds_rx_ctle_pole_min : 2;/**< [  2:  1](R/W) Minimum pole value (for VMA adaption, not applicable in manual mode). */
-        uint64_t pcs_sds_rx_ctle_pole_max : 2;/**< [  4:  3](R/W) Maximum pole value (for VMA adaption, not applicable in manual mode). */
-        uint64_t rx_ctle_pole_ovrrd_val : 4; /**< [  8:  5](R/W) Equalizer pole adjustment override value.
-                                                                 RX pre-correlation sample counter control
-                                                                 bit 3: Optimize CTLE during training.
-                                                                 bit 2: Turn off DFE1 for edge samplers.
-                                                                 bits 1:0:
-                                                                 0x0 = ~ 5dB of peaking at 4.0 GHz.
-                                                                 0x1 = ~10dB of peaking at 5.0 GHz.
-                                                                 0x2 = ~15dB of peaking at 5.5 GHz.
-                                                                 0x3 = ~20dB of peaking at 6.0 GHz. */
-        uint64_t rx_ctle_pole_ovrrd_en : 1;  /**< [  9:  9](R/W) Equalizer pole adjustment override enable. */
-        uint64_t pcs_sds_rx_ctle_zero  : 4;  /**< [ 13: 10](R/W) Equalizer peaking control.
-
-                                                                 Recommended settings:
-
-                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <
-                                                                 5 Gbaud,
-                                                                 pre-CTLE, post-CTLE, and peaking control settings should be manually
-                                                                 configured. GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL]
-                                                                 should both be set, GSER()_LANE()_RX_CFG_2[RX_SDS_RX_AGC_MVAL] has the
-                                                                 pre and post settings, and [PCS_SDS_RX_CTLE_ZERO] controls equalizer
-                                                                 peaking.
-
-                                                                 The [PCS_SDS_RX_CTLE_ZERO] setting should be derived from signal integrity
-                                                                 simulations with the IBIS-AMI model supplied by Cavium when auto-negotiated
-                                                                 link training is not present and link speed < 5 Gbaud. */
-        uint64_t pcs_sds_rx_ctle_bias_ctrl : 2;/**< [ 15: 14](R/W) CTLE bias trim bits.
-                                                                 Changed in pass 2.
-                                                                 0x0 = -10%.
-                                                                 0x1 =  0%.
-                                                                 0x2 = +5%.
-                                                                 0x3 = +10%. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gserx_lanex_rx_ctle_ctrl_s cn; */
 } bdk_gserx_lanex_rx_ctle_ctrl_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_CTLE_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -4398,12 +4237,10 @@ typedef union
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
         uint64_t reserved_1_3          : 3;
         uint64_t cfg_rxeq_eval_restore_en : 1;/**< [  0:  0](R/W) When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
-                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
-                                                                 Added in pass 2. */
+                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used. */
 #else /* Word 0 - Little Endian */
         uint64_t cfg_rxeq_eval_restore_en : 1;/**< [  0:  0](R/W) When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
-                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
-                                                                 Added in pass 2. */
+                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used. */
         uint64_t reserved_1_3          : 3;
         uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
                                                                  to cfg_rx_errdet_ctrl in registers
@@ -4475,59 +4312,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_gserx_lanex_rx_misc_ovrrd_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB clock enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB clock enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX electrical-idle-exit
-                                                                 detect enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX electrical-idle-exit
-                                                                 detect enable. */
-        uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
-        uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ eval.
-                                                                 When asserted, training mode is controlled by
-                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
-        uint64_t reserved_6            : 1;
-        uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX power state machine with
-                                                                 CFG_RX_DLL_LOCKEN in register
-                                                                 GSER()_LANE()_RX_CFG_1. */
-        uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
-                                                                 to cfg_rx_errdet_ctrl in registers
-                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cfg_rxeq_eval_restore_en : 1;/**< [  0:  0](R/W) When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
-                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used. */
-#else /* Word 0 - Little Endian */
-        uint64_t cfg_rxeq_eval_restore_en : 1;/**< [  0:  0](R/W) When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
-                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
-                                                                 to cfg_rx_errdet_ctrl in registers
-                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
-        uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX power state machine with
-                                                                 CFG_RX_DLL_LOCKEN in register
-                                                                 GSER()_LANE()_RX_CFG_1. */
-        uint64_t reserved_6            : 1;
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ eval.
-                                                                 When asserted, training mode is controlled by
-                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
-        uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
-        uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX electrical-idle-exit
-                                                                 detect enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX electrical-idle-exit
-                                                                 detect enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB clock enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB clock enable. */
-        uint64_t reserved_14_63        : 50;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gserx_lanex_rx_misc_ovrrd_cn81xx cn83xx; */
+    /* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn81xx; */
+    /* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn83xx; */
     /* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn88xxp2; */
 } bdk_gserx_lanex_rx_misc_ovrrd_t;
 
@@ -5562,6 +5348,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
+        uint64_t sds_pcs_rx_vma_status : 8;  /**< [  7:  0](RO/H) <7> = DFE powerdown.
+                                                                 <6> = Reserved.
+                                                                 <5:2> = CTLE Peak.
+                                                                 <1:0> = CTLE Pole. */
+#else /* Word 0 - Little Endian */
+        uint64_t sds_pcs_rx_vma_status : 8;  /**< [  7:  0](RO/H) <7> = DFE powerdown.
+                                                                 <6> = Reserved.
+                                                                 <5:2> = CTLE Peak.
+                                                                 <1:0> = CTLE Pole. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_vma_status_0_s cn81xx; */
+    struct bdk_gserx_lanex_rx_vma_status_0_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
         uint64_t sds_pcs_rx_vma_status : 8;  /**< [  7:  0](RO/H) <8> = DFE powerdown.
                                                                  <7> = Reserved.
                                                                  <6:2> = CTLE Peak.
@@ -5573,8 +5376,8 @@ typedef union
                                                                  <1:0> = CTLE Pole. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_lanex_rx_vma_status_0_s cn; */
+    } cn88xx;
+    /* struct bdk_gserx_lanex_rx_vma_status_0_cn88xx cn83xx; */
 } bdk_gserx_lanex_rx_vma_status_0_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -6438,7 +6241,7 @@ typedef union
                                                                  0x4: R_3125G_REFCLK15625_XAUI.
                                                                  0x5: R_103125G_REFCLK15625_KR.
                                                                  0x6: R_125G_REFCLK15625_SGMII.
-                                                                 0x7: R_5G_REFCLK15625_QSGMII (not supported).
+                                                                 0x7: R_5G_REFCLK15625_QSGMII.
                                                                  0x8: R_625G_REFCLK15625_RXAUI.
                                                                  0x9: R_25G_REFCLK125.
                                                                  0xA: R_5G_REFCLK125.
@@ -6476,7 +6279,7 @@ typedef union
                                                                  0x4: R_3125G_REFCLK15625_XAUI.
                                                                  0x5: R_103125G_REFCLK15625_KR.
                                                                  0x6: R_125G_REFCLK15625_SGMII.
-                                                                 0x7: R_5G_REFCLK15625_QSGMII (not supported).
+                                                                 0x7: R_5G_REFCLK15625_QSGMII.
                                                                  0x8: R_625G_REFCLK15625_RXAUI.
                                                                  0x9: R_25G_REFCLK125.
                                                                  0xA: R_5G_REFCLK125.
@@ -7760,6 +7563,127 @@ typedef union
                                                                  1.25G:    0x1    0x1    0x1
                                                                  2.5G:     0x4    0x3    0x3
                                                                  3.125G:   NS     0x1    0x1
+                                                                 5.0G:     0x1    0x1    0x1
+                                                                 6.25G:    NS     0x1    0x1
+                                                                 8.0G:     0x3    0x2    NS
+                                                                 10.3125G: NS     NS     0x1
+                                                                 </pre>
+
+                                                                 For SATA, [PLL_ICP] should always be 1.
+                                                                 For PCIE 1.1 @100MHz, [PLL_ICP] should be 4.
+                                                                 For PCIE 2.1 @100MHz, [PLL_ICP] should be 3.
+                                                                 For PCIE 1.1 @125MHz, [PLL_ICP] should be 3.
+                                                                 For PCIE 2.1 @125MHz, [PLL_ICP] should be 3.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_rloop             : 3;  /**< [ 11:  9](R/W/H) Loop resistor tuning.
+
+                                                                 Recommended settings:
+
+                                                                 <pre>
+                                                                 _ 1.25G:    0x3
+                                                                 _ 2.5G:     0x3
+                                                                 _ 3.125G:   0x3
+                                                                 _ 5.0G:     0x3
+                                                                 _ 6.25G:    0x3
+                                                                 _ 8.0G:     0x5
+                                                                 _ 10.3125G: 0x5
+                                                                 </pre>
+
+                                                                 For SATA with 100 MHz reference clock, [PLL_RLOOP] should always be 3. */
+        uint64_t pll_pcs_div           : 9;  /**< [  8:  0](R/W/H) The divider that generates PCS_MAC_TX_CLK. The frequency of the clock is (pll_frequency /
+                                                                 PLL_PCS_DIV).
+
+                                                                 Recommended settings:
+
+                                                                 <pre>
+                                                                             PCIE   Other
+                                                                 _ 1.25G:     NS     0x28
+                                                                 _ 2.5G:      0x5    0x5
+                                                                 _ 3.125G:    NS     0x14
+                                                                 _ 5.0G:      0x5    0xA
+                                                                 _ 6.25G:     NS     0xA
+                                                                 _ 8.0G:      0x8    0xA
+                                                                 _ 10.3125G:  NS     0xA
+                                                                 </pre>
+
+                                                                 For SATA, [PLL_PCS_DIV] should always be 5.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t pll_pcs_div           : 9;  /**< [  8:  0](R/W/H) The divider that generates PCS_MAC_TX_CLK. The frequency of the clock is (pll_frequency /
+                                                                 PLL_PCS_DIV).
+
+                                                                 Recommended settings:
+
+                                                                 <pre>
+                                                                             PCIE   Other
+                                                                 _ 1.25G:     NS     0x28
+                                                                 _ 2.5G:      0x5    0x5
+                                                                 _ 3.125G:    NS     0x14
+                                                                 _ 5.0G:      0x5    0xA
+                                                                 _ 6.25G:     NS     0xA
+                                                                 _ 8.0G:      0x8    0xA
+                                                                 _ 10.3125G:  NS     0xA
+                                                                 </pre>
+
+                                                                 For SATA, [PLL_PCS_DIV] should always be 5.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_rloop             : 3;  /**< [ 11:  9](R/W/H) Loop resistor tuning.
+
+                                                                 Recommended settings:
+
+                                                                 <pre>
+                                                                 _ 1.25G:    0x3
+                                                                 _ 2.5G:     0x3
+                                                                 _ 3.125G:   0x3
+                                                                 _ 5.0G:     0x3
+                                                                 _ 6.25G:    0x3
+                                                                 _ 8.0G:     0x5
+                                                                 _ 10.3125G: 0x5
+                                                                 </pre>
+
+                                                                 For SATA with 100 MHz reference clock, [PLL_RLOOP] should always be 3. */
+        uint64_t pll_icp               : 4;  /**< [ 15: 12](R/W/H) PLL charge pump enable.
+
+                                                                 Recommended settings, which are based on the reference clock speed:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x1    0x1    0x1
+                                                                 2.5G:     0x4    0x3    0x3
+                                                                 3.125G:   NS     0x1    0x1
+                                                                 5.0G:     0x1    0x1    0x1
+                                                                 6.25G:    NS     0x1    0x1
+                                                                 8.0G:     0x3    0x2    NS
+                                                                 10.3125G: NS     NS     0x1
+                                                                 </pre>
+
+                                                                 For SATA, [PLL_ICP] should always be 1.
+                                                                 For PCIE 1.1 @100MHz, [PLL_ICP] should be 4.
+                                                                 For PCIE 2.1 @100MHz, [PLL_ICP] should be 3.
+                                                                 For PCIE 1.1 @125MHz, [PLL_ICP] should be 3.
+                                                                 For PCIE 2.1 @125MHz, [PLL_ICP] should be 3.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_pll_px_mode_0_s cn81xx; */
+    struct bdk_gserx_pll_px_mode_0_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t pll_icp               : 4;  /**< [ 15: 12](R/W/H) PLL charge pump enable.
+
+                                                                 Recommended settings, which are based on the reference clock speed:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x1    0x1    0x1
+                                                                 2.5G:     0x4    0x3    0x3
+                                                                 3.125G:   NS     0x1    0x1
                                                                  5.0G:     0x4    0x3    0x3
                                                                  6.25G:    NS     0x1    0x1
                                                                  8.0G:     0x3    0x2    NS
@@ -7858,8 +7782,8 @@ typedef union
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_pll_px_mode_0_s cn; */
+    } cn88xx;
+    /* struct bdk_gserx_pll_px_mode_0_cn88xx cn83xx; */
 } bdk_gserx_pll_px_mode_0_t;
 
 static inline uint64_t BDK_GSERX_PLL_PX_MODE_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7896,6 +7820,147 @@ typedef union
 {
     uint64_t u;
     struct bdk_gserx_pll_px_mode_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t pll_16p5en            : 1;  /**< [ 13: 13](R/W/H) Enable for the DIV 16.5 divided down clock.
+
+                                                                 Recommended settings, based on the reference clock speed:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x1    0x1     0x1
+                                                                 2.5G:     0x0    0x0     0x0
+                                                                 3.125G:   NS     0x1     0x1
+                                                                 5.0G:     0x0    0x0     0x0
+                                                                 6.25G:    NS     0x0     0x0
+                                                                 8.0G:     0x0    0x0     NS
+                                                                 10.3125G: NS     NS      0x1
+                                                                 </pre>
+
+                                                                 For SATA, [PLL_16P5EN] should always be 0.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_cpadj             : 2;  /**< [ 12: 11](R/W/H) PLL charge adjust.
+
+                                                                 Recommended settings, based on the reference clock speed:
+
+                                                                 <pre>
+                                                                           100MHz 125MHz 156.25MHz
+                                                                 1.25G:     0x2     0x2    0x3
+                                                                 2.5G:      0x2     0x1    0x2
+                                                                 3.125G:    NS      0x2    0x2
+                                                                 5.0G:      0x2     0x2    0x2
+                                                                 6.25G:     NS      0x2    0x2
+                                                                 8.0G:      0x2     0x1    NS
+                                                                 10.3125G:  NS      NS     0x2
+                                                                 </pre>
+
+                                                                 For SATA with 100 MHz reference clock, [PLL_CPADJ] should always be 2.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_pcie3en           : 1;  /**< [ 10: 10](R/W/H) Enable PCIE3 mode.
+
+                                                                 Recommended settings:
+                                                                 0 = Any rate other than 8 Gbaud.
+                                                                 1 = Rate is equal to 8 Gbaud.
+
+                                                                 For SATA, [PLL_PCIE3EN] should always be 0. */
+        uint64_t pll_opr               : 1;  /**< [  9:  9](R/W/H) PLL op range:
+                                                                 0 = Use ring oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
+                                                                 1 = Use LC-tank VCO. Recommended for rates 8 Gbaud and higher.
+
+                                                                 For SATA, [PLL_OPR] should always be 0. */
+        uint64_t pll_div               : 9;  /**< [  8:  0](R/W/H) PLL divider in feedback path which sets the PLL frequency.
+
+                                                                 Recommended settings:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x19   0x14    0x10
+                                                                 2.5G:     0x19   0x14    0x10
+                                                                 3.125G:   NS     0x19    0x14
+                                                                 5.0G:     0x19   0x14    0x10
+                                                                 6.25G:    NS     0x19    0x14
+                                                                 8.0G:     0x28   0x20    NS
+                                                                 10.3125G: NS     NS      0x21
+                                                                 </pre>
+
+                                                                 For SATA with 100MHz reference clock, [PLL_DIV] should always be 0x1E.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t pll_div               : 9;  /**< [  8:  0](R/W/H) PLL divider in feedback path which sets the PLL frequency.
+
+                                                                 Recommended settings:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x19   0x14    0x10
+                                                                 2.5G:     0x19   0x14    0x10
+                                                                 3.125G:   NS     0x19    0x14
+                                                                 5.0G:     0x19   0x14    0x10
+                                                                 6.25G:    NS     0x19    0x14
+                                                                 8.0G:     0x28   0x20    NS
+                                                                 10.3125G: NS     NS      0x21
+                                                                 </pre>
+
+                                                                 For SATA with 100MHz reference clock, [PLL_DIV] should always be 0x1E.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_opr               : 1;  /**< [  9:  9](R/W/H) PLL op range:
+                                                                 0 = Use ring oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
+                                                                 1 = Use LC-tank VCO. Recommended for rates 8 Gbaud and higher.
+
+                                                                 For SATA, [PLL_OPR] should always be 0. */
+        uint64_t pll_pcie3en           : 1;  /**< [ 10: 10](R/W/H) Enable PCIE3 mode.
+
+                                                                 Recommended settings:
+                                                                 0 = Any rate other than 8 Gbaud.
+                                                                 1 = Rate is equal to 8 Gbaud.
+
+                                                                 For SATA, [PLL_PCIE3EN] should always be 0. */
+        uint64_t pll_cpadj             : 2;  /**< [ 12: 11](R/W/H) PLL charge adjust.
+
+                                                                 Recommended settings, based on the reference clock speed:
+
+                                                                 <pre>
+                                                                           100MHz 125MHz 156.25MHz
+                                                                 1.25G:     0x2     0x2    0x3
+                                                                 2.5G:      0x2     0x1    0x2
+                                                                 3.125G:    NS      0x2    0x2
+                                                                 5.0G:      0x2     0x2    0x2
+                                                                 6.25G:     NS      0x2    0x2
+                                                                 8.0G:      0x2     0x1    NS
+                                                                 10.3125G:  NS      NS     0x2
+                                                                 </pre>
+
+                                                                 For SATA with 100 MHz reference clock, [PLL_CPADJ] should always be 2.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_16p5en            : 1;  /**< [ 13: 13](R/W/H) Enable for the DIV 16.5 divided down clock.
+
+                                                                 Recommended settings, based on the reference clock speed:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x1    0x1     0x1
+                                                                 2.5G:     0x0    0x0     0x0
+                                                                 3.125G:   NS     0x1     0x1
+                                                                 5.0G:     0x0    0x0     0x0
+                                                                 6.25G:    NS     0x0     0x0
+                                                                 8.0G:     0x0    0x0     NS
+                                                                 10.3125G: NS     NS      0x1
+                                                                 </pre>
+
+                                                                 For SATA, [PLL_16P5EN] should always be 0.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_pll_px_mode_1_s cn81xx; */
+    struct bdk_gserx_pll_px_mode_1_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
@@ -8034,8 +8099,8 @@ typedef union
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_pll_px_mode_1_s cn; */
+    } cn88xx;
+    /* struct bdk_gserx_pll_px_mode_1_cn88xx cn83xx; */
 } bdk_gserx_pll_px_mode_1_t;
 
 static inline uint64_t BDK_GSERX_PLL_PX_MODE_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -10178,7 +10243,6 @@ typedef union
                                                                  pins during chip cold reset. For non-CCPI links, this field is not used.
                                                                  For SPD settings that configure a non-default reference clock, hardware updates the PLL
                                                                  settings of the specific lane mode (LMODE) table entry to derive the correct link rate.
-                                                                 Changed in pass 2.
 
                                                                  <pre>
                                                                        REFCLK  Link Rate
@@ -10226,7 +10290,6 @@ typedef union
                                                                  pins during chip cold reset. For non-CCPI links, this field is not used.
                                                                  For SPD settings that configure a non-default reference clock, hardware updates the PLL
                                                                  settings of the specific lane mode (LMODE) table entry to derive the correct link rate.
-                                                                 Changed in pass 2.
 
                                                                  <pre>
                                                                        REFCLK  Link Rate

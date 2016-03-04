@@ -56,7 +56,7 @@ int __bdk_qlm_get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm
         else if (ref_clk == REF_125MHZ)
             return BDK_GSER_LMODE_E_R_5G_REFCLK125;
         else
-            return BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII;
+            return BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN81XX;
     }
     else if (baud_mhz <= 6250)
     {
@@ -510,7 +510,7 @@ void __bdk_qlm_init_mode_table(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
+            case BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN81XX:
                 pll_mode_0.s.pll_icp = 0x3;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -691,7 +691,7 @@ int __bdk_qlm_get_gbaud_mhz_lmode(bdk_node_t node, int qlm)
             return 10312;
         case BDK_GSER_LMODE_E_R_125G_REFCLK15625_SGMII:
             return 1250;
-        case BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
+        case BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN81XX:
             return 5000;
         case BDK_GSER_LMODE_E_R_625G_REFCLK15625_RXAUI:
             return 6250;

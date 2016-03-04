@@ -944,7 +944,7 @@ static inline uint64_t BDK_TNS_RDMA_CNTX(unsigned long a)
  *
  * TNS RDMA Receive Byte Counter Register
  * Bytes received by the physical port. All fields have roll over counters. Register
- * number enumerated by TNS_PHYS_PORT_E (added pass 2.0).
+ * number enumerated by TNS_PHYS_PORT_E.
  */
 typedef union
 {
@@ -982,7 +982,7 @@ static inline uint64_t BDK_TNS_RDMA_CNT_BYTESX(unsigned long a)
  *
  * TNS RDMA Receive Packet Counter Register
  * Packets received by the physical port. All fields have roll over counters. Register
- * number enumerated by TNS_PHYS_PORT_E (added pass 2.0).
+ * number enumerated by TNS_PHYS_PORT_E.
  */
 typedef union
 {
@@ -3524,7 +3524,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(unsigned long a)
  *
  * INTERNAL: TNS RDMA PARSER Status Register
  *
- * Parser to RDMA status register (added pass 2.0).
+ * Parser to RDMA status register.
  */
 typedef union
 {
@@ -3636,7 +3636,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PATH_ENABLE_FUNC(void)
  *
  * INTERNAL: RDMA Performance Counter Control Register
  *
- * Performance counter control register (added pass 2.0).
+ * Performance counter control register.
  */
 typedef union
 {
@@ -3742,7 +3742,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PERF_CNTRLX(unsigned long a)
  *
  * INTERNAL: RDMA Performance Counter Status Register
  *
- * Performance counter status register (added pass 2.0).
+ * Performance counter status register.
  */
 typedef union
 {
@@ -3961,7 +3961,7 @@ static inline uint64_t BDK_TNS_RDMA_NIC_CDT_RTN_FUNC(void)
  *
  * INTERNAL: RDMA Performance Counter Control Register
  *
- * Performance counter control register (added pass 2.0).
+ * Performance counter control register.
  */
 typedef union
 {
@@ -4067,7 +4067,7 @@ static inline uint64_t BDK_TNS_RDMA_PERF_CNTRLX(unsigned long a)
  *
  * INTERNAL: RDMA Performance Counter Status Register
  *
- * Performance counter status register (added pass 2.0).
+ * Performance counter status register.
  */
 typedef union
 {
@@ -4335,7 +4335,7 @@ static inline uint64_t BDK_TNS_TDMA_CNTX(unsigned long a)
  *
  * TNS TDMA Transmit Counter Register
  * Bytes transmitted by the physical port. All fields have roll over counters. Register
- * number enumerated by TNS_PHYS_PORT_E (added pass 2.0).
+ * number enumerated by TNS_PHYS_PORT_E.
  */
 typedef union
 {
@@ -4373,7 +4373,7 @@ static inline uint64_t BDK_TNS_TDMA_CNT_BYTESX(unsigned long a)
  *
  * TNS TDMA Transmit Counter Register
  * Packets transmitted by the physical port. All fields have roll over
- * counters. Register number enumerated by TNS_PHYS_PORT_E (added pass 2.0).
+ * counters. Register number enumerated by TNS_PHYS_PORT_E.
  */
 typedef union
 {
@@ -5463,8 +5463,7 @@ typedef union
                                                                  transmission, this field should be 0 when the TNS Parser or TxQ
                                                                  is configured for all ports to operate in a store-and-forward mode.
                                                                  This field has no effect on those TDMA ports where the associated
-                                                                 *_CUTTHRU_EN field is set.
-                                                                 This field was added in pass 2.0. */
+                                                                 *_CUTTHRU_EN field is set. */
         uint64_t lb_cutthru_en         : 1;  /**< [ 42: 42](R/W) Enable cut-thru packet checks and transmission on the internal
                                                                  loopback bus.
                                                                  When set, the TDMA performs packet checks to avoid reading
@@ -5647,8 +5646,7 @@ typedef union
                                                                  transmission, this field should be 0 when the TNS Parser or TxQ
                                                                  is configured for all ports to operate in a store-and-forward mode.
                                                                  This field has no effect on those TDMA ports where the associated
-                                                                 *_CUTTHRU_EN field is set.
-                                                                 This field was added in pass 2.0. */
+                                                                 *_CUTTHRU_EN field is set. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -7223,7 +7221,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGES_USED_FUNC(void)
  *
  * INTERNAL: TDMA Performance Counter Control Register
  *
- * Performance counter control register (added pass 2.0).
+ * Performance counter control register.
  */
 typedef union
 {
@@ -7329,7 +7327,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PERF_CNTRLX(unsigned long a)
  *
  * INTERNAL: TDMA Performance Counter Status Register
  *
- * Performance counter status register (added pass 2.0).
+ * Performance counter status register.
  */
 typedef union
 {
@@ -7619,7 +7617,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_TRUNCATEX_LEN(unsigned long a)
  *
  * INTERNAL: TDMA Performance Counter Control Register
  *
- * Performance counter control register (added pass 2.0).
+ * Performance counter control register.
  */
 typedef union
 {
@@ -7727,7 +7725,7 @@ static inline uint64_t BDK_TNS_TDMA_PERF_CNTRLX(unsigned long a)
  *
  * INTERNAL: RDMA Performance Counter Status Register
  *
- * Performance counter status register (added pass 2.0).
+ * Performance counter status register.
  */
 typedef union
 {
@@ -7765,7 +7763,7 @@ static inline uint64_t BDK_TNS_TDMA_PERF_STATUSX(unsigned long a)
  *
  * INTERNAL: Bypassed X2P Packet State Register
  *
- * NICI X2P packet transmission state (added pass 2.0).
+ * NICI X2P packet transmission state.
  */
 typedef union
 {

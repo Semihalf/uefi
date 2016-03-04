@@ -184,8 +184,7 @@ static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long a, unsigned long b)
  * Register (NCB) sata#_msix_vec#_addr
  *
  * SATA MSI-X Vector Table Address Registers
- * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration. Changed in
- * pass 2
+ * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration.
  */
 typedef union
 {
@@ -314,8 +313,7 @@ static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
  * Register (NCB) sata#_msix_vec#_ctl
  *
  * SATA MSI-X Vector Table Control and Data Registers
- * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration. Changed in
- * pass 2
+ * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration.
  */
 typedef union
 {
@@ -2467,8 +2465,7 @@ typedef union
                                                                  0x7 = divide by 24. */
         uint64_t reserved_5_23         : 19;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030.
-                                                                 Changed in pass 2. */
+                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
         uint64_t reserved_2_3          : 2;
         uint64_t sata_uahc_rst         : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
                                                                  Internal:
@@ -2503,8 +2500,7 @@ typedef union
                                                                  or NCB protocols. */
         uint64_t reserved_2_3          : 2;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030.
-                                                                 Changed in pass 2. */
+                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
         uint64_t reserved_5_23         : 19;
         uint64_t a_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) The host-controller clock frequency is the coprocessor-clock frequency divided by
                                                                  [A_CLKDIV_SEL]. The host-controller clock frequency must be at or below 333MHz.
@@ -2556,148 +2552,7 @@ typedef union
                                                                  RAM. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_satax_uctl_ctl_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. There are two major modes of BIST: FULL and CLEAR.
-                                                                 0 = FULL BIST is run by the BIST state machine.
-                                                                 1 = CLEAR BIST is run by the BIST state machine. A clear-BIST run clears all entries in
-                                                                 SATA RAMs to 0x0.
-
-                                                                 To avoid race conditions, software must first perform a CSR write operation that puts
-                                                                 [CLEAR_BIST] into the correct state and then perform another CSR write operation to set
-                                                                 [START_BIST] (keeping [CLEAR_BIST] constant). CLEAR BIST completion is indicated by
-                                                                 SATA()_UCTL_BIST_STATUS[NDONE*] clear.
-
-                                                                 A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
-                                                                 RAM. */
-        uint64_t start_bist            : 1;  /**< [ 62: 62](R/W) Start BIST. The rising edge starts BIST on the memories in SATA. To run BIST, the host-
-                                                                 controller clock must be both configured and enabled, and should be configured to the
-                                                                 maximum available frequency given the available coprocessor clock and dividers.
-
-                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can
-                                                                 be checked after FULL BIST completion, both of which are indicated in
-                                                                 SATA()_UCTL_BIST_STATUS. The FULL BIST run takes almost 80,000 host-controller
-                                                                 clock cycles for the largest RAM. */
-        uint64_t reserved_31_61        : 31;
-        uint64_t a_clk_en              : 1;  /**< [ 30: 30](R/W) Host-controller clock enable. When set to 1, the host-controller clock is generated. This
-                                                                 also enables access to UCTL registers 0x30-0xF8. */
-        uint64_t a_clk_byp_sel         : 1;  /**< [ 29: 29](R/W) Select the bypass input to the host-controller clock divider.
-                                                                 0 = Use the divided coprocessor clock from the A_CLKDIV divider.
-                                                                 1 = use the bypass clock from the GPIO pins (generally bypass is only used for scan
-                                                                 purposes).
-
-                                                                 This signal is a multiplexer-select signal; it does not enable the host-controller clock.
-                                                                 You must set [A_CLK_EN] separately. [A_CLK_BYP_SEL] select should not be changed unless
-                                                                 [A_CLK_EN] is disabled. The bypass clock can be selected and running even if the host-
-                                                                 controller clock dividers are not running. */
-        uint64_t a_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) Host-controller-clock divider reset. Divided clocks are not generated while the divider is
-                                                                 being reset.
-                                                                 This also resets the suspend-clock divider. */
-        uint64_t reserved_27           : 1;
-        uint64_t a_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) The host-controller clock frequency is the coprocessor-clock frequency divided by
-                                                                 [A_CLKDIV_SEL]. The host-controller clock frequency must be at or below 333MHz.
-                                                                 This field can be changed only when [A_CLKDIV_RST] = 1. The divider values are the
-                                                                 following:
-                                                                 0x0 = divide by 1.
-                                                                 0x1 = divide by 2.
-                                                                 0x2 = divide by 3.
-                                                                 0x3 = divide by 4.
-                                                                 0x4 = divide by 6.
-                                                                 0x5 = divide by 8.
-                                                                 0x6 = divide by 16.
-                                                                 0x7 = divide by 24. */
-        uint64_t reserved_5_23         : 19;
-        uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t sata_uahc_rst         : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
-                                                                 Internal:
-                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
-                                                                 or NCB protocols. */
-        uint64_t sata_uctl_rst         : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high. Resets UAHC DMA and register shims and the UCTL
-                                                                 registers 0x10_0030-0x10_00F8.
-
-                                                                 It does not reset UCTL registers 0x10_0000-0x10_0028.
-
-                                                                 The UCTL registers starting from 0x10_0030 can be accessed only after the host-controller
-                                                                 clock is active and UCTL_RST is deasserted.
-
-                                                                 Internal:
-                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
-                                                                 RSL, NCB, and GIB protocols. */
-#else /* Word 0 - Little Endian */
-        uint64_t sata_uctl_rst         : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high. Resets UAHC DMA and register shims and the UCTL
-                                                                 registers 0x10_0030-0x10_00F8.
-
-                                                                 It does not reset UCTL registers 0x10_0000-0x10_0028.
-
-                                                                 The UCTL registers starting from 0x10_0030 can be accessed only after the host-controller
-                                                                 clock is active and UCTL_RST is deasserted.
-
-                                                                 Internal:
-                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
-                                                                 RSL, NCB, and GIB protocols. */
-        uint64_t sata_uahc_rst         : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
-                                                                 Internal:
-                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
-                                                                 or NCB protocols. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
-        uint64_t reserved_5_23         : 19;
-        uint64_t a_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) The host-controller clock frequency is the coprocessor-clock frequency divided by
-                                                                 [A_CLKDIV_SEL]. The host-controller clock frequency must be at or below 333MHz.
-                                                                 This field can be changed only when [A_CLKDIV_RST] = 1. The divider values are the
-                                                                 following:
-                                                                 0x0 = divide by 1.
-                                                                 0x1 = divide by 2.
-                                                                 0x2 = divide by 3.
-                                                                 0x3 = divide by 4.
-                                                                 0x4 = divide by 6.
-                                                                 0x5 = divide by 8.
-                                                                 0x6 = divide by 16.
-                                                                 0x7 = divide by 24. */
-        uint64_t reserved_27           : 1;
-        uint64_t a_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) Host-controller-clock divider reset. Divided clocks are not generated while the divider is
-                                                                 being reset.
-                                                                 This also resets the suspend-clock divider. */
-        uint64_t a_clk_byp_sel         : 1;  /**< [ 29: 29](R/W) Select the bypass input to the host-controller clock divider.
-                                                                 0 = Use the divided coprocessor clock from the A_CLKDIV divider.
-                                                                 1 = use the bypass clock from the GPIO pins (generally bypass is only used for scan
-                                                                 purposes).
-
-                                                                 This signal is a multiplexer-select signal; it does not enable the host-controller clock.
-                                                                 You must set [A_CLK_EN] separately. [A_CLK_BYP_SEL] select should not be changed unless
-                                                                 [A_CLK_EN] is disabled. The bypass clock can be selected and running even if the host-
-                                                                 controller clock dividers are not running. */
-        uint64_t a_clk_en              : 1;  /**< [ 30: 30](R/W) Host-controller clock enable. When set to 1, the host-controller clock is generated. This
-                                                                 also enables access to UCTL registers 0x30-0xF8. */
-        uint64_t reserved_31_61        : 31;
-        uint64_t start_bist            : 1;  /**< [ 62: 62](R/W) Start BIST. The rising edge starts BIST on the memories in SATA. To run BIST, the host-
-                                                                 controller clock must be both configured and enabled, and should be configured to the
-                                                                 maximum available frequency given the available coprocessor clock and dividers.
-
-                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can
-                                                                 be checked after FULL BIST completion, both of which are indicated in
-                                                                 SATA()_UCTL_BIST_STATUS. The FULL BIST run takes almost 80,000 host-controller
-                                                                 clock cycles for the largest RAM. */
-        uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. There are two major modes of BIST: FULL and CLEAR.
-                                                                 0 = FULL BIST is run by the BIST state machine.
-                                                                 1 = CLEAR BIST is run by the BIST state machine. A clear-BIST run clears all entries in
-                                                                 SATA RAMs to 0x0.
-
-                                                                 To avoid race conditions, software must first perform a CSR write operation that puts
-                                                                 [CLEAR_BIST] into the correct state and then perform another CSR write operation to set
-                                                                 [START_BIST] (keeping [CLEAR_BIST] constant). CLEAR BIST completion is indicated by
-                                                                 SATA()_UCTL_BIST_STATUS[NDONE*] clear.
-
-                                                                 A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
-                                                                 RAM. */
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_satax_uctl_ctl_s cn88xx; */
-    /* struct bdk_satax_uctl_ctl_cn81xx cn83xx; */
+    /* struct bdk_satax_uctl_ctl_s cn; */
 } bdk_satax_uctl_ctl_t;
 
 static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));

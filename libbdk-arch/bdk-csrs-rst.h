@@ -1282,7 +1282,7 @@ static inline uint64_t BDK_RST_CTLX(unsigned long a)
  *
  * RST Debug Logic Reset Register
  * This register contains the reset control for each core's debug logic.
- * Debug reset is not support in pass 2.
+ * Debug reset is not supported in pass 2.
  */
 typedef union
 {
@@ -1358,7 +1358,6 @@ static inline uint64_t BDK_RST_DBG_RESET_FUNC(void)
  * Register (RSL) rst_debug
  *
  * RST Debug Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -1449,8 +1448,6 @@ static inline uint64_t BDK_RST_DELAY_FUNC(void)
  * Register (RSL) rst_eco
  *
  * INTERNAL: RST ECO Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -1963,8 +1960,6 @@ static inline uint64_t BDK_RST_OCX_FUNC(void)
  * Register (RSL) rst_osc_cntr
  *
  * INTERNAL: RST Internal Ring-Oscillator Counter Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -2467,8 +2462,6 @@ static inline uint64_t BDK_RST_PP_RESET_FUNC(void)
  * Register (RSL) rst_ref_check
  *
  * INTERNAL: RST Reference Clock Checker Register
- *
- * Added in pass 2.
  */
 typedef union
 {

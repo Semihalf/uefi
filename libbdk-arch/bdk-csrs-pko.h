@@ -3047,15 +3047,14 @@ typedef union
 
                                                                  When [ADJUST] is not 0x100, it is the PKO_SEND_HDR_S[SHP_CHG] for the
                                                                  packet. See also PKO_META_DESC_S[ADJUST]. */
-        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or CIR_ONLY
-                                                                 (i.e. [PIR_DIS]=PKO_SEND_EXT_S[COL<1>]). Zero if a PKO_SEND_EXT_S is not present in the
-                                                                 corresponding descriptor. See PKO_COLORALG_E. [PIR_DIS] is used by the DQ through L2
-                                                                 shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[COL<1>]. */
-        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or
-                                                                 PIR_ONLY (i.e. [CIR_DIS]=PKO_SEND_EXT_S[COL<0>]). Zero if a PKO_SEND_EXT_S is not
-                                                                 present in the corresponding descriptor. See PKO_COLORALG_E. [CIR_DIS] is used by the
-                                                                 DQ through L2 shapers, but not used by the L1 rate limiters. See also
-                                                                 PKO_META_DESC_S[COL<0>]. */
+        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [PIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [PIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
+        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [CIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [CIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t red_algo_override     : 2;  /**< [ 17: 16](R/W/H) PKO_SEND_HDR_S[SHP_RA] from the corresponding packet descriptor.
                                                                  [RED_ALGO_OVERRIDE] is used by the DQ through L2
                                                                  shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[RA]. */
@@ -3097,15 +3096,14 @@ typedef union
         uint64_t red_algo_override     : 2;  /**< [ 17: 16](R/W/H) PKO_SEND_HDR_S[SHP_RA] from the corresponding packet descriptor.
                                                                  [RED_ALGO_OVERRIDE] is used by the DQ through L2
                                                                  shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[RA]. */
-        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or
-                                                                 PIR_ONLY (i.e. [CIR_DIS]=PKO_SEND_EXT_S[COL<0>]). Zero if a PKO_SEND_EXT_S is not
-                                                                 present in the corresponding descriptor. See PKO_COLORALG_E. [CIR_DIS] is used by the
-                                                                 DQ through L2 shapers, but not used by the L1 rate limiters. See also
-                                                                 PKO_META_DESC_S[COL<0>]. */
-        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or CIR_ONLY
-                                                                 (i.e. [PIR_DIS]=PKO_SEND_EXT_S[COL<1>]). Zero if a PKO_SEND_EXT_S is not present in the
-                                                                 corresponding descriptor. See PKO_COLORALG_E. [PIR_DIS] is used by the DQ through L2
-                                                                 shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[COL<1>]. */
+        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [CIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [CIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
+        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [PIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [PIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t adjust                : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is 0x100, it indicates that this CSR does not contain a valid meta,
                                                                  and all other fields in this CSR are invalid and shouldn't be used.
 
@@ -4294,15 +4292,14 @@ typedef union
 
                                                                  When [ADJUST] is not 0x100, it is the PKO_SEND_HDR_S[SHP_CHG] for the
                                                                  packet. See also PKO_META_DESC_S[ADJUST]. */
-        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or CIR_ONLY
-                                                                 (i.e. [PIR_DIS]=PKO_SEND_EXT_S[COL<1>]). Zero if a PKO_SEND_EXT_S is not present in the
-                                                                 corresponding descriptor. See PKO_COLORALG_E. [PIR_DIS] is used by the DQ through L2
-                                                                 shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[COL<1>]. */
-        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or
-                                                                 PIR_ONLY (i.e. [CIR_DIS]=PKO_SEND_EXT_S[COL<0>]). Zero if a PKO_SEND_EXT_S is not
-                                                                 present in the corresponding descriptor. See PKO_COLORALG_E. [CIR_DIS] is used by the
-                                                                 DQ through L2 shapers, but not used by the L1 rate limiters. See also
-                                                                 PKO_META_DESC_S[COL<0>]. */
+        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [PIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [PIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
+        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [CIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [CIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t red_algo_override     : 2;  /**< [ 17: 16](R/W/H) PKO_SEND_HDR_S[SHP_RA] from the corresponding packet descriptor.
                                                                  [RED_ALGO_OVERRIDE] is used by the DQ through L2
                                                                  shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[RA]. */
@@ -4344,15 +4341,14 @@ typedef union
         uint64_t red_algo_override     : 2;  /**< [ 17: 16](R/W/H) PKO_SEND_HDR_S[SHP_RA] from the corresponding packet descriptor.
                                                                  [RED_ALGO_OVERRIDE] is used by the DQ through L2
                                                                  shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[RA]. */
-        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or
-                                                                 PIR_ONLY (i.e. [CIR_DIS]=PKO_SEND_EXT_S[COL<0>]). Zero if a PKO_SEND_EXT_S is not
-                                                                 present in the corresponding descriptor. See PKO_COLORALG_E. [CIR_DIS] is used by the
-                                                                 DQ through L2 shapers, but not used by the L1 rate limiters. See also
-                                                                 PKO_META_DESC_S[COL<0>]. */
-        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or CIR_ONLY
-                                                                 (i.e. [PIR_DIS]=PKO_SEND_EXT_S[COL<1>]). Zero if a PKO_SEND_EXT_S is not present in the
-                                                                 corresponding descriptor. See PKO_COLORALG_E. [PIR_DIS] is used by the DQ through L2
-                                                                 shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[COL<1>]. */
+        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [CIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [CIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
+        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [PIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [PIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t adjust                : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is 0x100, it indicates that this CSR does not contain a valid meta,
                                                                  and all other fields in this CSR are invalid and shouldn't be used.
 
@@ -5298,15 +5294,14 @@ typedef union
 
                                                                  When [ADJUST] is not 0x100, it is the PKO_SEND_HDR_S[SHP_CHG] for the
                                                                  packet. See also PKO_META_DESC_S[ADJUST]. */
-        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or CIR_ONLY
-                                                                 (i.e. [PIR_DIS]=PKO_SEND_EXT_S[COL<1>]). Zero if a PKO_SEND_EXT_S is not present in the
-                                                                 corresponding descriptor. See PKO_COLORALG_E. [PIR_DIS] is used by the DQ through L2
-                                                                 shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[COL<1>]. */
-        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or
-                                                                 PIR_ONLY (i.e. [CIR_DIS]=PKO_SEND_EXT_S[COL<0>]). Zero if a PKO_SEND_EXT_S is not
-                                                                 present in the corresponding descriptor. See PKO_COLORALG_E. [CIR_DIS] is used by the
-                                                                 DQ through L2 shapers, but not used by the L1 rate limiters. See also
-                                                                 PKO_META_DESC_S[COL<0>]. */
+        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [PIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [PIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
+        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [CIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [CIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t red_algo_override     : 2;  /**< [ 17: 16](R/W/H) PKO_SEND_HDR_S[SHP_RA] from the corresponding packet descriptor.
                                                                  [RED_ALGO_OVERRIDE] is used by the DQ through L2
                                                                  shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[RA]. */
@@ -5348,15 +5343,14 @@ typedef union
         uint64_t red_algo_override     : 2;  /**< [ 17: 16](R/W/H) PKO_SEND_HDR_S[SHP_RA] from the corresponding packet descriptor.
                                                                  [RED_ALGO_OVERRIDE] is used by the DQ through L2
                                                                  shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[RA]. */
-        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or
-                                                                 PIR_ONLY (i.e. [CIR_DIS]=PKO_SEND_EXT_S[COL<0>]). Zero if a PKO_SEND_EXT_S is not
-                                                                 present in the corresponding descriptor. See PKO_COLORALG_E. [CIR_DIS] is used by the
-                                                                 DQ through L2 shapers, but not used by the L1 rate limiters. See also
-                                                                 PKO_META_DESC_S[COL<0>]. */
-        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or CIR_ONLY
-                                                                 (i.e. [PIR_DIS]=PKO_SEND_EXT_S[COL<1>]). Zero if a PKO_SEND_EXT_S is not present in the
-                                                                 corresponding descriptor. See PKO_COLORALG_E. [PIR_DIS] is used by the DQ through L2
-                                                                 shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[COL<1>]. */
+        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [CIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [CIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
+        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [PIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [PIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t adjust                : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is 0x100, it indicates that this CSR does not contain a valid meta,
                                                                  and all other fields in this CSR are invalid and shouldn't be used.
 
@@ -5712,8 +5706,7 @@ typedef union
                                                                  0x1 = SEND. Send packets while the shaper is in RED state. When the shaper is
                                                                        in RED state, packets that traverse the shaper will be downgraded to RED_SEND.
                                                                        (if not already RED_SEND or RED_DROP) unless [RED_DISABLE] is set or
-                                                                       PKO_SEND_EXT_S[COL] for the packet is CIR_ONLY or NO_COLOR.
-                                                                       See also PKO_REDALG_E::SEND.
+                                                                       PKO_SEND_HDR_S[SHP_DIS] for the packet is set.  See also PKO_REDALG_E::SEND.
                                                                  0x2 = STALL. Stall packets while the shaper is in RED state until the shaper is
                                                                        YELLOW or GREEN state. Packets that traverse the shaper are never
                                                                        downgraded to the RED state in this mode.
@@ -5721,8 +5714,8 @@ typedef union
                                                                  0x3 = DISCARD. Continually discard packets while the shaper is in RED state.
                                                                        When the shaper is in RED state, all packets that traverse the shaper
                                                                        will be downgraded to RED_DROP (if not already RED_DROP), unless
-                                                                       [RED_DISABLE] is set or PKO_SEND_EXT_S[COL] for the packet is CIR_ONLY
-                                                                       or NO_COLOR. RED_DROP packets traverse all subsequent schedulers/shapers
+                                                                       [RED_DISABLE] is set or PKO_SEND_HDR_S[SHP_DIS] for the packet is set.
+                                                                       RED_DROP packets traverse all subsequent schedulers/shapers
                                                                        (all the way through L1), but do so as quickly as possible without
                                                                        affecting any RR_COUNT, CIR_ACCUM, or PIR_ACCUM state, and are then
                                                                        discarded by PKO. See also PKO_REDALG_E::DISCARD. */
@@ -5743,8 +5736,7 @@ typedef union
                                                                  0x1 = SEND. Send packets while the shaper is in RED state. When the shaper is
                                                                        in RED state, packets that traverse the shaper will be downgraded to RED_SEND.
                                                                        (if not already RED_SEND or RED_DROP) unless [RED_DISABLE] is set or
-                                                                       PKO_SEND_EXT_S[COL] for the packet is CIR_ONLY or NO_COLOR.
-                                                                       See also PKO_REDALG_E::SEND.
+                                                                       PKO_SEND_HDR_S[SHP_DIS] for the packet is set.  See also PKO_REDALG_E::SEND.
                                                                  0x2 = STALL. Stall packets while the shaper is in RED state until the shaper is
                                                                        YELLOW or GREEN state. Packets that traverse the shaper are never
                                                                        downgraded to the RED state in this mode.
@@ -5752,8 +5744,8 @@ typedef union
                                                                  0x3 = DISCARD. Continually discard packets while the shaper is in RED state.
                                                                        When the shaper is in RED state, all packets that traverse the shaper
                                                                        will be downgraded to RED_DROP (if not already RED_DROP), unless
-                                                                       [RED_DISABLE] is set or PKO_SEND_EXT_S[COL] for the packet is CIR_ONLY
-                                                                       or NO_COLOR. RED_DROP packets traverse all subsequent schedulers/shapers
+                                                                       [RED_DISABLE] is set or PKO_SEND_HDR_S[SHP_DIS] for the packet is set.
+                                                                       RED_DROP packets traverse all subsequent schedulers/shapers
                                                                        (all the way through L1), but do so as quickly as possible without
                                                                        affecting any RR_COUNT, CIR_ACCUM, or PIR_ACCUM state, and are then
                                                                        discarded by PKO. See also PKO_REDALG_E::DISCARD. */
@@ -6382,15 +6374,14 @@ typedef union
 
                                                                  When [ADJUST] is not 0x100, it is the PKO_SEND_HDR_S[SHP_CHG] for the
                                                                  packet. See also PKO_META_DESC_S[ADJUST]. */
-        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or CIR_ONLY
-                                                                 (i.e. [PIR_DIS]=PKO_SEND_EXT_S[COL<1>]). Zero if a PKO_SEND_EXT_S is not present in the
-                                                                 corresponding descriptor. See PKO_COLORALG_E. [PIR_DIS] is used by the DQ through L2
-                                                                 shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[COL<1>]. */
-        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or
-                                                                 PIR_ONLY (i.e. [CIR_DIS]=PKO_SEND_EXT_S[COL<0>]). Zero if a PKO_SEND_EXT_S is not
-                                                                 present in the corresponding descriptor. See PKO_COLORALG_E. [CIR_DIS] is used by the
-                                                                 DQ through L2 shapers, but not used by the L1 rate limiters. See also
-                                                                 PKO_META_DESC_S[COL<0>]. */
+        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [PIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [PIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
+        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [CIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [CIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t red_algo_override     : 2;  /**< [ 17: 16](R/W/H) PKO_SEND_HDR_S[SHP_RA] from the corresponding packet descriptor.
                                                                  [RED_ALGO_OVERRIDE] is used by the DQ through L2
                                                                  shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[RA]. */
@@ -6432,15 +6423,14 @@ typedef union
         uint64_t red_algo_override     : 2;  /**< [ 17: 16](R/W/H) PKO_SEND_HDR_S[SHP_RA] from the corresponding packet descriptor.
                                                                  [RED_ALGO_OVERRIDE] is used by the DQ through L2
                                                                  shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[RA]. */
-        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or
-                                                                 PIR_ONLY (i.e. [CIR_DIS]=PKO_SEND_EXT_S[COL<0>]). Zero if a PKO_SEND_EXT_S is not
-                                                                 present in the corresponding descriptor. See PKO_COLORALG_E. [CIR_DIS] is used by the
-                                                                 DQ through L2 shapers, but not used by the L1 rate limiters. See also
-                                                                 PKO_META_DESC_S[COL<0>]. */
-        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_EXT_S[COL] is NO_COLOR or CIR_ONLY
-                                                                 (i.e. [PIR_DIS]=PKO_SEND_EXT_S[COL<1>]). Zero if a PKO_SEND_EXT_S is not present in the
-                                                                 corresponding descriptor. See PKO_COLORALG_E. [PIR_DIS] is used by the DQ through L2
-                                                                 shapers, but not used by the L1 rate limiters. See also PKO_META_DESC_S[COL<1>]. */
+        uint64_t cir_dis               : 1;  /**< [ 18: 18](R/W/H) CIR disable. Committed shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [CIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [CIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
+        uint64_t pir_dis               : 1;  /**< [ 19: 19](R/W/H) PIR disable. Peak shaper disabled. Set when PKO_SEND_HDR_S[SHP_DIS] is set
+                                                                 (i.e. [PIR_DIS]=PKO_SEND_HDR_S[SHP_DIS]).  [PIR_DIS] is used by
+                                                                 the DQ through L2 shapers, but not used by the L1 rate limiters. See also
+                                                                 PKO_META_DESC_S[COL].  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t adjust                : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is 0x100, it indicates that this CSR does not contain a valid meta,
                                                                  and all other fields in this CSR are invalid and shouldn't be used.
 
@@ -7365,7 +7355,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_CTL0_FUNC(void)
  *   CSR Name        Associated MAC
  *   ---------------------------------
  *   PKO_MAC0_CFG   LBK0 loopback
- *   PKO_MAC1_CFG   LBK1 loopback
+ *   PKO_MAC1_CFG   LBK2 loopback
  *   PKO_MAC2_CFG   DPI packet output
  *   PKO_MAC3_CFG   BGX0 logical MAC 0
  *   PKO_MAC4_CFG   BGX0 logical MAC 1

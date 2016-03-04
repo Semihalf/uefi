@@ -738,7 +738,18 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_iobnx_core_bist_status_s cn88xx; */
-    /* struct bdk_iobnx_core_bist_status_s cn83xx; */
+    struct bdk_iobnx_core_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for all cores. IOBN1
+                                                                 always returns 0x0. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for all cores. IOBN1
+                                                                 always returns 0x0. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_iobnx_core_bist_status_t;
 
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -887,66 +898,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_iobnx_dis_ncbi_io_cn81xx cn83xx; */
-    struct bdk_iobnx_dis_ncbi_io_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
-                                                                 outstanding request to receive responses. */
-        uint64_t oci_key_only          : 1;  /**< [  2:  2](R/W) Restrict CCPI-sourced I/O write requests.
-
-                                                                 0 = CCPI-sourced I/O read and write requests are allowed to any device through
-                                                                 IOB, including allowing read/writes to all of KEY_MEM().
-
-                                                                 1 = CCPI-sourced I/O write requests allowed to KEY_MEM(0..2047) (e.g. 16KB, not
-                                                                 all of KEY_MEM) only. CCPI-sourced writes to __any__ other address
-                                                                 (non-KEY_MEM(0..2047)), or any CCPI-source read will be redirected to
-                                                                 ECAM0_NOP_ZF (for non-ECAM) or ECAM0_NOP_ONNF (for-ECAM).
-
-                                                                 This setting does not affect local-node originated traffic.
-
-                                                                 In pass 1, read-only.
-                                                                 Changed in pass 2. */
-        uint64_t all_gic               : 1;  /**< [  1:  1](R/W) All-to-GIC. For diagnostic use only.
-                                                                 Internal:
-                                                                 0 = Normal operation. NCBI traffic to GIC interrupt delivery registers will be ordered
-                                                                 with other interrupt delivery traffic and over the RIB bus.  NCBI traffic to normal non-
-                                                                 interrupt-delivery GIC registers will go via RSL.
-                                                                   1 = All NCBI traffic to the GIC DID will be assumed to be interrupt delivery traffic.
-                                                                 This will break NCBI write transactions to non-interrupt-delivery GIC registers, but may
-                                                                 work around bugs whereby interrupt-delivery CSRs are mis-catagorized inside IOB. */
-        uint64_t ncbi_off              : 1;  /**< [  0:  0](R/W) When set NCBI translation to I/O space (with exception of GIC traffic) will be disabled.
-                                                                 Disabled traffic will turn into access to ECAM0_NOP_ZF. */
-#else /* Word 0 - Little Endian */
-        uint64_t ncbi_off              : 1;  /**< [  0:  0](R/W) When set NCBI translation to I/O space (with exception of GIC traffic) will be disabled.
-                                                                 Disabled traffic will turn into access to ECAM0_NOP_ZF. */
-        uint64_t all_gic               : 1;  /**< [  1:  1](R/W) All-to-GIC. For diagnostic use only.
-                                                                 Internal:
-                                                                 0 = Normal operation. NCBI traffic to GIC interrupt delivery registers will be ordered
-                                                                 with other interrupt delivery traffic and over the RIB bus.  NCBI traffic to normal non-
-                                                                 interrupt-delivery GIC registers will go via RSL.
-                                                                   1 = All NCBI traffic to the GIC DID will be assumed to be interrupt delivery traffic.
-                                                                 This will break NCBI write transactions to non-interrupt-delivery GIC registers, but may
-                                                                 work around bugs whereby interrupt-delivery CSRs are mis-catagorized inside IOB. */
-        uint64_t oci_key_only          : 1;  /**< [  2:  2](R/W) Restrict CCPI-sourced I/O write requests.
-
-                                                                 0 = CCPI-sourced I/O read and write requests are allowed to any device through
-                                                                 IOB, including allowing read/writes to all of KEY_MEM().
-
-                                                                 1 = CCPI-sourced I/O write requests allowed to KEY_MEM(0..2047) (e.g. 16KB, not
-                                                                 all of KEY_MEM) only. CCPI-sourced writes to __any__ other address
-                                                                 (non-KEY_MEM(0..2047)), or any CCPI-source read will be redirected to
-                                                                 ECAM0_NOP_ZF (for non-ECAM) or ECAM0_NOP_ONNF (for-ECAM).
-
-                                                                 This setting does not affect local-node originated traffic.
-
-                                                                 In pass 1, read-only.
-                                                                 Changed in pass 2. */
-        uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
-                                                                 outstanding request to receive responses. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_iobnx_dis_ncbi_io_cn81xx cn88xxp2; */
 } bdk_iobnx_dis_ncbi_io_t;
 
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2998,11 +2950,9 @@ typedef union
     struct bdk_iobnx_int_sum_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. Added in pass 2. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. */
         uint64_t reserved_61_62        : 2;
-        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Changed in pass 2.
-                                                                 IED0 double-bit error. When set, an IED0 double-bit error has occurred.
-
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) IED0 double-bit error. When set, an IED0 double-bit error has occurred.
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                       gmr_ixofifo_dbe_sclk,
@@ -3034,9 +2984,7 @@ typedef union
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Changed in pass 2.
-                                                                 IED0 single-bit error. When set, an IED0 single-bit error has occurred.
-
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) IED0 single-bit error. When set, an IED0 single-bit error has occurred.
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                        gmr_ixofifo_sbe_sclk,
@@ -3068,9 +3016,7 @@ typedef union
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
 #else /* Word 0 - Little Endian */
-        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Changed in pass 2.
-                                                                 IED0 single-bit error. When set, an IED0 single-bit error has occurred.
-
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) IED0 single-bit error. When set, an IED0 single-bit error has occurred.
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                        gmr_ixofifo_sbe_sclk,
@@ -3102,9 +3048,7 @@ typedef union
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Changed in pass 2.
-                                                                 IED0 double-bit error. When set, an IED0 double-bit error has occurred.
-
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) IED0 double-bit error. When set, an IED0 double-bit error has occurred.
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                       gmr_ixofifo_dbe_sclk,
@@ -3136,7 +3080,7 @@ typedef union
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
         uint64_t reserved_61_62        : 2;
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. Added in pass 2. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_iobnx_int_sum_t;
@@ -4497,7 +4441,6 @@ static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b)
  * Register (RSL) iobn#_ncb#_rw#_lat_pc
  *
  * IOBN NCB Latency Performance Counter Registers
- * Added in pass 3.
  */
 typedef union
 {
@@ -4556,7 +4499,6 @@ static inline uint64_t BDK_IOBNX_NCBX_RWX_LAT_PC(unsigned long a, unsigned long 
  * Register (RSL) iobn#_ncb#_rw#_req_pc
  *
  * IOBN NCB Request Performance Counter Registers
- * Added in pass 3.
  */
 typedef union
 {
@@ -4603,7 +4545,6 @@ static inline uint64_t BDK_IOBNX_NCBX_RWX_REQ_PC(unsigned long a, unsigned long 
  * Register (RSL) iobn#_ncb#_rw#_smmu_lat_pc
  *
  * IOBN NCB SMMU Latency Performance Counter Registers
- * Added in pass 3.
  */
 typedef union
 {
@@ -4791,7 +4732,6 @@ static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b)
  * Register (RSL) iobn#_ncb0_skill#
  *
  * IOBN NCB Secure Kill-Device Registers
- * Added in pass 3.
  */
 typedef union
 {
@@ -4892,32 +4832,7 @@ typedef union
     } cn88xxp1;
     /* struct bdk_iobnx_roc_dll_s cn81xx; */
     /* struct bdk_iobnx_roc_dll_s cn83xx; */
-    struct bdk_iobnx_roc_dll_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
-        uint64_t max_dll_setting       : 12; /**< [ 59: 48](RO/H) Changed in pass 2. Max reported DLL setting. */
-        uint64_t min_dll_setting       : 12; /**< [ 47: 36](RO/H) Changed in pass 2. Min reported DLL setting. */
-        uint64_t reserved_32_35        : 4;
-        uint64_t pdr_rclk_refclk       : 1;  /**< [ 31: 31](RO/H) Synchronized pdr_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
-        uint64_t pdl_rclk_refclk       : 1;  /**< [ 30: 30](RO/H) Synchronized pdl_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
-        uint64_t pd_pos_rclk_refclk    : 1;  /**< [ 29: 29](RO/H) Synchronized pd_pos_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
-        uint64_t dll_lock              : 1;  /**< [ 28: 28](RO/H) The dll_lock signal from ROC core-clock DLL, from the positive edge of refclk. */
-        uint64_t dll_dly_elem_en       : 16; /**< [ 27: 12](RO/H) The ROC core-clock delay element enable setting, from the negative edge of refclk. */
-        uint64_t dll_setting           : 12; /**< [ 11:  0](RO/H) The ROC core-clock DLL setting, from the negative edge of refclk. */
-#else /* Word 0 - Little Endian */
-        uint64_t dll_setting           : 12; /**< [ 11:  0](RO/H) The ROC core-clock DLL setting, from the negative edge of refclk. */
-        uint64_t dll_dly_elem_en       : 16; /**< [ 27: 12](RO/H) The ROC core-clock delay element enable setting, from the negative edge of refclk. */
-        uint64_t dll_lock              : 1;  /**< [ 28: 28](RO/H) The dll_lock signal from ROC core-clock DLL, from the positive edge of refclk. */
-        uint64_t pd_pos_rclk_refclk    : 1;  /**< [ 29: 29](RO/H) Synchronized pd_pos_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
-        uint64_t pdl_rclk_refclk       : 1;  /**< [ 30: 30](RO/H) Synchronized pdl_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
-        uint64_t pdr_rclk_refclk       : 1;  /**< [ 31: 31](RO/H) Synchronized pdr_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
-        uint64_t reserved_32_35        : 4;
-        uint64_t min_dll_setting       : 12; /**< [ 47: 36](RO/H) Changed in pass 2. Min reported DLL setting. */
-        uint64_t max_dll_setting       : 12; /**< [ 59: 48](RO/H) Changed in pass 2. Max reported DLL setting. */
-        uint64_t reserved_60_63        : 4;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_iobnx_roc_dll_s cn88xxp2; */
 } bdk_iobnx_roc_dll_t;
 
 static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5080,54 +4995,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_iobnx_slitagx_control_cn81xx cn83xx; */
-    struct bdk_iobnx_slitagx_control_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) When set, disables stream validity checking. For diagnostic use only.
-                                                                 Changed in pass 2. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
-                                                                 wait for all previous store operations' STDNs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
-                                                                 wait for all previous store operations' STDNs before issuing. */
-#else /* Word 0 - Little Endian */
-        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
-                                                                 wait for all previous store operations' STDNs before issuing. */
-        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
-                                                                 wait for all previous store operations' STDNs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) When set, disables stream validity checking. For diagnostic use only.
-                                                                 Changed in pass 2. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_iobnx_slitagx_control_cn81xx cn88xxp2; */
 } bdk_iobnx_slitagx_control_t;
 
 static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

@@ -3683,8 +3683,6 @@ static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_OR(unsigned long a)
  * Register (RSL) bgx#_cmr_eco
  *
  * INTERNAL: BGX ECO Registers
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -11503,14 +11501,14 @@ typedef union
                                                                  3 = Link drain. RS layer drops full packets to allow BGX and TNS/NIC to drain their FIFOs. */
         uint64_t reserved_3            : 1;
         uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
-                                                                 (XAUI, RXAUI, 10G). Added in pass 2. */
+                                                                 (XAUI, RXAUI, 10G). */
         uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
         uint64_t dic_en                : 1;  /**< [  0:  0](R/W) Enable the deficit idle counter for IFG averaging. */
 #else /* Word 0 - Little Endian */
         uint64_t dic_en                : 1;  /**< [  0:  0](R/W) Enable the deficit idle counter for IFG averaging. */
         uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
         uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
-                                                                 (XAUI, RXAUI, 10G). Added in pass 2. */
+                                                                 (XAUI, RXAUI, 10G). */
         uint64_t reserved_3            : 1;
         uint64_t ls                    : 2;  /**< [  5:  4](R/W) Link status.
                                                                  0 = Link OK; link runs normally. RS passes MAC data to PCS.

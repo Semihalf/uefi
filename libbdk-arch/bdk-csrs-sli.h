@@ -283,11 +283,11 @@ union bdk_sdp_buf_info_pair_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t info_ptr              : 64; /**< [127: 64] The info pointer. <2:0> must always be zero.
 
-                                                                 When NPS_PKT_SDP()_OUT_SIZE[IMODE]=0, [INFO_PTR] must be zero. */
+                                                                 When SDP()_EPF()_R()_OUT_CONTROL[IMODE]=0, [INFO_PTR] must be zero. */
 #else /* Word 1 - Little Endian */
         uint64_t info_ptr              : 64; /**< [127: 64] The info pointer. <2:0> must always be zero.
 
-                                                                 When NPS_PKT_SDP()_OUT_SIZE[IMODE]=0, [INFO_PTR] must be zero. */
+                                                                 When SDP()_EPF()_R()_OUT_CONTROL[IMODE]=0, [INFO_PTR] must be zero. */
 #endif /* Word 1 - End */
     } s;
     /* struct bdk_sdp_buf_info_pair_s_s cn; */
@@ -547,9 +547,9 @@ union bdk_sdp_instr_hdr_s
  *
  * SDP Packet Output Length Structure
  * The 8 byte packet length structure that is appended to the end of
- * the info pointer bytes when SDP()_EPF()_R()_OUT_SIZE[IMODE]=1, or
+ * the info pointer bytes when SDP()_EPF()_R()_OUT_CONTROL[IMODE]=1, or
  * prepended as the first 8 bytes written in front of the packet when
- * SDP()_EPF()_R()_OUT_SIZE[IMODE]=0.
+ * SDP()_EPF()_R()_OUT_CONTROL[IMODE]=0.
  */
 union bdk_sdp_length_s
 {
@@ -560,43 +560,43 @@ union bdk_sdp_length_s
         uint64_t reserved_16_63        : 48;
         uint64_t len                   : 16; /**< [ 15:  0] The packet length in bytes.
 
-                                                                 When SDP()_EPF()_R()_OUT_SIZE[IMODE]=0:
+                                                                 When SDP()_EPF()_R()_OUT_CONTROL[IMODE]=0:
 
-                                                                 * Hardware writes MINIMUM([LEN]+8,SDP()_EPF()_R()_OUT_SIZE[BSIZE])
+                                                                 * Hardware writes MINIMUM([LEN]+8,SDP()_EPF()_R()_OUT_CONTROL[BSIZE])
                                                                    bytes to the first SDP_BUF_INFO_PAIR_S[BUF_PTR]. The "+8" is
                                                                    due to the SDP_LENGTH_S prepend.
 
                                                                  * If packet bytes remain, hardware uses additional
                                                                    SDP_BUF_INFO_PAIR_S[BUF_PTR]'s for the packet data, writing
-                                                                   SDP()_EPF()_R()_OUT_SIZE[BSIZE] packet data bytes to each until
+                                                                   SDP()_EPF()_R()_OUT_CONTROL[BSIZE] packet data bytes to each until
                                                                    the packet data is consumed.
 
                                                                  * The number of SDP_BUF_INFO_PAIR_S's consumed by a packet is
-                                                                   ceiling(([LEN]+8)/SDP()_EPF()_R()_OUT_SIZE[BSIZE]), where
+                                                                   ceiling(([LEN]+8)/SDP()_EPF()_R()_OUT_CONTROL[BSIZE]), where
                                                                    ceiling() rounds up to the nearest integer.
 
                                                                  * The SDP_LENGTH_S will be unaligned in host memory if
                                                                    the first SDP_BUF_INFO_PAIR_S[BUF_PTR] is unaligned.
 
-                                                                 When SDP()_EPF()_R()_OUT_SIZE[IMODE]=1:
+                                                                 When SDP()_EPF()_R()_OUT_CONTROL[IMODE]=1:
 
-                                                                 * Hardware skips the first SDP()_EPF()_R()_OUT_SIZE[ISIZE] bytes
+                                                                 * Hardware skips the first SDP()_EPF()_R()_OUT_CONTROL[ISIZE] bytes
                                                                    of the packet, writing the remaining packet bytes to the
                                                                    first SDP_BUF_INFO_PAIR_S[BUF_PTR].
 
                                                                  * If further packet bytes follow, hardware uses additional
                                                                    SDP_BUF_INFO_PAIR_S[BUF_PTR]'s for the packet data, writing
-                                                                   SDP()_EPF()_R()_OUT_SIZE[BSIZE] packet data bytes to each until
+                                                                   SDP()_EPF()_R()_OUT_CONTROL[BSIZE] packet data bytes to each until
                                                                    the packet data is consumed.
 
-                                                                 * Finally, hardware writes the first SDP()_EPF()_R()_OUT_SIZE[ISIZE]
+                                                                 * Finally, hardware writes the first SDP()_EPF()_R()_OUT_CONTROL[ISIZE]
                                                                    bytes of the packet followed by the SDP_LENGTH_S to
                                                                    the first SDP_BUF_INFO_PAIR_S[INFO_PTR]. There is pad between
                                                                    the packet data and the SDP_LENGTH_STRUCT_S if necessary to
                                                                    naturally-align the 8B SDP_LENGTH_STRUCT_S.
 
                                                                  * The number of SDP_BUF_INFO_PAIR_S's consumed by a packet is
-                                                                   ceiling(([LEN]-SDP()_EPF()_R()_OUT_SIZE[ISIZE])/SDP()_EPF()_R()_OUT_SIZE[BSIZE]),
+                                                                   ceiling(([LEN]-SDP()_EPF()_R()_OUT_CONTROL[ISIZE])/SDP()_EPF()_R()_OUT_CONTROL[BSIZE]),
                                                                    where ceiling() rounds up to the nearest integer. Only the
                                                                    first SDP_BUF_INFO_PAIR_S[INFO_PTR] is used.
 
@@ -604,43 +604,43 @@ union bdk_sdp_length_s
 #else /* Word 0 - Little Endian */
         uint64_t len                   : 16; /**< [ 15:  0] The packet length in bytes.
 
-                                                                 When SDP()_EPF()_R()_OUT_SIZE[IMODE]=0:
+                                                                 When SDP()_EPF()_R()_OUT_CONTROL[IMODE]=0:
 
-                                                                 * Hardware writes MINIMUM([LEN]+8,SDP()_EPF()_R()_OUT_SIZE[BSIZE])
+                                                                 * Hardware writes MINIMUM([LEN]+8,SDP()_EPF()_R()_OUT_CONTROL[BSIZE])
                                                                    bytes to the first SDP_BUF_INFO_PAIR_S[BUF_PTR]. The "+8" is
                                                                    due to the SDP_LENGTH_S prepend.
 
                                                                  * If packet bytes remain, hardware uses additional
                                                                    SDP_BUF_INFO_PAIR_S[BUF_PTR]'s for the packet data, writing
-                                                                   SDP()_EPF()_R()_OUT_SIZE[BSIZE] packet data bytes to each until
+                                                                   SDP()_EPF()_R()_OUT_CONTROL[BSIZE] packet data bytes to each until
                                                                    the packet data is consumed.
 
                                                                  * The number of SDP_BUF_INFO_PAIR_S's consumed by a packet is
-                                                                   ceiling(([LEN]+8)/SDP()_EPF()_R()_OUT_SIZE[BSIZE]), where
+                                                                   ceiling(([LEN]+8)/SDP()_EPF()_R()_OUT_CONTROL[BSIZE]), where
                                                                    ceiling() rounds up to the nearest integer.
 
                                                                  * The SDP_LENGTH_S will be unaligned in host memory if
                                                                    the first SDP_BUF_INFO_PAIR_S[BUF_PTR] is unaligned.
 
-                                                                 When SDP()_EPF()_R()_OUT_SIZE[IMODE]=1:
+                                                                 When SDP()_EPF()_R()_OUT_CONTROL[IMODE]=1:
 
-                                                                 * Hardware skips the first SDP()_EPF()_R()_OUT_SIZE[ISIZE] bytes
+                                                                 * Hardware skips the first SDP()_EPF()_R()_OUT_CONTROL[ISIZE] bytes
                                                                    of the packet, writing the remaining packet bytes to the
                                                                    first SDP_BUF_INFO_PAIR_S[BUF_PTR].
 
                                                                  * If further packet bytes follow, hardware uses additional
                                                                    SDP_BUF_INFO_PAIR_S[BUF_PTR]'s for the packet data, writing
-                                                                   SDP()_EPF()_R()_OUT_SIZE[BSIZE] packet data bytes to each until
+                                                                   SDP()_EPF()_R()_OUT_CONTROL[BSIZE] packet data bytes to each until
                                                                    the packet data is consumed.
 
-                                                                 * Finally, hardware writes the first SDP()_EPF()_R()_OUT_SIZE[ISIZE]
+                                                                 * Finally, hardware writes the first SDP()_EPF()_R()_OUT_CONTROL[ISIZE]
                                                                    bytes of the packet followed by the SDP_LENGTH_S to
                                                                    the first SDP_BUF_INFO_PAIR_S[INFO_PTR]. There is pad between
                                                                    the packet data and the SDP_LENGTH_STRUCT_S if necessary to
                                                                    naturally-align the 8B SDP_LENGTH_STRUCT_S.
 
                                                                  * The number of SDP_BUF_INFO_PAIR_S's consumed by a packet is
-                                                                   ceiling(([LEN]-SDP()_EPF()_R()_OUT_SIZE[ISIZE])/SDP()_EPF()_R()_OUT_SIZE[BSIZE]),
+                                                                   ceiling(([LEN]-SDP()_EPF()_R()_OUT_CONTROL[ISIZE])/SDP()_EPF()_R()_OUT_CONTROL[BSIZE]),
                                                                    where ceiling() rounds up to the nearest integer. Only the
                                                                    first SDP_BUF_INFO_PAIR_S[INFO_PTR] is used.
 
@@ -774,7 +774,28 @@ union bdk_sli_s2m_op_s
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_sli_s2m_op_s_s cn; */
+    /* struct bdk_sli_s2m_op_s_s cn81xx; */
+    /* struct bdk_sli_s2m_op_s_s cn88xx; */
+    struct bdk_sli_s2m_op_s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t io                    : 1;  /**< [ 47: 47] Indicates IO space. */
+        uint64_t reserved_46           : 1;
+        uint64_t node                  : 2;  /**< [ 45: 44] CCPI node number. Must be zero for CN83XX. */
+        uint64_t did_hi                : 4;  /**< [ 43: 40] SLI device ID high bits.  Must be 0x8 for CN83XX. */
+        uint64_t region                : 8;  /**< [ 39: 32] SLI region.  Indexes into SLI()_S2M_REG()_ACC. */
+        uint64_t addr                  : 32; /**< [ 31:  0] Register address within the device. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 32; /**< [ 31:  0] Register address within the device. */
+        uint64_t region                : 8;  /**< [ 39: 32] SLI region.  Indexes into SLI()_S2M_REG()_ACC. */
+        uint64_t did_hi                : 4;  /**< [ 43: 40] SLI device ID high bits.  Must be 0x8 for CN83XX. */
+        uint64_t node                  : 2;  /**< [ 45: 44] CCPI node number. Must be zero for CN83XX. */
+        uint64_t reserved_46           : 1;
+        uint64_t io                    : 1;  /**< [ 47: 47] Indicates IO space. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn83xx;
 };
 
 /**
@@ -1003,17 +1024,17 @@ typedef union
     struct bdk_sdpx_eccx_flip_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndome bit 1 on writes.
+        uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndrome bit 1 on writes.
                                                                  SDP()_ECC(0)_FLIP enumerated by SDP_OUT_RAMS_E and SDP()_ECC(1)_FLIP
                                                                  enumerated by SDP_IN_RAMS_E. */
-        uint64_t flip0                 : 32; /**< [ 31:  0](R/W) Flips syndome bit 0 on writes.
+        uint64_t flip0                 : 32; /**< [ 31:  0](R/W) Flips syndrome bit 0 on writes.
                                                                  SDP()_ECC(0)_FLIP enumerated by SDP_OUT_RAMS_E and SDP()_ECC(1)_FLIP
                                                                  enumerated by SDP_IN_RAMS_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t flip0                 : 32; /**< [ 31:  0](R/W) Flips syndome bit 0 on writes.
+        uint64_t flip0                 : 32; /**< [ 31:  0](R/W) Flips syndrome bit 0 on writes.
                                                                  SDP()_ECC(0)_FLIP enumerated by SDP_OUT_RAMS_E and SDP()_ECC(1)_FLIP
                                                                  enumerated by SDP_IN_RAMS_E. */
-        uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndome bit 1 on writes.
+        uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndrome bit 1 on writes.
                                                                  SDP()_ECC(0)_FLIP enumerated by SDP_OUT_RAMS_E and SDP()_ECC(1)_FLIP
                                                                  enumerated by SDP_IN_RAMS_E. */
 #endif /* Word 0 - End */
@@ -1518,7 +1539,7 @@ static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_W1S(unsigned long a, unsigned lo
  * Register (PEXP_NCB) sdp#_epf#_mbox_rint
  *
  * SDP Mailbox Interrupt Status Register
- * This register indicates which VF/ring has signalled an interrupt.
+ * This register indicates which VF/ring has signaled an interrupt.
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  */
@@ -2215,7 +2236,7 @@ typedef union
 
                                                                   * SDP()_EPF()_R()_OUT_CNTS[CNT]   > SDP()_EPF()_R()_OUT_INT_LEVELS[CNT],
                                                                   * SDP()_EPF()_R()_OUT_CNTS[TIMER] > SDP()_EPF()_R()_OUT_INT_LEVELS[TIMET],
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT],
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT],
                                                                   * Or, SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set.
 
                                                                   Reading this register will isolate the ring(s) that is signalling the interrupt.
@@ -2224,18 +2245,18 @@ typedef union
                                                                   For a VF read:
 
                                                                   In this mode, this register identifies the ring number "i" and specific
-                                                                 interrupt being signalled.
+                                                                 interrupt being signaled.
 
-                                                                  Bits <7:0> indicate an input interrupt being signalled, where bit i is set if
+                                                                  Bits <7:0> indicate an input interrupt being signaled, where bit i is set if
                                                                   for the respective ring R(i):
-                                                                   * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT].
+                                                                   * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT].
 
-                                                                  Bits <15:8> indicate an output interrupt being signalled, where bit i is set if
+                                                                  Bits <15:8> indicate an output interrupt being signaled, where bit i is set if
                                                                   for the respective ring R(i):
                                                                   * SDP()_EPF()_R()_OUT_CNTS[CNT]   > SDP()_EPF()_R()_OUT_INT_LEVELS[CNT].
                                                                   * Or, SDP()_EPF()_R()_OUT_CNTS[TIMER] > SDP()_EPF()_R()_OUT_INT_LEVELS[TIMET].
 
-                                                                  Bits <23:16> indicate a mailbox interrupt being signalled, where bit i is set if
+                                                                  Bits <23:16> indicate a mailbox interrupt being signaled, where bit i is set if
                                                                   for the respective ring R(i):
                                                                   * SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set.
 
@@ -2251,7 +2272,7 @@ typedef union
 
                                                                   * SDP()_EPF()_R()_OUT_CNTS[CNT]   > SDP()_EPF()_R()_OUT_INT_LEVELS[CNT],
                                                                   * SDP()_EPF()_R()_OUT_CNTS[TIMER] > SDP()_EPF()_R()_OUT_INT_LEVELS[TIMET],
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT],
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT],
                                                                   * Or, SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set.
 
                                                                   Reading this register will isolate the ring(s) that is signalling the interrupt.
@@ -2260,18 +2281,18 @@ typedef union
                                                                   For a VF read:
 
                                                                   In this mode, this register identifies the ring number "i" and specific
-                                                                 interrupt being signalled.
+                                                                 interrupt being signaled.
 
-                                                                  Bits <7:0> indicate an input interrupt being signalled, where bit i is set if
+                                                                  Bits <7:0> indicate an input interrupt being signaled, where bit i is set if
                                                                   for the respective ring R(i):
-                                                                   * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT].
+                                                                   * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT].
 
-                                                                  Bits <15:8> indicate an output interrupt being signalled, where bit i is set if
+                                                                  Bits <15:8> indicate an output interrupt being signaled, where bit i is set if
                                                                   for the respective ring R(i):
                                                                   * SDP()_EPF()_R()_OUT_CNTS[CNT]   > SDP()_EPF()_R()_OUT_INT_LEVELS[CNT].
                                                                   * Or, SDP()_EPF()_R()_OUT_CNTS[TIMER] > SDP()_EPF()_R()_OUT_INT_LEVELS[TIMET].
 
-                                                                  Bits <23:16> indicate a mailbox interrupt being signalled, where bit i is set if
+                                                                  Bits <23:16> indicate a mailbox interrupt being signaled, where bit i is set if
                                                                   for the respective ring R(i):
                                                                   * SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set.
 
@@ -2303,7 +2324,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_ALL_INT_STATUS(unsigned long a, unsigned
  * These registers indicate which type of error(s) have been detected when
  * SDP()_EPF()_IRERR_LINT<i> / SDP()_EPF()_ORERR_RINT<i> / SDP()_EPF()_ORERR_LINT<i> /
  * SDP()_EPF()_ORERR_RINT<i> is set. Multiple bits can be set at the same time
- * if multiple errors have occured for that ring.
+ * if multiple errors have occurred for that ring.
  *
  * All 64 registers associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
@@ -2431,7 +2452,7 @@ typedef union
 
                                                                  To clear the bit, the CNTS register must be written to clear the underlying condition. */
         uint64_t in_int                : 1;  /**< [ 61: 61](RO/H) Returns a 1 when:
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT]
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT]
 
                                                                  To clear the bit, the SDP()_EPF()_R()_IN_CNTS register must be written to clear the
                                                                  underlying condition. */
@@ -2444,7 +2465,7 @@ typedef union
                                                                  conditions are true for the respective ring:
                                                                   * SDP()_EPF()_R()_OUT_CNTS[CNT]   > SDP()_EPF()_R()_OUT_INT_LEVELS[CNT].
                                                                   * SDP()_EPF()_R()_OUT_CNTS[TIMER] > SDP()_EPF()_R()_OUT_INT_LEVELS[TIMET].
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT].
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT].
                                                                   * SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set. */
         uint64_t reserved_32_58        : 27;
         uint64_t cnt                   : 32; /**< [ 31:  0](R/W/H) Packet counter. Hardware adds to [CNT] as it reads packets. On a write
@@ -2463,7 +2484,7 @@ typedef union
                                                                  conditions are true for the respective ring:
                                                                   * SDP()_EPF()_R()_OUT_CNTS[CNT]   > SDP()_EPF()_R()_OUT_INT_LEVELS[CNT].
                                                                   * SDP()_EPF()_R()_OUT_CNTS[TIMER] > SDP()_EPF()_R()_OUT_INT_LEVELS[TIMET].
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT].
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT].
                                                                   * SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set. */
         uint64_t mbox_int              : 1;  /**< [ 60: 60](RO/H) Returns a 1 when:
                                                                   * SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set
@@ -2471,7 +2492,7 @@ typedef union
                                                                  To clear the bit, write SDP()_EPF()_R()_MBOX_PF_VF_INT[INTR] with 1.
                                                                  This bit is also cleared due to an FLR. */
         uint64_t in_int                : 1;  /**< [ 61: 61](RO/H) Returns a 1 when:
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT]
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT]
 
                                                                  To clear the bit, the SDP()_EPF()_R()_IN_CNTS register must be written to clear the
                                                                  underlying condition. */
@@ -2701,7 +2722,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t aoff                  : 32; /**< [ 63: 32](RO/H) Address offset. The offset from the SDP()_EPF()_R()_IN_INSTR_BADDR where the
-                                                                 next pointer is read. A write of of 0xFFFFFFFF to [DBELL] clears [DBELL] and [AOFF]. */
+                                                                 next pointer is read. A write of 0xFFFFFFFF to [DBELL] clears [DBELL] and [AOFF]. */
         uint64_t dbell                 : 32; /**< [ 31:  0](R/W/H) Pointer list doorbell count. Write operations to this field increments the present
                                                                  value here. Read operations return the present value. The value of this field is
                                                                  decremented as read operations are issued for instructions. A write of 0xFFFFFFFF
@@ -2714,7 +2735,7 @@ typedef union
                                                                  to this field clears [DBELL] and [AOFF].  This register should be cleared before
                                                                  enabling a ring. */
         uint64_t aoff                  : 32; /**< [ 63: 32](RO/H) Address offset. The offset from the SDP()_EPF()_R()_IN_INSTR_BADDR where the
-                                                                 next pointer is read. A write of of 0xFFFFFFFF to [DBELL] clears [DBELL] and [AOFF]. */
+                                                                 next pointer is read. A write of 0xFFFFFFFF to [DBELL] clears [DBELL] and [AOFF]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_instr_dbell_s cn; */
@@ -2844,7 +2865,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t intr                  : 64; /**< [ 63:  0](RO) Interrupt bits for VF rings (0..i). [INTR[i]] reads as one whenever:
 
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT]
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT]
 
                                                                  [INTR] can cause an MSI-X interrupt.
 
@@ -2859,7 +2880,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t intr                  : 64; /**< [ 63:  0](RO) Interrupt bits for VF rings (0..i). [INTR[i]] reads as one whenever:
 
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT]
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT]
 
                                                                  [INTR] can cause an MSI-X interrupt.
 
@@ -2977,7 +2998,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_PF_VF_DATA(unsigned long a, unsigne
  * Register (PEXP_NCB) sdp#_epf#_r#_mbox_pf_vf_int
  *
  * SDP Packet PF to VF Mailbox Interrupt Register
- * These registers contain interrupt status and enable for the PF->VF mailbox communcation
+ * These registers contain interrupt status and enable for the PF to VF mailbox communication
  * registers. A write to SDP()_EPF()_R()_MBOX_VF_PF_DATA from the PF will cause the [INTR] bit
  * in this register to set, along with corresponding bits in SDP()_EPF()_R()_MBOX_RINT_STATUS,
  * SDP()_EPF()_R()_OUT_CNTS[MBOX_INT], and SDP()_EPF()_R()_IN_CNTS[MBOX_INT].
@@ -3034,7 +3055,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t intr                  : 64; /**< [ 63:  0](RO) Interrupt bits for VF rings (0..i). [INTR[i]] reads as one whenever a mailbox
-                                                                 interrupt has been signalled by the PF and not cleared by the VF.
+                                                                 interrupt has been signaled by the PF and not cleared by the VF.
                                                                  These bits are cleared by writing SDP()_EPF()_R()_MBOX_PF_VF_INT[INTR]
                                                                  them with a 1, or due to an FLR.
 
@@ -3043,7 +3064,7 @@ typedef union
                                                                  Note that "i" depends on the SDP()_EPF()_RINFO configuration. */
 #else /* Word 0 - Little Endian */
         uint64_t intr                  : 64; /**< [ 63:  0](RO) Interrupt bits for VF rings (0..i). [INTR[i]] reads as one whenever a mailbox
-                                                                 interrupt has been signalled by the PF and not cleared by the VF.
+                                                                 interrupt has been signaled by the PF and not cleared by the VF.
                                                                  These bits are cleared by writing SDP()_EPF()_R()_MBOX_PF_VF_INT[INTR]
                                                                  them with a 1, or due to an FLR.
 
@@ -3170,7 +3191,7 @@ typedef union
 
                                                                  To clear the bit, the CNTS register must be written to clear the underlying condition. */
         uint64_t in_int                : 1;  /**< [ 61: 61](RO/H) Returns a 1 when:
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT].
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT].
 
                                                                  To clear the bit, the SDP()_EPF()_R()_IN_CNTS register must be written to clear the
                                                                  underlying condition. */
@@ -3183,7 +3204,7 @@ typedef union
                                                                  conditions are true for the respective ring R():
                                                                   * SDP()_EPF()_R()_OUT_CNTS[CNT]   > SDP()_EPF()_R()_OUT_INT_LEVELS[CNT],
                                                                   * SDP()_EPF()_R()_OUT_CNTS[TIMER] > SDP()_EPF()_R()_OUT_INT_LEVELS[TIMET],
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT],
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT],
                                                                   * SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set. */
         uint64_t reserved_54_58        : 5;
         uint64_t timer                 : 22; /**< [ 53: 32](RO/H) Timer, incremented every 1024 coprocessor-clock cycles when [CNT] is
@@ -3214,7 +3235,7 @@ typedef union
                                                                  conditions are true for the respective ring R():
                                                                   * SDP()_EPF()_R()_OUT_CNTS[CNT]   > SDP()_EPF()_R()_OUT_INT_LEVELS[CNT],
                                                                   * SDP()_EPF()_R()_OUT_CNTS[TIMER] > SDP()_EPF()_R()_OUT_INT_LEVELS[TIMET],
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT],
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT],
                                                                   * SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set. */
         uint64_t mbox_int              : 1;  /**< [ 60: 60](RO/H) Returns a 1 when:
                                                                   * SDP()_EPF()_R()_MBOX_RINT_STATUS[INTR] is set.
@@ -3222,7 +3243,7 @@ typedef union
                                                                  To clear the bit, write SDP()_EPF()_R()_MBOX_PF_VF_INT[INTR] with 1.
                                                                  This bit is also cleared due to an FLR. */
         uint64_t in_int                : 1;  /**< [ 61: 61](RO/H) Returns a 1 when:
-                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_LEVELS[CNT].
+                                                                  * SDP()_EPF()_R()_IN_CNTS[CNT] > SDP()_EPF()_R()_IN_INT_LEVELS[CNT].
 
                                                                  To clear the bit, the SDP()_EPF()_R()_IN_CNTS register must be written to clear the
                                                                  underlying condition. */
@@ -3652,7 +3673,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t aoff                  : 32; /**< [ 63: 32](RO/H) Address offset. The offset from the SDP()_EPF()_R()_OUT_SLIST_BADDR where the next pointer
                                                                  is read.
-                                                                 A write of of 0xFFFFFFFF to [DBELL] clears [DBELL] and [AOFF]. */
+                                                                 A write of 0xFFFFFFFF to [DBELL] clears [DBELL] and [AOFF]. */
         uint64_t dbell                 : 32; /**< [ 31:  0](R/W/H) Pointer pair list doorbell count. Write operations to this field increments the present
                                                                  value here. Read operations return the present value. The value of this field is
                                                                  decremented as read operations are issued for scatter pointers. A write of 0xFFFFFFFF
@@ -3666,7 +3687,7 @@ typedef union
                                                                  SDP_BUF_INFO_PAIR_S's.  This register should be cleared before enabling a ring. */
         uint64_t aoff                  : 32; /**< [ 63: 32](RO/H) Address offset. The offset from the SDP()_EPF()_R()_OUT_SLIST_BADDR where the next pointer
                                                                  is read.
-                                                                 A write of of 0xFFFFFFFF to [DBELL] clears [DBELL] and [AOFF]. */
+                                                                 A write of 0xFFFFFFFF to [DBELL] clears [DBELL] and [AOFF]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_slist_dbell_s cn; */
@@ -3825,22 +3846,22 @@ typedef union
         uint64_t rpvf                  : 4;  /**< [ 35: 32](R/W) The number of rings assigned to a VF for this PF. Legal values are 0 to 8
                                                                  with the requirement of (NVFS * RPVF) <= TRS. */
         uint64_t reserved_24_31        : 8;
-        uint64_t trs                   : 8;  /**< [ 23: 16](RO/H) The number of rings assigned to the EPF. This is the same as
+        uint64_t trs                   : 8;  /**< [ 23: 16](RO) The number of rings assigned to the EPF. This is the same as
                                                                  the SLI()_LMAC_CONST0()[RINGS] field for the MAC/PF
                                                                  corresponding to this EPF.
 
                                                                  Internal:
                                                                  This is always 64 for CN83XX. */
         uint64_t reserved_7_15         : 9;
-        uint64_t srn                   : 7;  /**< [  6:  0](RO/H) The starting ring number used by the EPF.
+        uint64_t srn                   : 7;  /**< [  6:  0](RO) The starting ring number used by the EPF.
                                                                  Internal:
                                                                  This is 0x0 for EPF0, and 64 for EPF1. */
 #else /* Word 0 - Little Endian */
-        uint64_t srn                   : 7;  /**< [  6:  0](RO/H) The starting ring number used by the EPF.
+        uint64_t srn                   : 7;  /**< [  6:  0](RO) The starting ring number used by the EPF.
                                                                  Internal:
                                                                  This is 0x0 for EPF0, and 64 for EPF1. */
         uint64_t reserved_7_15         : 9;
-        uint64_t trs                   : 8;  /**< [ 23: 16](RO/H) The number of rings assigned to the EPF. This is the same as
+        uint64_t trs                   : 8;  /**< [ 23: 16](RO) The number of rings assigned to the EPF. This is the same as
                                                                  the SLI()_LMAC_CONST0()[RINGS] field for the MAC/PF
                                                                  corresponding to this EPF.
 
@@ -5404,8 +5425,8 @@ static inline uint64_t BDK_SLIX_EPFX_FLR_VF_LINT_W1S(unsigned long a, unsigned l
  *
  * SLI MAC Interrupt Summary Register
  * This register contains the different interrupt-summary bits for one MAC in the SLI.
- * This set of interrupt registers are aliasesd to SLI(0)_MAC(0..3)_INT_SUM.
- * SLI(0)_EPF(0..3)_MISC_LINT_W1S     alaises to SLI(0)_MAC(0..3)_INT_SUM_W1S.
+ * This set of interrupt registers are aliased to SLI(0)_MAC(0..3)_INT_SUM.
+ * SLI(0)_EPF(0..3)_MISC_LINT_W1S     aliases to SLI(0)_MAC(0..3)_INT_SUM_W1S.
  * SLI(0)_EPF(0..3)_MISC_LINT_ENA_W1C aliases to SLI(0)_MAC(0..3)_INT_ENA_W1C.
  * SLI(0)_EPF(0..3)_MISC_LINT_ENA_W1S aliases to SLI(0)_MAC(0..3)_INT_ENA_W1S.
  */
@@ -6453,7 +6474,96 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_slix_m2s_macx_ctl_s cn81xx; */
-    /* struct bdk_slix_m2s_macx_ctl_s cn83xx; */
+    struct bdk_slix_m2s_macx_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_21_63        : 43;
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
+                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
+                                                                 atomics without byte swapping. */
+        uint64_t wait_pxfr             : 1;  /**< [ 19: 19](R/W) When set, will cause a posted TLP write from a MAC to follow the following sequence:
+                                                                 (having this bit set will cut the posted-TLP performance about 50%).
+                                                                 _ 1. Request the NCBI.
+                                                                 _ 2. Wait for the grant and send the transfer on the NCBI.
+                                                                 _ 3. Start the next posted TLP.
+
+                                                                 For diagnostic use only. */
+        uint64_t wvirt                 : 1;  /**< [ 18: 18](R/W) Write virtual:
+                                                                   1 = Addresses in SLI()_WIN_WR_ADDR and SLI()_WIN_RD_ADDR are virtual addresses.
+                                                                   0 = Addresses are physical addresses. */
+        uint64_t dis_port              : 1;  /**< [ 17: 17](R/W1C/H) When set, the output to the MAC is disabled. This occurs when the MAC reset line
+                                                                 transitions from de-asserted to asserted. Writing a 1 to this location clears this
+                                                                 condition when the MAC is no longer in reset and the output to the MAC is at the beginning
+                                                                 of a transfer. */
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
+                                                                 stores,
+                                                                 before sending additional completions to the L2C from the MAC.
+                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
+                                                                 performance behavior. */
+        uint64_t reserved_7_15         : 9;
+        uint64_t ctlp_ro               : 1;  /**< [  6:  6](R/W) Relaxed ordering enable for completion TLPS. This permits the SLI to use the RO bit sent
+                                                                 from
+                                                                 the MACs. See WAITL_COM. */
+        uint64_t ptlp_ro               : 1;  /**< [  5:  5](R/W) Relaxed ordering enable for posted TLPS. This permits the SLI to use the RO bit sent from
+                                                                 the MACs. See WAIT_COM. */
+        uint64_t wind_d                : 1;  /**< [  4:  4](R/W) Window disable. When set, disables access to the window registers from the MAC. */
+        uint64_t bar0_d                : 1;  /**< [  3:  3](R/W) BAR0 disable. When set, disables access from the MAC to SLI BAR0 registers. */
+        uint64_t ld_cmd                : 2;  /**< [  2:  1](R/W) When SLI issues a load command to the L2C that is to be cached, this field selects the
+                                                                 type of load command to use. Un-cached loads will use LDT:
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+        uint64_t wait_com              : 1;  /**< [  0:  0](R/W) Wait for commit. When set, causes the SLI to wait for a store done from the L2C before
+                                                                 sending additional stores to the L2C from the MAC. The SLI requests a commit on the last
+                                                                 store if more than one STORE operation is required on the NCB. Most applications will not
+                                                                 notice a difference, so this bit should not be set. Setting the bit is more conservative
+                                                                 on ordering, lower performance. */
+#else /* Word 0 - Little Endian */
+        uint64_t wait_com              : 1;  /**< [  0:  0](R/W) Wait for commit. When set, causes the SLI to wait for a store done from the L2C before
+                                                                 sending additional stores to the L2C from the MAC. The SLI requests a commit on the last
+                                                                 store if more than one STORE operation is required on the NCB. Most applications will not
+                                                                 notice a difference, so this bit should not be set. Setting the bit is more conservative
+                                                                 on ordering, lower performance. */
+        uint64_t ld_cmd                : 2;  /**< [  2:  1](R/W) When SLI issues a load command to the L2C that is to be cached, this field selects the
+                                                                 type of load command to use. Un-cached loads will use LDT:
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+        uint64_t bar0_d                : 1;  /**< [  3:  3](R/W) BAR0 disable. When set, disables access from the MAC to SLI BAR0 registers. */
+        uint64_t wind_d                : 1;  /**< [  4:  4](R/W) Window disable. When set, disables access to the window registers from the MAC. */
+        uint64_t ptlp_ro               : 1;  /**< [  5:  5](R/W) Relaxed ordering enable for posted TLPS. This permits the SLI to use the RO bit sent from
+                                                                 the MACs. See WAIT_COM. */
+        uint64_t ctlp_ro               : 1;  /**< [  6:  6](R/W) Relaxed ordering enable for completion TLPS. This permits the SLI to use the RO bit sent
+                                                                 from
+                                                                 the MACs. See WAITL_COM. */
+        uint64_t reserved_7_15         : 9;
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
+                                                                 stores,
+                                                                 before sending additional completions to the L2C from the MAC.
+                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
+                                                                 performance behavior. */
+        uint64_t dis_port              : 1;  /**< [ 17: 17](R/W1C/H) When set, the output to the MAC is disabled. This occurs when the MAC reset line
+                                                                 transitions from de-asserted to asserted. Writing a 1 to this location clears this
+                                                                 condition when the MAC is no longer in reset and the output to the MAC is at the beginning
+                                                                 of a transfer. */
+        uint64_t wvirt                 : 1;  /**< [ 18: 18](R/W) Write virtual:
+                                                                   1 = Addresses in SLI()_WIN_WR_ADDR and SLI()_WIN_RD_ADDR are virtual addresses.
+                                                                   0 = Addresses are physical addresses. */
+        uint64_t wait_pxfr             : 1;  /**< [ 19: 19](R/W) When set, will cause a posted TLP write from a MAC to follow the following sequence:
+                                                                 (having this bit set will cut the posted-TLP performance about 50%).
+                                                                 _ 1. Request the NCBI.
+                                                                 _ 2. Wait for the grant and send the transfer on the NCBI.
+                                                                 _ 3. Start the next posted TLP.
+
+                                                                 For diagnostic use only. */
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
+                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
+                                                                 atomics without byte swapping. */
+        uint64_t reserved_21_63        : 43;
+#endif /* Word 0 - End */
+    } cn83xx;
     struct bdk_slix_m2s_macx_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6464,8 +6574,7 @@ typedef union
                                                                  _ 2. Wait for the grant and send the transfer on the NCBI.
                                                                  _ 3. Start the next posted TLP.
 
-                                                                 For diagnostic use only.
-                                                                 Changed in pass 2. */
+                                                                 For diagnostic use only. */
         uint64_t wvirt                 : 1;  /**< [ 18: 18](R/W) Write virtual:
                                                                    1 = Addresses in SLI()_WIN_WR_ADDR and SLI()_WIN_RD_ADDR are virtual addresses.
                                                                    0 = Addresses are physical addresses. */
@@ -6535,8 +6644,7 @@ typedef union
                                                                  _ 2. Wait for the grant and send the transfer on the NCBI.
                                                                  _ 3. Start the next posted TLP.
 
-                                                                 For diagnostic use only.
-                                                                 Changed in pass 2. */
+                                                                 For diagnostic use only. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } cn88xxp2;
@@ -7439,11 +7547,11 @@ typedef union
     struct bdk_slix_mem_flip_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndome bit 1 on writes.  Bit positions enumerated with SLI_RAMS_E. */
-        uint64_t flip0                 : 32; /**< [ 31:  0](R/W) Flips syndome bit 0 on writes.  Bit positions enumerated with SLI_RAMS_E. */
+        uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndrome bit 1 on writes.  Bit positions enumerated with SLI_RAMS_E. */
+        uint64_t flip0                 : 32; /**< [ 31:  0](R/W) Flips syndrome bit 0 on writes.  Bit positions enumerated with SLI_RAMS_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t flip0                 : 32; /**< [ 31:  0](R/W) Flips syndome bit 0 on writes.  Bit positions enumerated with SLI_RAMS_E. */
-        uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndome bit 1 on writes.  Bit positions enumerated with SLI_RAMS_E. */
+        uint64_t flip0                 : 32; /**< [ 31:  0](R/W) Flips syndrome bit 0 on writes.  Bit positions enumerated with SLI_RAMS_E. */
+        uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndrome bit 1 on writes.  Bit positions enumerated with SLI_RAMS_E. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_mem_flip_s cn; */
@@ -7697,9 +7805,7 @@ typedef union
 
                                                                  Config reads which are terminated by PCIe in with an error (UR, etc), or config reads when
                                                                  the PEM is disabled or link is down, will return to the NCB/cores all-ones and non-fault
-                                                                 regardless of this bit.
-
-                                                                 Added in pass 2. */
+                                                                 regardless of this bit. */
         uint64_t max_word              : 4;  /**< [ 13: 10](R/W) Maximum number of words. Specifies the maximum number of 8-byte words to merge into a
                                                                  single write operation from the cores to the MAC. Legal values are 1 to 8, with 0 treated
                                                                  as 16. */
@@ -7723,9 +7829,7 @@ typedef union
 
                                                                  Config reads which are terminated by PCIe in with an error (UR, etc), or config reads when
                                                                  the PEM is disabled or link is down, will return to the NCB/cores all-ones and non-fault
-                                                                 regardless of this bit.
-
-                                                                 Added in pass 2. */
+                                                                 regardless of this bit. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } cn88xxp2;
@@ -7943,7 +8047,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
-        uint64_t ctype                 : 2;  /**< [ 54: 53](R/W) The command type to be genereated:
+        uint64_t ctype                 : 2;  /**< [ 54: 53](R/W) The command type to be generated:
                                                                  0x0 = PCI memory.
                                                                  0x1 = PCI configuration (only 8, 16, 32-bit loads are supported). Note normally the ECAM
                                                                  would be used in place of this CTYPE.
@@ -7978,7 +8082,7 @@ typedef union
         uint64_t epf                   : 3;  /**< [ 51: 49](R/W) The EPF that reads/writes to this subid are sent. */
         uint64_t zero                  : 1;  /**< [ 52: 52](R/W) Causes all byte read operations to be zero-length read operations. Returns zeros to the
                                                                  EXEC for all read data. */
-        uint64_t ctype                 : 2;  /**< [ 54: 53](R/W) The command type to be genereated:
+        uint64_t ctype                 : 2;  /**< [ 54: 53](R/W) The command type to be generated:
                                                                  0x0 = PCI memory.
                                                                  0x1 = PCI configuration (only 8, 16, 32-bit loads are supported). Note normally the ECAM
                                                                  would be used in place of this CTYPE.
@@ -8076,6 +8180,8 @@ static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x874000001000ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x874000001000ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874000001000ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_SCRATCH_1", 1, a, 0, 0, 0);
@@ -8113,6 +8219,8 @@ static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x874000001010ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x874000001010ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874000001010ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_SCRATCH_2", 1, a, 0, 0, 0);
@@ -8129,7 +8237,6 @@ static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a)
  * Register (NCB) sli#_sctl
  *
  * SLI Secure Control Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -8205,9 +8312,7 @@ typedef union
                                                                  initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
 
                                                                  If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always nonsecure
-                                                                 onto the NCB, though the SMMU may later promote them to secure.
-
-                                                                 Added in pass 2. */
+                                                                 onto the NCB, though the SMMU may later promote them to secure. */
         uint64_t reserved_51_62        : 12;
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command size.
                                                                  0x3 = Load 8 bytes.
@@ -8228,9 +8333,7 @@ typedef union
                                                                  initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
 
                                                                  If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always nonsecure
-                                                                 onto the NCB, though the SMMU may later promote them to secure.
-
-                                                                 Added in pass 2. */
+                                                                 onto the NCB, though the SMMU may later promote them to secure. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_slix_win_rd_addr_cn88xxp1
@@ -8253,38 +8356,7 @@ typedef union
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_slix_win_rd_addr_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always nonsecure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
-        uint64_t reserved_51_62        : 12;
-        uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command size.
-                                                                 0x3 = Load 8 bytes.
-                                                                 0x2 = Load 4 bytes.
-                                                                 0x1 = Load 2 bytes.
-                                                                 0x0 = Load 1 bytes. */
-        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The IOVA sent to the NCB for this load request. */
-#else /* Word 0 - Little Endian */
-        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The IOVA sent to the NCB for this load request. */
-        uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command size.
-                                                                 0x3 = Load 8 bytes.
-                                                                 0x2 = Load 4 bytes.
-                                                                 0x1 = Load 2 bytes.
-                                                                 0x0 = Load 1 bytes. */
-        uint64_t reserved_51_62        : 12;
-        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always nonsecure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
-#endif /* Word 0 - End */
-    } cn81xx;
+    /* struct bdk_slix_win_rd_addr_s cn81xx; */
     /* struct bdk_slix_win_rd_addr_s cn88xxp2; */
 } bdk_slix_win_rd_addr_t;
 
@@ -8453,9 +8525,7 @@ typedef union
                                                                  initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
 
                                                                  If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always nonsecure
-                                                                 onto the NCB, though the SMMU may later promote them to secure.
-
-                                                                 Added in pass 2. */
+                                                                 onto the NCB, though the SMMU may later promote them to secure. */
         uint64_t reserved_49_62        : 14;
         uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
         uint64_t reserved_0_2          : 3;
@@ -8468,9 +8538,7 @@ typedef union
                                                                  initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
 
                                                                  If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always nonsecure
-                                                                 onto the NCB, though the SMMU may later promote them to secure.
-
-                                                                 Added in pass 2. */
+                                                                 onto the NCB, though the SMMU may later promote them to secure. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_slix_win_wr_addr_cn88xxp1
@@ -8485,30 +8553,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_slix_win_wr_addr_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always nonsecure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
-        uint64_t reserved_49_62        : 14;
-        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
-        uint64_t reserved_0_2          : 3;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_2          : 3;
-        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
-        uint64_t reserved_49_62        : 14;
-        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always nonsecure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
-#endif /* Word 0 - End */
-    } cn81xx;
+    /* struct bdk_slix_win_wr_addr_s cn81xx; */
     /* struct bdk_slix_win_wr_addr_s cn88xxp2; */
 } bdk_slix_win_wr_addr_t;
 
@@ -8532,7 +8577,7 @@ static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long a)
  * Register (PEXP) sli#_win_wr_addr#
  *
  * SLI Window Write Address Register
- * Contains the address to be writen to when a write operation is started by writing
+ * Contains the address to be written to when a write operation is started by writing
  * SLI()_WIN_WR_DATA.
  * This register should not be used to write SLI_* registers.
  */

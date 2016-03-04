@@ -2616,7 +2616,6 @@ static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a)
  * Register (DAB32b) dbg#_edprsr
  *
  * AP DBG External Debug Processor Status Register
- * Changed in pass 2, removed from DAP.
  * Holds information about the reset and powerdown state of the
  *     processor.
  * RTL: Powerup status for ap core and only bit[1:0] used

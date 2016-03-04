@@ -420,8 +420,7 @@ typedef union
                                                                  0x4-0x7 = reserved. */
         uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
-                                                                 performance. 0x0 disables throttling.
-                                                                 Added in pass 2. */
+                                                                 performance. 0x0 disables throttling. */
         uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
                                                                  Internal:
                                                                  fuse[99]. */
@@ -521,8 +520,7 @@ typedef union
                                                                  fuse[99]. */
         uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
-                                                                 performance. 0x0 disables throttling.
-                                                                 Added in pass 2. */
+                                                                 performance. 0x0 disables throttling. */
         uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
                                                                  Provides software a means of determining the platform at run time.
                                                                  0x0 = Hardware.
@@ -906,8 +904,7 @@ typedef union
                                                                  0x4-0x7 = reserved. */
         uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
-                                                                 performance. 0x0 disables throttling.
-                                                                 Added in pass 2. */
+                                                                 performance. 0x0 disables throttling. */
         uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
                                                                  Internal:
                                                                  fuse[99]. */
@@ -999,8 +996,7 @@ typedef union
                                                                  fuse[99]. */
         uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
-                                                                 performance. 0x0 disables throttling.
-                                                                 Added in pass 2. */
+                                                                 performance. 0x0 disables throttling. */
         uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
                                                                  Provides software a means of determining the platform at run time.
                                                                  0x0 = Hardware.
@@ -1650,8 +1646,6 @@ static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void)
  * fused programmed and the name should be constructed from e.g. the core's device
  * number.
  *
- * This register was added in pass 2.
- *
  * Pseudocode for the decoding:
  * <pre>
  * datap = data_from_fuses;
@@ -1736,7 +1730,7 @@ typedef union
                                                                  clear when the program operation is complete. To write a bank of
                                                                  fuses, software must set MIO_FUS_WADR[ADDR] to the bank to be
                                                                  programmed and then set each bit within MIO_FUS_BNK_DAT() to
-                                                                 indicate which fuses to blow.  Once ADDR, and DAT are setup,
+                                                                 indicate which fuses to blow.  Once ADDR, and DAT are set up,
                                                                  Software can write to MIO_FUS_PROG[PROG] to start the bank write
                                                                  and poll on [PROG]. Once [PROG] is clear, the bank write is complete.
                                                                  MIO_FUS_READ_TIMES[WRSTB_WH] determines the time for the operation
@@ -1747,7 +1741,7 @@ typedef union
                                                                  clear when the program operation is complete. To write a bank of
                                                                  fuses, software must set MIO_FUS_WADR[ADDR] to the bank to be
                                                                  programmed and then set each bit within MIO_FUS_BNK_DAT() to
-                                                                 indicate which fuses to blow.  Once ADDR, and DAT are setup,
+                                                                 indicate which fuses to blow.  Once ADDR, and DAT are set up,
                                                                  Software can write to MIO_FUS_PROG[PROG] to start the bank write
                                                                  and poll on [PROG]. Once [PROG] is clear, the bank write is complete.
                                                                  MIO_FUS_READ_TIMES[WRSTB_WH] determines the time for the operation
@@ -1855,22 +1849,22 @@ typedef union
         uint64_t addr_hi               : 2;  /**< [ 10:  9](R/W) Upper fuse address bits to extend space beyond 2k fuses.
                                                                  Valid range is 0x0-0x3.  Software should not change this
                                                                  field while [PEND] is set.  It should wait for
-                                                                 the hardwarre to clear it. */
+                                                                 the hardware to clear it. */
         uint64_t efuse                 : 1;  /**< [  8:  8](R/W) Efuse storage. When set, the return data is from the efuse
                                                                  directly rather than the local storage. */
         uint64_t addr                  : 8;  /**< [  7:  0](R/W) Address. Specifies the byte address of the fuse to read.
                                                                  Software should not change this field while [PEND]
-                                                                 is set.  It must wait for the hardware to clear it. */
+                                                                 is set. It must wait for the hardware to clear it. */
 #else /* Word 0 - Little Endian */
         uint64_t addr                  : 8;  /**< [  7:  0](R/W) Address. Specifies the byte address of the fuse to read.
                                                                  Software should not change this field while [PEND]
-                                                                 is set.  It must wait for the hardware to clear it. */
+                                                                 is set. It must wait for the hardware to clear it. */
         uint64_t efuse                 : 1;  /**< [  8:  8](R/W) Efuse storage. When set, the return data is from the efuse
                                                                  directly rather than the local storage. */
         uint64_t addr_hi               : 2;  /**< [ 10:  9](R/W) Upper fuse address bits to extend space beyond 2k fuses.
                                                                  Valid range is 0x0-0x3.  Software should not change this
                                                                  field while [PEND] is set.  It should wait for
-                                                                 the hardwarre to clear it. */
+                                                                 the hardware to clear it. */
         uint64_t reserved_11           : 1;
         uint64_t pend                  : 1;  /**< [ 12: 12](R/W/H) Software sets this bit to 1 on a write operation that starts
                                                                  the fuse read operation. Hardware clears this bit when the read
@@ -2180,11 +2174,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t addr                  : 6;  /**< [  5:  0](R/W) Indicates which of the banks of 128 fuses to blow.  Software
+        uint64_t addr                  : 6;  /**< [  5:  0](R/W) Indicates which of the banks of 128 fuses to blow. Software
                                                                  should not change this field while the FUSF_PROG[PROG] bit is set.
                                                                  It must wait for the hardware to clear it. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 6;  /**< [  5:  0](R/W) Indicates which of the banks of 128 fuses to blow.  Software
+        uint64_t addr                  : 6;  /**< [  5:  0](R/W) Indicates which of the banks of 128 fuses to blow. Software
                                                                  should not change this field while the FUSF_PROG[PROG] bit is set.
                                                                  It must wait for the hardware to clear it. */
         uint64_t reserved_6_63         : 58;

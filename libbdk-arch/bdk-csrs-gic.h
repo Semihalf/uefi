@@ -70,20 +70,14 @@
  * The actual 24-bit ITS command SEI is defined as {8'h01,
  * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}.
  */
-#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO_CN81XX (0xe0) /**< Command time out. */
-#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO_CN88XX (0xe0) /**< Command time out.  Added in pass 2. */
-#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO_CN83XX (0xe0) /**< Command time out. */
+#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO (0xe0) /**< Command time out. */
 #define BDK_GITS_CMD_ERR_E_CSEI_COLLECTION_OOR (3) /**< Collection is out of range. */
 #define BDK_GITS_CMD_ERR_E_CSEI_DEVICE_OOR (1) /**< Device ID is out of range. */
 #define BDK_GITS_CMD_ERR_E_CSEI_ID_OOR (5) /**< ID is out of range. */
 #define BDK_GITS_CMD_ERR_E_CSEI_ITE_INVALID (0x10) /**< ITE is invalid. */
 #define BDK_GITS_CMD_ERR_E_CSEI_ITTSIZE_OOR (2) /**< ITT SIZE is out of range. */
 #define BDK_GITS_CMD_ERR_E_CSEI_PHYSICALID_OOR (6) /**< Physical ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID_CN81XX (0xe1) /**< SYNC ACK was received when no SYNC command is executed by ITS, and most likely
-                                       the SYNC ACK was received after the SYNC command is timed out. */
-#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID_CN88XX (0xe1) /**< SYNC ACK was received when no SYNC command is executed by ITS, and most likely
-                                       the SYNC ACK was received after the SYNC command is timed out. Added in pass 2. */
-#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID_CN83XX (0xe1) /**< SYNC ACK was received when no SYNC command is executed by ITS, and most likely
+#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID (0xe1) /**< SYNC ACK was received when no SYNC command is executed by ITS, and most likely
                                        the SYNC ACK was received after the SYNC command is timed out. */
 #define BDK_GITS_CMD_ERR_E_CSEI_TA_INVALID (0xfe) /**< Target address is invalid. */
 #define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_COLLECTION (9) /**< Collection is unmapped. */
@@ -741,57 +735,8 @@ typedef union
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gic_cfg_ctlr_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t dis_cpu_if_load_balancer : 1;/**< [ 32: 32](SR/W) Disable the CPU interface load balancer. */
-        uint64_t reserved_10_31        : 22;
-        uint64_t dis_lpi_pend_cache    : 1;  /**< [  9:  9](SR/W) Disable the LPI pending table cache. */
-        uint64_t dis_lpi_cfg_cache     : 1;  /**< [  8:  8](SR/W) Disable the LPI configuration cache. */
-        uint64_t dis_inv_hct           : 1;  /**< [  7:  7](SR/W) Disable H/W invalidating ITS HCT during ITS disable process. */
-        uint64_t dis_its_cdtc          : 1;  /**< [  6:  6](SR/W) Disable 1-entry device table cache in ITS CEU. */
-        uint64_t dis_its_itlb          : 1;  /**< [  5:  5](SR/W) Disable ITS ITLB (interrupt translation entry lookup buffer). */
-        uint64_t dis_its_dtlb          : 1;  /**< [  4:  4](SR/W) Disable ITS DTLB (device table entry lookup buffer). */
-        uint64_t reserved_3            : 1;
-        uint64_t root_dist             : 1;  /**< [  2:  2](SR/W) Specifies whether the distributor on this socket is root.
-                                                                 0 = Distributor is not root.
-                                                                 1 = Distributor is root.
-
-                                                                 Out of reset, this field is set. EL3 firmware will clear this field as required for multi-
-                                                                 socket operation. */
-        uint64_t om                    : 2;  /**< [  1:  0](SR/W) Operation mode.
-                                                                 0x0 = Single-socket single-root mode.
-                                                                 0x1 = Reserved.
-                                                                 0x2 = Multisocket single-root mode.
-                                                                 0x3 = Multisocket multiroot mode. */
-#else /* Word 0 - Little Endian */
-        uint64_t om                    : 2;  /**< [  1:  0](SR/W) Operation mode.
-                                                                 0x0 = Single-socket single-root mode.
-                                                                 0x1 = Reserved.
-                                                                 0x2 = Multisocket single-root mode.
-                                                                 0x3 = Multisocket multiroot mode. */
-        uint64_t root_dist             : 1;  /**< [  2:  2](SR/W) Specifies whether the distributor on this socket is root.
-                                                                 0 = Distributor is not root.
-                                                                 1 = Distributor is root.
-
-                                                                 Out of reset, this field is set. EL3 firmware will clear this field as required for multi-
-                                                                 socket operation. */
-        uint64_t reserved_3            : 1;
-        uint64_t dis_its_dtlb          : 1;  /**< [  4:  4](SR/W) Disable ITS DTLB (device table entry lookup buffer). */
-        uint64_t dis_its_itlb          : 1;  /**< [  5:  5](SR/W) Disable ITS ITLB (interrupt translation entry lookup buffer). */
-        uint64_t dis_its_cdtc          : 1;  /**< [  6:  6](SR/W) Disable 1-entry device table cache in ITS CEU. */
-        uint64_t dis_inv_hct           : 1;  /**< [  7:  7](SR/W) Disable H/W invalidating ITS HCT during ITS disable process. */
-        uint64_t dis_lpi_cfg_cache     : 1;  /**< [  8:  8](SR/W) Disable the LPI configuration cache. */
-        uint64_t dis_lpi_pend_cache    : 1;  /**< [  9:  9](SR/W) Disable the LPI pending table cache. */
-        uint64_t reserved_10_31        : 22;
-        uint64_t dis_cpu_if_load_balancer : 1;/**< [ 32: 32](SR/W) Disable the CPU interface load balancer. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } cn88xxp1;
     /* struct bdk_gic_cfg_ctlr_s cn81xx; */
-    /* struct bdk_gic_cfg_ctlr_cn88xxp1 cn83xx; */
-    struct bdk_gic_cfg_ctlr_cn88xxp2
+    struct bdk_gic_cfg_ctlr_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
@@ -799,7 +744,7 @@ typedef union
         uint64_t reserved_10_31        : 22;
         uint64_t dis_lpi_pend_cache    : 1;  /**< [  9:  9](SR/W) Disable the LPI pending table cache. */
         uint64_t dis_lpi_cfg_cache     : 1;  /**< [  8:  8](SR/W) Disable the LPI configuration cache. */
-        uint64_t dis_inv_hct           : 1;  /**< [  7:  7](SR/W) Disable H/W invalidating ITS HCT during ITS disable process. Reset value changed in pass 2. */
+        uint64_t dis_inv_hct           : 1;  /**< [  7:  7](SR/W) Disable H/W invalidating ITS HCT during ITS disable process. */
         uint64_t dis_its_cdtc          : 1;  /**< [  6:  6](SR/W) Disable 1-entry device table cache in ITS CEU. */
         uint64_t dis_its_itlb          : 1;  /**< [  5:  5](SR/W) Disable ITS ITLB (interrupt translation entry lookup buffer). */
         uint64_t dis_its_dtlb          : 1;  /**< [  4:  4](SR/W) Disable ITS DTLB (device table entry lookup buffer). */
@@ -831,14 +776,15 @@ typedef union
         uint64_t dis_its_dtlb          : 1;  /**< [  4:  4](SR/W) Disable ITS DTLB (device table entry lookup buffer). */
         uint64_t dis_its_itlb          : 1;  /**< [  5:  5](SR/W) Disable ITS ITLB (interrupt translation entry lookup buffer). */
         uint64_t dis_its_cdtc          : 1;  /**< [  6:  6](SR/W) Disable 1-entry device table cache in ITS CEU. */
-        uint64_t dis_inv_hct           : 1;  /**< [  7:  7](SR/W) Disable H/W invalidating ITS HCT during ITS disable process. Reset value changed in pass 2. */
+        uint64_t dis_inv_hct           : 1;  /**< [  7:  7](SR/W) Disable H/W invalidating ITS HCT during ITS disable process. */
         uint64_t dis_lpi_cfg_cache     : 1;  /**< [  8:  8](SR/W) Disable the LPI configuration cache. */
         uint64_t dis_lpi_pend_cache    : 1;  /**< [  9:  9](SR/W) Disable the LPI pending table cache. */
         uint64_t reserved_10_31        : 22;
         uint64_t dis_cpu_if_load_balancer : 1;/**< [ 32: 32](SR/W) Disable the CPU interface load balancer. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn88xx;
+    /* struct bdk_gic_cfg_ctlr_cn88xx cn83xx; */
 } bdk_gic_cfg_ctlr_t;
 
 #define BDK_GIC_CFG_CTLR BDK_GIC_CFG_CTLR_FUNC()
@@ -859,7 +805,7 @@ static inline uint64_t BDK_GIC_CFG_CTLR_FUNC(void)
  * Register (NCB) gic_del3t_ctlr
  *
  * GIC Debug EL3 Trap Secure Control Register
- * This register allows disabling the signaling of some DEL3T errors. Added in pass 2.
+ * This register allows disabling the signaling of some DEL3T errors.
  */
 typedef union
 {
@@ -1262,7 +1208,7 @@ static inline uint64_t BDK_GIC_SCRATCH_FUNC(void)
  * Register (NCB) gic_sync_cfg
  *
  * GIC SYNC Configuration Register
- * This register configures the behavior of ITS SYNC command. Added in pass 2.
+ * This register configures the behavior of ITS SYNC command.
  */
 typedef union
 {
@@ -4140,36 +4086,7 @@ typedef union
     } cn88xxp1;
     /* struct bdk_gicrx_pendbaser_s cn81xx; */
     /* struct bdk_gicrx_pendbaser_s cn83xx; */
-    struct bdk_gicrx_pendbaser_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t pending_table_zero    : 1;  /**< [ 62: 62](WO) Pending zero:
-                                                                 0 = The coarse-grained map for the LPI pending table is valid.
-                                                                 1 = The pending table has been zeroed out. */
-        uint64_t reserved_59_61        : 3;
-        uint64_t outer_cacheability    : 3;  /**< [ 58: 56](R/W) Outer cacheability attributes. Ignored in CNXXXX. Changed in pass2. */
-        uint64_t reserved_48_55        : 8;
-        uint64_t pa                    : 32; /**< [ 47: 16](R/W) Physical address bits <46:16> for the LPI pending table. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t cacheability          : 3;  /**< [  9:  7](R/W) Cacheability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t reserved_0_6          : 7;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_6          : 7;
-        uint64_t cacheability          : 3;  /**< [  9:  7](R/W) Cacheability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t pa                    : 32; /**< [ 47: 16](R/W) Physical address bits <46:16> for the LPI pending table. */
-        uint64_t reserved_48_55        : 8;
-        uint64_t outer_cacheability    : 3;  /**< [ 58: 56](R/W) Outer cacheability attributes. Ignored in CNXXXX. Changed in pass2. */
-        uint64_t reserved_59_61        : 3;
-        uint64_t pending_table_zero    : 1;  /**< [ 62: 62](WO) Pending zero:
-                                                                 0 = The coarse-grained map for the LPI pending table is valid.
-                                                                 1 = The pending table has been zeroed out. */
-        uint64_t reserved_63           : 1;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gicrx_pendbaser_s cn88xxp2; */
 } bdk_gicrx_pendbaser_t;
 
 static inline uint64_t BDK_GICRX_PENDBASER(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4581,32 +4498,7 @@ typedef union
     } cn88xxp1;
     /* struct bdk_gicrx_propbaser_s cn81xx; */
     /* struct bdk_gicrx_propbaser_s cn83xx; */
-    struct bdk_gicrx_propbaser_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_59_63        : 5;
-        uint64_t outer_cacheability    : 3;  /**< [ 58: 56](R/W) Outer cacheability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t reserved_48_55        : 8;
-        uint64_t pa                    : 36; /**< [ 47: 12](R/W) Physical address bits <46:12> for the LPI configuration table. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t cacheability          : 3;  /**< [  9:  7](R/W) Cacheability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t reserved_5_6          : 2;
-        uint64_t num_bits              : 5;  /**< [  4:  0](R/W) The number of bits of LPI ID supported, minus one. If this value exceeds the value of
-                                                                 GICD_TYPER[IDBITS], then the number of bits must be treated as the value defined by
-                                                                 GICD_TYPER[IDBITS]. */
-#else /* Word 0 - Little Endian */
-        uint64_t num_bits              : 5;  /**< [  4:  0](R/W) The number of bits of LPI ID supported, minus one. If this value exceeds the value of
-                                                                 GICD_TYPER[IDBITS], then the number of bits must be treated as the value defined by
-                                                                 GICD_TYPER[IDBITS]. */
-        uint64_t reserved_5_6          : 2;
-        uint64_t cacheability          : 3;  /**< [  9:  7](R/W) Cacheability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t pa                    : 36; /**< [ 47: 12](R/W) Physical address bits <46:12> for the LPI configuration table. */
-        uint64_t reserved_48_55        : 8;
-        uint64_t outer_cacheability    : 3;  /**< [ 58: 56](R/W) Outer cacheability attributes. Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t reserved_59_63        : 5;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gicrx_propbaser_s cn88xxp2; */
 } bdk_gicrx_propbaser_t;
 
 static inline uint64_t BDK_GICRX_PROPBASER(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5692,208 +5584,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gits_baserx_cn81xx cn83xx; */
-    struct bdk_gits_baserx_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid:
-                                                                 0 = No memory has been allocated to the table and if the type field is nonzero, the ITS
-                                                                 discards any writes to the interrupt translation page.
-                                                                 1 = Memory has been allocated to the table  by software. */
-        uint64_t indirect              : 1;  /**< [ 62: 62](RO) Indirect.This field indicates whether an implemented register specifies a single, flat
-                                                                 table or a two-level table where the first level
-                                                                 contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
-                                                                 support flat tables.
-                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
-                                                                 associated with each table entry.
-                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
-                                                                 descriptors to pages that are used
-                                                                     to store the data associated with each table entry. Each 64 bit descriptor has the
-                                                                 following format:
-                                                                       * Bits<63>    = Valid.
-                                                                       * Bits<62:48> = Reserved.
-                                                                       * Bits<47:N>  = Physical address.
-                                                                       * Bits<N-1:0> = Reserved.
-                                                                       * Where N is the number of bits required to specify the page size.
-                                                                 Note:  software must ensure that each pointer in the first level table specifies a unique
-                                                                 physical address otherwise the effects are unpredictable.
-                                                                 For a two level table, if an entry is invalid:
-                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
-                                                                 ITS
-                                                                     discards any writes to the interrupt translation page.
-                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
-                                                                 zero,
-                                                                     the ITS discards any writes to the interrupt translation page. */
-        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table. If the Type field is
-                                                                 zero this field is RAZ/WI.
-                                                                 0x0 = Device-nGnRnE.
-                                                                 0x1 = Normal inner non-cacheable.
-                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
-                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
-                                                                 0x4 = Normal inner cacheable write-allocate,write-through.
-                                                                 0x5 = Normal inner cacheable write-allocate,write-back.
-                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
-
-                                                                 In CNXXXX not implemented, ignored. Changed in pass 2. */
-        uint64_t tbl_type              : 3;  /**< [ 58: 56](RO) This field is read-only and specifies the type of entity that requires entries in the
-                                                                 associated table. The field may have the following values:
-                                                                 0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
-                                                                 memory.
-                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
-                                                                 devices serviced by the ITS and requires
-                                                                       (Entry-size * number-of-devices) bytes of memory.
-                                                                 0x2 = Virtual processors. This register corresponds to a table that scales according to
-                                                                 the number of virtual processors in the system and
-                                                                       requires (Entry-size * number-of-processors) bytes ofmemory.
-                                                                 0x3 = Physical processors.
-                                                                 0x4 = Interrupt collections.
-                                                                 0x5 = Reserved.
-                                                                 0x6 = Reserved.
-                                                                 0x7 = Reserved.
-
-                                                                 Software must always provision memory for GITS_BASER() registers where this field
-                                                                 indicate "Devices","Interrupt Collections" or "Physical Processors".
-                                                                 Software must provision memory for "Virtual Processors" if virtual LPIs will be enabled
-                                                                 (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
-                                                                 0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable.
-                                                                 0x1 = Normal outer non-cacheable.
-                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
-                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
-                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
-                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
-                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
-
-                                                                 In CNXXXX not implemented, ignored. Added in pass 2. */
-        uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. Changed in pass 2. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
-                                                                 table.
-                                                                 Bits [11:0] of the base physical address are zero. The address must be aligned to the size
-                                                                 specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
-                                                                 can
-                                                                 be one of the following:
-                                                                   * Bits X:12 (where X is derived from the page size) are treated as zero.
-                                                                   * The value of bits X:12 are used when calculating the address of a table access.
-
-                                                                 In CNXXXX where the address must be in DRAM this contains fewer than 48 bits of
-                                                                 physical address bits. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute:
-                                                                 0x0 = Accesses are nonshareable.
-                                                                 0x1 = Accesses are inner-shareable.
-                                                                 0x2 = Accesses are outer-shareable.
-                                                                 0x3 = Reserved.  Treated as 0x0.
-
-                                                                 Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t pagesize              : 2;  /**< [  9:  8](R/W) Page size:
-                                                                 0x0 = 4 KB pages.
-                                                                 0x1 = 16 KB pages (not supported, reserved).
-                                                                 0x2 = 64 KB pages.
-                                                                 0x3 = Reserved. Treated as 64kB pages. */
-        uint64_t size                  : 8;  /**< [  7:  0](R/W) Size. The number of pages of memory allocated to the table, minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t size                  : 8;  /**< [  7:  0](R/W) Size. The number of pages of memory allocated to the table, minus one. */
-        uint64_t pagesize              : 2;  /**< [  9:  8](R/W) Page size:
-                                                                 0x0 = 4 KB pages.
-                                                                 0x1 = 16 KB pages (not supported, reserved).
-                                                                 0x2 = 64 KB pages.
-                                                                 0x3 = Reserved. Treated as 64kB pages. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute:
-                                                                 0x0 = Accesses are nonshareable.
-                                                                 0x1 = Accesses are inner-shareable.
-                                                                 0x2 = Accesses are outer-shareable.
-                                                                 0x3 = Reserved.  Treated as 0x0.
-
-                                                                 Ignored in CNXXXX. Changed in pass 2. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
-                                                                 table.
-                                                                 Bits [11:0] of the base physical address are zero. The address must be aligned to the size
-                                                                 specified in the Page Size field. Otherwise the effect is CONSTRAINED UNPREDICTABLE, and
-                                                                 can
-                                                                 be one of the following:
-                                                                   * Bits X:12 (where X is derived from the page size) are treated as zero.
-                                                                   * The value of bits X:12 are used when calculating the address of a table access.
-
-                                                                 In CNXXXX where the address must be in DRAM this contains fewer than 48 bits of
-                                                                 physical address bits. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. Changed in pass 2. */
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
-                                                                 0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable.
-                                                                 0x1 = Normal outer non-cacheable.
-                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
-                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
-                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
-                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
-                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
-
-                                                                 In CNXXXX not implemented, ignored. Added in pass 2. */
-        uint64_t tbl_type              : 3;  /**< [ 58: 56](RO) This field is read-only and specifies the type of entity that requires entries in the
-                                                                 associated table. The field may have the following values:
-                                                                 0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
-                                                                 memory.
-                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
-                                                                 devices serviced by the ITS and requires
-                                                                       (Entry-size * number-of-devices) bytes of memory.
-                                                                 0x2 = Virtual processors. This register corresponds to a table that scales according to
-                                                                 the number of virtual processors in the system and
-                                                                       requires (Entry-size * number-of-processors) bytes ofmemory.
-                                                                 0x3 = Physical processors.
-                                                                 0x4 = Interrupt collections.
-                                                                 0x5 = Reserved.
-                                                                 0x6 = Reserved.
-                                                                 0x7 = Reserved.
-
-                                                                 Software must always provision memory for GITS_BASER() registers where this field
-                                                                 indicate "Devices","Interrupt Collections" or "Physical Processors".
-                                                                 Software must provision memory for "Virtual Processors" if virtual LPIs will be enabled
-                                                                 (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
-        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table. If the Type field is
-                                                                 zero this field is RAZ/WI.
-                                                                 0x0 = Device-nGnRnE.
-                                                                 0x1 = Normal inner non-cacheable.
-                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
-                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
-                                                                 0x4 = Normal inner cacheable write-allocate,write-through.
-                                                                 0x5 = Normal inner cacheable write-allocate,write-back.
-                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
-
-                                                                 In CNXXXX not implemented, ignored. Changed in pass 2. */
-        uint64_t indirect              : 1;  /**< [ 62: 62](RO) Indirect.This field indicates whether an implemented register specifies a single, flat
-                                                                 table or a two-level table where the first level
-                                                                 contains a list of descriptors. Note: this field is RAZ/WI for implementations that only
-                                                                 support flat tables.
-                                                                 0 = Single level. [SIZE] indicates a number of pages used by the ITS to store data
-                                                                 associated with each table entry.
-                                                                 1 = Two level. [SIZE] indicates a number of pages which contain an array of 64 bit
-                                                                 descriptors to pages that are used
-                                                                     to store the data associated with each table entry. Each 64 bit descriptor has the
-                                                                 following format:
-                                                                       * Bits<63>    = Valid.
-                                                                       * Bits<62:48> = Reserved.
-                                                                       * Bits<47:N>  = Physical address.
-                                                                       * Bits<N-1:0> = Reserved.
-                                                                       * Where N is the number of bits required to specify the page size.
-                                                                 Note:  software must ensure that each pointer in the first level table specifies a unique
-                                                                 physical address otherwise the effects are unpredictable.
-                                                                 For a two level table, if an entry is invalid:
-                                                                   * If the type field specifies a valid table type other than Interrupt Collections, the
-                                                                 ITS
-                                                                     discards any writes to the interrupt translation page.
-                                                                   * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
-                                                                 zero,
-                                                                     the ITS discards any writes to the interrupt translation page. */
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid:
-                                                                 0 = No memory has been allocated to the table and if the type field is nonzero, the ITS
-                                                                 discards any writes to the interrupt translation page.
-                                                                 1 = Memory has been allocated to the table  by software. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gits_baserx_cn81xx cn88xxp2; */
 } bdk_gits_baserx_t;
 
 static inline uint64_t BDK_GITS_BASERX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6231,104 +5922,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gits_cbaser_cn81xx cn83xx; */
-    struct bdk_gits_cbaser_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid.
-                                                                 When set to one, indicates that memory has been allocated by software for the command
-                                                                 queue
-                                                                 When set to zero, no memory has been allocated to the command queue and the ITS discards
-                                                                 any writes to the interrupt translation page. */
-        uint64_t reserved_62           : 1;
-        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table. Changed in pass 2.
-                                                                 0x0 = Device-nGnRnE.
-                                                                 0x1 = Normal inner non-cacheable.
-                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
-                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
-                                                                 0x4 = Normal inner cacheable write-allocate, write-through.
-                                                                 0x5 = Normal inner cacheable write-allocate, write-back.
-                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t reserved_56_58        : 3;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
-                                                                 0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable.
-                                                                 0x1 = Normal outer non-cacheable.
-                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
-                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
-                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
-                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
-                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
-
-                                                                 In CNXXXX not implemented, ignored. Added in pass 2. */
-        uint64_t reserved_48_52        : 5;
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
-                                                                 containing the command queue. Bits <11:0> of the base address of the queue are
-                                                                 zero. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute. The shareability attributes of accesses to the table. Changed in
-                                                                 pass 2.
-                                                                 0x0 = Accesses are non-shareable.
-                                                                 0x1 = Accesses are inner-shareable.
-                                                                 0x2 = Accesses are outer-shareable.
-                                                                 0x3 = Reserved.  Treated as 0x0.
-
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t reserved_8_9          : 2;
-        uint64_t size                  : 8;  /**< [  7:  0](R/W) The number of 4kB pages of physical memory provided for the command queue, minus one.
-                                                                 The command queue is a circular buffer and wraps at physical address <47:0> + (4096 *
-                                                                 (SIZE+1)). */
-#else /* Word 0 - Little Endian */
-        uint64_t size                  : 8;  /**< [  7:  0](R/W) The number of 4kB pages of physical memory provided for the command queue, minus one.
-                                                                 The command queue is a circular buffer and wraps at physical address <47:0> + (4096 *
-                                                                 (SIZE+1)). */
-        uint64_t reserved_8_9          : 2;
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute. The shareability attributes of accesses to the table. Changed in
-                                                                 pass 2.
-                                                                 0x0 = Accesses are non-shareable.
-                                                                 0x1 = Accesses are inner-shareable.
-                                                                 0x2 = Accesses are outer-shareable.
-                                                                 0x3 = Reserved.  Treated as 0x0.
-
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
-                                                                 containing the command queue. Bits <11:0> of the base address of the queue are
-                                                                 zero. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t reserved_48_52        : 5;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
-                                                                 0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable.
-                                                                 0x1 = Normal outer non-cacheable.
-                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
-                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
-                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
-                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
-                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
-
-                                                                 In CNXXXX not implemented, ignored. Added in pass 2. */
-        uint64_t reserved_56_58        : 3;
-        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table. Changed in pass 2.
-                                                                 0x0 = Device-nGnRnE.
-                                                                 0x1 = Normal inner non-cacheable.
-                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
-                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
-                                                                 0x4 = Normal inner cacheable write-allocate, write-through.
-                                                                 0x5 = Normal inner cacheable write-allocate, write-back.
-                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t reserved_62           : 1;
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid.
-                                                                 When set to one, indicates that memory has been allocated by software for the command
-                                                                 queue
-                                                                 When set to zero, no memory has been allocated to the command queue and the ITS discards
-                                                                 any writes to the interrupt translation page. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gits_cbaser_cn81xx cn88xxp2; */
 } bdk_gits_cbaser_t;
 
 #define BDK_GITS_CBASER BDK_GITS_CBASER_FUNC()
@@ -7175,7 +6769,7 @@ static inline uint64_t BDK_GITS_TRANSLATER_FUNC(void)
  * Register (NCB) gits_typer
  *
  * GIC ITS Type Register
- * This register describes features supported by the ITS. Changed in pass 2.
+ * This register describes features supported by the ITS.
  */
 typedef union
 {
@@ -7378,16 +6972,14 @@ typedef union
         uint64_t cil                   : 1;  /**< [ 36: 36](RAZ) 0 = ITS supports 16-bit Collection ID, GITS_TYPER[CIDbits] is RES0.
                                                                  1 = GITS_TYPER[CIDBITS] indicates supported collection ID size
                                                                  CNXXXX implementations do not support collections in external memory, this bit is
-                                                                 RAZ and number of Collections supported is reported by GITS_TYPER[HCC].
-                                                                 Added in pass 2. */
+                                                                 RAZ and number of Collections supported is reported by GITS_TYPER[HCC]. */
         uint64_t cid_bits              : 4;  /**< [ 35: 32](RAZ) Number of Collection ID bits. The number of bits of Collection ID - 1.
-                                                                 When GITS_TYPER.CIL==0, this field is RES0.
-                                                                 Added in pass 2. */
+                                                                 When GITS_TYPER.CIL==0, this field is RES0. */
         uint64_t hcc                   : 8;  /**< [ 31: 24](RO) Hardware collection count. The number of collections supported by the ITS without
                                                                  provisioning of external memory. If this field is nonzero,
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
-                                                                 Added in pass 2.
+
                                                                  NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on, software must ensure that any hardware collections are re-mapped following power-on.
                                                                  A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
@@ -7405,14 +6997,12 @@ typedef union
         uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */
         uint64_t reserved_2            : 1;
         uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is
-                                                                 clear in GICv3 implementations.
-                                                                 Added in pass 2. */
+                                                                 clear in GICv3 implementations. */
         uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
 #else /* Word 0 - Little Endian */
         uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
         uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is
-                                                                 clear in GICv3 implementations.
-                                                                 Added in pass 2. */
+                                                                 clear in GICv3 implementations. */
         uint64_t reserved_2            : 1;
         uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */
         uint64_t itte_size             : 4;  /**< [  7:  4](RO) ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
@@ -7429,19 +7019,17 @@ typedef union
                                                                  provisioning of external memory. If this field is nonzero,
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
-                                                                 Added in pass 2.
+
                                                                  NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
                                                                  on, software must ensure that any hardware collections are re-mapped following power-on.
                                                                  A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
                                                                  point of view. */
         uint64_t cid_bits              : 4;  /**< [ 35: 32](RAZ) Number of Collection ID bits. The number of bits of Collection ID - 1.
-                                                                 When GITS_TYPER.CIL==0, this field is RES0.
-                                                                 Added in pass 2. */
+                                                                 When GITS_TYPER.CIL==0, this field is RES0. */
         uint64_t cil                   : 1;  /**< [ 36: 36](RAZ) 0 = ITS supports 16-bit Collection ID, GITS_TYPER[CIDbits] is RES0.
                                                                  1 = GITS_TYPER[CIDBITS] indicates supported collection ID size
                                                                  CNXXXX implementations do not support collections in external memory, this bit is
-                                                                 RAZ and number of Collections supported is reported by GITS_TYPER[HCC].
-                                                                 Added in pass 2. */
+                                                                 RAZ and number of Collections supported is reported by GITS_TYPER[HCC]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } cn88xxp2;

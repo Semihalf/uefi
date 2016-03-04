@@ -65,8 +65,6 @@
  * Register (RSL) dap_eco
  *
  * INTERNAL: DAP ECO Register
- *
- * Added in pass 2.
  */
 typedef union
 {
@@ -152,24 +150,7 @@ typedef union
     } cn88xxp1;
     /* struct bdk_dap_hwpoll_cnt_s cn81xx; */
     /* struct bdk_dap_hwpoll_cnt_s cn83xx; */
-    struct bdk_dap_hwpoll_cnt_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_dap_hwpoll_cnt_s cn88xxp2; */
 } bdk_dap_hwpoll_cnt_t;
 
 #define BDK_DAP_HWPOLL_CNT BDK_DAP_HWPOLL_CNT_FUNC()
@@ -190,8 +171,7 @@ static inline uint64_t BDK_DAP_HWPOLL_CNT_FUNC(void)
  * Register (RSL32b) dap_imp_dar
  *
  * DAP Debug Authentication Register
- * This register controls the device enables and secure/nonsecure access permissions. Changed in
- * pass 2.
+ * This register controls the device enables and secure/nonsecure access permissions.
  */
 typedef union
 {
@@ -340,92 +320,7 @@ typedef union
     } cn88xxp1;
     /* struct bdk_dap_imp_dar_s cn81xx; */
     /* struct bdk_dap_imp_dar_s cn83xx; */
-    struct bdk_dap_imp_dar_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
-                                                                 Added in pass 2.
-
-                                                                 Internal:
-                                                                 Passed to trace unit, but not presently used.
-                                                                 0 = Future trace feature enabled.
-                                                                 1 = Future trace feature disabled. */
-        uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
-                                                                 Added in pass 2.
-                                                                 0 = Trace unit is discoverable by software.
-                                                                 1 = Trace unit is hidden. */
-        uint32_t reserved_11_27        : 17;
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on nonsecure CAB accesses.
-                                                                 1 = Enable nonsecure CAB accesses. */
-        uint32_t caben                 : 1;  /**< [  9:  9](R/W) Enable CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault for all CAB accesses.
-                                                                 1 = Enable all CAB accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t reserved_6_8          : 3;
-        uint32_t deviceen              : 1;  /**< [  5:  5](R/W) Set this bit to use CVM-AP inside DAP for CNXXXX addressing accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use ARM-AP inside DAP for DAB serial bus accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t spniden               : 1;  /**< [  3:  3](R/W) Set this bit to enable secure non invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t spiden                : 1;  /**< [  2:  2](R/W) Set this bit to enable secure invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t niden                 : 1;  /**< [  1:  1](R/W) Set this bit to enable non secure invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t dbgen                 : 1;  /**< [  0:  0](R/W) Set this bit to enable debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-#else /* Word 0 - Little Endian */
-        uint32_t dbgen                 : 1;  /**< [  0:  0](R/W) Set this bit to enable debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t niden                 : 1;  /**< [  1:  1](R/W) Set this bit to enable non secure invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t spiden                : 1;  /**< [  2:  2](R/W) Set this bit to enable secure invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t spniden               : 1;  /**< [  3:  3](R/W) Set this bit to enable secure non invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use ARM-AP inside DAP for DAB serial bus accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t deviceen              : 1;  /**< [  5:  5](R/W) Set this bit to use CVM-AP inside DAP for CNXXXX addressing accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t reserved_6_8          : 3;
-        uint32_t caben                 : 1;  /**< [  9:  9](R/W) Enable CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault for all CAB accesses.
-                                                                 1 = Enable all CAB accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on nonsecure CAB accesses.
-                                                                 1 = Enable nonsecure CAB accesses. */
-        uint32_t reserved_11_27        : 17;
-        uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
-                                                                 Added in pass 2.
-                                                                 0 = Trace unit is discoverable by software.
-                                                                 1 = Trace unit is hidden. */
-        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
-                                                                 Added in pass 2.
-
-                                                                 Internal:
-                                                                 Passed to trace unit, but not presently used.
-                                                                 0 = Future trace feature enabled.
-                                                                 1 = Future trace feature disabled. */
-        uint32_t reserved_30_31        : 2;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_dap_imp_dar_s cn88xxp2; */
 } bdk_dap_imp_dar_t;
 
 #define BDK_DAP_IMP_DAR BDK_DAP_IMP_DAR_FUNC()
@@ -481,20 +376,7 @@ typedef union
     } cn88xxp1;
     /* struct bdk_dap_owb_to_s cn81xx; */
     /* struct bdk_dap_owb_to_s cn83xx; */
-    struct bdk_dap_owb_to_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. Added in pass 2. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
-                                                                 of coprocessor-clock cycles, it will timeout. */
-#else /* Word 0 - Little Endian */
-        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
-                                                                 of coprocessor-clock cycles, it will timeout. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. Added in pass 2. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_dap_owb_to_s cn88xxp2; */
 } bdk_dap_owb_to_t;
 
 #define BDK_DAP_OWB_TO BDK_DAP_OWB_TO_FUNC()
@@ -515,7 +397,6 @@ static inline uint64_t BDK_DAP_OWB_TO_FUNC(void)
  * Register (RSL) dap_rst_on_warm
  *
  * DAP Reset On Warm Reset Register
- * Added in pass 2.
  */
 typedef union
 {
@@ -564,7 +445,7 @@ static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void)
  *
  * INTERNAL: DAP Scratch Register
  *
- * This register is a scratch register for software use. Added in pass 2.
+ * This register is a scratch register for software use.
  */
 typedef union
 {
@@ -604,7 +485,7 @@ static inline uint64_t BDK_DAP_SCRATCH_FUNC(void)
  * Register (RSL32b) dap_sraaddr
  *
  * DAP RSL Devices Broadcast Write Polling Register
- * This register controls broadcast write or polling to the cores. changed in pass 2
+ * This register controls broadcast write or polling to the cores.
  */
 typedef union
 {
