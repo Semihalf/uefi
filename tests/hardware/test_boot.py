@@ -122,7 +122,7 @@ def wait_for_main_menu(cnx):
     cnx.match("tg) Traffic Generator")
     cnx.match("burn) Power Burn options")
     # Extra output allowed here
-    cnx.waitfor("ccpi) Test CCPI using internal loopback")
+    cnx.waitfor("ccpi) CCPI options")
     cnx.match("rbt) Reboot")
     cnx.waitfor("(INS)Menu choice []:")
 
