@@ -352,6 +352,7 @@ static void cortina_menu(void)
         bdk_menu_item(&menu, 'D', "Print Firmware Date Stamp", NULL, NULL);
         bdk_menu_item(&menu, 'U', "Run Firmware Update Checker", NULL, NULL);
         bdk_menu_item(&menu, 'F', "Force Firmware Update", NULL, NULL);
+        bdk_menu_item(&menu, 'B', "Boot into BDK Diagnostics", NULL, NULL);
 
         int key = bdk_menu_display(&menu);
         switch (key)
@@ -375,6 +376,9 @@ static void cortina_menu(void)
                 break;
             case 'F': /* Force Firmware Update */
                 cortina_check_fw_update(1 /* force update */);
+                break;
+            case 'B': /* Force Firmware Update */
+                bdk_image_boot("/fatfs/diagnostics.bin", 0);
                 break;
             default:
                 bdk_error("Invalid choice\n");
