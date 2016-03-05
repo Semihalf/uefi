@@ -55,7 +55,7 @@ static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int in
     handle->pki_dstat = -1;
     handle->pko_queue = -1;
     handle->aura = -1;
-    handle->vnic = -1;
+    handle->nic_id = -1;
     handle->next = NULL;
     snprintf(handle->name, sizeof(handle->name), "P%d.%d", interface, index);
     handle->name[sizeof(handle->name)-1] = 0;

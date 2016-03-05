@@ -77,7 +77,7 @@ static int if_probe(bdk_if_handle_t handle)
         case BDK_LBK_CONNECT_E_NICX(0):
             /* Tell bdk-if we are going ot use NIC. This value gets overwritten
                with the correct VNIC */
-            handle->vnic = 1;
+            handle->nic_id = 1;
             break;
         case BDK_LBK_CONNECT_E_PKIX(0):
             /* Use PKI_CHAN_E channel numbers 0 - 63 */
@@ -94,7 +94,7 @@ static int if_probe(bdk_if_handle_t handle)
         case BDK_LBK_CONNECT_E_NICX(0):
             /* Tell bdk-if we are going ot use NIC. This value gets overwritten
                with the correct VNIC */
-            handle->vnic = 1;
+            handle->nic_id = 1;
             break;
         case BDK_LBK_CONNECT_E_PKOX(0):
             /* Tell bdk-if we are going ot use PKO. This value gets overwritten
@@ -114,7 +114,7 @@ static int if_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_LBKX_CHX_PKIND(handle->interface, handle->index),
         c.s.pkind = handle->pknd);
 
-    if (handle->vnic)
+    if (handle->nic_id)
     {
         BDK_CSR_INIT(lbkx_const, handle->node, BDK_LBKX_CONST(handle->interface));
         if (bdk_nic_port_init(handle, BDK_NIC_TYPE_LBK, lbkx_const.s.buf_size))

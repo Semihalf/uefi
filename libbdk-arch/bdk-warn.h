@@ -41,6 +41,7 @@ typedef enum
     BDK_TRACE_ENABLE_SSO,               /* SSO */
     BDK_TRACE_ENABLE_DEVICE,            /* ECAM based device framework */
     BDK_TRACE_ENABLE_DEVICE_SCAN,       /* ECAM based device scanning detail */
+    BDK_TRACE_ENABLE_NIC,               /* Virtual NIC */
 } bdk_trace_enable_t;
 
 /* See bdk-config.c to change the trace level for before config files are loaded */

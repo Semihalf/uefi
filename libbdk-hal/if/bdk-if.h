@@ -99,7 +99,7 @@ typedef struct __bdk_if_port
     int16_t     pki_dstat;          /* PKI DSTAT ID used for receive stats */
     int16_t     pko_queue;          /* PKO DQ number, or -1 if not used */
     int16_t     aura;               /* FPA aura number */
-    int16_t     vnic;               /* NIC number in use, or -1 if not used */
+    int16_t     nic_id;             /* NIC ID in use, or -1 if not used. Encoded as NIC_VF * 8 + index */
     void *      receiver;           /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;
     bdk_if_stats_t stats;
