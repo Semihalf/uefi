@@ -107,7 +107,7 @@ static int __bdk_if_init_node(bdk_node_t node)
 {
     int result = 0;
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && !bdk_is_platform(BDK_PLATFORM_ASIM))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
     {
         if (bdk_fpa_fill_pool(node, BDK_FPA_PACKET_POOL, 1024))
             return -1;
@@ -137,7 +137,7 @@ static int __bdk_if_init_node(bdk_node_t node)
         }
     }
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && !bdk_is_platform(BDK_PLATFORM_ASIM))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
     {
         if (bdk_pko_enable(node))
             return -1;
