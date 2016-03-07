@@ -453,7 +453,7 @@ void bdk_device_rename(bdk_device_t *device, const char *format, ...)
     va_end(args);
     tmp[sizeof(tmp) - 1] = 0;
     BDK_TRACE(DEVICE, "%s: Renamed to %s\n", device->name, tmp);
-    strcpy(device->name, tmp);
+    strncpy(device->name, tmp, sizeof(device->name));
 }
 
 /**
