@@ -19,4 +19,4 @@ images/cortina.img:
 	images/cortina-convert.py images/cortina-latest.txt images/cortina.img
 
 clean:
-	rm -f *.o *.d *.map *.bin app
+	rm -f *.o *.d *.map *.bin app $(cortina-objs)
