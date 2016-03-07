@@ -102,9 +102,11 @@ static void vnic_fill_receive_buffer(const nic_t *nic, int rbdr_free)
 
     BDK_CSR_INIT(rbdr_base, nic->node, BDK_NIC_QSX_RBDRX_BASE(nic_vf, rbdr));
     BDK_CSR_INIT(rbdr_tail, nic->node, BDK_NIC_QSX_RBDRX_TAIL(nic_vf, rbdr));
+    BDK_TRACE(NIC, "%s: In Filling RBDR(%d, %d) base 0x%lx\n", nic->handle->name, nic->nic_vf, nic->rbdr, rbdr_base.u);
 
     uint64_t *rbdr_ptr = bdk_phys_to_ptr(rbdr_base.u);
     int loc = rbdr_tail.s.tail_ptr;
+    BDK_TRACE(NIC, "%s: In Filling RBDR(%d, %d) loc %d\n", nic->handle->name, nic->nic_vf, nic->rbdr, loc);
 
     int added = 0;
     for (int i = 0; i < rbdr_free; i++)
@@ -116,12 +118,14 @@ static void vnic_fill_receive_buffer(const nic_t *nic, int rbdr_free)
             break;
         }
         rbdr_ptr[loc] = packet.packet[0].s.address;
+        BDK_TRACE(NIC, "%s: In Filling RBDR(%d, %d) loc %d = 0x%lx\n", nic->handle->name, nic->nic_vf, nic->rbdr, loc, rbdr_ptr[loc]);
         loc++;
         loc &= RBDR_ENTRIES - 1;
         added++;
     }
     BDK_WMB;
     BDK_CSR_WRITE(nic->node, BDK_NIC_QSX_RBDRX_DOOR(nic_vf, rbdr), added);
+    BDK_TRACE(NIC, "%s: In Filling RBDR(%d, %d) added %d\n", nic->handle->name, nic->nic_vf, nic->rbdr, added);
 }
 
 /**
@@ -392,6 +396,7 @@ static int if_process_complete_rx(int node, nic_rbdr_state_t *vnic_rbdr_state, c
     for (int s = 0; s < packet.segments; s++)
     {
         BDK_PREFETCH(bdk_phys_to_ptr(rb_addresses[s]), 0);
+        BDK_TRACE(NIC, "    Receive segment size %d address 0x%lx\n", rb_sizes[s], rb_addresses[s]);
         packet.packet[s].u = rb_addresses[s];
         packet.packet[s].s.size = rb_sizes[s];
         segment_length += rb_sizes[s];
@@ -475,6 +480,8 @@ static void if_receive(int unused, void *hand)
         while (count < pending_count)
         {
             const union bdk_nic_cqe_rx_s *cq_header = cq_next;
+            BDK_TRACE(NIC, "%s: Receive HDR[%p] = 0x%lx 0x%lx 0x%lx 0x%lx\n",
+                nic->handle->name, cq_header, cq_header->u[0], cq_header->u[1], cq_header->u[2], cq_header->u[3]);
             loc++;
             loc &= CQ_ENTRIES - 1;
             cq_next = cq_ptr + loc * 512;
@@ -812,6 +819,8 @@ int bdk_nic_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     const int SQ_SLOP = 1;
     const nic_node_state_t *node_state = global_node_state[handle->node];
     nic_t *nic = node_state->nic_map[handle->nic_id];
+    BDK_TRACE(NIC, "%s: Transmit packet of %d bytes, %d segments\n",
+        nic->handle->name, packet->length, packet->segments);
 
     /* Update the SQ available if we're out of space. The NIC should have sent
        packets, making more available. This allows us to only read the STATUS
@@ -823,7 +832,10 @@ int bdk_nic_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     }
     /* Check for space. A packets is a header plus its segments */
     if (nic->sq_available < packet->segments + 1 + SQ_SLOP)
+    {
+        BDK_TRACE(NIC, "%s: Transmit fail, queue full\n", nic->handle->name);
         return -1;
+    }
 
     /* Build the command */
     void *sq_ptr = nic->sq_base;
@@ -835,6 +847,8 @@ int bdk_nic_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     send_hdr.s.subdcnt = packet->segments;
     send_hdr.s.total = packet->length;
     *(union bdk_nic_send_hdr_s *)(sq_ptr + loc * 16) = send_hdr;
+    BDK_TRACE(NIC, "%s: Transmit HDR[%p] = 0x%lx 0x%lx\n",
+        nic->handle->name, sq_ptr + loc * 16, send_hdr.u[0], send_hdr.u[1]);
     loc++;
     loc &= SQ_ENTRIES - 1;
     for (int s = 0; s < packet->segments; s++)
@@ -847,6 +861,8 @@ int bdk_nic_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         gather.s.ld_type = (BDK_USE_DWB) ? BDK_NIC_SEND_LD_TYPE_E_LDWB : BDK_NIC_SEND_LD_TYPE_E_LDD;
         gather.s.size = packet->packet[s].s.size;
         *(union bdk_nic_send_gather_s *)(sq_ptr + loc * 16) = gather;
+        BDK_TRACE(NIC, "%s: Transmit Gather[%p] = 0x%lx 0x%lx\n",
+            nic->handle->name, sq_ptr + loc * 16, gather.u[0], gather.u[1]);
         loc++;
         loc &= SQ_ENTRIES - 1;
     }
@@ -856,6 +872,7 @@ int bdk_nic_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     /* Ring the doorbell */
     BDK_CSR_WRITE(nic->node, BDK_NIC_QSX_SQX_DOOR(nic->nic_vf, nic->sq),
         packet->segments + 1);
+    BDK_TRACE(NIC, "%s: Transmit Doorbell %d\n", nic->handle->name, packet->segments + 1);
 
     /* Update our cached state */
     nic->sq_available -= packet->segments + 1;
