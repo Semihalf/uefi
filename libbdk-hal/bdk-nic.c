@@ -203,9 +203,8 @@ static int vnic_setup_rbdr(nic_t *nic)
     {
         BDK_TRACE(NIC, "%s: Filling RBDR(%d, %d)\n", nic->handle->name, nic->nic_vf, nic->rbdr);
         /* We probably don't have enough space to completely fill the RBDR. Use
-           1/4 of the buffers available minus a few. We expect to only have 2
-           RBDR rings per node and a max of 2 nodes */
-        int fill_num = (bdk_config_get_int(BDK_CONFIG_NUM_PACKET_BUFFERS) - 200) / 4;
+           1/8 of the buffers available */
+        int fill_num = bdk_config_get_int(BDK_CONFIG_NUM_PACKET_BUFFERS) / 8;
         /* Note that RBDR must leave one spot empty */
         if (fill_num > RBDR_ENTRIES - 1)
             fill_num = RBDR_ENTRIES - 1;
