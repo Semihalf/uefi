@@ -391,6 +391,11 @@ static int if_process_complete_rx(int node, nic_rbdr_state_t *vnic_rbdr_state, c
 
     const uint16_t *rb_sizes = (void*)cq_header + 24; /* Offset of RBSZ0 */
     const uint64_t *rb_addresses = (uint64_t*)(cq_header+1);
+    /* Sadly the hardware team decided to change the meaning of NIC_PF_RX_CFG
+       for chips after CN88XX. This stupid spec change was really hard to
+       find */
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        rb_addresses += sizeof(union bdk_nic_cqe_rx2_s) / 8;
     int segment_length = 0;
 
     for (int s = 0; s < packet.segments; s++)
