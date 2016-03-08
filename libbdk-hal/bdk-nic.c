@@ -255,7 +255,7 @@ static int vnic_setup_tx_shaping(nic_t *nic)
                 nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
                 break;
             case BDK_NIC_TYPE_LBK:
-                tl1_index = BDK_NIC_LMAC_E_LBKX_CN83XX(nic->handle->index);
+                tl1_index = BDK_NIC_LMAC_E_LBKX_CN83XX((nic->handle->interface == 3) ? 1 : 0);
                 nic_chan_e = BDK_NIC_CHAN_E_LBKX_CHX(nic->handle->interface, nic->handle->index);
                 break;
             default:
