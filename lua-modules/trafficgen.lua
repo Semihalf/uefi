@@ -794,7 +794,7 @@ function TrafficGen.new()
                 for _,port in ipairs(port_range) do
                     cavium.trafficgen.set_config(port, new_config)
                     expected_packets = expected_packets + output_count
-                    if port:find("LOOP") or port:find("FAKE") or port:find("ILK") then
+                    if port:find("LBK") or port:find("FAKE") or port:find("ILK") then
                         -- Loop doesn't have the 4 bytes of ethernet CRC
                         expected_octets = expected_octets + output_count * size
                     else
