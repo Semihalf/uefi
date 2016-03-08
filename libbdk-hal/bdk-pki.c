@@ -176,8 +176,11 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
         c.s.pkt_add = 0; /* Increment was already done in FPA alloc */
         c.s.ena_red = 1; /* Enable RED */
         c.s.ena_drop = 1; /* Enable drop */
+        c.s.strm = 0; /* Stream ID for looking up GMID */
         c.s.dstat_id = handle->pki_dstat);
-
+    /* Setup stream ID 0 */
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKI_STRMX_CFG(0),
+        c.s.gmid = 1);
     bdk_sso_register_handle(handle);
     return 0;
 }
