@@ -194,7 +194,7 @@ function TrafficGen.new()
         local ports = {}
         local stats = do_update(false)
         for _,port in ipairs(known_ports) do
-            if not port:find("FAKE") then
+            if not port:find("FAKE") and not port:find("LBK") then
                  -- printf("stats[%s].link_speed = %d\n", port, stats[port].link_speed);
                  if stats[port].link_speed > 0 then
                     table.insert(ports, port)
