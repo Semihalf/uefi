@@ -138,13 +138,13 @@ static void vnic_fill_receive_buffer(const nic_t *nic, int rbdr_free)
  */
 static int vnic_setup_rbdr(nic_t *nic)
 {
-    int do_fill;
+    bool do_fill;
 
     /* All devices using the same NIC VF use the same RBDRs. Don't fill them
        for and ports except the first */
     if (nic->handle->index)
     {
-        do_fill = 0;
+        do_fill = false;
     }
     else
     {
@@ -165,7 +165,7 @@ static int vnic_setup_rbdr(nic_t *nic)
             c.s.ldwb = BDK_USE_DWB;
             c.s.qsize = RBDR_ENTRIES_QSIZE;
             c.s.lines = buffer_size / BDK_CACHE_LINE_SIZE);
-        do_fill = 1;
+        do_fill = true;
     }
 
     BDK_TRACE(NIC, "%s: Setting up RQ(%d, %d)\n", nic->handle->name, nic->nic_vf, nic->rq);
@@ -369,12 +369,16 @@ static void if_free_to_rbdr(bdk_if_packet_t *packet, nic_rbdr_state_t *vnic_rbdr
 /**
  * Process a CQ receive entry
  *
- * @param handle
- * @param cq_header
+ * @param node      Node containing the CQ
+ * @param vnic_rbdr_state
+ *                  Current RBDR state for the RBDR connected to the CQ
+ * @param cq_header CQ header to process
+ * @param use_cqe_rx2
+ *                  True of the CQ will contain an extended CQE_RX2 header
  *
  * @return Returns the amount the RBDR doorbell needs to increment
  */
-static int if_process_complete_rx(int node, nic_rbdr_state_t *vnic_rbdr_state, const union bdk_nic_cqe_rx_s *cq_header)
+static int if_process_complete_rx(int node, nic_rbdr_state_t *vnic_rbdr_state, const union bdk_nic_cqe_rx_s *cq_header, bool use_cqe_rx2)
 {
     nic_node_state_t *node_state = global_node_state[node];
     int nic_id = cq_header->s.rq_qs * 8 + cq_header->s.rq_idx;
@@ -391,10 +395,8 @@ static int if_process_complete_rx(int node, nic_rbdr_state_t *vnic_rbdr_state, c
 
     const uint16_t *rb_sizes = (void*)cq_header + 24; /* Offset of RBSZ0 */
     const uint64_t *rb_addresses = (uint64_t*)(cq_header+1);
-    /* Sadly the hardware team decided to change the meaning of NIC_PF_RX_CFG
-       for chips after CN88XX. This stupid spec change was really hard to
-       find */
-    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    /* Update offset if nic_cqe_rx2_s is used */
+    if (use_cqe_rx2)
         rb_addresses += sizeof(union bdk_nic_cqe_rx2_s) / 8;
     int segment_length = 0;
 
@@ -445,6 +447,11 @@ static void if_receive(int unused, void *hand)
 {
     const nic_t *nic = hand;
 
+    /* Sadly the hardware team decided to change the meaning of NIC_PF_RX_CFG
+       for chips after CN88XX. This stupid spec change was really hard to
+       find */
+    bool use_cqe_rx2 = !CAVIUM_IS_MODEL(CAVIUM_CN88XX);
+
     /* Figure out which completion queue we're using */
     int nic_vf = nic->nic_vf;
     int rbdr = nic->rbdr;
@@ -492,7 +499,7 @@ static void if_receive(int unused, void *hand)
             cq_next = cq_ptr + loc * 512;
             BDK_PREFETCH(cq_next, 0);
             if (bdk_likely(cq_header->s.cqe_type == BDK_NIC_CQE_TYPE_E_RX))
-                rbdr_doorbell += if_process_complete_rx(nic->node, &vnic_rbdr_state, cq_header);
+                rbdr_doorbell += if_process_complete_rx(nic->node, &vnic_rbdr_state, cq_header, use_cqe_rx2);
             else
                 bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
             count++;
