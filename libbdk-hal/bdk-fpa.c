@@ -144,6 +144,10 @@ int bdk_fpa_fill_pool(bdk_node_t node, bdk_fpa_pool_t pool, int num_blocks)
         c.s.l_type = (BDK_USE_DWB) ? 2 : 0;
         c.s.nat_align = 1;
         c.s.ena = 1);
+    /* Use the PF stream ID for the SMMU */
+    BDK_CSR_MODIFY(c, node, BDK_FPA_PF_VFX_GMCTL(pool),
+        c.s.stack_strm = 0;
+        c.s.ptr_strm = 0);
 
     fpa_state->buffer_size_pool[pool] = block_size;
 
