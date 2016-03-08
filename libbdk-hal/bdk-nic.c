@@ -45,6 +45,7 @@ typedef struct
 } nic_node_state_t;
 
 static nic_node_state_t *global_node_state[BDK_NUMA_MAX_NODES];
+static int global_buffer_size = 0;
 
 /**
  * Setup a receive Completion Queue (CQ). CQ can be shared across multiple NICs
@@ -96,7 +97,6 @@ static int vnic_setup_cq(nic_t *nic)
  */
 static void vnic_fill_receive_buffer(const nic_t *nic, int rbdr_free)
 {
-    const int buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
     int nic_vf = nic->nic_vf;
     int rbdr = nic->rbdr;
 
@@ -112,7 +112,7 @@ static void vnic_fill_receive_buffer(const nic_t *nic, int rbdr_free)
     for (int i = 0; i < rbdr_free; i++)
     {
         bdk_if_packet_t packet;
-        if (bdk_if_alloc(&packet, buffer_size))
+        if (bdk_if_alloc(&packet, global_buffer_size))
         {
             bdk_error("%s: Failed to allocate buffer for RX ring (added %d)\n", nic->handle->name, added);
             break;
@@ -159,12 +159,11 @@ static int vnic_setup_rbdr(nic_t *nic)
         /* Configure the receive buffer ring (RBDR) */
         BDK_CSR_WRITE(nic->node, BDK_NIC_QSX_RBDRX_BASE(nic->nic_vf, nic->rbdr),
             bdk_ptr_to_phys(rbdr_base));
-        const int buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
         BDK_CSR_MODIFY(c, nic->node, BDK_NIC_QSX_RBDRX_CFG(nic->nic_vf, nic->rbdr),
             c.s.ena = 1;
             c.s.ldwb = BDK_USE_DWB;
             c.s.qsize = RBDR_ENTRIES_QSIZE;
-            c.s.lines = buffer_size / BDK_CACHE_LINE_SIZE);
+            c.s.lines = global_buffer_size / BDK_CACHE_LINE_SIZE);
         do_fill = true;
     }
 
@@ -535,6 +534,9 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
     int nic_intf_e;         /* Interface enumeration */
     int nic_intf_block_e;   /* Interface Block ID Enumeration */
     int nic_lmac_e;         /* LMAC enumeration */
+
+    if (global_buffer_size == 0)
+        global_buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
