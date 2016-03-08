@@ -48,6 +48,9 @@ int bdk_sso_init(bdk_node_t node)
     /* Set the aura number */
     BDK_CSR_MODIFY(c, node, BDK_SSO_XAQ_AURA,
         c.s.laura = aura);
+    /* Set the GMID to global for SSO internal allocations */
+    BDK_CSR_MODIFY(c, node, BDK_SSO_XAQ_GMCTL,
+        c.s.gmid = 1);
     /* Setup how the SSO accesses memory */
     BDK_CSR_MODIFY(c, node, BDK_SSO_AW_CFG,
         c.s.rwen = 1);
