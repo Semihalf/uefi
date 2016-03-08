@@ -130,7 +130,7 @@ int bdk_fpa_fill_pool(bdk_node_t node, bdk_fpa_pool_t pool, int num_blocks)
     BDK_CSR_WRITE(node, BDK_FPA_POOLX_STACK_END(pool), stack_end);
 
     /* Optimize the FPA internal storage */
-    int fpf_sz = fpa_const.s.fpfs * (fpa_const.s.pools >> (fpa_gen_cfg.s.pools - 1));
+    int fpf_sz = fpa_const.s.fpfs / (fpa_const.s.pools >> (fpa_gen_cfg.s.pools - 1));
     int fpf_rd = fpf_sz * 3 / 4;
     if (fpf_rd > fpf_sz - 48)
         fpf_rd = fpf_sz - 48;
