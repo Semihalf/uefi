@@ -3173,10 +3173,13 @@ typedef union
     struct bdk_pki_bist_status0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
-        uint64_t bist                  : 31; /**< [ 30:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST.
+        uint64_t reserved_34_63        : 30;
+        uint64_t bist                  : 34; /**< [ 33:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST.
                                                                  Internal:
                                                                  This register collects status for PKI_PFE.
+                                                                 <33> = PSTAT_MEM2.
+                                                                 <32> = PSTAT_MEM1.
+                                                                 <31> = PSTAT_MEM0.
                                                                  <30> = INB_ERRS.
                                                                  <29> = INB OCTS.
                                                                  <28> = INB PKTS.
@@ -3191,9 +3194,12 @@ typedef union
                                                                  <19..16> = KMEM.
                                                                  <15..0> = ASM BUFF. */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 31; /**< [ 30:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST.
+        uint64_t bist                  : 34; /**< [ 33:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST.
                                                                  Internal:
                                                                  This register collects status for PKI_PFE.
+                                                                 <33> = PSTAT_MEM2.
+                                                                 <32> = PSTAT_MEM1.
+                                                                 <31> = PSTAT_MEM0.
                                                                  <30> = INB_ERRS.
                                                                  <29> = INB OCTS.
                                                                  <28> = INB PKTS.
@@ -3207,7 +3213,7 @@ typedef union
                                                                  <20> = NXT BLK.
                                                                  <19..16> = KMEM.
                                                                  <15..0> = ASM BUFF. */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bist_status0_s cn; */

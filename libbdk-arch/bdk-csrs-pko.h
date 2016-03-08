@@ -94,36 +94,6 @@
 #define BDK_PKO_CKL4ALG_E_UDP (1) /**< UDP L4 checksum. */
 
 /**
- * Enumeration pko_coloralg_e
- *
- * PKO Color Algorithm Enumeration
- * Enumerates the different shaper update and internal color algorithms of PKO_SEND_EXT_S[COL].
- */
-#define BDK_PKO_COLORALG_E_CIR_ONLY (2) /**< One-rate, two-color based on CIR. The packet uses and adjusts only the CIR counter as it
-                                       traverses through an enabled shaper, and does not use nor adjust the PIR counter in
-                                       the shaper. Since the PIR counter states are not used, the shapers cannot
-                                       downgrade a packet to RED_SEND nor RED_DROP, and the packet can never be RED_SEND
-                                       nor RED_DROP. The shapers can downgrade from GREEN to YELLOW, so the packet may
-                                       end either GREEN or YELLOW after any shaper. Similar behavior to when
-                                       PKO_*_PIR[ENABLE] is clear in all traversed shapers. */
-#define BDK_PKO_COLORALG_E_FULL_COLOR (0) /**< Two-rate, three-color coloring. Normal enabled mode. Both the CIR and PIR counters are
-                                       used and adjusted per mode as the packet traverses through an enabled shaper. The internal
-                                       color of a packet can be any of GREEN, YELLOW, RED_SEND, or RED_DROP after a shaper,
-                                       depending on the shaper state and configuration. This is the default when a PKO_SEND_EXT_S
-                                       is not present in the descriptor. */
-#define BDK_PKO_COLORALG_E_NO_COLOR (3) /**< No coloring. No shaper can change the packet from its initial GREEN color. Neither the CIR
-                                       nor PIR counters are used nor adjusted in any shaper as this packet traverses.
-                                       Similar behavior to when both PKO_*_CIR[ENABLE] and PKO_*_PIR[ENABLE] are clear
-                                       in all traversed shapers. */
-#define BDK_PKO_COLORALG_E_PIR_ONLY (1) /**< One-rate, two-color coloring based on PIR. The packet uses and adjusts only the
-                                       PIR counter as it traverses through an enabled shaper, and does not use nor adjust the
-                                       CIR counter in the shaper. Since the CIR counter states are not used, the shapers cannot
-                                       downgrade a packet to YELLOW, and the packet can never be YELLOW. The shapers can
-                                       downgrade from GREEN to RED_SEND or RED_DROP, so the packet may end GREEN, RED_SEND,
-                                       or RED_DROP after any shaper. Similar behavior to when PKO_*_CIR[ENABLE] is clear in
-                                       all traversed shapers. */
-
-/**
  * Enumeration pko_colorresult_e
  *
  * PKO Color Result Enumeration
@@ -139,13 +109,24 @@
  *
  * PKO Send-Packet Drop Error Codes Enumeration
  * Enumerates the error code for illegally constructed send-packet drops, stored in
- * PKO_PDM_STS[CP_SENDPKT_ERR_DROP_CODE].
+ * PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE].
  */
-#define BDK_PKO_CPSENDDROP_E_DROP_EXTHDR_NPOS2 (3) /**< Send-packet dropped because PKO_SEND_EXT_S was not in position 2 (not following header). */
-#define BDK_PKO_CPSENDDROP_E_DROP_HDR_EXTHDR_ONLY (2) /**< Send-packet dropped because it was a header and extended header only. */
+#define BDK_PKO_CPSENDDROP_E_DROP_EXTHDR_NPOS2 (3) /**< Reserved. */
+#define BDK_PKO_CPSENDDROP_E_DROP_HDR_EXTHDR_ONLY (2) /**< Reserved. */
 #define BDK_PKO_CPSENDDROP_E_DROP_HDR_ONLY (1) /**< Send-packet dropped because software sent a PKO_SEND_HDR_S, without 'no data send' subdescriptors. */
 #define BDK_PKO_CPSENDDROP_E_DROP_SIZE_16 (4) /**< Send-packet dropped because its was size 16. */
 #define BDK_PKO_CPSENDDROP_E_SENDPASS (0) /**< No error. Send-packet was not dropped because of illegal construction. */
+
+/**
+ * Enumeration pko_dq_ecc_e
+ *
+ * PKO DQ RAM ECC SBE Status Enumeration
+ * Enumerates the bits of PKO_DQ_ECC_SBE_W1C.
+ */
+#define BDK_PKO_DQ_ECC_E_MSIX (3) /**< MSIX RAM. */
+#define BDK_PKO_DQ_ECC_E_RT0 (2) /**< RT0 RAM. */
+#define BDK_PKO_DQ_ECC_E_RT1 (1) /**< RT1 RAM. */
+#define BDK_PKO_DQ_ECC_E_WT (0) /**< WT RAM. */
 
 /**
  * Enumeration pko_dqop_e
@@ -172,7 +153,8 @@
                                        Internal:
                                        Not used in hardware, currently. */
 #define BDK_PKO_DQSTATUS_E_DQNOFPABUF (9) /**< PKO could not enqueue the descriptor because FPA could not allocate a free FPA buffer to
-                                       hold the descriptor. IMPORTANT: This is a fatal error, and will require a reset. If this
+                                       hold the descriptor.
+                                       IMPORTANT: This is a fatal error, and will require a reset. If this
                                        happens to a queue-open or queue-close command, the PDM internal state could be
                                        incoherrent. If this status is seen, it is an indication reset is needed. The interrupt
                                        PKO_FPA_NO_PTRS will be signaled as soon as the FPA returns the condition of
@@ -182,12 +164,66 @@
 #define BDK_PKO_DQSTATUS_E_DQNOTEMPTY (0xe) /**< This is a non-fatal error. PKO could not do the command because the DQ was not empty. (For
                                        example, can't close a DQ that is not empty). */
 #define BDK_PKO_DQSTATUS_E_DQSENDPKTDROP (0xf) /**< PKO dropped the send-packet command due to illegal construction; non-fatal. See
-                                       PKO_PDM_STS[CP_SENDPKT_ERR_DROP]. Corresponding interrupts will fire. Reasons for failure:
+                                       PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. Corresponding interrupts will fire. Reasons for
+                                       failure:
                                        1. Send-packet contained more than 15 words (including header). 2. Only a header and
                                        extended header were sent. 3. Extended header was not in position 2. 4. Only a header was
                                        sent. */
 #define BDK_PKO_DQSTATUS_E_PASS (0) /**< No error. In the case of an PKO_SEND_DMA_S, indicates that PKO successfully enqueued the
                                        descriptor. */
+#define BDK_PKO_DQSTATUS_E_PDM_NOT_EN (1) /**< PKO could not enqueue the descriptor because PDM is disabled on a memory LD/ST/CRC error. */
+
+/**
+ * Enumeration pko_l1_ecc_e
+ *
+ * PKO L1 RAM ECC SBE Status Enumeration
+ * Enumerates the bits of PKO_L1_ECC_SBE_W1C.
+ */
+#define BDK_PKO_L1_ECC_E_CXD (0x3e) /**< CXD RAM. */
+#define BDK_PKO_L1_ECC_E_CXS (0x3f) /**< CXS RAM. */
+#define BDK_PKO_L1_ECC_E_NT (0x3a) /**< NT RAM. */
+#define BDK_PKO_L1_ECC_E_PC (0x38) /**< PC RAM. */
+#define BDK_PKO_L1_ECC_E_PT (0x3b) /**< PT RAM. */
+#define BDK_PKO_L1_ECC_E_RT (0x39) /**< RT RAM. */
+#define BDK_PKO_L1_ECC_E_SC (0x2e) /**< SC RAM. */
+#define BDK_PKO_L1_ECC_E_STD0 (0x30) /**< STD0 RAM. */
+#define BDK_PKO_L1_ECC_E_STS0 (0x32) /**< STS0 RAM. */
+#define BDK_PKO_L1_ECC_E_TP0 (0x34) /**< TP0 RAM. */
+#define BDK_PKO_L1_ECC_E_TW0 (0x36) /**< TW0 RAM. */
+#define BDK_PKO_L1_ECC_E_VC0 (0x3c) /**< VC0 RAM. */
+#define BDK_PKO_L1_ECC_E_WT (0x2f) /**< WT RAM. */
+
+/**
+ * Enumeration pko_l2_ecc_e
+ *
+ * PKO L2 RAM ECC SBE Status Enumeration
+ * Enumerates the bits of PKO_L2_ECC_SBE_W1C.
+ */
+#define BDK_PKO_L2_ECC_E_NT (0x3a) /**< NT RAM. */
+#define BDK_PKO_L2_ECC_E_PT (0x3b) /**< PT RAM. */
+#define BDK_PKO_L2_ECC_E_RT (0x39) /**< RT RAM. */
+#define BDK_PKO_L2_ECC_E_SC (0x2e) /**< SC RAM. */
+#define BDK_PKO_L2_ECC_E_STD0 (0x30) /**< STD0 RAM. */
+#define BDK_PKO_L2_ECC_E_STS0 (0x32) /**< STS0 RAM. */
+#define BDK_PKO_L2_ECC_E_TP0 (0x34) /**< TP0 RAM. */
+#define BDK_PKO_L2_ECC_E_TW0 (0x36) /**< TW0 RAM. */
+#define BDK_PKO_L2_ECC_E_WT (0x2f) /**< WT RAM. */
+
+/**
+ * Enumeration pko_l3_ecc_e
+ *
+ * PKO L3 RAM ECC SBE Status Enumeration
+ * Enumerates the bits of PKO_L3_ECC_SBE_W1C.
+ */
+#define BDK_PKO_L3_ECC_E_NT (0x3a) /**< NT RAM. */
+#define BDK_PKO_L3_ECC_E_PT (0x3b) /**< PT RAM. */
+#define BDK_PKO_L3_ECC_E_RT (0x39) /**< RT RAM. */
+#define BDK_PKO_L3_ECC_E_SC (0x2e) /**< SC RAM. */
+#define BDK_PKO_L3_ECC_E_STD0 (0x30) /**< STD0 RAM. */
+#define BDK_PKO_L3_ECC_E_STS0 (0x32) /**< STS0 RAM. */
+#define BDK_PKO_L3_ECC_E_TP0 (0x34) /**< TP0 RAM. */
+#define BDK_PKO_L3_ECC_E_TW0 (0x36) /**< TW0 RAM. */
+#define BDK_PKO_L3_ECC_E_WT (0x2f) /**< WT RAM. */
 
 /**
  * Enumeration pko_lmac_e
@@ -246,6 +282,128 @@
 #define BDK_PKO_MEMDSZ_E_B8 (3) /**< 8 bits. PKO_SEND_MEM_S[ALG] must be PKO_MEMALG_E::SET. */
 
 /**
+ * Enumeration pko_pdm_ecc_e
+ *
+ * PKO_PDM_ECC_* SRAM Enumeration
+ * Enumerates the bits of PKO_PDM_ECC_SBE_W1C.
+ */
+#define BDK_PKO_PDM_ECC_E_BUF_FC_CFG (0x26) /**< BUF_FC_CFG RAM. */
+#define BDK_PKO_PDM_ECC_E_BUF_WM (0x27) /**< BUF_WM RAM. */
+#define BDK_PKO_PDM_ECC_E_DRP_HI (0x34) /**< DRP_HI RAM. */
+#define BDK_PKO_PDM_ECC_E_DRP_LO (0x33) /**< DRP_LO RAM. */
+#define BDK_PKO_PDM_ECC_E_DWP_HI (0x32) /**< DWP_HI RAM. */
+#define BDK_PKO_PDM_ECC_E_DWP_LO (0x31) /**< DWP_LO RAM. */
+#define BDK_PKO_PDM_ECC_E_FILLB_D_RSP_HI (0x2c) /**< FILLB_D_RSP_HI RAM. */
+#define BDK_PKO_PDM_ECC_E_FILLB_D_RSP_LO (0x2b) /**< FILLB_D_RSP_LO RAM. */
+#define BDK_PKO_PDM_ECC_E_FILLB_M_RSP_HI (0x2e) /**< FILLB_M_RSP_HI RAM. */
+#define BDK_PKO_PDM_ECC_E_FILLB_M_RSP_LO (0x2d) /**< FILLB_M_RSP_LO RAM. */
+#define BDK_PKO_PDM_ECC_E_FLSHB_CACHE_HI (0x3e) /**< FLSHB_CACHE_HI RAM. */
+#define BDK_PKO_PDM_ECC_E_FLSHB_CACHE_LO (0x3f) /**< FLSHB_CACHE_LO RAM. */
+#define BDK_PKO_PDM_ECC_E_ISRD_ST0 (0x35) /**< ISRD_ST0 RAM. */
+#define BDK_PKO_PDM_ECC_E_ISRD_ST1 (0x36) /**< ISRD_ST1 RAM. */
+#define BDK_PKO_PDM_ECC_E_ISRD_ST2 (0x37) /**< ISRD_ST2 RAM. */
+#define BDK_PKO_PDM_ECC_E_ISRD_ST3 (0x38) /**< ISRD_ST3 RAM. */
+#define BDK_PKO_PDM_ECC_E_ISRM_CA_CM (0x3c) /**< ISRM_CA_CM RAM. */
+#define BDK_PKO_PDM_ECC_E_ISRM_CA_IINST (0x3d) /**< ISRM_CA_IINST RAM. */
+#define BDK_PKO_PDM_ECC_E_ISRM_ST0 (0x39) /**< ISRM_ST0 RAM. */
+#define BDK_PKO_PDM_ECC_E_ISRM_ST1 (0x3a) /**< ISRM_ST1 RAM. */
+#define BDK_PKO_PDM_ECC_E_ISRM_ST2 (0x3b) /**< ISRM_ST2 RAM. */
+#define BDK_PKO_PDM_ECC_E_MINPAD (0x2a) /**< MINPAD RAM. */
+#define BDK_PKO_PDM_ECC_E_MWP_HI (0x30) /**< MWP_HI RAM. */
+#define BDK_PKO_PDM_ECC_E_MWP_HI_SPT (0x29) /**< MWP_HI_SPT RAM. */
+#define BDK_PKO_PDM_ECC_E_MWP_LO (0x2f) /**< MWP_LO RAM. */
+#define BDK_PKO_PDM_ECC_E_MWP_LO_SPT (0x28) /**< MWP_LO_SPT RAM. */
+
+/**
+ * Enumeration pko_pdm_ncb_ecc_e
+ *
+ * PKO_PDM_NCB_ECC_* SRAM Enumeration
+ * Enumerates the bits of PKO_PDM_NCB_ECC_SBE_W1C.
+ */
+#define BDK_PKO_PDM_NCB_ECC_E_NCBI_L2_OUT (0x3f) /**< NCBI_L2_OUT RAM. */
+#define BDK_PKO_PDM_NCB_ECC_E_NCBI_PP_OUT (0x3e) /**< NCBI_PP_OUT RAM. */
+#define BDK_PKO_PDM_NCB_ECC_E_NCBO_PDM_OP_FIF (0x3d) /**< NCBO_PDM_OP_FIF RAM. */
+#define BDK_PKO_PDM_NCB_ECC_E_NCBO_SKID_FIF (0x3c) /**< NCBO_SKID_FIF RAM. */
+
+/**
+ * Enumeration pko_peb_ecc_e
+ *
+ * PKO_PEB_ECC_* SRAM Enumeration
+ * Enumerates the bits of PKO_PEB_ECC_SBE_W1C.
+ */
+#define BDK_PKO_PEB_ECC_E_ADD_WORK_FIFO (0x30) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_add_work_fifo_i */
+#define BDK_PKO_PEB_ECC_E_IOBP0_FIFO_RAM (0x3e) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i */
+#define BDK_PKO_PEB_ECC_E_IOBP1_FIFO_RAM (0x3d) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i */
+#define BDK_PKO_PEB_ECC_E_IOBP1_UID_FIFO_RAM (0x3f) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i */
+#define BDK_PKO_PEB_ECC_E_NXT_LINK_PTR_RAM (0x2c) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_nxt_link_ptr_mem_i */
+#define BDK_PKO_PEB_ECC_E_PDM_PSE_BUF_RAM (0x3b) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i */
+#define BDK_PKO_PEB_ECC_E_PDM_RESP_BUF_RAM (0x3c) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pdm_resp_buf_i */
+#define BDK_PKO_PEB_ECC_E_PD_BANK0_RAM (0x35) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank0_i */
+#define BDK_PKO_PEB_ECC_E_PD_BANK3_RAM (0x38) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank3_i */
+#define BDK_PKO_PEB_ECC_E_PD_VAR_BANK_RAM (0x34) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_var_mem_bank_i */
+#define BDK_PKO_PEB_ECC_E_PEB_ST_INF_RAM (0x39) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_state_info_mem_i */
+#define BDK_PKO_PEB_ECC_E_PKT_MRK_RAM (0x2b) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pkt_mrk_mem_i */
+#define BDK_PKO_PEB_ECC_E_SEND_MEM_FIFO (0x2f) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_fifo_i */
+#define BDK_PKO_PEB_ECC_E_SEND_MEM_STDN_FIFO (0x2e) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_stdn_fifo_i */
+#define BDK_PKO_PEB_ECC_E_SEND_MEM_TS_FIFO (0x2d) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_ts_fifo_i */
+#define BDK_PKO_PEB_ECC_E_STATE_MEM0 (0x29) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank0_i */
+#define BDK_PKO_PEB_ECC_E_STATE_MEM3 (0x26) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank3_i */
+#define BDK_PKO_PEB_ECC_E_TS_ADDWORK_RAM (0x2a) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_ts_addwork_mem_i */
+#define BDK_PKO_PEB_ECC_E_TX_FIFO_CRC_RAM (0x33) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_crc_i */
+#define BDK_PKO_PEB_ECC_E_TX_FIFO_HDR_RAM (0x32) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_hdr_i */
+#define BDK_PKO_PEB_ECC_E_TX_FIFO_PKT_RAM (0x31) /**< Internal:
+                                       Instances:
+                                       pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_pkt_i */
+
+/**
+ * Enumeration pko_peb_ncb_ecc_e
+ *
+ * PKO_PEB_NCB_ECC_* SRAM Enumeration
+ * Enumerates the bits of PKO_PEB_NCB_ECC_W1C.
+ */
+#define BDK_PKO_PEB_NCB_ECC_E_NCBI_L2_OUT (0x3f) /**<  */
+
+/**
  * Enumeration pko_pf_int_vec_e
  *
  * PKO Interrupt Source Enumeration
@@ -291,18 +449,6 @@
                                        interrupt sets PKO_LUT_ECC_SBE_W1S,
                                        enable clears PKO_LUT_ECC_SBE_INT_ENA_W1C, and
                                        enable sets PKO_LUT_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_NCB_ECC_DBE (0xf) /**< See interrupt clears PKO_NCB_ECC_DBE_W1C,
-                                       interrupt sets PKO_NCB_ECC_DBE_W1S,
-                                       enable clears PKO_NCB_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_NCB_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_NCB_ECC_SBE (0xe) /**< See interrupt clears PKO_NCB_ECC_SBE_W1C,
-                                       interrupt sets PKO_NCB_ECC_SBE_W1S,
-                                       enable clears PKO_NCB_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_NCB_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_NCB_INT (0x15) /**< See interrupt clears PKO_NCB_INT,
-                                       interrupt sets PKO_NCB_INT_W1S,
-                                       enable clears PKO_NCB_INT_ENA_W1C, and
-                                       enable sets PKO_NCB_INT_ENA_W1S. */
 #define BDK_PKO_PF_INT_VEC_E_PKO_PDM_ECC_DBE (9) /**< See interrupt clears PKO_PDM_ECC_DBE_W1C,
                                        interrupt sets PKO_PDM_ECC_DBE_W1S,
                                        enable clears PKO_PDM_ECC_DBE_INT_ENA_W1C, and
@@ -311,7 +457,19 @@
                                        interrupt sets PKO_PDM_ECC_SBE_W1S,
                                        enable clears PKO_PDM_ECC_SBE_INT_ENA_W1C, and
                                        enable sets PKO_PDM_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_STS (0x14) /**< See interrupt clears PKO_PDM_STS,
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_NCB_ECC_DBE (0xf) /**< See interrupt clears PKO_PDM_NCB_ECC_DBE_W1C,
+                                       interrupt sets PKO_PDM_NCB_ECC_DBE_W1S,
+                                       enable clears PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C, and
+                                       enable sets PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S. */
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_NCB_ECC_SBE (0xe) /**< See interrupt clears PKO_PDM_NCB_ECC_SBE_W1C,
+                                       interrupt sets PKO_PDM_NCB_ECC_SBE_W1S,
+                                       enable clears PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C, and
+                                       enable sets PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S. */
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_NCB_INT (0x15) /**< See interrupt clears PKO_PDM_NCB_INT_W1C,
+                                       interrupt sets PKO_PDM_NCB_INT_W1S,
+                                       enable clears PKO_PDM_NCB_INT_ENA_W1C, and
+                                       enable sets PKO_PDM_NCB_INT_ENA_W1S. */
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_STS (0x14) /**< See interrupt clears PKO_PDM_STS_W1C,
                                        interrupt sets PKO_PDM_STS_W1S,
                                        enable clears PKO_PDM_STS_INT_ENA_W1C, and
                                        enable sets PKO_PDM_STS_INT_ENA_W1S. */
@@ -319,10 +477,22 @@
                                        interrupt sets PKO_PEB_ECC_DBE_W1S,
                                        enable clears PKO_PEB_ECC_DBE_INT_ENA_W1C, and
                                        enable sets PKO_PEB_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_ERR (0x12) /**< See interrupt clears PKO_PEB_ERR_INT,
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_ERR (0x12) /**< See interrupt clears PKO_PEB_ERR_INT_W1C,
                                        interrupt sets PKO_PEB_ERR_INT_W1S,
                                        enable clears PKO_PEB_ERR_INT_ENA_W1C, and
                                        enable sets PKO_PEB_ERR_INT_ENA_W1S. */
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_NCB_ECC_DBE (0x18) /**< See interrupt clears PKO_PEB_NCB_ECC_DBE_W1C,
+                                       interrupt sets PKO_PEB_NCB_ECC_DBE_W1S,
+                                       enable clears PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C, and
+                                       enable sets PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S. */
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_NCB_ECC_SBE (0x17) /**< See interrupt clears PKO_PEB_NCB_ECC_SBE_W1C,
+                                       interrupt sets PKO_PEB_NCB_ECC_SBE_W1S,
+                                       enable clears PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C, and
+                                       enable sets PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S. */
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_NCB_INT (0x16) /**< See interrupt clears PKO_PEB_NCB_INT_W1C,
+                                       interrupt sets PKO_PEB_NCB_INT_W1S,
+                                       enable clears PKO_PEB_NCB_INT_ENA_W1C, and
+                                       enable sets PKO_PEB_NCB_INT_ENA_W1S. */
 #define BDK_PKO_PF_INT_VEC_E_PKO_PEB_SBE (0x10) /**< See interrupt clears PKO_PEB_ECC_SBE_W1C,
                                        interrupt sets PKO_PEB_ECC_SBE_W1S,
                                        enable clears PKO_PEB_ECC_SBE_INT_ENA_W1C, and
@@ -339,6 +509,19 @@
                                        interrupt sets PKO_PQ_ECC_SBE_W1S,
                                        enable clears PKO_PQ_ECC_SBE_INT_ENA_W1C, and
                                        enable sets PKO_PQ_ECC_SBE_INT_ENA_W1S. */
+
+/**
+ * Enumeration pko_pq_ecc_e
+ *
+ * PKO PQ RAM ECC SBE Status Enumeration
+ * Enumerates the bits of PKO_PQ_ECC_SBE_W1C.
+ */
+#define BDK_PKO_PQ_ECC_E_CXD (1) /**< CXD RAM. */
+#define BDK_PKO_PQ_ECC_E_CXS (0) /**< CXS RAM. */
+#define BDK_PKO_PQ_ECC_E_ST (4) /**< ST RAM. */
+#define BDK_PKO_PQ_ECC_E_STD (3) /**< STD RAM. */
+#define BDK_PKO_PQ_ECC_E_TP (2) /**< TP RAM. */
+#define BDK_PKO_PQ_ECC_E_WMD (5) /**< WMD RAM. */
 
 /**
  * Enumeration pko_redalg_e
@@ -383,14 +566,12 @@
  */
 #define BDK_PKO_SENDSUBDC_E_AURA (0xb) /**< See PKO_SEND_AURA_S. */
 #define BDK_PKO_SENDSUBDC_E_CRC (0xe) /**< See PKO_SEND_CRC_S. */
-#define BDK_PKO_SENDSUBDC_E_EXT (0xd) /**< See PKO_SEND_EXT_S. */
 #define BDK_PKO_SENDSUBDC_E_FREE (9) /**< See PKO_SEND_FREE_S. */
 #define BDK_PKO_SENDSUBDC_E_GATHER0 (2) /**< See PKO_SEND_GATHER_S. Uses a 3-bit subdescriptor, discarding bit 0. */
 #define BDK_PKO_SENDSUBDC_E_IMM (0xf) /**< See PKO_SEND_IMM_S. */
 #define BDK_PKO_SENDSUBDC_E_JUMP0 (4) /**< See PKO_SEND_JUMP_S. Uses a 3-bit subdescriptor, discarding bit 0. */
 #define BDK_PKO_SENDSUBDC_E_LINK0 (0) /**< See PKO_SEND_LINK_S. Uses a 3-bit subdescriptor, discarding bit 0. */
 #define BDK_PKO_SENDSUBDC_E_MEM (0xc) /**< See PKO_SEND_MEM_S. */
-#define BDK_PKO_SENDSUBDC_E_TSO (8) /**< See PKO_SEND_TSO_S. */
 #define BDK_PKO_SENDSUBDC_E_WORK (0xa) /**< See PKO_SEND_WORK_S. */
 
 /**
@@ -443,9 +624,9 @@ union bdk_pko_meta_desc_s
                                                                  new cache line. See also PKO_*_PICK[FPD]. */
         uint32_t reserved_29           : 1;
         uint32_t adjust                : 9;  /**< [ 28: 20] See PKO_SEND_HDR_S[SHP_CHG]. */
-        uint32_t col                   : 2;  /**< [ 19: 18] PKO_SEND_EXT_S[COL] if present in the corresponding packet descriptor,
-                                                                 else 0x0 (i.e. PKO_COLORALG_E::FULL_COLOR). See also
-                                                                 PKO_*_PICK[PIR_DIS,CIR_DIS]. */
+        uint32_t col                   : 2;  /**< [ 19: 18] Both bits of [COL] are set to the value in PKO_SEND_HDR_S[SHP_DIS].
+                                                                 When PKO_SEND_HDR_S[SHP_DIS] is 1, [COL] is 3.
+                                                                 When PKO_SEND_HDR_S[SHP_DIS] is 0, [COL] is 0. */
         uint32_t ra                    : 2;  /**< [ 17: 16] See PKO_SEND_HDR_S[SHP_RA]. */
         uint32_t length                : 16; /**< [ 15:  0] Meta packet length. Generally, the size of the outgoing packet
                                                                  including pad, but excluding FCS and preamble.
@@ -483,9 +664,9 @@ union bdk_pko_meta_desc_s
                                                                  {a} is the DQ that the PKO SEND used. FPS is the number of payload bytes
                                                                  in the TSO segment. See also PKO_*_PICK[LENGTH]. */
         uint32_t ra                    : 2;  /**< [ 17: 16] See PKO_SEND_HDR_S[SHP_RA]. */
-        uint32_t col                   : 2;  /**< [ 19: 18] PKO_SEND_EXT_S[COL] if present in the corresponding packet descriptor,
-                                                                 else 0x0 (i.e. PKO_COLORALG_E::FULL_COLOR). See also
-                                                                 PKO_*_PICK[PIR_DIS,CIR_DIS]. */
+        uint32_t col                   : 2;  /**< [ 19: 18] Both bits of [COL] are set to the value in PKO_SEND_HDR_S[SHP_DIS].
+                                                                 When PKO_SEND_HDR_S[SHP_DIS] is 1, [COL] is 3.
+                                                                 When PKO_SEND_HDR_S[SHP_DIS] is 0, [COL] is 0. */
         uint32_t adjust                : 9;  /**< [ 28: 20] See PKO_SEND_HDR_S[SHP_CHG]. */
         uint32_t reserved_29           : 1;
         uint32_t fpd                   : 1;  /**< [ 30: 30] Set when the corresponding descriptor is stored at the beginning of a
@@ -513,7 +694,7 @@ union bdk_pko_send_aura_s
     struct bdk_pko_send_aura_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t subdc4                : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
         uint64_t reserved_49_59        : 11;
         uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
                                                                  each descriptor. */
@@ -607,7 +788,7 @@ union bdk_pko_send_aura_s
         uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
                                                                  each descriptor. */
         uint64_t reserved_49_59        : 11;
-        uint64_t subdc4                : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_64_127       : 64;
@@ -1200,12 +1381,26 @@ union bdk_pko_send_hdr_s
                                                                  [CKL3] must be set. [CKL3] must never be set with an IPv6 packet. */
         uint64_t cklf                  : 2;  /**< [ 44: 43] Inner checksum L4, enumerated by PKO_CKL4ALG_E. Similar to [CKL4] but for inner L4. */
         uint64_t ckle                  : 1;  /**< [ 42: 42] Inner checksum L3. Similar to [CKL3] but for inner IP. */
-        uint64_t shp_dis               : 1;  /**< [ 41: 41] Disables shaping for this packet.  Selects the shaper update and internal
-                                                                 coloring algorithms used as the packet traverses enabled PKO DQ through
-                                                                 L2 shapers. [SHP_DIS] has no effect on the L1 rate limiters. See
-                                                                 PKO_META_DESC_S[COL], PKO_*_PICK[PIR_DIS,CIR_DIS] and PKO_COLORALG_E.
-                                                                 When [SHP_DIS] is 1, PKO_META_DESC_S[COL] is set to NO_COLOR and
+        uint64_t shp_dis               : 1;  /**< [ 41: 41] Disables the shaper update and internal coloring algorithms used as
+                                                                 the packet traverses enabled PKO DQ through L2 shapers. [SHP_DIS]
+                                                                 has no effect on the L1 rate limiters.
+
+                                                                 When [SHP_DIS] is 0 enabled CIR and PIR counters are used and adjusted
+                                                                 per mode as the packet traverses through an enabled shaper. The
+                                                                 internal color of a packet can be any of GREEN, YELLOW, RED_SEND,
+                                                                 or RED_DROP after a shaper, depending on the shaper state and
+                                                                 configuration.
+
+                                                                 When [SHP_DIS] is 1 there is no packet coloring. No shaper can change
+                                                                 the packet from its initial GREEN color. Neither the CIR nor PIR
+                                                                 counters are used nor adjusted in any shaper as this packet traverses.
+                                                                 Similar behavior to when both PKO_*_CIR[ENABLE] and PKO_*_PIR[ENABLE]
+                                                                 are clear in all traversed shapers.
+
+                                                                 See PKO_META_DESC_S[COL] and PKO_*_PICK[PIR_DIS,CIR_DIS].
+                                                                 When [SHP_DIS] is 1, PKO_META_DESC_S[COL] is set to 3 and
                                                                  both PKO_*_PICK[PIR_DIS,CIR_DIS] are asserted.  When [SHP_DIS] is 0
+                                                                 PKO_META_DESC_S[COL] is set to 0 and
                                                                  PKO_*_SHAPE[YELLOW_DISABLE,RED_DISABLE] determine the packet
                                                                  coloring of the shaper.
 
@@ -1443,12 +1638,26 @@ union bdk_pko_send_hdr_s
                                                                  not once per TSO segment.
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
-        uint64_t shp_dis               : 1;  /**< [ 41: 41] Disables shaping for this packet.  Selects the shaper update and internal
-                                                                 coloring algorithms used as the packet traverses enabled PKO DQ through
-                                                                 L2 shapers. [SHP_DIS] has no effect on the L1 rate limiters. See
-                                                                 PKO_META_DESC_S[COL], PKO_*_PICK[PIR_DIS,CIR_DIS] and PKO_COLORALG_E.
-                                                                 When [SHP_DIS] is 1, PKO_META_DESC_S[COL] is set to NO_COLOR and
+        uint64_t shp_dis               : 1;  /**< [ 41: 41] Disables the shaper update and internal coloring algorithms used as
+                                                                 the packet traverses enabled PKO DQ through L2 shapers. [SHP_DIS]
+                                                                 has no effect on the L1 rate limiters.
+
+                                                                 When [SHP_DIS] is 0 enabled CIR and PIR counters are used and adjusted
+                                                                 per mode as the packet traverses through an enabled shaper. The
+                                                                 internal color of a packet can be any of GREEN, YELLOW, RED_SEND,
+                                                                 or RED_DROP after a shaper, depending on the shaper state and
+                                                                 configuration.
+
+                                                                 When [SHP_DIS] is 1 there is no packet coloring. No shaper can change
+                                                                 the packet from its initial GREEN color. Neither the CIR nor PIR
+                                                                 counters are used nor adjusted in any shaper as this packet traverses.
+                                                                 Similar behavior to when both PKO_*_CIR[ENABLE] and PKO_*_PIR[ENABLE]
+                                                                 are clear in all traversed shapers.
+
+                                                                 See PKO_META_DESC_S[COL] and PKO_*_PICK[PIR_DIS,CIR_DIS].
+                                                                 When [SHP_DIS] is 1, PKO_META_DESC_S[COL] is set to 3 and
                                                                  both PKO_*_PICK[PIR_DIS,CIR_DIS] are asserted.  When [SHP_DIS] is 0
+                                                                 PKO_META_DESC_S[COL] is set to 0 and
                                                                  PKO_*_SHAPE[YELLOW_DISABLE,RED_DISABLE] determine the packet
                                                                  coloring of the shaper.
 
@@ -2641,7 +2850,8 @@ typedef union
                                                                  setting the FLUSH_EN bit in the PKO_DPFI_FLUSH CSR. When the flush is complete the
                                                                  CACHE_FLUSHED flag will be set in the PKO_DPFI_STATUS CSR and the ALC_FIF_CNT will
                                                                  be zero. */
-        uint64_t reserved_13           : 1;
+        uint64_t fpa_no_ptr_fault      : 1;  /**< [ 13: 13](RO/H) NO_PTR_FAULT error from the FPA. FATAL to PKO, will behave exactly as NO_PTR_AVAIL. This
+                                                                 bit just indicates it was a NO_PTR_FAULT instead of just NO_PTR_AVAIL error. */
         uint64_t isrd_ptr1_rtn_full    : 1;  /**< [ 12: 12](RO/H) ISRD pointer return register 1 contains a valid pointer. */
         uint64_t isrd_ptr0_rtn_full    : 1;  /**< [ 11: 11](RO/H) ISRD pointer return register 0 contains a valid pointer. */
         uint64_t isrm_ptr1_rtn_full    : 1;  /**< [ 10: 10](RO/H) ISRM pointer return register 1 contains a valid pointer. */
@@ -2679,7 +2889,8 @@ typedef union
         uint64_t isrm_ptr1_rtn_full    : 1;  /**< [ 10: 10](RO/H) ISRM pointer return register 1 contains a valid pointer. */
         uint64_t isrd_ptr0_rtn_full    : 1;  /**< [ 11: 11](RO/H) ISRD pointer return register 0 contains a valid pointer. */
         uint64_t isrd_ptr1_rtn_full    : 1;  /**< [ 12: 12](RO/H) ISRD pointer return register 1 contains a valid pointer. */
-        uint64_t reserved_13           : 1;
+        uint64_t fpa_no_ptr_fault      : 1;  /**< [ 13: 13](RO/H) NO_PTR_FAULT error from the FPA. FATAL to PKO, will behave exactly as NO_PTR_AVAIL. This
+                                                                 bit just indicates it was a NO_PTR_FAULT instead of just NO_PTR_AVAIL error. */
         uint64_t alc_fif_cnt           : 5;  /**< [ 18: 14](RO/H) Allocation FIFO count. This FIFO has 16 entries and acts as a pointer prefetch buffer.
                                                                  The DPFI attempts to keep this FIFO full at all times. Out of reset, the PKO requests
                                                                  pointers from the FPA to fill this FIFO. The PKO_READY flag will not be asserted until
@@ -3535,136 +3746,6 @@ static inline uint64_t BDK_PKO_DQX_TOPOLOGY(unsigned long a)
 #define arguments_BDK_PKO_DQX_TOPOLOGY(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pko_dq#_wm_buf_cnt
- *
- * PKO Descriptor Queue Buffer Watermark Count Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_dqx_wm_buf_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t count                 : 36; /**< [ 35:  0](R/W/H) Watermark buffer count. The number of buffers allocated (from
-                                                                 FPA aura PKO_DPFI_FPA_AURA[NODE,LAURA]) for this DQ. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 36; /**< [ 35:  0](R/W/H) Watermark buffer count. The number of buffers allocated (from
-                                                                 FPA aura PKO_DPFI_FPA_AURA[NODE,LAURA]) for this DQ. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_dqx_wm_buf_cnt_s cn; */
-} bdk_pko_dqx_wm_buf_cnt_t;
-
-static inline uint64_t BDK_PKO_DQX_WM_BUF_CNT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_DQX_WM_BUF_CNT(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x8540008000e8ll + 0x200ll * ((a) & 0xff);
-    __bdk_csr_fatal("PKO_DQX_WM_BUF_CNT", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_DQX_WM_BUF_CNT(a) bdk_pko_dqx_wm_buf_cnt_t
-#define bustype_BDK_PKO_DQX_WM_BUF_CNT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_DQX_WM_BUF_CNT(a) "PKO_DQX_WM_BUF_CNT"
-#define device_bar_BDK_PKO_DQX_WM_BUF_CNT(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_DQX_WM_BUF_CNT(a) (a)
-#define arguments_BDK_PKO_DQX_WM_BUF_CNT(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pko_dq#_wm_buf_ctl
- *
- * PKO Descriptor Queue Buffer Watermark Control Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_dqx_wm_buf_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
-        uint64_t enable                : 1;  /**< [ 50: 50](R/W) Watermark interrupt enable for [THRESHOLD] comparison to PKO_DQ()_WM_BUF_CNT[COUNT].
-                                                                 See the [INTR] description. */
-        uint64_t reserved_49           : 1;
-        uint64_t intr                  : 1;  /**< [ 48: 48](R/W/H) Watermark Buffer Interrupt. If [INTR] is clear and [ENABLE] is set, PKO sets
-                                                                 [INTR] whenever it modifies PKO_DQ()_WM_BUF_CNT[COUNT] to equal or cross
-                                                                 [THRESHOLD]. */
-        uint64_t reserved_36_47        : 12;
-        uint64_t threshold             : 36; /**< [ 35:  0](R/W) Watermark interrupt buffer threshold for PKO_DQ()_WM_BUF_CNT[COUNT].
-                                                                 See the [INTR] description. */
-#else /* Word 0 - Little Endian */
-        uint64_t threshold             : 36; /**< [ 35:  0](R/W) Watermark interrupt buffer threshold for PKO_DQ()_WM_BUF_CNT[COUNT].
-                                                                 See the [INTR] description. */
-        uint64_t reserved_36_47        : 12;
-        uint64_t intr                  : 1;  /**< [ 48: 48](R/W/H) Watermark Buffer Interrupt. If [INTR] is clear and [ENABLE] is set, PKO sets
-                                                                 [INTR] whenever it modifies PKO_DQ()_WM_BUF_CNT[COUNT] to equal or cross
-                                                                 [THRESHOLD]. */
-        uint64_t reserved_49           : 1;
-        uint64_t enable                : 1;  /**< [ 50: 50](R/W) Watermark interrupt enable for [THRESHOLD] comparison to PKO_DQ()_WM_BUF_CNT[COUNT].
-                                                                 See the [INTR] description. */
-        uint64_t reserved_51_63        : 13;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_dqx_wm_buf_ctl_s cn; */
-} bdk_pko_dqx_wm_buf_ctl_t;
-
-static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x8540008000f0ll + 0x200ll * ((a) & 0xff);
-    __bdk_csr_fatal("PKO_DQX_WM_BUF_CTL", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_DQX_WM_BUF_CTL(a) bdk_pko_dqx_wm_buf_ctl_t
-#define bustype_BDK_PKO_DQX_WM_BUF_CTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_DQX_WM_BUF_CTL(a) "PKO_DQX_WM_BUF_CTL"
-#define device_bar_BDK_PKO_DQX_WM_BUF_CTL(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_DQX_WM_BUF_CTL(a) (a)
-#define arguments_BDK_PKO_DQX_WM_BUF_CTL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pko_dq#_wm_buf_ctl_w1c
- *
- * PKO Descriptor Queue Buffer Watermark Control Write-1 Interrupt Clear Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_dqx_wm_buf_ctl_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t intr                  : 1;  /**< [ 48: 48](R/W1C/H) A copy of PKO_DQ()_WM_BUF_CTL[INTR]. When [INTR] is written with a one,
-                                                                 PKO_DQ()_WM_BUF_CTL[INTR] is cleared. */
-        uint64_t reserved_0_47         : 48;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_47         : 48;
-        uint64_t intr                  : 1;  /**< [ 48: 48](R/W1C/H) A copy of PKO_DQ()_WM_BUF_CTL[INTR]. When [INTR] is written with a one,
-                                                                 PKO_DQ()_WM_BUF_CTL[INTR] is cleared. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_dqx_wm_buf_ctl_w1c_s cn; */
-} bdk_pko_dqx_wm_buf_ctl_w1c_t;
-
-static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL_W1C(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL_W1C(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x8540008000f8ll + 0x200ll * ((a) & 0xff);
-    __bdk_csr_fatal("PKO_DQX_WM_BUF_CTL_W1C", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) bdk_pko_dqx_wm_buf_ctl_w1c_t
-#define bustype_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) "PKO_DQX_WM_BUF_CTL_W1C"
-#define device_bar_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) (a)
-#define arguments_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) pko_dq_const
  *
  * PKO DQ Constants Register
@@ -3736,6 +3817,292 @@ static inline uint64_t BDK_PKO_DQ_DEBUG_FUNC(void)
 #define device_bar_BDK_PKO_DQ_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQ_DEBUG 0
 #define arguments_BDK_PKO_DQ_DEBUG -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_dq_ecc_dbe_int_ena_w1c
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dq_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_DQ_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_DQ_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dq_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_dq_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540003001b0ll;
+    __bdk_csr_fatal("PKO_DQ_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C bdk_pko_dq_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C "PKO_DQ_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_dq_ecc_dbe_int_ena_w1s
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dq_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_DQ_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_DQ_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dq_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_dq_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540003001b8ll;
+    __bdk_csr_fatal("PKO_DQ_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S bdk_pko_dq_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S "PKO_DQ_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_dq_ecc_dbe_w1c
+ *
+ * PKO PSE DQ RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dq_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) PEB single-bit errors. Enumerated by PKO_DQ_ECC_E */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) PEB single-bit errors. Enumerated by PKO_DQ_ECC_E */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dq_ecc_dbe_w1c_s cn; */
+} bdk_pko_dq_ecc_dbe_w1c_t;
+
+#define BDK_PKO_DQ_ECC_DBE_W1C BDK_PKO_DQ_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540003001a0ll;
+    __bdk_csr_fatal("PKO_DQ_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQ_ECC_DBE_W1C bdk_pko_dq_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_DQ_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQ_ECC_DBE_W1C "PKO_DQ_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_DQ_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_DQ_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_DQ_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_dq_ecc_dbe_w1s
+ *
+ * PKO DQ RAM ECC DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dq_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_DQ_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_DQ_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dq_ecc_dbe_w1s_s cn; */
+} bdk_pko_dq_ecc_dbe_w1s_t;
+
+#define BDK_PKO_DQ_ECC_DBE_W1S BDK_PKO_DQ_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540003001a8ll;
+    __bdk_csr_fatal("PKO_DQ_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQ_ECC_DBE_W1S bdk_pko_dq_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_DQ_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQ_ECC_DBE_W1S "PKO_DQ_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_DQ_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_DQ_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_DQ_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_dq_ecc_sbe_int_ena_w1c
+ *
+ * PKO DQ RAM ECC SBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dq_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_DQ_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_DQ_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dq_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_dq_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000300190ll;
+    __bdk_csr_fatal("PKO_DQ_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C bdk_pko_dq_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C "PKO_DQ_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_dq_ecc_sbe_int_ena_w1s
+ *
+ * PKO DQ RAM ECC SBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dq_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_DQ_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_DQ_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dq_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_dq_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000300198ll;
+    __bdk_csr_fatal("PKO_DQ_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S bdk_pko_dq_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S "PKO_DQ_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_dq_ecc_sbe_w1c
+ *
+ * PKO DQ RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dq_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) PEB single-bit errors. Enumerated by PKO_DQ_ECC_E */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) PEB single-bit errors. Enumerated by PKO_DQ_ECC_E */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dq_ecc_sbe_w1c_s cn; */
+} bdk_pko_dq_ecc_sbe_w1c_t;
+
+#define BDK_PKO_DQ_ECC_SBE_W1C BDK_PKO_DQ_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000300180ll;
+    __bdk_csr_fatal("PKO_DQ_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQ_ECC_SBE_W1C bdk_pko_dq_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_DQ_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQ_ECC_SBE_W1C "PKO_DQ_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_DQ_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_DQ_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_DQ_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_dq_ecc_sbe_w1s
+ *
+ * PKO DQ RAM ECC SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dq_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_DQ_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_DQ_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dq_ecc_sbe_w1s_s cn; */
+} bdk_pko_dq_ecc_sbe_w1s_t;
+
+#define BDK_PKO_DQ_ECC_SBE_W1S BDK_PKO_DQ_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000300188ll;
+    __bdk_csr_fatal("PKO_DQ_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQ_ECC_SBE_W1S bdk_pko_dq_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_DQ_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQ_ECC_SBE_W1S "PKO_DQ_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_DQ_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_DQ_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_DQ_ECC_SBE_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_enable
@@ -3868,13 +4235,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-1 shaping queues.
-                                                                 Internal:
-                                                                 FIXME?  reset_matches_size: "PKO_L1_SQ()_TOPOLOGY,a" */
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-1 shaping queues. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-1 shaping queues.
-                                                                 Internal:
-                                                                 FIXME?  reset_matches_size: "PKO_L1_SQ()_TOPOLOGY,a" */
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-1 shaping queues. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -3896,6 +4259,292 @@ static inline uint64_t BDK_PKO_L1_CONST_FUNC(void)
 #define device_bar_BDK_PKO_L1_CONST 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_CONST 0
 #define arguments_BDK_PKO_L1_CONST -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l1_ecc_dbe_int_ena_w1c
+ *
+ * PKO SQ1 RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l1_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L1_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L1_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l1_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_l1_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_L1_ECC_DBE_INT_ENA_W1C BDK_PKO_L1_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540000801b0ll;
+    __bdk_csr_fatal("PKO_L1_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L1_ECC_DBE_INT_ENA_W1C bdk_pko_l1_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_L1_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L1_ECC_DBE_INT_ENA_W1C "PKO_L1_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_L1_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L1_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_L1_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l1_ecc_dbe_int_ena_w1s
+ *
+ * PKO SQ1 RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l1_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L1_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L1_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l1_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_l1_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_L1_ECC_DBE_INT_ENA_W1S BDK_PKO_L1_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540000801b8ll;
+    __bdk_csr_fatal("PKO_L1_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L1_ECC_DBE_INT_ENA_W1S bdk_pko_l1_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_L1_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L1_ECC_DBE_INT_ENA_W1S "PKO_L1_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_L1_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L1_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_L1_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l1_ecc_dbe_w1c
+ *
+ * PKO SQ1 RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l1_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L1_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L1_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l1_ecc_dbe_w1c_s cn; */
+} bdk_pko_l1_ecc_dbe_w1c_t;
+
+#define BDK_PKO_L1_ECC_DBE_W1C BDK_PKO_L1_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_L1_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L1_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540000801a0ll;
+    __bdk_csr_fatal("PKO_L1_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L1_ECC_DBE_W1C bdk_pko_l1_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_L1_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L1_ECC_DBE_W1C "PKO_L1_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_L1_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L1_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_L1_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l1_ecc_dbe_w1s
+ *
+ * PKO SQ1 RAM ECC DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l1_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L1_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L1_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l1_ecc_dbe_w1s_s cn; */
+} bdk_pko_l1_ecc_dbe_w1s_t;
+
+#define BDK_PKO_L1_ECC_DBE_W1S BDK_PKO_L1_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_L1_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L1_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540000801a8ll;
+    __bdk_csr_fatal("PKO_L1_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L1_ECC_DBE_W1S bdk_pko_l1_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_L1_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L1_ECC_DBE_W1S "PKO_L1_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_L1_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L1_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_L1_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l1_ecc_sbe_int_ena_w1c
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l1_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L1_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L1_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l1_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_l1_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_L1_ECC_SBE_INT_ENA_W1C BDK_PKO_L1_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000080190ll;
+    __bdk_csr_fatal("PKO_L1_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L1_ECC_SBE_INT_ENA_W1C bdk_pko_l1_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_L1_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L1_ECC_SBE_INT_ENA_W1C "PKO_L1_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_L1_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L1_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_L1_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l1_ecc_sbe_int_ena_w1s
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l1_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L1_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L1_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l1_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_l1_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_L1_ECC_SBE_INT_ENA_W1S BDK_PKO_L1_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000080198ll;
+    __bdk_csr_fatal("PKO_L1_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L1_ECC_SBE_INT_ENA_W1S bdk_pko_l1_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_L1_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L1_ECC_SBE_INT_ENA_W1S "PKO_L1_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_L1_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L1_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_L1_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l1_ecc_sbe_w1c
+ *
+ * PKO SQ1 RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l1_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L1_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L1_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l1_ecc_sbe_w1c_s cn; */
+} bdk_pko_l1_ecc_sbe_w1c_t;
+
+#define BDK_PKO_L1_ECC_SBE_W1C BDK_PKO_L1_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_L1_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L1_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000080180ll;
+    __bdk_csr_fatal("PKO_L1_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L1_ECC_SBE_W1C bdk_pko_l1_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_L1_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L1_ECC_SBE_W1C "PKO_L1_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_L1_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L1_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_L1_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l1_ecc_sbe_w1s
+ *
+ * PKO SQ1 ECC SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l1_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L1_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L1_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l1_ecc_sbe_w1s_s cn; */
+} bdk_pko_l1_ecc_sbe_w1s_t;
+
+#define BDK_PKO_L1_ECC_SBE_W1S BDK_PKO_L1_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_L1_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L1_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000080188ll;
+    __bdk_csr_fatal("PKO_L1_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L1_ECC_SBE_W1S bdk_pko_l1_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_L1_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L1_ECC_SBE_W1S "PKO_L1_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_L1_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L1_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_L1_ECC_SBE_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_l1_sq#_cir
@@ -5109,6 +5758,292 @@ static inline uint64_t BDK_PKO_L2_CONST_FUNC(void)
 #define arguments_BDK_PKO_L2_CONST -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_l2_ecc_dbe_int_ena_w1c
+ *
+ * PKO SQ2 RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L2_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L2_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_l2_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_L2_ECC_DBE_INT_ENA_W1C BDK_PKO_L2_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540001001b0ll;
+    __bdk_csr_fatal("PKO_L2_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_ECC_DBE_INT_ENA_W1C bdk_pko_l2_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_L2_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_ECC_DBE_INT_ENA_W1C "PKO_L2_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_L2_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L2_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_L2_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l2_ecc_dbe_int_ena_w1s
+ *
+ * PKO SQ2 RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L2_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L2_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_l2_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_L2_ECC_DBE_INT_ENA_W1S BDK_PKO_L2_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540001001b8ll;
+    __bdk_csr_fatal("PKO_L2_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_ECC_DBE_INT_ENA_W1S bdk_pko_l2_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_L2_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_ECC_DBE_INT_ENA_W1S "PKO_L2_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_L2_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L2_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_L2_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l2_ecc_dbe_w1c
+ *
+ * PKO SQ2 RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L2_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L2_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_ecc_dbe_w1c_s cn; */
+} bdk_pko_l2_ecc_dbe_w1c_t;
+
+#define BDK_PKO_L2_ECC_DBE_W1C BDK_PKO_L2_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_L2_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540001001a0ll;
+    __bdk_csr_fatal("PKO_L2_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_ECC_DBE_W1C bdk_pko_l2_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_L2_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_ECC_DBE_W1C "PKO_L2_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_L2_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L2_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_L2_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l2_ecc_dbe_w1s
+ *
+ * PKO SQ2 RAM ECC DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L2_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L2_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_ecc_dbe_w1s_s cn; */
+} bdk_pko_l2_ecc_dbe_w1s_t;
+
+#define BDK_PKO_L2_ECC_DBE_W1S BDK_PKO_L2_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_L2_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540001001a8ll;
+    __bdk_csr_fatal("PKO_L2_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_ECC_DBE_W1S bdk_pko_l2_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_L2_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_ECC_DBE_W1S "PKO_L2_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_L2_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L2_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_L2_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l2_ecc_sbe_int_ena_w1c
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L2_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L2_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_l2_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_L2_ECC_SBE_INT_ENA_W1C BDK_PKO_L2_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000100190ll;
+    __bdk_csr_fatal("PKO_L2_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_ECC_SBE_INT_ENA_W1C bdk_pko_l2_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_L2_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_ECC_SBE_INT_ENA_W1C "PKO_L2_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_L2_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L2_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_L2_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l2_ecc_sbe_int_ena_w1s
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L2_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L2_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_l2_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_L2_ECC_SBE_INT_ENA_W1S BDK_PKO_L2_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000100198ll;
+    __bdk_csr_fatal("PKO_L2_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_ECC_SBE_INT_ENA_W1S bdk_pko_l2_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_L2_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_ECC_SBE_INT_ENA_W1S "PKO_L2_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_L2_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L2_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_L2_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l2_ecc_sbe_w1c
+ *
+ * PKO SQ2 RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L2_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L2_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_ecc_sbe_w1c_s cn; */
+} bdk_pko_l2_ecc_sbe_w1c_t;
+
+#define BDK_PKO_L2_ECC_SBE_W1C BDK_PKO_L2_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_L2_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000100180ll;
+    __bdk_csr_fatal("PKO_L2_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_ECC_SBE_W1C bdk_pko_l2_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_L2_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_ECC_SBE_W1C "PKO_L2_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_L2_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L2_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_L2_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l2_ecc_sbe_w1s
+ *
+ * PKO SQ2 ECC SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L2_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L2_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_ecc_sbe_w1s_s cn; */
+} bdk_pko_l2_ecc_sbe_w1s_t;
+
+#define BDK_PKO_L2_ECC_SBE_W1S BDK_PKO_L2_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_L2_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000100188ll;
+    __bdk_csr_fatal("PKO_L2_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_ECC_SBE_W1S bdk_pko_l2_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_L2_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_ECC_SBE_W1S "PKO_L2_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_L2_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L2_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_L2_ECC_SBE_W1S -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_l2_sq#_cir
  *
  * PKO PSE Level 2 Shaping Queue Committed Information Rate Register
@@ -6129,6 +7064,292 @@ static inline uint64_t BDK_PKO_L3_CONST_FUNC(void)
 #define device_bar_BDK_PKO_L3_CONST 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_CONST 0
 #define arguments_BDK_PKO_L3_CONST -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l3_ecc_dbe_int_ena_w1c
+ *
+ * PKO SQ3 RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l3_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L3_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L3_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l3_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_l3_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_L3_ECC_DBE_INT_ENA_W1C BDK_PKO_L3_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540001801b0ll;
+    __bdk_csr_fatal("PKO_L3_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L3_ECC_DBE_INT_ENA_W1C bdk_pko_l3_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_L3_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L3_ECC_DBE_INT_ENA_W1C "PKO_L3_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_L3_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L3_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_L3_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l3_ecc_dbe_int_ena_w1s
+ *
+ * PKO SQ3 RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l3_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L3_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L3_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l3_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_l3_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_L3_ECC_DBE_INT_ENA_W1S BDK_PKO_L3_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540001801b8ll;
+    __bdk_csr_fatal("PKO_L3_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L3_ECC_DBE_INT_ENA_W1S bdk_pko_l3_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_L3_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L3_ECC_DBE_INT_ENA_W1S "PKO_L3_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_L3_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L3_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_L3_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l3_ecc_dbe_w1c
+ *
+ * PKO SQ3 RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l3_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L3_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L3_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l3_ecc_dbe_w1c_s cn; */
+} bdk_pko_l3_ecc_dbe_w1c_t;
+
+#define BDK_PKO_L3_ECC_DBE_W1C BDK_PKO_L3_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_L3_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L3_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540001801a0ll;
+    __bdk_csr_fatal("PKO_L3_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L3_ECC_DBE_W1C bdk_pko_l3_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_L3_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L3_ECC_DBE_W1C "PKO_L3_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_L3_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L3_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_L3_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l3_ecc_dbe_w1s
+ *
+ * PKO SQ3 RAM ECC DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l3_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L3_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L3_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l3_ecc_dbe_w1s_s cn; */
+} bdk_pko_l3_ecc_dbe_w1s_t;
+
+#define BDK_PKO_L3_ECC_DBE_W1S BDK_PKO_L3_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_L3_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L3_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540001801a8ll;
+    __bdk_csr_fatal("PKO_L3_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L3_ECC_DBE_W1S bdk_pko_l3_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_L3_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L3_ECC_DBE_W1S "PKO_L3_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_L3_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L3_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_L3_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l3_ecc_sbe_int_ena_w1c
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l3_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L3_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_L3_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l3_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_l3_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_L3_ECC_SBE_INT_ENA_W1C BDK_PKO_L3_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000180190ll;
+    __bdk_csr_fatal("PKO_L3_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L3_ECC_SBE_INT_ENA_W1C bdk_pko_l3_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_L3_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L3_ECC_SBE_INT_ENA_W1C "PKO_L3_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_L3_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L3_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_L3_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l3_ecc_sbe_int_ena_w1s
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l3_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L3_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_L3_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l3_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_l3_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_L3_ECC_SBE_INT_ENA_W1S BDK_PKO_L3_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000180198ll;
+    __bdk_csr_fatal("PKO_L3_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L3_ECC_SBE_INT_ENA_W1S bdk_pko_l3_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_L3_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L3_ECC_SBE_INT_ENA_W1S "PKO_L3_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_L3_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L3_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_L3_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l3_ecc_sbe_w1c
+ *
+ * PKO PSE SQ3 RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l3_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L3_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC errors enumerated by PKO_L3_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l3_ecc_sbe_w1c_s cn; */
+} bdk_pko_l3_ecc_sbe_w1c_t;
+
+#define BDK_PKO_L3_ECC_SBE_W1C BDK_PKO_L3_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_L3_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L3_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000180180ll;
+    __bdk_csr_fatal("PKO_L3_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L3_ECC_SBE_W1C bdk_pko_l3_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_L3_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L3_ECC_SBE_W1C "PKO_L3_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_L3_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L3_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_L3_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l3_ecc_sbe_w1s
+ *
+ * PKO SQ3 ECC SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l3_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L3_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_L3_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l3_ecc_sbe_w1s_s cn; */
+} bdk_pko_l3_ecc_sbe_w1s_t;
+
+#define BDK_PKO_L3_ECC_SBE_W1S BDK_PKO_L3_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_L3_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L3_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000180188ll;
+    __bdk_csr_fatal("PKO_L3_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L3_ECC_SBE_W1S bdk_pko_l3_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_L3_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L3_ECC_SBE_W1S "PKO_L3_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_L3_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L3_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_L3_ECC_SBE_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_l3_l2_sq#_channel
@@ -7344,6 +8565,356 @@ static inline uint64_t BDK_PKO_LUT_ECC_CTL0_FUNC(void)
 #define arguments_BDK_PKO_LUT_ECC_CTL0 -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_lut_ecc_dbe_int_ena_w1c
+ *
+ * LUT_ECC_DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_lut_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for PKO_LUT_ECC_DBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for PKO_LUT_ECC_DBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_lut_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_lut_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000bfff70ll;
+    __bdk_csr_fatal("PKO_LUT_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C bdk_pko_lut_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C "PKO_LUT_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_lut_ecc_dbe_int_ena_w1s
+ *
+ * LUT_ECC_DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_lut_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for PKO_LUT_ECC_DBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for PKO_LUT_ECC_DBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_lut_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_lut_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000bfff78ll;
+    __bdk_csr_fatal("PKO_LUT_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S bdk_pko_lut_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S "PKO_LUT_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_lut_ecc_dbe_w1c
+ *
+ * PKO LUT RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_lut_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1C/H) Error for C2Q_LUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1C/H) Error for C2Q_LUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_lut_ecc_dbe_w1c_s cn; */
+} bdk_pko_lut_ecc_dbe_w1c_t;
+
+#define BDK_PKO_LUT_ECC_DBE_W1C BDK_PKO_LUT_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000bfff60ll;
+    __bdk_csr_fatal("PKO_LUT_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_LUT_ECC_DBE_W1C bdk_pko_lut_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_LUT_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_LUT_ECC_DBE_W1C "PKO_LUT_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_LUT_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_LUT_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_LUT_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_lut_ecc_dbe_w1s
+ *
+ * LUT_ECC_DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_lut_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets PKO_LUT_ECC_DBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets PKO_LUT_ECC_DBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_lut_ecc_dbe_w1s_s cn; */
+} bdk_pko_lut_ecc_dbe_w1s_t;
+
+#define BDK_PKO_LUT_ECC_DBE_W1S BDK_PKO_LUT_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000bfff68ll;
+    __bdk_csr_fatal("PKO_LUT_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_LUT_ECC_DBE_W1S bdk_pko_lut_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_LUT_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_LUT_ECC_DBE_W1S "PKO_LUT_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_LUT_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_LUT_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_LUT_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_lut_ecc_sbe_int_ena_w1c
+ *
+ * LUT_ECC_SBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_lut_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for PKO_LUT_ECC_SBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for PKO_LUT_ECC_SBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_lut_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_lut_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000bfff90ll;
+    __bdk_csr_fatal("PKO_LUT_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C bdk_pko_lut_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C "PKO_LUT_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_lut_ecc_sbe_int_ena_w1s
+ *
+ * LUT_ECC_SBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_lut_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for PKO_LUT_ECC_SBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for PKO_LUT_ECC_SBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_lut_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_lut_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000bfff98ll;
+    __bdk_csr_fatal("PKO_LUT_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S bdk_pko_lut_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S "PKO_LUT_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_lut_ecc_sbe_w1c
+ *
+ * PKO LUT RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_lut_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1C/H) Error for C2Q_LUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1C/H) Error for C2Q_LUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_lut_ecc_sbe_w1c_s cn; */
+} bdk_pko_lut_ecc_sbe_w1c_t;
+
+#define BDK_PKO_LUT_ECC_SBE_W1C BDK_PKO_LUT_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000bfff80ll;
+    __bdk_csr_fatal("PKO_LUT_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_LUT_ECC_SBE_W1C bdk_pko_lut_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_LUT_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_LUT_ECC_SBE_W1C "PKO_LUT_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_LUT_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_LUT_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_LUT_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_lut_ecc_sbe_w1s
+ *
+ * LUT_ECC_SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_lut_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets PKO_LUT_ECC_SBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t c2q_lut_ram           : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets PKO_LUT_ECC_SBE_W1C[C2Q_LUT_RAM].
+                                                                 Internal:
+                                                                 Instances:
+                                                                 pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_lut_ecc_sbe_w1s_s cn; */
+} bdk_pko_lut_ecc_sbe_w1s_t;
+
+#define BDK_PKO_LUT_ECC_SBE_W1S BDK_PKO_LUT_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000bfff88ll;
+    __bdk_csr_fatal("PKO_LUT_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_LUT_ECC_SBE_W1S bdk_pko_lut_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_LUT_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_LUT_ECC_SBE_W1S "PKO_LUT_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_LUT_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_LUT_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_LUT_ECC_SBE_W1S -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_mac#_cfg
  *
  * PKO MAC Configuration Register
@@ -7511,262 +9082,6 @@ static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a)
 #define arguments_BDK_PKO_MCI1_MAX_CREDX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pko_ncb_bist_status
- *
- * PKO NCB RAM BIST Status Register
- * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_ncb_bist_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ncbi_l2_out_ram_bist_status : 1;/**< [ 63: 63](RO) BIST status for NCBI_L2_OUT_RAM. */
-        uint64_t ncbi_pp_out_ram_bist_status : 1;/**< [ 62: 62](RO) BIST status for NCBI_PP_OUT_RAM. */
-        uint64_t ncbo_pdm_cmd_dat_ram_bist_status : 1;/**< [ 61: 61](RO) BIST status for NCBO_PDM_CMD_DAT_RAM. */
-        uint64_t ncbi_l2_pdm_pref_ram_bist_status : 1;/**< [ 60: 60](RO) BIST status for NCBI_L2_PDM_PREF_RAM. */
-        uint64_t ncbo_pp_fif_ram_bist_status : 1;/**< [ 59: 59](RO) BIST status for NCBO_PP_FIF_RAM. */
-        uint64_t ncbo_skid_fif_ram_bist_status : 1;/**< [ 58: 58](RO) BIST status for NCBO_SKID_FIF_RAM. */
-        uint64_t reserved_0_57         : 58;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_57         : 58;
-        uint64_t ncbo_skid_fif_ram_bist_status : 1;/**< [ 58: 58](RO) BIST status for NCBO_SKID_FIF_RAM. */
-        uint64_t ncbo_pp_fif_ram_bist_status : 1;/**< [ 59: 59](RO) BIST status for NCBO_PP_FIF_RAM. */
-        uint64_t ncbi_l2_pdm_pref_ram_bist_status : 1;/**< [ 60: 60](RO) BIST status for NCBI_L2_PDM_PREF_RAM. */
-        uint64_t ncbo_pdm_cmd_dat_ram_bist_status : 1;/**< [ 61: 61](RO) BIST status for NCBO_PDM_CMD_DAT_RAM. */
-        uint64_t ncbi_pp_out_ram_bist_status : 1;/**< [ 62: 62](RO) BIST status for NCBI_PP_OUT_RAM. */
-        uint64_t ncbi_l2_out_ram_bist_status : 1;/**< [ 63: 63](RO) BIST status for NCBI_L2_OUT_RAM. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_ncb_bist_status_s cn; */
-} bdk_pko_ncb_bist_status_t;
-
-#define BDK_PKO_NCB_BIST_STATUS BDK_PKO_NCB_BIST_STATUS_FUNC()
-static inline uint64_t BDK_PKO_NCB_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_NCB_BIST_STATUS_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000efff00ll;
-    __bdk_csr_fatal("PKO_NCB_BIST_STATUS", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_NCB_BIST_STATUS bdk_pko_ncb_bist_status_t
-#define bustype_BDK_PKO_NCB_BIST_STATUS BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_NCB_BIST_STATUS "PKO_NCB_BIST_STATUS"
-#define device_bar_BDK_PKO_NCB_BIST_STATUS 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_NCB_BIST_STATUS 0
-#define arguments_BDK_PKO_NCB_BIST_STATUS -1,-1,-1,-1
-
-/**
- * Register (NCB) pko_ncb_ecc_ctl0
- *
- * PKO NCB RAM ECC Control Register 0
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_ncb_ecc_ctl0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ncbi_l2_out_ram_flip  : 2;  /**< [ 63: 62](R/W) NCBI_L2_OUT_RAM flip syndrome bits on write. */
-        uint64_t ncbi_l2_out_ram_cdis  : 1;  /**< [ 61: 61](R/W) NCBI_L2_OUT_RAM ECC correction disable. */
-        uint64_t ncbi_pp_out_ram_flip  : 2;  /**< [ 60: 59](R/W) NCBI_PP_OUT_RAM flip syndrome bits on write. */
-        uint64_t ncbi_pp_out_ram_cdis  : 1;  /**< [ 58: 58](R/W) NCBI_PP_OUT_RAM ECC correction disable. */
-        uint64_t ncbo_pdm_cmd_dat_ram_flip : 2;/**< [ 57: 56](R/W) NCBO_PDM_CMD_DAT_RAM flip syndrome bits on write. */
-        uint64_t ncbo_pdm_cmd_dat_ram_cdis : 1;/**< [ 55: 55](R/W) NCBO_PDM_CMD_DAT_RAM ECC correction disable. */
-        uint64_t ncbi_l2_pdm_pref_ram_flip : 2;/**< [ 54: 53](R/W) NCBI_L2_PDM_PREF_RAM flip syndrome bits on write. */
-        uint64_t ncbi_l2_pdm_pref_ram_cdis : 1;/**< [ 52: 52](R/W) NCBI_L2_PDM_PREF_RAM ECC correction disable. */
-        uint64_t ncbo_pp_fif_ram_flip  : 2;  /**< [ 51: 50](R/W) NCBO_PP_FIF_RAM flip syndrome bits on write. */
-        uint64_t ncbo_pp_fif_ram_cdis  : 1;  /**< [ 49: 49](R/W) NCBO_PP_FIF_RAM ECC correction disable. */
-        uint64_t ncbo_skid_fif_ram_flip : 2; /**< [ 48: 47](R/W) NCBO_SKID_FIF_RAM flip syndrome bits on write. */
-        uint64_t ncbo_skid_fif_ram_cdis : 1; /**< [ 46: 46](R/W) NCBO_SKID_FIF_RAM ECC correction disable. */
-        uint64_t reserved_0_45         : 46;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_45         : 46;
-        uint64_t ncbo_skid_fif_ram_cdis : 1; /**< [ 46: 46](R/W) NCBO_SKID_FIF_RAM ECC correction disable. */
-        uint64_t ncbo_skid_fif_ram_flip : 2; /**< [ 48: 47](R/W) NCBO_SKID_FIF_RAM flip syndrome bits on write. */
-        uint64_t ncbo_pp_fif_ram_cdis  : 1;  /**< [ 49: 49](R/W) NCBO_PP_FIF_RAM ECC correction disable. */
-        uint64_t ncbo_pp_fif_ram_flip  : 2;  /**< [ 51: 50](R/W) NCBO_PP_FIF_RAM flip syndrome bits on write. */
-        uint64_t ncbi_l2_pdm_pref_ram_cdis : 1;/**< [ 52: 52](R/W) NCBI_L2_PDM_PREF_RAM ECC correction disable. */
-        uint64_t ncbi_l2_pdm_pref_ram_flip : 2;/**< [ 54: 53](R/W) NCBI_L2_PDM_PREF_RAM flip syndrome bits on write. */
-        uint64_t ncbo_pdm_cmd_dat_ram_cdis : 1;/**< [ 55: 55](R/W) NCBO_PDM_CMD_DAT_RAM ECC correction disable. */
-        uint64_t ncbo_pdm_cmd_dat_ram_flip : 2;/**< [ 57: 56](R/W) NCBO_PDM_CMD_DAT_RAM flip syndrome bits on write. */
-        uint64_t ncbi_pp_out_ram_cdis  : 1;  /**< [ 58: 58](R/W) NCBI_PP_OUT_RAM ECC correction disable. */
-        uint64_t ncbi_pp_out_ram_flip  : 2;  /**< [ 60: 59](R/W) NCBI_PP_OUT_RAM flip syndrome bits on write. */
-        uint64_t ncbi_l2_out_ram_cdis  : 1;  /**< [ 61: 61](R/W) NCBI_L2_OUT_RAM ECC correction disable. */
-        uint64_t ncbi_l2_out_ram_flip  : 2;  /**< [ 63: 62](R/W) NCBI_L2_OUT_RAM flip syndrome bits on write. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_ncb_ecc_ctl0_s cn; */
-} bdk_pko_ncb_ecc_ctl0_t;
-
-#define BDK_PKO_NCB_ECC_CTL0 BDK_PKO_NCB_ECC_CTL0_FUNC()
-static inline uint64_t BDK_PKO_NCB_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_NCB_ECC_CTL0_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000efffd0ll;
-    __bdk_csr_fatal("PKO_NCB_ECC_CTL0", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_NCB_ECC_CTL0 bdk_pko_ncb_ecc_ctl0_t
-#define bustype_BDK_PKO_NCB_ECC_CTL0 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_NCB_ECC_CTL0 "PKO_NCB_ECC_CTL0"
-#define device_bar_BDK_PKO_NCB_ECC_CTL0 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_NCB_ECC_CTL0 0
-#define arguments_BDK_PKO_NCB_ECC_CTL0 -1,-1,-1,-1
-
-/**
- * Register (NCB) pko_ncb_int
- *
- * PKO NCB Interrupt Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_ncb_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1C/H) Message segment size is too small to transmit entire packet within the
-                                                                 maximum allowed number of segments in TCP segmentation offload. The
-                                                                 packet will be transmitted in multiple TSO segments until the maximum
-                                                                 number of segments is reached. At this point, the interrupt will be
-                                                                 raised, transmission of the packet will cease, and other available
-                                                                 packets will be transmitted. This interrupt shares the NCB_TX_ERROR_INFO
-                                                                 and NCB_TX_ERROR_WORD registers with the NCB_TX_ERROR interrupt to
-                                                                 record information about the erroneous send packet command. Hence,
-                                                                 NCB_TX_ERROR_INFO and NCB_TX_ERROR interrupts are onehot; neither
-                                                                 will be set until both are cleared. The TSO engine makes no guarantees
-                                                                 about the state of memory and pointers allocated for the packet if
-                                                                 this interrupt is raised. */
-        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1C/H) NCB transaction error occurred (error/unpredictable/undefined). */
-#else /* Word 0 - Little Endian */
-        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1C/H) NCB transaction error occurred (error/unpredictable/undefined). */
-        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1C/H) Message segment size is too small to transmit entire packet within the
-                                                                 maximum allowed number of segments in TCP segmentation offload. The
-                                                                 packet will be transmitted in multiple TSO segments until the maximum
-                                                                 number of segments is reached. At this point, the interrupt will be
-                                                                 raised, transmission of the packet will cease, and other available
-                                                                 packets will be transmitted. This interrupt shares the NCB_TX_ERROR_INFO
-                                                                 and NCB_TX_ERROR_WORD registers with the NCB_TX_ERROR interrupt to
-                                                                 record information about the erroneous send packet command. Hence,
-                                                                 NCB_TX_ERROR_INFO and NCB_TX_ERROR interrupts are onehot; neither
-                                                                 will be set until both are cleared. The TSO engine makes no guarantees
-                                                                 about the state of memory and pointers allocated for the packet if
-                                                                 this interrupt is raised. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_ncb_int_s cn; */
-} bdk_pko_ncb_int_t;
-
-#define BDK_PKO_NCB_INT BDK_PKO_NCB_INT_FUNC()
-static inline uint64_t BDK_PKO_NCB_INT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_NCB_INT_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000e00010ll;
-    __bdk_csr_fatal("PKO_NCB_INT", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_NCB_INT bdk_pko_ncb_int_t
-#define bustype_BDK_PKO_NCB_INT BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_NCB_INT "PKO_NCB_INT"
-#define device_bar_BDK_PKO_NCB_INT 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_NCB_INT 0
-#define arguments_BDK_PKO_NCB_INT -1,-1,-1,-1
-
-/**
- * Register (NCB) pko_ncb_tx_err_info
- *
- * PKO NCB TX Error Information Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_ncb_tx_err_info_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t wcnt                  : 5;  /**< [ 31: 27](R/W1C/H) Word count. */
-        uint64_t src                   : 12; /**< [ 26: 15](R/W1C/H) Source of the IOI outbound transaction. */
-        uint64_t dst                   : 8;  /**< [ 14:  7](R/W1C/H) Destination of the IOI outbound transaction. */
-        uint64_t tag                   : 4;  /**< [  6:  3](R/W1C/H) Tag of the IOI outbound transaction. */
-        uint64_t eot                   : 1;  /**< [  2:  2](R/W1C/H) EOT bit of the NCBO transaction. */
-        uint64_t sot                   : 1;  /**< [  1:  1](R/W1C/H) SOT bit of the NCBO transaction. */
-        uint64_t valid                 : 1;  /**< [  0:  0](R/W1C/H) Valid bit for transaction (should always be 1 on capture). */
-#else /* Word 0 - Little Endian */
-        uint64_t valid                 : 1;  /**< [  0:  0](R/W1C/H) Valid bit for transaction (should always be 1 on capture). */
-        uint64_t sot                   : 1;  /**< [  1:  1](R/W1C/H) SOT bit of the NCBO transaction. */
-        uint64_t eot                   : 1;  /**< [  2:  2](R/W1C/H) EOT bit of the NCBO transaction. */
-        uint64_t tag                   : 4;  /**< [  6:  3](R/W1C/H) Tag of the IOI outbound transaction. */
-        uint64_t dst                   : 8;  /**< [ 14:  7](R/W1C/H) Destination of the IOI outbound transaction. */
-        uint64_t src                   : 12; /**< [ 26: 15](R/W1C/H) Source of the IOI outbound transaction. */
-        uint64_t wcnt                  : 5;  /**< [ 31: 27](R/W1C/H) Word count. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_ncb_tx_err_info_s cn; */
-} bdk_pko_ncb_tx_err_info_t;
-
-#define BDK_PKO_NCB_TX_ERR_INFO BDK_PKO_NCB_TX_ERR_INFO_FUNC()
-static inline uint64_t BDK_PKO_NCB_TX_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_NCB_TX_ERR_INFO_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000e00008ll;
-    __bdk_csr_fatal("PKO_NCB_TX_ERR_INFO", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_NCB_TX_ERR_INFO bdk_pko_ncb_tx_err_info_t
-#define bustype_BDK_PKO_NCB_TX_ERR_INFO BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_NCB_TX_ERR_INFO "PKO_NCB_TX_ERR_INFO"
-#define device_bar_BDK_PKO_NCB_TX_ERR_INFO 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_NCB_TX_ERR_INFO 0
-#define arguments_BDK_PKO_NCB_TX_ERR_INFO -1,-1,-1,-1
-
-/**
- * Register (NCB) pko_ncb_tx_err_word
- *
- * PKO NCB TX Error Word Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_ncb_tx_err_word_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t err_word              : 64; /**< [ 63:  0](R/W1C/H) PKO NCB error word (first word of erroneous transaction).
-                                                                 Note: this is only the 64-bit data word; the NCB info that goes with it is in
-                                                                 PKO_NCB_TX_ERR_INFO. */
-#else /* Word 0 - Little Endian */
-        uint64_t err_word              : 64; /**< [ 63:  0](R/W1C/H) PKO NCB error word (first word of erroneous transaction).
-                                                                 Note: this is only the 64-bit data word; the NCB info that goes with it is in
-                                                                 PKO_NCB_TX_ERR_INFO. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_ncb_tx_err_word_s cn; */
-} bdk_pko_ncb_tx_err_word_t;
-
-#define BDK_PKO_NCB_TX_ERR_WORD BDK_PKO_NCB_TX_ERR_WORD_FUNC()
-static inline uint64_t BDK_PKO_NCB_TX_ERR_WORD_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_NCB_TX_ERR_WORD_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000e00000ll;
-    __bdk_csr_fatal("PKO_NCB_TX_ERR_WORD", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_NCB_TX_ERR_WORD bdk_pko_ncb_tx_err_word_t
-#define bustype_BDK_PKO_NCB_TX_ERR_WORD BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_NCB_TX_ERR_WORD "PKO_NCB_TX_ERR_WORD"
-#define device_bar_BDK_PKO_NCB_TX_ERR_WORD 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_NCB_TX_ERR_WORD 0
-#define arguments_BDK_PKO_NCB_TX_ERR_WORD -1,-1,-1,-1
-
-/**
  * Register (NCB) pko_pdm_bist_status
  *
  * PKO PDM RAM ECC SBE Status Register 0
@@ -7807,9 +9122,11 @@ typedef union
         uint64_t mwp_hi_spt_ram_bist_status : 1;/**< [ 37: 37](RO) BIST status for MWP_RAM_MEM3. */
         uint64_t mwp_lo_spt_ram_bist_status : 1;/**< [ 36: 36](RO) BIST status for MWP_RAM_MEM1. */
         uint64_t buf_wm_ram_bist_status : 1; /**< [ 35: 35](RO) BIST status for BUF_WM_RAM. */
-        uint64_t reserved_0_34         : 35;
+        uint64_t buf_fc_cfg_bist_status : 1; /**< [ 34: 34](RO) BIST status for BUF_FC_CFG_RAM. */
+        uint64_t reserved_0_33         : 34;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_34         : 35;
+        uint64_t reserved_0_33         : 34;
+        uint64_t buf_fc_cfg_bist_status : 1; /**< [ 34: 34](RO) BIST status for BUF_FC_CFG_RAM. */
         uint64_t buf_wm_ram_bist_status : 1; /**< [ 35: 35](RO) BIST status for BUF_WM_RAM. */
         uint64_t mwp_lo_spt_ram_bist_status : 1;/**< [ 36: 36](RO) BIST status for MWP_RAM_MEM1. */
         uint64_t mwp_hi_spt_ram_bist_status : 1;/**< [ 37: 37](RO) BIST status for MWP_RAM_MEM3. */
@@ -7871,7 +9188,14 @@ typedef union
     struct bdk_pko_pdm_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_26_63        : 38;
+        uint64_t reserved_30_63        : 34;
+        uint64_t pdm_mem_fault_ign     : 1;  /**< [ 29: 29](R/W) Fault ignore. If clear, NCB memory load/store/CRC errors will clear
+                                                                 PKO_PDM_CFG[PDM_EN]. If set, ignore faults with respect to clearing
+                                                                 PKO_PDM_CFG[PDM_EN]. Note with either seting if a fault occurs, the internal
+                                                                 state of PKO is corrupted and PKO must be reset. */
+        uint64_t pdm_en                : 1;  /**< [ 28: 28](R/W/H) PDM enable. Set for normal operation. The PDM will clear if a memory load/store/CRC
+                                                                 error occurs on the NCB interface. When cleared, the PDM will be off. */
+        uint64_t reserved_26_27        : 2;
         uint64_t dq_fc_skid            : 10; /**< [ 25: 16](R/W) DQ flow control skid. Constant unsigned value that is subtracted from
                                                                  all DQ buffer flow control counts PKO_VF()_DQ()_FC_STATUS[COUNT] prior
                                                                  to thier being stored into L2/DRAM for flow control purposes. */
@@ -7937,7 +9261,14 @@ typedef union
         uint64_t dq_fc_skid            : 10; /**< [ 25: 16](R/W) DQ flow control skid. Constant unsigned value that is subtracted from
                                                                  all DQ buffer flow control counts PKO_VF()_DQ()_FC_STATUS[COUNT] prior
                                                                  to thier being stored into L2/DRAM for flow control purposes. */
-        uint64_t reserved_26_63        : 38;
+        uint64_t reserved_26_27        : 2;
+        uint64_t pdm_en                : 1;  /**< [ 28: 28](R/W/H) PDM enable. Set for normal operation. The PDM will clear if a memory load/store/CRC
+                                                                 error occurs on the NCB interface. When cleared, the PDM will be off. */
+        uint64_t pdm_mem_fault_ign     : 1;  /**< [ 29: 29](R/W) Fault ignore. If clear, NCB memory load/store/CRC errors will clear
+                                                                 PKO_PDM_CFG[PDM_EN]. If set, ignore faults with respect to clearing
+                                                                 PKO_PDM_CFG[PDM_EN]. Note with either seting if a fault occurs, the internal
+                                                                 state of PKO is corrupted and PKO must be reset. */
+        uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_cfg_s cn; */
@@ -7972,11 +9303,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP)
-                                                                 stalled on inputs going into the ISRs. PKO_PDM_STS[CP_STALLED_THRSHLD_HIT]
+                                                                 stalled on inputs going into the ISRs. PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT]
                                                                  indicates the threshold has been hit.  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
         uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP)
-                                                                 stalled on inputs going into the ISRs. PKO_PDM_STS[CP_STALLED_THRSHLD_HIT]
+                                                                 stalled on inputs going into the ISRs. PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT]
                                                                  indicates the threshold has been hit.  For diagnostic use only. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -8381,7 +9712,9 @@ typedef union
     struct bdk_pko_pdm_ecc_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_18_63        : 46;
+        uint64_t buf_fc_cfg_ram_flip   : 2;  /**< [ 17: 16](R/W) BUF_FC_CFG_RAM flip syndrome bits on write. */
+        uint64_t buf_fc_cfg_ram_cdis   : 1;  /**< [ 15: 15](R/W) BUF_FC_CFG_RAM ECC correction disable for all four memories */
         uint64_t buf_wm_ram_flip       : 2;  /**< [ 14: 13](R/W) BUF_WM_RAM flip syndrome bits on write. */
         uint64_t buf_wm_ram_cdis       : 1;  /**< [ 12: 12](R/W) BUF_WM_RAM ECC correction disable for all four memories. */
         uint64_t mwp_mem0_ram_flip     : 2;  /**< [ 11: 10](R/W) MWP_MEM0_RAM flip syndrome bits on write. */
@@ -8401,7 +9734,9 @@ typedef union
         uint64_t mwp_mem0_ram_flip     : 2;  /**< [ 11: 10](R/W) MWP_MEM0_RAM flip syndrome bits on write. */
         uint64_t buf_wm_ram_cdis       : 1;  /**< [ 12: 12](R/W) BUF_WM_RAM ECC correction disable for all four memories. */
         uint64_t buf_wm_ram_flip       : 2;  /**< [ 14: 13](R/W) BUF_WM_RAM flip syndrome bits on write. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t buf_fc_cfg_ram_cdis   : 1;  /**< [ 15: 15](R/W) BUF_FC_CFG_RAM ECC correction disable for all four memories */
+        uint64_t buf_fc_cfg_ram_flip   : 2;  /**< [ 17: 16](R/W) BUF_FC_CFG_RAM flip syndrome bits on write. */
+        uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_ctl1_s cn; */
@@ -8422,6 +9757,292 @@ static inline uint64_t BDK_PKO_PDM_ECC_CTL1_FUNC(void)
 #define device_bar_BDK_PKO_PDM_ECC_CTL1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ECC_CTL1 0
 #define arguments_BDK_PKO_PDM_ECC_CTL1 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_dbe_int_ena_w1c
+ *
+ * PKO PDM RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_pdm_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008fffb0ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C bdk_pko_pdm_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C "PKO_PDM_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_dbe_int_ena_w1s
+ *
+ * PKO PDM RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_pdm_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008fffb8ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S bdk_pko_pdm_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S "PKO_PDM_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_dbe_w1c
+ *
+ * PKO PDM RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) PEB single-bit errors. Enumerated by PKO_PDM_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) PEB single-bit errors. Enumerated by PKO_PDM_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_dbe_w1c_s cn; */
+} bdk_pko_pdm_ecc_dbe_w1c_t;
+
+#define BDK_PKO_PDM_ECC_DBE_W1C BDK_PKO_PDM_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008fffa0ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_DBE_W1C bdk_pko_pdm_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_PDM_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_DBE_W1C "PKO_PDM_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_PDM_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_PDM_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_dbe_w1s
+ *
+ * PKO PDM RAM ECC DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_dbe_w1s_s cn; */
+} bdk_pko_pdm_ecc_dbe_w1s_t;
+
+#define BDK_PKO_PDM_ECC_DBE_W1S BDK_PKO_PDM_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008fffa8ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_DBE_W1S bdk_pko_pdm_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_PDM_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_DBE_W1S "PKO_PDM_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_PDM_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_PDM_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_sbe_int_ena_w1c
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_pdm_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008fff90ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C bdk_pko_pdm_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C "PKO_PDM_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_sbe_int_ena_w1s
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_pdm_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008fff98ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S bdk_pko_pdm_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S "PKO_PDM_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_sbe_w1c
+ *
+ * PKO PDM RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) PEB single-bit errors. Enumerated by PKO_PDM_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) PEB single-bit errors. Enumerated by PKO_PDM_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_sbe_w1c_s cn; */
+} bdk_pko_pdm_ecc_sbe_w1c_t;
+
+#define BDK_PKO_PDM_ECC_SBE_W1C BDK_PKO_PDM_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008fff80ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_SBE_W1C bdk_pko_pdm_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_PDM_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_SBE_W1C "PKO_PDM_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_PDM_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_PDM_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_sbe_w1s
+ *
+ * PKO PDM ECC SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_sbe_w1s_s cn; */
+} bdk_pko_pdm_ecc_sbe_w1s_t;
+
+#define BDK_PKO_PDM_ECC_SBE_W1S BDK_PKO_PDM_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008fff88ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_SBE_W1S bdk_pko_pdm_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_PDM_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_SBE_W1S "PKO_PDM_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_PDM_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_PDM_ECC_SBE_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pdm_fillb_dbg0
@@ -9379,14 +11000,1023 @@ static inline uint64_t BDK_PKO_PDM_MWPBUF_DBG_FUNC(void)
 #define arguments_BDK_PKO_PDM_MWPBUF_DBG -1,-1,-1,-1
 
 /**
- * Register (NCB) pko_pdm_sts
+ * Register (NCB) pko_pdm_ncb_bist_status
+ *
+ * PKO NCB RAM BIST Status Register
+ * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ncbi_l2_out_ram_bist_status : 1;/**< [ 63: 63](RO) BIST status for NCBI_L2_OUT_RAM. */
+        uint64_t ncbi_pp_out_ram_bist_status : 1;/**< [ 62: 62](RO) BIST status for NCBI_PP_OUT_RAM. */
+        uint64_t ncbo_pdmop_fif_ram_bist_status : 1;/**< [ 61: 61](RO) BIST status for NCBO_PP_FIF_RAM. */
+        uint64_t ncbo_skid_fif_ram_bist_status : 1;/**< [ 60: 60](RO) BIST status for NCBO_SKID_FIF_RAM. */
+        uint64_t reserved_0_59         : 60;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_59         : 60;
+        uint64_t ncbo_skid_fif_ram_bist_status : 1;/**< [ 60: 60](RO) BIST status for NCBO_SKID_FIF_RAM. */
+        uint64_t ncbo_pdmop_fif_ram_bist_status : 1;/**< [ 61: 61](RO) BIST status for NCBO_PP_FIF_RAM. */
+        uint64_t ncbi_pp_out_ram_bist_status : 1;/**< [ 62: 62](RO) BIST status for NCBI_PP_OUT_RAM. */
+        uint64_t ncbi_l2_out_ram_bist_status : 1;/**< [ 63: 63](RO) BIST status for NCBI_L2_OUT_RAM. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_bist_status_s cn; */
+} bdk_pko_pdm_ncb_bist_status_t;
+
+#define BDK_PKO_PDM_NCB_BIST_STATUS BDK_PKO_PDM_NCB_BIST_STATUS_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_BIST_STATUS_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efff00ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_BIST_STATUS", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_BIST_STATUS bdk_pko_pdm_ncb_bist_status_t
+#define bustype_BDK_PKO_PDM_NCB_BIST_STATUS BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_BIST_STATUS "PKO_PDM_NCB_BIST_STATUS"
+#define device_bar_BDK_PKO_PDM_NCB_BIST_STATUS 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_BIST_STATUS 0
+#define arguments_BDK_PKO_PDM_NCB_BIST_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_cfg
+ *
+ * PKO PDM Configuration Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t crc_err_ign           : 1;  /**< [  0:  0](R/W) CRC error ignore. PKO adds CRC bits to stores of meta-packets and descriptors
+                                                                 out to memory. On reading those meta-packets, if PKO detected a wrong CRC:
+                                                                   0 = Do not ignore CRC errors (i.e. they will set error
+                                                                   bits and interrupts like NCBO load/store errors).
+                                                                   1 = Ignore such CRC errors. */
+#else /* Word 0 - Little Endian */
+        uint64_t crc_err_ign           : 1;  /**< [  0:  0](R/W) CRC error ignore. PKO adds CRC bits to stores of meta-packets and descriptors
+                                                                 out to memory. On reading those meta-packets, if PKO detected a wrong CRC:
+                                                                   0 = Do not ignore CRC errors (i.e. they will set error
+                                                                   bits and interrupts like NCBO load/store errors).
+                                                                   1 = Ignore such CRC errors. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_cfg_s cn; */
+} bdk_pko_pdm_ncb_cfg_t;
+
+#define BDK_PKO_PDM_NCB_CFG BDK_PKO_PDM_NCB_CFG_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_CFG_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001800050ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_CFG", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_CFG bdk_pko_pdm_ncb_cfg_t
+#define bustype_BDK_PKO_PDM_NCB_CFG BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_CFG "PKO_PDM_NCB_CFG"
+#define device_bar_BDK_PKO_PDM_NCB_CFG 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_CFG 0
+#define arguments_BDK_PKO_PDM_NCB_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_ecc_ctl0
+ *
+ * PKO NCB RAM ECC Control Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_ecc_ctl0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ncbi_l2_out_ram_flip  : 2;  /**< [ 63: 62](R/W) NCBI_L2_OUT_RAM flip syndrome bits on write. */
+        uint64_t ncbi_l2_out_ram_cdis  : 1;  /**< [ 61: 61](R/W) NCBI_L2_OUT_RAM ECC correction disable. */
+        uint64_t ncbi_pp_out_ram_flip  : 2;  /**< [ 60: 59](R/W) NCBI_PP_OUT_RAM flip syndrome bits on write. */
+        uint64_t ncbi_pp_out_ram_cdis  : 1;  /**< [ 58: 58](R/W) NCBI_PP_OUT_RAM ECC correction disable. */
+        uint64_t ncbo_pdm_op_fif_ram_flip : 2;/**< [ 57: 56](R/W) NCBO_PDM_CMD_DAT_RAM flip syndrome bits on write. */
+        uint64_t ncbo_pdm_op_fif_ram_cdis : 1;/**< [ 55: 55](R/W) NCBO_PDM_CMD_DAT_RAM ECC correction disable. */
+        uint64_t ncbo_skid_fif_ram_flip : 2; /**< [ 54: 53](R/W) NCBI_L2_PDM_PREF_RAM flip syndrome bits on write. */
+        uint64_t ncbo_skid_fif_ram_cdis : 1; /**< [ 52: 52](R/W) NCBI_L2_PDM_PREF_RAM ECC correction disable. */
+        uint64_t reserved_0_51         : 52;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_51         : 52;
+        uint64_t ncbo_skid_fif_ram_cdis : 1; /**< [ 52: 52](R/W) NCBI_L2_PDM_PREF_RAM ECC correction disable. */
+        uint64_t ncbo_skid_fif_ram_flip : 2; /**< [ 54: 53](R/W) NCBI_L2_PDM_PREF_RAM flip syndrome bits on write. */
+        uint64_t ncbo_pdm_op_fif_ram_cdis : 1;/**< [ 55: 55](R/W) NCBO_PDM_CMD_DAT_RAM ECC correction disable. */
+        uint64_t ncbo_pdm_op_fif_ram_flip : 2;/**< [ 57: 56](R/W) NCBO_PDM_CMD_DAT_RAM flip syndrome bits on write. */
+        uint64_t ncbi_pp_out_ram_cdis  : 1;  /**< [ 58: 58](R/W) NCBI_PP_OUT_RAM ECC correction disable. */
+        uint64_t ncbi_pp_out_ram_flip  : 2;  /**< [ 60: 59](R/W) NCBI_PP_OUT_RAM flip syndrome bits on write. */
+        uint64_t ncbi_l2_out_ram_cdis  : 1;  /**< [ 61: 61](R/W) NCBI_L2_OUT_RAM ECC correction disable. */
+        uint64_t ncbi_l2_out_ram_flip  : 2;  /**< [ 63: 62](R/W) NCBI_L2_OUT_RAM flip syndrome bits on write. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_ecc_ctl0_s cn; */
+} bdk_pko_pdm_ncb_ecc_ctl0_t;
+
+#define BDK_PKO_PDM_NCB_ECC_CTL0 BDK_PKO_PDM_NCB_ECC_CTL0_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_CTL0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efffd0ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_ECC_CTL0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_ECC_CTL0 bdk_pko_pdm_ncb_ecc_ctl0_t
+#define bustype_BDK_PKO_PDM_NCB_ECC_CTL0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_ECC_CTL0 "PKO_PDM_NCB_ECC_CTL0"
+#define device_bar_BDK_PKO_PDM_NCB_ECC_CTL0 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_ECC_CTL0 0
+#define arguments_BDK_PKO_PDM_NCB_ECC_CTL0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_ecc_dbe_int_ena_w1c
+ *
+ * PKO NCB RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_ECC_DBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_ECC_DBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efffb0ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C "PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_ecc_dbe_int_ena_w1s
+ *
+ * PKO NCB RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_ECC_DBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_ECC_DBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efffb8ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S "PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_ecc_dbe_w1c
+ *
+ * PKO NCB RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PDM_NCB_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PDM_NCB_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_ecc_dbe_w1c_s cn; */
+} bdk_pko_pdm_ncb_ecc_dbe_w1c_t;
+
+#define BDK_PKO_PDM_NCB_ECC_DBE_W1C BDK_PKO_PDM_NCB_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efffa0ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_ECC_DBE_W1C bdk_pko_pdm_ncb_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_PDM_NCB_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_ECC_DBE_W1C "PKO_PDM_NCB_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_PDM_NCB_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_PDM_NCB_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_ecc_dbe_w1s
+ *
+ * PKO NCB RAM ECC DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_NCB_ECC_DBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_NCB_ECC_DBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_ecc_dbe_w1s_s cn; */
+} bdk_pko_pdm_ncb_ecc_dbe_w1s_t;
+
+#define BDK_PKO_PDM_NCB_ECC_DBE_W1S BDK_PKO_PDM_NCB_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efffa8ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_ECC_DBE_W1S bdk_pko_pdm_ncb_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_PDM_NCB_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_ECC_DBE_W1S "PKO_PDM_NCB_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_PDM_NCB_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_PDM_NCB_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_ecc_sbe_int_ena_w1c
+ *
+ * PKO DQ RAM ECC SBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_ECC_SBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_ECC_SBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efff90ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C "PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_ecc_sbe_int_ena_w1s
+ *
+ * PKO DQ RAM ECC SBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_ECC_SBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_ECC_SBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efff98ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S "PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_ecc_sbe_w1c
+ *
+ * PKO NCB RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PDM_NCB_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PDM_NCB_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_ecc_sbe_w1c_s cn; */
+} bdk_pko_pdm_ncb_ecc_sbe_w1c_t;
+
+#define BDK_PKO_PDM_NCB_ECC_SBE_W1C BDK_PKO_PDM_NCB_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efff80ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_ECC_SBE_W1C bdk_pko_pdm_ncb_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_PDM_NCB_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_ECC_SBE_W1C "PKO_PDM_NCB_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_PDM_NCB_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_PDM_NCB_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_ecc_sbe_w1s
+ *
+ * PKO NCB ECC SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_NCB_ECC_SBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_NCB_ECC_SBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_ecc_sbe_w1s_s cn; */
+} bdk_pko_pdm_ncb_ecc_sbe_w1s_t;
+
+#define BDK_PKO_PDM_NCB_ECC_SBE_W1S BDK_PKO_PDM_NCB_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000efff88ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_ECC_SBE_W1S bdk_pko_pdm_ncb_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_PDM_NCB_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_ECC_SBE_W1S "PKO_PDM_NCB_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_PDM_NCB_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_PDM_NCB_ECC_SBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_int_ena_w1c
+ *
+ * PKO NCB Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_INT_W1C[TSO_SEGMENT_CNT]. */
+        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_INT_W1C[NCB_TX_ERROR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_INT_W1C[NCB_TX_ERROR]. */
+        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_INT_W1C[TSO_SEGMENT_CNT]. */
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PDM_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_int_ena_w1c_s cn; */
+} bdk_pko_pdm_ncb_int_ena_w1c_t;
+
+#define BDK_PKO_PDM_NCB_INT_ENA_W1C BDK_PKO_PDM_NCB_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000e00020ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_INT_ENA_W1C bdk_pko_pdm_ncb_int_ena_w1c_t
+#define bustype_BDK_PKO_PDM_NCB_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_INT_ENA_W1C "PKO_PDM_NCB_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PDM_NCB_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PDM_NCB_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_int_ena_w1s
+ *
+ * PKO NCB Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_INT_W1C[TSO_SEGMENT_CNT]. */
+        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_INT_W1C[NCB_TX_ERROR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_INT_W1C[NCB_TX_ERROR]. */
+        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_INT_W1C[TSO_SEGMENT_CNT]. */
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PDM_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_int_ena_w1s_s cn; */
+} bdk_pko_pdm_ncb_int_ena_w1s_t;
+
+#define BDK_PKO_PDM_NCB_INT_ENA_W1S BDK_PKO_PDM_NCB_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000e00028ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_INT_ENA_W1S bdk_pko_pdm_ncb_int_ena_w1s_t
+#define bustype_BDK_PKO_PDM_NCB_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_INT_ENA_W1S "PKO_PDM_NCB_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PDM_NCB_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PDM_NCB_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_int_w1c
+ *
+ * PKO NCB Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_int_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1C/H) Fatal error.
+                                                                 NCB memory error occurred (load fault / store fault / CRC fault).
+                                                                 If set, read PKO_PDM_NCB_MEM_FAULT for further information. */
+        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1C/H) Message segment size is too small to transmit entire packet within the
+                                                                 maximum allowed number of segments in TCP segmentation offload. The
+                                                                 packet will be transmitted in multiple TSO segments until the maximum
+                                                                 number of segments is reached. At this point, the interrupt will be
+                                                                 raised, transmission of the packet will cease, and other available
+                                                                 packets will be transmitted. */
+        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1C/H) NCB transaction error occurred (error/unpredictable/undefined). */
+#else /* Word 0 - Little Endian */
+        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1C/H) NCB transaction error occurred (error/unpredictable/undefined). */
+        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1C/H) Message segment size is too small to transmit entire packet within the
+                                                                 maximum allowed number of segments in TCP segmentation offload. The
+                                                                 packet will be transmitted in multiple TSO segments until the maximum
+                                                                 number of segments is reached. At this point, the interrupt will be
+                                                                 raised, transmission of the packet will cease, and other available
+                                                                 packets will be transmitted. */
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1C/H) Fatal error.
+                                                                 NCB memory error occurred (load fault / store fault / CRC fault).
+                                                                 If set, read PKO_PDM_NCB_MEM_FAULT for further information. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_int_w1c_s cn; */
+} bdk_pko_pdm_ncb_int_w1c_t;
+
+#define BDK_PKO_PDM_NCB_INT_W1C BDK_PKO_PDM_NCB_INT_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_INT_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000e00010ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_INT_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_INT_W1C bdk_pko_pdm_ncb_int_w1c_t
+#define bustype_BDK_PKO_PDM_NCB_INT_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_INT_W1C "PKO_PDM_NCB_INT_W1C"
+#define device_bar_BDK_PKO_PDM_NCB_INT_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_INT_W1C 0
+#define arguments_BDK_PKO_PDM_NCB_INT_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_int_w1s
+ *
+ * PKO NCB Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PDM_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PDM_NCB_INT_W1C[TSO_SEGMENT_CNT]. */
+        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_NCB_INT_W1C[NCB_TX_ERROR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ncb_tx_error          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_NCB_INT_W1C[NCB_TX_ERROR]. */
+        uint64_t tso_segment_cnt       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PDM_NCB_INT_W1C[TSO_SEGMENT_CNT]. */
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PDM_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_int_w1s_s cn; */
+} bdk_pko_pdm_ncb_int_w1s_t;
+
+#define BDK_PKO_PDM_NCB_INT_W1S BDK_PKO_PDM_NCB_INT_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_INT_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000e00018ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_INT_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_INT_W1S bdk_pko_pdm_ncb_int_w1s_t
+#define bustype_BDK_PKO_PDM_NCB_INT_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_INT_W1S "PKO_PDM_NCB_INT_W1S"
+#define device_bar_BDK_PKO_PDM_NCB_INT_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_INT_W1S 0
+#define arguments_BDK_PKO_PDM_NCB_INT_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_mem_fault
+ *
+ * PKO PDM NCB Memory Fault Capture Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_mem_fault_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t err_tag               : 4;  /**< [ 17: 14](R/W1C/H) The NCB TAG field of the error transaction. */
+        uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) The NCB DST field of the error transaction. */
+        uint64_t reserved_3_5          : 3;
+        uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+        uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+        uint64_t crc_err               : 1;  /**< [  0:  0](R/W1C/H) There was a PDM meta-packet/descriptor cacheline CRC error. Data is above in
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+#else /* Word 0 - Little Endian */
+        uint64_t crc_err               : 1;  /**< [  0:  0](R/W1C/H) There was a PDM meta-packet/descriptor cacheline CRC error. Data is above in
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+        uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+        uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+        uint64_t reserved_3_5          : 3;
+        uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) The NCB DST field of the error transaction. */
+        uint64_t err_tag               : 4;  /**< [ 17: 14](R/W1C/H) The NCB TAG field of the error transaction. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_mem_fault_s cn; */
+} bdk_pko_pdm_ncb_mem_fault_t;
+
+#define BDK_PKO_PDM_NCB_MEM_FAULT BDK_PKO_PDM_NCB_MEM_FAULT_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_MEM_FAULT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_MEM_FAULT_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001800058ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_MEM_FAULT", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_MEM_FAULT bdk_pko_pdm_ncb_mem_fault_t
+#define bustype_BDK_PKO_PDM_NCB_MEM_FAULT BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_MEM_FAULT "PKO_PDM_NCB_MEM_FAULT"
+#define device_bar_BDK_PKO_PDM_NCB_MEM_FAULT 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_MEM_FAULT 0
+#define arguments_BDK_PKO_PDM_NCB_MEM_FAULT -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_tx_err_info
+ *
+ * PKO NCB TX Error Information Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_tx_err_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t d128                  : 1;  /**< [ 27: 27](R/W1C/H) 128 bit mode. */
+        uint64_t src                   : 12; /**< [ 26: 15](R/W1C/H) Source of the IOI outbound transaction. */
+        uint64_t dst                   : 8;  /**< [ 14:  7](R/W1C/H) Destination of the IOI outbound transaction. */
+        uint64_t reserved_3_6          : 4;
+        uint64_t eot                   : 1;  /**< [  2:  2](R/W1C/H) EOT bit of the NCBO transaction. */
+        uint64_t reserved_1            : 1;
+        uint64_t valid                 : 1;  /**< [  0:  0](R/W1C/H) Valid bit for transaction (should always be 1 on capture). */
+#else /* Word 0 - Little Endian */
+        uint64_t valid                 : 1;  /**< [  0:  0](R/W1C/H) Valid bit for transaction (should always be 1 on capture). */
+        uint64_t reserved_1            : 1;
+        uint64_t eot                   : 1;  /**< [  2:  2](R/W1C/H) EOT bit of the NCBO transaction. */
+        uint64_t reserved_3_6          : 4;
+        uint64_t dst                   : 8;  /**< [ 14:  7](R/W1C/H) Destination of the IOI outbound transaction. */
+        uint64_t src                   : 12; /**< [ 26: 15](R/W1C/H) Source of the IOI outbound transaction. */
+        uint64_t d128                  : 1;  /**< [ 27: 27](R/W1C/H) 128 bit mode. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_tx_err_info_s cn; */
+} bdk_pko_pdm_ncb_tx_err_info_t;
+
+#define BDK_PKO_PDM_NCB_TX_ERR_INFO BDK_PKO_PDM_NCB_TX_ERR_INFO_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_INFO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000e00008ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_TX_ERR_INFO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_TX_ERR_INFO bdk_pko_pdm_ncb_tx_err_info_t
+#define bustype_BDK_PKO_PDM_NCB_TX_ERR_INFO BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_TX_ERR_INFO "PKO_PDM_NCB_TX_ERR_INFO"
+#define device_bar_BDK_PKO_PDM_NCB_TX_ERR_INFO 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_TX_ERR_INFO 0
+#define arguments_BDK_PKO_PDM_NCB_TX_ERR_INFO -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ncb_tx_err_word
+ *
+ * PKO NCB TX Error Word Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ncb_tx_err_word_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t err_word              : 64; /**< [ 63:  0](R/W1C/H) PKO NCB error word (first word of erroneous transaction).
+                                                                 Note: this is only the 64-bit data word; the NCB info that goes with it is in
+                                                                 PKO_PDM_NCB_TX_ERR_INFO. */
+#else /* Word 0 - Little Endian */
+        uint64_t err_word              : 64; /**< [ 63:  0](R/W1C/H) PKO NCB error word (first word of erroneous transaction).
+                                                                 Note: this is only the 64-bit data word; the NCB info that goes with it is in
+                                                                 PKO_PDM_NCB_TX_ERR_INFO. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ncb_tx_err_word_s cn; */
+} bdk_pko_pdm_ncb_tx_err_word_t;
+
+#define BDK_PKO_PDM_NCB_TX_ERR_WORD BDK_PKO_PDM_NCB_TX_ERR_WORD_FUNC()
+static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_WORD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_WORD_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000e00000ll;
+    __bdk_csr_fatal("PKO_PDM_NCB_TX_ERR_WORD", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_NCB_TX_ERR_WORD bdk_pko_pdm_ncb_tx_err_word_t
+#define bustype_BDK_PKO_PDM_NCB_TX_ERR_WORD BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_NCB_TX_ERR_WORD "PKO_PDM_NCB_TX_ERR_WORD"
+#define device_bar_BDK_PKO_PDM_NCB_TX_ERR_WORD 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_NCB_TX_ERR_WORD 0
+#define arguments_BDK_PKO_PDM_NCB_TX_ERR_WORD -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_sts_info
  *
  * PKO PDM Status Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_pko_pdm_sts_s
+    struct bdk_pko_pdm_sts_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](RO/H) When PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is set, this contains the queue command response's
+                                                                 status
+                                                                 field for the response causing the error. Note that if multiple errors occur, only the
+                                                                 first error status is captured here until PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is cleared.
+                                                                 Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_25           : 1;
+        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](RO/H) Status field of the command response on the LMTDMA failure indicated by
+                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors
+                                                                 occur,
+                                                                 only the first error status is captured here until PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] is
+                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_20           : 1;
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
+                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
+                                                                 only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
+                                                                 is
+                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](RO/H) This field stores the error code for illegally constructed send-packets that did not drop.
+                                                                 Note that if multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 =
+                                                                 SEND_JUMP
+                                                                 not at end of descriptor. */
+        uint64_t reserved_7_9          : 3;
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](RO/H) This field stores the error code for illegally constructed send-packet drops. Note that if
+                                                                 multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
+                                                                 conditions. */
+        uint64_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_3          : 4;
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](RO/H) This field stores the error code for illegally constructed send-packet drops. Note that if
+                                                                 multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
+                                                                 conditions. */
+        uint64_t reserved_7_9          : 3;
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](RO/H) This field stores the error code for illegally constructed send-packets that did not drop.
+                                                                 Note that if multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 =
+                                                                 SEND_JUMP
+                                                                 not at end of descriptor. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
+                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
+                                                                 only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
+                                                                 is
+                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_20           : 1;
+        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](RO/H) Status field of the command response on the LMTDMA failure indicated by
+                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors
+                                                                 occur,
+                                                                 only the first error status is captured here until PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] is
+                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_25           : 1;
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](RO/H) When PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is set, this contains the queue command response's
+                                                                 status
+                                                                 field for the response causing the error. Note that if multiple errors occur, only the
+                                                                 first error status is captured here until PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is cleared.
+                                                                 Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_sts_info_s cn; */
+} bdk_pko_pdm_sts_info_t;
+
+#define BDK_PKO_PDM_STS_INFO BDK_PKO_PDM_STS_INFO_FUNC()
+static inline uint64_t BDK_PKO_PDM_STS_INFO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_STS_INFO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000800048ll;
+    __bdk_csr_fatal("PKO_PDM_STS_INFO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_STS_INFO bdk_pko_pdm_sts_info_t
+#define bustype_BDK_PKO_PDM_STS_INFO BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_STS_INFO "PKO_PDM_STS_INFO"
+#define device_bar_BDK_PKO_PDM_STS_INFO 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_STS_INFO 0
+#define arguments_BDK_PKO_PDM_STS_INFO -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_sts_int_ena_w1c
+ *
+ * PKO PDM Status Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_sts_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_38_63        : 26;
+        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
+                                                                 Internal:
+                                                                 This register is set to 1 if the PDM stalls the inputs for more than
+                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
+        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
+        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
+        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
+        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
+        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
+        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
+        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
+        uint64_t reserved_12_13        : 2;
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
+        uint64_t reserved_7_8          : 2;
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
+        uint64_t reserved_1_2          : 2;
+        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+        uint64_t reserved_1_2          : 2;
+        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t reserved_7_8          : 2;
+        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t reserved_12_13        : 2;
+        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
+        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
+        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
+        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
+        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
+        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
+        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
+                                                                 Internal:
+                                                                 This register is set to 1 if the PDM stalls the inputs for more than
+                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
+        uint64_t reserved_38_63        : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_sts_int_ena_w1c_s cn; */
+} bdk_pko_pdm_sts_int_ena_w1c_t;
+
+#define BDK_PKO_PDM_STS_INT_ENA_W1C BDK_PKO_PDM_STS_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000800038ll;
+    __bdk_csr_fatal("PKO_PDM_STS_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_STS_INT_ENA_W1C bdk_pko_pdm_sts_int_ena_w1c_t
+#define bustype_BDK_PKO_PDM_STS_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_STS_INT_ENA_W1C "PKO_PDM_STS_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PDM_STS_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_STS_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PDM_STS_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_sts_int_ena_w1s
+ *
+ * PKO PDM Status Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_sts_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_38_63        : 26;
+        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
+                                                                 Internal:
+                                                                 This register is set to 1 if the PDM stalls the inputs for more than
+                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
+        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
+        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
+        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
+        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
+        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
+        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
+        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
+        uint64_t reserved_12_13        : 2;
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
+        uint64_t reserved_7_8          : 2;
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
+        uint64_t reserved_1_2          : 2;
+        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+        uint64_t reserved_1_2          : 2;
+        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t reserved_7_8          : 2;
+        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t reserved_12_13        : 2;
+        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
+        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
+        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
+        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
+        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
+        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
+        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
+                                                                 Internal:
+                                                                 This register is set to 1 if the PDM stalls the inputs for more than
+                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
+        uint64_t reserved_38_63        : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_sts_int_ena_w1s_s cn; */
+} bdk_pko_pdm_sts_int_ena_w1s_t;
+
+#define BDK_PKO_PDM_STS_INT_ENA_W1S BDK_PKO_PDM_STS_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000800040ll;
+    __bdk_csr_fatal("PKO_PDM_STS_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_STS_INT_ENA_W1S bdk_pko_pdm_sts_int_ena_w1s_t
+#define bustype_BDK_PKO_PDM_STS_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_STS_INT_ENA_W1S "PKO_PDM_STS_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PDM_STS_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_STS_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PDM_STS_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_sts_w1c
+ *
+ * PKO PDM Status Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_sts_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_38_63        : 26;
@@ -9488,24 +12118,108 @@ typedef union
         uint64_t reserved_38_63        : 26;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pko_pdm_sts_s cn; */
-} bdk_pko_pdm_sts_t;
+    /* struct bdk_pko_pdm_sts_w1c_s cn; */
+} bdk_pko_pdm_sts_w1c_t;
 
-#define BDK_PKO_PDM_STS BDK_PKO_PDM_STS_FUNC()
-static inline uint64_t BDK_PKO_PDM_STS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_PDM_STS_FUNC(void)
+#define BDK_PKO_PDM_STS_W1C BDK_PKO_PDM_STS_W1C_FUNC()
+static inline uint64_t BDK_PKO_PDM_STS_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_STS_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000800008ll;
-    __bdk_csr_fatal("PKO_PDM_STS", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKO_PDM_STS_W1C", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKO_PDM_STS bdk_pko_pdm_sts_t
-#define bustype_BDK_PKO_PDM_STS BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_PDM_STS "PKO_PDM_STS"
-#define device_bar_BDK_PKO_PDM_STS 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_PDM_STS 0
-#define arguments_BDK_PKO_PDM_STS -1,-1,-1,-1
+#define typedef_BDK_PKO_PDM_STS_W1C bdk_pko_pdm_sts_w1c_t
+#define bustype_BDK_PKO_PDM_STS_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_STS_W1C "PKO_PDM_STS_W1C"
+#define device_bar_BDK_PKO_PDM_STS_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_STS_W1C 0
+#define arguments_BDK_PKO_PDM_STS_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_sts_w1s
+ *
+ * PKO PDM Status Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_sts_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_38_63        : 26;
+        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
+                                                                 Internal:
+                                                                 This register is set to 1 if the PDM stalls the inputs for more than
+                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
+        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
+        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
+        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
+        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
+        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
+        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
+        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
+        uint64_t reserved_12_13        : 2;
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
+        uint64_t reserved_7_8          : 2;
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
+        uint64_t reserved_1_2          : 2;
+        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+        uint64_t reserved_1_2          : 2;
+        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t reserved_7_8          : 2;
+        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t reserved_12_13        : 2;
+        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
+        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
+        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
+        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
+        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
+        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
+        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
+                                                                 Internal:
+                                                                 This register is set to 1 if the PDM stalls the inputs for more than
+                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
+        uint64_t reserved_38_63        : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_sts_w1s_s cn; */
+} bdk_pko_pdm_sts_w1s_t;
+
+#define BDK_PKO_PDM_STS_W1S BDK_PKO_PDM_STS_W1S_FUNC()
+static inline uint64_t BDK_PKO_PDM_STS_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_STS_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000800030ll;
+    __bdk_csr_fatal("PKO_PDM_STS_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_STS_W1S bdk_pko_pdm_sts_w1s_t
+#define bustype_BDK_PKO_PDM_STS_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_STS_W1S "PKO_PDM_STS_W1S"
+#define device_bar_BDK_PKO_PDM_STS_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PDM_STS_W1S 0
+#define arguments_BDK_PKO_PDM_STS_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_bist_status
@@ -9752,6 +12466,292 @@ static inline uint64_t BDK_PKO_PEB_ECC_CTL1_FUNC(void)
 #define arguments_BDK_PKO_PEB_ECC_CTL1 -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_peb_ecc_dbe_int_ena_w1c
+ *
+ * PKO PEB RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ECC_DBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ECC_DBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_peb_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fffc0ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C bdk_pko_peb_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C "PKO_PEB_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_dbe_int_ena_w1s
+ *
+ * PKO PEB RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ECC_DBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ECC_DBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_peb_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fffc8ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S bdk_pko_peb_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S "PKO_PEB_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_dbe_w1c
+ *
+ * PKO PEB RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PEB_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PEB_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_dbe_w1c_s cn; */
+} bdk_pko_peb_ecc_dbe_w1c_t;
+
+#define BDK_PKO_PEB_ECC_DBE_W1C BDK_PKO_PEB_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fffb0ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_DBE_W1C bdk_pko_peb_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_PEB_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_DBE_W1C "PKO_PEB_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_PEB_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_PEB_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_dbe_w1s
+ *
+ * PKO PEB RAM ECC DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_ECC_DBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_ECC_DBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_dbe_w1s_s cn; */
+} bdk_pko_peb_ecc_dbe_w1s_t;
+
+#define BDK_PKO_PEB_ECC_DBE_W1S BDK_PKO_PEB_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fffb8ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_DBE_W1S bdk_pko_peb_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_PEB_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_DBE_W1S "PKO_PEB_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_PEB_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_PEB_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_sbe_int_ena_w1c
+ *
+ * PKO PEB RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ECC_SBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ECC_SBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_peb_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fff90ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C bdk_pko_peb_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C "PKO_PEB_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_sbe_int_ena_w1s
+ *
+ * PKO PEB RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ECC_SBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ECC_SBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_peb_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fff98ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S bdk_pko_peb_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S "PKO_PEB_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_sbe_w1c
+ *
+ * PKO PEB RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PEB_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PEB_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_sbe_w1c_s cn; */
+} bdk_pko_peb_ecc_sbe_w1c_t;
+
+#define BDK_PKO_PEB_ECC_SBE_W1C BDK_PKO_PEB_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fff80ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_SBE_W1C bdk_pko_peb_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_PEB_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_SBE_W1C "PKO_PEB_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_PEB_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_PEB_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_sbe_w1s
+ *
+ * PKO PEB ECC SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_ECC_SBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_ECC_SBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_sbe_w1s_s cn; */
+} bdk_pko_peb_ecc_sbe_w1s_t;
+
+#define BDK_PKO_PEB_ECC_SBE_W1S BDK_PKO_PEB_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fff88ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_SBE_W1S bdk_pko_peb_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_PEB_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_SBE_W1S "PKO_PEB_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_PEB_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_PEB_ECC_SBE_W1S -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_peb_eco
  *
  * INTERNAL: PKO PEB ECO Register
@@ -9791,14 +12791,126 @@ static inline uint64_t BDK_PKO_PEB_ECO_FUNC(void)
 #define arguments_BDK_PKO_PEB_ECO -1,-1,-1,-1
 
 /**
- * Register (NCB) pko_peb_err_int
+ * Register (NCB) pko_peb_err_int_ena_w1c
+ *
+ * PKO PEB Error Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_err_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
+        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
+        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
+        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
+        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
+        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
+        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
+        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
+        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
+        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
+        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
+        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
+        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
+        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
+        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
+        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
+        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
+        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_err_int_ena_w1c_s cn; */
+} bdk_pko_peb_err_int_ena_w1c_t;
+
+#define BDK_PKO_PEB_ERR_INT_ENA_W1C BDK_PKO_PEB_ERR_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000900c88ll;
+    __bdk_csr_fatal("PKO_PEB_ERR_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ERR_INT_ENA_W1C bdk_pko_peb_err_int_ena_w1c_t
+#define bustype_BDK_PKO_PEB_ERR_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ERR_INT_ENA_W1C "PKO_PEB_ERR_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PEB_ERR_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ERR_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PEB_ERR_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_err_int_ena_w1s
+ *
+ * PKO PEB Error Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_err_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
+        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
+        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
+        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
+        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
+        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
+        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
+        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
+        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
+        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
+        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
+        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
+        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
+        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
+        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
+        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
+        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
+        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_err_int_ena_w1s_s cn; */
+} bdk_pko_peb_err_int_ena_w1s_t;
+
+#define BDK_PKO_PEB_ERR_INT_ENA_W1S BDK_PKO_PEB_ERR_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000900c90ll;
+    __bdk_csr_fatal("PKO_PEB_ERR_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ERR_INT_ENA_W1S bdk_pko_peb_err_int_ena_w1s_t
+#define bustype_BDK_PKO_PEB_ERR_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ERR_INT_ENA_W1S "PKO_PEB_ERR_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PEB_ERR_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ERR_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PEB_ERR_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_err_int_w1c
  *
  * PKO PEB Error Interrupt Status Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_pko_peb_err_int_s
+    struct bdk_pko_peb_err_int_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
@@ -9828,65 +12940,80 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pko_peb_err_int_s cn; */
-} bdk_pko_peb_err_int_t;
+    /* struct bdk_pko_peb_err_int_w1c_s cn; */
+} bdk_pko_peb_err_int_w1c_t;
 
-#define BDK_PKO_PEB_ERR_INT BDK_PKO_PEB_ERR_INT_FUNC()
-static inline uint64_t BDK_PKO_PEB_ERR_INT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_PEB_ERR_INT_FUNC(void)
+#define BDK_PKO_PEB_ERR_INT_W1C BDK_PKO_PEB_ERR_INT_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_ERR_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ERR_INT_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000900c00ll;
-    __bdk_csr_fatal("PKO_PEB_ERR_INT", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKO_PEB_ERR_INT_W1C", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKO_PEB_ERR_INT bdk_pko_peb_err_int_t
-#define bustype_BDK_PKO_PEB_ERR_INT BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_PEB_ERR_INT "PKO_PEB_ERR_INT"
-#define device_bar_BDK_PKO_PEB_ERR_INT 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_PEB_ERR_INT 0
-#define arguments_BDK_PKO_PEB_ERR_INT -1,-1,-1,-1
+#define typedef_BDK_PKO_PEB_ERR_INT_W1C bdk_pko_peb_err_int_w1c_t
+#define bustype_BDK_PKO_PEB_ERR_INT_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ERR_INT_W1C "PKO_PEB_ERR_INT_W1C"
+#define device_bar_BDK_PKO_PEB_ERR_INT_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ERR_INT_W1C 0
+#define arguments_BDK_PKO_PEB_ERR_INT_W1C -1,-1,-1,-1
 
 /**
- * Register (NCB) pko_peb_ext_hdr_def_err_info
+ * Register (NCB) pko_peb_err_int_w1s
  *
- * PKO External Error Information Register
+ * PKO PEB Error Interrupt Status Set Register
+ * This register sets interrupt bits.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_pko_peb_ext_hdr_def_err_info_s
+    struct bdk_pko_peb_err_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_EXT_HDR_DEF_ERR] is set. */
-        uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_EXT_HDR_DEF_ERR. */
-        uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_EXT_HDR_DEF_ERR. */
+        uint64_t reserved_10_63        : 54;
+        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
+        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
+        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
+        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
+        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
+        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
+        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
+        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
+        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
+        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_EXT_HDR_DEF_ERR. */
-        uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_EXT_HDR_DEF_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_EXT_HDR_DEF_ERR] is set. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
+        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
+        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
+        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
+        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
+        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
+        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
+        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
+        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pko_peb_ext_hdr_def_err_info_s cn; */
-} bdk_pko_peb_ext_hdr_def_err_info_t;
+    /* struct bdk_pko_peb_err_int_w1s_s cn; */
+} bdk_pko_peb_err_int_w1s_t;
 
-#define BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO_FUNC()
-static inline uint64_t BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO_FUNC(void)
+#define BDK_PKO_PEB_ERR_INT_W1S BDK_PKO_PEB_ERR_INT_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_ERR_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ERR_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c08ll;
-    __bdk_csr_fatal("PKO_PEB_EXT_HDR_DEF_ERR_INFO", 0, 0, 0, 0, 0);
+        return 0x854000900c80ll;
+    __bdk_csr_fatal("PKO_PEB_ERR_INT_W1S", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO bdk_pko_peb_ext_hdr_def_err_info_t
-#define bustype_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO "PKO_PEB_EXT_HDR_DEF_ERR_INFO"
-#define device_bar_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO 0
-#define arguments_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO -1,-1,-1,-1
+#define typedef_BDK_PKO_PEB_ERR_INT_W1S bdk_pko_peb_err_int_w1s_t
+#define bustype_BDK_PKO_PEB_ERR_INT_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ERR_INT_W1S "PKO_PEB_ERR_INT_W1S"
+#define device_bar_BDK_PKO_PEB_ERR_INT_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ERR_INT_W1S 0
+#define arguments_BDK_PKO_PEB_ERR_INT_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_fcs_sop_err_info
@@ -10051,6 +13178,44 @@ static inline uint64_t BDK_PKO_PEB_MAX_LINK_ERR_INFO_FUNC(void)
 #define arguments_BDK_PKO_PEB_MAX_LINK_ERR_INFO -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_peb_ncb_bist_status
+ *
+ * PKO PEB NCB RAM BIST Status Register
+ * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ncbi_l2_out_ram_bist_status : 1;/**< [ 63: 63](RO) BIST status for NCBI_L2_OUT_RAM. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t ncbi_l2_out_ram_bist_status : 1;/**< [ 63: 63](RO) BIST status for NCBI_L2_OUT_RAM. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_bist_status_s cn; */
+} bdk_pko_peb_ncb_bist_status_t;
+
+#define BDK_PKO_PEB_NCB_BIST_STATUS BDK_PKO_PEB_NCB_BIST_STATUS_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_BIST_STATUS_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efff00ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_BIST_STATUS", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_BIST_STATUS bdk_pko_peb_ncb_bist_status_t
+#define bustype_BDK_PKO_PEB_NCB_BIST_STATUS BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_BIST_STATUS "PKO_PEB_NCB_BIST_STATUS"
+#define device_bar_BDK_PKO_PEB_NCB_BIST_STATUS 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_BIST_STATUS 0
+#define arguments_BDK_PKO_PEB_NCB_BIST_STATUS -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_peb_ncb_cfg
  *
  * PKO PEB NCB Interface Configuration Register
@@ -10086,6 +13251,545 @@ static inline uint64_t BDK_PKO_PEB_NCB_CFG_FUNC(void)
 #define device_bar_BDK_PKO_PEB_NCB_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_NCB_CFG 0
 #define arguments_BDK_PKO_PEB_NCB_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_ecc_ctl0
+ *
+ * PKO PEB NCB RAM ECC Control Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_ecc_ctl0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ncbi_l2_out_ram_flip  : 2;  /**< [ 63: 62](R/W) NCBI_L2_OUT_RAM flip syndrome bits on write. */
+        uint64_t ncbi_l2_out_ram_cdis  : 1;  /**< [ 61: 61](R/W) NCBI_L2_OUT_RAM ECC correction disable. */
+        uint64_t reserved_0_60         : 61;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_60         : 61;
+        uint64_t ncbi_l2_out_ram_cdis  : 1;  /**< [ 61: 61](R/W) NCBI_L2_OUT_RAM ECC correction disable. */
+        uint64_t ncbi_l2_out_ram_flip  : 2;  /**< [ 63: 62](R/W) NCBI_L2_OUT_RAM flip syndrome bits on write. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_ecc_ctl0_s cn; */
+} bdk_pko_peb_ncb_ecc_ctl0_t;
+
+#define BDK_PKO_PEB_NCB_ECC_CTL0 BDK_PKO_PEB_NCB_ECC_CTL0_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_CTL0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efffd0ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_ECC_CTL0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_ECC_CTL0 bdk_pko_peb_ncb_ecc_ctl0_t
+#define bustype_BDK_PKO_PEB_NCB_ECC_CTL0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_ECC_CTL0 "PKO_PEB_NCB_ECC_CTL0"
+#define device_bar_BDK_PKO_PEB_NCB_ECC_CTL0 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_ECC_CTL0 0
+#define arguments_BDK_PKO_PEB_NCB_ECC_CTL0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_ecc_dbe_int_ena_w1c
+ *
+ * PKO NCB RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_NCB_ECC_DBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_NCB_ECC_DBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efffb0ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C "PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_ecc_dbe_int_ena_w1s
+ *
+ * PKO NCB RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_NCB_ECC_DBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_NCB_ECC_DBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efffb8ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S "PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_ecc_dbe_w1c
+ *
+ * PKO PEB NCB RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PEB_NCB_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PEB_NCB_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_ecc_dbe_w1c_s cn; */
+} bdk_pko_peb_ncb_ecc_dbe_w1c_t;
+
+#define BDK_PKO_PEB_NCB_ECC_DBE_W1C BDK_PKO_PEB_NCB_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efffa0ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_ECC_DBE_W1C bdk_pko_peb_ncb_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_PEB_NCB_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_ECC_DBE_W1C "PKO_PEB_NCB_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_PEB_NCB_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_PEB_NCB_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_ecc_dbe_w1s
+ *
+ * PKO NCB RAM ECC DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_NCB_ECC_DBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_NCB_ECC_DBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_ecc_dbe_w1s_s cn; */
+} bdk_pko_peb_ncb_ecc_dbe_w1s_t;
+
+#define BDK_PKO_PEB_NCB_ECC_DBE_W1S BDK_PKO_PEB_NCB_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efffa8ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_ECC_DBE_W1S bdk_pko_peb_ncb_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_PEB_NCB_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_ECC_DBE_W1S "PKO_PEB_NCB_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_PEB_NCB_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_PEB_NCB_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_ecc_sbe_int_ena_w1c
+ *
+ * PKO DQ RAM ECC SBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_NCB_ECC_SBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_NCB_ECC_SBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efff90ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C "PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_ecc_sbe_int_ena_w1s
+ *
+ * PKO DQ RAM ECC SBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_NCB_ECC_SBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_NCB_ECC_SBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efff98ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S "PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_ecc_sbe_w1c
+ *
+ * PKO NCB RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PEB_NCB_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1C/H) SRAMs enumerated by PKO_PEB_NCB_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_ecc_sbe_w1c_s cn; */
+} bdk_pko_peb_ncb_ecc_sbe_w1c_t;
+
+#define BDK_PKO_PEB_NCB_ECC_SBE_W1C BDK_PKO_PEB_NCB_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efff80ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_ECC_SBE_W1C bdk_pko_peb_ncb_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_PEB_NCB_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_ECC_SBE_W1C "PKO_PEB_NCB_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_PEB_NCB_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_PEB_NCB_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_ecc_sbe_w1s
+ *
+ * PKO NCB ECC SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_NCB_ECC_SBE_W1C[SRAM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sram                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_NCB_ECC_SBE_W1C[SRAM]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_ecc_sbe_w1s_s cn; */
+} bdk_pko_peb_ncb_ecc_sbe_w1s_t;
+
+#define BDK_PKO_PEB_NCB_ECC_SBE_W1S BDK_PKO_PEB_NCB_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001efff88ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_ECC_SBE_W1S bdk_pko_peb_ncb_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_PEB_NCB_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_ECC_SBE_W1S "PKO_PEB_NCB_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_PEB_NCB_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_PEB_NCB_ECC_SBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_int_ena_w1c
+ *
+ * PKO NCB Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PEB_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PEB_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_int_ena_w1c_s cn; */
+} bdk_pko_peb_ncb_int_ena_w1c_t;
+
+#define BDK_PKO_PEB_NCB_INT_ENA_W1C BDK_PKO_PEB_NCB_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001e00020ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_INT_ENA_W1C bdk_pko_peb_ncb_int_ena_w1c_t
+#define bustype_BDK_PKO_PEB_NCB_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_INT_ENA_W1C "PKO_PEB_NCB_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PEB_NCB_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PEB_NCB_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_int_ena_w1s
+ *
+ * PKO NCB Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PEB_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PEB_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_int_ena_w1s_s cn; */
+} bdk_pko_peb_ncb_int_ena_w1s_t;
+
+#define BDK_PKO_PEB_NCB_INT_ENA_W1S BDK_PKO_PEB_NCB_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001e00028ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_INT_ENA_W1S bdk_pko_peb_ncb_int_ena_w1s_t
+#define bustype_BDK_PKO_PEB_NCB_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_INT_ENA_W1S "PKO_PEB_NCB_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PEB_NCB_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PEB_NCB_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_int_w1c
+ *
+ * PKO NCB Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_int_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1C/H) Fatal memory fault error.
+                                                                 NCB memory error occurred (load fault / store fault / CRC fault).
+                                                                 If set, see PKO_PEB_NCB_MEM_FAULT for additional information. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1C/H) Fatal memory fault error.
+                                                                 NCB memory error occurred (load fault / store fault / CRC fault).
+                                                                 If set, see PKO_PEB_NCB_MEM_FAULT for additional information. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_int_w1c_s cn; */
+} bdk_pko_peb_ncb_int_w1c_t;
+
+#define BDK_PKO_PEB_NCB_INT_W1C BDK_PKO_PEB_NCB_INT_W1C_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_INT_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001e00010ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_INT_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_INT_W1C bdk_pko_peb_ncb_int_w1c_t
+#define bustype_BDK_PKO_PEB_NCB_INT_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_INT_W1C "PKO_PEB_NCB_INT_W1C"
+#define device_bar_BDK_PKO_PEB_NCB_INT_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_INT_W1C 0
+#define arguments_BDK_PKO_PEB_NCB_INT_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_int_w1s
+ *
+ * PKO NCB Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PEB_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t mem_fault             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PEB_NCB_INT_W1C[MEM_FAULT]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_int_w1s_s cn; */
+} bdk_pko_peb_ncb_int_w1s_t;
+
+#define BDK_PKO_PEB_NCB_INT_W1S BDK_PKO_PEB_NCB_INT_W1S_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_INT_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001e00018ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_INT_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_INT_W1S bdk_pko_peb_ncb_int_w1s_t
+#define bustype_BDK_PKO_PEB_NCB_INT_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_INT_W1S "PKO_PEB_NCB_INT_W1S"
+#define device_bar_BDK_PKO_PEB_NCB_INT_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_INT_W1S 0
+#define arguments_BDK_PKO_PEB_NCB_INT_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ncb_mem_fault
+ *
+ * PKO PEB NCB Memory Fault Capture Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ncb_mem_fault_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t err_tag               : 4;  /**< [ 17: 14](R/W1C/H) NCB TAG field of the error transaction. */
+        uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) NCB DST field of the error transaction. */
+        uint64_t reserved_3_5          : 3;
+        uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+        uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+        uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+        uint64_t reserved_3_5          : 3;
+        uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) NCB DST field of the error transaction. */
+        uint64_t err_tag               : 4;  /**< [ 17: 14](R/W1C/H) NCB TAG field of the error transaction. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ncb_mem_fault_s cn; */
+} bdk_pko_peb_ncb_mem_fault_t;
+
+#define BDK_PKO_PEB_NCB_MEM_FAULT BDK_PKO_PEB_NCB_MEM_FAULT_FUNC()
+static inline uint64_t BDK_PKO_PEB_NCB_MEM_FAULT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_NCB_MEM_FAULT_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854001800060ll;
+    __bdk_csr_fatal("PKO_PEB_NCB_MEM_FAULT", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_NCB_MEM_FAULT bdk_pko_peb_ncb_mem_fault_t
+#define bustype_BDK_PKO_PEB_NCB_MEM_FAULT BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_NCB_MEM_FAULT "PKO_PEB_NCB_MEM_FAULT"
+#define device_bar_BDK_PKO_PEB_NCB_MEM_FAULT 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_NCB_MEM_FAULT 0
+#define arguments_BDK_PKO_PEB_NCB_MEM_FAULT -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_pad_err_info
@@ -10139,7 +13843,8 @@ typedef union
     struct bdk_pko_peb_pse_fifo_err_info_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
+        uint64_t reserved_25_63        : 39;
+        uint64_t link                  : 5;  /**< [ 24: 20](RO/H) Link number associated with the captured PEB_PSE_FIFO_ERR. */
         uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_PSE_FIFO_ERR. */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_PSE_FIFO_ERR. */
@@ -10147,7 +13852,8 @@ typedef union
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_PSE_FIFO_ERR. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_PSE_FIFO_ERR. */
         uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t link                  : 5;  /**< [ 24: 20](RO/H) Link number associated with the captured PEB_PSE_FIFO_ERR. */
+        uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_pse_fifo_err_info_s cn; */
@@ -10361,9 +14067,6 @@ static inline uint64_t BDK_PKO_PEB_TSO_CFG_FUNC(void)
  * PKO MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the PKO_PF_INT_VEC_E
  * enumeration.
- *
- * Internal:
- * FIXME, attributes need to be updated when this CSR is implemented.
  */
 typedef union
 {
@@ -10401,8 +14104,6 @@ static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a)
  *
  * PKO MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the PKO_PF_INT_VEC_E enumeration.
- * Internal:
- * FIXME, attributes need to be updated when this CSR is implemented.
  */
 typedef union
 {
@@ -10443,7 +14144,7 @@ typedef union
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=21))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=24))
         return 0x854300000000ll + 0x10ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -10460,8 +14161,6 @@ static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a)
  *
  * PKO MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the PKO_PF_INT_VEC_E enumeration.
- * Internal:
- * FIXME, attributes need to be updated when this CSR is implemented.
  */
 typedef union
 {
@@ -10486,7 +14185,7 @@ typedef union
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=21))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=24))
         return 0x854300000008ll + 0x10ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -10842,6 +14541,292 @@ static inline uint64_t BDK_PKO_PQ_DRAIN_W1S_FUNC(void)
 #define arguments_BDK_PKO_PQ_DRAIN_W1S -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_pq_ecc_dbe_int_ena_w1c
+ *
+ * PKO PQ RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pq_ecc_dbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PQ_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PQ_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pq_ecc_dbe_int_ena_w1c_s cn; */
+} bdk_pko_pq_ecc_dbe_int_ena_w1c_t;
+
+#define BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540000001b0ll;
+    __bdk_csr_fatal("PKO_PQ_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C bdk_pko_pq_ecc_dbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C "PKO_PQ_ECC_DBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pq_ecc_dbe_int_ena_w1s
+ *
+ * PKO PQ RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pq_ecc_dbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PQ_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PQ_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pq_ecc_dbe_int_ena_w1s_s cn; */
+} bdk_pko_pq_ecc_dbe_int_ena_w1s_t;
+
+#define BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540000001b8ll;
+    __bdk_csr_fatal("PKO_PQ_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S bdk_pko_pq_ecc_dbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S "PKO_PQ_ECC_DBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pq_ecc_dbe_w1c
+ *
+ * PKO PQ RAM ECC DBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pq_ecc_dbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC interrupts enumerated by PKO_PQ_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC interrupts enumerated by PKO_PQ_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pq_ecc_dbe_w1c_s cn; */
+} bdk_pko_pq_ecc_dbe_w1c_t;
+
+#define BDK_PKO_PQ_ECC_DBE_W1C BDK_PKO_PQ_ECC_DBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540000001a0ll;
+    __bdk_csr_fatal("PKO_PQ_ECC_DBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PQ_ECC_DBE_W1C bdk_pko_pq_ecc_dbe_w1c_t
+#define bustype_BDK_PKO_PQ_ECC_DBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PQ_ECC_DBE_W1C "PKO_PQ_ECC_DBE_W1C"
+#define device_bar_BDK_PKO_PQ_ECC_DBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PQ_ECC_DBE_W1C 0
+#define arguments_BDK_PKO_PQ_ECC_DBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pq_ecc_dbe_w1s
+ *
+ * PKO PQ RAM ECC DBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pq_ecc_dbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PQ_ECC_DBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PQ_ECC_DBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pq_ecc_dbe_w1s_s cn; */
+} bdk_pko_pq_ecc_dbe_w1s_t;
+
+#define BDK_PKO_PQ_ECC_DBE_W1S BDK_PKO_PQ_ECC_DBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540000001a8ll;
+    __bdk_csr_fatal("PKO_PQ_ECC_DBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PQ_ECC_DBE_W1S bdk_pko_pq_ecc_dbe_w1s_t
+#define bustype_BDK_PKO_PQ_ECC_DBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PQ_ECC_DBE_W1S "PKO_PQ_ECC_DBE_W1S"
+#define device_bar_BDK_PKO_PQ_ECC_DBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PQ_ECC_DBE_W1S 0
+#define arguments_BDK_PKO_PQ_ECC_DBE_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pq_ecc_sbe_int_ena_w1c
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pq_ecc_sbe_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PQ_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PQ_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pq_ecc_sbe_int_ena_w1c_s cn; */
+} bdk_pko_pq_ecc_sbe_int_ena_w1c_t;
+
+#define BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000000190ll;
+    __bdk_csr_fatal("PKO_PQ_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C bdk_pko_pq_ecc_sbe_int_ena_w1c_t
+#define bustype_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C "PKO_PQ_ECC_SBE_INT_ENA_W1C"
+#define device_bar_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C 0
+#define arguments_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pq_ecc_sbe_int_ena_w1s
+ *
+ * PKO DQ RAM ECC DBE Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pq_ecc_sbe_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PQ_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PQ_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pq_ecc_sbe_int_ena_w1s_s cn; */
+} bdk_pko_pq_ecc_sbe_int_ena_w1s_t;
+
+#define BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000000198ll;
+    __bdk_csr_fatal("PKO_PQ_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S bdk_pko_pq_ecc_sbe_int_ena_w1s_t
+#define bustype_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S "PKO_PQ_ECC_SBE_INT_ENA_W1S"
+#define device_bar_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S 0
+#define arguments_BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pq_ecc_sbe_w1c
+ *
+ * PKO PSE PQ RAM ECC SBE Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pq_ecc_sbe_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC interrupts enumerated by PKO_PQ_ECC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) ECC interrupts enumerated by PKO_PQ_ECC_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pq_ecc_sbe_w1c_s cn; */
+} bdk_pko_pq_ecc_sbe_w1c_t;
+
+#define BDK_PKO_PQ_ECC_SBE_W1C BDK_PKO_PQ_ECC_SBE_W1C_FUNC()
+static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000000180ll;
+    __bdk_csr_fatal("PKO_PQ_ECC_SBE_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PQ_ECC_SBE_W1C bdk_pko_pq_ecc_sbe_w1c_t
+#define bustype_BDK_PKO_PQ_ECC_SBE_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PQ_ECC_SBE_W1C "PKO_PQ_ECC_SBE_W1C"
+#define device_bar_BDK_PKO_PQ_ECC_SBE_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PQ_ECC_SBE_W1C 0
+#define arguments_BDK_PKO_PQ_ECC_SBE_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pq_ecc_sbe_w1s
+ *
+ * PKO PQ ECC SBE Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pq_ecc_sbe_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PQ_ECC_SBE_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PQ_ECC_SBE_W1C[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pq_ecc_sbe_w1s_s cn; */
+} bdk_pko_pq_ecc_sbe_w1s_t;
+
+#define BDK_PKO_PQ_ECC_SBE_W1S BDK_PKO_PQ_ECC_SBE_W1S_FUNC()
+static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000000188ll;
+    __bdk_csr_fatal("PKO_PQ_ECC_SBE_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PQ_ECC_SBE_W1S bdk_pko_pq_ecc_sbe_w1s_t
+#define bustype_BDK_PKO_PQ_ECC_SBE_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PQ_ECC_SBE_W1S "PKO_PQ_ECC_SBE_W1S"
+#define device_bar_BDK_PKO_PQ_ECC_SBE_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PQ_ECC_SBE_W1S 0
+#define arguments_BDK_PKO_PQ_ECC_SBE_W1S -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_pqa_debug
  *
  * INTERNAL: PKO PSE PQA Internal Debug Register
@@ -10975,9 +14960,13 @@ typedef union
         uint64_t dq_rt1_cdis           : 1;  /**< [ 40: 40](R/W) DQ_RT1 ECC correction disable. */
         uint64_t dq_rt0_flip           : 2;  /**< [ 39: 38](R/W) DQ_RT0 flip syndrome bits on write. */
         uint64_t dq_rt0_cdis           : 1;  /**< [ 37: 37](R/W) DQ_RT0 ECC correction disable. */
-        uint64_t reserved_0_36         : 37;
+        uint64_t msix_ram_flip         : 2;  /**< [ 36: 35](R/W) DQ_RT0 flip syndrome bits on write. */
+        uint64_t msix_ram_cdis         : 1;  /**< [ 34: 34](R/W) DQ_RT0 ECC correction disable. */
+        uint64_t reserved_0_33         : 34;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_36         : 37;
+        uint64_t reserved_0_33         : 34;
+        uint64_t msix_ram_cdis         : 1;  /**< [ 34: 34](R/W) DQ_RT0 ECC correction disable. */
+        uint64_t msix_ram_flip         : 2;  /**< [ 36: 35](R/W) DQ_RT0 flip syndrome bits on write. */
         uint64_t dq_rt0_cdis           : 1;  /**< [ 37: 37](R/W) DQ_RT0 ECC correction disable. */
         uint64_t dq_rt0_flip           : 2;  /**< [ 39: 38](R/W) DQ_RT0 flip syndrome bits on write. */
         uint64_t dq_rt1_cdis           : 1;  /**< [ 40: 40](R/W) DQ_RT1 ECC correction disable. */
@@ -12011,31 +16000,21 @@ typedef union
         uint64_t reserved_24_62        : 39;
         uint64_t c2qlut_rdy            : 1;  /**< [ 23: 23](RO/H) PKO C2Q LUT block ready for configuration. */
         uint64_t ppfi_rdy              : 1;  /**< [ 22: 22](RO/H) PKO PPFI block ready for configuration. */
-        uint64_t iobp1_rdy             : 1;  /**< [ 21: 21](RO/H) PKO IOBP1 block ready for configuration. */
-        uint64_t ncb_rdy               : 1;  /**< [ 20: 20](RO/H) PKO NCB block ready for configuration. */
+        uint64_t peb_ncb_rdy           : 1;  /**< [ 21: 21](RO/H) PKO IOBP1 block ready for configuration. */
+        uint64_t pdm_ncb_rdy           : 1;  /**< [ 20: 20](RO/H) PKO NCB block ready for configuration. */
         uint64_t pse_rdy               : 1;  /**< [ 19: 19](RO/H) PKO PSE block ready for configuration. */
         uint64_t pdm_rdy               : 1;  /**< [ 18: 18](RO/H) PKO PDM block ready for configuration. */
         uint64_t peb_rdy               : 1;  /**< [ 17: 17](RO/H) PKO PEB block ready for configuration. */
         uint64_t csi_rdy               : 1;  /**< [ 16: 16](RO/H) PKO CSI block ready for configuration. */
-        uint64_t reserved_5_15         : 11;
-        uint64_t ncb_bist_status       : 1;  /**< [  4:  4](RO) PKO NCB block BIST status. 0 = BIST passed; 1 = BIST failed. */
-        uint64_t c2qlut_bist_status    : 1;  /**< [  3:  3](RO) PKO C2QLUT block BIST status. 0 = BIST passed; 1 = BIST failed. */
-        uint64_t pdm_bist_status       : 1;  /**< [  2:  2](RO) PKO PDM block BIST status. 0 = BIST passed; 1 = BIST failed. */
-        uint64_t peb_bist_status       : 1;  /**< [  1:  1](RO) PKO PEB block BIST status. 0 = BIST passed; 1 = BIST failed. */
-        uint64_t pse_bist_status       : 1;  /**< [  0:  0](RO) PKO PSE block BIST status. 0 = BIST passed; 1 = BIST failed. */
+        uint64_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
-        uint64_t pse_bist_status       : 1;  /**< [  0:  0](RO) PKO PSE block BIST status. 0 = BIST passed; 1 = BIST failed. */
-        uint64_t peb_bist_status       : 1;  /**< [  1:  1](RO) PKO PEB block BIST status. 0 = BIST passed; 1 = BIST failed. */
-        uint64_t pdm_bist_status       : 1;  /**< [  2:  2](RO) PKO PDM block BIST status. 0 = BIST passed; 1 = BIST failed. */
-        uint64_t c2qlut_bist_status    : 1;  /**< [  3:  3](RO) PKO C2QLUT block BIST status. 0 = BIST passed; 1 = BIST failed. */
-        uint64_t ncb_bist_status       : 1;  /**< [  4:  4](RO) PKO NCB block BIST status. 0 = BIST passed; 1 = BIST failed. */
-        uint64_t reserved_5_15         : 11;
+        uint64_t reserved_0_15         : 16;
         uint64_t csi_rdy               : 1;  /**< [ 16: 16](RO/H) PKO CSI block ready for configuration. */
         uint64_t peb_rdy               : 1;  /**< [ 17: 17](RO/H) PKO PEB block ready for configuration. */
         uint64_t pdm_rdy               : 1;  /**< [ 18: 18](RO/H) PKO PDM block ready for configuration. */
         uint64_t pse_rdy               : 1;  /**< [ 19: 19](RO/H) PKO PSE block ready for configuration. */
-        uint64_t ncb_rdy               : 1;  /**< [ 20: 20](RO/H) PKO NCB block ready for configuration. */
-        uint64_t iobp1_rdy             : 1;  /**< [ 21: 21](RO/H) PKO IOBP1 block ready for configuration. */
+        uint64_t pdm_ncb_rdy           : 1;  /**< [ 20: 20](RO/H) PKO NCB block ready for configuration. */
+        uint64_t peb_ncb_rdy           : 1;  /**< [ 21: 21](RO/H) PKO IOBP1 block ready for configuration. */
         uint64_t ppfi_rdy              : 1;  /**< [ 22: 22](RO/H) PKO PPFI block ready for configuration. */
         uint64_t c2qlut_rdy            : 1;  /**< [ 23: 23](RO/H) PKO C2Q LUT block ready for configuration. */
         uint64_t reserved_24_62        : 39;
@@ -12152,13 +16131,13 @@ typedef union
     struct bdk_pko_vfx_dqx_mp_statex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) This is the internal state for meta-packet per each DQ. It can be accessed for
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Internal state for meta-packet per each DQ. It can be accessed for
                                                                  debug or for software to cleanup/clear the state after a memory error.
 
                                                                  Warning that this will modify internal state. It must not be changed while DQ is
                                                                  active or system will need to be reset. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) This is the internal state for meta-packet per each DQ. It can be accessed for
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Internal state for meta-packet per each DQ. It can be accessed for
                                                                  debug or for software to cleanup/clear the state after a memory error.
 
                                                                  Warning that this will modify internal state. It must not be changed while DQ is
@@ -12494,13 +16473,13 @@ typedef union
     struct bdk_pko_vfx_dqx_pd_statex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) This is the internal state for descriptors per each DQ. It can be accessed for
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Internal state for descriptors per each DQ. It can be accessed for
                                                                  debug or for software to cleanup/clear the state after a memory error.
 
                                                                  Warning that this will modify internal state. It must not be changed while DQ is
                                                                  active or system will need to be reset. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) This is the internal state for descriptors per each DQ. It can be accessed for
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Internal state for descriptors per each DQ. It can be accessed for
                                                                  debug or for software to cleanup/clear the state after a memory error.
 
                                                                  Warning that this will modify internal state. It must not be changed while DQ is
@@ -12717,6 +16696,44 @@ static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL(unsigned long a, unsigned long b)
 #define device_bar_BDK_PKO_VFX_DQX_WM_CTL(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_PKO_VFX_DQX_WM_CTL(a,b) (a)
 #define arguments_BDK_PKO_VFX_DQX_WM_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) pko_vf#_dq#_wm_ctl_w1c
+ *
+ * INTERNAL: PKO Descriptor Queue Watermark Control Write-1 Interrupt Clear Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_vfx_dqx_wm_ctl_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t intr                  : 1;  /**< [ 48: 48](RAZ) Reserved. */
+        uint64_t reserved_0_47         : 48;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_47         : 48;
+        uint64_t intr                  : 1;  /**< [ 48: 48](RAZ) Reserved. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_vfx_dqx_wm_ctl_w1c_s cn; */
+} bdk_pko_vfx_dqx_wm_ctl_w1c_t;
+
+static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL_W1C(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
+        return 0x854400000148ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
+    __bdk_csr_fatal("PKO_VFX_DQX_WM_CTL_W1C", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) bdk_pko_vfx_dqx_wm_ctl_w1c_t
+#define bustype_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) "PKO_VFX_DQX_WM_CTL_W1C"
+#define device_bar_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) (a)
+#define arguments_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) pko_vf#_dq_fc_config

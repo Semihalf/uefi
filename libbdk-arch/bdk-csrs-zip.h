@@ -3229,30 +3229,38 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
         uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction load command FIFO credits <= 8. */
-        uint64_t reserved_36_47        : 12;
+        uint64_t reserved_43_47        : 5;
+        uint64_t iprf                  : 3;  /**< [ 42: 40](R/W) Instruction page return command FIFO credits <= 4. */
+        uint64_t reserved_36_39        : 4;
         uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data read tag FIFOs (per core) credits <= 8. */
         uint64_t reserved_27_31        : 5;
         uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store command FIFO credits <= 4. */
         uint64_t reserved_19_23        : 5;
         uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load command FIFO credits <= 4. */
-        uint64_t reserved_2_15         : 14;
+        uint64_t reserved_11_15        : 5;
+        uint64_t wkqf                  : 3;  /**< [ 10:  8](R/W) Work queue FIFO credits <= 4. */
+        uint64_t reserved_2_7          : 6;
         uint64_t busy                  : 1;  /**< [  1:  1](RO/H) 1: ZIP system is busy; 0: ZIP system is idle. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t busy                  : 1;  /**< [  1:  1](RO/H) 1: ZIP system is busy; 0: ZIP system is idle. */
-        uint64_t reserved_2_15         : 14;
+        uint64_t reserved_2_7          : 6;
+        uint64_t wkqf                  : 3;  /**< [ 10:  8](R/W) Work queue FIFO credits <= 4. */
+        uint64_t reserved_11_15        : 5;
         uint64_t ldf                   : 3;  /**< [ 18: 16](R/W) Load command FIFO credits <= 4. */
         uint64_t reserved_19_23        : 5;
         uint64_t stcf                  : 3;  /**< [ 26: 24](R/W) Store command FIFO credits <= 4. */
         uint64_t reserved_27_31        : 5;
         uint64_t drtf                  : 4;  /**< [ 35: 32](R/W) Data read tag FIFOs (per core) credits <= 8. */
-        uint64_t reserved_36_47        : 12;
+        uint64_t reserved_36_39        : 4;
+        uint64_t iprf                  : 3;  /**< [ 42: 40](R/W) Instruction page return command FIFO credits <= 4. */
+        uint64_t reserved_43_47        : 5;
         uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction load command FIFO credits <= 8. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_zip_ctl_cfg_cn
+    struct bdk_zip_ctl_cfg_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
@@ -3281,7 +3289,8 @@ typedef union
         uint64_t ildf                  : 4;  /**< [ 51: 48](R/W) Instruction load command FIFO credits <= 8. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
-    } cn;
+    } cn88xx;
+    /* struct bdk_zip_ctl_cfg_s cn83xx; */
 } bdk_zip_ctl_cfg_t;
 
 #define BDK_ZIP_CTL_CFG BDK_ZIP_CTL_CFG_FUNC()
@@ -4480,13 +4489,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved.
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved.
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
