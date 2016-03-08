@@ -478,12 +478,14 @@ static void __bdk_if_link_poll(int unused1, void *unused2)
  */
 int bdk_if_alloc(bdk_if_packet_t *packet, int length)
 {
+    static int buf_size = 0;
     if (length > 9212)
     {
         bdk_error("Packets larger than 9212 (9216 with FCS) are not allowed\n");
         return -1;
     }
-    const int buf_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
+    if (buf_size == 0)
+        buf_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
     packet->if_handle = NULL;
     packet->rx_error = 0;
     packet->length = length;
