@@ -392,7 +392,8 @@ int bdk_pko_enable(bdk_node_t node)
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PKO_STATUS, pko_rdy, ==, 1, 100))
     {
         bdk_error("PKO: Timeout waiting for ready\n");
-        return -1;
+        if (!bdk_is_platform(BDK_PLATFORM_ASIM))
+            return -1;
     }
 
     BDK_CSR_MODIFY(c, node, BDK_PKO_ENABLE,
