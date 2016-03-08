@@ -109,6 +109,8 @@ static int __bdk_if_init_node(bdk_node_t node)
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && !bdk_is_platform(BDK_PLATFORM_ASIM))
     {
+        if (bdk_fpa_fill_pool(node, BDK_FPA_PACKET_POOL, 1024))
+            return -1;
         if (bdk_pki_global_init(node))
             return -1;
         if (bdk_pko_global_init(node))
