@@ -420,7 +420,9 @@ static int if_process_complete_rx(int node, nic_rbdr_state_t *vnic_rbdr_state, c
            looking for drops can find these. It is important that they
            aren't counted as good */
         packet.if_handle->stats.rx.packets++;
-        packet.if_handle->stats.rx.octets += packet.length + 4;
+        packet.if_handle->stats.rx.octets += packet.length;
+        if (packet.if_handle->flags & BDK_IF_FLAGS_HAS_FCS)
+            packet.if_handle->stats.rx.octets += 4;
         if (packet.rx_error)
             packet.if_handle->stats.rx.errors++;
         bdk_if_dispatch_packet(&packet);
