@@ -87,6 +87,11 @@ int bdk_fpa_fill_pool(bdk_node_t node, bdk_fpa_pool_t pool, int num_blocks)
         {
             BDK_CSR_INIT(pko_const, node, BDK_PKO_CONST);
             block_size = pko_const.s.pdm_buf_size;
+            if (block_size == 0)
+            {
+                bdk_error("PKO_CONST is invalid\n");
+                block_size = 4096;
+            }
             break;
         }
         case BDK_FPA_NUM_POOLS: /* Invalid, here to keep compiler happy */
