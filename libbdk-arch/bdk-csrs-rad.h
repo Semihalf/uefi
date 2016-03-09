@@ -880,6 +880,45 @@ static inline uint64_t BDK_RAD_DOORBELL_FUNC(void)
 #define arguments_BDK_RAD_DOORBELL -1,-1,-1,-1
 
 /**
+ * Register (NCB) rad_eco
+ *
+ * INTERNAL: RAD ECO Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_rad_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_rad_eco_s cn; */
+} bdk_rad_eco_t;
+
+#define BDK_RAD_ECO BDK_RAD_ECO_FUNC()
+static inline uint64_t BDK_RAD_ECO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RAD_ECO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000168ll;
+    __bdk_csr_fatal("RAD_ECO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_RAD_ECO bdk_rad_eco_t
+#define bustype_BDK_RAD_ECO BDK_CSR_TYPE_NCB
+#define basename_BDK_RAD_ECO "RAD_ECO"
+#define device_bar_BDK_RAD_ECO 0x0 /* PF_BAR0 */
+#define busnum_BDK_RAD_ECO 0
+#define arguments_BDK_RAD_ECO -1,-1,-1,-1
+
+/**
  * Register (NCB) rad_gmctl
  *
  * RAD Guest Machine Control Register
@@ -1349,9 +1388,11 @@ typedef union
     struct bdk_rad_pf_mbox_ena_w1cx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for RAD_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t reserved_1_63         : 63;
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RAD_PF_MBOX_INT(0)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for RAD_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RAD_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_mbox_ena_w1cx_s cn; */
@@ -1384,9 +1425,11 @@ typedef union
     struct bdk_rad_pf_mbox_ena_w1sx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for RAD_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t reserved_1_63         : 63;
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RAD_PF_MBOX_INT(0)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for RAD_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RAD_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_mbox_ena_w1sx_s cn; */
@@ -1418,13 +1461,15 @@ typedef union
     struct bdk_rad_pf_mbox_intx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
+        uint64_t reserved_1_63         : 63;
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
                                                                  RAD_VF(0)_PF_MBOX(1) is written.
                                                                  Bits corresponding to unimplemented VFs (above bit 0) are never set by hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
                                                                  RAD_VF(0)_PF_MBOX(1) is written.
                                                                  Bits corresponding to unimplemented VFs (above bit 0) are never set by hardware. */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_mbox_intx_s cn; */
@@ -1457,9 +1502,11 @@ typedef union
     struct bdk_rad_pf_mbox_int_w1sx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets RAD_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t reserved_1_63         : 63;
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RAD_PF_MBOX_INT(0)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets RAD_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RAD_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_mbox_int_w1sx_s cn; */
@@ -1674,6 +1721,34 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO/H) BIST result of the CSR MSIX memory.
+                                                                 Internal:
+                                                                 csr.msix_mem. */
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the CSR FIFO memory.
+                                                                 Internal:
+                                                                 csr.csr_fifo. */
+        uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories. */
+        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB OUB memories. */
+        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB INB memories. */
+        uint64_t dat                   : 2;  /**< [  1:  0](RO) BIST result of the DAT memories. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 2;  /**< [  1:  0](RO) BIST result of the DAT memories. */
+        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB INB memories. */
+        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB OUB memories. */
+        uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories. */
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the CSR FIFO memory.
+                                                                 Internal:
+                                                                 csr.csr_fifo. */
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO/H) BIST result of the CSR MSIX memory.
+                                                                 Internal:
+                                                                 csr.msix_mem. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_rad_reg_bist_result_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
         uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR MSIX memory.
                                                                  Internal:
                                                                  csr.msix_mem. */
@@ -1697,8 +1772,35 @@ typedef union
                                                                  csr.msix_mem. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rad_reg_bist_result_s cn; */
+    } cn88xx;
+    struct bdk_rad_reg_bist_result_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO/H) BIST result of the CSR MSIX memory.
+                                                                 Internal:
+                                                                 csr.msix_mem. */
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the CSR FIFO memory.
+                                                                 Internal:
+                                                                 csr.csr_fifo. */
+        uint64_t sta                   : 1;  /**< [  5:  5](RO/H) BIST result of the STA memories. */
+        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO/H) BIST result of the NCB OUB memories. */
+        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO/H) BIST result of the NCB INB memories. */
+        uint64_t dat                   : 2;  /**< [  1:  0](RO/H) BIST result of the DAT memories. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 2;  /**< [  1:  0](RO/H) BIST result of the DAT memories. */
+        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO/H) BIST result of the NCB INB memories. */
+        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO/H) BIST result of the NCB OUB memories. */
+        uint64_t sta                   : 1;  /**< [  5:  5](RO/H) BIST result of the STA memories. */
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the CSR FIFO memory.
+                                                                 Internal:
+                                                                 csr.csr_fifo. */
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO/H) BIST result of the CSR MSIX memory.
+                                                                 Internal:
+                                                                 csr.msix_mem. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_rad_reg_bist_result_t;
 
 #define BDK_RAD_REG_BIST_RESULT BDK_RAD_REG_BIST_RESULT_FUNC()
@@ -1793,7 +1895,7 @@ typedef union
 
                                                                  Partial cache line reads always use LDI. */
         uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Don't free instruction buffers.
-                                                                 0 = When CPT reaches the end of an instruction chunk, that chunk will be freed
+                                                                 0 = When RAD reaches the end of an instruction chunk, that chunk will be freed
                                                                  to the FPA.
                                                                  1 = Instruction chunks are not freed to FPA. */
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
@@ -1802,7 +1904,7 @@ typedef union
         uint64_t reserved_0_32         : 33;
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
         uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Don't free instruction buffers.
-                                                                 0 = When CPT reaches the end of an instruction chunk, that chunk will be freed
+                                                                 0 = When RAD reaches the end of an instruction chunk, that chunk will be freed
                                                                  to the FPA.
                                                                  1 = Instruction chunks are not freed to FPA. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
@@ -1921,7 +2023,31 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rad_reg_ctl_s cn; */
+    /* struct bdk_rad_reg_ctl_s cn88xx; */
+    struct bdk_rad_reg_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t inst_be               : 1;  /**< [  7:  7](R/W) Instruction/response structures (RAD_CWORD_S, RAD_IWORD_S, RAD_OWORD_S, RAD_RESP_S,
+                                                                 RAD_NZDIST_S) are big-endian. */
+        uint64_t reserved_6            : 1;
+        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands as a throttle to control IOB
+                                                                 usage. Values greater than 0x8 are illegal. */
+        uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big-endian. Generally, this is not changed as data is
+                                                                 byte invariant. */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1/H) Reset one-shot pulse (lasts for 4 cycles). */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1/H) Reset one-shot pulse (lasts for 4 cycles). */
+        uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big-endian. Generally, this is not changed as data is
+                                                                 byte invariant. */
+        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands as a throttle to control IOB
+                                                                 usage. Values greater than 0x8 are illegal. */
+        uint64_t reserved_6            : 1;
+        uint64_t inst_be               : 1;  /**< [  7:  7](R/W) Instruction/response structures (RAD_CWORD_S, RAD_IWORD_S, RAD_OWORD_S, RAD_RESP_S,
+                                                                 RAD_NZDIST_S) are big-endian. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_rad_reg_ctl_t;
 
 #define BDK_RAD_REG_CTL BDK_RAD_REG_CTL_FUNC()
@@ -2584,7 +2710,19 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rad_reg_read_idx_s cn; */
+    /* struct bdk_rad_reg_read_idx_s cn88xx; */
+    struct bdk_rad_reg_read_idx_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t inc                   : 8;  /**< [ 15:  8](R/W) Increment to add to the current index for the next index. */
+        uint64_t idx                   : 8;  /**< [  7:  0](R/W/H) Index to use for next memory CSR read operation. */
+#else /* Word 0 - Little Endian */
+        uint64_t idx                   : 8;  /**< [  7:  0](R/W/H) Index to use for next memory CSR read operation. */
+        uint64_t inc                   : 8;  /**< [ 15:  8](R/W) Increment to add to the current index for the next index. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_rad_reg_read_idx_t;
 
 #define BDK_RAD_REG_READ_IDX BDK_RAD_REG_READ_IDX_FUNC()
@@ -2954,12 +3092,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Initial command-buffer IOVA (128-byte aligned). Overwritten each time the
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Initial command-buffer IOVA (128-byte aligned). Overwritten each time the
                                                                  command-buffer segment is exhausted. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Initial command-buffer IOVA (128-byte aligned). Overwritten each time the
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Initial command-buffer IOVA (128-byte aligned). Overwritten each time the
                                                                  command-buffer segment is exhausted. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */

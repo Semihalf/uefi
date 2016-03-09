@@ -132,7 +132,7 @@
  * Enumeration pko_dqop_e
  *
  * PKO DQ Operation Enumeration
- * Enumerates the different IOBDMA/LMTDMA operation codes and PKO_QUERY_RTN_S[DQOP] values.
+ * Enumerates the different IOBLD operation codes and PKO_QUERY_RTN_S[DQOP] values.
  */
 #define BDK_PKO_DQOP_E_CLOSE (2) /**< Close queue operation. See PKO_QUERY_LD_S and PKO_QUERY_DMA_S. */
 #define BDK_PKO_DQOP_E_OPEN (1) /**< Open queue operation. See PKO_QUERY_LD_S and PKO_QUERY_DMA_S. */
@@ -300,14 +300,9 @@
 #define BDK_PKO_PDM_ECC_E_FLSHB_CACHE_HI (0x3e) /**< FLSHB_CACHE_HI RAM. */
 #define BDK_PKO_PDM_ECC_E_FLSHB_CACHE_LO (0x3f) /**< FLSHB_CACHE_LO RAM. */
 #define BDK_PKO_PDM_ECC_E_ISRD_ST0 (0x35) /**< ISRD_ST0 RAM. */
-#define BDK_PKO_PDM_ECC_E_ISRD_ST1 (0x36) /**< ISRD_ST1 RAM. */
-#define BDK_PKO_PDM_ECC_E_ISRD_ST2 (0x37) /**< ISRD_ST2 RAM. */
-#define BDK_PKO_PDM_ECC_E_ISRD_ST3 (0x38) /**< ISRD_ST3 RAM. */
 #define BDK_PKO_PDM_ECC_E_ISRM_CA_CM (0x3c) /**< ISRM_CA_CM RAM. */
 #define BDK_PKO_PDM_ECC_E_ISRM_CA_IINST (0x3d) /**< ISRM_CA_IINST RAM. */
 #define BDK_PKO_PDM_ECC_E_ISRM_ST0 (0x39) /**< ISRM_ST0 RAM. */
-#define BDK_PKO_PDM_ECC_E_ISRM_ST1 (0x3a) /**< ISRM_ST1 RAM. */
-#define BDK_PKO_PDM_ECC_E_ISRM_ST2 (0x3b) /**< ISRM_ST2 RAM. */
 #define BDK_PKO_PDM_ECC_E_MINPAD (0x2a) /**< MINPAD RAM. */
 #define BDK_PKO_PDM_ECC_E_MWP_HI (0x30) /**< MWP_HI RAM. */
 #define BDK_PKO_PDM_ECC_E_MWP_HI_SPT (0x29) /**< MWP_HI_SPT RAM. */
@@ -401,7 +396,7 @@
  * PKO_PEB_NCB_ECC_* SRAM Enumeration
  * Enumerates the bits of PKO_PEB_NCB_ECC_W1C.
  */
-#define BDK_PKO_PEB_NCB_ECC_E_NCBI_L2_OUT (0x3f) /**<  */
+#define BDK_PKO_PEB_NCB_ECC_E_NCBI_L2_OUT (0x3f) /**< NCBI_L2_OUT RAM. */
 
 /**
  * Enumeration pko_pf_int_vec_e
@@ -9607,18 +9602,10 @@ typedef union
         uint64_t isrm_ca_iinst_ram_cdis : 1; /**< [ 55: 55](R/W) ISRM_CA_IINST_RAM ECC correction disable. */
         uint64_t isrm_ca_cm_ram_flip   : 2;  /**< [ 54: 53](R/W) ISRM_CA_CM_RAM flip syndrome bits on write. */
         uint64_t isrm_ca_cm_ram_cdis   : 1;  /**< [ 52: 52](R/W) ISRM_CA_CM_RAM ECC correction disable. */
-        uint64_t isrm_st_ram2_flip     : 2;  /**< [ 51: 50](R/W) ISRM_ST_RAM2 flip syndrome bits on write. */
-        uint64_t isrm_st_ram2_cdis     : 1;  /**< [ 49: 49](R/W) ISRM_ST_RAM2 ECC correction disable. */
-        uint64_t isrm_st_ram1_flip     : 2;  /**< [ 48: 47](R/W) ISRM_ST_RAM1 flip syndrome bits on write. */
-        uint64_t isrm_st_ram1_cdis     : 1;  /**< [ 46: 46](R/W) ISRM_ST_RAM1 ECC correction disable. */
+        uint64_t reserved_46_51        : 6;
         uint64_t isrm_st_ram0_flip     : 2;  /**< [ 45: 44](R/W) ISRM_ST_RAM0 flip syndrome bits on write. */
         uint64_t isrm_st_ram0_cdis     : 1;  /**< [ 43: 43](R/W) ISRM_ST_RAM0 ECC correction disable. */
-        uint64_t isrd_st_ram3_flip     : 2;  /**< [ 42: 41](R/W) ISRD_ST_RAM3 flip syndrome bits on write. */
-        uint64_t isrd_st_ram3_cdis     : 1;  /**< [ 40: 40](R/W) ISRD_ST_RAM3 ECC correction disable. */
-        uint64_t isrd_st_ram2_flip     : 2;  /**< [ 39: 38](R/W) ISRD_ST_RAM2 flip syndrome bits on write. */
-        uint64_t isrd_st_ram2_cdis     : 1;  /**< [ 37: 37](R/W) ISRD_ST_RAM2 ECC correction disable. */
-        uint64_t isrd_st_ram1_flip     : 2;  /**< [ 36: 35](R/W) ISRD_ST_RAM1 flip syndrome bits on write. */
-        uint64_t isrd_st_ram1_cdis     : 1;  /**< [ 34: 34](R/W) ISRD_ST_RAM1 ECC correction disable. */
+        uint64_t reserved_34_42        : 9;
         uint64_t isrd_st_ram0_flip     : 2;  /**< [ 33: 32](R/W) ISRD_ST_RAM0 flip syndrome bits on write. */
         uint64_t isrd_st_ram0_cdis     : 1;  /**< [ 31: 31](R/W) ISRD_ST_RAM0 ECC correction disable. */
         uint64_t drp_hi_ram_flip       : 2;  /**< [ 30: 29](R/W) DRP_HI_RAM flip syndrome bits on write. */
@@ -9660,18 +9647,10 @@ typedef union
         uint64_t drp_hi_ram_flip       : 2;  /**< [ 30: 29](R/W) DRP_HI_RAM flip syndrome bits on write. */
         uint64_t isrd_st_ram0_cdis     : 1;  /**< [ 31: 31](R/W) ISRD_ST_RAM0 ECC correction disable. */
         uint64_t isrd_st_ram0_flip     : 2;  /**< [ 33: 32](R/W) ISRD_ST_RAM0 flip syndrome bits on write. */
-        uint64_t isrd_st_ram1_cdis     : 1;  /**< [ 34: 34](R/W) ISRD_ST_RAM1 ECC correction disable. */
-        uint64_t isrd_st_ram1_flip     : 2;  /**< [ 36: 35](R/W) ISRD_ST_RAM1 flip syndrome bits on write. */
-        uint64_t isrd_st_ram2_cdis     : 1;  /**< [ 37: 37](R/W) ISRD_ST_RAM2 ECC correction disable. */
-        uint64_t isrd_st_ram2_flip     : 2;  /**< [ 39: 38](R/W) ISRD_ST_RAM2 flip syndrome bits on write. */
-        uint64_t isrd_st_ram3_cdis     : 1;  /**< [ 40: 40](R/W) ISRD_ST_RAM3 ECC correction disable. */
-        uint64_t isrd_st_ram3_flip     : 2;  /**< [ 42: 41](R/W) ISRD_ST_RAM3 flip syndrome bits on write. */
+        uint64_t reserved_34_42        : 9;
         uint64_t isrm_st_ram0_cdis     : 1;  /**< [ 43: 43](R/W) ISRM_ST_RAM0 ECC correction disable. */
         uint64_t isrm_st_ram0_flip     : 2;  /**< [ 45: 44](R/W) ISRM_ST_RAM0 flip syndrome bits on write. */
-        uint64_t isrm_st_ram1_cdis     : 1;  /**< [ 46: 46](R/W) ISRM_ST_RAM1 ECC correction disable. */
-        uint64_t isrm_st_ram1_flip     : 2;  /**< [ 48: 47](R/W) ISRM_ST_RAM1 flip syndrome bits on write. */
-        uint64_t isrm_st_ram2_cdis     : 1;  /**< [ 49: 49](R/W) ISRM_ST_RAM2 ECC correction disable. */
-        uint64_t isrm_st_ram2_flip     : 2;  /**< [ 51: 50](R/W) ISRM_ST_RAM2 flip syndrome bits on write. */
+        uint64_t reserved_46_51        : 6;
         uint64_t isrm_ca_cm_ram_cdis   : 1;  /**< [ 52: 52](R/W) ISRM_CA_CM_RAM ECC correction disable. */
         uint64_t isrm_ca_cm_ram_flip   : 2;  /**< [ 54: 53](R/W) ISRM_CA_CM_RAM flip syndrome bits on write. */
         uint64_t isrm_ca_iinst_ram_cdis : 1; /**< [ 55: 55](R/W) ISRM_CA_IINST_RAM ECC correction disable. */
@@ -14273,6 +14252,48 @@ static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a)
 #define arguments_BDK_PKO_PF_VFX_GMCTL(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) pko_pf_vf#_gmctl_pdm_ro
+ *
+ * INTERNAL: PKO PF Guest Machine Control Read-only Register
+ *
+ * This register is for diagnostic use only, and is a read-only copy of PKO_PF_VF()_GMCTL.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pf_vfx_gmctl_pdm_ro_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t be                    : 1;  /**< [ 24: 24](RO) Shadow read-only version of PKO_PF_VF(0..31)_GMCTL[BE]. */
+        uint64_t strm                  : 8;  /**< [ 23: 16](RO) Shadow read-only version of PKO_PF_VF(0..31)_GMCTL[STRM]. */
+        uint64_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_15         : 16;
+        uint64_t strm                  : 8;  /**< [ 23: 16](RO) Shadow read-only version of PKO_PF_VF(0..31)_GMCTL[STRM]. */
+        uint64_t be                    : 1;  /**< [ 24: 24](RO) Shadow read-only version of PKO_PF_VF(0..31)_GMCTL[BE]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pf_vfx_gmctl_pdm_ro_s cn; */
+} bdk_pko_pf_vfx_gmctl_pdm_ro_t;
+
+static inline uint64_t BDK_PKO_PF_VFX_GMCTL_PDM_RO(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PF_VFX_GMCTL_PDM_RO(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854040011000ll + 0x100000ll * ((a) & 0x1f);
+    __bdk_csr_fatal("PKO_PF_VFX_GMCTL_PDM_RO", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PF_VFX_GMCTL_PDM_RO(a) bdk_pko_pf_vfx_gmctl_pdm_ro_t
+#define bustype_BDK_PKO_PF_VFX_GMCTL_PDM_RO(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PF_VFX_GMCTL_PDM_RO(a) "PKO_PF_VFX_GMCTL_PDM_RO"
+#define device_bar_BDK_PKO_PF_VFX_GMCTL_PDM_RO(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PF_VFX_GMCTL_PDM_RO(a) (a)
+#define arguments_BDK_PKO_PF_VFX_GMCTL_PDM_RO(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) pko_pq_debug_green
  *
  * INTERNAL: PKO PSE PQ Level Green Vector Debug Register
@@ -16426,9 +16447,9 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_QUERY(unsigned long a, unsigned long b
  * Software must ensure that all L2/DRAM locations that will be referenced
  * by PKO while processing this descriptor, including all packet data, post-PKO_SEND_JUMP_S
  * subdescriptors, work queue entries, and/or PKO_SEND_MEM_S locations, contain the latest
- * updates before issuing the LMTDMA/LMTST. A DMB instruction may
- * be required prior to the LMTDMA/LMTST to ensure this. A DMB
- * following the LMTDMA/LMTST may be useful if DQ descriptor ordering matters and
+ * updates before issuing the LMTST. A DMB instruction may
+ * be required prior to the LMTST to ensure this. A DMB
+ * following the LMTST may be useful if DQ descriptor ordering matters and
  * more than one CPU core is simultaneously enqueueing to the same DQ. For more
  * information on ordering, refer to the HRM "Core Memory Reference Ordering" section
  * in the CPU cores chapter.
@@ -16605,7 +16626,7 @@ typedef union
         uint64_t reserved_48_63        : 16;
         uint64_t count                 : 48; /**< [ 47:  0](R/W/H) Watermark count. The running value of the watermark counter. This value is a count of
                                                                  bytes or packets as specified by PKO_DQ()_WM_CTL[KIND]. [COUNT] covers all metas
-                                                                 for the DQ between when the PKO SEND LMTDMA/LMTST enqueues the descriptor until
+                                                                 for the DQ between when the PKO SEND LMTST enqueues the descriptor until
                                                                  PKO PEB (i.e. the packet engines and FIFOs) first receives the meta descriptor.
                                                                  It includes all descriptors whose meta's are held in either L2/DRAM for the DQ
                                                                  (i.e. whose metas are held in PKO PDM) or any DQ or SQ (i.e. whose metas are held
@@ -16613,7 +16634,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 48; /**< [ 47:  0](R/W/H) Watermark count. The running value of the watermark counter. This value is a count of
                                                                  bytes or packets as specified by PKO_DQ()_WM_CTL[KIND]. [COUNT] covers all metas
-                                                                 for the DQ between when the PKO SEND LMTDMA/LMTST enqueues the descriptor until
+                                                                 for the DQ between when the PKO SEND LMTST enqueues the descriptor until
                                                                  PKO PEB (i.e. the packet engines and FIFOs) first receives the meta descriptor.
                                                                  It includes all descriptors whose meta's are held in either L2/DRAM for the DQ
                                                                  (i.e. whose metas are held in PKO PDM) or any DQ or SQ (i.e. whose metas are held

@@ -67,42 +67,114 @@
  * BGX MSI-X Vector Enumeration
  * Enumeration the MSI-X interrupt vectors.
  */
-#define BDK_BGX_INT_VEC_E_CMRX_INT(a) (0 + 7 * (a)) /**< See interrupt clears BGX(0..1)_CMR(0..3)_INT,
+#define BDK_BGX_INT_VEC_E_CMRX_INT_CN81XX(a) (0 + 7 * (a)) /**< See interrupt clears BGX(0..1)_CMR(0..3)_INT,
                                        interrupt sets BGX(0..1)_CMR(0..3)_INT_W1S,
                                        enable clears BGX(0..1)_CMR(0..3)_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_CMR(0..3)_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_CMR_MEM_INT (0x1c) /**< See interrupt clears BGX(0..1)_CMR_MEM_INT,
+#define BDK_BGX_INT_VEC_E_CMRX_INT_CN88XX(a) (0 + 7 * (a)) /**< See interrupt clears BGX(0..1)_CMR(0..3)_INT,
+                                       interrupt sets BGX(0..1)_CMR(0..3)_INT_W1S,
+                                       enable clears BGX(0..1)_CMR(0..3)_INT_ENA_W1C,
+                                       and enable sets BGX(0..1)_CMR(0..3)_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_CMRX_INT_CN83XX(a) (0 + 7 * (a)) /**< See interrupt clears BGX(0..3)_CMR(0..3)_INT,
+                                       interrupt sets BGX(0..3)_CMR(0..3)_INT_W1S,
+                                       enable clears BGX(0..3)_CMR(0..3)_INT_ENA_W1C,
+                                       and enable sets BGX(0..3)_CMR(0..3)_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_CMR_MEM_INT_CN81XX (0x1c) /**< See interrupt clears BGX(0..1)_CMR_MEM_INT,
                                        interrupt sets BGX(0..1)_CMR_MEM_INT_W1S,
                                        enable clears BGX(0..1)_CMR_MEM_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_CMR_MEM_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_GMPX_GMI_RX_INT(a) (5 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_GMI_RX(0..3)_INT,
+#define BDK_BGX_INT_VEC_E_CMR_MEM_INT_CN88XX (0x1c) /**< See interrupt clears BGX(0..1)_CMR_MEM_INT,
+                                       interrupt sets BGX(0..1)_CMR_MEM_INT_W1S,
+                                       enable clears BGX(0..1)_CMR_MEM_INT_ENA_W1C,
+                                       and enable sets BGX(0..1)_CMR_MEM_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_CMR_MEM_INT_CN83XX (0x1c) /**< See interrupt clears BGX(0..3)_CMR_MEM_INT,
+                                       interrupt sets BGX(0..3)_CMR_MEM_INT_W1S,
+                                       enable clears BGX(0..3)_CMR_MEM_INT_ENA_W1C,
+                                       and enable sets BGX(0..3)_CMR_MEM_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_GMPX_GMI_RX_INT_CN81XX(a) (5 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_GMI_RX(0..3)_INT,
                                        interrupt sets BGX(0..1)_GMP_GMI_RX(0..3)_INT_W1S,
                                        enable clears BGX(0..1)_GMP_GMI_RX(0..3)_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_GMP_GMI_RX(0..3)_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_GMPX_GMI_TX_INT(a) (6 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_GMI_TX(0..3)_INT,
+#define BDK_BGX_INT_VEC_E_GMPX_GMI_RX_INT_CN88XX(a) (5 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_GMI_RX(0..3)_INT,
+                                       interrupt sets BGX(0..1)_GMP_GMI_RX(0..3)_INT_W1S,
+                                       enable clears BGX(0..1)_GMP_GMI_RX(0..3)_INT_ENA_W1C,
+                                       and enable sets BGX(0..1)_GMP_GMI_RX(0..3)_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_GMPX_GMI_RX_INT_CN83XX(a) (5 + 7 * (a)) /**< See interrupt clears BGX(0..3)_GMP_GMI_RX(0..3)_INT,
+                                       interrupt sets BGX(0..3)_GMP_GMI_RX(0..3)_INT_W1S,
+                                       enable clears BGX(0..3)_GMP_GMI_RX(0..3)_INT_ENA_W1C,
+                                       and enable sets BGX(0..3)_GMP_GMI_RX(0..3)_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_GMPX_GMI_TX_INT_CN81XX(a) (6 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_GMI_TX(0..3)_INT,
                                        interrupt sets BGX(0..1)_GMP_GMI_TX(0..3)_INT_W1S,
                                        enable clears BGX(0..1)_GMP_GMI_TX(0..3)_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_GMP_GMI_TX(0..3)_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_GMPX_PCS_INT(a) (4 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_PCS_INT(0..3),
+#define BDK_BGX_INT_VEC_E_GMPX_GMI_TX_INT_CN88XX(a) (6 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_GMI_TX(0..3)_INT,
+                                       interrupt sets BGX(0..1)_GMP_GMI_TX(0..3)_INT_W1S,
+                                       enable clears BGX(0..1)_GMP_GMI_TX(0..3)_INT_ENA_W1C,
+                                       and enable sets BGX(0..1)_GMP_GMI_TX(0..3)_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_GMPX_GMI_TX_INT_CN83XX(a) (6 + 7 * (a)) /**< See interrupt clears BGX(0..3)_GMP_GMI_TX(0..3)_INT,
+                                       interrupt sets BGX(0..3)_GMP_GMI_TX(0..3)_INT_W1S,
+                                       enable clears BGX(0..3)_GMP_GMI_TX(0..3)_INT_ENA_W1C,
+                                       and enable sets BGX(0..3)_GMP_GMI_TX(0..3)_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_GMPX_PCS_INT_CN81XX(a) (4 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_PCS_INT(0..3),
                                        interrupt sets BGX(0..1)_GMP_PCS_INT(0..3)_W1S,
                                        enable clears BGX(0..1)_GMP_PCS_INT(0..3)_ENA_W1C,
                                        and enable sets BGX(0..1)_GMP_PCS_INT(0..3)_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_SMUX_RX_INT(a) (2 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SMU(0..3)_RX_INT,
+#define BDK_BGX_INT_VEC_E_GMPX_PCS_INT_CN88XX(a) (4 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_PCS_INT(0..3),
+                                       interrupt sets BGX(0..1)_GMP_PCS_INT(0..3)_W1S,
+                                       enable clears BGX(0..1)_GMP_PCS_INT(0..3)_ENA_W1C,
+                                       and enable sets BGX(0..1)_GMP_PCS_INT(0..3)_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_GMPX_PCS_INT_CN83XX(a) (4 + 7 * (a)) /**< See interrupt clears BGX(0..3)_GMP_PCS_INT(0..3),
+                                       interrupt sets BGX(0..3)_GMP_PCS_INT(0..3)_W1S,
+                                       enable clears BGX(0..3)_GMP_PCS_INT(0..3)_ENA_W1C,
+                                       and enable sets BGX(0..3)_GMP_PCS_INT(0..3)_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_SMUX_RX_INT_CN81XX(a) (2 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SMU(0..3)_RX_INT,
                                        interrupt sets BGX(0..1)_SMU(0..3)_RX_INT_W1S,
                                        enable clears BGX(0..1)_SMU(0..3)_RX_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_SMU(0..3)_RX_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_SMUX_TX_INT(a) (3 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SMU(0..3)_TX_INT,
+#define BDK_BGX_INT_VEC_E_SMUX_RX_INT_CN88XX(a) (2 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SMU(0..3)_RX_INT,
+                                       interrupt sets BGX(0..1)_SMU(0..3)_RX_INT_W1S,
+                                       enable clears BGX(0..1)_SMU(0..3)_RX_INT_ENA_W1C,
+                                       and enable sets BGX(0..1)_SMU(0..3)_RX_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_SMUX_RX_INT_CN83XX(a) (2 + 7 * (a)) /**< See interrupt clears BGX(0..3)_SMU(0..3)_RX_INT,
+                                       interrupt sets BGX(0..3)_SMU(0..3)_RX_INT_W1S,
+                                       enable clears BGX(0..3)_SMU(0..3)_RX_INT_ENA_W1C,
+                                       and enable sets BGX(0..3)_SMU(0..3)_RX_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_SMUX_TX_INT_CN81XX(a) (3 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SMU(0..3)_TX_INT,
                                        interrupt sets BGX(0..1)_SMU(0..3)_TX_INT_W1S,
                                        enable clears BGX(0..1)_SMU(0..3)_TX_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_SMU(0..3)_TX_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_SPUX_INT(a) (1 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SPU(0..3)_INT,
+#define BDK_BGX_INT_VEC_E_SMUX_TX_INT_CN88XX(a) (3 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SMU(0..3)_TX_INT,
+                                       interrupt sets BGX(0..1)_SMU(0..3)_TX_INT_W1S,
+                                       enable clears BGX(0..1)_SMU(0..3)_TX_INT_ENA_W1C,
+                                       and enable sets BGX(0..1)_SMU(0..3)_TX_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_SMUX_TX_INT_CN83XX(a) (3 + 7 * (a)) /**< See interrupt clears BGX(0..3)_SMU(0..3)_TX_INT,
+                                       interrupt sets BGX(0..3)_SMU(0..3)_TX_INT_W1S,
+                                       enable clears BGX(0..3)_SMU(0..3)_TX_INT_ENA_W1C,
+                                       and enable sets BGX(0..3)_SMU(0..3)_TX_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_SPUX_INT_CN81XX(a) (1 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SPU(0..3)_INT,
                                        interrupt sets BGX(0..1)_SPU(0..3)_INT_W1S,
                                        enable clears BGX(0..1)_SPU(0..3)_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_SPU(0..3)_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_SPU_MEM_INT (0x1d) /**< See interrupt clears BGX(0..1)_SPU_MEM_INT,
+#define BDK_BGX_INT_VEC_E_SPUX_INT_CN88XX(a) (1 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SPU(0..3)_INT,
+                                       interrupt sets BGX(0..1)_SPU(0..3)_INT_W1S,
+                                       enable clears BGX(0..1)_SPU(0..3)_INT_ENA_W1C,
+                                       and enable sets BGX(0..1)_SPU(0..3)_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_SPUX_INT_CN83XX(a) (1 + 7 * (a)) /**< See interrupt clears BGX(0..3)_SPU(0..3)_INT,
+                                       interrupt sets BGX(0..3)_SPU(0..3)_INT_W1S,
+                                       enable clears BGX(0..3)_SPU(0..3)_INT_ENA_W1C,
+                                       and enable sets BGX(0..3)_SPU(0..3)_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_SPU_MEM_INT_CN81XX (0x1d) /**< See interrupt clears BGX(0..1)_SPU_MEM_INT,
                                        interrupt sets BGX(0..1)_SPU_MEM_INT_W1S,
                                        enable clears BGX(0..1)_SPU_MEM_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_SPU_MEM_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_SPU_MEM_INT_CN88XX (0x1d) /**< See interrupt clears BGX(0..1)_SPU_MEM_INT,
+                                       interrupt sets BGX(0..1)_SPU_MEM_INT_W1S,
+                                       enable clears BGX(0..1)_SPU_MEM_INT_ENA_W1C,
+                                       and enable sets BGX(0..1)_SPU_MEM_INT_ENA_W1S. */
+#define BDK_BGX_INT_VEC_E_SPU_MEM_INT_CN83XX (0x1d) /**< See interrupt clears BGX(0..3)_SPU_MEM_INT,
+                                       interrupt sets BGX(0..3)_SPU_MEM_INT_W1S,
+                                       enable clears BGX(0..3)_SPU_MEM_INT_ENA_W1C,
+                                       and enable sets BGX(0..3)_SPU_MEM_INT_ENA_W1S. */
 
 /**
  * Enumeration bgx_lmac_types_e
@@ -1013,7 +1085,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_CONFIG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_CONFIG(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_CONFIG", 2, a, b, 0, 0);
 }
@@ -1085,7 +1161,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_INT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_INT", 2, a, b, 0, 0);
 }
@@ -1110,6 +1190,22 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_cmrx_int_ena_w1c_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
         uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
@@ -1121,8 +1217,7 @@ typedef union
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_int_ena_w1c_s cn81xx; */
+    } cn81xx;
     struct bdk_bgxx_cmrx_int_ena_w1c_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1137,13 +1232,32 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmrx_int_ena_w1c_s cn83xx; */
+    struct bdk_bgxx_cmrx_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[PAUSE_DRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
@@ -1168,6 +1282,22 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_cmrx_int_ena_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
         uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
@@ -1179,8 +1309,7 @@ typedef union
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_int_ena_w1s_s cn81xx; */
+    } cn81xx;
     struct bdk_bgxx_cmrx_int_ena_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1195,13 +1324,32 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmrx_int_ena_w1s_s cn83xx; */
+    struct bdk_bgxx_cmrx_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[PAUSE_DRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
@@ -1226,6 +1374,22 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_cmrx_int_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
         uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
@@ -1237,8 +1401,7 @@ typedef union
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_int_w1s_s cn81xx; */
+    } cn81xx;
     struct bdk_bgxx_cmrx_int_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1253,13 +1416,32 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmrx_int_w1s_s cn83xx; */
+    struct bdk_bgxx_cmrx_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[PAUSE_DRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_INT_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_INT_W1S", 2, a, b, 0, 0);
 }
@@ -1331,7 +1513,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_PRT_CBFC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_PRT_CBFC_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000508ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000508ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000508ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_PRT_CBFC_CTL", 2, a, b, 0, 0);
 }
@@ -1375,7 +1561,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_DROP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_DROP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000c8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000c8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_BP_DROP", 2, a, b, 0, 0);
 }
@@ -1413,7 +1603,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_OFF(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_OFF(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000d8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000d8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_BP_OFF", 2, a, b, 0, 0);
 }
@@ -1473,7 +1667,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_ON(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_ON(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000d0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000d0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_BP_ON", 2, a, b, 0, 0);
 }
@@ -1513,7 +1711,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_STATUS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000f0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000f0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_BP_STATUS", 2, a, b, 0, 0);
 }
@@ -1595,7 +1797,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_DMAC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_DMAC_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000e8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000e8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_DMAC_CTL", 2, a, b, 0, 0);
 }
@@ -1646,7 +1852,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_FIFO_LEN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_FIFO_LEN(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_FIFO_LEN", 2, a, b, 0, 0);
 }
@@ -1711,7 +1921,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_ID_MAP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_ID_MAP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_ID_MAP", 2, a, b, 0, 0);
 }
@@ -1755,7 +1969,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_LOGL_XOFF(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_LOGL_XOFF(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000f8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000f8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_LOGL_XOFF", 2, a, b, 0, 0);
 }
@@ -1814,7 +2032,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_LOGL_XON(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_LOGL_XON(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000100ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000100ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_LOGL_XON", 2, a, b, 0, 0);
 }
@@ -1850,7 +2072,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_PAUSE_DROP_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_PAUSE_DROP_TIME(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_PAUSE_DROP_TIME", 2, a, b, 0, 0);
 }
@@ -1893,7 +2119,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT0(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_STAT0", 2, a, b, 0, 0);
 }
@@ -1932,7 +2162,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_STAT1", 2, a, b, 0, 0);
 }
@@ -1976,7 +2210,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT2(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_STAT2", 2, a, b, 0, 0);
 }
@@ -2015,7 +2253,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT3(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_STAT3", 2, a, b, 0, 0);
 }
@@ -2058,7 +2300,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT4(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_STAT4", 2, a, b, 0, 0);
 }
@@ -2097,7 +2343,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT5(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT5(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_STAT5", 2, a, b, 0, 0);
 }
@@ -2139,7 +2389,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT6(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT6(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000a0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000a0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_STAT6", 2, a, b, 0, 0);
 }
@@ -2179,7 +2433,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT7(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT7(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000a8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000a8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_STAT7", 2, a, b, 0, 0);
 }
@@ -2236,7 +2494,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT8(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT8(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000b0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000b0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_STAT8", 2, a, b, 0, 0);
 }
@@ -2276,7 +2538,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_WEIGHT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_WEIGHT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00000e0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00000e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00000e0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_RX_WEIGHT", 2, a, b, 0, 0);
 }
@@ -2368,7 +2634,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_CHANNEL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_CHANNEL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000500ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000500ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000500ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_CHANNEL", 2, a, b, 0, 0);
 }
@@ -2410,7 +2680,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_FIFO_LEN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_FIFO_LEN(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000518ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000518ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000518ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_FIFO_LEN", 2, a, b, 0, 0);
 }
@@ -2454,7 +2728,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_HG2_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_HG2_STATUS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000510ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000510ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000510ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_HG2_STATUS", 2, a, b, 0, 0);
 }
@@ -2526,7 +2804,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000520ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000520ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000520ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_OVR_BP", 2, a, b, 0, 0);
 }
@@ -2572,7 +2854,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT0(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000600ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000600ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000600ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT0", 2, a, b, 0, 0);
 }
@@ -2618,7 +2904,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT1(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000608ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000608ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000608ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT1", 2, a, b, 0, 0);
 }
@@ -2664,7 +2954,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT10(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT10(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000650ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000650ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000650ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT10", 2, a, b, 0, 0);
 }
@@ -2710,7 +3004,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT11(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT11(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000658ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000658ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000658ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT11", 2, a, b, 0, 0);
 }
@@ -2756,7 +3054,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT12(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT12(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000660ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000660ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000660ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT12", 2, a, b, 0, 0);
 }
@@ -2802,7 +3104,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT13(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT13(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000668ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000668ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000668ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT13", 2, a, b, 0, 0);
 }
@@ -2856,7 +3162,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT14(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT14(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000670ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000670ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000670ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT14", 2, a, b, 0, 0);
 }
@@ -2910,7 +3220,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT15(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT15(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000678ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000678ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000678ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT15", 2, a, b, 0, 0);
 }
@@ -2952,7 +3266,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT16(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT16(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000680ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000680ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000680ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT16", 2, a, b, 0, 0);
 }
@@ -2998,7 +3316,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT17(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT17(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000688ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000688ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000688ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT17", 2, a, b, 0, 0);
 }
@@ -3044,7 +3366,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT2(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000610ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000610ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000610ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT2", 2, a, b, 0, 0);
 }
@@ -3088,7 +3414,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT3(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000618ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000618ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000618ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT3", 2, a, b, 0, 0);
 }
@@ -3140,7 +3470,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT4(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000620ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000620ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000620ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT4", 2, a, b, 0, 0);
 }
@@ -3186,7 +3520,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT5(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT5(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000628ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000628ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000628ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT5", 2, a, b, 0, 0);
 }
@@ -3234,7 +3572,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT6(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT6(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000630ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000630ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000630ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT6", 2, a, b, 0, 0);
 }
@@ -3282,7 +3624,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT7(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT7(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000638ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000638ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000638ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT7", 2, a, b, 0, 0);
 }
@@ -3328,7 +3674,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT8(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT8(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000640ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000640ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000640ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT8", 2, a, b, 0, 0);
 }
@@ -3374,7 +3724,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT9(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT9(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0000648ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0000648ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0000648ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_CMRX_TX_STAT9", 2, a, b, 0, 0);
 }
@@ -3410,7 +3764,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_BAD", 1, a, 0, 0, 0);
 }
@@ -3431,6 +3789,72 @@ typedef union
 {
     uint64_t u;
     struct bdk_bgxx_cmr_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t status                : 27; /**< [ 26:  0](RO/H) '"BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run.'
+
+                                                                 Internal:
+                                                                 "<0> = bgx#.rxb.infif_gmp.
+                                                                 <1> = bgx#.rxb.infif_smu.
+                                                                 <2> = bgx#.rxb.fif_bnk00.
+                                                                 <3> = bgx#.rxb.fif_bnk01.
+                                                                 <4> = bgx#.rxb.fif_bnk10.
+                                                                 <5> = bgx#.rxb.fif_bnk11.
+                                                                 <6> = bgx#.rxb.pki_skd_fif.
+                                                                 <7> = bgx#.rxb.nic_skd_fif.
+                                                                 <8> = bgx#.rxb_mix0_fif.
+                                                                 <9> = bgx#.rxb_mix1_fif.
+                                                                 <10> = 0.
+                                                                 <11> = bgx#.txb_fif_bnk0.
+                                                                 <12> = bgx#.txb_fif_bnk1.
+                                                                 <13> = bgx#.txb_skd_m0_pko_fif.
+                                                                 <14> = bgx#.txb_skd_m1_pko_fif.
+                                                                 <15> = bgx#.txb_skd_m2_pko_fif.
+                                                                 <16> = bgx#.txb_skd_m3_pko_fif.
+                                                                 <17> = bgx#.txb_skd_m0_nic_fif.
+                                                                 <18> = bgx#.txb_skd_m1_nic_fif.
+                                                                 <19> = bgx#.txb_skd_m2_nic_fif.
+                                                                 <20> = bgx#.txb_skd_m3_nic_fif.
+                                                                 <21> = bgx#.txb_mix0_fif.
+                                                                 <22> = bgx#.txb_mix1_fif.
+                                                                 <23> = bgx#.txb_ncsi_fif.
+                                                                 <24> = 0." */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 27; /**< [ 26:  0](RO/H) '"BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run.'
+
+                                                                 Internal:
+                                                                 "<0> = bgx#.rxb.infif_gmp.
+                                                                 <1> = bgx#.rxb.infif_smu.
+                                                                 <2> = bgx#.rxb.fif_bnk00.
+                                                                 <3> = bgx#.rxb.fif_bnk01.
+                                                                 <4> = bgx#.rxb.fif_bnk10.
+                                                                 <5> = bgx#.rxb.fif_bnk11.
+                                                                 <6> = bgx#.rxb.pki_skd_fif.
+                                                                 <7> = bgx#.rxb.nic_skd_fif.
+                                                                 <8> = bgx#.rxb_mix0_fif.
+                                                                 <9> = bgx#.rxb_mix1_fif.
+                                                                 <10> = 0.
+                                                                 <11> = bgx#.txb_fif_bnk0.
+                                                                 <12> = bgx#.txb_fif_bnk1.
+                                                                 <13> = bgx#.txb_skd_m0_pko_fif.
+                                                                 <14> = bgx#.txb_skd_m1_pko_fif.
+                                                                 <15> = bgx#.txb_skd_m2_pko_fif.
+                                                                 <16> = bgx#.txb_skd_m3_pko_fif.
+                                                                 <17> = bgx#.txb_skd_m0_nic_fif.
+                                                                 <18> = bgx#.txb_skd_m1_nic_fif.
+                                                                 <19> = bgx#.txb_skd_m2_nic_fif.
+                                                                 <20> = bgx#.txb_skd_m3_nic_fif.
+                                                                 <21> = bgx#.txb_mix0_fif.
+                                                                 <22> = bgx#.txb_mix1_fif.
+                                                                 <23> = bgx#.txb_ncsi_fif.
+                                                                 <24> = 0." */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_cmr_bist_status_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
@@ -3495,8 +3919,7 @@ typedef union
                                                                  <24> = 0." */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmr_bist_status_s cn81xx; */
+    } cn81xx;
     struct bdk_bgxx_cmr_bist_status_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3553,13 +3976,86 @@ typedef union
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmr_bist_status_s cn83xx; */
+    struct bdk_bgxx_cmr_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t status                : 27; /**< [ 26:  0](RO/H) '"BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run.'
+
+                                                                 Internal:
+                                                                 "<0> = bgx#.rxb.infif_gmp.
+                                                                 <1> = bgx#.rxb.infif_smu.
+                                                                 <2> = bgx#.rxb.fif_bnk00.
+                                                                 <3> = bgx#.rxb.fif_bnk01.
+                                                                 <4> = bgx#.rxb.fif_bnk10.
+                                                                 <5> = bgx#.rxb.fif_bnk11.
+                                                                 <6> = bgx#.rxb.pki_skd_fif.
+                                                                 <7> = bgx#.rxb.nic_skd_fif.
+                                                                 <8> = bgx#.rxb_mix0_fif.
+                                                                 <9> = bgx#.rxb_mix1_fif.
+                                                                 <10> = 0.
+                                                                 <11> = bgx#.txb_fif_mem0.
+                                                                 <12> = bgx#.txb_fif_mem1.
+                                                                 <13> = bgx#.txb_fif_mem2.
+                                                                 <14> = bgx#.txb_fif_mem3.
+                                                                 <15> = bgx#.txb_skd_m0_pko_fif.
+                                                                 <16> = bgx#.txb_skd_m1_pko_fif.
+                                                                 <17> = bgx#.txb_skd_m2_pko_fif.
+                                                                 <18> = bgx#.txb_skd_m3_pko_fif.
+                                                                 <19> = bgx#.txb_skd_m0_nic_fif.
+                                                                 <20> = bgx#.txb_skd_m1_nic_fif.
+                                                                 <21> = bgx#.txb_skd_m2_nic_fif.
+                                                                 <22> = bgx#.txb_skd_m3_nic_fif.
+                                                                 <23> = bgx#.txb_mix0_fif.
+                                                                 <24> = bgx#.txb_mix1_fif.
+                                                                 <25> = bgx#.txb_ncsi_fif.
+                                                                 <26> = 0." */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 27; /**< [ 26:  0](RO/H) '"BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run.'
+
+                                                                 Internal:
+                                                                 "<0> = bgx#.rxb.infif_gmp.
+                                                                 <1> = bgx#.rxb.infif_smu.
+                                                                 <2> = bgx#.rxb.fif_bnk00.
+                                                                 <3> = bgx#.rxb.fif_bnk01.
+                                                                 <4> = bgx#.rxb.fif_bnk10.
+                                                                 <5> = bgx#.rxb.fif_bnk11.
+                                                                 <6> = bgx#.rxb.pki_skd_fif.
+                                                                 <7> = bgx#.rxb.nic_skd_fif.
+                                                                 <8> = bgx#.rxb_mix0_fif.
+                                                                 <9> = bgx#.rxb_mix1_fif.
+                                                                 <10> = 0.
+                                                                 <11> = bgx#.txb_fif_mem0.
+                                                                 <12> = bgx#.txb_fif_mem1.
+                                                                 <13> = bgx#.txb_fif_mem2.
+                                                                 <14> = bgx#.txb_fif_mem3.
+                                                                 <15> = bgx#.txb_skd_m0_pko_fif.
+                                                                 <16> = bgx#.txb_skd_m1_pko_fif.
+                                                                 <17> = bgx#.txb_skd_m2_pko_fif.
+                                                                 <18> = bgx#.txb_skd_m3_pko_fif.
+                                                                 <19> = bgx#.txb_skd_m0_nic_fif.
+                                                                 <20> = bgx#.txb_skd_m1_nic_fif.
+                                                                 <21> = bgx#.txb_skd_m2_nic_fif.
+                                                                 <22> = bgx#.txb_skd_m3_nic_fif.
+                                                                 <23> = bgx#.txb_mix0_fif.
+                                                                 <24> = bgx#.txb_mix1_fif.
+                                                                 <25> = bgx#.txb_ncsi_fif.
+                                                                 <26> = 0." */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_bist_status_t;
 
 static inline uint64_t BDK_BGXX_CMR_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_BIST_STATUS(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000460ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000460ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000460ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -3613,7 +4109,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_AND(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_AND(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000450ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000450ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000450ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_CHAN_MSK_AND", 1, a, 0, 0, 0);
 }
@@ -3667,7 +4167,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_OR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_OR(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000458ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000458ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000458ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_CHAN_MSK_OR", 1, a, 0, 0, 0);
 }
@@ -3709,8 +4213,8 @@ static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_ECO", 1, a, 0, 0, 0);
@@ -4155,7 +4659,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_GLOBAL_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_GLOBAL_CONFIG(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000008ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000008ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000008ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_GLOBAL_CONFIG", 1, a, 0, 0, 0);
 }
@@ -4178,7 +4686,11 @@ typedef union
     struct bdk_bgxx_cmr_mem_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
+        uint64_t reserved_42_63        : 22;
+        uint64_t txb_fif_m3_syn        : 2;  /**< [ 41: 40](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem3. */
+        uint64_t txb_fif_m3_cdis       : 1;  /**< [ 39: 39](R/W) ECC-correction disable for the TXB main mem3. */
+        uint64_t txb_fif_m2_syn        : 2;  /**< [ 38: 37](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem2. */
+        uint64_t txb_fif_m2_cdis       : 1;  /**< [ 36: 36](R/W) ECC-correction disable for the TXB main mem2. */
         uint64_t txb_ncsi_synd         : 2;  /**< [ 35: 34](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
         uint64_t txb_ncsi_cor_dis      : 1;  /**< [ 33: 33](R/W) ECC-correction disable for the TXB SKID FIFO */
         uint64_t txb_skid_m3_synd      : 2;  /**< [ 32: 31](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
@@ -4189,10 +4701,7 @@ typedef union
         uint64_t txb_skid_m1_cor_dis   : 1;  /**< [ 24: 24](R/W) ECC-correction disable for the TXB SKID FIFO */
         uint64_t txb_skid_m0_synd      : 2;  /**< [ 23: 22](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO. */
         uint64_t txb_skid_m0_cor_dis   : 1;  /**< [ 21: 21](R/W) ECC-correction disable for the TXB SKID FIFO. */
-        uint64_t txb_fif_bk1_syn       : 2;  /**< [ 20: 19](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank1. */
-        uint64_t txb_fif_bk1_cdis      : 1;  /**< [ 18: 18](R/W) ECC-correction disable for the TXB main bank1. */
-        uint64_t txb_fif_bk0_syn       : 2;  /**< [ 17: 16](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank0. */
-        uint64_t txb_fif_bk0_cdis      : 1;  /**< [ 15: 15](R/W) ECC-correction disable for the TXB main bank0. */
+        uint64_t reserved_15_20        : 6;
         uint64_t rxb_skid_synd         : 2;  /**< [ 14: 13](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB SKID FIFO. */
         uint64_t rxb_skid_cor_dis      : 1;  /**< [ 12: 12](R/W) ECC-correction disable for the RXB SKID FIFO. */
         uint64_t rxb_fif_bk1_syn1      : 2;  /**< [ 11: 10](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf1. */
@@ -4214,10 +4723,7 @@ typedef union
         uint64_t rxb_fif_bk1_syn1      : 2;  /**< [ 11: 10](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf1. */
         uint64_t rxb_skid_cor_dis      : 1;  /**< [ 12: 12](R/W) ECC-correction disable for the RXB SKID FIFO. */
         uint64_t rxb_skid_synd         : 2;  /**< [ 14: 13](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB SKID FIFO. */
-        uint64_t txb_fif_bk0_cdis      : 1;  /**< [ 15: 15](R/W) ECC-correction disable for the TXB main bank0. */
-        uint64_t txb_fif_bk0_syn       : 2;  /**< [ 17: 16](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank0. */
-        uint64_t txb_fif_bk1_cdis      : 1;  /**< [ 18: 18](R/W) ECC-correction disable for the TXB main bank1. */
-        uint64_t txb_fif_bk1_syn       : 2;  /**< [ 20: 19](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank1. */
+        uint64_t reserved_15_20        : 6;
         uint64_t txb_skid_m0_cor_dis   : 1;  /**< [ 21: 21](R/W) ECC-correction disable for the TXB SKID FIFO. */
         uint64_t txb_skid_m0_synd      : 2;  /**< [ 23: 22](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO. */
         uint64_t txb_skid_m1_cor_dis   : 1;  /**< [ 24: 24](R/W) ECC-correction disable for the TXB SKID FIFO */
@@ -4228,7 +4734,11 @@ typedef union
         uint64_t txb_skid_m3_synd      : 2;  /**< [ 32: 31](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
         uint64_t txb_ncsi_cor_dis      : 1;  /**< [ 33: 33](R/W) ECC-correction disable for the TXB SKID FIFO */
         uint64_t txb_ncsi_synd         : 2;  /**< [ 35: 34](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
-        uint64_t reserved_36_63        : 28;
+        uint64_t txb_fif_m2_cdis       : 1;  /**< [ 36: 36](R/W) ECC-correction disable for the TXB main mem2. */
+        uint64_t txb_fif_m2_syn        : 2;  /**< [ 38: 37](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem2. */
+        uint64_t txb_fif_m3_cdis       : 1;  /**< [ 39: 39](R/W) ECC-correction disable for the TXB main mem3. */
+        uint64_t txb_fif_m3_syn        : 2;  /**< [ 41: 40](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem3. */
+        uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
     struct bdk_bgxx_cmr_mem_ctrl_cn81xx
@@ -4287,14 +4797,136 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_bgxx_cmr_mem_ctrl_s cn88xx; */
-    /* struct bdk_bgxx_cmr_mem_ctrl_s cn83xx; */
+    struct bdk_bgxx_cmr_mem_ctrl_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_ncsi_synd         : 2;  /**< [ 35: 34](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_ncsi_cor_dis      : 1;  /**< [ 33: 33](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m3_synd      : 2;  /**< [ 32: 31](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m3_cor_dis   : 1;  /**< [ 30: 30](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m2_synd      : 2;  /**< [ 29: 28](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m2_cor_dis   : 1;  /**< [ 27: 27](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m1_synd      : 2;  /**< [ 26: 25](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m1_cor_dis   : 1;  /**< [ 24: 24](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m0_synd      : 2;  /**< [ 23: 22](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO. */
+        uint64_t txb_skid_m0_cor_dis   : 1;  /**< [ 21: 21](R/W) ECC-correction disable for the TXB SKID FIFO. */
+        uint64_t txb_fif_bk1_syn       : 2;  /**< [ 20: 19](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank1. */
+        uint64_t txb_fif_bk1_cdis      : 1;  /**< [ 18: 18](R/W) ECC-correction disable for the TXB main bank1. */
+        uint64_t txb_fif_bk0_syn       : 2;  /**< [ 17: 16](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank0. */
+        uint64_t txb_fif_bk0_cdis      : 1;  /**< [ 15: 15](R/W) ECC-correction disable for the TXB main bank0. */
+        uint64_t rxb_skid_synd         : 2;  /**< [ 14: 13](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB SKID FIFO. */
+        uint64_t rxb_skid_cor_dis      : 1;  /**< [ 12: 12](R/W) ECC-correction disable for the RXB SKID FIFO. */
+        uint64_t rxb_fif_bk1_syn1      : 2;  /**< [ 11: 10](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf1. */
+        uint64_t rxb_fif_bk1_cdis1     : 1;  /**< [  9:  9](R/W) ECC-correction disable for the RXB main bank1 srf1. */
+        uint64_t rxb_fif_bk1_syn0      : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk1_cdis0     : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk0_syn1      : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk0_cdis1     : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk0_syn0      : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf0. */
+        uint64_t rxb_fif_bk0_cdis0     : 1;  /**< [  0:  0](R/W) ECC-correction disable for the RXB main bank0 srf0. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_cdis0     : 1;  /**< [  0:  0](R/W) ECC-correction disable for the RXB main bank0 srf0. */
+        uint64_t rxb_fif_bk0_syn0      : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf0. */
+        uint64_t rxb_fif_bk0_cdis1     : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk0_syn1      : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk1_cdis0     : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk1_syn0      : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk1_cdis1     : 1;  /**< [  9:  9](R/W) ECC-correction disable for the RXB main bank1 srf1. */
+        uint64_t rxb_fif_bk1_syn1      : 2;  /**< [ 11: 10](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf1. */
+        uint64_t rxb_skid_cor_dis      : 1;  /**< [ 12: 12](R/W) ECC-correction disable for the RXB SKID FIFO. */
+        uint64_t rxb_skid_synd         : 2;  /**< [ 14: 13](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB SKID FIFO. */
+        uint64_t txb_fif_bk0_cdis      : 1;  /**< [ 15: 15](R/W) ECC-correction disable for the TXB main bank0. */
+        uint64_t txb_fif_bk0_syn       : 2;  /**< [ 17: 16](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank0. */
+        uint64_t txb_fif_bk1_cdis      : 1;  /**< [ 18: 18](R/W) ECC-correction disable for the TXB main bank1. */
+        uint64_t txb_fif_bk1_syn       : 2;  /**< [ 20: 19](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main bank1. */
+        uint64_t txb_skid_m0_cor_dis   : 1;  /**< [ 21: 21](R/W) ECC-correction disable for the TXB SKID FIFO. */
+        uint64_t txb_skid_m0_synd      : 2;  /**< [ 23: 22](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO. */
+        uint64_t txb_skid_m1_cor_dis   : 1;  /**< [ 24: 24](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m1_synd      : 2;  /**< [ 26: 25](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m2_cor_dis   : 1;  /**< [ 27: 27](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m2_synd      : 2;  /**< [ 29: 28](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m3_cor_dis   : 1;  /**< [ 30: 30](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m3_synd      : 2;  /**< [ 32: 31](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_ncsi_cor_dis      : 1;  /**< [ 33: 33](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_ncsi_synd         : 2;  /**< [ 35: 34](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn88xx;
+    struct bdk_bgxx_cmr_mem_ctrl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_42_63        : 22;
+        uint64_t txb_fif_m3_syn        : 2;  /**< [ 41: 40](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem3. */
+        uint64_t txb_fif_m3_cdis       : 1;  /**< [ 39: 39](R/W) ECC-correction disable for the TXB main mem3. */
+        uint64_t txb_fif_m2_syn        : 2;  /**< [ 38: 37](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem2. */
+        uint64_t txb_fif_m2_cdis       : 1;  /**< [ 36: 36](R/W) ECC-correction disable for the TXB main mem2. */
+        uint64_t txb_ncsi_synd         : 2;  /**< [ 35: 34](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_ncsi_cor_dis      : 1;  /**< [ 33: 33](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m3_synd      : 2;  /**< [ 32: 31](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m3_cor_dis   : 1;  /**< [ 30: 30](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m2_synd      : 2;  /**< [ 29: 28](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m2_cor_dis   : 1;  /**< [ 27: 27](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m1_synd      : 2;  /**< [ 26: 25](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m1_cor_dis   : 1;  /**< [ 24: 24](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m0_synd      : 2;  /**< [ 23: 22](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO. */
+        uint64_t txb_skid_m0_cor_dis   : 1;  /**< [ 21: 21](R/W) ECC-correction disable for the TXB SKID FIFO. */
+        uint64_t txb_fif_m1_syn        : 2;  /**< [ 20: 19](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem1. */
+        uint64_t txb_fif_m1_cdis       : 1;  /**< [ 18: 18](R/W) ECC-correction disable for the TXB main mem1. */
+        uint64_t txb_fif_m0_syn        : 2;  /**< [ 17: 16](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem0. */
+        uint64_t txb_fif_m0_cdis       : 1;  /**< [ 15: 15](R/W) ECC-correction disable for the TXB main mem0. */
+        uint64_t rxb_skid_synd         : 2;  /**< [ 14: 13](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB SKID FIFO. */
+        uint64_t rxb_skid_cor_dis      : 1;  /**< [ 12: 12](R/W) ECC-correction disable for the RXB SKID FIFO. */
+        uint64_t rxb_fif_bk1_syn1      : 2;  /**< [ 11: 10](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf1. */
+        uint64_t rxb_fif_bk1_cdis1     : 1;  /**< [  9:  9](R/W) ECC-correction disable for the RXB main bank1 srf1. */
+        uint64_t rxb_fif_bk1_syn0      : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk1_cdis0     : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk0_syn1      : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk0_cdis1     : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk0_syn0      : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf0. */
+        uint64_t rxb_fif_bk0_cdis0     : 1;  /**< [  0:  0](R/W) ECC-correction disable for the RXB main bank0 srf0. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_cdis0     : 1;  /**< [  0:  0](R/W) ECC-correction disable for the RXB main bank0 srf0. */
+        uint64_t rxb_fif_bk0_syn0      : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf0. */
+        uint64_t rxb_fif_bk0_cdis1     : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk0_syn1      : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank0 srf1. */
+        uint64_t rxb_fif_bk1_cdis0     : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk1_syn0      : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf0. */
+        uint64_t rxb_fif_bk1_cdis1     : 1;  /**< [  9:  9](R/W) ECC-correction disable for the RXB main bank1 srf1. */
+        uint64_t rxb_fif_bk1_syn1      : 2;  /**< [ 11: 10](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB main bank1 srf1. */
+        uint64_t rxb_skid_cor_dis      : 1;  /**< [ 12: 12](R/W) ECC-correction disable for the RXB SKID FIFO. */
+        uint64_t rxb_skid_synd         : 2;  /**< [ 14: 13](R/W) Syndrome to flip and generate single-bit/double-bit error for RXB SKID FIFO. */
+        uint64_t txb_fif_m0_cdis       : 1;  /**< [ 15: 15](R/W) ECC-correction disable for the TXB main mem0. */
+        uint64_t txb_fif_m0_syn        : 2;  /**< [ 17: 16](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem0. */
+        uint64_t txb_fif_m1_cdis       : 1;  /**< [ 18: 18](R/W) ECC-correction disable for the TXB main mem1. */
+        uint64_t txb_fif_m1_syn        : 2;  /**< [ 20: 19](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem1. */
+        uint64_t txb_skid_m0_cor_dis   : 1;  /**< [ 21: 21](R/W) ECC-correction disable for the TXB SKID FIFO. */
+        uint64_t txb_skid_m0_synd      : 2;  /**< [ 23: 22](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO. */
+        uint64_t txb_skid_m1_cor_dis   : 1;  /**< [ 24: 24](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m1_synd      : 2;  /**< [ 26: 25](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m2_cor_dis   : 1;  /**< [ 27: 27](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m2_synd      : 2;  /**< [ 29: 28](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_skid_m3_cor_dis   : 1;  /**< [ 30: 30](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_skid_m3_synd      : 2;  /**< [ 32: 31](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_ncsi_cor_dis      : 1;  /**< [ 33: 33](R/W) ECC-correction disable for the TXB SKID FIFO */
+        uint64_t txb_ncsi_synd         : 2;  /**< [ 35: 34](R/W) Syndrome to flip and generate single-bit/double-bit for TXB SKID FIFO */
+        uint64_t txb_fif_m2_cdis       : 1;  /**< [ 36: 36](R/W) ECC-correction disable for the TXB main mem2. */
+        uint64_t txb_fif_m2_syn        : 2;  /**< [ 38: 37](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem2. */
+        uint64_t txb_fif_m3_cdis       : 1;  /**< [ 39: 39](R/W) ECC-correction disable for the TXB main mem3. */
+        uint64_t txb_fif_m3_syn        : 2;  /**< [ 41: 40](R/W) Syndrome to flip and generate single-bit/double-bit error for TXB main mem3. */
+        uint64_t reserved_42_63        : 22;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_mem_ctrl_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_CTRL(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000030ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000030ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000030ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_MEM_CTRL", 1, a, 0, 0, 0);
 }
@@ -4317,7 +4949,11 @@ typedef union
     struct bdk_bgxx_cmr_mem_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
+        uint64_t reserved_40_63        : 24;
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1C/H) TXB Main FIFO Mem3 single-bit error. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) TXB Main FIFO Mem3 double-bit error. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1C/H) TXB Main FIFO Mem2 single-bit error. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1C/H) TXB Main FIFO Mem2 double-bit error. */
         uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
         uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
         uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
@@ -4353,7 +4989,11 @@ typedef union
         uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
         uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
         uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
-        uint64_t reserved_36_63        : 28;
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1C/H) TXB Main FIFO Mem2 double-bit error. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1C/H) TXB Main FIFO Mem2 single-bit error. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) TXB Main FIFO Mem3 double-bit error. */
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1C/H) TXB Main FIFO Mem3 single-bit error. */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     struct bdk_bgxx_cmr_mem_int_cn81xx
@@ -4499,7 +5139,11 @@ typedef union
     struct bdk_bgxx_cmr_mem_int_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
+        uint64_t reserved_40_63        : 24;
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1C/H) TXB Main FIFO Mem3 single-bit error. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) TXB Main FIFO Mem3 double-bit error. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1C/H) TXB Main FIFO Mem2 single-bit error. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1C/H) TXB Main FIFO Mem2 double-bit error. */
         uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
         uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
         uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
@@ -4520,10 +5164,10 @@ typedef union
         uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
         uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
         uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
+        uint64_t txb_fif_m1_sbe        : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Mem1 single-bit error. */
+        uint64_t txb_fif_m1_dbe        : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Mem1 double-bit error. */
+        uint64_t txb_fif_m0_sbe        : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Mem0 single-bit error. */
+        uint64_t txb_fif_m0_dbe        : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Mem0 double-bit error. */
         uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
         uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
         uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
@@ -4549,10 +5193,10 @@ typedef union
         uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
         uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
         uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
+        uint64_t txb_fif_m0_dbe        : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Mem0 double-bit error. */
+        uint64_t txb_fif_m0_sbe        : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Mem0 single-bit error. */
+        uint64_t txb_fif_m1_dbe        : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Mem1 double-bit error. */
+        uint64_t txb_fif_m1_sbe        : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Mem1 single-bit error. */
         uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
         uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
         uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
@@ -4573,7 +5217,11 @@ typedef union
         uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
         uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
         uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
-        uint64_t reserved_36_63        : 28;
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1C/H) TXB Main FIFO Mem2 double-bit error. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1C/H) TXB Main FIFO Mem2 single-bit error. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) TXB Main FIFO Mem3 double-bit error. */
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1C/H) TXB Main FIFO Mem3 single-bit error. */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_bgxx_cmr_mem_int_t;
@@ -4581,7 +5229,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_MEM_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_INT(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000010ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000010ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000010ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_MEM_INT", 1, a, 0, 0, 0);
 }
@@ -4605,22 +5257,23 @@ typedef union
     struct bdk_bgxx_cmr_mem_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t reserved_40_63        : 24;
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
         uint64_t reserved_20_27        : 8;
         uint64_t txb_skid_m1_sbe       : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_SBE]. */
         uint64_t txb_skid_m1_dbe       : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_DBE]. */
-        uint64_t reserved_16_17        : 2;
-        uint64_t txb_skid_m0_sbe       : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_SBE]. */
-        uint64_t txb_skid_m0_dbe       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_DBE]. */
-        uint64_t reserved_8_13         : 6;
+        uint64_t reserved_8_17         : 10;
         uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
         uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
         uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
@@ -4638,22 +5291,23 @@ typedef union
         uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
         uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
         uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
-        uint64_t reserved_8_13         : 6;
-        uint64_t txb_skid_m0_dbe       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_DBE]. */
-        uint64_t txb_skid_m0_sbe       : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_SBE]. */
-        uint64_t reserved_16_17        : 2;
+        uint64_t reserved_8_17         : 10;
         uint64_t txb_skid_m1_dbe       : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_DBE]. */
         uint64_t txb_skid_m1_sbe       : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_SBE]. */
         uint64_t reserved_20_27        : 8;
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     struct bdk_bgxx_cmr_mem_int_ena_w1c_cn81xx
@@ -4796,13 +5450,104 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmr_mem_int_ena_w1c_cn81xx cn83xx; */
+    struct bdk_bgxx_cmr_mem_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_fif_m1_sbe        : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_SBE]. */
+        uint64_t txb_fif_m1_dbe        : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_DBE]. */
+        uint64_t txb_fif_m0_sbe        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_SBE]. */
+        uint64_t txb_fif_m0_dbe        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t txb_fif_m0_dbe        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_DBE]. */
+        uint64_t txb_fif_m0_sbe        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_SBE]. */
+        uint64_t txb_fif_m1_dbe        : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_DBE]. */
+        uint64_t txb_fif_m1_sbe        : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_mem_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1C(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000020ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000020ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000020ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_MEM_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -4826,22 +5571,23 @@ typedef union
     struct bdk_bgxx_cmr_mem_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t reserved_40_63        : 24;
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
         uint64_t reserved_20_27        : 8;
         uint64_t txb_skid_m1_sbe       : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_SBE]. */
         uint64_t txb_skid_m1_dbe       : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_DBE]. */
-        uint64_t reserved_16_17        : 2;
-        uint64_t txb_skid_m0_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_SBE]. */
-        uint64_t txb_skid_m0_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_DBE]. */
-        uint64_t reserved_8_13         : 6;
+        uint64_t reserved_8_17         : 10;
         uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
         uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
         uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
@@ -4859,22 +5605,23 @@ typedef union
         uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
         uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
         uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
-        uint64_t reserved_8_13         : 6;
-        uint64_t txb_skid_m0_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_DBE]. */
-        uint64_t txb_skid_m0_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_SBE]. */
-        uint64_t reserved_16_17        : 2;
+        uint64_t reserved_8_17         : 10;
         uint64_t txb_skid_m1_dbe       : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_DBE]. */
         uint64_t txb_skid_m1_sbe       : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_SBE]. */
         uint64_t reserved_20_27        : 8;
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     struct bdk_bgxx_cmr_mem_int_ena_w1s_cn81xx
@@ -5017,13 +5764,104 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmr_mem_int_ena_w1s_cn81xx cn83xx; */
+    struct bdk_bgxx_cmr_mem_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_fif_m1_sbe        : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_SBE]. */
+        uint64_t txb_fif_m1_dbe        : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_DBE]. */
+        uint64_t txb_fif_m0_sbe        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_SBE]. */
+        uint64_t txb_fif_m0_dbe        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t txb_fif_m0_dbe        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_DBE]. */
+        uint64_t txb_fif_m0_sbe        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_SBE]. */
+        uint64_t txb_fif_m1_dbe        : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_DBE]. */
+        uint64_t txb_fif_m1_sbe        : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_mem_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1S(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000028ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000028ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000028ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_MEM_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -5047,22 +5885,23 @@ typedef union
     struct bdk_bgxx_cmr_mem_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t reserved_40_63        : 24;
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
         uint64_t reserved_20_27        : 8;
         uint64_t txb_skid_m1_sbe       : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_SBE]. */
         uint64_t txb_skid_m1_dbe       : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_DBE]. */
-        uint64_t reserved_16_17        : 2;
-        uint64_t txb_skid_m0_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_SBE]. */
-        uint64_t txb_skid_m0_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_DBE]. */
-        uint64_t reserved_8_13         : 6;
+        uint64_t reserved_8_17         : 10;
         uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
         uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
         uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
@@ -5080,22 +5919,23 @@ typedef union
         uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
         uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
         uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
-        uint64_t reserved_8_13         : 6;
-        uint64_t txb_skid_m0_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_DBE]. */
-        uint64_t txb_skid_m0_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_SBE]. */
-        uint64_t reserved_16_17        : 2;
+        uint64_t reserved_8_17         : 10;
         uint64_t txb_skid_m1_dbe       : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_DBE]. */
         uint64_t txb_skid_m1_sbe       : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_SBE]. */
         uint64_t reserved_20_27        : 8;
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     struct bdk_bgxx_cmr_mem_int_w1s_cn81xx
@@ -5238,13 +6078,104 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmr_mem_int_w1s_cn81xx cn83xx; */
+    struct bdk_bgxx_cmr_mem_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_fif_m1_sbe        : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_SBE]. */
+        uint64_t txb_fif_m1_dbe        : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_DBE]. */
+        uint64_t txb_fif_m0_sbe        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_SBE]. */
+        uint64_t txb_fif_m0_dbe        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t txb_fif_m0_dbe        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_DBE]. */
+        uint64_t txb_fif_m0_sbe        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M0_SBE]. */
+        uint64_t txb_fif_m1_dbe        : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_DBE]. */
+        uint64_t txb_fif_m1_sbe        : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M1_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_fif_m2_dbe        : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_DBE]. */
+        uint64_t txb_fif_m2_sbe        : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M2_SBE]. */
+        uint64_t txb_fif_m3_dbe        : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_DBE]. */
+        uint64_t txb_fif_m3_sbe        : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets BGX(0..3)_CMR_MEM_INT[TXB_FIF_M3_SBE]. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_mem_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_W1S(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000018ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000018ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000018ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_MEM_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -5284,8 +6215,8 @@ static inline uint64_t BDK_BGXX_CMR_NIC_NXC_ADR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("BGXX_CMR_NIC_NXC_ADR", 1, a, 0, 0, 0);
 }
 
@@ -5362,8 +6293,8 @@ static inline uint64_t BDK_BGXX_CMR_PKO_NXC_ADR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x87e0e0001018ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0e0001018ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0001018ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("BGXX_CMR_PKO_NXC_ADR", 1, a, 0, 0, 0);
 }
 
@@ -5431,7 +6362,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_DMACX_CAM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_DMACX_CAM(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=31))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=31)))
+        return 0x87e0e0000200ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=31)))
+        return 0x87e0e0000200ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=31)))
         return 0x87e0e0000200ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     __bdk_csr_fatal("BGXX_CMR_RX_DMACX_CAM", 2, a, b, 0, 0);
 }
@@ -5493,7 +6428,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000468ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000468ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000468ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_RX_LMACS", 1, a, 0, 0, 0);
 }
@@ -5559,7 +6498,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_OVR_BP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_OVR_BP(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000470ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000470ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000470ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_RX_OVR_BP", 1, a, 0, 0, 0);
 }
@@ -5611,7 +6554,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STAT10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STAT10(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e00000c0ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e00000c0ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e00000c0ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_RX_STAT10", 1, a, 0, 0, 0);
 }
@@ -5665,7 +6612,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STAT9(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STAT9(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e00000b8ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e00000b8ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e00000b8ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_RX_STAT9", 1, a, 0, 0, 0);
 }
@@ -5822,7 +6773,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STEERINGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STEERINGX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=7))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=7)))
+        return 0x87e0e0000300ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=7)))
+        return 0x87e0e0000300ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=7)))
         return 0x87e0e0000300ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("BGXX_CMR_RX_STEERINGX", 2, a, b, 0, 0);
 }
@@ -5908,7 +6863,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STEERING_DEFAULT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STEERING_DEFAULT(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0000448ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0000448ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0000448ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_RX_STEERING_DEFAULT", 1, a, 0, 0, 0);
 }
@@ -5966,7 +6925,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STEERING_VETYPEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STEERING_VETYPEX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=7))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=7)))
+        return 0x87e0e0000400ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=7)))
+        return 0x87e0e0000400ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=7)))
         return 0x87e0e0000400ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("BGXX_CMR_RX_STEERING_VETYPEX", 2, a, b, 0, 0);
 }
@@ -6030,7 +6993,11 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_TX_LMACS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_TX_LMACS(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0001000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0001000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0001000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_TX_LMACS", 1, a, 0, 0, 0);
 }
@@ -6057,15 +7024,31 @@ typedef union
         uint64_t reserved_32_63        : 32;
         uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
         uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire BGX. This buffering may be split
-                                                                 between LMACs; see BGX()_CMR_RX_LMACS[LMACS]. */
+                                                                 between LMACs; see BGX()_CMR_TX_LMACS[LMACS]. */
 #else /* Word 0 - Little Endian */
         uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire BGX. This buffering may be split
-                                                                 between LMACs; see BGX()_CMR_RX_LMACS[LMACS]. */
+                                                                 between LMACs; see BGX()_CMR_TX_LMACS[LMACS]. */
         uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_const_s cn; */
+    struct bdk_bgxx_const_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs.
+                                                                 If 0x0, indicates 4 LMACs, otherwise, the number of LMACs. */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire BGX. This buffering may be split
+                                                                 between LMACs; see BGX()_CMR_TX_LMACS[LMACS].  If 0x0, indicates size of 0xC000. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire BGX. This buffering may be split
+                                                                 between LMACs; see BGX()_CMR_TX_LMACS[LMACS].  If 0x0, indicates size of 0xC000. */
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs.
+                                                                 If 0x0, indicates 4 LMACs, otherwise, the number of LMACs. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_bgxx_const_s cn83xx; */
 } bdk_bgxx_const_t;
 
 static inline uint64_t BDK_BGXX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6073,8 +7056,8 @@ static inline uint64_t BDK_BGXX_CONST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x87e0e0040000ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0e0040000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0040000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("BGXX_CONST", 1, a, 0, 0, 0);
 }
 
@@ -6110,7 +7093,25 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_const1_s cn; */
+    struct bdk_bgxx_const1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t res_types             : 24; /**< [ 31:  8](RO) Reserved for more LMAC TYPES. */
+        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of
+                                                                 BGX_LMAC_TYPES_E being supported. E.g. TYPES<5> if set indicates
+                                                                 BGX_LMAC_TYPES_E::RGMII is supported. If 0x0, [TYPES] should be treated by
+                                                                 software as if the read value was 0x5F (all but RGMII). */
+#else /* Word 0 - Little Endian */
+        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of
+                                                                 BGX_LMAC_TYPES_E being supported. E.g. TYPES<5> if set indicates
+                                                                 BGX_LMAC_TYPES_E::RGMII is supported. If 0x0, [TYPES] should be treated by
+                                                                 software as if the read value was 0x5F (all but RGMII). */
+        uint64_t res_types             : 24; /**< [ 31:  8](RO) Reserved for more LMAC TYPES. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_bgxx_const1_s cn83xx; */
 } bdk_bgxx_const1_t;
 
 static inline uint64_t BDK_BGXX_CONST1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6118,8 +7119,8 @@ static inline uint64_t BDK_BGXX_CONST1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x87e0e0040008ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0e0040008ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0040008ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("BGXX_CONST1", 1, a, 0, 0, 0);
 }
 
@@ -6238,7 +7239,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_PRTX_CFG", 2, a, b, 0, 0);
 }
@@ -6300,7 +7305,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_DECISION(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_DECISION(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_DECISION", 2, a, b, 0, 0);
 }
@@ -6375,7 +7384,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CHK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CHK(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_FRM_CHK", 2, a, b, 0, 0);
 }
@@ -6708,7 +7721,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_FRM_CTL", 2, a, b, 0, 0);
 }
@@ -6780,7 +7797,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_IFG", 2, a, b, 0, 0);
 }
@@ -6979,7 +8000,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_INT", 2, a, b, 0, 0);
 }
@@ -7032,13 +8057,50 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_gmi_rxx_int_ena_w1c_s cn; */
+    /* struct bdk_bgxx_gmp_gmi_rxx_int_ena_w1c_s cn81xx; */
+    /* struct bdk_bgxx_gmp_gmi_rxx_int_ena_w1c_s cn88xx; */
+    struct bdk_bgxx_gmp_gmi_rxx_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t ifgerr                : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[IFGERR]. */
+        uint64_t coldet                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[COLDET]. */
+        uint64_t falerr                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[FALERR]. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[RSVERR]. */
+        uint64_t pcterr                : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[PCTERR]. */
+        uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[OVRERR]. */
+        uint64_t skperr                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[SKPERR]. */
+        uint64_t rcverr                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[RCVERR]. */
+        uint64_t fcserr                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[JABBER]. */
+        uint64_t carext                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[CAREXT]. */
+        uint64_t minerr                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[MINERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t minerr                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[MINERR]. */
+        uint64_t carext                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[CAREXT]. */
+        uint64_t jabber                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[JABBER]. */
+        uint64_t fcserr                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[FCSERR]. */
+        uint64_t rcverr                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[RCVERR]. */
+        uint64_t skperr                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[SKPERR]. */
+        uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[OVRERR]. */
+        uint64_t pcterr                : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[PCTERR]. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[RSVERR]. */
+        uint64_t falerr                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[FALERR]. */
+        uint64_t coldet                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[COLDET]. */
+        uint64_t ifgerr                : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[IFGERR]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_gmi_rxx_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
@@ -7091,13 +8153,50 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_gmi_rxx_int_ena_w1s_s cn; */
+    /* struct bdk_bgxx_gmp_gmi_rxx_int_ena_w1s_s cn81xx; */
+    /* struct bdk_bgxx_gmp_gmi_rxx_int_ena_w1s_s cn88xx; */
+    struct bdk_bgxx_gmp_gmi_rxx_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t ifgerr                : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[IFGERR]. */
+        uint64_t coldet                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[COLDET]. */
+        uint64_t falerr                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[FALERR]. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[RSVERR]. */
+        uint64_t pcterr                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[PCTERR]. */
+        uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[OVRERR]. */
+        uint64_t skperr                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[SKPERR]. */
+        uint64_t rcverr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[RCVERR]. */
+        uint64_t fcserr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[JABBER]. */
+        uint64_t carext                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[CAREXT]. */
+        uint64_t minerr                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[MINERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t minerr                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[MINERR]. */
+        uint64_t carext                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[CAREXT]. */
+        uint64_t jabber                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[JABBER]. */
+        uint64_t fcserr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[FCSERR]. */
+        uint64_t rcverr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[RCVERR]. */
+        uint64_t skperr                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[SKPERR]. */
+        uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[OVRERR]. */
+        uint64_t pcterr                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[PCTERR]. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[RSVERR]. */
+        uint64_t falerr                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[FALERR]. */
+        uint64_t coldet                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[COLDET]. */
+        uint64_t ifgerr                : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_RX(0..3)_INT[IFGERR]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_gmi_rxx_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
@@ -7150,13 +8249,50 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_gmi_rxx_int_w1s_s cn; */
+    /* struct bdk_bgxx_gmp_gmi_rxx_int_w1s_s cn81xx; */
+    /* struct bdk_bgxx_gmp_gmi_rxx_int_w1s_s cn88xx; */
+    struct bdk_bgxx_gmp_gmi_rxx_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t ifgerr                : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[IFGERR]. */
+        uint64_t coldet                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[COLDET]. */
+        uint64_t falerr                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[FALERR]. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[RSVERR]. */
+        uint64_t pcterr                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[PCTERR]. */
+        uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[OVRERR]. */
+        uint64_t skperr                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[SKPERR]. */
+        uint64_t rcverr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[RCVERR]. */
+        uint64_t fcserr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[JABBER]. */
+        uint64_t carext                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[CAREXT]. */
+        uint64_t minerr                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[MINERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t minerr                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[MINERR]. */
+        uint64_t carext                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[CAREXT]. */
+        uint64_t jabber                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[JABBER]. */
+        uint64_t fcserr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[FCSERR]. */
+        uint64_t rcverr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[RCVERR]. */
+        uint64_t skperr                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[SKPERR]. */
+        uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[OVRERR]. */
+        uint64_t pcterr                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[PCTERR]. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[RSVERR]. */
+        uint64_t falerr                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[FALERR]. */
+        uint64_t coldet                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[COLDET]. */
+        uint64_t ifgerr                : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_RX(0..3)_INT[IFGERR]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_gmi_rxx_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_INT_W1S", 2, a, b, 0, 0);
 }
@@ -7197,7 +8333,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_JABBER(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_JABBER(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_JABBER", 2, a, b, 0, 0);
 }
@@ -7285,7 +8425,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_UDD_SKP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_UDD_SKP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_RXX_UDD_SKP", 2, a, b, 0, 0);
 }
@@ -7321,7 +8465,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_SMACX", 2, a, b, 0, 0);
 }
@@ -7363,7 +8511,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_APPEND(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_APPEND(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038218ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_APPEND", 2, a, b, 0, 0);
 }
@@ -7426,7 +8578,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_BURST(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_BURST(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038228ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038228ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038228ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_BURST", 2, a, b, 0, 0);
 }
@@ -7491,7 +8647,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038270ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038270ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038270ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_CTL", 2, a, b, 0, 0);
 }
@@ -7535,7 +8695,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038500ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038500ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038500ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_INT", 2, a, b, 0, 0);
 }
@@ -7574,13 +8738,36 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_gmi_txx_int_ena_w1c_s cn; */
+    /* struct bdk_bgxx_gmp_gmi_txx_int_ena_w1c_s cn81xx; */
+    /* struct bdk_bgxx_gmp_gmi_txx_int_ena_w1c_s cn88xx; */
+    struct bdk_bgxx_gmp_gmi_txx_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t ptp_lost              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[PTP_LOST]. */
+        uint64_t late_col              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[LATE_COL]. */
+        uint64_t xsdef                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSDEF]. */
+        uint64_t xscol                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSCOL]. */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[UNDFLW]. */
+#else /* Word 0 - Little Endian */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[UNDFLW]. */
+        uint64_t xscol                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSCOL]. */
+        uint64_t xsdef                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSDEF]. */
+        uint64_t late_col              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[LATE_COL]. */
+        uint64_t ptp_lost              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[PTP_LOST]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_gmi_txx_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038510ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038510ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038510ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
@@ -7619,13 +8806,36 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_gmi_txx_int_ena_w1s_s cn; */
+    /* struct bdk_bgxx_gmp_gmi_txx_int_ena_w1s_s cn81xx; */
+    /* struct bdk_bgxx_gmp_gmi_txx_int_ena_w1s_s cn88xx; */
+    struct bdk_bgxx_gmp_gmi_txx_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t ptp_lost              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[PTP_LOST]. */
+        uint64_t late_col              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[LATE_COL]. */
+        uint64_t xsdef                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSDEF]. */
+        uint64_t xscol                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSCOL]. */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[UNDFLW]. */
+#else /* Word 0 - Little Endian */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[UNDFLW]. */
+        uint64_t xscol                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSCOL]. */
+        uint64_t xsdef                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSDEF]. */
+        uint64_t late_col              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[LATE_COL]. */
+        uint64_t ptp_lost              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_GMI_TX(0..3)_INT[PTP_LOST]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_gmi_txx_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038518ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038518ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038518ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
@@ -7664,13 +8874,36 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_gmi_txx_int_w1s_s cn; */
+    /* struct bdk_bgxx_gmp_gmi_txx_int_w1s_s cn81xx; */
+    /* struct bdk_bgxx_gmp_gmi_txx_int_w1s_s cn88xx; */
+    struct bdk_bgxx_gmp_gmi_txx_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t ptp_lost              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[PTP_LOST]. */
+        uint64_t late_col              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[LATE_COL]. */
+        uint64_t xsdef                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSDEF]. */
+        uint64_t xscol                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSCOL]. */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[UNDFLW]. */
+#else /* Word 0 - Little Endian */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[UNDFLW]. */
+        uint64_t xscol                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSCOL]. */
+        uint64_t xsdef                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[XSDEF]. */
+        uint64_t late_col              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[LATE_COL]. */
+        uint64_t ptp_lost              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_GMP_GMI_TX(0..3)_INT[PTP_LOST]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_gmi_txx_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038508ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038508ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038508ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_INT_W1S", 2, a, b, 0, 0);
 }
@@ -7737,7 +8970,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_MIN_PKT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_MIN_PKT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038240ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038240ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038240ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_MIN_PKT", 2, a, b, 0, 0);
 }
@@ -7822,7 +9059,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038248ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038248ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038248ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL", 2, a, b, 0, 0);
 }
@@ -7883,7 +9124,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038238ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038238ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038238ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_PAUSE_PKT_TIME", 2, a, b, 0, 0);
 }
@@ -7919,7 +9164,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_TOGO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_TOGO(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038258ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038258ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038258ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_PAUSE_TOGO", 2, a, b, 0, 0);
 }
@@ -7972,7 +9221,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_ZERO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_ZERO(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038260ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038260ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038260ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_PAUSE_ZERO", 2, a, b, 0, 0);
 }
@@ -8032,7 +9285,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SGMII_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SGMII_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038300ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038300ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038300ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_SGMII_CTL", 2, a, b, 0, 0);
 }
@@ -8095,7 +9352,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SLOT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SLOT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038220ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038220ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038220ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_SLOT", 2, a, b, 0, 0);
 }
@@ -8144,7 +9405,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SOFT_PAUSE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SOFT_PAUSE(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038250ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038250ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038250ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_SOFT_PAUSE", 2, a, b, 0, 0);
 }
@@ -8190,7 +9455,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_THRESH(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038210ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0038210ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038210ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_TXX_THRESH", 2, a, b, 0, 0);
 }
@@ -8226,7 +9495,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_COL_ATTEMPT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_COL_ATTEMPT(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0039010ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0039010ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0039010ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_GMP_GMI_TX_COL_ATTEMPT", 1, a, 0, 0, 0);
 }
@@ -8279,7 +9552,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_IFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_IFG(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0039000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0039000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0039000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_GMP_GMI_TX_IFG", 1, a, 0, 0, 0);
 }
@@ -8316,7 +9593,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_JAM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_JAM(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0039008ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0039008ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0039008ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_GMP_GMI_TX_JAM", 1, a, 0, 0, 0);
 }
@@ -8356,7 +9637,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_LFSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_LFSR(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0039028ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0039028ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0039028ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_GMP_GMI_TX_LFSR", 1, a, 0, 0, 0);
 }
@@ -8392,7 +9677,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_DMAC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_DMAC(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0039018ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0039018ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0039018ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_GMP_GMI_TX_PAUSE_PKT_DMAC", 1, a, 0, 0, 0);
 }
@@ -8429,7 +9718,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_TYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_TYPE(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0039020ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0039020ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0039020ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_GMP_GMI_TX_PAUSE_PKT_TYPE", 1, a, 0, 0, 0);
 }
@@ -8497,7 +9790,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_ADV(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_ANX_ADV", 2, a, b, 0, 0);
 }
@@ -8541,7 +9838,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_EXT_ST(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_EXT_ST(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_ANX_EXT_ST", 2, a, b, 0, 0);
 }
@@ -8612,7 +9913,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_LP_ABIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_LP_ABIL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_ANX_LP_ABIL", 2, a, b, 0, 0);
 }
@@ -8718,7 +10023,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_RESULTS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_RESULTS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_ANX_RESULTS", 2, a, b, 0, 0);
 }
@@ -8800,7 +10109,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_INTX", 2, a, b, 0, 0);
 }
@@ -8855,13 +10168,52 @@ typedef union
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_pcs_intx_ena_w1c_s cn; */
+    /* struct bdk_bgxx_gmp_pcs_intx_ena_w1c_s cn81xx; */
+    /* struct bdk_bgxx_gmp_pcs_intx_ena_w1c_s cn88xx; */
+    struct bdk_bgxx_gmp_pcs_intx_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t dbg_sync              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[DBG_SYNC]. */
+        uint64_t dup                   : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[DUP]. */
+        uint64_t sync_bad              : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[SYNC_BAD]. */
+        uint64_t an_bad                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[AN_BAD]. */
+        uint64_t rxlock                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXLOCK]. */
+        uint64_t rxbad                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXBAD]. */
+        uint64_t rxerr                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXERR]. */
+        uint64_t txbad                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXBAD]. */
+        uint64_t txfifo                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFO]. */
+        uint64_t txfifu                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFU]. */
+        uint64_t an_err                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[AN_ERR]. */
+        uint64_t xmit                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[XMIT]. */
+        uint64_t lnkspd                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[LNKSPD]. */
+#else /* Word 0 - Little Endian */
+        uint64_t lnkspd                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[LNKSPD]. */
+        uint64_t xmit                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[XMIT]. */
+        uint64_t an_err                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[AN_ERR]. */
+        uint64_t txfifu                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFU]. */
+        uint64_t txfifo                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFO]. */
+        uint64_t txbad                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXBAD]. */
+        uint64_t rxerr                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXERR]. */
+        uint64_t rxbad                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXBAD]. */
+        uint64_t rxlock                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXLOCK]. */
+        uint64_t an_bad                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[AN_BAD]. */
+        uint64_t sync_bad              : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[SYNC_BAD]. */
+        uint64_t dup                   : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[DUP]. */
+        uint64_t dbg_sync              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..3)_GMP_PCS_INT(0..3)[DBG_SYNC]. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_pcs_intx_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_INTX_ENA_W1C", 2, a, b, 0, 0);
 }
@@ -8916,13 +10268,52 @@ typedef union
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_pcs_intx_ena_w1s_s cn; */
+    /* struct bdk_bgxx_gmp_pcs_intx_ena_w1s_s cn81xx; */
+    /* struct bdk_bgxx_gmp_pcs_intx_ena_w1s_s cn88xx; */
+    struct bdk_bgxx_gmp_pcs_intx_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t dbg_sync              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[DBG_SYNC]. */
+        uint64_t dup                   : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[DUP]. */
+        uint64_t sync_bad              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[SYNC_BAD]. */
+        uint64_t an_bad                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[AN_BAD]. */
+        uint64_t rxlock                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXLOCK]. */
+        uint64_t rxbad                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXBAD]. */
+        uint64_t rxerr                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXERR]. */
+        uint64_t txbad                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXBAD]. */
+        uint64_t txfifo                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFO]. */
+        uint64_t txfifu                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFU]. */
+        uint64_t an_err                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[AN_ERR]. */
+        uint64_t xmit                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[XMIT]. */
+        uint64_t lnkspd                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[LNKSPD]. */
+#else /* Word 0 - Little Endian */
+        uint64_t lnkspd                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[LNKSPD]. */
+        uint64_t xmit                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[XMIT]. */
+        uint64_t an_err                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[AN_ERR]. */
+        uint64_t txfifu                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFU]. */
+        uint64_t txfifo                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFO]. */
+        uint64_t txbad                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[TXBAD]. */
+        uint64_t rxerr                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXERR]. */
+        uint64_t rxbad                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXBAD]. */
+        uint64_t rxlock                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[RXLOCK]. */
+        uint64_t an_bad                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[AN_BAD]. */
+        uint64_t sync_bad              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[SYNC_BAD]. */
+        uint64_t dup                   : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[DUP]. */
+        uint64_t dbg_sync              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..3)_GMP_PCS_INT(0..3)[DBG_SYNC]. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_pcs_intx_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_INTX_ENA_W1S", 2, a, b, 0, 0);
 }
@@ -8977,13 +10368,52 @@ typedef union
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_pcs_intx_w1s_s cn; */
+    /* struct bdk_bgxx_gmp_pcs_intx_w1s_s cn81xx; */
+    /* struct bdk_bgxx_gmp_pcs_intx_w1s_s cn88xx; */
+    struct bdk_bgxx_gmp_pcs_intx_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t dbg_sync              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[DBG_SYNC]. */
+        uint64_t dup                   : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[DUP]. */
+        uint64_t sync_bad              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[SYNC_BAD]. */
+        uint64_t an_bad                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[AN_BAD]. */
+        uint64_t rxlock                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[RXLOCK]. */
+        uint64_t rxbad                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[RXBAD]. */
+        uint64_t rxerr                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[RXERR]. */
+        uint64_t txbad                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[TXBAD]. */
+        uint64_t txfifo                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFO]. */
+        uint64_t txfifu                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFU]. */
+        uint64_t an_err                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[AN_ERR]. */
+        uint64_t xmit                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[XMIT]. */
+        uint64_t lnkspd                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[LNKSPD]. */
+#else /* Word 0 - Little Endian */
+        uint64_t lnkspd                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[LNKSPD]. */
+        uint64_t xmit                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[XMIT]. */
+        uint64_t an_err                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[AN_ERR]. */
+        uint64_t txfifu                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFU]. */
+        uint64_t txfifo                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[TXFIFO]. */
+        uint64_t txbad                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[TXBAD]. */
+        uint64_t rxerr                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[RXERR]. */
+        uint64_t rxbad                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[RXBAD]. */
+        uint64_t rxlock                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[RXLOCK]. */
+        uint64_t an_bad                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[AN_BAD]. */
+        uint64_t sync_bad              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[SYNC_BAD]. */
+        uint64_t dup                   : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[DUP]. */
+        uint64_t dbg_sync              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..3)_GMP_PCS_INT(0..3)[DBG_SYNC]. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_pcs_intx_w1s_t;
 
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_INTX_W1S", 2, a, b, 0, 0);
 }
@@ -9041,7 +10471,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_LINKX_TIMER(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_LINKX_TIMER(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_LINKX_TIMER", 2, a, b, 0, 0);
 }
@@ -9377,7 +10811,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_MISCX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_MISCX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_MISCX_CTL", 2, a, b, 0, 0);
 }
@@ -9614,7 +11052,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_MRX_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_MRX_CONTROL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_MRX_CONTROL", 2, a, b, 0, 0);
 }
@@ -9708,7 +11150,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_MRX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_MRX_STATUS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_MRX_STATUS", 2, a, b, 0, 0);
 }
@@ -9754,7 +11200,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_RXX_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_RXX_STATES(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_RXX_STATES", 2, a, b, 0, 0);
 }
@@ -9792,7 +11242,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_RXX_SYNC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_RXX_SYNC(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_RXX_SYNC", 2, a, b, 0, 0);
 }
@@ -9853,7 +11307,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_SGMX_AN_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_SGMX_AN_ADV(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_SGMX_AN_ADV", 2, a, b, 0, 0);
 }
@@ -9938,7 +11396,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_SGMX_LP_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_SGMX_LP_ADV(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_SGMX_LP_ADV", 2, a, b, 0, 0);
 }
@@ -9984,7 +11446,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_TXX_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_TXX_STATES(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_TXX_STATES", 2, a, b, 0, 0);
 }
@@ -10042,7 +11508,11 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_TX_RXX_POLARITY(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_TX_RXX_POLARITY(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0030048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0030048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0030048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_PCS_TX_RXX_POLARITY", 2, a, b, 0, 0);
 }
@@ -10080,7 +11550,11 @@ typedef union
 static inline uint64_t BDK_BGXX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x87e0e04f0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
+        return 0x87e0e04f0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
         return 0x87e0e04f0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("BGXX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -10135,7 +11609,11 @@ typedef union
 static inline uint64_t BDK_BGXX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=29))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=29)))
+        return 0x87e0e0400000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=29)))
+        return 0x87e0e0400000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=29)))
         return 0x87e0e0400000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
     __bdk_csr_fatal("BGXX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -10176,7 +11654,11 @@ typedef union
 static inline uint64_t BDK_BGXX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=29))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=29)))
+        return 0x87e0e0400008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=29)))
+        return 0x87e0e0400008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=29)))
         return 0x87e0e0400008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
     __bdk_csr_fatal("BGXX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -10237,7 +11719,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_CBFC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_CBFC_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020218ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_CBFC_CTL", 2, a, b, 0, 0);
 }
@@ -10279,7 +11765,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_CTRL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020200ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020200ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020200ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_CTRL", 2, a, b, 0, 0);
 }
@@ -10323,7 +11813,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_EXT_LOOPBACK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_EXT_LOOPBACK(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020208ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020208ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020208ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_EXT_LOOPBACK", 2, a, b, 0, 0);
 }
@@ -10434,7 +11928,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_HG2_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_HG2_CONTROL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020210ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020210ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020210ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_HG2_CONTROL", 2, a, b, 0, 0);
 }
@@ -10476,7 +11974,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_BAD_COL_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_BAD_COL_HI(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_BAD_COL_HI", 2, a, b, 0, 0);
 }
@@ -10512,7 +12014,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_BAD_COL_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_BAD_COL_LO(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_BAD_COL_LO", 2, a, b, 0, 0);
 }
@@ -10556,7 +12062,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_CTL", 2, a, b, 0, 0);
 }
@@ -10597,7 +12107,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_DECISION(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_DECISION(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_DECISION", 2, a, b, 0, 0);
 }
@@ -10646,7 +12160,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_FRM_CHK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_FRM_CHK(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_FRM_CHK", 2, a, b, 0, 0);
 }
@@ -10764,7 +12282,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_FRM_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_FRM_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_FRM_CTL", 2, a, b, 0, 0);
 }
@@ -10869,7 +12391,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_INT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_INT", 2, a, b, 0, 0);
 }
@@ -10922,13 +12448,50 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_smux_rx_int_ena_w1c_s cn; */
+    /* struct bdk_bgxx_smux_rx_int_ena_w1c_s cn81xx; */
+    /* struct bdk_bgxx_smux_rx_int_ena_w1c_s cn88xx; */
+    struct bdk_bgxx_smux_rx_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t hg2cc                 : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[HG2CC]. */
+        uint64_t hg2fld                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[HG2FLD]. */
+        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[BAD_TERM]. */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[BAD_SEQ]. */
+        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[REM_FAULT]. */
+        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[LOC_FAULT]. */
+        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[RSVERR]. */
+        uint64_t pcterr                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[PCTERR]. */
+        uint64_t skperr                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[SKPERR]. */
+        uint64_t rcverr                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[RCVERR]. */
+        uint64_t fcserr                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[JABBER]. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[JABBER]. */
+        uint64_t fcserr                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[FCSERR]. */
+        uint64_t rcverr                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[RCVERR]. */
+        uint64_t skperr                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[SKPERR]. */
+        uint64_t pcterr                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[PCTERR]. */
+        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[RSVERR]. */
+        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[LOC_FAULT]. */
+        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[REM_FAULT]. */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[BAD_SEQ]. */
+        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[BAD_TERM]. */
+        uint64_t hg2fld                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[HG2FLD]. */
+        uint64_t hg2cc                 : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_RX_INT[HG2CC]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_smux_rx_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
@@ -10981,13 +12544,50 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_smux_rx_int_ena_w1s_s cn; */
+    /* struct bdk_bgxx_smux_rx_int_ena_w1s_s cn81xx; */
+    /* struct bdk_bgxx_smux_rx_int_ena_w1s_s cn88xx; */
+    struct bdk_bgxx_smux_rx_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t hg2cc                 : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[HG2CC]. */
+        uint64_t hg2fld                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[HG2FLD]. */
+        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[BAD_TERM]. */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[BAD_SEQ]. */
+        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[REM_FAULT]. */
+        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[LOC_FAULT]. */
+        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[RSVERR]. */
+        uint64_t pcterr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[PCTERR]. */
+        uint64_t skperr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[SKPERR]. */
+        uint64_t rcverr                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[RCVERR]. */
+        uint64_t fcserr                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[JABBER]. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[JABBER]. */
+        uint64_t fcserr                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[FCSERR]. */
+        uint64_t rcverr                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[RCVERR]. */
+        uint64_t skperr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[SKPERR]. */
+        uint64_t pcterr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[PCTERR]. */
+        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[RSVERR]. */
+        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[LOC_FAULT]. */
+        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[REM_FAULT]. */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[BAD_SEQ]. */
+        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[BAD_TERM]. */
+        uint64_t hg2fld                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[HG2FLD]. */
+        uint64_t hg2cc                 : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_RX_INT[HG2CC]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_smux_rx_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
@@ -11040,13 +12640,50 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_smux_rx_int_w1s_s cn; */
+    /* struct bdk_bgxx_smux_rx_int_w1s_s cn81xx; */
+    /* struct bdk_bgxx_smux_rx_int_w1s_s cn88xx; */
+    struct bdk_bgxx_smux_rx_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t hg2cc                 : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[HG2CC]. */
+        uint64_t hg2fld                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[HG2FLD]. */
+        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[BAD_TERM]. */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[BAD_SEQ]. */
+        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[REM_FAULT]. */
+        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[LOC_FAULT]. */
+        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[RSVERR]. */
+        uint64_t pcterr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[PCTERR]. */
+        uint64_t skperr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[SKPERR]. */
+        uint64_t rcverr                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[RCVERR]. */
+        uint64_t fcserr                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[JABBER]. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[JABBER]. */
+        uint64_t fcserr                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[FCSERR]. */
+        uint64_t rcverr                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[RCVERR]. */
+        uint64_t skperr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[SKPERR]. */
+        uint64_t pcterr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[PCTERR]. */
+        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[RSVERR]. */
+        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[LOC_FAULT]. */
+        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[REM_FAULT]. */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[BAD_SEQ]. */
+        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[BAD_TERM]. */
+        uint64_t hg2fld                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[HG2FLD]. */
+        uint64_t hg2cc                 : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_RX_INT[HG2CC]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_smux_rx_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_INT_W1S", 2, a, b, 0, 0);
 }
@@ -11097,7 +12734,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_JABBER(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_JABBER(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_JABBER", 2, a, b, 0, 0);
 }
@@ -11180,7 +12821,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_UDD_SKP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_UDD_SKP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_RX_UDD_SKP", 2, a, b, 0, 0);
 }
@@ -11216,7 +12861,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_SMAC", 2, a, b, 0, 0);
 }
@@ -11264,7 +12913,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_APPEND(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_APPEND(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020100ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020100ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_APPEND", 2, a, b, 0, 0);
 }
@@ -11553,7 +13206,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020178ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020178ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020178ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_CTL", 2, a, b, 0, 0);
 }
@@ -11596,7 +13253,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_IFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_IFG(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020160ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020160ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020160ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_IFG", 2, a, b, 0, 0);
 }
@@ -11642,7 +13303,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_INT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020140ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020140ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020140ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_INT", 2, a, b, 0, 0);
 }
@@ -11681,13 +13346,36 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_smux_tx_int_ena_w1c_s cn; */
+    /* struct bdk_bgxx_smux_tx_int_ena_w1c_s cn81xx; */
+    /* struct bdk_bgxx_smux_tx_int_ena_w1c_s cn88xx; */
+    struct bdk_bgxx_smux_tx_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t lb_ovrflw             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[LB_OVRFLW]. */
+        uint64_t lb_undflw             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[LB_UNDFLW]. */
+        uint64_t fake_commit           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[FAKE_COMMIT]. */
+        uint64_t xchange               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[XCHANGE]. */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[UNDFLW]. */
+#else /* Word 0 - Little Endian */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[UNDFLW]. */
+        uint64_t xchange               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[XCHANGE]. */
+        uint64_t fake_commit           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[FAKE_COMMIT]. */
+        uint64_t lb_undflw             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[LB_UNDFLW]. */
+        uint64_t lb_ovrflw             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_SMU(0..3)_TX_INT[LB_OVRFLW]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_smux_tx_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020150ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020150ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020150ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
@@ -11726,13 +13414,36 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_smux_tx_int_ena_w1s_s cn; */
+    /* struct bdk_bgxx_smux_tx_int_ena_w1s_s cn81xx; */
+    /* struct bdk_bgxx_smux_tx_int_ena_w1s_s cn88xx; */
+    struct bdk_bgxx_smux_tx_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t lb_ovrflw             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[LB_OVRFLW]. */
+        uint64_t lb_undflw             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[LB_UNDFLW]. */
+        uint64_t fake_commit           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[FAKE_COMMIT]. */
+        uint64_t xchange               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[XCHANGE]. */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[UNDFLW]. */
+#else /* Word 0 - Little Endian */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[UNDFLW]. */
+        uint64_t xchange               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[XCHANGE]. */
+        uint64_t fake_commit           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[FAKE_COMMIT]. */
+        uint64_t lb_undflw             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[LB_UNDFLW]. */
+        uint64_t lb_ovrflw             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_SMU(0..3)_TX_INT[LB_OVRFLW]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_smux_tx_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020158ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020158ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020158ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
@@ -11771,13 +13482,36 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_smux_tx_int_w1s_s cn; */
+    /* struct bdk_bgxx_smux_tx_int_w1s_s cn81xx; */
+    /* struct bdk_bgxx_smux_tx_int_w1s_s cn88xx; */
+    struct bdk_bgxx_smux_tx_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t lb_ovrflw             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[LB_OVRFLW]. */
+        uint64_t lb_undflw             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[LB_UNDFLW]. */
+        uint64_t fake_commit           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[FAKE_COMMIT]. */
+        uint64_t xchange               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[XCHANGE]. */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[UNDFLW]. */
+#else /* Word 0 - Little Endian */
+        uint64_t undflw                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[UNDFLW]. */
+        uint64_t xchange               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[XCHANGE]. */
+        uint64_t fake_commit           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[FAKE_COMMIT]. */
+        uint64_t lb_undflw             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[LB_UNDFLW]. */
+        uint64_t lb_ovrflw             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_SMU(0..3)_TX_INT[LB_OVRFLW]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_smux_tx_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020148ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020148ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020148ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_INT_W1S", 2, a, b, 0, 0);
 }
@@ -11817,7 +13551,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_MIN_PKT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_MIN_PKT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020118ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020118ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_MIN_PKT", 2, a, b, 0, 0);
 }
@@ -11854,7 +13592,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_DMAC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_DMAC(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020168ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020168ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020168ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_PKT_DMAC", 2, a, b, 0, 0);
 }
@@ -11911,7 +13653,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020120ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020120ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020120ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_PKT_INTERVAL", 2, a, b, 0, 0);
 }
@@ -11953,7 +13699,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_TIME(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020110ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020110ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_PKT_TIME", 2, a, b, 0, 0);
 }
@@ -11990,7 +13740,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_TYPE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_TYPE(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020170ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020170ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020170ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_PKT_TYPE", 2, a, b, 0, 0);
 }
@@ -12030,7 +13784,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_TOGO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_TOGO(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020130ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020130ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020130ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_TOGO", 2, a, b, 0, 0);
 }
@@ -12068,7 +13826,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_ZERO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_ZERO(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020138ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020138ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020138ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_ZERO", 2, a, b, 0, 0);
 }
@@ -12104,7 +13866,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_SOFT_PAUSE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_SOFT_PAUSE(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020128ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020128ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020128ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_SOFT_PAUSE", 2, a, b, 0, 0);
 }
@@ -12150,7 +13916,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_THRESH(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0020180ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0020180ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0020180ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SMUX_TX_THRESH", 2, a, b, 0, 0);
 }
@@ -12232,7 +14002,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_ADV(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100d8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100d8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_AN_ADV", 2, a, b, 0, 0);
 }
@@ -12291,7 +14065,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_BP_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_BP_STATUS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100f8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100f8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_AN_BP_STATUS", 2, a, b, 0, 0);
 }
@@ -12359,7 +14137,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_CONTROL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100c8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100c8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_AN_CONTROL", 2, a, b, 0, 0);
 }
@@ -12432,7 +14214,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_LP_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_LP_BASE(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100e0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100e0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_AN_LP_BASE", 2, a, b, 0, 0);
 }
@@ -12482,7 +14268,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_LP_XNP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_LP_XNP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100f0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100f0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_AN_LP_XNP", 2, a, b, 0, 0);
 }
@@ -12572,7 +14362,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_STATUS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100d0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100d0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_AN_STATUS", 2, a, b, 0, 0);
 }
@@ -12640,7 +14434,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_XNP_TX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_XNP_TX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100e8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100e8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_AN_XNP_TX", 2, a, b, 0, 0);
 }
@@ -12702,7 +14500,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_ALGN_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_ALGN_STATUS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_ALGN_STATUS", 2, a, b, 0, 0);
 }
@@ -12754,7 +14556,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_BIP_ERR_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_BIP_ERR_CNT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_BIP_ERR_CNT", 2, a, b, 0, 0);
 }
@@ -12816,7 +14622,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_LANE_MAP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_LANE_MAP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_LANE_MAP", 2, a, b, 0, 0);
 }
@@ -12860,7 +14670,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_CONTROL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_PMD_CONTROL", 2, a, b, 0, 0);
 }
@@ -12924,7 +14738,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LD_CUP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LD_CUP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_PMD_LD_CUP", 2, a, b, 0, 0);
 }
@@ -12985,7 +14803,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LD_REP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LD_REP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_PMD_LD_REP", 2, a, b, 0, 0);
 }
@@ -13043,7 +14865,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LP_CUP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LP_CUP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_PMD_LP_CUP", 2, a, b, 0, 0);
 }
@@ -13100,7 +14926,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LP_REP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LP_REP(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_PMD_LP_REP", 2, a, b, 0, 0);
 }
@@ -13151,7 +14981,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_STATUS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_PMD_STATUS", 2, a, b, 0, 0);
 }
@@ -13233,7 +15067,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_STATUS1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_STATUS1(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_STATUS1", 2, a, b, 0, 0);
 }
@@ -13359,7 +15197,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_STATUS2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_STATUS2(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_STATUS2", 2, a, b, 0, 0);
 }
@@ -13420,7 +15262,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_TP_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_TP_CONTROL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_TP_CONTROL", 2, a, b, 0, 0);
 }
@@ -13475,7 +15321,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_TP_ERR_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_TP_ERR_CNT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BR_TP_ERR_CNT", 2, a, b, 0, 0);
 }
@@ -13527,7 +15377,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BX_STATUS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_BX_STATUS", 2, a, b, 0, 0);
 }
@@ -13629,7 +15483,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_CONTROL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_CONTROL1(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_CONTROL1", 2, a, b, 0, 0);
 }
@@ -13697,7 +15555,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_CONTROL2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_CONTROL2(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_CONTROL2", 2, a, b, 0, 0);
 }
@@ -13739,7 +15601,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_ABIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_ABIL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_FEC_ABIL", 2, a, b, 0, 0);
 }
@@ -13793,7 +15659,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_CONTROL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100a0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100a0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_FEC_CONTROL", 2, a, b, 0, 0);
 }
@@ -13854,7 +15724,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS01(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS01(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100a8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100a8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_FEC_CORR_BLKS01", 2, a, b, 0, 0);
 }
@@ -13905,7 +15779,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS23(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS23(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100b0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100b0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_FEC_CORR_BLKS23", 2, a, b, 0, 0);
 }
@@ -13966,7 +15844,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS01(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS01(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100b8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100b8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_FEC_UNCORR_BLKS01", 2, a, b, 0, 0);
 }
@@ -14017,7 +15899,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS23(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS23(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e00100c0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e00100c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e00100c0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_FEC_UNCORR_BLKS23", 2, a, b, 0, 0);
 }
@@ -14161,7 +16047,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_INT(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010220ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010220ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010220ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_INT", 2, a, b, 0, 0);
 }
@@ -14220,13 +16110,56 @@ typedef union
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_spux_int_ena_w1c_s cn; */
+    /* struct bdk_bgxx_spux_int_ena_w1c_s cn81xx; */
+    /* struct bdk_bgxx_spux_int_ena_w1c_s cn88xx; */
+    struct bdk_bgxx_spux_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[TRAINING_FAILURE]. */
+        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[TRAINING_DONE]. */
+        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[AN_COMPLETE]. */
+        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[AN_LINK_GOOD]. */
+        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[AN_PAGE_RX]. */
+        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[FEC_UNCORR]. */
+        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[FEC_CORR]. */
+        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[BIP_ERR]. */
+        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[DBG_SYNC]. */
+        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[ALGNLOS]. */
+        uint64_t synlos                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[SYNLOS]. */
+        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[BITLCKLS]. */
+        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[ERR_BLK]. */
+        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[RX_LINK_DOWN]. */
+        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[RX_LINK_UP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[RX_LINK_UP]. */
+        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[RX_LINK_DOWN]. */
+        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[ERR_BLK]. */
+        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[BITLCKLS]. */
+        uint64_t synlos                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[SYNLOS]. */
+        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[ALGNLOS]. */
+        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[DBG_SYNC]. */
+        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[BIP_ERR]. */
+        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[FEC_CORR]. */
+        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[FEC_UNCORR]. */
+        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[AN_PAGE_RX]. */
+        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[AN_LINK_GOOD]. */
+        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[AN_COMPLETE]. */
+        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[TRAINING_DONE]. */
+        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU(0..3)_INT[TRAINING_FAILURE]. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_spux_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_SPUX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010230ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
@@ -14285,13 +16218,56 @@ typedef union
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_spux_int_ena_w1s_s cn; */
+    /* struct bdk_bgxx_spux_int_ena_w1s_s cn81xx; */
+    /* struct bdk_bgxx_spux_int_ena_w1s_s cn88xx; */
+    struct bdk_bgxx_spux_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[TRAINING_FAILURE]. */
+        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[TRAINING_DONE]. */
+        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[AN_COMPLETE]. */
+        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[AN_LINK_GOOD]. */
+        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[AN_PAGE_RX]. */
+        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[FEC_UNCORR]. */
+        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[FEC_CORR]. */
+        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[BIP_ERR]. */
+        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[DBG_SYNC]. */
+        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[ALGNLOS]. */
+        uint64_t synlos                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[SYNLOS]. */
+        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[BITLCKLS]. */
+        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[ERR_BLK]. */
+        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[RX_LINK_DOWN]. */
+        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[RX_LINK_UP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[RX_LINK_UP]. */
+        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[RX_LINK_DOWN]. */
+        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[ERR_BLK]. */
+        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[BITLCKLS]. */
+        uint64_t synlos                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[SYNLOS]. */
+        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[ALGNLOS]. */
+        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[DBG_SYNC]. */
+        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[BIP_ERR]. */
+        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[FEC_CORR]. */
+        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[FEC_UNCORR]. */
+        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[AN_PAGE_RX]. */
+        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[AN_LINK_GOOD]. */
+        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[AN_COMPLETE]. */
+        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[TRAINING_DONE]. */
+        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU(0..3)_INT[TRAINING_FAILURE]. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_spux_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_SPUX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010238ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010238ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010238ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
@@ -14350,13 +16326,56 @@ typedef union
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_spux_int_w1s_s cn; */
+    /* struct bdk_bgxx_spux_int_w1s_s cn81xx; */
+    /* struct bdk_bgxx_spux_int_w1s_s cn88xx; */
+    struct bdk_bgxx_spux_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[TRAINING_FAILURE]. */
+        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[TRAINING_DONE]. */
+        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[AN_COMPLETE]. */
+        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[AN_LINK_GOOD]. */
+        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[AN_PAGE_RX]. */
+        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[FEC_UNCORR]. */
+        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[FEC_CORR]. */
+        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[BIP_ERR]. */
+        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[DBG_SYNC]. */
+        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[ALGNLOS]. */
+        uint64_t synlos                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[SYNLOS]. */
+        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[BITLCKLS]. */
+        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[ERR_BLK]. */
+        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[RX_LINK_DOWN]. */
+        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[RX_LINK_UP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[RX_LINK_UP]. */
+        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[RX_LINK_DOWN]. */
+        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[ERR_BLK]. */
+        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[BITLCKLS]. */
+        uint64_t synlos                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[SYNLOS]. */
+        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[ALGNLOS]. */
+        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[DBG_SYNC]. */
+        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[BIP_ERR]. */
+        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[FEC_CORR]. */
+        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[FEC_UNCORR]. */
+        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[AN_PAGE_RX]. */
+        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[AN_LINK_GOOD]. */
+        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[AN_COMPLETE]. */
+        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[TRAINING_DONE]. */
+        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..3)_SPU(0..3)_INT[TRAINING_FAILURE]. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_spux_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_SPUX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_INT_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010228ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010228ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010228ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_INT_W1S", 2, a, b, 0, 0);
 }
@@ -14402,7 +16421,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_LPCS_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_LPCS_STATES(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010208ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010208ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010208ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_LPCS_STATES", 2, a, b, 0, 0);
 }
@@ -14531,7 +16554,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_MISC_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_MISC_CONTROL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010218ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_MISC_CONTROL", 2, a, b, 0, 0);
 }
@@ -14573,7 +16600,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_SPD_ABIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_SPD_ABIL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_SPD_ABIL", 2, a, b, 0, 0);
 }
@@ -14647,7 +16678,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_STATUS1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_STATUS1(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_STATUS1", 2, a, b, 0, 0);
 }
@@ -14711,7 +16746,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_STATUS2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_STATUS2(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPUX_STATUS2", 2, a, b, 0, 0);
 }
@@ -14752,7 +16791,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0010330ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0010330ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0010330ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_SPU_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -15000,7 +17043,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_DBG_CONTROL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_DBG_CONTROL(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0010300ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0010300ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0010300ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_SPU_DBG_CONTROL", 1, a, 0, 0, 0);
 }
@@ -15042,7 +17089,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_MEM_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_INT(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0010310ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0010310ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0010310ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_SPU_MEM_INT", 1, a, 0, 0, 0);
 }
@@ -15075,13 +17126,30 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_spu_mem_int_ena_w1c_s cn; */
+    /* struct bdk_bgxx_spu_mem_int_ena_w1c_s cn81xx; */
+    /* struct bdk_bgxx_spu_mem_int_ena_w1c_s cn88xx; */
+    struct bdk_bgxx_spu_mem_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t rx_buf_sbe            : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU_MEM_INT[RX_BUF_SBE]. */
+        uint64_t rx_buf_dbe            : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU_MEM_INT[RX_BUF_DBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_buf_dbe            : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU_MEM_INT[RX_BUF_DBE]. */
+        uint64_t rx_buf_sbe            : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for BGX(0..3)_SPU_MEM_INT[RX_BUF_SBE]. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_spu_mem_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_ENA_W1C(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0010320ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0010320ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0010320ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_SPU_MEM_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -15114,13 +17182,30 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_spu_mem_int_ena_w1s_s cn; */
+    /* struct bdk_bgxx_spu_mem_int_ena_w1s_s cn81xx; */
+    /* struct bdk_bgxx_spu_mem_int_ena_w1s_s cn88xx; */
+    struct bdk_bgxx_spu_mem_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t rx_buf_sbe            : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU_MEM_INT[RX_BUF_SBE]. */
+        uint64_t rx_buf_dbe            : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU_MEM_INT[RX_BUF_DBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_buf_dbe            : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU_MEM_INT[RX_BUF_DBE]. */
+        uint64_t rx_buf_sbe            : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for BGX(0..3)_SPU_MEM_INT[RX_BUF_SBE]. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_spu_mem_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_ENA_W1S(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0010328ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0010328ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0010328ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_SPU_MEM_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -15153,13 +17238,30 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_spu_mem_int_w1s_s cn; */
+    /* struct bdk_bgxx_spu_mem_int_w1s_s cn81xx; */
+    /* struct bdk_bgxx_spu_mem_int_w1s_s cn88xx; */
+    struct bdk_bgxx_spu_mem_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t rx_buf_sbe            : 4;  /**< [  7:  4](R/W1S/H) Reads or sets BGX(0..3)_SPU_MEM_INT[RX_BUF_SBE]. */
+        uint64_t rx_buf_dbe            : 4;  /**< [  3:  0](R/W1S/H) Reads or sets BGX(0..3)_SPU_MEM_INT[RX_BUF_DBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_buf_dbe            : 4;  /**< [  3:  0](R/W1S/H) Reads or sets BGX(0..3)_SPU_MEM_INT[RX_BUF_DBE]. */
+        uint64_t rx_buf_sbe            : 4;  /**< [  7:  4](R/W1S/H) Reads or sets BGX(0..3)_SPU_MEM_INT[RX_BUF_SBE]. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_spu_mem_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_W1S(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0010318ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0010318ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0010318ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_SPU_MEM_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -15206,7 +17308,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_MEM_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_STATUS(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0010308ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0e0010308ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0010308ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_SPU_MEM_STATUS", 1, a, 0, 0, 0);
 }
@@ -15243,7 +17349,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_SDSX_SKEW_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_SDSX_SKEW_STATUS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010340ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010340ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010340ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPU_SDSX_SKEW_STATUS", 2, a, b, 0, 0);
 }
@@ -15316,7 +17426,11 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_SDSX_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_SDSX_STATES(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0010360ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e0e0010360ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0010360ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_SPU_SDSX_STATES", 2, a, b, 0, 0);
 }

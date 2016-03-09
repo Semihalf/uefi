@@ -3883,13 +3883,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs.
+                                                                 If 0x0, indicates 1 LMAC, otherwise, the number of LMACs. */
         uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire RGX. This buffering may be split
-                                                                 between LMACs; see RGX()_CMR_RX_LMACS[LMACS]. */
+                                                                 between LMACs; see RGX()_CMR_TX_LMACS[LMACS].  If 0x0, indicates size of 0x3000. */
 #else /* Word 0 - Little Endian */
         uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire RGX. This buffering may be split
-                                                                 between LMACs; see RGX()_CMR_RX_LMACS[LMACS]. */
-        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+                                                                 between LMACs; see RGX()_CMR_TX_LMACS[LMACS].  If 0x0, indicates size of 0x3000. */
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs.
+                                                                 If 0x0, indicates 1 LMAC, otherwise, the number of LMACs. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -3925,13 +3927,15 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t res_types             : 24; /**< [ 31:  8](RO) Reserved for more LMAC TYPES. */
-        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of RGX_LMAC_TYPES_E being
-                                                                 supported.
-                                                                 E.g. TYPES<5> if set indicates BGX_LMAC_TYPES_E::RGMII is supported. */
+        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of
+                                                                 BGX_LMAC_TYPES_E being supported. E.g. TYPES<5> if set indicates
+                                                                 BGX_LMAC_TYPES_E::RGMII is supported. If 0x0, [TYPES] should be treated by
+                                                                 software as if the read value was 0x20 (RGMII). */
 #else /* Word 0 - Little Endian */
-        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of RGX_LMAC_TYPES_E being
-                                                                 supported.
-                                                                 E.g. TYPES<5> if set indicates BGX_LMAC_TYPES_E::RGMII is supported. */
+        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of
+                                                                 BGX_LMAC_TYPES_E being supported. E.g. TYPES<5> if set indicates
+                                                                 BGX_LMAC_TYPES_E::RGMII is supported. If 0x0, [TYPES] should be treated by
+                                                                 software as if the read value was 0x20 (RGMII). */
         uint64_t res_types             : 24; /**< [ 31:  8](RO) Reserved for more LMAC TYPES. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */

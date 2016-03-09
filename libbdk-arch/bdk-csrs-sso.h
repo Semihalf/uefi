@@ -144,7 +144,6 @@
  * Register (NCB) sso_active_cycles0
  *
  * SSO PF Active Cycles Register
- * This register counts every coprocessor-clock cycle that the SSO clocks are active in AW.
  */
 typedef union
 {
@@ -152,9 +151,9 @@ typedef union
     struct bdk_sso_active_cycles0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain. */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the SSO clocks are active in SSO AW. */
 #else /* Word 0 - Little Endian */
-        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain. */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the SSO clocks are active in SSO AW. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_active_cycles0_s cn; */
@@ -180,7 +179,6 @@ static inline uint64_t BDK_SSO_ACTIVE_CYCLES0_FUNC(void)
  * Register (NCB) sso_active_cycles1
  *
  * SSO PF Active Cycles Register
- * This register counts every coprocessor-clock cycle that the SSO clocks are active in GW.
  */
 typedef union
 {
@@ -188,9 +186,9 @@ typedef union
     struct bdk_sso_active_cycles1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain in AW. */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the SSO clocks are active in SSO GW. */
 #else /* Word 0 - Little Endian */
-        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain in AW. */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the SSO clocks are active in SSO GW. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_active_cycles1_s cn; */
@@ -216,7 +214,6 @@ static inline uint64_t BDK_SSO_ACTIVE_CYCLES1_FUNC(void)
  * Register (NCB) sso_active_cycles2
  *
  * SSO PF Active Cycles Register
- * This register counts every coprocessor-clock cycle that the SSO clocks are active in WS.
  */
 typedef union
 {
@@ -224,9 +221,9 @@ typedef union
     struct bdk_sso_active_cycles2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain. */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the SSO clocks are active in SSO WS. */
 #else /* Word 0 - Little Endian */
-        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain. */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the SSO clocks are active in SSO WS. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_active_cycles2_s cn; */

@@ -3387,6 +3387,42 @@ typedef union
     struct bdk_trcx_trcpdcr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t pu                    : 1;  /**< [  3:  3](R/W) 0 = The system may remove power from the trace unit. TRC()_TRCPDSR indicates the power
+                                                                 state.
+                                                                 1 = The system must provide power to the trace unit. */
+        uint32_t inen                  : 3;  /**< [  2:  0](R/W) Input trigger <n> to output channel <x> enable.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = Input trigger <n> will not generate an event on output channel
+                                                                     <x>.
+                                                                 1 = Input trigger <n> will generate an event on output channel
+                                                                     <x>.
+
+                                                                 In CNXXXX TRC()_TRCINEN(3..31) are ignored as there are only 3 channels. */
+#else /* Word 0 - Little Endian */
+        uint32_t inen                  : 3;  /**< [  2:  0](R/W) Input trigger <n> to output channel <x> enable.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = Input trigger <n> will not generate an event on output channel
+                                                                     <x>.
+                                                                 1 = Input trigger <n> will generate an event on output channel
+                                                                     <x>.
+
+                                                                 In CNXXXX TRC()_TRCINEN(3..31) are ignored as there are only 3 channels. */
+        uint32_t pu                    : 1;  /**< [  3:  3](R/W) 0 = The system may remove power from the trace unit. TRC()_TRCPDSR indicates the power
+                                                                 state.
+                                                                 1 = The system must provide power to the trace unit. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_trcx_trcpdcr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
         uint32_t inen                  : 3;  /**< [  2:  0](R/W) Input trigger <n> to output channel <x> enable.
                                                                  N is the number of ECT channels implemented as defined by the
@@ -3413,8 +3449,9 @@ typedef union
                                                                  In CNXXXX TRC()_TRCINEN(3..31) are ignored as there are only 3 channels. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcpdcr_s cn; */
+    } cn81xx;
+    /* struct bdk_trcx_trcpdcr_cn81xx cn88xx; */
+    /* struct bdk_trcx_trcpdcr_s cn83xx; */
 } bdk_trcx_trcpdcr_t;
 
 static inline uint64_t BDK_TRCX_TRCPDCR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3443,6 +3480,24 @@ typedef union
     struct bdk_trcx_trcpdsr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO/H) 0 =  The OS lock is unlocked.
+                                                                 1 =  The OS lock is locked.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t reserved_0_4          : 5;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_4          : 5;
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO/H) 0 =  The OS lock is unlocked.
+                                                                 1 =  The OS lock is locked.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_trcx_trcpdsr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
         uint32_t outen                 : 3;  /**< [  2:  0](R/W) Input channel <x> to output trigger <n> enable.
                                                                  N is the number of ECT channels implemented as defined by the
@@ -3469,8 +3524,62 @@ typedef union
                                                                  In CNXXXX TRC()_TRCOUTEN(3..31) are ignored as there are only 3 channels. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcpdsr_s cn; */
+    } cn81xx;
+    /* struct bdk_trcx_trcpdsr_cn81xx cn88xx; */
+    struct bdk_trcx_trcpdsr_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO/H) 0 =  The OS lock is unlocked.
+                                                                 1 =  The OS lock is locked.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t reserved_2_4          : 3;
+        uint32_t stickypd              : 1;  /**< [  1:  1](RO/H) Sticky powerdown status bit. Indicates whether the trace register state is valid.
+
+                                                                 0 = If [POWER]=1 then the state of TRC()_TRCOSLSR and the trace registers are
+                                                                    valid.  If [POWER]=0 then it is unknown whether the state of TRC()_TRCOSLSR
+                                                                    and the trace registers are valid.
+
+                                                                 1 =  The state of TRC()_TRCOSLSR and the trace registers might not be valid.
+                                                                    The trace unit sets this bit to 1 if either:
+                                                                        a. The trace unit is reset.
+                                                                        b. The power to the trace unit core power domain is removed and
+                                                                           the trace register state is not valid.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t power                 : 1;  /**< [  0:  0](RO/H) Power status bit:
+                                                                   0 = The trace unit core power domain is not powered. The trace registers are not
+                                                                      accessible and they all return an error response.
+                                                                   1 = The trace unit core power domain is powered. The trace registers are
+                                                                      accessible. */
+#else /* Word 0 - Little Endian */
+        uint32_t power                 : 1;  /**< [  0:  0](RO/H) Power status bit:
+                                                                   0 = The trace unit core power domain is not powered. The trace registers are not
+                                                                      accessible and they all return an error response.
+                                                                   1 = The trace unit core power domain is powered. The trace registers are
+                                                                      accessible. */
+        uint32_t stickypd              : 1;  /**< [  1:  1](RO/H) Sticky powerdown status bit. Indicates whether the trace register state is valid.
+
+                                                                 0 = If [POWER]=1 then the state of TRC()_TRCOSLSR and the trace registers are
+                                                                    valid.  If [POWER]=0 then it is unknown whether the state of TRC()_TRCOSLSR
+                                                                    and the trace registers are valid.
+
+                                                                 1 =  The state of TRC()_TRCOSLSR and the trace registers might not be valid.
+                                                                    The trace unit sets this bit to 1 if either:
+                                                                        a. The trace unit is reset.
+                                                                        b. The power to the trace unit core power domain is removed and
+                                                                           the trace register state is not valid.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t reserved_2_4          : 3;
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO/H) 0 =  The OS lock is unlocked.
+                                                                 1 =  The OS lock is locked.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_trcx_trcpdsr_t;
 
 static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4640,7 +4749,28 @@ typedef union
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_trcx_trcstatr_s cn; */
+    /* struct bdk_trcx_trcstatr_s cn81xx; */
+    /* struct bdk_trcx_trcstatr_s cn88xx; */
+    struct bdk_trcx_trcstatr_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS lock is locked.
+                                                                 0 = Programmer's model is not stable.
+                                                                 1 = Programmer's model is stable. */
+        uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status bit.
+                                                                 0 = The trace unit is not idle.
+                                                                 1 = The trace unit is idle. */
+#else /* Word 0 - Little Endian */
+        uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status bit.
+                                                                 0 = The trace unit is not idle.
+                                                                 1 = The trace unit is idle. */
+        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS lock is locked.
+                                                                 0 = Programmer's model is not stable.
+                                                                 1 = Programmer's model is stable. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_trcx_trcstatr_t;
 
 static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a) __attribute__ ((pure, always_inline));
