@@ -86,6 +86,11 @@ void bdk_sso_register_handle(bdk_if_handle_t handle)
         }
     }
     sso_map[handle->node][handle->pki_channel] = handle;
+    if (handle->index == 0)
+    {
+        if (bdk_thread_create(handle->node, 0, bdk_sso_thread_read, 0, NULL, 0))
+            bdk_error("%s: Failed to create SSO receive thread\n", handle->name);
+    }
 }
 
 /**
@@ -96,7 +101,7 @@ void bdk_sso_register_handle(bdk_if_handle_t handle)
  *
  * @return Zero on success, negative on failure
  */
-int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
+static int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 {
     const union bdk_pki_wqe_s *wqe = work;
     const bdk_node_t input_node = wqe->s.node;
@@ -132,3 +137,42 @@ int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
     return 0;
 }
 
+
+/**
+ * Funtion called as a thread body to continuously read from the SSO and process
+ * packets
+ *
+ * @param arg    Unused
+ * @param arg1   Unused
+ */
+void bdk_sso_thread_read(int arg, void *arg1)
+{
+    bdk_node_t node = bdk_numa_local();
+    while (true)
+    {
+        /* Build the offset into SSO */
+        union bdk_ssow_get_work_addr_s work_offset;
+        work_offset.u = 0;
+        work_offset.s.waitw = 0; /* Don't wait */
+        work_offset.s.index_ggrp_mask = 1; /* Use group mask 1 */
+        /* Get the base into SSO */
+        uint64_t work_address = BDK_SSOW_VHWSX_OP_GET_WORK1(bdk_get_core_num());
+        /* Add the base and offset to get the final GET_WORK address */
+        work_address += work_offset.u;
+        /* Do a GET_WORK */
+        bdk_ssow_vhwsx_op_get_work1_t work1;
+        work1.u = bdk_read64_uint64(work_address);
+        while (work1.u)
+        {
+            bdk_if_packet_t packet;
+            const union bdk_pki_wqe_s *wqe = bdk_phys_to_ptr(work1.u);
+            if (bdk_sso_wqe_to_packet(wqe, &packet) == 0)
+                bdk_if_dispatch_packet(&packet);
+            for (int s = 0; s < packet.segments; s++)
+                __bdk_fpa_raw_free(node, packet.packet[s].s.address & ~BDK_CACHE_LINE_MASK, wqe->s.aura, 0);
+            /* Do a GET_WORK */
+            work1.u = bdk_read64_uint64(work_address);
+        }
+        bdk_wait_usec(1000);
+    }
+}

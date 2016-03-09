@@ -23,13 +23,12 @@ extern int bdk_sso_init(bdk_node_t node);
 extern void bdk_sso_register_handle(bdk_if_handle_t handle);
 
 /**
- * Convert a WQE into a BDK packet
+ * Funtion called as a thread body to continuously read from the SSO and process
+ * packets
  *
- * @param work   Pointer to WQE to convert
- * @param packet Packet to receive the data
- *
- * @return Zero on success, negative on failure
+ * @param arg    Unused
+ * @param arg1   Unused
  */
-extern int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet);
+extern void bdk_sso_thread_read(int arg, void *arg1);
 
 /** @} */
