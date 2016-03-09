@@ -146,6 +146,8 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
         /* The following calculation only works since intefaces are
             enumerated in order */
         int qpg_base = qpg - handle->index;
+        if (handle->iftype == BDK_IF_LBK)
+            qpg_base = qpg;
         int style = handle->pknd;
         /* Configure PKI style */
         BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CLX_STYLEX_CFG(cluster, style),
