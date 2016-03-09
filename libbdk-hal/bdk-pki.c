@@ -118,8 +118,9 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
         return -1;
     }
 
-    /* FIXME: How many buffers should be given to each aura? */
-    int aura = bdk_fpa_init_aura(handle->node, -1, BDK_FPA_PACKET_POOL, bdk_config_get_int(BDK_CONFIG_NUM_PACKET_BUFFERS));
+    /* Give each aura 1/4 of the available buffers. Just a guess */
+    int aura_max_count = BDK_CSR_READ(handle->node, BDK_FPA_VHPOOLX_AVAILABLE(BDK_FPA_PACKET_POOL)) / 4;
+    int aura = bdk_fpa_init_aura(handle->node, -1, BDK_FPA_PACKET_POOL, aura_max_count);
     if (aura < 0)
         return -1;
     handle->aura = aura;
