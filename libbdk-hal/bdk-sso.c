@@ -125,7 +125,7 @@ static int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         packet->packet[seg].s.size = buflink.s.size;
         packet->packet[seg].s.address = buflink.s.addr;
         if (seg+1 < packet->segments)
-            buflink = *(union bdk_pki_buflink_s *)bdk_phys_to_ptr(buflink.s.addr - 8);
+            buflink = *(union bdk_pki_buflink_s *)bdk_phys_to_ptr(buflink.s.addr - sizeof(union bdk_pki_buflink_s));
     }
 
     if (bdk_unlikely(!packet->if_handle))
