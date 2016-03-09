@@ -35,7 +35,7 @@ cavium,bdk {
 	QLM-MODE.N0.QLM2 = "XFI_4X1";
 	QLM-MODE.N0.QLM3 = "XLAUI_1X4";
 	QLM-MODE.N0.QLM4 = "SATA_2X1";
-	//QLM-MODE.N0.QLM5 = "XLAUI_1X4"; /* Disabled till BGX CSRs are updated */
+	QLM-MODE.N0.QLM5 = "XLAUI_1X4";
 
 	/* Set the speed of a QLM in Mhz. The possible speeds are:
 	    1250
