@@ -6,6 +6,7 @@ extern void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask,
     int ddr_interface_num, int sequence);
 extern void perform_ddr_init_sequence(bdk_node_t node, int rank_mask,
     int ddr_interface_num);
+extern int ddr_memory_preserved(bdk_node_t node);
 
 extern int init_octeon3_ddr3_interface(bdk_node_t node,
     const ddr_configuration_t *ddr_configuration, uint32_t ddr_hertz,

@@ -153,7 +153,8 @@ static int init_octeon_dram_interface(bdk_node_t node,
             error_print("N%d.LMC%d Configuration problem: attempting LMC reset and init restart %d\n",
                         node, ddr_interface_num, lmc_restart_retries);
             // re-assert RESET first, as that is the assumption of the init code
-            cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_ASSERT);
+            if (!ddr_memory_preserved(node))
+                cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_ASSERT);
             goto restart_lmc_init;
         } else {
             error_print("INFO: N%d.LMC%d Configuration: fatal problem remains after %d LMC init retries - Resetting node...\n",
@@ -596,7 +597,7 @@ static void set_ddr_memory_preserved(bdk_node_t node)
     global_ddr_memory_preserved |= 0x1 << node;
 
 }
-static int ddr_memory_preserved(bdk_node_t node)
+int ddr_memory_preserved(bdk_node_t node)
 {
     return (global_ddr_memory_preserved & (0x1 << node)) != 0;
 }
@@ -616,25 +617,8 @@ void perform_ddr_init_sequence(bdk_node_t node, int rank_mask,
 	    if (!(rank_mask & (1 << rankx)))
 		continue;
 
-	    if (ddr_memory_preserved(node)) {
-		/* Contents are being preserved */
-		perform_octeon3_ddr3_sequence(node, (1 << rankx),
-					      ddr_interface_num, 3); /* self-refresh exit */
-	    } else {
-                bdk_lmcx_modereg_params0_t lmc_modereg_params0;
-
-                lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
-
-                lmc_modereg_params0.s.dllr = 1;
-                DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
-
-		/* Contents are not being preserved */
-		perform_octeon3_ddr3_sequence(node, (1 << rankx),
-					      ddr_interface_num, 0); /* power-up/init */
-
-                lmc_modereg_params0.s.dllr = 0;
-                DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
-	    }
+            perform_octeon3_ddr3_sequence(node, (1 << rankx),
+                                          ddr_interface_num, 0); /* power-up/init */
 
 	    bdk_wait_usec(1000);   /* Wait a while. */
 

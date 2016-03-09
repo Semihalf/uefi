@@ -4370,8 +4370,27 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      * Comments (steps 3 through 5) continue in perform_octeon3_ddr3_sequence()
      */
 
-    if (! (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm))
+    if (! (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm)) {
+        bdk_lmcx_modereg_params0_t lmc_modereg_params0;
+
+        if (ddr_memory_preserved(node)) {
+            /* Contents are being preserved. Take DRAM out of
+               self-refresh first. Then init steps can procede
+               normally */
+            perform_octeon3_ddr3_sequence(node, rank_mask,
+                                          ddr_interface_num, 3); /* self-refresh exit */
+        }
+
+        lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
+
+        lmc_modereg_params0.s.dllr = 1; /* Set during first init sequence */
+        DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
+
         perform_ddr_init_sequence(node, rank_mask, ddr_interface_num);
+
+        lmc_modereg_params0.s.dllr = 0; /* Clear for normal operation */
+        DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
+    }
 
     // NOTE: this must be done for pass 2.x and pass 1.x
     if ((spd_rdimm) && (ddr_type == DDR4_DRAM)) {
