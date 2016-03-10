@@ -672,9 +672,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 0);
-                if (baud_mhz < 5000)
+                if (baud_mhz == 2500)
                     lane_mode = BDK_GSER_LMODE_E_R_25G_REFCLK100;
-                else if (baud_mhz < 8000)
+                else if (baud_mhz == 5000)
                     lane_mode = BDK_GSER_LMODE_E_R_5G_REFCLK100;
                 else
                     lane_mode = BDK_GSER_LMODE_E_R_8G_REFCLK100;
@@ -683,9 +683,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 1);
-                if (baud_mhz < 5000)
+                if (baud_mhz == 2500)
                     lane_mode = BDK_GSER_LMODE_E_R_25G_REFCLK125;
-                else if (baud_mhz < 8000)
+                else if (baud_mhz == 5000)
                     lane_mode = BDK_GSER_LMODE_E_R_5G_REFCLK125;
                 else
                     lane_mode = BDK_GSER_LMODE_E_R_8G_REFCLK125;
@@ -696,9 +696,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             }
             int cfg_md;
-            if (baud_mhz < 5000)
+            if (baud_mhz == 2500)
                 cfg_md = 0; /* Gen1 Speed */
-            else if (baud_mhz < 8000)
+            else if (baud_mhz == 5000)
                 cfg_md = 1; /* Gen2 Speed */
             else
                 cfg_md = 2; /* Gen3 Speed */
@@ -938,17 +938,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
        read/write commands.*/
     bdk_wait_usec(1);
 
-    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
-    {
-        /* PCIe mode doesn't become ready until the PEM block attempts to bring
-           the interface up. Skip this check for PCIe */
-        if (!is_pcie && BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
-        {
-            bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
-            return -1;
-        }
-    }
-
     /* Configure the gser pll */
     __bdk_qlm_init_mode_table(node, qlm);
 
@@ -964,6 +953,14 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_PLL_STAT(qlm), pll_lock, ==, 1, 10000))
         {
             bdk_error("QLM%d: Timeout waiting for GSERX_PLL_STAT[pll_lock]\n", qlm);
+            return -1;
+        }
+
+        /* PCIe mode doesn't become ready until the PEM block attempts to bring
+           the interface up. Skip this check for PCIe */
+        if (!is_pcie && BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
+        {
+            bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
             return -1;
         }
     }
