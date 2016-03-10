@@ -67,7 +67,7 @@ int bdk_pki_global_init(bdk_node_t node)
         BDK_CSR_MODIFY(c, node, BDK_PKI_STYLEX_BUF(style),
             c.s.wqe_hsz = 0; /* WQE uses word 0..4 */
             c.s.wqe_skip = 0; /* WQE starts at beginning of buffer */
-            c.s.first_skip = 5; /* Room for WQE */
+            c.s.first_skip = 6; /* Room for WQE */
             c.s.later_skip = 0; /* NO 2nd skip */
             c.s.opc_mode = 1; /* all packet data and next-buffer pointers are written into the cache */
             c.s.dis_wq_dat = 0; /* Packet follows WQE */
