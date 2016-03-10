@@ -95,7 +95,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 *******************************************************************************/
 
-#include "mvpp2.h"
+#include "Pp2Dxe.h"
 #include "mvpp2_lib.h"
 
 /* Parser configuration routines */
@@ -106,7 +106,7 @@ static MV_32 mvpp2_prs_hw_write(struct mvpp2 *priv, struct mvpp2_prs_entry *pe)
 	MV_32 i;
 
 	if (pe->index > MVPP2_PRS_TCAM_SRAM_SIZE - 1)
-		return -MVPP2_EINVAL;
+		return MVPP2_EINVAL;
 
 	/* Clear entry invalidation bit */
 	pe->tcam.word[MVPP2_PRS_TCAM_INV_WORD] &= ~MVPP2_PRS_TCAM_INV_MASK;
@@ -130,7 +130,7 @@ static MV_32 mvpp2_prs_hw_read(struct mvpp2 *priv, struct mvpp2_prs_entry *pe)
 	MV_32 i;
 
 	if (pe->index > MVPP2_PRS_TCAM_SRAM_SIZE - 1)
-		return -MVPP2_EINVAL;
+		return MVPP2_EINVAL;
 
 	/* Write tcam index - indirect access */
 	mvpp2_write(priv, MVPP2_PRS_TCAM_IDX_REG, pe->index);
@@ -496,7 +496,7 @@ static MV_32 mvpp2_prs_tcam_first_free(struct mvpp2 *priv, MV_U8 start,
 			return tid;
 	}
 
-	return -MVPP2_EINVAL;
+	return MVPP2_EINVAL;
 }
 
 /* Enable/disable dropping all mac da's */
@@ -824,7 +824,7 @@ MV_32 mvpp2_prs_vlan_add(struct mvpp2 *priv, MV_U16 tpid, MV_32 ai,
 
 		pe = mvpp2_alloc(sizeof(*pe));
 		if (!pe)
-			return -MVPP2_ENOMEM;
+			return MVPP2_ENOMEM;
 
 		/* Get last double vlan tid */
 		for (tid_aux = MVPP2_PE_LAST_FREE_TID;
@@ -844,7 +844,7 @@ MV_32 mvpp2_prs_vlan_add(struct mvpp2 *priv, MV_U16 tpid, MV_32 ai,
 		}
 
 		if (tid <= tid_aux) {
-			ret = -MVPP2_EINVAL;
+			ret = MVPP2_EINVAL;
 			goto error;
 		}
 
@@ -894,7 +894,7 @@ MV_32 mvpp2_prs_double_vlan_ai_free_get(struct mvpp2 *priv)
 			return i;
 	}
 
-	return -MVPP2_EINVAL;
+	return MVPP2_EINVAL;
 }
 
 /* Search for existing double vlan entry */
@@ -957,7 +957,7 @@ MV_32 mvpp2_prs_double_vlan_add(struct mvpp2 *priv, MV_U16 tpid1,
 
 		pe = mvpp2_alloc(sizeof(*pe));
 		if (!pe)
-			return -MVPP2_ENOMEM;
+			return MVPP2_ENOMEM;
 
 		/* Set ai value for new double vlan entry */
 		ai = mvpp2_prs_double_vlan_ai_free_get(priv);
@@ -985,7 +985,7 @@ MV_32 mvpp2_prs_double_vlan_add(struct mvpp2 *priv, MV_U16 tpid1,
 		}
 
 		if (tid >= tid_aux) {
-			ret = -MVPP2_ERANGE;
+			ret = MVPP2_ERANGE;
 			goto error;
 		}
 
@@ -1028,7 +1028,7 @@ static MV_32 mvpp2_prs_ip4_proto(struct mvpp2 *priv, MV_U16 proto,
 
 	if ((proto != MV_IPPR_TCP) && (proto != MV_IPPR_UDP) &&
 	    (proto != MV_IPPR_IGMP))
-		return -MVPP2_EINVAL;
+		return MVPP2_EINVAL;
 
 	/* Fragmented packet */
 	tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
@@ -1045,7 +1045,8 @@ static MV_32 mvpp2_prs_ip4_proto(struct mvpp2 *priv, MV_U16 proto,
 	mvpp2_prs_sram_shift_set(&pe, 12, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 	/* Set L4 offset */
 	mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
-				  sizeof(struct mvpp2_iphdr) - 4,
+//				  sizeof(struct mvpp2_iphdr) - 4,
+				  10,
 				  MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 	mvpp2_prs_sram_ai_update(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
 				 MVPP2_PRS_IPV4_DIP_AI_BIT);
@@ -1115,7 +1116,7 @@ static MV_32 mvpp2_prs_ip4_cast(struct mvpp2 *priv, MV_U16 l3_cast)
 					 MVPP2_PRS_RI_L3_ADDR_MASK);
 		break;
 	default:
-		return -MVPP2_EINVAL;
+		return MVPP2_EINVAL;
 	}
 
 	/* Finished: go to flowid generation */
@@ -1143,7 +1144,7 @@ static MV_32 mvpp2_prs_ip6_proto(struct mvpp2 *priv, MV_U16 proto,
 
 	if ((proto != MV_IPPR_TCP) && (proto != MV_IPPR_UDP) &&
 	    (proto != MV_IPPR_ICMPV6) && (proto != MV_IPPR_IPIP))
-		return -MVPP2_EINVAL;
+		return MVPP2_EINVAL;
 
 	tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
 					MVPP2_PE_LAST_FREE_TID);
@@ -1159,7 +1160,8 @@ static MV_32 mvpp2_prs_ip6_proto(struct mvpp2 *priv, MV_U16 proto,
 	mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
 	mvpp2_prs_sram_ri_update(&pe, ri, ri_mask);
 	mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
-				  sizeof(struct mvpp2_ipv6hdr) - 6,
+//				  sizeof(struct mvpp2_ipv6hdr) - 6,
+				  10,
 				  MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
 	mvpp2_prs_tcam_data_byte_set(&pe, 0, proto, MVPP2_PRS_TCAM_PROTO_MASK);
@@ -1182,7 +1184,7 @@ static MV_32 mvpp2_prs_ip6_cast(struct mvpp2 *priv, MV_U16 l3_cast)
 	MV_32 tid;
 
 	if (l3_cast != MVPP2_PRS_L3_MULTI_CAST)
-		return -MVPP2_EINVAL;
+		return MVPP2_EINVAL;
 
 	tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
 					MVPP2_PE_LAST_FREE_TID);
@@ -1827,7 +1829,8 @@ static MV_32 mvpp2_prs_ip4_init(struct mvpp2 *priv)
 	mvpp2_prs_sram_shift_set(&pe, 12, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 	/* Set L4 offset */
 	mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
-				  sizeof(struct mvpp2_iphdr) - 4,
+				  //sizeof(struct mvpp2_iphdr) - 4,
+				  10,
 				  MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 	mvpp2_prs_sram_ai_update(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
 				 MVPP2_PRS_IPV4_DIP_AI_BIT);
@@ -1943,7 +1946,8 @@ static MV_32 mvpp2_prs_ip6_init(struct mvpp2 *priv)
 				 MVPP2_PRS_RI_L4_PROTO_MASK);
 	/* Set L4 offset relatively to our current place */
 	mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
-				  sizeof(struct mvpp2_ipv6hdr) - 4,
+//				  sizeof(struct mvpp2_ipv6hdr) - 4,
+				  10,
 				  MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
 	mvpp2_prs_tcam_ai_update(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
@@ -2284,7 +2288,7 @@ MV_32 mvpp2_prs_tag_mode_set(struct mvpp2 *priv, MV_32 port, MV_32 type)
 
 	default:
 		if ((type < 0) || (type > MVPP2_TAG_TYPE_EDSA))
-			return -MVPP2_EINVAL;
+			return MVPP2_EINVAL;
 	}
 
 	return 0;
@@ -2309,7 +2313,7 @@ MV_32 mvpp2_prs_def_flow(struct mvpp2_port *port)
 
 		pe = mvpp2_alloc(sizeof(*pe));
 		if (!pe)
-			return -MVPP2_ENOMEM;
+			return MVPP2_ENOMEM;
 
 		mvpp2_prs_tcam_lu_set(pe, MVPP2_PRS_LU_FLOWS);
 		pe->index = tid;
@@ -2878,7 +2882,7 @@ MV_32 mvpp2_aggr_desc_num_check(struct mvpp2 *priv,
 	}
 
 	if ((aggr_txq->count + num) > aggr_txq->size)
-		return -MVPP2_ENOMEM;
+		return MVPP2_ENOMEM;
 
 	return 0;
 }
