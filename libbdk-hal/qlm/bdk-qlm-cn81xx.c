@@ -307,20 +307,37 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* This screwy if logic is from the description of
        SATAX_UCTL_CTL[a_clkdiv_sel] in the CSR */
     if (divisor <= 4)
+    {
         a_clkdiv = divisor - 1;
+        /* Divisor matches calculated value */
+    }
     else if (divisor <= 6)
+    {
         a_clkdiv = 4;
+        divisor = 6;
+    }
     else if (divisor <= 8)
+    {
         a_clkdiv = 5;
+        divisor = 8;
+    }
     else if (divisor <= 16)
+    {
         a_clkdiv = 6;
+        divisor = 16;
+    }
     else if (divisor <= 24)
+    {
         a_clkdiv = 7;
+        divisor = 24;
+    }
     else
     {
         bdk_error("Unable to determine SATA clock divisor\n");
         return -1;
     }
+    /* Calculate the final clock rate */
+    int a_clk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / divisor;
 
     for (int p = sata_port; p < sata_port_end; p++)
     {
@@ -411,34 +428,11 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     }
 
     /* 7. Modify the PLL and lane-protocol-mode registers to configure the
-       PHY for SATA:
-        Set GSER(0..13)_PLL_P0_MODE_0[PLL_ICP] = 0x1
-        Set GSER(0..13)_PLL_P0_MODE_0[PLL_RLOOP] = 0x3
-        Set GSER(0..13)_PLL_P0_MODE_0[PLL_PCS_DIV] = 0x5
-        Set GSER(0..13)_PLL_P1_MODE_0[PLL_ICP] = 0x1
-        Set GSER(0..13)_PLL_P1_MODE_0[PLL_RLOOP] = 0x3
-        Set GSER(0..13)_PLL_P1_MODE_0[PLL_PCS_DIV] = 0x5
-        Set GSER(0..13)_PLL_P2_MODE_0[PLL_ICP] = 0x1
-        Set GSER(0..13)_PLL_P2_MODE_0[PLL_RLOOP] = 0x3
-        Set GSER(0..13)_PLL_P2_MODE_0[PLL_PCS_DIV] = 0x5
-        Set GSER(0..13)_PLL_P0_MODE_1[PLL_OPR] = 0x0
-        Set GSER(0..13)_PLL_P0_MODE_1[PLL_DIV] = 0x18
-        Set GSER(0..13)_PLL_P1_MODE_1[PLL_OPR] = 0x0
-        Set GSER(0..13)_PLL_P1_MODE_1[PLL_DIV] = 0x18
-        Set GSER(0..13)_PLL_P2_MODE_1[PLL_OPR] = 0x0
-        Set GSER(0..13)_PLL_P2_MODE_1[PLL_DIV] = 0x18
-        Set GSER(0..13)_LANE_P0_MODE_0[TX_LDIV] = 0x0
-        Set GSER(0..13)_LANE_P0_MODE_0[RX_LDIV] = 0x2
-        Set GSER(0..13)_LANE_P1_MODE_0[TX_LDIV] = 0x0
-        Set GSER(0..13)_LANE_P1_MODE_0[RX_LDIV] = 0x1
-        Set GSER(0..13)_LANE_P2_MODE_0[TX_LDIV] = 0x0
-        Set GSER(0..13)_LANE_P2_MODE_0[RX_LDIV] = 0x1 */
+       PHY for SATA */
+    /* Errata (GSER-26724) SATA never indicates GSER QLM_STAT[RST_RDY]
+       We program PLL_PX_MODE_0 last due to this errata */
     for (int p=0; p<3; p++)
     {
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, p),
-            c.s.pll_icp = 0x1;
-            c.s.pll_rloop = 0x3;
-            c.s.pll_pcs_div = 0x5);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, p),
             c.s.pll_16p5en = 0x0;
             c.s.pll_cpadj = 0x2;
@@ -458,6 +452,13 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.vma_mm = 1;
             c.s.cdr_fgain = 0xf; /* This values are to help with SSC */
             c.s.ph_acc_adj = 0x12); /* This values are to help with SSC */
+    }
+    for (int p=0; p<3; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, p),
+            c.s.pll_icp = 0x1;
+            c.s.pll_rloop = 0x3;
+            c.s.pll_pcs_div = 0x5);
     }
 
     for (int s=0; s<2; s++)
@@ -517,6 +518,11 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         spd = 3;
     for (int p = sata_port; p < sata_port_end; p++)
     {
+        /* From the synopsis data book, SATAX_UAHC_GBL_TIMER1MS is the
+           AMBA clock in MHz * 1000, which is a_clk(Hz) / 1000 */
+        BDK_TRACE(QLM, "QLM%d: SATA%d set to %d Hz\n", qlm, p, a_clk);
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_TIMER1MS(p),
+            c.s.timv = a_clk / 1000);
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CAP(p),
             c.s.sss = 1;
             c.s.smps = 1);
@@ -576,6 +582,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int lane_mode = 0xf;
     int lmac_type = -1;
     int is_pcie = 0;
+    int is_sata = 0;
     int is_ilk = 0;
     int is_bgx = 0;
     int bgx_block;
@@ -787,6 +794,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     /* Set gser for the interface mode */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
+        c.s.sata = is_sata;
         c.s.ila = is_ilk;
         c.s.bgx = is_bgx & 1;
         c.s.bgx_quad = (is_bgx >> 2) & 1;
