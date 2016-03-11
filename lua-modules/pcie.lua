@@ -710,7 +710,7 @@ function pcie.initialize(node, pcie_port)
         if self.port < 100 then
             printf("PCIe port %d:\n", self.port)
         else
-            printf("Internal ECAM%d:\n", self.port)
+            printf("Internal ECAM%d:\n", self.port - 100)
         end
         for _,device in ipairs(self.devices) do
             device:display()
