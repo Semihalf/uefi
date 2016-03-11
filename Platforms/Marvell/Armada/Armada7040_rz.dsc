@@ -96,5 +96,11 @@
   gMarvellTokenSpaceGuid.PcdRamDiskSize|64 #64MB
 
   # NET
-  gMarvellTokenSpaceGuid.PcdPp2PortNumber|2
   gMarvellTokenSpaceGuid.PcdPhySmiAddresses|{ 0x0, 0x1 }
+  gMarvellTokenSpaceGuid.PcdPp2PortNumber|2
+  gMarvellTokenSpaceGuid.PcdPp2PortIds|{ 0x2, 0x3 }
+# TODO: right values
+  gMarvellTokenSpaceGuid.PcdPp2SharedAddress|0xf2000000
+  gMarvellTokenSpaceGuid.PcdPp2GmacBaseAddress|0xf2130f00
+#  gMarvellTokenSpaceGuid.PcdPp2GmacBaseAddresses|{ 0xf2132f00, 0xf2133f00 }
+  gMarvellTokenSpaceGuid.PcdPp2GmacObjSize|0x1000

@@ -2626,7 +2626,7 @@ static MV_VOID mvpp2_port_loopback_set(struct mvpp2_port *port)
 
 	val = mvpp2_gmac_read(port, MVPP2_GMAC_CTRL_1_REG);
 
-	if (port->speed == 1000)
+	if (port->speed == SPEED_1000)
 		val |= MVPP2_GMAC_GMII_LB_EN_MASK;
 	else
 		val &= ~MVPP2_GMAC_GMII_LB_EN_MASK;

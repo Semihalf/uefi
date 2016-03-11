@@ -43,6 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/MemoryAllocationLib.h>
+#include <Library/UncachedMemoryAllocationLib.h>
 #include <Library/IoLib.h>
 #include <Library/DebugLib.h>
 #include <Library/PcdLib.h>
@@ -51,24 +52,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <Library/UefiBootServicesTableLib.h>
 #define PP2DXE_MAX_PHY	2
 
-typedef struct {
-  UINT32          Addr;
-  BOOLEAN         LinkUp;
-  BOOLEAN         Duplex;
-  PHY_SPEED       Speed;
-} PP2DXE_PORT;
-
-typedef struct {
-  UINT32                      Signature;
-  INTN			      Instance;
-  EFI_HANDLE                  Controller;
-  EFI_LOCK                    Lock;
-  EFI_SIMPLE_NETWORK_PROTOCOL Snp;
-  EFI_PHY_PROTOCOL	      *Phy;
-  PHY_DEVICE		      *PhyDev[PP2DXE_MAX_PHY];
-  PP2DXE_PORT		      Pp2Port[PP2DXE_MAX_PHY];
-  BOOLEAN		      Initialized;
-} PP2DXE_CONTEXT;
 
 #define NET_SKB_PAD 0
 #define PP2DXE_SIGNATURE	SIGNATURE_32('P', 'P', '2', 'D')
@@ -88,6 +71,12 @@ typedef struct {
 	((total_size) - NET_SKB_PAD - MVPP2_SKB_SHINFO_SIZE)
 #define MVPP2_RXQ_OFFSET	NET_SKB_PAD
 
+#define IS_NOT_ALIGN(number, align)	((number) & ((align) - 1))
+/* Macro for alignment up. For example, ALIGN_UP(0x0330, 0x20) = 0x0340 */
+#define ALIGN(x, a)     (((x) + ((a) - 1)) & ~((a) - 1))
+#define ALIGN_UP(number, align) (((number) & ((align) - 1)) ? \
+		(((number) + (align)) & ~((align)-1)) : (number))
+
 /* Linux API */
 #define mvpp2_alloc(v)		(VOID*) 0
 #define mvpp2_free(p)		1
@@ -104,8 +93,7 @@ typedef struct {
 #define mvpp2_swab16		
 #define mvpp2_iphdr		1
 #define mvpp2_ipv6hdr		1
-//#define MVPP2_ALIGN(x, m)	ALIGN((x), (m))
-#define MVPP2_ALIGN(x, m)	1
+#define MVPP2_ALIGN(x, m)	ALIGN((x), (m))
 #define MVPP2_NULL		NULL
 #define MVPP2_ENOMEM		-1
 #define MVPP2_EINVAL		-2
@@ -135,6 +123,66 @@ typedef struct {
 #define MV_MODE_SGMII		PHY_CONNECTION_SGMII
 #define MV_MODE_RGMII		PHY_CONNECTION_RGMII
 
+/* AXI Bridge Registers */
+#define MVPP22_AXI_BM_WR_ATTR_REG		0x4100
+#define MVPP22_AXI_BM_RD_ATTR_REG		0x4104
+#define MVPP22_AXI_AGGRQ_DESCR_RD_ATTR_REG	0x4110
+#define MVPP22_AXI_TXQ_DESCR_WR_ATTR_REG	0x4114
+#define MVPP22_AXI_TXQ_DESCR_RD_ATTR_REG	0x4118
+#define MVPP22_AXI_RXQ_DESCR_WR_ATTR_REG	0x411c
+#define MVPP22_AXI_RX_DATA_WR_ATTR_REG		0x4120
+#define MVPP22_AXI_TX_DATA_RD_ATTR_REG		0x4130
+#define MVPP22_AXI_RD_NORMAL_CODE_REG		0x4150
+#define MVPP22_AXI_RD_SNP_CODE_REG		0x4154
+#define MVPP22_AXI_WR_NORMAL_CODE_REG		0x4160
+#define MVPP22_AXI_WR_SNP_CODE_REG		0x4164
+
+#define MVPP22_AXI_RD_CODE_MASK			0x33
+#define MVPP22_AXI_WR_CODE_MASK			0x33
+
+#define MVPP22_AXI_ATTR_CACHE_OFFS		0
+#define MVPP22_AXI_ATTR_CACHE_SIZE		4
+#define MVPP22_AXI_ATTR_CACHE_MASK		0x0000000F
+
+#define MVPP22_AXI_ATTR_QOS_OFFS		4
+#define MVPP22_AXI_ATTR_QOS_SIZE		4
+#define MVPP22_AXI_ATTR_QOS_MASK		0x000000F0
+
+#define MVPP22_AXI_ATTR_TC_OFFS			8
+#define MVPP22_AXI_ATTR_TC_SIZE			4
+#define MVPP22_AXI_ATTR_TC_MASK			0x00000F00
+
+#define MVPP22_AXI_ATTR_DOMAIN_OFFS		12
+#define MVPP22_AXI_ATTR_DOMAIN_SIZE		2
+#define MVPP22_AXI_ATTR_DOMAIN_MASK		0x00003000
+
+#define MVPP22_AXI_ATTR_SNOOP_CNTRL_BIT		BIT(16)
+
+/* BM configuration */
+#define MVPP2_BM_POOL	    0
+#define MVPP2_BM_SIZE	    32
+
+/* BM constants */
+#define MVPP2_BM_POOLS_NUM		8
+#define MVPP2_BM_LONG_BUF_NUM		1024
+#define MVPP2_BM_SHORT_BUF_NUM		2048
+#define MVPP2_BM_POOL_SIZE_MAX		(16*1024 - MVPP2_BM_POOL_PTR_ALIGN/4)
+#define MVPP2_BM_POOL_PTR_ALIGN		128
+#define MVPP2_BM_SWF_LONG_POOL(port)	((port > 2) ? 2 : port)
+#define MVPP2_BM_SWF_SHORT_POOL		3
+
+/* BM cookie (32 bits) definition */
+#define MVPP2_BM_COOKIE_POOL_OFFS	8
+#define MVPP2_BM_COOKIE_CPU_OFFS	24
+
+/*
+ * Page table entries are set to 1MB, or multiples of 1MB
+ * (not < 1MB). driver uses less bd's so use 1MB bdspace.
+ */
+#define BD_SPACE	(1 << 20)
+
+/* buffer has to be aligned to 1M */
+#define MVPP2_BUFFER_ALIGN_SIZE	(1 << 20)
 /* Types */
 typedef INT8 MV_8;
 typedef UINT8 MV_U8;
@@ -172,7 +220,7 @@ struct mvpp2_port {
 	struct mvpp2 *priv;
 
 	/* Per-port registers' base address */
-	void __iomem *base;
+	UINT64 base;
 
 	struct mvpp2_rx_queue **rxqs;
 	struct mvpp2_tx_queue **txqs;
@@ -190,9 +238,9 @@ struct mvpp2_port {
 	MV_U16 rx_ring_size;
 
 	MV_32 phy_interface;
-	MV_U32 link;
-	MV_U32 duplex;
-	MV_U32 speed;
+	BOOLEAN link;
+	BOOLEAN duplex;
+	PHY_SPEED speed;
 
 	struct mvpp2_bm_pool *pool_long;
 	struct mvpp2_bm_pool *pool_short;
@@ -201,10 +249,12 @@ struct mvpp2_port {
 	MV_U8 first_rxq;
 };
 
+typedef struct mvpp2_port PP2DXE_PORT;
+
 /* Shared Packet Processor resources */
 struct mvpp2 {
 	/* Shared registers' base addresses */
-	MV_VOID __iomem *base;
+	UINT64 __iomem base;
 	MV_VOID __iomem *lms_base;
 
 	/* List of pointers to port structures */
@@ -224,6 +274,8 @@ struct mvpp2 {
 	/* Tclk value */
 	MV_U32 tclk;
 };
+
+typedef struct mvpp2 MVPP2_SHARED;
 
 struct mvpp2_tx_queue {
 	/* Physical number of this Tx queue */
@@ -312,23 +364,51 @@ struct mvpp2_bm_pool {
 
 };
 
+/* Structure for preallocation for buffer */
+struct buffer_location {
+	struct mvpp2_tx_desc *tx_descs;
+	struct mvpp2_tx_desc *aggr_tx_descs;
+	struct mvpp2_rx_desc *rx_descs;
+	dma_addr_t rx_buffers;
+};
+typedef struct buffer_location BUFFER_LOCATION;
+
+typedef struct {
+  UINT32                      Signature;
+  INTN			      Instance;
+  EFI_HANDLE                  Controller;
+  EFI_LOCK                    Lock;
+  EFI_SIMPLE_NETWORK_PROTOCOL Snp;
+  EFI_PHY_PROTOCOL	      *Phy;
+  PHY_DEVICE		      *PhyDev;
+  PP2DXE_PORT		      Port;
+  BOOLEAN		      Initialized;
+} PP2DXE_CONTEXT;
+
 static inline MV_VOID mvpp2_write(struct mvpp2 *priv, MV_U32 offset,
 				  MV_U32 data)
 {
+  ASSERT (priv->base != 0);
+  MmioWrite32 (priv->base + offset, data);
 }
 
 static inline MV_U32 mvpp2_read(struct mvpp2 *priv, MV_U32 offset)
 {
-  return 0;
+  ASSERT (priv->base != 0);
+  return MmioRead32 (priv->base + offset);
 }
 
 static inline MV_VOID mvpp2_gmac_write(struct mvpp2_port *port, MV_U32 offset,
 				       MV_U32 data)
 {
+  ASSERT (port->base != 0);
+  MmioWrite32 (port->base + offset, data);
 }
 
 static inline MV_U32 mvpp2_gmac_read(struct mvpp2_port *port, MV_U32 offset)
 {
-  return 0;
+  ASSERT (port->base != 0);
+  return MmioRead32 (port->base + offset);
 }
+
 #endif

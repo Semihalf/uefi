@@ -59,6 +59,8 @@
   NetLib
   UefiDriverEntryPoint
   UefiBootServicesTableLib
+  MemoryAllocationLib
+  UncachedMemoryAllocationLib
 
 [Protocols]
   gEfiSimpleNetworkProtocolGuid
@@ -68,6 +70,10 @@
 [Pcd]
   gMarvellTokenSpaceGuid.PcdPp2PortNumber
   gMarvellTokenSpaceGuid.PcdPhySmiAddresses
+  gMarvellTokenSpaceGuid.PcdPp2PortIds
+  gMarvellTokenSpaceGuid.PcdPp2SharedAddress
+  gMarvellTokenSpaceGuid.PcdPp2GmacObjSize
+  gMarvellTokenSpaceGuid.PcdPp2GmacBaseAddress
 
 [Depex]
   TRUE

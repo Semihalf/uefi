@@ -329,7 +329,7 @@
   #  DEBUG_LOADFILE  0x00020000  // UNDI Driver
   #  DEBUG_EVENT     0x00080000  // Event messages
   #  DEBUG_ERROR     0x80000000  // Error
-  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x8000000F
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x80000000
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0x07
 
   gEmbeddedTokenSpaceGuid.PcdEmbeddedAutomaticBootCommand|""

@@ -55,6 +55,9 @@ typedef struct {
   EFI_DEVICE_PATH_PROTOCOL  End;
 } PP2_DEVICE_PATH;
 
+MVPP2_SHARED *Mvpp2Shared;
+BUFFER_LOCATION BufferLocation;
+
 PP2_DEVICE_PATH Pp2DevicePathTemplate = {
   {
     {
@@ -72,28 +75,79 @@ PP2_DEVICE_PATH Pp2DevicePathTemplate = {
 };
 
 STATIC
+EFI_STATUS
+Pp2DxeBmPoolInit (
+  VOID
+  )
+{
+  INTN i;
+  UINT8 *pool_addr;
+
+  for (i = 0; i < MVPP2_BM_POOLS_NUM; i++) {
+    /* Mask BM all interrupts */
+    mvpp2_write(Mvpp2Shared, MVPP2_BM_INTR_MASK_REG(i), 0);
+    /* Clear BM cause register */
+    mvpp2_write(Mvpp2Shared, MVPP2_BM_INTR_CAUSE_REG(i), 0);
+  }
+
+  Mvpp2Shared->bm_pools = AllocateZeroPool (sizeof(struct mvpp2_bm_pool));
+  
+  if (!Mvpp2Shared->bm_pools)
+    return EFI_OUT_OF_RESOURCES;
+
+  pool_addr = AllocateZeroPool ((sizeof(VOID*) * MVPP2_BM_SIZE)*2 +
+      MVPP2_BM_POOL_PTR_ALIGN);
+
+  if (!pool_addr) {
+    return EFI_OUT_OF_RESOURCES;
+  }
+  if (IS_NOT_ALIGN((unsigned long)pool_addr,
+    MVPP2_BM_POOL_PTR_ALIGN))
+    pool_addr =
+    (unsigned char *)ALIGN_UP((unsigned long)pool_addr,
+            MVPP2_BM_POOL_PTR_ALIGN);
+
+  Mvpp2Shared->bm_pools->id = MVPP2_BM_POOL;
+  Mvpp2Shared->bm_pools->virt_addr = (MV_U32*)pool_addr;
+  Mvpp2Shared->bm_pools->phys_addr = (unsigned long)pool_addr;
+
+  mvpp2_bm_pool_hw_create(Mvpp2Shared, Mvpp2Shared->bm_pools, MVPP2_BM_SIZE);
+
+  return EFI_SUCCESS;
+}
+STATIC
+VOID
+Pp2DxeAxiConfig (
+  VOID
+  )
+{
+  /* Config AXI Read&Write Normal and Soop mode  */
+  mvpp2_write(Mvpp2Shared, MVPP22_AXI_RD_NORMAL_CODE_REG,
+    MVPP22_AXI_RD_CODE_MASK);
+  mvpp2_write(Mvpp2Shared, MVPP22_AXI_RD_SNP_CODE_REG, MVPP22_AXI_RD_CODE_MASK);
+  mvpp2_write(Mvpp2Shared, MVPP22_AXI_WR_NORMAL_CODE_REG,
+    MVPP22_AXI_WR_CODE_MASK);
+  mvpp2_write(Mvpp2Shared, MVPP22_AXI_WR_SNP_CODE_REG, MVPP22_AXI_WR_CODE_MASK);
+}
+
+STATIC
 VOID
 Pp2DxeLinkEvent (
   IN EFI_SIMPLE_NETWORK_PROTOCOL  *Snp
   )
 {
-/*  struct mvpp2_Port *Port = netdev_priv(dev);
-  struct phy_device *PhyDev = Port->phy_dev;
-  int status_change = 0;
-  u32 Data;*/
-  INTN Addr = 0;
   PP2DXE_CONTEXT *Pp2Context = INSTANCE_FROM_SNP(Snp);
-  PP2DXE_PORT *Port = &Pp2Context->Pp2Port[Addr];
-  PHY_DEVICE *PhyDev = Pp2Context->PhyDev[Addr];
+  PP2DXE_PORT *Port = &Pp2Context->Port;
+  PHY_DEVICE *PhyDev = Pp2Context->PhyDev;
   UINT32 Data;
   BOOLEAN StatusChange = FALSE;
 
   if (PhyDev->LinkUp) {
-    if ((Port->Speed != PhyDev->Speed) ||
-        (Port->Duplex != PhyDev->Duplex)) {
+    if ((Port->speed != PhyDev->Speed) ||
+        (Port->duplex != PhyDev->Duplex)) {
       UINT32 Data;
 
-     // Data = mvpp2_gmac_read(Port, MVPP2_GMAC_AUTONEG_CONFIG);
+      Data = mvpp2_gmac_read(Port, MVPP2_GMAC_AUTONEG_CONFIG);
       Data = 0xb;
       Data &= ~(MVPP2_GMAC_CONFIG_MII_SPEED |
          MVPP2_GMAC_CONFIG_GMII_SPEED |
@@ -109,30 +163,30 @@ Pp2DxeLinkEvent (
       else if (PhyDev->Speed == SPEED_100)
         Data |= MVPP2_GMAC_CONFIG_MII_SPEED;
 
-    //  mvpp2_gmac_write(Port, MVPP2_GMAC_AUTONEG_CONFIG, Data);
+      mvpp2_gmac_write(Port, MVPP2_GMAC_AUTONEG_CONFIG, Data);
 
-      Port->Duplex = PhyDev->Duplex;
-      Port->Speed  = PhyDev->Speed;
+      Port->duplex = PhyDev->Duplex;
+      Port->speed  = PhyDev->Speed;
     }
   }
 
-  if (PhyDev->LinkUp != Port->LinkUp) {
+  if (PhyDev->LinkUp != Port->link) {
     if (!PhyDev->LinkUp) {
-      Port->Duplex = FALSE;
-      Port->Speed = NO_SPEED;
+      Port->duplex = FALSE;
+      Port->speed = NO_SPEED;
     }
 
-    Port->LinkUp = PhyDev->LinkUp;
+    Port->link = PhyDev->LinkUp;
     StatusChange = TRUE;
   }
 
   if (StatusChange) {
     if (PhyDev->LinkUp) {
-//      Data = mvpp2_gmac_read(Port, MVPP2_GMAC_AUTONEG_CONFIG);
+      Data = mvpp2_gmac_read(Port, MVPP2_GMAC_AUTONEG_CONFIG);
       Data = 0xb;
       Data |= (MVPP2_GMAC_FORCE_LINK_PASS |
         MVPP2_GMAC_FORCE_LINK_DOWN);
-    //  mvpp2_gmac_write(Port, MVPP2_GMAC_AUTONEG_CONFIG, Data);
+      mvpp2_gmac_write(Port, MVPP2_GMAC_AUTONEG_CONFIG, Data);
     //  mvpp2_egress_enable(Port);
     //  mvpp2_ingress_enable(Port);
     } else {
@@ -188,18 +242,18 @@ Pp2DxeSnpInitialize (
   Pp2Context->Phy->Init(
       Pp2Context->Phy,
       PhyAddresses[Pp2Context->Instance],
-      &Pp2Context->PhyDev[Pp2Context->Instance]
+      &Pp2Context->PhyDev
       );
-  Pp2Context->Phy->Status(Pp2Context->Phy, Pp2Context->PhyDev[Pp2Context->Instance]);
+  Pp2Context->Phy->Status(Pp2Context->Phy, Pp2Context->PhyDev);
   DEBUG((DEBUG_ERROR,
     "PHY%d: ",
-    Pp2Context->PhyDev[Pp2Context->Instance]->Addr));
+    Pp2Context->PhyDev->Addr));
   DEBUG((DEBUG_ERROR,
-    Pp2Context->PhyDev[Pp2Context->Instance]->LinkUp ? "link up, " : "link down, "));
+    Pp2Context->PhyDev->LinkUp ? "link up, " : "link down, "));
   DEBUG((DEBUG_ERROR,
-    Pp2Context->PhyDev[Pp2Context->Instance]->Duplex ? "duplex, " : "no duplex, "));
+    Pp2Context->PhyDev->Duplex ? "duplex, " : "no duplex, "));
   DEBUG((DEBUG_ERROR,
-    Pp2Context->PhyDev[Pp2Context->Instance]->Speed == SPEED_10 ? "speed 10\n" : (Pp2Context->PhyDev[Pp2Context->Instance]->Speed == SPEED_100 ? "speed 100\n" : "speed 1000\n")));
+    Pp2Context->PhyDev->Speed == SPEED_10 ? "speed 10\n" : (Pp2Context->PhyDev->Speed == SPEED_100 ? "speed 100\n" : "speed 1000\n")));
    return EFI_SUCCESS;
 }
 
@@ -347,12 +401,12 @@ Pp2SnpGetStatus (
 
   if (!Pp2Context->Initialized)
     return EFI_NOT_READY;
-  Pp2Context->Phy->Status(Pp2Context->Phy, Pp2Context->PhyDev[Pp2Context->Instance]);
-  if (Pp2Context->PhyDev[Pp2Context->Instance]->LinkUp != Snp->Mode->MediaPresent)
-    DEBUG((DEBUG_ERROR, "Pp2Dxe%d: Link %s\n", Pp2Context->Instance, Pp2Context->PhyDev[Pp2Context->Instance]->LinkUp ? "up" : "down"));
-  Snp->Mode->MediaPresent = Pp2Context->PhyDev[Pp2Context->Instance]->LinkUp;
-  return EFI_SUCCESS;
+  Pp2Context->Phy->Status(Pp2Context->Phy, Pp2Context->PhyDev);
+  if (Pp2Context->PhyDev->LinkUp != Snp->Mode->MediaPresent)
+    DEBUG((DEBUG_ERROR, "Pp2Dxe%d: Link %s\n", Pp2Context->Instance, Pp2Context->PhyDev->LinkUp ? "up" : "down"));
+  Snp->Mode->MediaPresent = Pp2Context->PhyDev->LinkUp;
   Pp2DxeLinkEvent(Snp);
+  return EFI_SUCCESS;
 }
 
 EFI_STATUS
@@ -386,6 +440,68 @@ Pp2SnpReceive (
 }
 
 EFI_STATUS
+Pp2DxeSnpInstall (
+  IN PP2DXE_CONTEXT *Pp2Context
+  )
+{   
+  EFI_HANDLE Handle = NULL;
+  EFI_STATUS Status;
+  PP2_DEVICE_PATH *Pp2DevicePath;
+
+  DEBUG((DEBUG_ERROR, "Pp2Dxe%d: Installing protocols\n", Pp2Context->Instance));
+  Pp2Context->Snp.Mode = AllocateZeroPool (sizeof (EFI_SIMPLE_NETWORK_MODE));
+  Pp2DevicePath = AllocateCopyPool (sizeof (PP2_DEVICE_PATH), &Pp2DevicePathTemplate);
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[0] = Pp2Context->Instance; /* TODO */
+  Pp2Context->Signature = PP2DXE_SIGNATURE;
+  Pp2Context->Snp.Initialize = Pp2DxeSnpInitialize;
+  Pp2Context->Snp.Start = Pp2SnpStart;
+  Pp2Context->Snp.Stop = Pp2SnpStop;
+  Pp2Context->Snp.Reset = Pp2SnpReset;
+  Pp2Context->Snp.Shutdown = Pp2SnpShutdown;
+  Pp2Context->Snp.ReceiveFilters = Pp2SnpReceiveFilters;
+  Pp2Context->Snp.Statistics = Pp2SnpNetStat;
+  Pp2Context->Snp.MCastIpToMac = Pp2SnpIpToMac;
+  Pp2Context->Snp.NvData = Pp2SnpNvData;
+  Pp2Context->Snp.GetStatus = Pp2SnpGetStatus;
+  Pp2Context->Snp.Transmit = Pp2SnpTransmit;
+  Pp2Context->Snp.Receive = Pp2SnpReceive;
+  Pp2Context->Snp.Revision = EFI_SIMPLE_NETWORK_PROTOCOL_REVISION;
+
+  Pp2Context->Snp.Mode->State = EfiSimpleNetworkStopped;
+  Pp2Context->Snp.Mode->IfType = NET_IFTYPE_ETHERNET;
+  Pp2Context->Snp.Mode->HwAddressSize = NET_ETHER_ADDR_LEN;
+  Pp2Context->Snp.Mode->MediaHeaderSize = sizeof (ETHER_HEAD);
+  Pp2Context->Snp.Mode->MaxPacketSize = EFI_PAGE_SIZE;
+  Pp2Context->Snp.Mode->ReceiveFilterMask = EFI_SIMPLE_NETWORK_RECEIVE_UNICAST |
+			       EFI_SIMPLE_NETWORK_RECEIVE_MULTICAST |
+			       EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST |
+			       EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS |
+			       EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS_MULTICAST;
+  Pp2Context->Snp.Mode->ReceiveFilterSetting = EFI_SIMPLE_NETWORK_RECEIVE_UNICAST |
+				  EFI_SIMPLE_NETWORK_RECEIVE_MULTICAST |
+				  EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST;
+  Pp2Context->Snp.Mode->MaxMCastFilterCount = MAX_MCAST_FILTER_CNT;
+  Pp2Context->Snp.Mode->MCastFilterCount = 0;
+  Pp2Context->Snp.Mode->MediaPresentSupported = TRUE;
+  Pp2Context->Snp.Mode->MediaPresent = FALSE;
+  ZeroMem (&Pp2Context->Snp.Mode->MCastFilter, MAX_MCAST_FILTER_CNT * sizeof(EFI_MAC_ADDRESS));
+  SetMem (&Pp2Context->Snp.Mode->BroadcastAddress, sizeof (EFI_MAC_ADDRESS), 0xFF);
+
+  Pp2DevicePath->Pp2Mac.IfType = Pp2Context->Snp.Mode->IfType;
+  Status = gBS->InstallMultipleProtocolInterfaces (
+		  &Handle,
+		  &gEfiSimpleNetworkProtocolGuid, &Pp2Context->Snp,
+		  &gEfiDevicePathProtocolGuid, Pp2DevicePath,
+		  NULL
+		  );
+
+  if (EFI_ERROR(Status))
+    DEBUG((DEBUG_ERROR, "Failed to install protocols.\n"));
+
+  return Status;
+}
+
+EFI_STATUS
 EFIAPI
 Pp2DxeInitialise (
   IN EFI_HANDLE  ImageHandle,
@@ -394,67 +510,72 @@ Pp2DxeInitialise (
 {
   PP2DXE_CONTEXT *Pp2Context;
   EFI_STATUS Status;
-  EFI_HANDLE Handle = NULL;
-  PP2_DEVICE_PATH *Pp2DevicePath;
+  EFI_HANDLE Handle;
   INTN i;
+  UINT8 *PortIds;
+  VOID *BufferSpace;
+
+  /* alloc mvpp2  structure  */
+  Mvpp2Shared = AllocateZeroPool (sizeof (MVPP2_SHARED));
+  if (Mvpp2Shared == NULL) {
+    DEBUG((DEBUG_ERROR, "Allocation fail.\n"));
+    return EFI_OUT_OF_RESOURCES;
+  }
+
+  Mvpp2Shared->base = PcdGet64 (PcdPp2SharedAddress);
+  DEBUG((DEBUG_ERROR, "Pp2Dxe: shared base is 0x%lx\n", Mvpp2Shared->base));
+
+  /* buffer_loc */
+  BufferSpace = UncachedAllocateAlignedPool (BD_SPACE, MVPP2_BUFFER_ALIGN_SIZE);
+  if (BufferSpace == NULL)
+    return EFI_OUT_OF_RESOURCES;
+
+  BufferLocation.tx_descs = (struct mvpp2_tx_desc *)BufferSpace;
+
+  BufferLocation.aggr_tx_descs = (struct mvpp2_tx_desc *)
+    ((unsigned long)BufferSpace + MVPP2_MAX_TXD
+    * sizeof(struct mvpp2_tx_desc));
+
+  BufferLocation.rx_descs = (struct mvpp2_rx_desc *)
+    ((unsigned long)BufferSpace +
+    (MVPP2_MAX_TXD + MVPP2_AGGR_TXQ_SIZE)
+    * sizeof(struct mvpp2_tx_desc));
+
+  BufferLocation.rx_buffers = (unsigned long)
+    (BufferSpace + (MVPP2_MAX_TXD + MVPP2_AGGR_TXQ_SIZE)
+    * sizeof(struct mvpp2_tx_desc) +
+    MVPP2_MAX_RXD * sizeof(struct mvpp2_rx_desc));
+
+  Pp2DxeAxiConfig();
+  Pp2DxeBmPoolInit();
+  mvpp2_rx_fifo_init(Mvpp2Shared);
+  mvpp2_prs_default_init(Mvpp2Shared);
+  mvpp2_cls_init(Mvpp2Shared);
 
   for (i = 0; i < PcdGet32 (PcdPp2PortNumber); i++) {
-    Handle = NULL;
+    /* pp2x_initialize_dev */
+    /* install snp */
     Pp2Context = AllocateZeroPool (sizeof (PP2DXE_CONTEXT));
     if (Pp2Context == NULL) {
       DEBUG((DEBUG_ERROR, "Allocation fail.\n"));
       return EFI_OUT_OF_RESOURCES;
     }
-    DEBUG((DEBUG_ERROR, "Pp2Dxe%d: Installing protocols\n", i));
-    Pp2Context->Snp.Mode = AllocateZeroPool (sizeof (EFI_SIMPLE_NETWORK_MODE));
-    Pp2DevicePath = AllocateCopyPool (sizeof (PP2_DEVICE_PATH), &Pp2DevicePathTemplate);
-    Pp2DevicePath->Pp2Mac.MacAddress.Addr[0] = i;
-    Pp2Context->Signature = PP2DXE_SIGNATURE;
+
+    /* Instances are enumerated from 0 */
     Pp2Context->Instance = i;
-    Pp2Context->Snp.Initialize = Pp2DxeSnpInitialize;
-    Pp2Context->Snp.Start = Pp2SnpStart;
-    Pp2Context->Snp.Stop = Pp2SnpStop;
-    Pp2Context->Snp.Reset = Pp2SnpReset;
-    Pp2Context->Snp.Shutdown = Pp2SnpShutdown;
-    Pp2Context->Snp.ReceiveFilters = Pp2SnpReceiveFilters;
-    Pp2Context->Snp.Statistics = Pp2SnpNetStat;
-    Pp2Context->Snp.MCastIpToMac = Pp2SnpIpToMac;
-    Pp2Context->Snp.NvData = Pp2SnpNvData;
-    Pp2Context->Snp.GetStatus = Pp2SnpGetStatus;
-    Pp2Context->Snp.Transmit = Pp2SnpTransmit;
-    Pp2Context->Snp.Receive = Pp2SnpReceive;
-    Pp2Context->Snp.Revision = EFI_SIMPLE_NETWORK_PROTOCOL_REVISION;
 
-    Pp2Context->Snp.Mode->State = EfiSimpleNetworkStopped;
-    Pp2Context->Snp.Mode->IfType = NET_IFTYPE_ETHERNET;
-    Pp2Context->Snp.Mode->HwAddressSize = NET_ETHER_ADDR_LEN;
-    Pp2Context->Snp.Mode->MediaHeaderSize = sizeof (ETHER_HEAD);
-    Pp2Context->Snp.Mode->MaxPacketSize = EFI_PAGE_SIZE;
-    Pp2Context->Snp.Mode->ReceiveFilterMask = EFI_SIMPLE_NETWORK_RECEIVE_UNICAST |
-				 EFI_SIMPLE_NETWORK_RECEIVE_MULTICAST |
-				 EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST |
-				 EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS |
-				 EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS_MULTICAST;
-    Pp2Context->Snp.Mode->ReceiveFilterSetting = EFI_SIMPLE_NETWORK_RECEIVE_UNICAST |
-				    EFI_SIMPLE_NETWORK_RECEIVE_MULTICAST |
-				    EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST;
-    Pp2Context->Snp.Mode->MaxMCastFilterCount = MAX_MCAST_FILTER_CNT;
-    Pp2Context->Snp.Mode->MCastFilterCount = 0;
-    Pp2Context->Snp.Mode->MediaPresentSupported = TRUE;
-    Pp2Context->Snp.Mode->MediaPresent = FALSE;
-    ZeroMem (&Pp2Context->Snp.Mode->MCastFilter, MAX_MCAST_FILTER_CNT * sizeof(EFI_MAC_ADDRESS));
-    SetMem (&Pp2Context->Snp.Mode->BroadcastAddress, sizeof (EFI_MAC_ADDRESS), 0xFF);
-
-    Pp2DevicePath->Pp2Mac.IfType = Pp2Context->Snp.Mode->IfType;
-    Status = gBS->InstallMultipleProtocolInterfaces (
-		    &Handle,
-		    &gEfiSimpleNetworkProtocolGuid, &Pp2Context->Snp,
-		    &gEfiDevicePathProtocolGuid, Pp2DevicePath,
-		    NULL
-		    );
-
+    Status = Pp2DxeSnpInstall(Pp2Context);
+    /* TODO: free resources */
     if (EFI_ERROR(Status))
-      DEBUG((DEBUG_ERROR, "Failed to install protocols.\n"));
+      return Status;
+
+    PortIds = PcdGetPtr (PcdPp2PortIds);
+    Pp2Context->Port.id = PortIds[Pp2Context->Instance];
+    Pp2Context->Port.base = PcdGet64 (PcdPp2GmacBaseAddress) +
+      PcdGet32 (PcdPp2GmacObjSize) * Pp2Context->Port.id;
+    DEBUG((DEBUG_ERROR, "Pp2Dxe%d: port%d at 0x%lx\n", Pp2Context->Instance, Pp2Context->Port.id,
+      Pp2Context->Port.base));
+
   }
 
   return EFI_SUCCESS;
