@@ -376,7 +376,8 @@ cavium,bdk {
 	 *   GPIO-VAR-NAME = 0x01001A
 	 *                     ||||||
 	 *                     ||||++-- GPIO Number
-	 *                     ||++---- GPIO polarity (0=normal, 1=inverted)
+	 *                     |||+---- GPIO polarity (0=normal, 1=inverted)
+	 *                     ||+----- GPIO type (0=level, 1=edge)
 	 *                     ++------ Node ID (0xFF = local node)
 	 *
 	 **********************************************************************/
@@ -392,7 +393,7 @@ cavium,bdk {
 
 	/* GPIO pin connected to board power button */
 	//GPIO-SHUTDOWN-CTL-IN = "-1";
-	GPIO-SHUTDOWN-CTL-IN = "0x00001A";
+	GPIO-SHUTDOWN-CTL-IN = "0x00101A";
 
 	/* GPIO pin to CPLD-BMC from Thunder to inform host initiated shutdown */
 	//GPIO-SHUTDOWN-CTL-OUT = "-1";
