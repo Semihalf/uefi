@@ -271,5 +271,30 @@ cavium,bdk {
 	/* Time to settle after each movement in microseconds. The
 	default value should be good for most cases. */
 	//QLM-EYE-SETTLE-TIME = "0x32";
+
+	/**********************************************************************
+	 * The entries below are currently not used by the BDK. They are being
+	 * used only by ATF / UEFI.
+	 *
+	 * Format for TWSI configuration:
+	 *   TWSI-VAR-NAME = 0x01050E
+	 *                     ||||||
+	 *                     ||||++-- TWSI address
+	 *                     ||++---- TWSI bus
+	 *                     ++------ Node ID (0xFF = local node)
+	 *
+	 * Format for GPIO configuration:
+	 *   GPIO-VAR-NAME = 0x01001A
+	 *                     ||||||
+	 *                     ||||++-- GPIO Number
+	 *                     ||++---- GPIO polarity (0=normal, 1=inverted)
+	 *                     ++------ Node ID (0xFF = local node)
+	 *
+	 **********************************************************************/
+
+	/* RTC connection over TWSI bus of Thunder.
+	   -1 =  No connection exists  */
+	//RTC-TWSI-CONFIG = "-1";
+	RTC-TWSI-CONFIG = "0x000068";
 }; /* cavium,bdk */
 }; /* / */
