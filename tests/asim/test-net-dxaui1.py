@@ -120,6 +120,8 @@ send("loopback all internal")
 wait_for("(INS)Command>")
 time.sleep(2)
 port = "DXAUI1"
+if "CN81XX" in os.environ["ASIM_CHIP"]:
+    port = "SGMII1.0" # Use SGMII on this chip so we can have SATA on DLM3
 send("default %s" % port)
 wait_for("(INS)Command>")
 send("count 100")
