@@ -641,8 +641,8 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
  */
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
-    BDK_CSR_MODIFY(c, handle->node, BDK_XCVX_CTL(handle->interface),
-        c.s.lpbk_int = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
+    BDK_CSR_MODIFY(c, handle->node, BDK_RGXX_GMP_PCS_MRX_CONTROL(handle->interface, handle->index),
+        c.s.loopbck1 = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
     BDK_CSR_MODIFY(c, handle->node, BDK_XCVX_CTL(handle->interface),
         c.s.lpbk_ext = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
     sgmii_link(handle);
