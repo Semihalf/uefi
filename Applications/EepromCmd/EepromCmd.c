@@ -208,9 +208,9 @@ ShellCommandRunEeprom (
   }
 
   Status = ShellCommandLineParse (ParamList, &CheckPackage, &ProblemParam, TRUE);
-  if (ShellCommandLineGetCount(CheckPackage) < 4) {
-    Print (L"Not enough arguments given.\n");
-    Usage();
+  if (EFI_ERROR (Status)) {
+    Print (L"Error - failed to parse command line\n");
+    return SHELL_ABORTED;
   }
 
   if (ShellCommandLineGetFlag (CheckPackage, L"list")) {
@@ -221,6 +221,11 @@ ShellCommandRunEeprom (
   if (ShellCommandLineGetFlag (CheckPackage, L"help")) {
     Usage();
     return SHELL_SUCCESS;
+  }
+
+  if (ShellCommandLineGetCount(CheckPackage) < 4) {
+    Print (L"Not enough arguments given.\n");
+    Usage();
   }
 
   ReadMode = ShellCommandLineGetFlag (CheckPackage, L"read");
