@@ -62,10 +62,18 @@ static void ecam_walk_internal_bus(bdk_node_t node, int ecam, int bus)
             /* Internal bus numbers are hard coded. Read the bus ID */
             bdk_pccbr_xxx_bus_t bus;
             bus.u = bdk_ecam_read32(&device, BDK_PCCBR_XXX_BUS);
-            /* Asim has the bus wrong on some devices, skip zero busses. Real
-               PCIe external device use high bus numbers, so skip them too */
-            if ((bus.s.sbnum > 0) && (bus.s.sbnum < 16))
+            /* Asim used to have a bug where bus number were zero, report errors
+               for those */
+            if (bus.s.sbnum == 0)
+            {
+                bdk_error("N%d:E%d:%d:%d.%d: Secondary bus number is zero\n",
+                    device.node, device.ecam, device.bus, device.dev, device.func);
+            }
+            /* Real PCIe external device use high bus numbers, so skip them */
+            else if (bus.s.sbnum < 16)
+            {
                 ecam_walk_internal_bus(node, ecam, bus.s.sbnum);
+            }
         }
     }
 }
