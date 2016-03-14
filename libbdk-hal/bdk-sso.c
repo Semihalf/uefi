@@ -168,8 +168,9 @@ void bdk_sso_thread_read(int arg, void *arg1)
             const union bdk_pki_wqe_s *wqe = bdk_phys_to_ptr(work1.u);
             if (bdk_sso_wqe_to_packet(wqe, &packet) == 0)
                 bdk_if_dispatch_packet(&packet);
+            int aura = wqe->s.aura;
             for (int s = 0; s < packet.segments; s++)
-                __bdk_fpa_raw_free(node, packet.packet[s].s.address & ~BDK_CACHE_LINE_MASK, wqe->s.aura, 0);
+                __bdk_fpa_raw_free(node, packet.packet[s].s.address & ~BDK_CACHE_LINE_MASK, aura, 0);
             /* Do a GET_WORK */
             work1.u = bdk_read64_uint64(work_address);
         }
