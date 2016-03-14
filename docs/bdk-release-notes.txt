@@ -8,6 +8,40 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+== thunder-release-v1.22-rc1 ==
+* Added support for measuring SERDES quality using a vertical eye measurement
+** New traffic-gen command "margin_rx" for networking related SERDES
+** SATA menu option "Run margining tool"
+** PCIe menu option "Run margining tool". This requires a CN73XX NIC plugged into the PCIe slot.
+** New CCPI menu for testing and measurement
+* Improved Power burn functionality
+** Start / stop power burn manually
+** Automated power burn transient load. On for 1 second, off for 1 second
+** Power burn controlled separately for each node
+** Power burn functionality moved into a new "Power Burn options" menu
+* Fixed memory transactions in the PCIe menu
+* DDR
+** Improvements to diagnostic output, bit deskew training, VREF processing
+** Enable data inversion for power efficiency
+** Allow rank majority to affect single DIMM configurations
+** Compute the pattern averages from rank windows, not rank averages
+** Move setting of the DRAM SPD addresses out of the common DDR3 and DDR4 config
+** Enable the trim circuit on the appropriate LMC channels to adjust the DDR clock duty cycle for chips that support it
+** Rework the sequence used to take the DRAM out of self-refresh mode
+* SERDES
+** Have RX equalization check that a lane has CDR lock before trying equalization
+** BGX: Don't allow lane up to continue until RX equalization succeeds on all lanes
+** Don't apply QLM tuning to PCIe Gen3 links
+** Apply workaround for GSER-27882 to CCPI
+** Improved default tuning for SERDES at 6.25G. RXAUI shows the most improvement
+* Networking
+** Various fixes for Cortina PHY update app
+** Disable TNS support
+** Rewrite NIC allocation to use one VF per interface, not port* USB: Add new config option to specify the polarity of the usb gpio
+* Support building with GCC5. GCC5 executables will not work on CN88XX pass 1.x as GCC uses compare and swap
+* Preliminary support for CN81XX and CN83XX
+* Device tree files now contain some configuration items that are passed to ATF/UEFI but unused by the BDK
+
 == thunder-release-v1.21 ==
 * Redo handling of CCPI link init to support CN88XX pass 2.0.
 ** The output format has changed greatly, using terminal escape sequences to present a per lane status.
