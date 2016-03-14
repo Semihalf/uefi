@@ -88,7 +88,7 @@ void bdk_gpio_set(bdk_node_t node, uint64_t set_mask)
  */
 void bdk_gpio_select_pin(bdk_node_t node, int gpio, int pin)
 {
-    if ((gpio < 0) && (gpio > 50))
+    if ((gpio < 0) || (gpio > 50))
     {
         bdk_warn("bdk_gpio_select_pin: Illegal GPIO %d\n", gpio);
         return;
