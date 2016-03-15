@@ -32,7 +32,7 @@ def getReservedName(bits):
 #
 def isChipArch(arch, chip):
     assert arch in ["octeon", "thunder"], "Invalid architecture"
-    if chip.startswith("CN8"):
+    if chip.startswith("CN8") or chip.startswith("CN9"):
         return (arch == "thunder")
     else:
         return (arch == "octeon")

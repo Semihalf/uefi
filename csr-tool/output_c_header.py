@@ -378,6 +378,9 @@ def writeReg(out, arch, reg):
                 chip_name = "CAVIUM_" + chip.replace("P", "_PASS")
             elif "P" in chip: # A specific major, any minor
                 chip_name = "CAVIUM_" + chip.replace("P", "_PASS") + "_X"
+            elif not "X" in chip: # An entire family (CN9, CN8, CN7)
+                assert len(chip) == 3, chip
+                chip_name = "CAVIUM_" + chip +"XXX"
             else: # A model, and pass
                 chip_name = "CAVIUM_" + chip
             if address_items[chip][0] == None: # No param check

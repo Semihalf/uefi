@@ -25,7 +25,7 @@ help:
 	echo ""
 
 .PHONY: generate
-generate: t81 t83 t88 o70 o73 o75 o78
+generate: t81 t83 t88 t98 o70 o73 o75 o78
 
 #
 # Initial checkout
@@ -44,6 +44,10 @@ checkout:
 	svn co -q svn+ssh://masvn/svn/t88/trunk/hwcode/regs/gen t88
 	svn co -q svn+ssh://masvn/svn/t88/trunk/dvconf t88/dvconf
 	svn co -q svn+ssh://masvn/svn/t88/trunk/Project_Root t88/Project_Root
+	# t98
+	svn co -q svn+ssh://masvn/svn/t98/trunk/hwcode/regs/gen t98
+	svn co -q svn+ssh://masvn/svn/t98/trunk/dvconf t98/dvconf
+	svn co -q svn+ssh://masvn/svn/t98/trunk/Project_Root t98/Project_Root
 	# o70
 	svn co -q svn+ssh://masvn/svn/o70/trunk/hwcode/regs/gen o70
 	svn co -q svn+ssh://masvn/svn/o70/trunk/dvconf o70/dvconf
@@ -66,7 +70,7 @@ checkout:
 #
 .PHONY: update
 update:
-	svn update t81 t83 t88 o70 o73 o75 o78 */dvconf
+	svn update t81 t83 t88 t98 o70 o73 o75 o78 */dvconf
 
 #
 # Clean
@@ -81,6 +85,15 @@ clean:
 .PHONY: distclean
 distclean: clean
 	rm -rf o?? t??
+
+#
+# t98
+#
+.PHONY: t98
+t98: t98_pass_1.0.yaml
+
+t98_pass_1.0.yaml: t98/*.csr
+	cd t98 && $(CSR3) t98@1.0 > ../$@
 
 #
 # t88

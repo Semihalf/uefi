@@ -16,6 +16,7 @@ CAVIUM_CHIPS = [
     ["CN88XX",  1.0, "yaml/t88_pass_1.0.yaml"],
     ["CN88XX",  1.1, "yaml/t88_pass_1.1.yaml"],
     ["CN88XX",  2.0, "yaml/t88_pass_2.0.yaml"],
+    ["CN98XX",  1.0, "yaml/t98_pass_1.0.yaml"],
 ]
 
 #
@@ -31,6 +32,7 @@ DIFFS = [
     ("CN88XXP2_0", "CN81XXP1_0"),
     ("CN88XXP2_0", "CN83XXP1_0"),
     ("CN81XXP1_0", "CN83XXP1_0"),
+    ("CN88XXP2_0", "CN98XXP1_0"),
 ]
 
 #
