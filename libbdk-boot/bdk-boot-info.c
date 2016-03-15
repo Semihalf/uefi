@@ -203,3 +203,51 @@ void bdk_boot_info_strapping(bdk_node_t node)
     }
 }
 
+/**
+ * Return a string containing information about the chip's manufacture wafer
+ *
+ * @param node   Node to query
+ *
+ * @return Static string, reused on each call
+ */
+const char *bdk_boot_info_wafer(bdk_node_t node)
+{
+    #define DECODE_LOTID_CHAR(x)    (x < 10 ? '0' + x : x < 36 ? 'A' + x - 10 : ' ')
+    static char buffer[64];
+
+    /* This fuse read will load all 128 fuses into MIO_FUS_BNK_DATX */
+    bdk_fuse_read(node, BDK_MIO_FUS_FUSE_NUM_E_MFG0X(0));
+    /* Get MFG0 and MFG0 from MIO_FUS_BNK_DATX */
+    uint64_t mfg0 = BDK_CSR_READ(node, BDK_MIO_FUS_BNK_DATX(0));
+    uint64_t mfg1 = BDK_CSR_READ(node, BDK_MIO_FUS_BNK_DATX(1));
+    /* If either MFG area is programed, assume they are valid */
+    if (mfg0 || mfg1)
+    {
+        /* Extract the mother lot ID */
+        int c9 = bdk_extract(mfg0, 0, 6);
+        int c8 = bdk_extract(mfg0, 6, 6);
+        int c7 = bdk_extract(mfg0, 12, 6);
+        int c6 = bdk_extract(mfg0, 18, 6);
+        int c5 = bdk_extract(mfg0, 24, 6);
+        int c4 = bdk_extract(mfg0, 30, 6);
+        int c3 = bdk_extract(mfg0, 36, 6);
+        int c2 = bdk_extract(mfg0, 42, 6);
+        int c1 = bdk_extract(mfg0, 48, 6);
+        /* Extract wafer, X, and Y data */
+        int y = bdk_extract(mfg1, 0, 10);
+        int x = bdk_extract(mfg1, 10, 10);
+        int wafer_id = bdk_extract(mfg1, 20, 6);
+        snprintf(buffer, sizeof(buffer), "Lot ID: %c%c%c%c%c%c%c.%c%c, Wafer ID: %2d, X-loc: %2d, Y-loc: %2d",
+            DECODE_LOTID_CHAR(c1), DECODE_LOTID_CHAR(c2), DECODE_LOTID_CHAR(c3),
+            DECODE_LOTID_CHAR(c4), DECODE_LOTID_CHAR(c5), DECODE_LOTID_CHAR(c6),
+            DECODE_LOTID_CHAR(c7), DECODE_LOTID_CHAR(c8), DECODE_LOTID_CHAR(c9),
+            wafer_id, x, y);
+    }
+    else
+    {
+        /* Nothing programmed in the fuses */
+        snprintf(buffer, sizeof(buffer), "Lot id: Not available");
+    }
+
+    return buffer;
+}
