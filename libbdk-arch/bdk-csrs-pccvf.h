@@ -241,6 +241,8 @@ static inline uint64_t BDK_PCCVF_XXX_E_DEV_CAP_FUNC(void)
         return 0x74;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x74;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x74;
     __bdk_csr_fatal("PCCVF_XXX_E_DEV_CAP", 0, 0, 0, 0, 0);
 }
 

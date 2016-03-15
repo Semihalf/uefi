@@ -328,6 +328,7 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_ctix_ctiappset_s cn9; */
     /* struct bdk_ctix_ctiappset_s cn81xx; */
     /* struct bdk_ctix_ctiappset_s cn83xx; */
     struct bdk_ctix_ctiappset_cn88xxp2

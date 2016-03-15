@@ -419,6 +419,8 @@ static inline uint64_t BDK_MIO_EMM_COMP_FUNC(void)
         return 0x87e009002040ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e009002040ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e009002040ll;
     __bdk_csr_fatal("MIO_EMM_COMP", 0, 0, 0, 0, 0);
 }
 
@@ -836,6 +838,7 @@ typedef union
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_mio_emm_dma_fifo_cmd_s cn9; */
     /* struct bdk_mio_emm_dma_fifo_cmd_s cn81xx; */
     /* struct bdk_mio_emm_dma_fifo_cmd_s cn83xx; */
     /* struct bdk_mio_emm_dma_fifo_cmd_s cn88xxp2; */

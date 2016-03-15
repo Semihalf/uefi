@@ -175,15 +175,19 @@
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RTG_WAIT (0x68) /**< OCI must wait for VICx (RTG state does not match request). */
 #define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI (0xa) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI
                                        cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN9(a) (0x82 + 0x10 * (a)) /**< Quad(0..3) number of banks in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN81XX(a) (0x82 + 0x10 * (a)) /**< Quad(0..3) number of banks in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN88XX(a) (0x82 + 0x10 * (a)) /**< Quad(0..7) number of banks in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN83XX(a) (0x82 + 0x10 * (a)) /**< Quad(0..3) number of banks in use (0-4/cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN9(a) (0x80 + 0x10 * (a)) /**< Quad(0..3) index bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN81XX(a) (0x80 + 0x10 * (a)) /**< Quad(0..3) index bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN88XX(a) (0x80 + 0x10 * (a)) /**< Quad(0..7) index bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN83XX(a) (0x80 + 0x10 * (a)) /**< Quad(0..3) index bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN9(a) (0x81 + 0x10 * (a)) /**< Quad(0..3) read data bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN81XX(a) (0x81 + 0x10 * (a)) /**< Quad(0..3) read data bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN88XX(a) (0x81 + 0x10 * (a)) /**< Quad(0..7) read data bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN83XX(a) (0x81 + 0x10 * (a)) /**< Quad(0..3) read data bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN9(a) (0x83 + 0x10 * (a)) /**< Quad(0..3) write data flops in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN81XX(a) (0x83 + 0x10 * (a)) /**< Quad(0..3) write data flops in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN88XX(a) (0x83 + 0x10 * (a)) /**< Quad(0..7) write data flops in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN83XX(a) (0x83 + 0x10 * (a)) /**< Quad(0..3) write data flops in use (0-4/cycle). */
@@ -466,17 +470,23 @@ typedef union
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
         uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables nonsecure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region.
+
+                                                                 Internal:
                                                                  See also DFA_ASC_REGION()_ATTR[NS_EN]. */
 #else /* Word 0 - Little Endian */
         uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables nonsecure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region.
+
+                                                                 Internal:
                                                                  See also DFA_ASC_REGION()_ATTR[NS_EN]. */
         uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_l2c_asc_regionx_attr_cn81xx
+    /* struct bdk_l2c_asc_regionx_attr_s cn9; */
+    /* struct bdk_l2c_asc_regionx_attr_s cn81xx; */
+    struct bdk_l2c_asc_regionx_attr_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
@@ -484,22 +494,17 @@ typedef union
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
         uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables nonsecure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region.
-
-                                                                 Internal:
                                                                  See also DFA_ASC_REGION()_ATTR[NS_EN]. */
 #else /* Word 0 - Little Endian */
         uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables nonsecure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region.
-
-                                                                 Internal:
                                                                  See also DFA_ASC_REGION()_ATTR[NS_EN]. */
         uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_l2c_asc_regionx_attr_s cn88xx; */
-    /* struct bdk_l2c_asc_regionx_attr_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_l2c_asc_regionx_attr_s cn83xx; */
 } bdk_l2c_asc_regionx_attr_t;
 
 static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -637,6 +642,8 @@ static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a)
         return 0x87e0580a0000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e0580a0000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e0580a0000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("L2C_CBCX_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
@@ -696,6 +703,8 @@ static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a)
         return 0x87e058040000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e058040000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e058040000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("L2C_CBCX_DLL", 1, a, 0, 0, 0);
 }
 
@@ -735,6 +744,8 @@ static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a)
         return 0x87e058080010ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e058080010ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e058080010ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("L2C_CBCX_IOCERR", 1, a, 0, 0, 0);
 }
 
@@ -797,6 +808,8 @@ static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a)
         return 0x87e058080008ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e058080008ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e058080008ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("L2C_CBCX_IODISOCIERR", 1, a, 0, 0, 0);
 }
 
@@ -861,6 +874,8 @@ static inline uint64_t BDK_L2C_CBCX_MIBERR(unsigned long a)
         return 0x87e058080020ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e058080020ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e058080020ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("L2C_CBCX_MIBERR", 1, a, 0, 0, 0);
 }
 
@@ -920,6 +935,8 @@ static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a)
         return 0x87e058080018ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e058080018ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e058080018ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("L2C_CBCX_RSDERR", 1, a, 0, 0, 0);
 }
 
@@ -1056,6 +1073,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_l2c_ctl_s cn9; */
     /* struct bdk_l2c_ctl_s cn81xx; */
     /* struct bdk_l2c_ctl_s cn83xx; */
     struct bdk_l2c_ctl_cn88xxp2
@@ -1232,6 +1250,8 @@ static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a)
         return 0x87e05c020000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e05c020000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e05c020000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_MCIX_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
@@ -1311,6 +1331,8 @@ static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x87e05c010000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e05c010000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e05c010000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_MCIX_ERR", 1, a, 0, 0, 0);
 }
@@ -1514,6 +1536,7 @@ typedef union
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_l2c_oci_ctl_s cn9; */
     /* struct bdk_l2c_oci_ctl_s cn81xx; */
     /* struct bdk_l2c_oci_ctl_s cn83xx; */
     struct bdk_l2c_oci_ctl_cn88xxp2
@@ -1702,6 +1725,8 @@ static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a)
         return 0x87e080880000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87e080880000ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e080880000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("L2C_QOS_PPX", 1, a, 0, 0, 0);
 }
 
@@ -1808,6 +1833,8 @@ static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a)
         return 0x87e050030000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050030000ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e050030000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_TADX_DLL", 1, a, 0, 0, 0);
 }
 
@@ -1892,6 +1919,8 @@ static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a)
         return 0x87e050060000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050060000ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e050060000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_TADX_ERR", 1, a, 0, 0, 0);
 }
 
@@ -1930,6 +1959,8 @@ static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b)
         return 0x87e050010100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=3)))
         return 0x87e050010100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=3)))
+        return 0x87e050010100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("L2C_TADX_PFCX", 2, a, b, 0, 0);
 }
 
@@ -1953,6 +1984,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_prf_s cn9; */
+    struct bdk_l2c_tadx_prf_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
         uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
         uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
         uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
@@ -1964,8 +2012,7 @@ typedef union
         uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_tadx_prf_s cn81xx; */
+    } cn81xx;
     struct bdk_l2c_tadx_prf_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1982,22 +2029,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_l2c_tadx_prf_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_l2c_tadx_prf_s cn83xx; */
 } bdk_l2c_tadx_prf_t;
 
 static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2009,6 +2041,8 @@ static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a)
         return 0x87e050010000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050010000ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e050010000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_TADX_PRF", 1, a, 0, 0, 0);
 }
 
@@ -2054,6 +2088,8 @@ static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a)
         return 0x87e050020008ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050020008ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e050020008ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_TADX_STAT", 1, a, 0, 0, 0);
 }
 
@@ -2117,6 +2153,56 @@ typedef union
                                                                  (0), [SBLKDTY] must be 0 or operation is undefined. */
 #endif /* Word 0 - End */
     } s;
+    struct bdk_l2c_tadx_tag_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
+        uint64_t reserved_59           : 1;
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t reserved_40_41        : 2;
+        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+                                                                 address. */
+        uint64_t reserved_6_17         : 12;
+        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+#else /* Word 0 - Little Endian */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
+                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
+                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state
+                                                                 is encoded as shared in the tag and invalid in the RTG. */
+        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
+        uint64_t reserved_6_17         : 12;
+        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+                                                                 address. */
+        uint64_t reserved_40_41        : 2;
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t reserved_59           : 1;
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
+                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
+#endif /* Word 0 - End */
+    } cn9;
     struct bdk_l2c_tadx_tag_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2219,56 +2305,7 @@ typedef union
                                                                  (0), [SBLKDTY] must be 0 or operation is undefined. */
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_l2c_tadx_tag_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
-                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
-        uint64_t reserved_59           : 1;
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t reserved_40_41        : 2;
-        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-                                                                 address. */
-        uint64_t reserved_6_17         : 12;
-        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state
-                                                                 is encoded as shared in the tag and invalid in the RTG. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
-                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
-                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
-#else /* Word 0 - Little Endian */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the [LOCK] bit, the USE bit should also be set or the
-                                                                 operation is undefined. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the [LOCK] bit, the USE bit should also be set or
-                                                                 the operation is undefined. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state
-                                                                 is encoded as shared in the tag and invalid in the RTG. */
-        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
-        uint64_t reserved_6_17         : 12;
-        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-                                                                 address. */
-        uint64_t reserved_40_41        : 2;
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t reserved_59           : 1;
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If [TS] is invalid
-                                                                 (0), [SBLKDTY] must be 0 or operation is undefined. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_l2c_tadx_tag_cn9 cn83xx; */
 } bdk_l2c_tadx_tag_t;
 
 static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2280,6 +2317,8 @@ static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a)
         return 0x87e050020000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050020000ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e050020000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_TADX_TAG", 1, a, 0, 0, 0);
 }
 
@@ -2367,6 +2406,8 @@ static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a)
         return 0x87e050050100ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050050100ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e050050100ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_TADX_TIMEOUT", 1, a, 0, 0, 0);
 }
 
@@ -2426,6 +2467,8 @@ static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a)
         return 0x87e050050000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050050000ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e050050000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_TADX_TIMETWO", 1, a, 0, 0, 0);
 }
 
@@ -2485,6 +2528,7 @@ typedef union
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_l2c_tad_ctl_s cn9; */
     /* struct bdk_l2c_tad_ctl_s cn81xx; */
     struct bdk_l2c_tad_ctl_cn88xx
     {
@@ -2615,6 +2659,8 @@ static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a)
         return 0x87e080840000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87e080840000ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e080840000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("L2C_WPAR_PPX", 1, a, 0, 0, 0);
 }
 

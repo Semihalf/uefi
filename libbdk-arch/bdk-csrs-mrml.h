@@ -491,6 +491,8 @@ static inline uint64_t BDK_MRML_NCBX_SKILL(unsigned long a)
         return 0x87e0fc000500ll + 8ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=3))
         return 0x87e0fc000500ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e0fc000500ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("MRML_NCBX_SKILL", 1, a, 0, 0, 0);
 }
 
@@ -590,6 +592,8 @@ static inline uint64_t BDK_MRML_RSLX_SKILL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e0fc000300ll + 8ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=3))
+        return 0x87e0fc000300ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x87e0fc000300ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("MRML_RSLX_SKILL", 1, a, 0, 0, 0);
 }

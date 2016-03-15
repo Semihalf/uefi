@@ -1152,6 +1152,7 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_trcx_trcdevaff0_s cn9; */
     /* struct bdk_trcx_trcdevaff0_s cn81xx; */
     /* struct bdk_trcx_trcdevaff0_s cn83xx; */
     /* struct bdk_trcx_trcdevaff0_s cn88xxp2; */
@@ -1635,21 +1636,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t commopt               : 1;  /**< [ 29: 29](R/W) Common mode field:
-                                                                    0 = common mode 0.
-                                                                    1 = common mode 1.
+        uint32_t commopt               : 1;  /**< [ 29: 29](RO) Common mode field:
+                                                                    0 = Common mode 0.
+                                                                    1 = Common mode 1.
 
                                                                  For CNXXXX irrelevant since cycle counting is not implemented. */
-        uint32_t tssize                : 5;  /**< [ 28: 24](R/W) Global timestamp size field. The permitted values are:
+        uint32_t tssize                : 5;  /**< [ 28: 24](RO) Global timestamp size field. The permitted values are:
                                                                     0x0 = Global timestamping is not implemented.
                                                                     0x6 = Implementation supports a maximum global timestamp of 48 bits.
                                                                     0x8 = Implementation supports a maximum global timestamp of 64 bits.
                                                                     _ all other values are reserved. */
         uint32_t reserved_18_23        : 6;
-        uint32_t trcexdata             : 1;  /**< [ 17: 17](R/W) Indicate support for tracing of data transfer for exceptions and exception returns.
+        uint32_t trcexdata             : 1;  /**< [ 17: 17](RO) Indicate support for tracing of data transfer for exceptions and exception returns.
                                                                     0 = Implemented.
                                                                     1 = Not Implemented. */
-        uint32_t qsupp                 : 2;  /**< [ 16: 15](R/W) Q elements support field. The permitted values:
+        uint32_t qsupp                 : 2;  /**< [ 16: 15](RO) Q elements support field. The permitted values:
                                                                     0x0 = Q Elements support is not implemented.
                                                                     0x1 = Q Elements support is implemented and only support Q elements
                                                                                with instruction count.
@@ -1657,76 +1658,76 @@ typedef union
                                                                                without instruction count.
                                                                     0x3 = Q Elements support is implemented and support Q elements
                                                                                with and without instruction count. */
-        uint32_t qfilt                 : 1;  /**< [ 14: 14](R/W) When QSUPP > 0x0, this is Q element filtering support field.
+        uint32_t qfilt                 : 1;  /**< [ 14: 14](RO) When QSUPP > 0x0, this is Q element filtering support field.
                                                                     0 = Q element filtering is not implemented.
                                                                     1 = Q element filtering is implemented. */
-        uint32_t condtype              : 2;  /**< [ 13: 12](R/W) Conditional tracing field.  The permitted values are:
+        uint32_t condtype              : 2;  /**< [ 13: 12](RO) Conditional tracing field.  The permitted values are:
                                                                     0x0 = The trace unit indicates only if the conditional instruction
                                                                           pass or fail its condition code check.
                                                                     0x1 = The trace unit provides the value of APSR condition flags, for
                                                                           a conditional instruction.
                                                                     all other values are reserved. */
-        uint32_t numevent              : 2;  /**< [ 11: 10](R/W) Number of event field. Indicates how many event a trace unit support.
+        uint32_t numevent              : 2;  /**< [ 11: 10](RO) Number of event field. Indicates how many event a trace unit support.
                                                                     0x0 = The trace unit supports 1 event.
                                                                     0x1 = The trace unit supports 2 events.
                                                                     0x2 = The trace unit supports 3 events.
                                                                     0x3 = The trace unit supports 4 events. */
-        uint32_t retstack              : 1;  /**< [  9:  9](R/W) Return stack bit.
+        uint32_t retstack              : 1;  /**< [  9:  9](RO) Return stack bit.
                                                                     0 = The return stack is not implemented.
                                                                     1 = The return stack is implemented. */
         uint32_t reserved_8            : 1;
-        uint32_t trccci                : 1;  /**< [  7:  7](R/W) Cycle count instruction bit.
+        uint32_t trccci                : 1;  /**< [  7:  7](RO) Cycle count instruction bit.
                                                                     0 = Cycle count in instruction trace is not implemented.
                                                                     1 = Cycle count in instruction trace is implemented. */
-        uint32_t trccond               : 1;  /**< [  6:  6](R/W) Conditional instruction tracing support bit.
+        uint32_t trccond               : 1;  /**< [  6:  6](RO) Conditional instruction tracing support bit.
                                                                     0 = Conditional instruction tracing is not supported.
                                                                     1 = Conditional instruction tracing is supported. */
-        uint32_t trcbb                 : 1;  /**< [  5:  5](R/W) Branch broadcast tracing support bit.
+        uint32_t trcbb                 : 1;  /**< [  5:  5](RO) Branch broadcast tracing support bit.
                                                                     0 = Branch broadcast tracing is not supported.
                                                                     1 = Branch broadcast tracing is supported. */
-        uint32_t trcdata               : 2;  /**< [  4:  3](R/W) Conditional tracing field. The permitted values are:
+        uint32_t trcdata               : 2;  /**< [  4:  3](RO) Conditional tracing field. The permitted values are:
                                                                     0x0 = Data tracing is not supported.
                                                                     0x3 = Data tracing is supported. */
-        uint32_t intp0                 : 2;  /**< [  2:  1](R/W) P0 tracing support field. The permitted values are:
+        uint32_t intp0                 : 2;  /**< [  2:  1](RO) P0 tracing support field. The permitted values are:
                                                                     0x0 = Tracing of load and store instruction as P0 element is not supported.
                                                                     0x3 = Tracing of load and store instruction as P0 element is supported. */
         uint32_t bit0                  : 1;  /**< [  0:  0](RO) Reserved 1. */
 #else /* Word 0 - Little Endian */
         uint32_t bit0                  : 1;  /**< [  0:  0](RO) Reserved 1. */
-        uint32_t intp0                 : 2;  /**< [  2:  1](R/W) P0 tracing support field. The permitted values are:
+        uint32_t intp0                 : 2;  /**< [  2:  1](RO) P0 tracing support field. The permitted values are:
                                                                     0x0 = Tracing of load and store instruction as P0 element is not supported.
                                                                     0x3 = Tracing of load and store instruction as P0 element is supported. */
-        uint32_t trcdata               : 2;  /**< [  4:  3](R/W) Conditional tracing field. The permitted values are:
+        uint32_t trcdata               : 2;  /**< [  4:  3](RO) Conditional tracing field. The permitted values are:
                                                                     0x0 = Data tracing is not supported.
                                                                     0x3 = Data tracing is supported. */
-        uint32_t trcbb                 : 1;  /**< [  5:  5](R/W) Branch broadcast tracing support bit.
+        uint32_t trcbb                 : 1;  /**< [  5:  5](RO) Branch broadcast tracing support bit.
                                                                     0 = Branch broadcast tracing is not supported.
                                                                     1 = Branch broadcast tracing is supported. */
-        uint32_t trccond               : 1;  /**< [  6:  6](R/W) Conditional instruction tracing support bit.
+        uint32_t trccond               : 1;  /**< [  6:  6](RO) Conditional instruction tracing support bit.
                                                                     0 = Conditional instruction tracing is not supported.
                                                                     1 = Conditional instruction tracing is supported. */
-        uint32_t trccci                : 1;  /**< [  7:  7](R/W) Cycle count instruction bit.
+        uint32_t trccci                : 1;  /**< [  7:  7](RO) Cycle count instruction bit.
                                                                     0 = Cycle count in instruction trace is not implemented.
                                                                     1 = Cycle count in instruction trace is implemented. */
         uint32_t reserved_8            : 1;
-        uint32_t retstack              : 1;  /**< [  9:  9](R/W) Return stack bit.
+        uint32_t retstack              : 1;  /**< [  9:  9](RO) Return stack bit.
                                                                     0 = The return stack is not implemented.
                                                                     1 = The return stack is implemented. */
-        uint32_t numevent              : 2;  /**< [ 11: 10](R/W) Number of event field. Indicates how many event a trace unit support.
+        uint32_t numevent              : 2;  /**< [ 11: 10](RO) Number of event field. Indicates how many event a trace unit support.
                                                                     0x0 = The trace unit supports 1 event.
                                                                     0x1 = The trace unit supports 2 events.
                                                                     0x2 = The trace unit supports 3 events.
                                                                     0x3 = The trace unit supports 4 events. */
-        uint32_t condtype              : 2;  /**< [ 13: 12](R/W) Conditional tracing field.  The permitted values are:
+        uint32_t condtype              : 2;  /**< [ 13: 12](RO) Conditional tracing field.  The permitted values are:
                                                                     0x0 = The trace unit indicates only if the conditional instruction
                                                                           pass or fail its condition code check.
                                                                     0x1 = The trace unit provides the value of APSR condition flags, for
                                                                           a conditional instruction.
                                                                     all other values are reserved. */
-        uint32_t qfilt                 : 1;  /**< [ 14: 14](R/W) When QSUPP > 0x0, this is Q element filtering support field.
+        uint32_t qfilt                 : 1;  /**< [ 14: 14](RO) When QSUPP > 0x0, this is Q element filtering support field.
                                                                     0 = Q element filtering is not implemented.
                                                                     1 = Q element filtering is implemented. */
-        uint32_t qsupp                 : 2;  /**< [ 16: 15](R/W) Q elements support field. The permitted values:
+        uint32_t qsupp                 : 2;  /**< [ 16: 15](RO) Q elements support field. The permitted values:
                                                                     0x0 = Q Elements support is not implemented.
                                                                     0x1 = Q Elements support is implemented and only support Q elements
                                                                                with instruction count.
@@ -1734,43 +1735,42 @@ typedef union
                                                                                without instruction count.
                                                                     0x3 = Q Elements support is implemented and support Q elements
                                                                                with and without instruction count. */
-        uint32_t trcexdata             : 1;  /**< [ 17: 17](R/W) Indicate support for tracing of data transfer for exceptions and exception returns.
+        uint32_t trcexdata             : 1;  /**< [ 17: 17](RO) Indicate support for tracing of data transfer for exceptions and exception returns.
                                                                     0 = Implemented.
                                                                     1 = Not Implemented. */
         uint32_t reserved_18_23        : 6;
-        uint32_t tssize                : 5;  /**< [ 28: 24](R/W) Global timestamp size field. The permitted values are:
+        uint32_t tssize                : 5;  /**< [ 28: 24](RO) Global timestamp size field. The permitted values are:
                                                                     0x0 = Global timestamping is not implemented.
                                                                     0x6 = Implementation supports a maximum global timestamp of 48 bits.
                                                                     0x8 = Implementation supports a maximum global timestamp of 64 bits.
                                                                     _ all other values are reserved. */
-        uint32_t commopt               : 1;  /**< [ 29: 29](R/W) Common mode field:
-                                                                    0 = common mode 0.
-                                                                    1 = common mode 1.
+        uint32_t commopt               : 1;  /**< [ 29: 29](RO) Common mode field:
+                                                                    0 = Common mode 0.
+                                                                    1 = Common mode 1.
 
                                                                  For CNXXXX irrelevant since cycle counting is not implemented. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_trcx_trcidr0_s cn88xxp1; */
-    struct bdk_trcx_trcidr0_cn81xx
+    struct bdk_trcx_trcidr0_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t commopt               : 1;  /**< [ 29: 29](RO) Common mode field:
-                                                                    0 = Common mode 0.
-                                                                    1 = Common mode 1.
+        uint32_t commopt               : 1;  /**< [ 29: 29](R/W) Common mode field:
+                                                                    0 = common mode 0.
+                                                                    1 = common mode 1.
 
                                                                  For CNXXXX irrelevant since cycle counting is not implemented. */
-        uint32_t tssize                : 5;  /**< [ 28: 24](RO) Global timestamp size field. The permitted values are:
+        uint32_t tssize                : 5;  /**< [ 28: 24](R/W) Global timestamp size field. The permitted values are:
                                                                     0x0 = Global timestamping is not implemented.
                                                                     0x6 = Implementation supports a maximum global timestamp of 48 bits.
                                                                     0x8 = Implementation supports a maximum global timestamp of 64 bits.
                                                                     _ all other values are reserved. */
         uint32_t reserved_18_23        : 6;
-        uint32_t trcexdata             : 1;  /**< [ 17: 17](RO) Indicate support for tracing of data transfer for exceptions and exception returns.
+        uint32_t trcexdata             : 1;  /**< [ 17: 17](R/W) Indicate support for tracing of data transfer for exceptions and exception returns.
                                                                     0 = Implemented.
                                                                     1 = Not Implemented. */
-        uint32_t qsupp                 : 2;  /**< [ 16: 15](RO) Q elements support field. The permitted values:
+        uint32_t qsupp                 : 2;  /**< [ 16: 15](R/W) Q elements support field. The permitted values:
                                                                     0x0 = Q Elements support is not implemented.
                                                                     0x1 = Q Elements support is implemented and only support Q elements
                                                                                with instruction count.
@@ -1778,76 +1778,76 @@ typedef union
                                                                                without instruction count.
                                                                     0x3 = Q Elements support is implemented and support Q elements
                                                                                with and without instruction count. */
-        uint32_t qfilt                 : 1;  /**< [ 14: 14](RO) When QSUPP > 0x0, this is Q element filtering support field.
+        uint32_t qfilt                 : 1;  /**< [ 14: 14](R/W) When QSUPP > 0x0, this is Q element filtering support field.
                                                                     0 = Q element filtering is not implemented.
                                                                     1 = Q element filtering is implemented. */
-        uint32_t condtype              : 2;  /**< [ 13: 12](RO) Conditional tracing field.  The permitted values are:
+        uint32_t condtype              : 2;  /**< [ 13: 12](R/W) Conditional tracing field.  The permitted values are:
                                                                     0x0 = The trace unit indicates only if the conditional instruction
                                                                           pass or fail its condition code check.
                                                                     0x1 = The trace unit provides the value of APSR condition flags, for
                                                                           a conditional instruction.
                                                                     all other values are reserved. */
-        uint32_t numevent              : 2;  /**< [ 11: 10](RO) Number of event field. Indicates how many event a trace unit support.
+        uint32_t numevent              : 2;  /**< [ 11: 10](R/W) Number of event field. Indicates how many event a trace unit support.
                                                                     0x0 = The trace unit supports 1 event.
                                                                     0x1 = The trace unit supports 2 events.
                                                                     0x2 = The trace unit supports 3 events.
                                                                     0x3 = The trace unit supports 4 events. */
-        uint32_t retstack              : 1;  /**< [  9:  9](RO) Return stack bit.
+        uint32_t retstack              : 1;  /**< [  9:  9](R/W) Return stack bit.
                                                                     0 = The return stack is not implemented.
                                                                     1 = The return stack is implemented. */
         uint32_t reserved_8            : 1;
-        uint32_t trccci                : 1;  /**< [  7:  7](RO) Cycle count instruction bit.
+        uint32_t trccci                : 1;  /**< [  7:  7](R/W) Cycle count instruction bit.
                                                                     0 = Cycle count in instruction trace is not implemented.
                                                                     1 = Cycle count in instruction trace is implemented. */
-        uint32_t trccond               : 1;  /**< [  6:  6](RO) Conditional instruction tracing support bit.
+        uint32_t trccond               : 1;  /**< [  6:  6](R/W) Conditional instruction tracing support bit.
                                                                     0 = Conditional instruction tracing is not supported.
                                                                     1 = Conditional instruction tracing is supported. */
-        uint32_t trcbb                 : 1;  /**< [  5:  5](RO) Branch broadcast tracing support bit.
+        uint32_t trcbb                 : 1;  /**< [  5:  5](R/W) Branch broadcast tracing support bit.
                                                                     0 = Branch broadcast tracing is not supported.
                                                                     1 = Branch broadcast tracing is supported. */
-        uint32_t trcdata               : 2;  /**< [  4:  3](RO) Conditional tracing field. The permitted values are:
+        uint32_t trcdata               : 2;  /**< [  4:  3](R/W) Conditional tracing field. The permitted values are:
                                                                     0x0 = Data tracing is not supported.
                                                                     0x3 = Data tracing is supported. */
-        uint32_t intp0                 : 2;  /**< [  2:  1](RO) P0 tracing support field. The permitted values are:
+        uint32_t intp0                 : 2;  /**< [  2:  1](R/W) P0 tracing support field. The permitted values are:
                                                                     0x0 = Tracing of load and store instruction as P0 element is not supported.
                                                                     0x3 = Tracing of load and store instruction as P0 element is supported. */
         uint32_t bit0                  : 1;  /**< [  0:  0](RO) Reserved 1. */
 #else /* Word 0 - Little Endian */
         uint32_t bit0                  : 1;  /**< [  0:  0](RO) Reserved 1. */
-        uint32_t intp0                 : 2;  /**< [  2:  1](RO) P0 tracing support field. The permitted values are:
+        uint32_t intp0                 : 2;  /**< [  2:  1](R/W) P0 tracing support field. The permitted values are:
                                                                     0x0 = Tracing of load and store instruction as P0 element is not supported.
                                                                     0x3 = Tracing of load and store instruction as P0 element is supported. */
-        uint32_t trcdata               : 2;  /**< [  4:  3](RO) Conditional tracing field. The permitted values are:
+        uint32_t trcdata               : 2;  /**< [  4:  3](R/W) Conditional tracing field. The permitted values are:
                                                                     0x0 = Data tracing is not supported.
                                                                     0x3 = Data tracing is supported. */
-        uint32_t trcbb                 : 1;  /**< [  5:  5](RO) Branch broadcast tracing support bit.
+        uint32_t trcbb                 : 1;  /**< [  5:  5](R/W) Branch broadcast tracing support bit.
                                                                     0 = Branch broadcast tracing is not supported.
                                                                     1 = Branch broadcast tracing is supported. */
-        uint32_t trccond               : 1;  /**< [  6:  6](RO) Conditional instruction tracing support bit.
+        uint32_t trccond               : 1;  /**< [  6:  6](R/W) Conditional instruction tracing support bit.
                                                                     0 = Conditional instruction tracing is not supported.
                                                                     1 = Conditional instruction tracing is supported. */
-        uint32_t trccci                : 1;  /**< [  7:  7](RO) Cycle count instruction bit.
+        uint32_t trccci                : 1;  /**< [  7:  7](R/W) Cycle count instruction bit.
                                                                     0 = Cycle count in instruction trace is not implemented.
                                                                     1 = Cycle count in instruction trace is implemented. */
         uint32_t reserved_8            : 1;
-        uint32_t retstack              : 1;  /**< [  9:  9](RO) Return stack bit.
+        uint32_t retstack              : 1;  /**< [  9:  9](R/W) Return stack bit.
                                                                     0 = The return stack is not implemented.
                                                                     1 = The return stack is implemented. */
-        uint32_t numevent              : 2;  /**< [ 11: 10](RO) Number of event field. Indicates how many event a trace unit support.
+        uint32_t numevent              : 2;  /**< [ 11: 10](R/W) Number of event field. Indicates how many event a trace unit support.
                                                                     0x0 = The trace unit supports 1 event.
                                                                     0x1 = The trace unit supports 2 events.
                                                                     0x2 = The trace unit supports 3 events.
                                                                     0x3 = The trace unit supports 4 events. */
-        uint32_t condtype              : 2;  /**< [ 13: 12](RO) Conditional tracing field.  The permitted values are:
+        uint32_t condtype              : 2;  /**< [ 13: 12](R/W) Conditional tracing field.  The permitted values are:
                                                                     0x0 = The trace unit indicates only if the conditional instruction
                                                                           pass or fail its condition code check.
                                                                     0x1 = The trace unit provides the value of APSR condition flags, for
                                                                           a conditional instruction.
                                                                     all other values are reserved. */
-        uint32_t qfilt                 : 1;  /**< [ 14: 14](RO) When QSUPP > 0x0, this is Q element filtering support field.
+        uint32_t qfilt                 : 1;  /**< [ 14: 14](R/W) When QSUPP > 0x0, this is Q element filtering support field.
                                                                     0 = Q element filtering is not implemented.
                                                                     1 = Q element filtering is implemented. */
-        uint32_t qsupp                 : 2;  /**< [ 16: 15](RO) Q elements support field. The permitted values:
+        uint32_t qsupp                 : 2;  /**< [ 16: 15](R/W) Q elements support field. The permitted values:
                                                                     0x0 = Q Elements support is not implemented.
                                                                     0x1 = Q Elements support is implemented and only support Q elements
                                                                                with instruction count.
@@ -1855,25 +1855,27 @@ typedef union
                                                                                without instruction count.
                                                                     0x3 = Q Elements support is implemented and support Q elements
                                                                                with and without instruction count. */
-        uint32_t trcexdata             : 1;  /**< [ 17: 17](RO) Indicate support for tracing of data transfer for exceptions and exception returns.
+        uint32_t trcexdata             : 1;  /**< [ 17: 17](R/W) Indicate support for tracing of data transfer for exceptions and exception returns.
                                                                     0 = Implemented.
                                                                     1 = Not Implemented. */
         uint32_t reserved_18_23        : 6;
-        uint32_t tssize                : 5;  /**< [ 28: 24](RO) Global timestamp size field. The permitted values are:
+        uint32_t tssize                : 5;  /**< [ 28: 24](R/W) Global timestamp size field. The permitted values are:
                                                                     0x0 = Global timestamping is not implemented.
                                                                     0x6 = Implementation supports a maximum global timestamp of 48 bits.
                                                                     0x8 = Implementation supports a maximum global timestamp of 64 bits.
                                                                     _ all other values are reserved. */
-        uint32_t commopt               : 1;  /**< [ 29: 29](RO) Common mode field:
-                                                                    0 = Common mode 0.
-                                                                    1 = Common mode 1.
+        uint32_t commopt               : 1;  /**< [ 29: 29](R/W) Common mode field:
+                                                                    0 = common mode 0.
+                                                                    1 = common mode 1.
 
                                                                  For CNXXXX irrelevant since cycle counting is not implemented. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_trcx_trcidr0_cn81xx cn83xx; */
-    /* struct bdk_trcx_trcidr0_cn81xx cn88xxp2; */
+    } cn88xxp1;
+    /* struct bdk_trcx_trcidr0_s cn9; */
+    /* struct bdk_trcx_trcidr0_s cn81xx; */
+    /* struct bdk_trcx_trcidr0_s cn83xx; */
+    /* struct bdk_trcx_trcidr0_s cn88xxp2; */
 } bdk_trcx_trcidr0_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1904,40 +1906,41 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t designer              : 8;  /**< [ 31: 24](RO) Designer Cavium. */
         uint32_t reserved_16_23        : 8;
-        uint32_t val1                  : 4;  /**< [ 15: 12](RO) Reserved one. */
+        uint32_t val1                  : 4;  /**< [ 15: 12](RO) Read as one for all 4 bits. */
         uint32_t archmaj               : 4;  /**< [ 11:  8](RO) ETMv4. */
-        uint32_t archmin               : 4;  /**< [  7:  4](RO) ETMv4.0. */
+        uint32_t archmin               : 4;  /**< [  7:  4](RO) ETMv4.1. */
         uint32_t revision              : 4;  /**< [  3:  0](RO) Revision 0. */
 #else /* Word 0 - Little Endian */
         uint32_t revision              : 4;  /**< [  3:  0](RO) Revision 0. */
-        uint32_t archmin               : 4;  /**< [  7:  4](RO) ETMv4.0. */
+        uint32_t archmin               : 4;  /**< [  7:  4](RO) ETMv4.1. */
         uint32_t archmaj               : 4;  /**< [ 11:  8](RO) ETMv4. */
-        uint32_t val1                  : 4;  /**< [ 15: 12](RO) Reserved one. */
+        uint32_t val1                  : 4;  /**< [ 15: 12](RO) Read as one for all 4 bits. */
         uint32_t reserved_16_23        : 8;
         uint32_t designer              : 8;  /**< [ 31: 24](RO) Designer Cavium. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_trcx_trcidr1_s cn88xxp1; */
-    struct bdk_trcx_trcidr1_cn81xx
+    struct bdk_trcx_trcidr1_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t designer              : 8;  /**< [ 31: 24](RO) Designer Cavium. */
         uint32_t reserved_16_23        : 8;
-        uint32_t val1                  : 4;  /**< [ 15: 12](RO) Read as one for all 4 bits. */
+        uint32_t val1                  : 4;  /**< [ 15: 12](RO) Reserved one. */
         uint32_t archmaj               : 4;  /**< [ 11:  8](RO) ETMv4. */
-        uint32_t archmin               : 4;  /**< [  7:  4](RO) ETMv4.1. */
+        uint32_t archmin               : 4;  /**< [  7:  4](RO) ETMv4.0. */
         uint32_t revision              : 4;  /**< [  3:  0](RO) Revision 0. */
 #else /* Word 0 - Little Endian */
         uint32_t revision              : 4;  /**< [  3:  0](RO) Revision 0. */
-        uint32_t archmin               : 4;  /**< [  7:  4](RO) ETMv4.1. */
+        uint32_t archmin               : 4;  /**< [  7:  4](RO) ETMv4.0. */
         uint32_t archmaj               : 4;  /**< [ 11:  8](RO) ETMv4. */
-        uint32_t val1                  : 4;  /**< [ 15: 12](RO) Read as one for all 4 bits. */
+        uint32_t val1                  : 4;  /**< [ 15: 12](RO) Reserved one. */
         uint32_t reserved_16_23        : 8;
         uint32_t designer              : 8;  /**< [ 31: 24](RO) Designer Cavium. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_trcx_trcidr1_cn81xx cn83xx; */
-    /* struct bdk_trcx_trcidr1_cn81xx cn88xxp2; */
+    } cn88xxp1;
+    /* struct bdk_trcx_trcidr1_s cn9; */
+    /* struct bdk_trcx_trcidr1_s cn81xx; */
+    /* struct bdk_trcx_trcidr1_s cn83xx; */
+    /* struct bdk_trcx_trcidr1_s cn88xxp2; */
 } bdk_trcx_trcidr1_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1985,6 +1988,8 @@ static inline uint64_t BDK_TRCX_TRCIDR10(unsigned long a)
         return 0x87a00fc30188ll + 0x80000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc30188ll + 0x80000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
+        return 0x87a00fc30188ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR10", 1, a, 0, 0, 0);
 }
 
@@ -2022,6 +2027,8 @@ static inline uint64_t BDK_TRCX_TRCIDR11(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc3018cll + 0x80000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
+        return 0x87a00fc3018cll + 0x80000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x87a00fc3018cll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR11", 1, a, 0, 0, 0);
 }
@@ -2063,6 +2070,8 @@ static inline uint64_t BDK_TRCX_TRCIDR12(unsigned long a)
         return 0x87a00fc30190ll + 0x80000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc30190ll + 0x80000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
+        return 0x87a00fc30190ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR12", 1, a, 0, 0, 0);
 }
 
@@ -2103,6 +2112,8 @@ static inline uint64_t BDK_TRCX_TRCIDR13(unsigned long a)
         return 0x87a00fc30194ll + 0x80000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc30194ll + 0x80000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
+        return 0x87a00fc30194ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR13", 1, a, 0, 0, 0);
 }
 
@@ -2132,7 +2143,7 @@ typedef union
                                                                  For CNXXXX, 0x0 as does not implement a counter. */
         uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
                                                                    0x0 = Data value tracing is not supported. Therefore, an implementation must set
-                                                                   TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                   TRCIDR0[TRCDATA]=0x0.
                                                                    0x4 = Maximum of 32-bit data value size.
                                                                    0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
                                                                    ARMv6 and ARMv7 PEs. */
@@ -2146,7 +2157,8 @@ typedef union
                                                                  For CNXXXX, not supported. */
         uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
                                                                  size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
-                                                                 TRC()_TRCCONFIGR[VMID] is supported. */
+                                                                 TRC()_TRCCONFIGR[VMID] is supported.
+                                                                 For CNXXXX, 16-bit. */
         uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the context ID size. The permitted values are:
                                                                    0x0 = Context ID tracing is not supported.
                                                                    0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
@@ -2156,12 +2168,16 @@ typedef union
         uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
                                                                  0x4 = Maximum of 32-bit address size.
                                                                  0x8 = Maximum of 64-bit address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs. */
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, 64-bit. */
 #else /* Word 0 - Little Endian */
         uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
                                                                  0x4 = Maximum of 32-bit address size.
                                                                  0x8 = Maximum of 64-bit address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs. */
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, 64-bit. */
         uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the context ID size. The permitted values are:
                                                                    0x0 = Context ID tracing is not supported.
                                                                    0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
@@ -2170,7 +2186,8 @@ typedef union
                                                                  For CNXXXX, 32-bit. */
         uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
                                                                  size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
-                                                                 TRC()_TRCCONFIGR[VMID] is supported. */
+                                                                 TRC()_TRCCONFIGR[VMID] is supported.
+                                                                 For CNXXXX, 16-bit. */
         uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
                                                                  0x0 = Data address tracing is not supported. Therefore, an implementation must
                                                                  also set TRC()_TRCIDR0[TRCDATA]=0x0.
@@ -2181,7 +2198,7 @@ typedef union
                                                                  For CNXXXX, not supported. */
         uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
                                                                    0x0 = Data value tracing is not supported. Therefore, an implementation must set
-                                                                   TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                   TRCIDR0[TRCDATA]=0x0.
                                                                    0x4 = Maximum of 32-bit data value size.
                                                                    0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
                                                                    ARMv6 and ARMv7 PEs. */
@@ -2263,86 +2280,10 @@ typedef union
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_trcx_trcidr2_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. */
-        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
-                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
-
-                                                                 For CNXXXX, 0x0 as does not implement a counter. */
-        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
-                                                                   0x0 = Data value tracing is not supported. Therefore, an implementation must set
-                                                                   TRCIDR0[TRCDATA]=0x0.
-                                                                   0x4 = Maximum of 32-bit data value size.
-                                                                   0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
-                                                                   ARMv6 and ARMv7 PEs. */
-        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
-                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
-                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
-                                                                 0x4 = Maximum of 32-bit data address size.
-                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
-
-                                                                 For CNXXXX, not supported. */
-        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
-                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
-                                                                 TRC()_TRCCONFIGR[VMID] is supported.
-                                                                 For CNXXXX, 16-bit. */
-        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the context ID size. The permitted values are:
-                                                                   0x0 = Context ID tracing is not supported.
-                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
-                                                                 supported.  32 bit contextID supported.
-
-                                                                 For CNXXXX, 32-bit. */
-        uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
-                                                                 0x4 = Maximum of 32-bit address size.
-                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
-
-                                                                 For CNXXXX, 64-bit. */
-#else /* Word 0 - Little Endian */
-        uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
-                                                                 0x4 = Maximum of 32-bit address size.
-                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
-
-                                                                 For CNXXXX, 64-bit. */
-        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the context ID size. The permitted values are:
-                                                                   0x0 = Context ID tracing is not supported.
-                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
-                                                                 supported.  32 bit contextID supported.
-
-                                                                 For CNXXXX, 32-bit. */
-        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
-                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
-                                                                 TRC()_TRCCONFIGR[VMID] is supported.
-                                                                 For CNXXXX, 16-bit. */
-        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
-                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
-                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
-                                                                 0x4 = Maximum of 32-bit data address size.
-                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
-
-                                                                 For CNXXXX, not supported. */
-        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
-                                                                   0x0 = Data value tracing is not supported. Therefore, an implementation must set
-                                                                   TRCIDR0[TRCDATA]=0x0.
-                                                                   0x4 = Maximum of 32-bit data value size.
-                                                                   0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
-                                                                   ARMv6 and ARMv7 PEs. */
-        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
-                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
-
-                                                                 For CNXXXX, 0x0 as does not implement a counter. */
-        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_trcx_trcidr2_cn81xx cn83xx; */
-    /* struct bdk_trcx_trcidr2_cn81xx cn88xxp2; */
+    /* struct bdk_trcx_trcidr2_s cn9; */
+    /* struct bdk_trcx_trcidr2_s cn81xx; */
+    /* struct bdk_trcx_trcidr2_s cn83xx; */
+    /* struct bdk_trcx_trcidr2_s cn88xxp2; */
 } bdk_trcx_trcidr2_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2374,7 +2315,9 @@ typedef union
         uint32_t noovflw               : 1;  /**< [ 31: 31](RO) Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
 
                                                                  For CNXXXX not supported. */
-        uint32_t numproc               : 3;  /**< [ 30: 28](RO) Indicates the number of PEs available for tracing minus one. */
+        uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
+                                                                 See also [NUMPROCEXT].
+                                                                 The reset value depends on the number of cores fuse-enabled in this part. */
         uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if the implementation can support stall control:
                                                                    0 = The system does not support stall control of the PE.
                                                                    1 = The system can support stall control of the PE.
@@ -2385,6 +2328,7 @@ typedef union
                                                                    0 = TRC()_TRCSYNCPR is read-write so software can change the synchronization period.
                                                                    1 = TRC()_TRCSYNCPR is read-only so the synchronization period is fixed. */
         uint32_t trcerr                : 1;  /**< [ 24: 24](RO) Indicates if TRC()_TRCVICTLR[TRCERR] is supported.
+
                                                                  For CNXXXX not supported, this means system errors are not traced. */
         uint32_t elns                  : 4;  /**< [ 23: 20](RO) In nonsecure state, each bit indicates whether instruction tracing is supported
                                                                  for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_NS] and
@@ -2400,12 +2344,16 @@ typedef union
         uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in
                                                                  TRC()_TRCCCCTLR[THRESHOLD]. When cycle counting in the instruction trace is
                                                                  supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
-                                                                 is 0x1, otherwise it is 0x0. */
+                                                                 is 0x1, otherwise it is 0x0.
+
+                                                                 For CNXXXX, no support for cycle counting so this field is not applicable. */
 #else /* Word 0 - Little Endian */
         uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in
                                                                  TRC()_TRCCCCTLR[THRESHOLD]. When cycle counting in the instruction trace is
                                                                  supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
-                                                                 is 0x1, otherwise it is 0x0. */
+                                                                 is 0x1, otherwise it is 0x0.
+
+                                                                 For CNXXXX, no support for cycle counting so this field is not applicable. */
         uint32_t numprocext            : 2;  /**< [ 13: 12](RO/H) Number of processors extension bits. Expands [NUMPROC] from 3 bits to 5
                                                                  bits. See [NUMPROC]. */
         uint32_t reserved_14_15        : 2;
@@ -2418,6 +2366,7 @@ typedef union
                                                                  for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_NS] and
                                                                  TRC()_TRCVICTLR[EXLEVEL_NS] are supported. */
         uint32_t trcerr                : 1;  /**< [ 24: 24](RO) Indicates if TRC()_TRCVICTLR[TRCERR] is supported.
+
                                                                  For CNXXXX not supported, this means system errors are not traced. */
         uint32_t syncpr                : 1;  /**< [ 25: 25](RO) Indicates if an implementation has a fixed synchronization period:
                                                                    0 = TRC()_TRCSYNCPR is read-write so software can change the synchronization period.
@@ -2428,7 +2377,9 @@ typedef union
                                                                    1 = The system can support stall control of the PE.
 
                                                                  CNXXXX supports stalling the PE. */
-        uint32_t numproc               : 3;  /**< [ 30: 28](RO) Indicates the number of PEs available for tracing minus one. */
+        uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
+                                                                 See also [NUMPROCEXT].
+                                                                 The reset value depends on the number of cores fuse-enabled in this part. */
         uint32_t noovflw               : 1;  /**< [ 31: 31](RO) Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
 
                                                                  For CNXXXX not supported. */
@@ -2496,6 +2447,7 @@ typedef union
                                                                  For CNXXXX not supported. */
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_trcx_trcidr3_s cn9; */
     struct bdk_trcx_trcidr3_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2568,82 +2520,7 @@ typedef union
                                                                  For CNXXXX not supported. */
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_trcx_trcidr3_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t noovflw               : 1;  /**< [ 31: 31](RO) Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
-
-                                                                 For CNXXXX not supported. */
-        uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
-                                                                 See also [NUMPROCEXT].
-                                                                 The reset value depends on the number of cores fuse-enabled in this part. */
-        uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if the implementation can support stall control:
-                                                                   0 = The system does not support stall control of the PE.
-                                                                   1 = The system can support stall control of the PE.
-
-                                                                 CNXXXX supports stalling the PE. */
-        uint32_t stallctl              : 1;  /**< [ 26: 26](RO) Indicates if the implementation can support stall control. */
-        uint32_t syncpr                : 1;  /**< [ 25: 25](RO) Indicates if an implementation has a fixed synchronization period:
-                                                                   0 = TRC()_TRCSYNCPR is read-write so software can change the synchronization period.
-                                                                   1 = TRC()_TRCSYNCPR is read-only so the synchronization period is fixed. */
-        uint32_t trcerr                : 1;  /**< [ 24: 24](RO) Indicates if TRC()_TRCVICTLR[TRCERR] is supported.
-
-                                                                 For CNXXXX not supported, this means system errors are not traced. */
-        uint32_t elns                  : 4;  /**< [ 23: 20](RO) In nonsecure state, each bit indicates whether instruction tracing is supported
-                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_NS] and
-                                                                 TRC()_TRCVICTLR[EXLEVEL_NS] are supported. */
-        uint32_t els                   : 4;  /**< [ 19: 16](RO) In secure state, each bit indicates whether instruction tracing is supported
-                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_S] and
-                                                                 TRC()_TRCVICTLR[EXLEVEL_S] are supported.
-
-                                                                 For CNXXXX, secure exception level tracing of EL0, EL1, and EL3 is supported. */
-        uint32_t reserved_14_15        : 2;
-        uint32_t numprocext            : 2;  /**< [ 13: 12](RO/H) Number of processors extension bits. Expands [NUMPROC] from 3 bits to 5
-                                                                 bits. See [NUMPROC]. */
-        uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in
-                                                                 TRC()_TRCCCCTLR[THRESHOLD]. When cycle counting in the instruction trace is
-                                                                 supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
-                                                                 is 0x1, otherwise it is 0x0.
-
-                                                                 For CNXXXX, no support for cycle counting so this field is not applicable. */
-#else /* Word 0 - Little Endian */
-        uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in
-                                                                 TRC()_TRCCCCTLR[THRESHOLD]. When cycle counting in the instruction trace is
-                                                                 supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
-                                                                 is 0x1, otherwise it is 0x0.
-
-                                                                 For CNXXXX, no support for cycle counting so this field is not applicable. */
-        uint32_t numprocext            : 2;  /**< [ 13: 12](RO/H) Number of processors extension bits. Expands [NUMPROC] from 3 bits to 5
-                                                                 bits. See [NUMPROC]. */
-        uint32_t reserved_14_15        : 2;
-        uint32_t els                   : 4;  /**< [ 19: 16](RO) In secure state, each bit indicates whether instruction tracing is supported
-                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_S] and
-                                                                 TRC()_TRCVICTLR[EXLEVEL_S] are supported.
-
-                                                                 For CNXXXX, secure exception level tracing of EL0, EL1, and EL3 is supported. */
-        uint32_t elns                  : 4;  /**< [ 23: 20](RO) In nonsecure state, each bit indicates whether instruction tracing is supported
-                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_NS] and
-                                                                 TRC()_TRCVICTLR[EXLEVEL_NS] are supported. */
-        uint32_t trcerr                : 1;  /**< [ 24: 24](RO) Indicates if TRC()_TRCVICTLR[TRCERR] is supported.
-
-                                                                 For CNXXXX not supported, this means system errors are not traced. */
-        uint32_t syncpr                : 1;  /**< [ 25: 25](RO) Indicates if an implementation has a fixed synchronization period:
-                                                                   0 = TRC()_TRCSYNCPR is read-write so software can change the synchronization period.
-                                                                   1 = TRC()_TRCSYNCPR is read-only so the synchronization period is fixed. */
-        uint32_t stallctl              : 1;  /**< [ 26: 26](RO) Indicates if the implementation can support stall control. */
-        uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if the implementation can support stall control:
-                                                                   0 = The system does not support stall control of the PE.
-                                                                   1 = The system can support stall control of the PE.
-
-                                                                 CNXXXX supports stalling the PE. */
-        uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
-                                                                 See also [NUMPROCEXT].
-                                                                 The reset value depends on the number of cores fuse-enabled in this part. */
-        uint32_t noovflw               : 1;  /**< [ 31: 31](RO) Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
-
-                                                                 For CNXXXX not supported. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_trcx_trcidr3_s cn83xx; */
     /* struct bdk_trcx_trcidr3_cn81xx cn88xxp2; */
 } bdk_trcx_trcidr3_t;
 
@@ -2677,8 +2554,10 @@ typedef union
                                                                  For CNXXXX, one vmid comparator supported. */
         uint32_t numcidc               : 4;  /**< [ 27: 24](RO) Indicates the number of context ID comparators that are available for tracing.
                                                                  For CNXXXX, one contextID comparator supported. */
-        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of single-shot comparator controls that are available for tracing. */
-        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selection pairs that are available for tracing minus one. */
+        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of single-shot comparator controls that are available for tracing.
+                                                                 For CNXXXX, no single-shot comparators supported. */
+        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selection pairs that are available for tracing minus one.
+                                                                 For CNXXXX, two source selection pairs. */
         uint32_t numpc                 : 4;  /**< [ 15: 12](RO) Indicates the number of PE comparator inputs that are available for tracing.
                                                                  For CNXXXX, No PE comparator inputs. */
         uint32_t reserved_9_11         : 3;
@@ -2686,9 +2565,11 @@ typedef union
                                                                  For CNXXXX, no data address comparators supported. */
         uint32_t numdvc                : 4;  /**< [  7:  4](RO) Indicates if the implementation can support data address comparisons.
                                                                  For CNXXXX, no data address comparators. */
-        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of address comparator pairs that are available for tracing. */
+        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of address comparator pairs that are available for tracing.
+                                                                 For CNXXXX, no address comparators. */
 #else /* Word 0 - Little Endian */
-        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of address comparator pairs that are available for tracing. */
+        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of address comparator pairs that are available for tracing.
+                                                                 For CNXXXX, no address comparators. */
         uint32_t numdvc                : 4;  /**< [  7:  4](RO) Indicates if the implementation can support data address comparisons.
                                                                  For CNXXXX, no data address comparators. */
         uint32_t suppdac               : 1;  /**< [  8:  8](RO) Indicates if the implementation can support data address comparisons.
@@ -2696,26 +2577,25 @@ typedef union
         uint32_t reserved_9_11         : 3;
         uint32_t numpc                 : 4;  /**< [ 15: 12](RO) Indicates the number of PE comparator inputs that are available for tracing.
                                                                  For CNXXXX, No PE comparator inputs. */
-        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selection pairs that are available for tracing minus one. */
-        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of single-shot comparator controls that are available for tracing. */
+        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selection pairs that are available for tracing minus one.
+                                                                 For CNXXXX, two source selection pairs. */
+        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of single-shot comparator controls that are available for tracing.
+                                                                 For CNXXXX, no single-shot comparators supported. */
         uint32_t numcidc               : 4;  /**< [ 27: 24](RO) Indicates the number of context ID comparators that are available for tracing.
                                                                  For CNXXXX, one contextID comparator supported. */
         uint32_t numvmidc              : 4;  /**< [ 31: 28](RO) Indicates the number of VMID comparators that are available for tracing.
                                                                  For CNXXXX, one vmid comparator supported. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_trcx_trcidr4_s cn88xxp1; */
-    struct bdk_trcx_trcidr4_cn81xx
+    struct bdk_trcx_trcidr4_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t numvmidc              : 4;  /**< [ 31: 28](RO) Indicates the number of VMID comparators that are available for tracing.
                                                                  For CNXXXX, one vmid comparator supported. */
         uint32_t numcidc               : 4;  /**< [ 27: 24](RO) Indicates the number of context ID comparators that are available for tracing.
                                                                  For CNXXXX, one contextID comparator supported. */
-        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of single-shot comparator controls that are available for tracing.
-                                                                 For CNXXXX, no single-shot comparators supported. */
-        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selection pairs that are available for tracing minus one.
-                                                                 For CNXXXX, two source selection pairs. */
+        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of single-shot comparator controls that are available for tracing. */
+        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selection pairs that are available for tracing minus one. */
         uint32_t numpc                 : 4;  /**< [ 15: 12](RO) Indicates the number of PE comparator inputs that are available for tracing.
                                                                  For CNXXXX, No PE comparator inputs. */
         uint32_t reserved_9_11         : 3;
@@ -2723,11 +2603,9 @@ typedef union
                                                                  For CNXXXX, no data address comparators supported. */
         uint32_t numdvc                : 4;  /**< [  7:  4](RO) Indicates if the implementation can support data address comparisons.
                                                                  For CNXXXX, no data address comparators. */
-        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of address comparator pairs that are available for tracing.
-                                                                 For CNXXXX, no address comparators. */
+        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of address comparator pairs that are available for tracing. */
 #else /* Word 0 - Little Endian */
-        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of address comparator pairs that are available for tracing.
-                                                                 For CNXXXX, no address comparators. */
+        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of address comparator pairs that are available for tracing. */
         uint32_t numdvc                : 4;  /**< [  7:  4](RO) Indicates if the implementation can support data address comparisons.
                                                                  For CNXXXX, no data address comparators. */
         uint32_t suppdac               : 1;  /**< [  8:  8](RO) Indicates if the implementation can support data address comparisons.
@@ -2735,18 +2613,18 @@ typedef union
         uint32_t reserved_9_11         : 3;
         uint32_t numpc                 : 4;  /**< [ 15: 12](RO) Indicates the number of PE comparator inputs that are available for tracing.
                                                                  For CNXXXX, No PE comparator inputs. */
-        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selection pairs that are available for tracing minus one.
-                                                                 For CNXXXX, two source selection pairs. */
-        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of single-shot comparator controls that are available for tracing.
-                                                                 For CNXXXX, no single-shot comparators supported. */
+        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selection pairs that are available for tracing minus one. */
+        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of single-shot comparator controls that are available for tracing. */
         uint32_t numcidc               : 4;  /**< [ 27: 24](RO) Indicates the number of context ID comparators that are available for tracing.
                                                                  For CNXXXX, one contextID comparator supported. */
         uint32_t numvmidc              : 4;  /**< [ 31: 28](RO) Indicates the number of VMID comparators that are available for tracing.
                                                                  For CNXXXX, one vmid comparator supported. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_trcx_trcidr4_cn81xx cn83xx; */
-    /* struct bdk_trcx_trcidr4_cn81xx cn88xxp2; */
+    } cn88xxp1;
+    /* struct bdk_trcx_trcidr4_s cn9; */
+    /* struct bdk_trcx_trcidr4_s cn81xx; */
+    /* struct bdk_trcx_trcidr4_s cn83xx; */
+    /* struct bdk_trcx_trcidr4_s cn88xxp2; */
 } bdk_trcx_trcidr4_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR4(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2775,13 +2653,13 @@ typedef union
     struct bdk_trcx_trcidr5_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t redfuncntr            : 1;  /**< [ 31: 31](RO) Indicates if the reduced function counter is implemented:
+        uint32_t redfuncntr            : 1;  /**< [ 31: 31](RO/H) Indicates if the reduced function counter is implemented:
                                                                    0 = The reduced function counter is not supported.
-                                                                   1 = Counter 0 is implemented as a reduced function counter.
-
-                                                                 For CNXXXX, not supported. */
-        uint32_t numcntr               : 3;  /**< [ 30: 28](RO) Indicates the number of counters that are available for tracing. */
-        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates the number of sequencer states that are implemented. */
+                                                                   1 = Counter 0 is implemented as a reduced function counter. */
+        uint32_t numcntr               : 3;  /**< [ 30: 28](RO/H) Indicates the number of counters that are available for tracing.
+                                                                 For CNXXXX, one counter supported. */
+        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates the number of sequencer states that are implemented.
+                                                                 For CNXXXX, no sequencer states are implemented. */
         uint32_t reserved_24           : 1;
         uint32_t lpoverride            : 1;  /**< [ 23: 23](RO) Indicates if the implementation can support low-power state override:
                                                                    0 = The implementation does not support low-power state override.
@@ -2810,17 +2688,23 @@ typedef union
                                                                  0x1 = The implementation has one external input select resource.
                                                                  0x2 = The implementation has two external input select resources.
                                                                  0x3 = The implementation has three external input select resources.
-                                                                 0x4 = The implementation has four external input select resources. */
-        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many external inputs are implemented. */
+                                                                 0x4 = The implementation has four external input select resources.
+
+                                                                 For CNXXXX, no external inputs are implemented. */
+        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many external inputs are implemented.
+                                                                 For CNXXXX, no external inputs are implemented. */
 #else /* Word 0 - Little Endian */
-        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many external inputs are implemented. */
+        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many external inputs are implemented.
+                                                                 For CNXXXX, no external inputs are implemented. */
         uint32_t numextinsel           : 3;  /**< [ 11:  9](RO) Indicates how many external input select resources are implemented.
                                                                  0x0 = No external input select resources are available and TRC()_TRCEXTINSELR is
                                                                  not implemented.
                                                                  0x1 = The implementation has one external input select resource.
                                                                  0x2 = The implementation has two external input select resources.
                                                                  0x3 = The implementation has three external input select resources.
-                                                                 0x4 = The implementation has four external input select resources. */
+                                                                 0x4 = The implementation has four external input select resources.
+
+                                                                 For CNXXXX, no external inputs are implemented. */
         uint32_t reserved_12_15        : 4;
         uint32_t traceidsize           : 6;  /**< [ 21: 16](RO) Indicates the trace ID width.
                                                                  0x07 = The implementation supports a 7-bit trace ID. This defines the width of
@@ -2843,26 +2727,25 @@ typedef union
 
                                                                  For CNXXXX, low power state overwrite is not implemented. */
         uint32_t reserved_24           : 1;
-        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates the number of sequencer states that are implemented. */
-        uint32_t numcntr               : 3;  /**< [ 30: 28](RO) Indicates the number of counters that are available for tracing. */
-        uint32_t redfuncntr            : 1;  /**< [ 31: 31](RO) Indicates if the reduced function counter is implemented:
+        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates the number of sequencer states that are implemented.
+                                                                 For CNXXXX, no sequencer states are implemented. */
+        uint32_t numcntr               : 3;  /**< [ 30: 28](RO/H) Indicates the number of counters that are available for tracing.
+                                                                 For CNXXXX, one counter supported. */
+        uint32_t redfuncntr            : 1;  /**< [ 31: 31](RO/H) Indicates if the reduced function counter is implemented:
                                                                    0 = The reduced function counter is not supported.
-                                                                   1 = Counter 0 is implemented as a reduced function counter.
-
-                                                                 For CNXXXX, not supported. */
+                                                                   1 = Counter 0 is implemented as a reduced function counter. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_trcx_trcidr5_s cn88xxp1; */
-    struct bdk_trcx_trcidr5_cn81xx
+    struct bdk_trcx_trcidr5_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t redfuncntr            : 1;  /**< [ 31: 31](RO/H) Indicates if the reduced function counter is implemented:
+        uint32_t redfuncntr            : 1;  /**< [ 31: 31](RO) Indicates if the reduced function counter is implemented:
                                                                    0 = The reduced function counter is not supported.
-                                                                   1 = Counter 0 is implemented as a reduced function counter. */
-        uint32_t numcntr               : 3;  /**< [ 30: 28](RO/H) Indicates the number of counters that are available for tracing.
-                                                                 For CNXXXX, one counter supported. */
-        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates the number of sequencer states that are implemented.
-                                                                 For CNXXXX, no sequencer states are implemented. */
+                                                                   1 = Counter 0 is implemented as a reduced function counter.
+
+                                                                 For CNXXXX, not supported. */
+        uint32_t numcntr               : 3;  /**< [ 30: 28](RO) Indicates the number of counters that are available for tracing. */
+        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates the number of sequencer states that are implemented. */
         uint32_t reserved_24           : 1;
         uint32_t lpoverride            : 1;  /**< [ 23: 23](RO) Indicates if the implementation can support low-power state override:
                                                                    0 = The implementation does not support low-power state override.
@@ -2891,23 +2774,17 @@ typedef union
                                                                  0x1 = The implementation has one external input select resource.
                                                                  0x2 = The implementation has two external input select resources.
                                                                  0x3 = The implementation has three external input select resources.
-                                                                 0x4 = The implementation has four external input select resources.
-
-                                                                 For CNXXXX, no external inputs are implemented. */
-        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many external inputs are implemented.
-                                                                 For CNXXXX, no external inputs are implemented. */
+                                                                 0x4 = The implementation has four external input select resources. */
+        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many external inputs are implemented. */
 #else /* Word 0 - Little Endian */
-        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many external inputs are implemented.
-                                                                 For CNXXXX, no external inputs are implemented. */
+        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many external inputs are implemented. */
         uint32_t numextinsel           : 3;  /**< [ 11:  9](RO) Indicates how many external input select resources are implemented.
                                                                  0x0 = No external input select resources are available and TRC()_TRCEXTINSELR is
                                                                  not implemented.
                                                                  0x1 = The implementation has one external input select resource.
                                                                  0x2 = The implementation has two external input select resources.
                                                                  0x3 = The implementation has three external input select resources.
-                                                                 0x4 = The implementation has four external input select resources.
-
-                                                                 For CNXXXX, no external inputs are implemented. */
+                                                                 0x4 = The implementation has four external input select resources. */
         uint32_t reserved_12_15        : 4;
         uint32_t traceidsize           : 6;  /**< [ 21: 16](RO) Indicates the trace ID width.
                                                                  0x07 = The implementation supports a 7-bit trace ID. This defines the width of
@@ -2930,17 +2807,19 @@ typedef union
 
                                                                  For CNXXXX, low power state overwrite is not implemented. */
         uint32_t reserved_24           : 1;
-        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates the number of sequencer states that are implemented.
-                                                                 For CNXXXX, no sequencer states are implemented. */
-        uint32_t numcntr               : 3;  /**< [ 30: 28](RO/H) Indicates the number of counters that are available for tracing.
-                                                                 For CNXXXX, one counter supported. */
-        uint32_t redfuncntr            : 1;  /**< [ 31: 31](RO/H) Indicates if the reduced function counter is implemented:
+        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates the number of sequencer states that are implemented. */
+        uint32_t numcntr               : 3;  /**< [ 30: 28](RO) Indicates the number of counters that are available for tracing. */
+        uint32_t redfuncntr            : 1;  /**< [ 31: 31](RO) Indicates if the reduced function counter is implemented:
                                                                    0 = The reduced function counter is not supported.
-                                                                   1 = Counter 0 is implemented as a reduced function counter. */
+                                                                   1 = Counter 0 is implemented as a reduced function counter.
+
+                                                                 For CNXXXX, not supported. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_trcx_trcidr5_cn81xx cn83xx; */
-    /* struct bdk_trcx_trcidr5_cn81xx cn88xxp2; */
+    } cn88xxp1;
+    /* struct bdk_trcx_trcidr5_s cn9; */
+    /* struct bdk_trcx_trcidr5_s cn81xx; */
+    /* struct bdk_trcx_trcidr5_s cn83xx; */
+    /* struct bdk_trcx_trcidr5_s cn88xxp2; */
 } bdk_trcx_trcidr5_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR5(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2986,6 +2865,8 @@ static inline uint64_t BDK_TRCX_TRCIDR6(unsigned long a)
         return 0x87a00fc301f8ll + 0x80000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc301f8ll + 0x80000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
+        return 0x87a00fc301f8ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR6", 1, a, 0, 0, 0);
 }
 
@@ -3023,6 +2904,8 @@ static inline uint64_t BDK_TRCX_TRCIDR7(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc301fcll + 0x80000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
+        return 0x87a00fc301fcll + 0x80000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x87a00fc301fcll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR7", 1, a, 0, 0, 0);
 }
@@ -3069,6 +2952,8 @@ static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc30180ll + 0x80000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
+        return 0x87a00fc30180ll + 0x80000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x87a00fc30180ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR8", 1, a, 0, 0, 0);
 }
@@ -3125,6 +3010,8 @@ static inline uint64_t BDK_TRCX_TRCIDR9(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc30184ll + 0x80000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
+        return 0x87a00fc30184ll + 0x80000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x87a00fc30184ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR9", 1, a, 0, 0, 0);
 }
@@ -3420,6 +3307,7 @@ typedef union
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_trcx_trcpdcr_s cn9; */
     struct bdk_trcx_trcpdcr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3495,6 +3383,60 @@ typedef union
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
+    struct bdk_trcx_trcpdsr_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO/H) 0 =  The OS lock is unlocked.
+                                                                 1 =  The OS lock is locked.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t reserved_2_4          : 3;
+        uint32_t stickypd              : 1;  /**< [  1:  1](RO/H) Sticky powerdown status bit. Indicates whether the trace register state is valid.
+
+                                                                 0 = If [POWER]=1 then the state of TRC()_TRCOSLSR and the trace registers are
+                                                                    valid.  If [POWER]=0 then it is unknown whether the state of TRC()_TRCOSLSR
+                                                                    and the trace registers are valid.
+
+                                                                 1 =  The state of TRC()_TRCOSLSR and the trace registers might not be valid.
+                                                                    The trace unit sets this bit to 1 if either:
+                                                                        a. The trace unit is reset.
+                                                                        b. The power to the trace unit core power domain is removed and
+                                                                           the trace register state is not valid.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t power                 : 1;  /**< [  0:  0](RO/H) Power status bit:
+                                                                   0 = The trace unit core power domain is not powered. The trace registers are not
+                                                                      accessible and they all return an error response.
+                                                                   1 = The trace unit core power domain is powered. The trace registers are
+                                                                      accessible. */
+#else /* Word 0 - Little Endian */
+        uint32_t power                 : 1;  /**< [  0:  0](RO/H) Power status bit:
+                                                                   0 = The trace unit core power domain is not powered. The trace registers are not
+                                                                      accessible and they all return an error response.
+                                                                   1 = The trace unit core power domain is powered. The trace registers are
+                                                                      accessible. */
+        uint32_t stickypd              : 1;  /**< [  1:  1](RO/H) Sticky powerdown status bit. Indicates whether the trace register state is valid.
+
+                                                                 0 = If [POWER]=1 then the state of TRC()_TRCOSLSR and the trace registers are
+                                                                    valid.  If [POWER]=0 then it is unknown whether the state of TRC()_TRCOSLSR
+                                                                    and the trace registers are valid.
+
+                                                                 1 =  The state of TRC()_TRCOSLSR and the trace registers might not be valid.
+                                                                    The trace unit sets this bit to 1 if either:
+                                                                        a. The trace unit is reset.
+                                                                        b. The power to the trace unit core power domain is removed and
+                                                                           the trace register state is not valid.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t reserved_2_4          : 3;
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO/H) 0 =  The OS lock is unlocked.
+                                                                 1 =  The OS lock is locked.
+
+                                                                 This field is reset to 1 on a trace unit reset. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } cn9;
     struct bdk_trcx_trcpdsr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3526,60 +3468,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_trcx_trcpdsr_cn81xx cn88xx; */
-    struct bdk_trcx_trcpdsr_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t oslk                  : 1;  /**< [  5:  5](RO/H) 0 =  The OS lock is unlocked.
-                                                                 1 =  The OS lock is locked.
-
-                                                                 This field is reset to 1 on a trace unit reset. */
-        uint32_t reserved_2_4          : 3;
-        uint32_t stickypd              : 1;  /**< [  1:  1](RO/H) Sticky powerdown status bit. Indicates whether the trace register state is valid.
-
-                                                                 0 = If [POWER]=1 then the state of TRC()_TRCOSLSR and the trace registers are
-                                                                    valid.  If [POWER]=0 then it is unknown whether the state of TRC()_TRCOSLSR
-                                                                    and the trace registers are valid.
-
-                                                                 1 =  The state of TRC()_TRCOSLSR and the trace registers might not be valid.
-                                                                    The trace unit sets this bit to 1 if either:
-                                                                        a. The trace unit is reset.
-                                                                        b. The power to the trace unit core power domain is removed and
-                                                                           the trace register state is not valid.
-
-                                                                 This field is reset to 1 on a trace unit reset. */
-        uint32_t power                 : 1;  /**< [  0:  0](RO/H) Power status bit:
-                                                                   0 = The trace unit core power domain is not powered. The trace registers are not
-                                                                      accessible and they all return an error response.
-                                                                   1 = The trace unit core power domain is powered. The trace registers are
-                                                                      accessible. */
-#else /* Word 0 - Little Endian */
-        uint32_t power                 : 1;  /**< [  0:  0](RO/H) Power status bit:
-                                                                   0 = The trace unit core power domain is not powered. The trace registers are not
-                                                                      accessible and they all return an error response.
-                                                                   1 = The trace unit core power domain is powered. The trace registers are
-                                                                      accessible. */
-        uint32_t stickypd              : 1;  /**< [  1:  1](RO/H) Sticky powerdown status bit. Indicates whether the trace register state is valid.
-
-                                                                 0 = If [POWER]=1 then the state of TRC()_TRCOSLSR and the trace registers are
-                                                                    valid.  If [POWER]=0 then it is unknown whether the state of TRC()_TRCOSLSR
-                                                                    and the trace registers are valid.
-
-                                                                 1 =  The state of TRC()_TRCOSLSR and the trace registers might not be valid.
-                                                                    The trace unit sets this bit to 1 if either:
-                                                                        a. The trace unit is reset.
-                                                                        b. The power to the trace unit core power domain is removed and
-                                                                           the trace register state is not valid.
-
-                                                                 This field is reset to 1 on a trace unit reset. */
-        uint32_t reserved_2_4          : 3;
-        uint32_t oslk                  : 1;  /**< [  5:  5](RO/H) 0 =  The OS lock is unlocked.
-                                                                 1 =  The OS lock is locked.
-
-                                                                 This field is reset to 1 on a trace unit reset. */
-        uint32_t reserved_6_31         : 26;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_trcx_trcpdsr_cn9 cn83xx; */
 } bdk_trcx_trcpdsr_t;
 
 static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4733,7 +4622,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_2_31         : 30;
-        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS Lock is locked.
+        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS lock is locked.
                                                                  0 = Programmer's model is not stable.
                                                                  1 = Programmer's model is stable. */
         uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status bit.
@@ -4743,19 +4632,18 @@ typedef union
         uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status bit.
                                                                  0 = The trace unit is not idle.
                                                                  1 = The trace unit is idle. */
-        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS Lock is locked.
+        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS lock is locked.
                                                                  0 = Programmer's model is not stable.
                                                                  1 = Programmer's model is stable. */
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_trcx_trcstatr_s cn81xx; */
-    /* struct bdk_trcx_trcstatr_s cn88xx; */
-    struct bdk_trcx_trcstatr_cn83xx
+    /* struct bdk_trcx_trcstatr_s cn9; */
+    struct bdk_trcx_trcstatr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_2_31         : 30;
-        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS lock is locked.
+        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS Lock is locked.
                                                                  0 = Programmer's model is not stable.
                                                                  1 = Programmer's model is stable. */
         uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status bit.
@@ -4765,12 +4653,14 @@ typedef union
         uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status bit.
                                                                  0 = The trace unit is not idle.
                                                                  1 = The trace unit is idle. */
-        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS lock is locked.
+        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS Lock is locked.
                                                                  0 = Programmer's model is not stable.
                                                                  1 = Programmer's model is stable. */
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_trcx_trcstatr_cn81xx cn88xx; */
+    /* struct bdk_trcx_trcstatr_s cn83xx; */
 } bdk_trcx_trcstatr_t;
 
 static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a) __attribute__ ((pure, always_inline));

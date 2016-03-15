@@ -93,6 +93,8 @@ static inline uint64_t BDK_PCIEEPX_CFG000(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000000ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000000ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG000", 1, a, 0, 0, 0);
 }
 
@@ -185,6 +187,8 @@ static inline uint64_t BDK_PCIEEPX_CFG001(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000004ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000004ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG001", 1, a, 0, 0, 0);
 }
 
@@ -234,6 +238,8 @@ static inline uint64_t BDK_PCIEEPX_CFG002(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG002(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000008ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000008ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG002", 1, a, 0, 0, 0);
 }
@@ -286,6 +292,8 @@ static inline uint64_t BDK_PCIEEPX_CFG003(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG003(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000000cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000000cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG003", 1, a, 0, 0, 0);
 }
@@ -351,6 +359,8 @@ static inline uint64_t BDK_PCIEEPX_CFG004(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000010ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000010ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG004", 1, a, 0, 0, 0);
 }
 
@@ -394,6 +404,8 @@ static inline uint64_t BDK_PCIEEPX_CFG004_MASK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30080000010ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30080000010ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG004_MASK", 1, a, 0, 0, 0);
 }
 
@@ -427,6 +439,8 @@ static inline uint64_t BDK_PCIEEPX_CFG005(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG005(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000014ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000014ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG005", 1, a, 0, 0, 0);
 }
@@ -462,6 +476,8 @@ static inline uint64_t BDK_PCIEEPX_CFG005_MASK(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_CFG005_MASK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30080000014ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30080000014ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG005_MASK", 1, a, 0, 0, 0);
 }
@@ -527,6 +543,8 @@ static inline uint64_t BDK_PCIEEPX_CFG006(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000018ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000018ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG006", 1, a, 0, 0, 0);
 }
 
@@ -570,6 +588,8 @@ static inline uint64_t BDK_PCIEEPX_CFG006_MASK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30080000018ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30080000018ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG006_MASK", 1, a, 0, 0, 0);
 }
 
@@ -603,6 +623,8 @@ static inline uint64_t BDK_PCIEEPX_CFG007(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG007(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000001cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000001cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG007", 1, a, 0, 0, 0);
 }
@@ -638,6 +660,8 @@ static inline uint64_t BDK_PCIEEPX_CFG007_MASK(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_CFG007_MASK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3008000001cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3008000001cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG007_MASK", 1, a, 0, 0, 0);
 }
@@ -703,6 +727,8 @@ static inline uint64_t BDK_PCIEEPX_CFG008(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000020ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000020ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG008", 1, a, 0, 0, 0);
 }
 
@@ -746,6 +772,8 @@ static inline uint64_t BDK_PCIEEPX_CFG008_MASK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30080000020ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30080000020ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG008_MASK", 1, a, 0, 0, 0);
 }
 
@@ -779,6 +807,8 @@ static inline uint64_t BDK_PCIEEPX_CFG009(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG009(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000024ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000024ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG009", 1, a, 0, 0, 0);
 }
@@ -815,6 +845,8 @@ static inline uint64_t BDK_PCIEEPX_CFG009_MASK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30080000024ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30080000024ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG009_MASK", 1, a, 0, 0, 0);
 }
 
@@ -848,6 +880,8 @@ static inline uint64_t BDK_PCIEEPX_CFG010(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG010(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000028ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000028ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG010", 1, a, 0, 0, 0);
 }
@@ -889,6 +923,8 @@ static inline uint64_t BDK_PCIEEPX_CFG011(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000002cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000002cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG011", 1, a, 0, 0, 0);
 }
 
@@ -926,6 +962,8 @@ static inline uint64_t BDK_PCIEEPX_CFG012(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG012(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000030ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000030ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG012", 1, a, 0, 0, 0);
 }
@@ -970,6 +1008,8 @@ static inline uint64_t BDK_PCIEEPX_CFG012_MASK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30080000030ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30080000030ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG012_MASK", 1, a, 0, 0, 0);
 }
 
@@ -1007,6 +1047,8 @@ static inline uint64_t BDK_PCIEEPX_CFG013(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG013(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000034ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000034ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG013", 1, a, 0, 0, 0);
 }
@@ -1047,6 +1089,8 @@ static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000003cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000003cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG015", 1, a, 0, 0, 0);
 }
@@ -1134,6 +1178,8 @@ static inline uint64_t BDK_PCIEEPX_CFG016(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000040ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000040ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG016", 1, a, 0, 0, 0);
 }
 
@@ -1202,6 +1248,8 @@ static inline uint64_t BDK_PCIEEPX_CFG017(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000044ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000044ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG017", 1, a, 0, 0, 0);
 }
 
@@ -1261,6 +1309,8 @@ static inline uint64_t BDK_PCIEEPX_CFG028(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG028(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000070ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000070ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG028", 1, a, 0, 0, 0);
 }
@@ -1370,6 +1420,8 @@ static inline uint64_t BDK_PCIEEPX_CFG029(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG029(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000074ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000074ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG029", 1, a, 0, 0, 0);
 }
@@ -1511,6 +1563,8 @@ static inline uint64_t BDK_PCIEEPX_CFG030(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000078ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000078ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG030", 1, a, 0, 0, 0);
 }
 
@@ -1629,6 +1683,8 @@ static inline uint64_t BDK_PCIEEPX_CFG031(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000007cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000007cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG031", 1, a, 0, 0, 0);
 }
 
@@ -1723,6 +1779,8 @@ static inline uint64_t BDK_PCIEEPX_CFG032(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000080ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000080ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG032", 1, a, 0, 0, 0);
 }
 
@@ -1807,6 +1865,8 @@ static inline uint64_t BDK_PCIEEPX_CFG037(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000094ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000094ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG037", 1, a, 0, 0, 0);
 }
 
@@ -1884,6 +1944,8 @@ static inline uint64_t BDK_PCIEEPX_CFG038(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG038(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000098ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000098ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG038", 1, a, 0, 0, 0);
 }
@@ -1964,6 +2026,8 @@ static inline uint64_t BDK_PCIEEPX_CFG039(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG039(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000009cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000009cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG039", 1, a, 0, 0, 0);
 }
@@ -2127,6 +2191,8 @@ static inline uint64_t BDK_PCIEEPX_CFG040(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000a0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000a0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG040", 1, a, 0, 0, 0);
 }
 
@@ -2183,6 +2249,8 @@ static inline uint64_t BDK_PCIEEPX_CFG044(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000b0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000b0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG044", 1, a, 0, 0, 0);
 }
 
@@ -2228,6 +2296,8 @@ static inline uint64_t BDK_PCIEEPX_CFG045(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG045(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000b4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000000b4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG045", 1, a, 0, 0, 0);
 }
@@ -2275,6 +2345,8 @@ static inline uint64_t BDK_PCIEEPX_CFG046(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000b8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG046", 1, a, 0, 0, 0);
 }
 
@@ -2312,6 +2384,8 @@ static inline uint64_t BDK_PCIEEPX_CFG047(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG047(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000bcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000000bcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG047", 1, a, 0, 0, 0);
 }
@@ -2351,6 +2425,8 @@ static inline uint64_t BDK_PCIEEPX_CFG048(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000c0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000c0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG048", 1, a, 0, 0, 0);
 }
 
@@ -2388,6 +2464,8 @@ static inline uint64_t BDK_PCIEEPX_CFG049(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG049(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000c4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000000c4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG049", 1, a, 0, 0, 0);
 }
@@ -2427,6 +2505,8 @@ static inline uint64_t BDK_PCIEEPX_CFG050(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000c8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000c8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG050", 1, a, 0, 0, 0);
 }
 
@@ -2464,6 +2544,8 @@ static inline uint64_t BDK_PCIEEPX_CFG051(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG051(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000ccll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000000ccll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG051", 1, a, 0, 0, 0);
 }
@@ -2503,6 +2585,8 @@ static inline uint64_t BDK_PCIEEPX_CFG052(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000d0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000d0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG052", 1, a, 0, 0, 0);
 }
 
@@ -2540,6 +2624,8 @@ static inline uint64_t BDK_PCIEEPX_CFG053(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG053(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000d4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000000d4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG053", 1, a, 0, 0, 0);
 }
@@ -2579,6 +2665,8 @@ static inline uint64_t BDK_PCIEEPX_CFG054(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000d8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000d8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG054", 1, a, 0, 0, 0);
 }
 
@@ -2616,6 +2704,8 @@ static inline uint64_t BDK_PCIEEPX_CFG055(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG055(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000dcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000000dcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG055", 1, a, 0, 0, 0);
 }
@@ -2655,6 +2745,8 @@ static inline uint64_t BDK_PCIEEPX_CFG056(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000e0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000e0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG056", 1, a, 0, 0, 0);
 }
 
@@ -2692,6 +2784,8 @@ static inline uint64_t BDK_PCIEEPX_CFG057(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG057(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000e4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000000e4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG057", 1, a, 0, 0, 0);
 }
@@ -2731,6 +2825,8 @@ static inline uint64_t BDK_PCIEEPX_CFG058(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000e8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000e8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG058", 1, a, 0, 0, 0);
 }
 
@@ -2768,6 +2864,8 @@ static inline uint64_t BDK_PCIEEPX_CFG059(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG059(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000ecll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000000ecll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG059", 1, a, 0, 0, 0);
 }
@@ -2807,6 +2905,8 @@ static inline uint64_t BDK_PCIEEPX_CFG060(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000f0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000f0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG060", 1, a, 0, 0, 0);
 }
 
@@ -2844,6 +2944,8 @@ static inline uint64_t BDK_PCIEEPX_CFG061(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG061(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000f4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000000f4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG061", 1, a, 0, 0, 0);
 }
@@ -2883,6 +2985,8 @@ static inline uint64_t BDK_PCIEEPX_CFG062(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000f8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000f8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG062", 1, a, 0, 0, 0);
 }
 
@@ -2921,6 +3025,8 @@ static inline uint64_t BDK_PCIEEPX_CFG063(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000000fcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000000fcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG063", 1, a, 0, 0, 0);
 }
 
@@ -2958,6 +3064,8 @@ static inline uint64_t BDK_PCIEEPX_CFG064(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG064(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000100ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000100ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG064", 1, a, 0, 0, 0);
 }
@@ -3070,6 +3178,8 @@ static inline uint64_t BDK_PCIEEPX_CFG065(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000104ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000104ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG065", 1, a, 0, 0, 0);
 }
 
@@ -3180,6 +3290,8 @@ static inline uint64_t BDK_PCIEEPX_CFG066(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG066(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000108ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000108ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG066", 1, a, 0, 0, 0);
 }
@@ -3296,6 +3408,8 @@ static inline uint64_t BDK_PCIEEPX_CFG067(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000010cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000010cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG067", 1, a, 0, 0, 0);
 }
 
@@ -3349,6 +3463,8 @@ static inline uint64_t BDK_PCIEEPX_CFG068(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG068(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000110ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000110ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG068", 1, a, 0, 0, 0);
 }
@@ -3404,6 +3520,8 @@ static inline uint64_t BDK_PCIEEPX_CFG069(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000114ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000114ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG069", 1, a, 0, 0, 0);
 }
 
@@ -3454,6 +3572,8 @@ static inline uint64_t BDK_PCIEEPX_CFG070(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000118ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000118ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG070", 1, a, 0, 0, 0);
 }
 
@@ -3487,6 +3607,8 @@ static inline uint64_t BDK_PCIEEPX_CFG071(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG071(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000011cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000011cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG071", 1, a, 0, 0, 0);
 }
@@ -3522,6 +3644,8 @@ static inline uint64_t BDK_PCIEEPX_CFG072(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000120ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000120ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG072", 1, a, 0, 0, 0);
 }
 
@@ -3555,6 +3679,8 @@ static inline uint64_t BDK_PCIEEPX_CFG073(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG073(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000124ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000124ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG073", 1, a, 0, 0, 0);
 }
@@ -3590,6 +3716,8 @@ static inline uint64_t BDK_PCIEEPX_CFG074(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000128ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000128ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG074", 1, a, 0, 0, 0);
 }
 
@@ -3623,6 +3751,8 @@ static inline uint64_t BDK_PCIEEPX_CFG078(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG078(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000138ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000138ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG078", 1, a, 0, 0, 0);
 }
@@ -3661,6 +3791,8 @@ static inline uint64_t BDK_PCIEEPX_CFG082(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG082(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000148ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000148ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG082", 1, a, 0, 0, 0);
 }
@@ -3712,6 +3844,8 @@ static inline uint64_t BDK_PCIEEPX_CFG083(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000014cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000014cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG083", 1, a, 0, 0, 0);
 }
 
@@ -3756,6 +3890,8 @@ static inline uint64_t BDK_PCIEEPX_CFG086(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000158ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000158ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG086", 1, a, 0, 0, 0);
 }
 
@@ -3794,6 +3930,8 @@ static inline uint64_t BDK_PCIEEPX_CFG087(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000015cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000015cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG087", 1, a, 0, 0, 0);
 }
 
@@ -3829,6 +3967,8 @@ static inline uint64_t BDK_PCIEEPX_CFG088(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG088(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000160ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000160ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG088", 1, a, 0, 0, 0);
 }
@@ -3905,6 +4045,8 @@ static inline uint64_t BDK_PCIEEPX_CFG089(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000164ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000164ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG089", 1, a, 0, 0, 0);
 }
 
@@ -3979,6 +4121,8 @@ static inline uint64_t BDK_PCIEEPX_CFG090(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG090(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000168ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000168ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG090", 1, a, 0, 0, 0);
 }
@@ -4055,6 +4199,8 @@ static inline uint64_t BDK_PCIEEPX_CFG091(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000016cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000016cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG091", 1, a, 0, 0, 0);
 }
 
@@ -4130,6 +4276,8 @@ static inline uint64_t BDK_PCIEEPX_CFG092(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000170ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000170ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG092", 1, a, 0, 0, 0);
 }
 
@@ -4167,6 +4315,8 @@ static inline uint64_t BDK_PCIEEPX_CFG094(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG094(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000178ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000178ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG094", 1, a, 0, 0, 0);
 }
@@ -4209,6 +4359,8 @@ static inline uint64_t BDK_PCIEEPX_CFG095(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG095(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000017cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000017cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG095", 1, a, 0, 0, 0);
 }
@@ -4265,6 +4417,8 @@ static inline uint64_t BDK_PCIEEPX_CFG096(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG096(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000180ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000180ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG096", 1, a, 0, 0, 0);
 }
@@ -4328,6 +4482,8 @@ static inline uint64_t BDK_PCIEEPX_CFG097(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000184ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000184ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG097", 1, a, 0, 0, 0);
 }
 
@@ -4365,6 +4521,8 @@ static inline uint64_t BDK_PCIEEPX_CFG098(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG098(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000188ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000188ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG098", 1, a, 0, 0, 0);
 }
@@ -4454,6 +4612,8 @@ static inline uint64_t BDK_PCIEEPX_CFG099(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000018cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000018cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG099", 1, a, 0, 0, 0);
 }
 
@@ -4494,6 +4654,8 @@ static inline uint64_t BDK_PCIEEPX_CFG100(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000190ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000190ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG100", 1, a, 0, 0, 0);
 }
 
@@ -4528,6 +4690,8 @@ static inline uint64_t BDK_PCIEEPX_CFG101(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000194ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000194ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG101", 1, a, 0, 0, 0);
 }
 
@@ -4561,6 +4725,8 @@ static inline uint64_t BDK_PCIEEPX_CFG102(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG102(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000198ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000198ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG102", 1, a, 0, 0, 0);
 }
@@ -4612,6 +4778,8 @@ static inline uint64_t BDK_PCIEEPX_CFG103(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000019cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000019cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG103", 1, a, 0, 0, 0);
 }
 
@@ -4645,6 +4813,8 @@ static inline uint64_t BDK_PCIEEPX_CFG104(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG104(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001a0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001a0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG104", 1, a, 0, 0, 0);
 }
@@ -4680,6 +4850,8 @@ static inline uint64_t BDK_PCIEEPX_CFG105(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000001a4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001a4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG105", 1, a, 0, 0, 0);
 }
 
@@ -4713,6 +4885,8 @@ static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001a8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001a8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG106", 1, a, 0, 0, 0);
 }
@@ -4748,6 +4922,8 @@ static inline uint64_t BDK_PCIEEPX_CFG107(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000001acll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001acll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG107", 1, a, 0, 0, 0);
 }
 
@@ -4781,6 +4957,8 @@ static inline uint64_t BDK_PCIEEPX_CFG108(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG108(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001b0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001b0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG108", 1, a, 0, 0, 0);
 }
@@ -4817,6 +4995,8 @@ static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001b4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001b4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG109", 1, a, 0, 0, 0);
 }
@@ -4864,6 +5044,8 @@ static inline uint64_t BDK_PCIEEPX_CFG110(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000001b8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG110", 1, a, 0, 0, 0);
 }
 
@@ -4901,6 +5083,8 @@ static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001bcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001bcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG111", 1, a, 0, 0, 0);
 }
@@ -5006,6 +5190,8 @@ static inline uint64_t BDK_PCIEEPX_CFG112(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000001c0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001c0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG112", 1, a, 0, 0, 0);
 }
 
@@ -5041,6 +5227,8 @@ static inline uint64_t BDK_PCIEEPX_CFG113(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG113(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001c4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001c4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG113", 1, a, 0, 0, 0);
 }
@@ -5154,6 +5342,8 @@ static inline uint64_t BDK_PCIEEPX_CFG114(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000001c8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001c8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG114", 1, a, 0, 0, 0);
 }
 
@@ -5191,6 +5381,8 @@ static inline uint64_t BDK_PCIEEPX_CFG115(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG115(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001ccll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001ccll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG115", 1, a, 0, 0, 0);
 }
@@ -5255,6 +5447,8 @@ static inline uint64_t BDK_PCIEEPX_CFG121(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG121(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001e8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001e8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG121", 1, a, 0, 0, 0);
 }
@@ -5337,6 +5531,8 @@ static inline uint64_t BDK_PCIEEPX_CFG122(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG122(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001ecll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001ecll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG122", 1, a, 0, 0, 0);
 }
@@ -5424,6 +5620,8 @@ static inline uint64_t BDK_PCIEEPX_CFG123(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000001f0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001f0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG123", 1, a, 0, 0, 0);
 }
 
@@ -5485,6 +5683,8 @@ static inline uint64_t BDK_PCIEEPX_CFG124(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG124(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001f4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001f4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG124", 1, a, 0, 0, 0);
 }
@@ -5555,6 +5755,8 @@ static inline uint64_t BDK_PCIEEPX_CFG125(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG125(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001f8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000001f8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG125", 1, a, 0, 0, 0);
 }
@@ -5658,6 +5860,8 @@ static inline uint64_t BDK_PCIEEPX_CFG126(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000001fcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001fcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG126", 1, a, 0, 0, 0);
 }
 
@@ -5716,6 +5920,8 @@ static inline uint64_t BDK_PCIEEPX_CFG127(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000200ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000200ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG127", 1, a, 0, 0, 0);
 }
 
@@ -5757,6 +5963,8 @@ static inline uint64_t BDK_PCIEEPX_CFG128(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG128(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000204ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000204ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG128", 1, a, 0, 0, 0);
 }
@@ -5800,6 +6008,8 @@ static inline uint64_t BDK_PCIEEPX_CFG129(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000208ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000208ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG129", 1, a, 0, 0, 0);
 }
 
@@ -5841,6 +6051,8 @@ static inline uint64_t BDK_PCIEEPX_CFG130(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG130(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000020cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000020cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG130", 1, a, 0, 0, 0);
 }
@@ -5884,6 +6096,8 @@ static inline uint64_t BDK_PCIEEPX_CFG131(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000210ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000210ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG131", 1, a, 0, 0, 0);
 }
 
@@ -5921,6 +6135,8 @@ static inline uint64_t BDK_PCIEEPX_CFG132(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG132(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000214ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000214ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG132", 1, a, 0, 0, 0);
 }
@@ -5960,6 +6176,8 @@ static inline uint64_t BDK_PCIEEPX_CFG133(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000218ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000218ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG133", 1, a, 0, 0, 0);
 }
 
@@ -5997,6 +6215,8 @@ static inline uint64_t BDK_PCIEEPX_CFG134(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG134(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000021cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000021cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG134", 1, a, 0, 0, 0);
 }
@@ -6036,6 +6256,8 @@ static inline uint64_t BDK_PCIEEPX_CFG135(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000220ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000220ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG135", 1, a, 0, 0, 0);
 }
 
@@ -6073,6 +6295,8 @@ static inline uint64_t BDK_PCIEEPX_CFG136(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG136(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000224ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000224ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG136", 1, a, 0, 0, 0);
 }
@@ -6112,6 +6336,8 @@ static inline uint64_t BDK_PCIEEPX_CFG137(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000228ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000228ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG137", 1, a, 0, 0, 0);
 }
 
@@ -6150,6 +6376,8 @@ static inline uint64_t BDK_PCIEEPX_CFG138(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000022cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000022cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG138", 1, a, 0, 0, 0);
 }
 
@@ -6187,6 +6415,8 @@ static inline uint64_t BDK_PCIEEPX_CFG139(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG139(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000230ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000230ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG139", 1, a, 0, 0, 0);
 }
@@ -6228,6 +6458,8 @@ static inline uint64_t BDK_PCIEEPX_CFG140(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000234ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000234ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG140", 1, a, 0, 0, 0);
 }
 
@@ -6267,6 +6499,8 @@ static inline uint64_t BDK_PCIEEPX_CFG141(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG141(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000238ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000238ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG141", 1, a, 0, 0, 0);
 }
@@ -6308,6 +6542,8 @@ static inline uint64_t BDK_PCIEEPX_CFG142(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000023cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000023cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG142", 1, a, 0, 0, 0);
 }
 
@@ -6347,6 +6583,8 @@ static inline uint64_t BDK_PCIEEPX_CFG143(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG143(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000240ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000240ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG143", 1, a, 0, 0, 0);
 }
@@ -6421,6 +6659,8 @@ static inline uint64_t BDK_PCIEEPX_CFG144(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG144(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000244ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000244ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG144", 1, a, 0, 0, 0);
 }
@@ -6538,6 +6778,8 @@ static inline uint64_t BDK_PCIEEPX_CFG149(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000258ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000258ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG149", 1, a, 0, 0, 0);
 }
 
@@ -6621,6 +6863,8 @@ static inline uint64_t BDK_PCIEEPX_CFG150(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG150(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000025cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000025cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG150", 1, a, 0, 0, 0);
 }
@@ -6711,6 +6955,8 @@ static inline uint64_t BDK_PCIEEPX_CFG153(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG153(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000268ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000268ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG153", 1, a, 0, 0, 0);
 }
@@ -6876,6 +7122,8 @@ static inline uint64_t BDK_PCIEEPX_CFG154(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000026cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000026cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG154", 1, a, 0, 0, 0);
 }
 
@@ -7012,6 +7260,8 @@ static inline uint64_t BDK_PCIEEPX_CFG155(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000270ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000270ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG155", 1, a, 0, 0, 0);
 }
 
@@ -7071,6 +7321,8 @@ static inline uint64_t BDK_PCIEEPX_CFG156(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG156(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000274ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000274ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG156", 1, a, 0, 0, 0);
 }
@@ -7200,6 +7452,8 @@ static inline uint64_t BDK_PCIEEPX_CFG157(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000278ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000278ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG157", 1, a, 0, 0, 0);
 }
 
@@ -7277,6 +7531,8 @@ static inline uint64_t BDK_PCIEEPX_CFG158(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG158(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000027cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000027cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG158", 1, a, 0, 0, 0);
 }
@@ -7382,6 +7638,8 @@ static inline uint64_t BDK_PCIEEPX_CFG161(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000288ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000288ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG161", 1, a, 0, 0, 0);
 }
 
@@ -7472,6 +7730,8 @@ static inline uint64_t BDK_PCIEEPX_CFG162(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000028cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000028cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG162", 1, a, 0, 0, 0);
 }
 
@@ -7549,6 +7809,8 @@ static inline uint64_t BDK_PCIEEPX_CFG163(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG163(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000290ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000290ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG163", 1, a, 0, 0, 0);
 }
@@ -7646,6 +7908,8 @@ static inline uint64_t BDK_PCIEEPX_CFG165(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000298ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000298ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG165", 1, a, 0, 0, 0);
 }
 
@@ -7699,6 +7963,8 @@ static inline uint64_t BDK_PCIEEPX_CFG166(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG166(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000029cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000029cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG166", 1, a, 0, 0, 0);
 }
@@ -7754,6 +8020,8 @@ static inline uint64_t BDK_PCIEEPX_CFG167(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002a0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002a0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG167", 1, a, 0, 0, 0);
 }
 
@@ -7798,6 +8066,8 @@ static inline uint64_t BDK_PCIEEPX_CFG174(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002b8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG174", 1, a, 0, 0, 0);
 }
 
@@ -7835,6 +8105,8 @@ static inline uint64_t BDK_PCIEEPX_CFG175(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG175(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002bcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000002bcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG175", 1, a, 0, 0, 0);
 }
@@ -7899,6 +8171,8 @@ static inline uint64_t BDK_PCIEEPX_CFG176(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG176(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002c0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000002c0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG176", 1, a, 0, 0, 0);
 }
@@ -7976,6 +8250,8 @@ static inline uint64_t BDK_PCIEEPX_CFG177(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002c4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002c4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG177", 1, a, 0, 0, 0);
 }
 
@@ -8041,6 +8317,8 @@ static inline uint64_t BDK_PCIEEPX_CFG178(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG178(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002c8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000002c8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG178", 1, a, 0, 0, 0);
 }
@@ -8118,6 +8396,8 @@ static inline uint64_t BDK_PCIEEPX_CFG179(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002ccll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002ccll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG179", 1, a, 0, 0, 0);
 }
 
@@ -8184,6 +8464,8 @@ static inline uint64_t BDK_PCIEEPX_CFG180(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002d0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002d0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG180", 1, a, 0, 0, 0);
 }
 
@@ -8245,6 +8527,8 @@ static inline uint64_t BDK_PCIEEPX_CFG181(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG181(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002d4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000002d4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG181", 1, a, 0, 0, 0);
 }
@@ -8346,6 +8630,8 @@ static inline uint64_t BDK_PCIEEPX_CFG182(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002d8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002d8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG182", 1, a, 0, 0, 0);
 }
 
@@ -8446,6 +8732,8 @@ static inline uint64_t BDK_PCIEEPX_CFG183(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002dcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002dcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG183", 1, a, 0, 0, 0);
 }
 
@@ -8485,6 +8773,8 @@ static inline uint64_t BDK_PCIEEPX_CFG184(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG184(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002e0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000002e0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG184", 1, a, 0, 0, 0);
 }
@@ -8526,6 +8816,8 @@ static inline uint64_t BDK_PCIEEPX_CFG185(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002e4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002e4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG185", 1, a, 0, 0, 0);
 }
 
@@ -8564,6 +8856,8 @@ static inline uint64_t BDK_PCIEEPX_CFG186(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002e8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002e8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG186", 1, a, 0, 0, 0);
 }
 
@@ -8601,6 +8895,8 @@ static inline uint64_t BDK_PCIEEPX_CFG187(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG187(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002ecll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000002ecll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG187", 1, a, 0, 0, 0);
 }
@@ -8646,6 +8942,8 @@ static inline uint64_t BDK_PCIEEPX_CFG188(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002f0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002f0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG188", 1, a, 0, 0, 0);
 }
 
@@ -8687,6 +8985,8 @@ static inline uint64_t BDK_PCIEEPX_CFG189(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG189(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002f4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000002f4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG189", 1, a, 0, 0, 0);
 }
@@ -8740,6 +9040,8 @@ static inline uint64_t BDK_PCIEEPX_CFG190(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000002f8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000002f8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG190", 1, a, 0, 0, 0);
 }
 
@@ -8789,6 +9091,8 @@ static inline uint64_t BDK_PCIEEPX_CFG448(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG448(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000700ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000700ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG448", 1, a, 0, 0, 0);
 }
@@ -8841,6 +9145,8 @@ static inline uint64_t BDK_PCIEEPX_CFG449(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG449(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000704ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000704ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG449", 1, a, 0, 0, 0);
 }
@@ -8970,6 +9276,8 @@ static inline uint64_t BDK_PCIEEPX_CFG450(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000708ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000708ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG450", 1, a, 0, 0, 0);
 }
 
@@ -9065,6 +9373,8 @@ static inline uint64_t BDK_PCIEEPX_CFG451(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG451(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000070cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000070cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG451", 1, a, 0, 0, 0);
 }
@@ -9251,6 +9561,8 @@ static inline uint64_t BDK_PCIEEPX_CFG452(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000710ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000710ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG452", 1, a, 0, 0, 0);
 }
 
@@ -9300,6 +9612,8 @@ static inline uint64_t BDK_PCIEEPX_CFG453(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG453(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000714ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000714ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG453", 1, a, 0, 0, 0);
 }
@@ -9352,6 +9666,8 @@ static inline uint64_t BDK_PCIEEPX_CFG454(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG454(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000718ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000718ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG454", 1, a, 0, 0, 0);
 }
@@ -9423,6 +9739,8 @@ static inline uint64_t BDK_PCIEEPX_CFG455(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000071cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000071cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG455", 1, a, 0, 0, 0);
 }
 
@@ -9465,6 +9783,8 @@ static inline uint64_t BDK_PCIEEPX_CFG456(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000720ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000720ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG456", 1, a, 0, 0, 0);
 }
 
@@ -9499,6 +9819,8 @@ static inline uint64_t BDK_PCIEEPX_CFG458(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000728ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000728ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG458", 1, a, 0, 0, 0);
 }
 
@@ -9532,6 +9854,8 @@ static inline uint64_t BDK_PCIEEPX_CFG459(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG459(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000072cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x3000000072cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG459", 1, a, 0, 0, 0);
 }
@@ -9575,6 +9899,8 @@ static inline uint64_t BDK_PCIEEPX_CFG460(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000730ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000730ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG460", 1, a, 0, 0, 0);
 }
 
@@ -9617,6 +9943,8 @@ static inline uint64_t BDK_PCIEEPX_CFG461(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000734ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000734ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG461", 1, a, 0, 0, 0);
 }
 
@@ -9658,6 +9986,8 @@ static inline uint64_t BDK_PCIEEPX_CFG462(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG462(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000738ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000738ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG462", 1, a, 0, 0, 0);
 }
@@ -9717,6 +10047,8 @@ static inline uint64_t BDK_PCIEEPX_CFG463(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000073cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000073cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG463", 1, a, 0, 0, 0);
 }
 
@@ -9757,6 +10089,8 @@ static inline uint64_t BDK_PCIEEPX_CFG464(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000740ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000740ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG464", 1, a, 0, 0, 0);
 }
 
@@ -9796,6 +10130,8 @@ static inline uint64_t BDK_PCIEEPX_CFG465(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG465(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000744ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000744ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG465", 1, a, 0, 0, 0);
 }
@@ -9893,6 +10229,8 @@ static inline uint64_t BDK_PCIEEPX_CFG466(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000748ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000748ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG466", 1, a, 0, 0, 0);
 }
 
@@ -9965,6 +10303,8 @@ static inline uint64_t BDK_PCIEEPX_CFG467(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000074cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000074cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG467", 1, a, 0, 0, 0);
 }
 
@@ -10036,6 +10376,8 @@ static inline uint64_t BDK_PCIEEPX_CFG468(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG468(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000750ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000750ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG468", 1, a, 0, 0, 0);
 }
@@ -10228,6 +10570,8 @@ static inline uint64_t BDK_PCIEEPX_CFG515(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x3000000080cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x3000000080cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG515", 1, a, 0, 0, 0);
 }
 
@@ -10262,6 +10606,8 @@ static inline uint64_t BDK_PCIEEPX_CFG516(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x30000000810ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x30000000810ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG516", 1, a, 0, 0, 0);
 }
 
@@ -10295,6 +10641,8 @@ static inline uint64_t BDK_PCIEEPX_CFG517(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG517(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000814ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000814ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG517", 1, a, 0, 0, 0);
 }
@@ -10365,6 +10713,8 @@ static inline uint64_t BDK_PCIEEPX_CFG548(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG548(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000890ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x30000000890ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG548", 1, a, 0, 0, 0);
 }
@@ -10522,6 +10872,8 @@ static inline uint64_t BDK_PCIEEPX_CFG554(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x300000008a8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000008a8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG554", 1, a, 0, 0, 0);
 }
 
@@ -10557,6 +10909,8 @@ static inline uint64_t BDK_PCIEEPX_CFG558(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG558(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000008b8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000008b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG558", 1, a, 0, 0, 0);
 }
@@ -10595,6 +10949,8 @@ static inline uint64_t BDK_PCIEEPX_CFG559(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG559(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000008bcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000008bcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG559", 1, a, 0, 0, 0);
 }
@@ -10683,6 +11039,8 @@ static inline uint64_t BDK_PCIEEPX_CFG560(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIEEPX_CFG560(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000008c0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x300000008c0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG560", 1, a, 0, 0, 0);
 }

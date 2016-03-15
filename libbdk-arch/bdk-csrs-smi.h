@@ -424,6 +424,8 @@ static inline uint64_t BDK_SMI_DRV_RSVD_FUNC(void)
         return 0x87e0050038a8ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0050038a8ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e0050038a8ll;
     __bdk_csr_fatal("SMI_DRV_RSVD", 0, 0, 0, 0, 0);
 }
 

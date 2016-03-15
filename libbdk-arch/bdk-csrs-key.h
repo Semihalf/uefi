@@ -310,25 +310,26 @@ typedef union
     struct bdk_key_memx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations.
-                                                                 Internal:
-                                                                 This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
+        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations. */
 #else /* Word 0 - Little Endian */
-        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations.
-                                                                 Internal:
-                                                                 This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
+        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_key_memx_cn81xx
+    /* struct bdk_key_memx_s cn9; */
+    /* struct bdk_key_memx_s cn81xx; */
+    struct bdk_key_memx_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations. */
+        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations.
+                                                                 Internal:
+                                                                 This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
 #else /* Word 0 - Little Endian */
-        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations. */
+        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations.
+                                                                 Internal:
+                                                                 This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_key_memx_s cn88xx; */
-    /* struct bdk_key_memx_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_key_memx_s cn83xx; */
 } bdk_key_memx_t;
 
 static inline uint64_t BDK_KEY_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -386,6 +387,8 @@ static inline uint64_t BDK_KEY_MEM_ACCESS_FUNC(void)
         return 0x87e041000020ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         return 0x87e041000020ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e041000020ll;
     __bdk_csr_fatal("KEY_MEM_ACCESS", 0, 0, 0, 0, 0);
 }
 
@@ -408,25 +411,26 @@ typedef union
     struct bdk_key_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](SRO/H) Pending message for the associated KEY_MSIX_VEC()_CTL, enumerated by KEY_INT_VEC_E. Bits
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated KEY_MSIX_VEC()_CTL, enumerated by KEY_INT_VEC_E. Bits
                                                                  that have no associated KEY_INT_VEC_E are 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](SRO/H) Pending message for the associated KEY_MSIX_VEC()_CTL, enumerated by KEY_INT_VEC_E. Bits
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated KEY_MSIX_VEC()_CTL, enumerated by KEY_INT_VEC_E. Bits
                                                                  that have no associated KEY_INT_VEC_E are 0. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_key_msix_pbax_cn81xx
+    /* struct bdk_key_msix_pbax_s cn9; */
+    /* struct bdk_key_msix_pbax_s cn81xx; */
+    struct bdk_key_msix_pbax_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated KEY_MSIX_VEC()_CTL, enumerated by KEY_INT_VEC_E. Bits
+        uint64_t pend                  : 64; /**< [ 63:  0](SRO/H) Pending message for the associated KEY_MSIX_VEC()_CTL, enumerated by KEY_INT_VEC_E. Bits
                                                                  that have no associated KEY_INT_VEC_E are 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated KEY_MSIX_VEC()_CTL, enumerated by KEY_INT_VEC_E. Bits
+        uint64_t pend                  : 64; /**< [ 63:  0](SRO/H) Pending message for the associated KEY_MSIX_VEC()_CTL, enumerated by KEY_INT_VEC_E. Bits
                                                                  that have no associated KEY_INT_VEC_E are 0. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_key_msix_pbax_s cn88xx; */
-    /* struct bdk_key_msix_pbax_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_key_msix_pbax_s cn83xx; */
 } bdk_key_msix_pbax_t;
 
 static inline uint64_t BDK_KEY_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -457,7 +461,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](SR/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or nonsecure states.
@@ -477,15 +481,17 @@ typedef union
                                                                  If PCCPF_KEY_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](SR/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_key_msix_vecx_addr_cn81xx
+    /* struct bdk_key_msix_vecx_addr_s cn9; */
+    /* struct bdk_key_msix_vecx_addr_s cn81xx; */
+    struct bdk_key_msix_vecx_addr_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](SR/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or nonsecure states.
@@ -505,12 +511,11 @@ typedef union
                                                                  If PCCPF_KEY_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](SR/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_key_msix_vecx_addr_s cn88xx; */
-    /* struct bdk_key_msix_vecx_addr_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_key_msix_vecx_addr_s cn83xx; */
 } bdk_key_msix_vecx_addr_t;
 
 static inline uint64_t BDK_KEY_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -541,32 +546,33 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](SR/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
         uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](SR/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](SR/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
         uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](SR/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_key_msix_vecx_ctl_cn81xx
+    /* struct bdk_key_msix_vecx_ctl_s cn9; */
+    /* struct bdk_key_msix_vecx_ctl_s cn81xx; */
+    struct bdk_key_msix_vecx_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](SR/W) When set, no MSI-X interrupts are sent to this vector. */
         uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t data                  : 20; /**< [ 19:  0](SR/W) Data to use for MSI-X delivery of this vector. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t data                  : 20; /**< [ 19:  0](SR/W) Data to use for MSI-X delivery of this vector. */
         uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](SR/W) When set, no MSI-X interrupts are sent to this vector. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_key_msix_vecx_ctl_s cn88xx; */
-    /* struct bdk_key_msix_vecx_ctl_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_key_msix_vecx_ctl_s cn83xx; */
 } bdk_key_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_KEY_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));

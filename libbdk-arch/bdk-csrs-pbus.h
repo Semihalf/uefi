@@ -112,6 +112,8 @@ static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a)
         return 0x87e001000110ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001000110ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e001000110ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_ADRX", 1, a, 0, 0, 0);
 }
 
@@ -216,6 +218,8 @@ static inline uint64_t BDK_PBUS_DMA_CFGX(unsigned long a)
         return 0x87e001000100ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001000100ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e001000100ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_CFGX", 1, a, 0, 0, 0);
 }
 
@@ -308,6 +312,8 @@ static inline uint64_t BDK_PBUS_DMA_TIMX(unsigned long a)
         return 0x87e001000120ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001000120ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e001000120ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_TIMX", 1, a, 0, 0, 0);
 }
 
@@ -346,6 +352,8 @@ static inline uint64_t BDK_PBUS_ECO_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x87e0010001f8ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0010001f8ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e0010001f8ll;
     __bdk_csr_fatal("PBUS_ECO", 0, 0, 0, 0, 0);
 }
@@ -399,6 +407,8 @@ static inline uint64_t BDK_PBUS_INT_FUNC(void)
         return 0x87e001000080ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e001000080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e001000080ll;
     __bdk_csr_fatal("PBUS_INT", 0, 0, 0, 0, 0);
 }
 
@@ -444,6 +454,8 @@ static inline uint64_t BDK_PBUS_INT_ENA_W1C_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x87e001000090ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e001000090ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e001000090ll;
     __bdk_csr_fatal("PBUS_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -491,6 +503,8 @@ static inline uint64_t BDK_PBUS_INT_ENA_W1S_FUNC(void)
         return 0x87e001000098ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e001000098ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e001000098ll;
     __bdk_csr_fatal("PBUS_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -537,6 +551,8 @@ static inline uint64_t BDK_PBUS_INT_W1S_FUNC(void)
         return 0x87e001000088ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e001000088ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e001000088ll;
     __bdk_csr_fatal("PBUS_INT_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -576,6 +592,8 @@ static inline uint64_t BDK_PBUS_MSIX_PBAX(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x87e001ff0000ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x87e001ff0000ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x87e001ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("PBUS_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -636,6 +654,8 @@ static inline uint64_t BDK_PBUS_MSIX_VECX_ADDR(unsigned long a)
         return 0x87e001f00000ll + 0x10ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e001f00000ll + 0x10ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e001f00000ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("PBUS_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -678,6 +698,8 @@ static inline uint64_t BDK_PBUS_MSIX_VECX_CTL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e001f00008ll + 0x10ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e001f00008ll + 0x10ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x87e001f00008ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("PBUS_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -914,6 +936,8 @@ static inline uint64_t BDK_PBUS_REGX_CFG(unsigned long a)
         return 0x87e001000000ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87e001000000ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
+        return 0x87e001000000ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("PBUS_REGX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -1005,6 +1029,8 @@ static inline uint64_t BDK_PBUS_REGX_TIM(unsigned long a)
         return 0x87e001000040ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87e001000040ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
+        return 0x87e001000040ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("PBUS_REGX_TIM", 1, a, 0, 0, 0);
 }
 
@@ -1057,6 +1083,8 @@ static inline uint64_t BDK_PBUS_THR_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x87e0010000b0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0010000b0ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e0010000b0ll;
     __bdk_csr_fatal("PBUS_THR", 0, 0, 0, 0, 0);
 }

@@ -85,14 +85,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_l2c_mcix_int_ena_w1c_s cn9; */
     struct bdk_l2c_mcix_int_ena_w1c_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -105,19 +106,19 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_l2c_mcix_int_ena_w1c_s cn88xx; */
-    struct bdk_l2c_mcix_int_ena_w1c_cn83xx
+    struct bdk_l2c_mcix_int_ena_w1c_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_l2c_mcix_int_ena_w1c_s cn83xx; */
 } bdk_l2c_mcix_int_ena_w1c_t;
 
 static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
@@ -128,6 +129,8 @@ static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1C(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x87e05c000020ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e05c000020ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e05c000020ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_MCIX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -152,14 +155,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_l2c_mcix_int_ena_w1s_s cn9; */
     struct bdk_l2c_mcix_int_ena_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -172,19 +176,19 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_l2c_mcix_int_ena_w1s_s cn88xx; */
-    struct bdk_l2c_mcix_int_ena_w1s_cn83xx
+    struct bdk_l2c_mcix_int_ena_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_l2c_mcix_int_ena_w1s_s cn83xx; */
 } bdk_l2c_mcix_int_ena_w1s_t;
 
 static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -195,6 +199,8 @@ static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1S(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x87e05c000028ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e05c000028ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e05c000028ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_MCIX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -239,6 +245,8 @@ static inline uint64_t BDK_L2C_MCIX_INT_W1C(unsigned long a)
         return 0x87e05c000000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e05c000000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e05c000000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_MCIX_INT_W1C", 1, a, 0, 0, 0);
 }
 
@@ -262,14 +270,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_l2c_mcix_int_w1s_s cn9; */
     struct bdk_l2c_mcix_int_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -282,19 +291,19 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_l2c_mcix_int_w1s_s cn88xx; */
-    struct bdk_l2c_mcix_int_w1s_cn83xx
+    struct bdk_l2c_mcix_int_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_MCI(0..2)_INT_W1C[VBFSBE]. */
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_MCI(0..2)_INT_W1C[VBFDBE]. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_MCI(0..3)_INT_W1C[VBFSBE]. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_MCI(0..3)_INT_W1C[VBFDBE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_l2c_mcix_int_w1s_s cn83xx; */
 } bdk_l2c_mcix_int_w1s_t;
 
 static inline uint64_t BDK_L2C_MCIX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -305,6 +314,8 @@ static inline uint64_t BDK_L2C_MCIX_INT_W1S(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x87e05c000008ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e05c000008ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e05c000008ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_MCIX_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -347,6 +358,8 @@ static inline uint64_t BDK_L2C_MCIX_MSIX_PBAX(unsigned long a, unsigned long b)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b==0)))
         return 0x87e05cff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b==0)))
+        return 0x87e05cff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b==0)))
         return 0x87e05cff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("L2C_MCIX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -409,6 +422,8 @@ static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
         return 0x87e05cf00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b==0)))
         return 0x87e05cf00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b==0)))
+        return 0x87e05cf00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("L2C_MCIX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -454,6 +469,8 @@ static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_CTL(unsigned long a, unsigned long
         return 0x87e05cf00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b==0)))
         return 0x87e05cf00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b==0)))
+        return 0x87e05cf00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("L2C_MCIX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -496,6 +513,8 @@ static inline uint64_t BDK_L2C_MCIX_SCRATCH(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x87e05c030000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e05c030000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e05c030000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_MCIX_SCRATCH", 1, a, 0, 0, 0);
 }

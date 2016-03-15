@@ -395,7 +395,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
+        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
                                                                  Internal:
                                                                  Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
@@ -431,16 +431,15 @@ typedef union
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
                                                                  Internal:
                                                                  Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
-        uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
+        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_fusf_prog_s cn88xxp1; */
-    struct bdk_fusf_prog_cn81xx
+    struct bdk_fusf_prog_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin. */
+        uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
                                                                  Internal:
                                                                  Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
@@ -476,12 +475,14 @@ typedef union
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
                                                                  Internal:
                                                                  Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
-        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin. */
+        uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_fusf_prog_cn81xx cn83xx; */
-    /* struct bdk_fusf_prog_cn81xx cn88xxp2; */
+    } cn88xxp1;
+    /* struct bdk_fusf_prog_s cn9; */
+    /* struct bdk_fusf_prog_s cn81xx; */
+    /* struct bdk_fusf_prog_s cn83xx; */
+    /* struct bdk_fusf_prog_s cn88xxp2; */
 } bdk_fusf_prog_t;
 
 #define BDK_FUSF_PROG BDK_FUSF_PROG_FUNC()

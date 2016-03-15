@@ -72,6 +72,7 @@
                                        setting GPIO_BIT_CFG()[PIN_SEL] to GPIO_PIN_SEL_E::PTP_EXT_CLK,
                                        GPIO_PIN_SEL_E::PTP_TSTMP, or GPIO_PIN_SEL_E::PTP_EVTCNT. */
 #define BDK_MIO_PTP_EXT_SEL_E_GPIOX(a) (0 + (a)) /**< Normal GPIO inputs. */
+#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN9(a) (0x38 + (a)) /**< Select GSER0-GSER6 reference clock as the input source. */
 #define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN81XX(a) (0x38 + (a)) /**< Select GSER0-GSER3 reference clock as the input source. */
 #define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN88XX(a) (0x38 + (a)) /**< GSER0-7 reference clock. */
 #define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN83XX(a) (0x38 + (a)) /**< Select GSER0-GSER6 reference clock as the input source. */

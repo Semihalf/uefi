@@ -58,9 +58,11 @@
  * UART Base Address Register Enumeration
  * Enumerates the base address registers.
  */
+#define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN9(a) (0x87e028000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
 #define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN81XX(a) (0x87e028000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
 #define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN88XX(a) (0x87e024000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
 #define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN83XX(a) (0x87e028000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN9(a) (0x87e028f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 #define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN81XX(a) (0x87e028f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 #define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN88XX(a) (0x87e024f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 #define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN83XX(a) (0x87e028f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
@@ -104,6 +106,8 @@ static inline uint64_t BDK_UAAX_CIDR0(unsigned long a)
         return 0x87e028000ff0ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000ff0ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000ff0ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_CIDR0", 1, a, 0, 0, 0);
 }
 
@@ -144,6 +148,8 @@ static inline uint64_t BDK_UAAX_CIDR1(unsigned long a)
         return 0x87e028000ff4ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000ff4ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000ff4ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_CIDR1", 1, a, 0, 0, 0);
 }
 
@@ -184,6 +190,8 @@ static inline uint64_t BDK_UAAX_CIDR2(unsigned long a)
         return 0x87e028000ff8ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000ff8ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000ff8ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_CIDR2", 1, a, 0, 0, 0);
 }
 
@@ -224,6 +232,8 @@ static inline uint64_t BDK_UAAX_CIDR3(unsigned long a)
         return 0x87e028000ffcll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000ffcll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000ffcll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_CIDR3", 1, a, 0, 0, 0);
 }
 
@@ -337,6 +347,8 @@ static inline uint64_t BDK_UAAX_CR(unsigned long a)
         return 0x87e028000030ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000030ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000030ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_CR", 1, a, 0, 0, 0);
 }
 
@@ -389,6 +401,8 @@ static inline uint64_t BDK_UAAX_DR(unsigned long a)
         return 0x87e028000000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_DR", 1, a, 0, 0, 0);
 }
 
@@ -437,6 +451,8 @@ static inline uint64_t BDK_UAAX_FBRD(unsigned long a)
         return 0x87e028000028ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000028ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000028ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_FBRD", 1, a, 0, 0, 0);
 }
 
@@ -493,6 +509,8 @@ static inline uint64_t BDK_UAAX_FR(unsigned long a)
         return 0x87e028000018ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000018ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000018ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_FR", 1, a, 0, 0, 0);
 }
 
@@ -515,24 +533,25 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
+        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..3)_FBRD. */
 #else /* Word 0 - Little Endian */
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
+        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..3)_FBRD. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_uaax_ibrd_cn81xx
+    /* struct bdk_uaax_ibrd_s cn9; */
+    /* struct bdk_uaax_ibrd_s cn81xx; */
+    struct bdk_uaax_ibrd_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..3)_FBRD. */
+        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
 #else /* Word 0 - Little Endian */
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..3)_FBRD. */
+        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_uaax_ibrd_s cn88xx; */
-    /* struct bdk_uaax_ibrd_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_uaax_ibrd_s cn83xx; */
 } bdk_uaax_ibrd_t;
 
 static inline uint64_t BDK_UAAX_IBRD(unsigned long a) __attribute__ ((pure, always_inline));
@@ -544,6 +563,8 @@ static inline uint64_t BDK_UAAX_IBRD(unsigned long a)
         return 0x87e028000024ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000024ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000024ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_IBRD", 1, a, 0, 0, 0);
 }
 
@@ -605,6 +626,8 @@ static inline uint64_t BDK_UAAX_ICR(unsigned long a)
         return 0x87e028000044ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000044ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000044ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_ICR", 1, a, 0, 0, 0);
 }
 
@@ -671,6 +694,8 @@ static inline uint64_t BDK_UAAX_IFLS(unsigned long a)
         return 0x87e028000034ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000034ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000034ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_IFLS", 1, a, 0, 0, 0);
 }
 
@@ -731,6 +756,8 @@ static inline uint64_t BDK_UAAX_IMSC(unsigned long a)
         return 0x87e028000038ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000038ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000038ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_IMSC", 1, a, 0, 0, 0);
 }
 
@@ -795,6 +822,8 @@ static inline uint64_t BDK_UAAX_LCR_H(unsigned long a)
         return 0x87e02800002cll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e02400002cll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e02800002cll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_LCR_H", 1, a, 0, 0, 0);
 }
 
@@ -859,6 +888,8 @@ static inline uint64_t BDK_UAAX_MIS(unsigned long a)
         return 0x87e028000040ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000040ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000040ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_MIS", 1, a, 0, 0, 0);
 }
 
@@ -900,6 +931,8 @@ static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b)
         return 0x87e028ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
         return 0x87e024ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b==0)))
+        return 0x87e028ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("UAAX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
@@ -931,7 +964,7 @@ typedef union
                                                                  corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the nonsecure world.
 
-                                                                 If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 If PCCPF_UAA(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
 #else /* Word 0 - Little Endian */
@@ -941,7 +974,7 @@ typedef union
                                                                  corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the nonsecure world.
 
-                                                                 If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 If PCCPF_UAA(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
         uint64_t reserved_1            : 1;
@@ -949,7 +982,9 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_uaax_msix_vecx_addr_cn81xx
+    /* struct bdk_uaax_msix_vecx_addr_s cn9; */
+    /* struct bdk_uaax_msix_vecx_addr_s cn81xx; */
+    struct bdk_uaax_msix_vecx_addr_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
@@ -961,7 +996,7 @@ typedef union
                                                                  corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the nonsecure world.
 
-                                                                 If PCCPF_UAA(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
 #else /* Word 0 - Little Endian */
@@ -971,16 +1006,15 @@ typedef union
                                                                  corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the nonsecure world.
 
-                                                                 If PCCPF_UAA(0..3)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_uaax_msix_vecx_addr_s cn88xx; */
-    /* struct bdk_uaax_msix_vecx_addr_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_uaax_msix_vecx_addr_s cn83xx; */
 } bdk_uaax_msix_vecx_addr_t;
 
 static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -992,6 +1026,8 @@ static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
         return 0x87e028f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
         return 0x87e024f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+        return 0x87e028f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("UAAX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -1037,6 +1073,8 @@ static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
         return 0x87e028f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
         return 0x87e024f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+        return 0x87e028f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("UAAX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -1077,6 +1115,8 @@ static inline uint64_t BDK_UAAX_PIDR0(unsigned long a)
         return 0x87e028000fe0ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000fe0ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000fe0ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_PIDR0", 1, a, 0, 0, 0);
 }
 
@@ -1119,6 +1159,8 @@ static inline uint64_t BDK_UAAX_PIDR1(unsigned long a)
         return 0x87e028000fe4ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000fe4ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000fe4ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_PIDR1", 1, a, 0, 0, 0);
 }
 
@@ -1165,6 +1207,8 @@ static inline uint64_t BDK_UAAX_PIDR2(unsigned long a)
         return 0x87e028000fe8ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000fe8ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000fe8ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_PIDR2", 1, a, 0, 0, 0);
 }
 
@@ -1209,6 +1253,8 @@ static inline uint64_t BDK_UAAX_PIDR3(unsigned long a)
         return 0x87e028000fecll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000fecll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000fecll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_PIDR3", 1, a, 0, 0, 0);
 }
 
@@ -1247,6 +1293,8 @@ static inline uint64_t BDK_UAAX_PIDR4(unsigned long a)
         return 0x87e028000fd0ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000fd0ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000fd0ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_PIDR4", 1, a, 0, 0, 0);
 }
 
@@ -1285,6 +1333,8 @@ static inline uint64_t BDK_UAAX_PIDR5(unsigned long a)
         return 0x87e028000fd4ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000fd4ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000fd4ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_PIDR5", 1, a, 0, 0, 0);
 }
 
@@ -1323,6 +1373,8 @@ static inline uint64_t BDK_UAAX_PIDR6(unsigned long a)
         return 0x87e028000fd8ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000fd8ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000fd8ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_PIDR6", 1, a, 0, 0, 0);
 }
 
@@ -1361,6 +1413,8 @@ static inline uint64_t BDK_UAAX_PIDR7(unsigned long a)
         return 0x87e028000fdcll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000fdcll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000fdcll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_PIDR7", 1, a, 0, 0, 0);
 }
 
@@ -1422,6 +1476,8 @@ static inline uint64_t BDK_UAAX_RIS(unsigned long a)
         return 0x87e02800003cll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e02400003cll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e02800003cll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_RIS", 1, a, 0, 0, 0);
 }
 
@@ -1472,6 +1528,8 @@ static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a)
         return 0x87e028000004ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024000004ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028000004ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_RSR_ECR", 1, a, 0, 0, 0);
 }
 
@@ -1608,6 +1666,8 @@ static inline uint64_t BDK_UAAX_UCTL_CTL(unsigned long a)
         return 0x87e028001000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024001000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028001000ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_UCTL_CTL", 1, a, 0, 0, 0);
 }
 
@@ -1647,6 +1707,8 @@ static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a)
         return 0x87e028001010ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e024001010ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e028001010ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_UCTL_SPARE0", 1, a, 0, 0, 0);
 }
 
@@ -1686,6 +1748,8 @@ static inline uint64_t BDK_UAAX_UCTL_SPARE1(unsigned long a)
         return 0x87e0280010f8ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0240010f8ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e0280010f8ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("UAAX_UCTL_SPARE1", 1, a, 0, 0, 0);
 }
 

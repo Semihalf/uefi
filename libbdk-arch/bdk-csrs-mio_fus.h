@@ -89,12 +89,16 @@
                                        MIO_FUS_DAT3[DFA_INFO_DTE]: DFA DTE cripple. */
 #define BDK_MIO_FUS_FUSE_NUM_E_DORM_CRYPTO (0x67) /**< Internal:
                                        MIO_FUS_DAT2[DORM_CRYPTO]. See NOCRYPTO. */
+#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SELECT_CN9 (0x273) /**< Internal:
+                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SELECT]: Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SELECT_CN81XX (0x273) /**< Internal:
                                        MIO_FUS_DAT4[EAST_RCLK_BYP_SELECT]: Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SELECT_CN88XX (0x273) /**< Internal:
                                        MIO_FUS_DAT4[EAST_RCLK_BYP_SELECT]: East rclk DLL bypass select. */
 #define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SELECT_CN83XX (0x273) /**< Internal:
                                        MIO_FUS_DAT4[EAST_RCLK_BYP_SELECT]: Reserved. */
+#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SETTINGX_CN9(a) (0x267 + (a)) /**< Internal:
+                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SETTING]: Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SETTINGX_CN81XX(a) (0x267 + (a)) /**< Internal:
                                        MIO_FUS_DAT4[EAST_RCLK_BYP_SETTING]: Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SETTINGX_CN88XX(a) (0x267 + (a)) /**< Internal:
@@ -128,6 +132,8 @@
                                        All GSER fuses. */
 #define BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(a) (0x57 + (a)) /**< Internal:
                                        MIO_FUS_DAT3[L2C_CRIP]: L2C cripple.  See MIO_FUS_DAT3[L2C_CRIP]. */
+#define BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN9 (0x76) /**< Internal:
+                                       Disable upper LMC (LMC1). */
 #define BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN81XX (0x76) /**< Internal:
                                        Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN88XX (0x76) /**< Internal:
@@ -150,6 +156,8 @@
                                        _ 103=1,80=1: Reserved.
                                        
                                        Serial bit 11. fuse[80] and !fuse[103] */
+#define BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN9 (0x5a) /**< Internal:
+                                       Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN81XX (0x5a) /**< Internal:
                                        Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN88XX (0x5a) /**< Internal:
@@ -162,6 +170,8 @@
                                        Serial bit 10. */
 #define BDK_MIO_FUS_FUSE_NUM_E_NOZIP (0x52) /**< Internal:
                                        MIO_FUS_DAT3[NOZIP]: ZIP_CTL disable. */
+#define BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN9 (0x6b) /**< Internal:
+                                       Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN81XX (0x6b) /**< Internal:
                                        Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN88XX (0x6b) /**< Internal:
@@ -190,6 +200,8 @@
                                        MIO_FUS_DAT4[PP_RCLK_BYP_SELECT]: AP rclk DLL bypass select. */
 #define BDK_MIO_FUS_FUSE_NUM_E_PP_RCLK_BYP_SETTINGX(a) (0x24d + (a)) /**< Internal:
                                        MIO_FUS_DAT4[PP_RCLK_BYP_SETTING]: AP rclk DLL bypass setting. */
+#define BDK_MIO_FUS_FUSE_NUM_E_RAID_DIS_CN9 (0x66) /**< Internal:
+                                       Note MIO_FUS_DAT2[RAID_EN] is an inversion of this fuse. */
 #define BDK_MIO_FUS_FUSE_NUM_E_RAID_DIS_CN81XX (0x66) /**< Internal:
                                        Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_RAID_DIS_CN88XX (0x66) /**< Internal:
@@ -201,6 +213,8 @@
                                        Blowing fuse <a> is equivalent to blowing fuse <a>-1920. */
 #define BDK_MIO_FUS_FUSE_NUM_E_REFCLK_CHECK (0xc2) /**< Internal:
                                        Refclk frequency checker enable.  Set when TrustZone is validated. */
+#define BDK_MIO_FUS_FUSE_NUM_E_REPAIRX_CN9(a) (0x800 + (a)) /**< Internal:
+                                       Unified (ROC/L2C/AP) repair data. Total of 48 by 21-bit repair solutions. */
 #define BDK_MIO_FUS_FUSE_NUM_E_REPAIRX_CN81XX(a) (0x800 + (a)) /**< Internal:
                                        Unified (ROC/L2C/AP) repair data. Total of 48 by 21-bit repair solutions. */
 #define BDK_MIO_FUS_FUSE_NUM_E_REPAIRX_CN88XX(a) (0x800 + (a)) /**< Internal:
@@ -264,12 +278,16 @@
                                        MIO_FUS_DAT4[TAD_RCLK_BYP_SETTING]: TAD rclk DLL bypass setting. */
 #define BDK_MIO_FUS_FUSE_NUM_E_TGGX(a) (0x300 + (a)) /**< Internal:
                                        MIO_FUS_TGG: TGG. */
+#define BDK_MIO_FUS_FUSE_NUM_E_TIM_DIS_CN9 (0xe3) /**< Internal:
+                                       TIM cripple. */
 #define BDK_MIO_FUS_FUSE_NUM_E_TIM_DIS_CN81XX (0xe3) /**< Internal:
                                        Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_TIM_DIS_CN88XX (0xe3) /**< Internal:
                                        Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_TIM_DIS_CN83XX (0xe3) /**< Internal:
                                        TIM cripple. */
+#define BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN9 (0xa1) /**< Internal:
+                                       Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN81XX (0xa1) /**< Internal:
                                        Reserved. */
 #define BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN88XX (0xa1) /**< Internal:
@@ -454,37 +472,37 @@ typedef union
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
-        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
         uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
                                                                    <13> = BGX0 disable.
                                                                    <14> = BGX1 disable. */
         uint64_t sata_dis              : 4;  /**< [ 12:  9](RO) Fuse information - SATA disable:
-                                                                   <9> = SATA0-3 disable.
-                                                                   <10> = SATA4-7 disable.
-                                                                   <11> = SATA8-11 disable.
-                                                                   <12> = SATA12-15 disable. */
+                                                                   <9> = SATA0-1 disable.
+                                                                   <10> = SATA2-3 disable.
+                                                                   <11> = SATA4-5 disable.
+                                                                   <12> = Reserved. */
         uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM disable:
-                                                                   <6> = PEM0-1 disable.
-                                                                   <7> = PEM2-3 disable
-                                                                   <8> = PEM4-5 disable. */
-        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC uses two channels rather than four. */
+                                                                   <6> = PEM0 disable.
+                                                                   <7> = PEM1 disable
+                                                                   <8> = PEM2-3 disable. */
+        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
         uint64_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_4          : 5;
-        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC uses two channels rather than four. */
+        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
         uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM disable:
-                                                                   <6> = PEM0-1 disable.
-                                                                   <7> = PEM2-3 disable
-                                                                   <8> = PEM4-5 disable. */
+                                                                   <6> = PEM0 disable.
+                                                                   <7> = PEM1 disable
+                                                                   <8> = PEM2-3 disable. */
         uint64_t sata_dis              : 4;  /**< [ 12:  9](RO) Fuse information - SATA disable:
-                                                                   <9> = SATA0-3 disable.
-                                                                   <10> = SATA4-7 disable.
-                                                                   <11> = SATA8-11 disable.
-                                                                   <12> = SATA12-15 disable. */
+                                                                   <9> = SATA0-1 disable.
+                                                                   <10> = SATA2-3 disable.
+                                                                   <11> = SATA4-5 disable.
+                                                                   <12> = Reserved. */
         uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
                                                                    <13> = BGX0 disable.
                                                                    <14> = BGX1 disable. */
-        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
@@ -643,6 +661,7 @@ typedef union
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_mio_fus_dat2_s cn9; */
     struct bdk_mio_fus_dat2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -767,130 +786,7 @@ typedef union
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_mio_fus_dat2_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_59_63        : 5;
-        uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
-                                                                 Provides software a means of determining the platform at run time.
-                                                                 0x0 = Hardware.
-                                                                 0x1 = Emulator.
-                                                                 0x2 = RTL simulator.
-                                                                 0x3 = ASIM.
-                                                                 0x4-0x7 = reserved. */
-        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
-                                                                 N/128 power reduction. Small values have less throttling and higher
-                                                                 performance. 0x0 disables throttling. */
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
-                                                                 Internal:
-                                                                 fuse[99]. */
-        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
-        uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
-        uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
-                                                                 Internal:
-                                                                 Tied to 0. */
-        uint64_t raid_en               : 1;  /**< [ 32: 32](RO) Fuse information - RAID enabled. */
-        uint64_t reserved_31           : 1;
-        uint64_t lmc_mode32            : 1;  /**< [ 30: 30](RO) DRAM controller is limited to 32/36 bit wide parts.
-                                                                 Internal:
-                                                                 30 = fuse[75]. */
-        uint64_t reserved_29           : 1;
-        uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
-        uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
-
-                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
-
-                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
-                                                                 indicating this behavior.
-
-                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
-
-                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
-        uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
-        uint64_t reserved_24           : 1;
-        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
-        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
-        uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
-                                                                   <13> = BGX0 disable.
-                                                                   <14> = BGX1 disable. */
-        uint64_t sata_dis              : 4;  /**< [ 12:  9](RO) Fuse information - SATA disable:
-                                                                   <9> = SATA0-1 disable.
-                                                                   <10> = SATA2-3 disable.
-                                                                   <11> = SATA4-5 disable.
-                                                                   <12> = Reserved. */
-        uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM disable:
-                                                                   <6> = PEM0 disable.
-                                                                   <7> = PEM1 disable
-                                                                   <8> = PEM2-3 disable. */
-        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
-        uint64_t reserved_0_4          : 5;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_4          : 5;
-        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
-        uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM disable:
-                                                                   <6> = PEM0 disable.
-                                                                   <7> = PEM1 disable
-                                                                   <8> = PEM2-3 disable. */
-        uint64_t sata_dis              : 4;  /**< [ 12:  9](RO) Fuse information - SATA disable:
-                                                                   <9> = SATA0-1 disable.
-                                                                   <10> = SATA2-3 disable.
-                                                                   <11> = SATA4-5 disable.
-                                                                   <12> = Reserved. */
-        uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
-                                                                   <13> = BGX0 disable.
-                                                                   <14> = BGX1 disable. */
-        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
-        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
-        uint64_t reserved_24           : 1;
-        uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
-
-                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
-
-                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
-                                                                 indicating this behavior.
-
-                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
-
-                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
-        uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
-        uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
-        uint64_t reserved_29           : 1;
-        uint64_t lmc_mode32            : 1;  /**< [ 30: 30](RO) DRAM controller is limited to 32/36 bit wide parts.
-                                                                 Internal:
-                                                                 30 = fuse[75]. */
-        uint64_t reserved_31           : 1;
-        uint64_t raid_en               : 1;  /**< [ 32: 32](RO) Fuse information - RAID enabled. */
-        uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
-                                                                 Internal:
-                                                                 Tied to 0. */
-        uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
-        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
-                                                                 Internal:
-                                                                 fuse[99]. */
-        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
-                                                                 N/128 power reduction. Small values have less throttling and higher
-                                                                 performance. 0x0 disables throttling. */
-        uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
-                                                                 Provides software a means of determining the platform at run time.
-                                                                 0x0 = Hardware.
-                                                                 0x1 = Emulator.
-                                                                 0x2 = RTL simulator.
-                                                                 0x3 = ASIM.
-                                                                 0x4-0x7 = reserved. */
-        uint64_t reserved_59_63        : 5;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_mio_fus_dat2_s cn83xx; */
     struct bdk_mio_fus_dat2_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1050,10 +946,10 @@ typedef union
         uint64_t efus_lck_man          : 1;  /**< [ 36: 36](RO) Fuse information - efuse lockdown. */
         uint64_t pll_half_dis          : 1;  /**< [ 35: 35](RO/H) Fuse information - coprocessor-clock PLL control. */
         uint64_t l2c_crip              : 3;  /**< [ 34: 32](RO) Fuse information - L2C cripple:
-                                                                 0x0 = Full cache (16-way, 2 MB).
-                                                                 0x1 = 3/4 ways (12-way, 1.5 MB).
-                                                                 0x2 = 1/2 ways (8-way, 1 MB).
-                                                                 0x3 = 1/4 ways (4-way, 512 KB).
+                                                                 0x0 = Full cache (16-way, 8 MB).
+                                                                 0x1 = 3/4 ways (12-way, 6 MB).
+                                                                 0x2 = 1/2 ways (8-way, 4 MB).
+                                                                 0x3 = 1/4 ways (4-way, 2 MB).
                                                                  0x4-0x7 = Reserved. */
         uint64_t use_int_refclk        : 1;  /**< [ 31: 31](RO) If set, use the PLL output as the low-jitter reference clock to the rclk DLLs. Default is
                                                                  to use the internal input reference clock. */
@@ -1070,7 +966,9 @@ typedef union
         uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
         uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
         uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
-        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) When set to 1, TNS switching functionality is permanently disabled. */
+        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) Reserved.
+                                                                 Internal:
+                                                                 When set to 1, TNS switching functionality is permanently disabled. */
         uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
                                                                  value for PLL_MUL[5:1] straps.  Any strap setting above this
                                                                  value will be ignored.  A value of 0 indicates no hardware limit. */
@@ -1084,7 +982,9 @@ typedef union
         uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
                                                                  value for PLL_MUL[5:1] straps.  Any strap setting above this
                                                                  value will be ignored.  A value of 0 indicates no hardware limit. */
-        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) When set to 1, TNS switching functionality is permanently disabled. */
+        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) Reserved.
+                                                                 Internal:
+                                                                 When set to 1, TNS switching functionality is permanently disabled. */
         uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
         uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
         uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
@@ -1101,10 +1001,10 @@ typedef union
         uint64_t use_int_refclk        : 1;  /**< [ 31: 31](RO) If set, use the PLL output as the low-jitter reference clock to the rclk DLLs. Default is
                                                                  to use the internal input reference clock. */
         uint64_t l2c_crip              : 3;  /**< [ 34: 32](RO) Fuse information - L2C cripple:
-                                                                 0x0 = Full cache (16-way, 2 MB).
-                                                                 0x1 = 3/4 ways (12-way, 1.5 MB).
-                                                                 0x2 = 1/2 ways (8-way, 1 MB).
-                                                                 0x3 = 1/4 ways (4-way, 512 KB).
+                                                                 0x0 = Full cache (16-way, 8 MB).
+                                                                 0x1 = 3/4 ways (12-way, 6 MB).
+                                                                 0x2 = 1/2 ways (8-way, 4 MB).
+                                                                 0x3 = 1/4 ways (4-way, 2 MB).
                                                                  0x4-0x7 = Reserved. */
         uint64_t pll_half_dis          : 1;  /**< [ 35: 35](RO/H) Fuse information - coprocessor-clock PLL control. */
         uint64_t efus_lck_man          : 1;  /**< [ 36: 36](RO) Fuse information - efuse lockdown. */
@@ -1123,6 +1023,7 @@ typedef union
                                                                  will XOR with this value. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_mio_fus_dat3_s cn9; */
     struct bdk_mio_fus_dat3_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1311,102 +1212,7 @@ typedef union
                                                                  will XOR with this value. */
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_mio_fus_dat3_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ema0                  : 6;  /**< [ 63: 58](RO) Fuse information - EMA0.
-                                                                 Internal:
-                                                                 Default value is 0x11. Soft or hard blow of these fuses
-                                                                 will XOR with this value. */
-        uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
-        uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
-        uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
-        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
-        uint64_t pll_bwadj_denom       : 2;  /**< [ 39: 38](RO) Select CLKF denominator for BWADJ value.
-                                                                    0x0 = Selects CLKF/4.
-                                                                    0x1 = Selects CLKF/2.
-                                                                    0x2 = Selects CLKF/8. */
-        uint64_t efus_lck_rsv          : 1;  /**< [ 37: 37](RO) Fuse information - efuse lockdown. */
-        uint64_t efus_lck_man          : 1;  /**< [ 36: 36](RO) Fuse information - efuse lockdown. */
-        uint64_t pll_half_dis          : 1;  /**< [ 35: 35](RO/H) Fuse information - coprocessor-clock PLL control. */
-        uint64_t l2c_crip              : 3;  /**< [ 34: 32](RO) Fuse information - L2C cripple:
-                                                                 0x0 = Full cache (16-way, 8 MB).
-                                                                 0x1 = 3/4 ways (12-way, 6 MB).
-                                                                 0x2 = 1/2 ways (8-way, 4 MB).
-                                                                 0x3 = 1/4 ways (4-way, 2 MB).
-                                                                 0x4-0x7 = Reserved. */
-        uint64_t use_int_refclk        : 1;  /**< [ 31: 31](RO) If set, use the PLL output as the low-jitter reference clock to the rclk DLLs. Default is
-                                                                 to use the internal input reference clock. */
-        uint64_t zip_info              : 2;  /**< [ 30: 29](RO) Fuse information - ZIP information. */
-        uint64_t bar2_sz_conf          : 1;  /**< [ 28: 28](RO) Fuse information - When 0, BAR2 size conforms to PCIe specification. */
-        uint64_t efus_lck              : 1;  /**< [ 27: 27](RO) Fuse information - efuse lockdown. */
-        uint64_t efus_ign              : 1;  /**< [ 26: 26](RO) Fuse information - efuse ignore. */
-        uint64_t nozip                 : 1;  /**< [ 25: 25](RO) Fuse information - ZIP disable. */
-        uint64_t nodfa_dte             : 1;  /**< [ 24: 24](RO) Fuse information - HFA disable (HTE). */
-        uint64_t ema1                  : 6;  /**< [ 23: 18](RO) Fuse information - EMA1.
-                                                                 Internal:
-                                                                 Default value is 0x02. Soft or hard blow of these fuses
-                                                                 will XOR with this value. */
-        uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
-        uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
-        uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
-        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) Reserved.
-                                                                 Internal:
-                                                                 When set to 1, TNS switching functionality is permanently disabled. */
-        uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
-                                                                 value for PLL_MUL[5:1] straps.  Any strap setting above this
-                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
-        uint64_t pnr_pll_mul           : 4;  /**< [  3:  0](RO) Coprocessor-clock PLL multiplier hardware limit.  Indicates maximum
-                                                                 value for PNR_MUL[5:1] straps.  Any strap setting above this
-                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
-#else /* Word 0 - Little Endian */
-        uint64_t pnr_pll_mul           : 4;  /**< [  3:  0](RO) Coprocessor-clock PLL multiplier hardware limit.  Indicates maximum
-                                                                 value for PNR_MUL[5:1] straps.  Any strap setting above this
-                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
-        uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
-                                                                 value for PLL_MUL[5:1] straps.  Any strap setting above this
-                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
-        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) Reserved.
-                                                                 Internal:
-                                                                 When set to 1, TNS switching functionality is permanently disabled. */
-        uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
-        uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
-        uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
-        uint64_t ema1                  : 6;  /**< [ 23: 18](RO) Fuse information - EMA1.
-                                                                 Internal:
-                                                                 Default value is 0x02. Soft or hard blow of these fuses
-                                                                 will XOR with this value. */
-        uint64_t nodfa_dte             : 1;  /**< [ 24: 24](RO) Fuse information - HFA disable (HTE). */
-        uint64_t nozip                 : 1;  /**< [ 25: 25](RO) Fuse information - ZIP disable. */
-        uint64_t efus_ign              : 1;  /**< [ 26: 26](RO) Fuse information - efuse ignore. */
-        uint64_t efus_lck              : 1;  /**< [ 27: 27](RO) Fuse information - efuse lockdown. */
-        uint64_t bar2_sz_conf          : 1;  /**< [ 28: 28](RO) Fuse information - When 0, BAR2 size conforms to PCIe specification. */
-        uint64_t zip_info              : 2;  /**< [ 30: 29](RO) Fuse information - ZIP information. */
-        uint64_t use_int_refclk        : 1;  /**< [ 31: 31](RO) If set, use the PLL output as the low-jitter reference clock to the rclk DLLs. Default is
-                                                                 to use the internal input reference clock. */
-        uint64_t l2c_crip              : 3;  /**< [ 34: 32](RO) Fuse information - L2C cripple:
-                                                                 0x0 = Full cache (16-way, 8 MB).
-                                                                 0x1 = 3/4 ways (12-way, 6 MB).
-                                                                 0x2 = 1/2 ways (8-way, 4 MB).
-                                                                 0x3 = 1/4 ways (4-way, 2 MB).
-                                                                 0x4-0x7 = Reserved. */
-        uint64_t pll_half_dis          : 1;  /**< [ 35: 35](RO/H) Fuse information - coprocessor-clock PLL control. */
-        uint64_t efus_lck_man          : 1;  /**< [ 36: 36](RO) Fuse information - efuse lockdown. */
-        uint64_t efus_lck_rsv          : 1;  /**< [ 37: 37](RO) Fuse information - efuse lockdown. */
-        uint64_t pll_bwadj_denom       : 2;  /**< [ 39: 38](RO) Select CLKF denominator for BWADJ value.
-                                                                    0x0 = Selects CLKF/4.
-                                                                    0x1 = Selects CLKF/2.
-                                                                    0x2 = Selects CLKF/8. */
-        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
-        uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
-        uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
-        uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
-        uint64_t ema0                  : 6;  /**< [ 63: 58](RO) Fuse information - EMA0.
-                                                                 Internal:
-                                                                 Default value is 0x11. Soft or hard blow of these fuses
-                                                                 will XOR with this value. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_mio_fus_dat3_s cn83xx; */
 } bdk_mio_fus_dat3_t;
 
 #define BDK_MIO_FUS_DAT3 BDK_MIO_FUS_DAT3_FUNC()
@@ -1554,7 +1360,7 @@ static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void)
  * MIO Fuse PLL Register
  * This register contains PLL status and controls for the MSC_CLKOUT and
  * MSC_SYS_CLKOUT pins.  The fields are reset to zero on a cold reset.
- * the values are preserved on both a warm and soft reset starting with pass 3.
+ * the values are preserved on both a warm and soft reset.
  */
 typedef union
 {
@@ -1697,6 +1503,8 @@ static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a)
         return 0x87e003001440ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x87e003001440ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e003001440ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("MIO_FUS_PNAMEX", 1, a, 0, 0, 0);
 }
 
@@ -1828,8 +1636,8 @@ static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void)
  * [PEND]. When [PEND] = 0, then [DAT] is valid.
  * In addition, if the efuse read went to the efuse banks, software can
  * read MIO_FUS_BNK_DAT() which contains all 128 fuses in the bank
- * associated in ADDR.  Fuses 1023..960 are never accessable on pass 1 parts.
- * In addition, fuses 1023..960 are not accessable if
+ * associated in ADDR.
+ * Fuses 1023..960 are not accessible if
  * MIO_FUS_DAT2[DORM_CRYPTO] is enabled.
  */
 typedef union
@@ -2053,6 +1861,7 @@ typedef union
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_mio_fus_soft_repair_s cn9; */
     /* struct bdk_mio_fus_soft_repair_s cn81xx; */
     struct bdk_mio_fus_soft_repair_cn88xx
     {

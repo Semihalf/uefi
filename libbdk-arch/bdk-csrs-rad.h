@@ -236,6 +236,7 @@ union bdk_rad_cword_s
         uint64_t istr                  : 8;  /**< [ 63: 56] When [STREN] is set, the SMMU stream for RAD_IWORD_S[PTR]. Else, reserved. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_rad_cword_s_s cn9; */
     struct bdk_rad_cword_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -515,6 +516,7 @@ union bdk_rad_oword_s
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_rad_oword_s_s cn9; */
     struct bdk_rad_oword_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -630,6 +632,7 @@ union bdk_rad_resp_s
         uint64_t reserved_113_127      : 15;
 #endif /* Word 1 - End */
     } s;
+    /* struct bdk_rad_resp_s_s cn9; */
     struct bdk_rad_resp_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -908,6 +911,8 @@ static inline uint64_t BDK_RAD_ECO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000168ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x870000000168ll;
     __bdk_csr_fatal("RAD_ECO", 0, 0, 0, 0, 0);
 }
 
@@ -948,6 +953,8 @@ static inline uint64_t BDK_RAD_GMCTL_FUNC(void) __attribute__ ((pure, always_inl
 static inline uint64_t BDK_RAD_GMCTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000090ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000090ll;
     __bdk_csr_fatal("RAD_GMCTL", 0, 0, 0, 0, 0);
 }
@@ -1150,6 +1157,8 @@ static inline uint64_t BDK_RAD_MEM_DEBUG0_FUNC(void)
         return 0x870000001000ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x870000001000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x870000001000ll;
     __bdk_csr_fatal("RAD_MEM_DEBUG0", 0, 0, 0, 0, 0);
 }
 
@@ -1191,6 +1200,8 @@ static inline uint64_t BDK_RAD_MEM_DEBUG1_FUNC(void)
         return 0x870000001008ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x870000001008ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x870000001008ll;
     __bdk_csr_fatal("RAD_MEM_DEBUG1", 0, 0, 0, 0, 0);
 }
 
@@ -1231,6 +1242,8 @@ static inline uint64_t BDK_RAD_MEM_DEBUG2_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000001010ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000001010ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000001010ll;
     __bdk_csr_fatal("RAD_MEM_DEBUG2", 0, 0, 0, 0, 0);
 }
@@ -1403,6 +1416,8 @@ static inline uint64_t BDK_RAD_PF_MBOX_ENA_W1CX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x870000000440ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x870000000440ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_PF_MBOX_ENA_W1CX", 1, a, 0, 0, 0);
 }
 
@@ -1439,6 +1454,8 @@ static inline uint64_t BDK_RAD_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ (
 static inline uint64_t BDK_RAD_PF_MBOX_ENA_W1SX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870000000460ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x870000000460ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_PF_MBOX_ENA_W1SX", 1, a, 0, 0, 0);
 }
@@ -1480,6 +1497,8 @@ static inline uint64_t BDK_RAD_PF_MBOX_INTX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x870000000400ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x870000000400ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_PF_MBOX_INTX", 1, a, 0, 0, 0);
 }
 
@@ -1516,6 +1535,8 @@ static inline uint64_t BDK_RAD_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ (
 static inline uint64_t BDK_RAD_PF_MBOX_INT_W1SX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870000000420ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x870000000420ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_PF_MBOX_INT_W1SX", 1, a, 0, 0, 0);
 }
@@ -1554,6 +1575,8 @@ static inline uint64_t BDK_RAD_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_RAD_PF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870000ff0000ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x870000ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -1610,6 +1633,8 @@ static inline uint64_t BDK_RAD_PF_MSIX_VECX_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x870000f00000ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x870000f00000ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -1650,6 +1675,8 @@ static inline uint64_t BDK_RAD_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ (
 static inline uint64_t BDK_RAD_PF_MSIX_VECX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870000f00008ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x870000f00008ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -1697,6 +1724,8 @@ static inline uint64_t BDK_RAD_PF_VFX_MBOXX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x870000002000ll + 0x10ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=1)))
+        return 0x870000002000ll + 0x10ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("RAD_PF_VFX_MBOXX", 2, a, b, 0, 0);
 }
 
@@ -1727,15 +1756,15 @@ typedef union
         uint64_t csr_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the CSR FIFO memory.
                                                                  Internal:
                                                                  csr.csr_fifo. */
-        uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories. */
-        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB OUB memories. */
-        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB INB memories. */
-        uint64_t dat                   : 2;  /**< [  1:  0](RO) BIST result of the DAT memories. */
+        uint64_t sta                   : 1;  /**< [  5:  5](RO/H) BIST result of the STA memories. */
+        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO/H) BIST result of the NCB OUB memories. */
+        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO/H) BIST result of the NCB INB memories. */
+        uint64_t dat                   : 2;  /**< [  1:  0](RO/H) BIST result of the DAT memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 2;  /**< [  1:  0](RO) BIST result of the DAT memories. */
-        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB INB memories. */
-        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB OUB memories. */
-        uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories. */
+        uint64_t dat                   : 2;  /**< [  1:  0](RO/H) BIST result of the DAT memories. */
+        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO/H) BIST result of the NCB INB memories. */
+        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO/H) BIST result of the NCB OUB memories. */
+        uint64_t sta                   : 1;  /**< [  5:  5](RO/H) BIST result of the STA memories. */
         uint64_t csr_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the CSR FIFO memory.
                                                                  Internal:
                                                                  csr.csr_fifo. */
@@ -1745,6 +1774,7 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_rad_reg_bist_result_s cn9; */
     struct bdk_rad_reg_bist_result_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1773,34 +1803,7 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_rad_reg_bist_result_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t csr_msix              : 1;  /**< [  7:  7](RO/H) BIST result of the CSR MSIX memory.
-                                                                 Internal:
-                                                                 csr.msix_mem. */
-        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the CSR FIFO memory.
-                                                                 Internal:
-                                                                 csr.csr_fifo. */
-        uint64_t sta                   : 1;  /**< [  5:  5](RO/H) BIST result of the STA memories. */
-        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO/H) BIST result of the NCB OUB memories. */
-        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO/H) BIST result of the NCB INB memories. */
-        uint64_t dat                   : 2;  /**< [  1:  0](RO/H) BIST result of the DAT memories. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 2;  /**< [  1:  0](RO/H) BIST result of the DAT memories. */
-        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO/H) BIST result of the NCB INB memories. */
-        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO/H) BIST result of the NCB OUB memories. */
-        uint64_t sta                   : 1;  /**< [  5:  5](RO/H) BIST result of the STA memories. */
-        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the CSR FIFO memory.
-                                                                 Internal:
-                                                                 csr.csr_fifo. */
-        uint64_t csr_msix              : 1;  /**< [  7:  7](RO/H) BIST result of the CSR MSIX memory.
-                                                                 Internal:
-                                                                 csr.msix_mem. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_rad_reg_bist_result_s cn83xx; */
 } bdk_rad_reg_bist_result_t;
 
 #define BDK_RAD_REG_BIST_RESULT BDK_RAD_REG_BIST_RESULT_FUNC()
@@ -1810,6 +1813,8 @@ static inline uint64_t BDK_RAD_REG_BIST_RESULT_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000080ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000080ll;
     __bdk_csr_fatal("RAD_REG_BIST_RESULT", 0, 0, 0, 0, 0);
 }
@@ -1834,7 +1839,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48](RAZ) Reserved. */
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [DFB] is clear.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and RAD_GMCTL[GMID] as valid. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
 
                                                                  0 = The hardware issues NCB regular load towards the cache, which will cause the
@@ -1846,19 +1854,19 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Partial cache line reads always use LDI. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.
-                                                                 Internal:
-                                                                 In
-                                                                 Octeon, if set, disables aura frees, which is the required mode without an FPA. */
+        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Don't free instruction buffers.
+                                                                 0 = When RAD reaches the end of an instruction chunk, that chunk will be freed
+                                                                 to the FPA.
+                                                                 1 = Instruction chunks are not freed to FPA. */
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
         uint64_t reserved_0_32         : 33;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_32         : 33;
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.
-                                                                 Internal:
-                                                                 In
-                                                                 Octeon, if set, disables aura frees, which is the required mode without an FPA. */
+        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Don't free instruction buffers.
+                                                                 0 = When RAD reaches the end of an instruction chunk, that chunk will be freed
+                                                                 to the FPA.
+                                                                 1 = Instruction chunks are not freed to FPA. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
 
                                                                  0 = The hardware issues NCB regular load towards the cache, which will cause the
@@ -1870,19 +1878,19 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Partial cache line reads always use LDI. */
-        uint64_t aura                  : 12; /**< [ 59: 48](RAZ) Reserved. */
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [DFB] is clear.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and RAD_GMCTL[GMID] as valid. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rad_reg_cmd_buf_s cn88xx; */
-    struct bdk_rad_reg_cmd_buf_cn83xx
+    /* struct bdk_rad_reg_cmd_buf_s cn9; */
+    struct bdk_rad_reg_cmd_buf_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [DFB] is clear.
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and RAD_GMCTL[GMID] as valid. */
+        uint64_t aura                  : 12; /**< [ 59: 48](RAZ) Reserved. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
 
                                                                  0 = The hardware issues NCB regular load towards the cache, which will cause the
@@ -1894,19 +1902,19 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Partial cache line reads always use LDI. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Don't free instruction buffers.
-                                                                 0 = When RAD reaches the end of an instruction chunk, that chunk will be freed
-                                                                 to the FPA.
-                                                                 1 = Instruction chunks are not freed to FPA. */
+        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.
+                                                                 Internal:
+                                                                 In
+                                                                 Octeon, if set, disables aura frees, which is the required mode without an FPA. */
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
         uint64_t reserved_0_32         : 33;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_32         : 33;
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Don't free instruction buffers.
-                                                                 0 = When RAD reaches the end of an instruction chunk, that chunk will be freed
-                                                                 to the FPA.
-                                                                 1 = Instruction chunks are not freed to FPA. */
+        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.
+                                                                 Internal:
+                                                                 In
+                                                                 Octeon, if set, disables aura frees, which is the required mode without an FPA. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
 
                                                                  0 = The hardware issues NCB regular load towards the cache, which will cause the
@@ -1918,13 +1926,11 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Partial cache line reads always use LDI. */
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [DFB] is clear.
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and RAD_GMCTL[GMID] as valid. */
+        uint64_t aura                  : 12; /**< [ 59: 48](RAZ) Reserved. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_rad_reg_cmd_buf_s cn83xx; */
 } bdk_rad_reg_cmd_buf_t;
 
 #define BDK_RAD_REG_CMD_BUF BDK_RAD_REG_CMD_BUF_FUNC()
@@ -1934,6 +1940,8 @@ static inline uint64_t BDK_RAD_REG_CMD_BUF_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000008ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000008ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000008ll;
     __bdk_csr_fatal("RAD_REG_CMD_BUF", 0, 0, 0, 0, 0);
 }
@@ -2008,9 +2016,9 @@ typedef union
                                                                  usage. Values greater than 0x8 are illegal. */
         uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big-endian. Generally, this is not changed as data is
                                                                  byte invariant. */
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1/H) Reset one-shot pulse (lasts for 4 cycles). */
 #else /* Word 0 - Little Endian */
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1/H) Reset one-shot pulse (lasts for 4 cycles). */
         uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big-endian. Generally, this is not changed as data is
                                                                  byte invariant. */
         uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands as a throttle to control IOB
@@ -2023,8 +2031,7 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rad_reg_ctl_s cn88xx; */
-    struct bdk_rad_reg_ctl_cn83xx
+    struct bdk_rad_reg_ctl_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -2047,7 +2054,36 @@ typedef union
                                                                  RAD_NZDIST_S) are big-endian. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn9;
+    struct bdk_rad_reg_ctl_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t inst_be               : 1;  /**< [  7:  7](R/W) Instruction/response structures (RAD_CWORD_S, RAD_IWORD_S, RAD_OWORD_S, RAD_RESP_S,
+                                                                 RAD_NZDIST_S) are big-endian. */
+        uint64_t wc_dis                : 1;  /**< [  6:  6](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Bug 17188 diagnostic disable. */
+        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands as a throttle to control IOB
+                                                                 usage. Values greater than 0x8 are illegal. */
+        uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big-endian. Generally, this is not changed as data is
+                                                                 byte invariant. */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
+        uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big-endian. Generally, this is not changed as data is
+                                                                 byte invariant. */
+        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands as a throttle to control IOB
+                                                                 usage. Values greater than 0x8 are illegal. */
+        uint64_t wc_dis                : 1;  /**< [  6:  6](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Bug 17188 diagnostic disable. */
+        uint64_t inst_be               : 1;  /**< [  7:  7](R/W) Instruction/response structures (RAD_CWORD_S, RAD_IWORD_S, RAD_OWORD_S, RAD_RESP_S,
+                                                                 RAD_NZDIST_S) are big-endian. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn88xx;
+    /* struct bdk_rad_reg_ctl_cn9 cn83xx; */
 } bdk_rad_reg_ctl_t;
 
 #define BDK_RAD_REG_CTL BDK_RAD_REG_CTL_FUNC()
@@ -2057,6 +2093,8 @@ static inline uint64_t BDK_RAD_REG_CTL_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000000ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000000ll;
     __bdk_csr_fatal("RAD_REG_CTL", 0, 0, 0, 0, 0);
 }
@@ -2113,6 +2151,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG0_FUNC(void)
         return 0x870000000100ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x870000000100ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x870000000100ll;
     __bdk_csr_fatal("RAD_REG_DEBUG0", 0, 0, 0, 0, 0);
 }
 
@@ -2149,6 +2189,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG1_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000108ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000108ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000108ll;
     __bdk_csr_fatal("RAD_REG_DEBUG1", 0, 0, 0, 0, 0);
 }
@@ -2190,6 +2232,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG10_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000150ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000150ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000150ll;
     __bdk_csr_fatal("RAD_REG_DEBUG10", 0, 0, 0, 0, 0);
 }
@@ -2240,6 +2284,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG11_FUNC(void)
         return 0x870000000158ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x870000000158ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x870000000158ll;
     __bdk_csr_fatal("RAD_REG_DEBUG11", 0, 0, 0, 0, 0);
 }
 
@@ -2279,6 +2325,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG12_FUNC(void)
         return 0x870000000160ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x870000000160ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x870000000160ll;
     __bdk_csr_fatal("RAD_REG_DEBUG12", 0, 0, 0, 0, 0);
 }
 
@@ -2315,6 +2363,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG2_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000110ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000110ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000110ll;
     __bdk_csr_fatal("RAD_REG_DEBUG2", 0, 0, 0, 0, 0);
 }
@@ -2353,6 +2403,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG3_FUNC(void)
         return 0x870000000118ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x870000000118ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x870000000118ll;
     __bdk_csr_fatal("RAD_REG_DEBUG3", 0, 0, 0, 0, 0);
 }
 
@@ -2389,6 +2441,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG4_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000120ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000120ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000120ll;
     __bdk_csr_fatal("RAD_REG_DEBUG4", 0, 0, 0, 0, 0);
 }
@@ -2461,6 +2515,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG5_FUNC(void)
         return 0x870000000128ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x870000000128ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x870000000128ll;
     __bdk_csr_fatal("RAD_REG_DEBUG5", 0, 0, 0, 0, 0);
 }
 
@@ -2502,6 +2558,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG6_FUNC(void)
         return 0x870000000130ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x870000000130ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x870000000130ll;
     __bdk_csr_fatal("RAD_REG_DEBUG6", 0, 0, 0, 0, 0);
 }
 
@@ -2540,6 +2598,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG7_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000138ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000138ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000138ll;
     __bdk_csr_fatal("RAD_REG_DEBUG7", 0, 0, 0, 0, 0);
 }
@@ -2581,6 +2641,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG8_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000140ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000140ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000140ll;
     __bdk_csr_fatal("RAD_REG_DEBUG8", 0, 0, 0, 0, 0);
 }
@@ -2630,6 +2692,8 @@ static inline uint64_t BDK_RAD_REG_DEBUG9_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000148ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000148ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000148ll;
     __bdk_csr_fatal("RAD_REG_DEBUG9", 0, 0, 0, 0, 0);
 }
@@ -2703,26 +2767,27 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t inc                   : 8;  /**< [ 15:  8](R/W) Increment to add to the current index for the next index. */
-        uint64_t idx                   : 8;  /**< [  7:  0](R/W) Index to use for next memory CSR read operation. */
+        uint64_t idx                   : 8;  /**< [  7:  0](R/W/H) Index to use for next memory CSR read operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t idx                   : 8;  /**< [  7:  0](R/W) Index to use for next memory CSR read operation. */
+        uint64_t idx                   : 8;  /**< [  7:  0](R/W/H) Index to use for next memory CSR read operation. */
         uint64_t inc                   : 8;  /**< [ 15:  8](R/W) Increment to add to the current index for the next index. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rad_reg_read_idx_s cn88xx; */
-    struct bdk_rad_reg_read_idx_cn83xx
+    /* struct bdk_rad_reg_read_idx_s cn9; */
+    struct bdk_rad_reg_read_idx_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t inc                   : 8;  /**< [ 15:  8](R/W) Increment to add to the current index for the next index. */
-        uint64_t idx                   : 8;  /**< [  7:  0](R/W/H) Index to use for next memory CSR read operation. */
+        uint64_t idx                   : 8;  /**< [  7:  0](R/W) Index to use for next memory CSR read operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t idx                   : 8;  /**< [  7:  0](R/W/H) Index to use for next memory CSR read operation. */
+        uint64_t idx                   : 8;  /**< [  7:  0](R/W) Index to use for next memory CSR read operation. */
         uint64_t inc                   : 8;  /**< [ 15:  8](R/W) Increment to add to the current index for the next index. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_rad_reg_read_idx_s cn83xx; */
 } bdk_rad_reg_read_idx_t;
 
 #define BDK_RAD_REG_READ_IDX BDK_RAD_REG_READ_IDX_FUNC()
@@ -2732,6 +2797,8 @@ static inline uint64_t BDK_RAD_REG_READ_IDX_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x870000000018ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000018ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x870000000018ll;
     __bdk_csr_fatal("RAD_REG_READ_IDX", 0, 0, 0, 0, 0);
 }
@@ -2779,6 +2846,8 @@ static inline uint64_t BDK_RAD_VFX_INT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x870020000100ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x870020000100ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VFX_INT", 1, a, 0, 0, 0);
 }
 
@@ -2819,6 +2888,8 @@ static inline uint64_t BDK_RAD_VFX_INT_ENA_W1C(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_RAD_VFX_INT_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870020000120ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x870020000120ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VFX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -2861,6 +2932,8 @@ static inline uint64_t BDK_RAD_VFX_INT_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x870020000130ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x870020000130ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VFX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2901,6 +2974,8 @@ static inline uint64_t BDK_RAD_VFX_INT_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x870020000110ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x870020000110ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VFX_INT_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2938,6 +3013,8 @@ static inline uint64_t BDK_RAD_VFX_MSIX_PBAX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_RAD_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x8700300f0000ll + 0x100000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b==0)))
         return 0x8700300f0000ll + 0x100000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("RAD_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -2984,6 +3061,8 @@ static inline uint64_t BDK_RAD_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
         return 0x870030000000ll + 0x100000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b==0)))
+        return 0x870030000000ll + 0x100000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("RAD_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -3024,6 +3103,8 @@ static inline uint64_t BDK_RAD_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
 static inline uint64_t BDK_RAD_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x870030000008ll + 0x100000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b==0)))
         return 0x870030000008ll + 0x100000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("RAD_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -3069,6 +3150,8 @@ static inline uint64_t BDK_RAD_VFX_PF_MBOXX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x870020001000ll + 0x100000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=1)))
+        return 0x870020001000ll + 0x100000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("RAD_VFX_PF_MBOXX", 2, a, b, 0, 0);
 }
 
@@ -3109,6 +3192,8 @@ static inline uint64_t BDK_RAD_VQX_CMD_PTR(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_RAD_VQX_CMD_PTR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870020000020ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x870020000020ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VQX_CMD_PTR", 1, a, 0, 0, 0);
 }
@@ -3153,6 +3238,8 @@ static inline uint64_t BDK_RAD_VQX_DONE_ACK(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_RAD_VQX_DONE_ACK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870020000040ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x870020000040ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VQX_DONE_ACK", 1, a, 0, 0, 0);
 }
@@ -3242,6 +3329,8 @@ static inline uint64_t BDK_RAD_VQX_DONE_CNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x870020000038ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x870020000038ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VQX_DONE_CNT", 1, a, 0, 0, 0);
 }
 
@@ -3293,6 +3382,8 @@ static inline uint64_t BDK_RAD_VQX_DONE_WAIT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x870020000058ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x870020000058ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VQX_DONE_WAIT", 1, a, 0, 0, 0);
 }
 
@@ -3330,6 +3421,8 @@ static inline uint64_t BDK_RAD_VQX_DOORBELL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_RAD_VQX_DOORBELL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870020010000ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x870020010000ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VQX_DOORBELL", 1, a, 0, 0, 0);
 }
@@ -3371,6 +3464,8 @@ static inline uint64_t BDK_RAD_VQX_POLYNOMIAL(unsigned long a) __attribute__ ((p
 static inline uint64_t BDK_RAD_VQX_POLYNOMIAL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870020000010ll + 0x100000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x870020000010ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_VQX_POLYNOMIAL", 1, a, 0, 0, 0);
 }

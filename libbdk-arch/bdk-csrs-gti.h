@@ -976,7 +976,9 @@ typedef union
     struct bdk_gti_cc_cntmb_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
 
                                                                  For CCPI-enabled chips only.
 
@@ -998,7 +1000,9 @@ typedef union
                                                                  retried by CCPI resulting in multiple transmit timestamp captures and
                                                                  TX_TIMESTAMP interrupts. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
 
                                                                  For CCPI-enabled chips only.
 
@@ -1021,12 +1025,12 @@ typedef union
                                                                  TX_TIMESTAMP interrupts. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cc_cntmb_cn81xx
+    /* struct bdk_gti_cc_cntmb_s cn9; */
+    /* struct bdk_gti_cc_cntmb_s cn81xx; */
+    struct bdk_gti_cc_cntmb_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) Reserved.
-                                                                 Internal:
-                                                                 When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
 
                                                                  For CCPI-enabled chips only.
 
@@ -1048,9 +1052,7 @@ typedef union
                                                                  retried by CCPI resulting in multiple transmit timestamp captures and
                                                                  TX_TIMESTAMP interrupts. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) Reserved.
-                                                                 Internal:
-                                                                 When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+        uint64_t mbox                  : 64; /**< [ 63:  0](SR/W) When written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
 
                                                                  For CCPI-enabled chips only.
 
@@ -1072,9 +1074,8 @@ typedef union
                                                                  retried by CCPI resulting in multiple transmit timestamp captures and
                                                                  TX_TIMESTAMP interrupts. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gti_cc_cntmb_s cn88xx; */
-    /* struct bdk_gti_cc_cntmb_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gti_cc_cntmb_s cn83xx; */
 } bdk_gti_cc_cntmb_t;
 
 #define BDK_GTI_CC_CNTMB BDK_GTI_CC_CNTMB_FUNC()
@@ -1259,37 +1260,38 @@ typedef union
     struct bdk_gti_cc_cntmbts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Reserved.
+                                                                 Internal:
+                                                                 Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
                                                                  See GTI_CC_CNTMB.
 
                                                                  For CCPI-enabled chips only. */
 #else /* Word 0 - Little Endian */
-        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Reserved.
+                                                                 Internal:
+                                                                 Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
                                                                  See GTI_CC_CNTMB.
 
                                                                  For CCPI-enabled chips only. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cc_cntmbts_cn81xx
+    /* struct bdk_gti_cc_cntmbts_s cn9; */
+    /* struct bdk_gti_cc_cntmbts_s cn81xx; */
+    struct bdk_gti_cc_cntmbts_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
                                                                  See GTI_CC_CNTMB.
 
                                                                  For CCPI-enabled chips only. */
 #else /* Word 0 - Little Endian */
-        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
+        uint64_t timestamp             : 64; /**< [ 63:  0](SRO/H) Mailbox time stamp. When GTI_CC_CNTMB is written, GTI_CC_CNTCV is saved in GTI_CC_CNTMBTS.
                                                                  See GTI_CC_CNTMB.
 
                                                                  For CCPI-enabled chips only. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gti_cc_cntmbts_s cn88xx; */
-    /* struct bdk_gti_cc_cntmbts_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gti_cc_cntmbts_s cn83xx; */
 } bdk_gti_cc_cntmbts_t;
 
 #define BDK_GTI_CC_CNTMBTS BDK_GTI_CC_CNTMBTS_FUNC()

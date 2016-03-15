@@ -184,6 +184,8 @@ static inline uint64_t BDK_FPA_ADDR_RANGE_ERROR_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000458ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000458ll;
     __bdk_csr_fatal("FPA_ADDR_RANGE_ERROR", 0, 0, 0, 0, 0);
 }
 
@@ -264,6 +266,8 @@ static inline uint64_t BDK_FPA_AURAX_CFG(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_FPA_AURAX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
+        return 0x828040008110ll + 0x10000ll * ((a) & 0x1ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=511))
         return 0x828040008110ll + 0x10000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_AURAX_CFG", 1, a, 0, 0, 0);
 }
@@ -357,6 +361,8 @@ static inline uint64_t BDK_FPA_AURAX_CNT_LEVELS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
         return 0x828040008310ll + 0x10000ll * ((a) & 0x1ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=511))
+        return 0x828040008310ll + 0x10000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_AURAX_CNT_LEVELS", 1, a, 0, 0, 0);
 }
 
@@ -395,6 +401,8 @@ static inline uint64_t BDK_FPA_AURAX_POOL(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_FPA_AURAX_POOL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
+        return 0x828040008100ll + 0x10000ll * ((a) & 0x1ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=511))
         return 0x828040008100ll + 0x10000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_AURAX_POOL", 1, a, 0, 0, 0);
 }
@@ -502,6 +510,8 @@ static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
         return 0x828040008300ll + 0x10000ll * ((a) & 0x1ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=511))
+        return 0x828040008300ll + 0x10000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_AURAX_POOL_LEVELS", 1, a, 0, 0, 0);
 }
 
@@ -539,6 +549,8 @@ static inline uint64_t BDK_FPA_BIST_STATUS_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_FPA_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8280000000e8ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8280000000e8ll;
     __bdk_csr_fatal("FPA_BIST_STATUS", 0, 0, 0, 0, 0);
 }
@@ -685,6 +697,8 @@ static inline uint64_t BDK_FPA_BP_TEST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000200ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000200ll;
     __bdk_csr_fatal("FPA_BP_TEST", 0, 0, 0, 0, 0);
 }
 
@@ -722,6 +736,8 @@ static inline uint64_t BDK_FPA_CLK_COUNT_FUNC(void) __attribute__ ((pure, always
 static inline uint64_t BDK_FPA_CLK_COUNT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8280000000f0ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8280000000f0ll;
     __bdk_csr_fatal("FPA_CLK_COUNT", 0, 0, 0, 0, 0);
 }
@@ -767,6 +783,8 @@ static inline uint64_t BDK_FPA_CONST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000010ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000010ll;
     __bdk_csr_fatal("FPA_CONST", 0, 0, 0, 0, 0);
 }
 
@@ -804,6 +822,8 @@ static inline uint64_t BDK_FPA_CONST1_FUNC(void) __attribute__ ((pure, always_in
 static inline uint64_t BDK_FPA_CONST1_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000018ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x828000000018ll;
     __bdk_csr_fatal("FPA_CONST1", 0, 0, 0, 0, 0);
 }
@@ -845,6 +865,8 @@ static inline uint64_t BDK_FPA_DWB_INFO_FUNC(void) __attribute__ ((pure, always_
 static inline uint64_t BDK_FPA_DWB_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000468ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x828000000468ll;
     __bdk_csr_fatal("FPA_DWB_INFO", 0, 0, 0, 0, 0);
 }
@@ -892,6 +914,8 @@ static inline uint64_t BDK_FPA_ECC_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000058ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000058ll;
     __bdk_csr_fatal("FPA_ECC_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -933,6 +957,8 @@ static inline uint64_t BDK_FPA_ECC_INT_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t BDK_FPA_ECC_INT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000068ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x828000000068ll;
     __bdk_csr_fatal("FPA_ECC_INT", 0, 0, 0, 0, 0);
 }
@@ -976,6 +1002,8 @@ static inline uint64_t BDK_FPA_ECC_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000080ll;
     __bdk_csr_fatal("FPA_ECC_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -1018,6 +1046,8 @@ static inline uint64_t BDK_FPA_ECC_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000078ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000078ll;
     __bdk_csr_fatal("FPA_ECC_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -1059,6 +1089,8 @@ static inline uint64_t BDK_FPA_ECC_INT_W1S_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_FPA_ECC_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000070ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x828000000070ll;
     __bdk_csr_fatal("FPA_ECC_INT_W1S", 0, 0, 0, 0, 0);
 }
@@ -1142,6 +1174,8 @@ static inline uint64_t BDK_FPA_GEN_CFG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000050ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000050ll;
     __bdk_csr_fatal("FPA_GEN_CFG", 0, 0, 0, 0, 0);
 }
 
@@ -1200,6 +1234,8 @@ static inline uint64_t BDK_FPA_GEN_INT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000140ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000140ll;
     __bdk_csr_fatal("FPA_GEN_INT", 0, 0, 0, 0, 0);
 }
 
@@ -1245,6 +1281,8 @@ static inline uint64_t BDK_FPA_GEN_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_FPA_GEN_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000158ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x828000000158ll;
     __bdk_csr_fatal("FPA_GEN_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -1292,6 +1330,8 @@ static inline uint64_t BDK_FPA_GEN_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000150ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000150ll;
     __bdk_csr_fatal("FPA_GEN_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -1337,6 +1377,8 @@ static inline uint64_t BDK_FPA_GEN_INT_W1S_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_FPA_GEN_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000148ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x828000000148ll;
     __bdk_csr_fatal("FPA_GEN_INT_W1S", 0, 0, 0, 0, 0);
 }
@@ -1433,6 +1475,8 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8280000000d0ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x8280000000d0ll;
     __bdk_csr_fatal("FPA_INP_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -1499,6 +1543,8 @@ static inline uint64_t BDK_FPA_PF_MAPX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=39))
         return 0x828000001000ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=39))
+        return 0x828000001000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("FPA_PF_MAPX", 1, a, 0, 0, 0);
 }
 
@@ -1536,6 +1582,8 @@ static inline uint64_t BDK_FPA_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_FPA_PF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x8283000f0000ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x8283000f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("FPA_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -1594,6 +1642,8 @@ static inline uint64_t BDK_FPA_PF_MSIX_VECX_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x828300000000ll + 0x10ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x828300000000ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("FPA_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -1634,6 +1684,8 @@ static inline uint64_t BDK_FPA_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ (
 static inline uint64_t BDK_FPA_PF_MSIX_VECX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x828300000008ll + 0x10ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x828300000008ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("FPA_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -1705,6 +1757,8 @@ static inline uint64_t BDK_FPA_PF_VFX_GMCTL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_FPA_PF_VFX_GMCTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x828040001000ll + 0x100000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x828040001000ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_PF_VFX_GMCTL", 1, a, 0, 0, 0);
 }
@@ -1796,6 +1850,8 @@ static inline uint64_t BDK_FPA_POOLX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x828040004100ll + 0x100000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
+        return 0x828040004100ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -1867,6 +1923,8 @@ static inline uint64_t BDK_FPA_POOLX_FPF_MARKS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x828040004110ll + 0x100000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
+        return 0x828040004110ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_FPF_MARKS", 1, a, 0, 0, 0);
 }
 
@@ -1904,6 +1962,8 @@ static inline uint64_t BDK_FPA_POOLX_OP_PC(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_FPA_POOLX_OP_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x828040004280ll + 0x100000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x828040004280ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_OP_PC", 1, a, 0, 0, 0);
 }
@@ -1945,6 +2005,8 @@ static inline uint64_t BDK_FPA_POOLX_STACK_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x828040004240ll + 0x100000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
+        return 0x828040004240ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_STACK_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -1982,6 +2044,8 @@ static inline uint64_t BDK_FPA_POOLX_STACK_BASE(unsigned long a) __attribute__ (
 static inline uint64_t BDK_FPA_POOLX_STACK_BASE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x828040004220ll + 0x100000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x828040004220ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_STACK_BASE", 1, a, 0, 0, 0);
 }
@@ -2023,6 +2087,8 @@ static inline uint64_t BDK_FPA_POOLX_STACK_END(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x828040004230ll + 0x100000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
+        return 0x828040004230ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_POOLX_STACK_END", 1, a, 0, 0, 0);
 }
 
@@ -2062,6 +2128,8 @@ static inline uint64_t BDK_FPA_RD_LATENCY_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000610ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000610ll;
     __bdk_csr_fatal("FPA_RD_LATENCY_PC", 0, 0, 0, 0, 0);
 }
 
@@ -2096,6 +2164,8 @@ static inline uint64_t BDK_FPA_RD_REQ_PC_FUNC(void) __attribute__ ((pure, always
 static inline uint64_t BDK_FPA_RD_REQ_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000600ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x828000000600ll;
     __bdk_csr_fatal("FPA_RD_REQ_PC", 0, 0, 0, 0, 0);
 }
@@ -2156,6 +2226,8 @@ static inline uint64_t BDK_FPA_RED_DELAY_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000100ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000100ll;
     __bdk_csr_fatal("FPA_RED_DELAY", 0, 0, 0, 0, 0);
 }
 
@@ -2202,6 +2274,8 @@ static inline uint64_t BDK_FPA_SFT_RST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x828000000000ll;
     __bdk_csr_fatal("FPA_SFT_RST", 0, 0, 0, 0, 0);
 }
 
@@ -2244,6 +2318,8 @@ static inline uint64_t BDK_FPA_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8280000000c0ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x8280000000c0ll;
     __bdk_csr_fatal("FPA_STATUS", 0, 0, 0, 0, 0);
 }
 
@@ -2284,6 +2360,8 @@ static inline uint64_t BDK_FPA_UNMAP_INFO_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t BDK_FPA_UNMAP_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000460ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x828000000460ll;
     __bdk_csr_fatal("FPA_UNMAP_INFO", 0, 0, 0, 0, 0);
 }
@@ -2371,6 +2449,8 @@ static inline uint64_t BDK_FPA_VFX_INT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x828400000200ll + 0x400000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
+        return 0x828400000200ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VFX_INT", 1, a, 0, 0, 0);
 }
 
@@ -2423,6 +2503,8 @@ static inline uint64_t BDK_FPA_VFX_INT_ENA_W1C(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_FPA_VFX_INT_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x828400000230ll + 0x400000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x828400000230ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VFX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -2477,6 +2559,8 @@ static inline uint64_t BDK_FPA_VFX_INT_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x828400000220ll + 0x400000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
+        return 0x828400000220ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VFX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2530,6 +2614,8 @@ static inline uint64_t BDK_FPA_VFX_INT_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x828400000210ll + 0x400000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
+        return 0x828400000210ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VFX_INT_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2567,6 +2653,8 @@ static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
+        return 0x8287000f0000ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b==0)))
         return 0x8287000f0000ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("FPA_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -2613,6 +2701,8 @@ static inline uint64_t BDK_FPA_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
         return 0x828700000000ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b==0)))
+        return 0x828700000000ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("FPA_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -2654,6 +2744,8 @@ static inline uint64_t BDK_FPA_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
         return 0x828700000008ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b==0)))
+        return 0x828700000008ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("FPA_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -2689,6 +2781,8 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_FPA_VHAURAX_CNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
+        return 0x828400020120ll + 0x40000ll * ((a) & 0x1ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=511))
         return 0x828400020120ll + 0x40000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_VHAURAX_CNT", 1, a, 0, 0, 0);
 }
@@ -2740,6 +2834,8 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_ADD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
         return 0x828400020128ll + 0x40000ll * ((a) & 0x1ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=511))
+        return 0x828400020128ll + 0x40000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_VHAURAX_CNT_ADD", 1, a, 0, 0, 0);
 }
 
@@ -2780,6 +2876,8 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_LIMIT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
         return 0x828400020130ll + 0x40000ll * ((a) & 0x1ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=511))
+        return 0x828400020130ll + 0x40000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_VHAURAX_CNT_LIMIT", 1, a, 0, 0, 0);
 }
 
@@ -2819,6 +2917,8 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_THRESHOLD(unsigned long a) __attribut
 static inline uint64_t BDK_FPA_VHAURAX_CNT_THRESHOLD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
+        return 0x828400020140ll + 0x40000ll * ((a) & 0x1ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=511))
         return 0x828400020140ll + 0x40000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("FPA_VHAURAX_CNT_THRESHOLD", 1, a, 0, 0, 0);
 }
@@ -2871,6 +2971,8 @@ static inline uint64_t BDK_FPA_VHAURAX_OP_ALLOCX(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=511) && (b==0)))
         return 0x828400030000ll + 0x40000ll * ((a) & 0x1ff) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=511) && (b==0)))
+        return 0x828400030000ll + 0x40000ll * ((a) & 0x1ff) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("FPA_VHAURAX_OP_ALLOCX", 2, a, b, 0, 0);
 }
 
@@ -2918,6 +3020,8 @@ static inline uint64_t BDK_FPA_VHAURAX_OP_FREEX(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=511) && (b==0)))
         return 0x828400038000ll + 0x40000ll * ((a) & 0x1ff) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=511) && (b==0)))
+        return 0x828400038000ll + 0x40000ll * ((a) & 0x1ff) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("FPA_VHAURAX_OP_FREEX", 2, a, b, 0, 0);
 }
 
@@ -2960,6 +3064,8 @@ static inline uint64_t BDK_FPA_VHPOOLX_AVAILABLE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x828400004150ll + 0x400000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
+        return 0x828400004150ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VHPOOLX_AVAILABLE", 1, a, 0, 0, 0);
 }
 
@@ -2998,6 +3104,8 @@ static inline uint64_t BDK_FPA_VHPOOLX_END_ADDR(unsigned long a) __attribute__ (
 static inline uint64_t BDK_FPA_VHPOOLX_END_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x828400004210ll + 0x400000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x828400004210ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VHPOOLX_END_ADDR", 1, a, 0, 0, 0);
 }
@@ -3038,6 +3146,8 @@ static inline uint64_t BDK_FPA_VHPOOLX_START_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x828400004200ll + 0x400000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
+        return 0x828400004200ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VHPOOLX_START_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -3077,6 +3187,8 @@ static inline uint64_t BDK_FPA_VHPOOLX_THRESHOLD(unsigned long a) __attribute__ 
 static inline uint64_t BDK_FPA_VHPOOLX_THRESHOLD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x828400004160ll + 0x400000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x828400004160ll + 0x400000ll * ((a) & 0x1f);
     __bdk_csr_fatal("FPA_VHPOOLX_THRESHOLD", 1, a, 0, 0, 0);
 }

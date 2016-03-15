@@ -131,6 +131,8 @@ static inline uint64_t BDK_NDF_BT_PG_INFO_FUNC(void)
         return 0x808000000018ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x808000000018ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x808000000018ll;
     __bdk_csr_fatal("NDF_BT_PG_INFO", 0, 0, 0, 0, 0);
 }
 
@@ -176,6 +178,8 @@ static inline uint64_t BDK_NDF_CMD_FUNC(void)
         return 0x808000000000ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x808000000000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x808000000000ll;
     __bdk_csr_fatal("NDF_CMD", 0, 0, 0, 0, 0);
 }
 
@@ -217,6 +221,8 @@ static inline uint64_t BDK_NDF_DMA_ADR_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x808000000058ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x808000000058ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x808000000058ll;
     __bdk_csr_fatal("NDF_DMA_ADR", 0, 0, 0, 0, 0);
 }
@@ -302,6 +308,8 @@ static inline uint64_t BDK_NDF_DMA_CFG_FUNC(void)
         return 0x808000000050ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x808000000050ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x808000000050ll;
     __bdk_csr_fatal("NDF_DMA_CFG", 0, 0, 0, 0, 0);
 }
 
@@ -366,6 +374,8 @@ static inline uint64_t BDK_NDF_DRBELL_FUNC(void)
         return 0x808000000030ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x808000000030ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x808000000030ll;
     __bdk_csr_fatal("NDF_DRBELL", 0, 0, 0, 0, 0);
 }
 
@@ -428,6 +438,8 @@ static inline uint64_t BDK_NDF_ECC_CNT_FUNC(void)
         return 0x808000000010ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x808000000010ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x808000000010ll;
     __bdk_csr_fatal("NDF_ECC_CNT", 0, 0, 0, 0, 0);
 }
 
@@ -466,6 +478,8 @@ static inline uint64_t BDK_NDF_ECO_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x808000000078ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x808000000078ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x808000000078ll;
     __bdk_csr_fatal("NDF_ECO", 0, 0, 0, 0, 0);
 }
@@ -526,6 +540,8 @@ static inline uint64_t BDK_NDF_INT_FUNC(void)
         return 0x808000000040ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x808000000040ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x808000000040ll;
     __bdk_csr_fatal("NDF_INT", 0, 0, 0, 0, 0);
 }
 
@@ -579,6 +595,8 @@ static inline uint64_t BDK_NDF_INT_ENA_W1C_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x808000000060ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x808000000060ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x808000000060ll;
     __bdk_csr_fatal("NDF_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -634,6 +652,8 @@ static inline uint64_t BDK_NDF_INT_ENA_W1S_FUNC(void)
         return 0x808000000068ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x808000000068ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x808000000068ll;
     __bdk_csr_fatal("NDF_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -687,6 +707,8 @@ static inline uint64_t BDK_NDF_INT_W1S_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x808000000048ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x808000000048ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x808000000048ll;
     __bdk_csr_fatal("NDF_INT_W1S", 0, 0, 0, 0, 0);
 }
@@ -826,6 +848,8 @@ static inline uint64_t BDK_NDF_MISC_FUNC(void)
         return 0x808000000008ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x808000000008ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x808000000008ll;
     __bdk_csr_fatal("NDF_MISC", 0, 0, 0, 0, 0);
 }
 
@@ -864,6 +888,8 @@ static inline uint64_t BDK_NDF_MSIX_PBAX(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x808000ff0000ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x808000ff0000ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x808000ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("NDF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -924,6 +950,8 @@ static inline uint64_t BDK_NDF_MSIX_VECX_ADDR(unsigned long a)
         return 0x808000f00000ll + 0x10ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x808000f00000ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x808000f00000ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("NDF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -966,6 +994,8 @@ static inline uint64_t BDK_NDF_MSIX_VECX_CTL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x808000f00008ll + 0x10ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x808000f00008ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x808000f00008ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("NDF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -1022,6 +1052,8 @@ static inline uint64_t BDK_NDF_ST_REG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x808000000038ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x808000000038ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x808000000038ll;
     __bdk_csr_fatal("NDF_ST_REG", 0, 0, 0, 0, 0);
 }

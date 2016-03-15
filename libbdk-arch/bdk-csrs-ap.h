@@ -382,7 +382,7 @@ typedef union
         uint32_t louu                  : 3;  /**< [ 29: 27](RO) Level of unification uniprocessor for the cache hierarchy. */
         uint32_t loc                   : 3;  /**< [ 26: 24](RO) Level of coherence for the cache hierarchy.
 
-                                                                 For CN88XX, 0x1 for pass 1, 0x0 for pass 2 and subsequent chips. */
+                                                                 For CNXXXX, 0x0. */
         uint32_t louis                 : 3;  /**< [ 23: 21](RO) Level of unification inner shareable for the cache hierarchy. */
         uint32_t ctype7                : 3;  /**< [ 20: 18](RO) Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
@@ -532,19 +532,21 @@ typedef union
         uint32_t louis                 : 3;  /**< [ 23: 21](RO) Level of unification inner shareable for the cache hierarchy. */
         uint32_t loc                   : 3;  /**< [ 26: 24](RO) Level of coherence for the cache hierarchy.
 
-                                                                 For CN88XX, 0x1 for pass 1, 0x0 for pass 2 and subsequent chips. */
+                                                                 For CNXXXX, 0x0. */
         uint32_t louu                  : 3;  /**< [ 29: 27](RO) Level of unification uniprocessor for the cache hierarchy. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_clidr_el1_cn81xx
+    /* struct bdk_ap_clidr_el1_s cn9; */
+    /* struct bdk_ap_clidr_el1_s cn81xx; */
+    struct bdk_ap_clidr_el1_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
         uint32_t louu                  : 3;  /**< [ 29: 27](RO) Level of unification uniprocessor for the cache hierarchy. */
         uint32_t loc                   : 3;  /**< [ 26: 24](RO) Level of coherence for the cache hierarchy.
 
-                                                                 For CNXXXX, 0x0. */
+                                                                 For CN88XX, 0x1 for pass 1, 0x0 for pass 2 and subsequent chips. */
         uint32_t louis                 : 3;  /**< [ 23: 21](RO) Level of unification inner shareable for the cache hierarchy. */
         uint32_t ctype7                : 3;  /**< [ 20: 18](RO) Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
@@ -694,13 +696,12 @@ typedef union
         uint32_t louis                 : 3;  /**< [ 23: 21](RO) Level of unification inner shareable for the cache hierarchy. */
         uint32_t loc                   : 3;  /**< [ 26: 24](RO) Level of coherence for the cache hierarchy.
 
-                                                                 For CNXXXX, 0x0. */
+                                                                 For CN88XX, 0x1 for pass 1, 0x0 for pass 2 and subsequent chips. */
         uint32_t louu                  : 3;  /**< [ 29: 27](RO) Level of unification uniprocessor for the cache hierarchy. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_ap_clidr_el1_s cn88xx; */
-    /* struct bdk_ap_clidr_el1_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_ap_clidr_el1_s cn83xx; */
 } bdk_ap_clidr_el1_t;
 
 #define BDK_AP_CLIDR_EL1 BDK_AP_CLIDR_EL1_FUNC()
@@ -4969,7 +4970,7 @@ typedef union
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
@@ -5015,7 +5016,7 @@ typedef union
         uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
         uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
@@ -5023,8 +5024,7 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ap_cvmctl_el1_s cn88xxp1; */
-    struct bdk_ap_cvmctl_el1_cn81xx
+    struct bdk_ap_cvmctl_el1_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
@@ -5032,7 +5032,7 @@ typedef union
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
@@ -5078,16 +5078,18 @@ typedef union
         uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
         uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_ap_cvmctl_el1_cn81xx cn83xx; */
-    /* struct bdk_ap_cvmctl_el1_cn81xx cn88xxp2; */
+    } cn88xxp1;
+    /* struct bdk_ap_cvmctl_el1_s cn9; */
+    /* struct bdk_ap_cvmctl_el1_s cn81xx; */
+    /* struct bdk_ap_cvmctl_el1_s cn83xx; */
+    /* struct bdk_ap_cvmctl_el1_s cn88xxp2; */
 } bdk_ap_cvmctl_el1_t;
 
 #define BDK_AP_CVMCTL_EL1 BDK_AP_CVMCTL_EL1_FUNC()
@@ -5123,17 +5125,17 @@ typedef union
                                                                  from 1 to 0) causes SEV to local core.
                                                                  1 = A global monitor transition from exclusive to open (lock flag transition
                                                                  from 1 to 0) does not cause SEV to local core. */
-        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
+        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = Store-release instructions mark prior relevant write-buffer entries for flush but do
                                                                  not wait for the ACKs to return.
                                                                  1 = Store-release instructions mark prior relevant write-buffer entries for flush and wait
                                                                  for all the ACKs to return. */
-        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
+        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
-        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
+        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
 
                                                                  Address-based broadcast TLBI instructions that go to remote cores are converted
                                                                  from address-based TLBI instructions to context-based TLBI instructions. The
@@ -5146,7 +5148,7 @@ typedef union
 
                                                                  1 = The above-mentioned coalescing is suppressed and converted context-based
                                                                  remote TLBIs still go out as such. */
-        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
+        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
                                                                    * TLBI ALLE2{IS}.
@@ -5161,27 +5163,28 @@ typedef union
                                                                    * TLBI VALE3{IS}.
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
-        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout. (pass 2.0 only.)
+        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout.
                                                                  timeout = 2^[GSYNCTO].
                                                                  0x0 = disable timeout. */
-        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
+        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass.
                                                                  0 = On a stage1-only translation, the uTLB is written along with the MTLB.
                                                                  1 = On a stage1-only translation, the uTLB is not written along with the MTLB causing a
                                                                  uTLB miss replay to complete the uTLB fill. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
                                                                  changed. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
                                                                  changed. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed.
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
-                                                                 uTLB is flushed when this value is changed. */
+
+                                                                 uTLB is not flushed with this value is changed. */
         uint64_t zval2cdis             : 1;  /**< [ 39: 39](R/W) ZVA bypass L2C.
                                                                  0 = DC_ZVA instructions to L2C are STFIL1 (full block store operation allocating in
                                                                  requester L2, fill 0s, self-invalidate L1 cache).
@@ -5216,13 +5219,13 @@ typedef union
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
 #else /* Word 0 - Little Endian */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
@@ -5260,25 +5263,26 @@ typedef union
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
-                                                                 uTLB is flushed when this value is changed. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed.
+
+                                                                 uTLB is not flushed with this value is changed. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
                                                                  changed. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
                                                                  changed. */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
-        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
+        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass.
                                                                  0 = On a stage1-only translation, the uTLB is written along with the MTLB.
                                                                  1 = On a stage1-only translation, the uTLB is not written along with the MTLB causing a
                                                                  uTLB miss replay to complete the uTLB fill. */
-        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout. (pass 2.0 only.)
+        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout.
                                                                  timeout = 2^[GSYNCTO].
                                                                  0x0 = disable timeout. */
-        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
+        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
                                                                    * TLBI ALLE2{IS}.
@@ -5293,7 +5297,7 @@ typedef union
                                                                    * TLBI VALE3{IS}.
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
-        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
+        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
 
                                                                  Address-based broadcast TLBI instructions that go to remote cores are converted
                                                                  from address-based TLBI instructions to context-based TLBI instructions. The
@@ -5306,12 +5310,12 @@ typedef union
 
                                                                  1 = The above-mentioned coalescing is suppressed and converted context-based
                                                                  remote TLBIs still go out as such. */
-        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
+        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
-        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
+        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = Store-release instructions mark prior relevant write-buffer entries for flush but do
                                                                  not wait for the ACKs to return.
                                                                  1 = Store-release instructions mark prior relevant write-buffer entries for flush and wait
@@ -5532,7 +5536,10 @@ typedef union
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_ap_cvmmemctl0_el1_cn81xx
+    /* struct bdk_ap_cvmmemctl0_el1_s cn9; */
+    /* struct bdk_ap_cvmmemctl0_el1_s cn81xx; */
+    /* struct bdk_ap_cvmmemctl0_el1_s cn83xx; */
+    struct bdk_ap_cvmmemctl0_el1_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -5543,17 +5550,17 @@ typedef union
                                                                  from 1 to 0) causes SEV to local core.
                                                                  1 = A global monitor transition from exclusive to open (lock flag transition
                                                                  from 1 to 0) does not cause SEV to local core. */
-        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed.
+        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = Store-release instructions mark prior relevant write-buffer entries for flush but do
                                                                  not wait for the ACKs to return.
                                                                  1 = Store-release instructions mark prior relevant write-buffer entries for flush and wait
                                                                  for all the ACKs to return. */
-        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
+        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
-        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
+        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
 
                                                                  Address-based broadcast TLBI instructions that go to remote cores are converted
                                                                  from address-based TLBI instructions to context-based TLBI instructions. The
@@ -5566,7 +5573,7 @@ typedef union
 
                                                                  1 = The above-mentioned coalescing is suppressed and converted context-based
                                                                  remote TLBIs still go out as such. */
-        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
+        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
                                                                    * TLBI ALLE2{IS}.
@@ -5581,28 +5588,27 @@ typedef union
                                                                    * TLBI VALE3{IS}.
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
-        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout.
+        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout. (pass 2.0 only.)
                                                                  timeout = 2^[GSYNCTO].
                                                                  0x0 = disable timeout. */
-        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass.
+        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
                                                                  0 = On a stage1-only translation, the uTLB is written along with the MTLB.
                                                                  1 = On a stage1-only translation, the uTLB is not written along with the MTLB causing a
                                                                  uTLB miss replay to complete the uTLB fill. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
                                                                  changed. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
                                                                  changed. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed. */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
-
-                                                                 uTLB is not flushed with this value is changed. */
+                                                                 uTLB is flushed when this value is changed. */
         uint64_t zval2cdis             : 1;  /**< [ 39: 39](R/W) ZVA bypass L2C.
                                                                  0 = DC_ZVA instructions to L2C are STFIL1 (full block store operation allocating in
                                                                  requester L2, fill 0s, self-invalidate L1 cache).
@@ -5637,13 +5643,13 @@ typedef union
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
 #else /* Word 0 - Little Endian */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
@@ -5681,26 +5687,25 @@ typedef union
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
-
-                                                                 uTLB is not flushed with this value is changed. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 uTLB is flushed when this value is changed. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
                                                                  changed. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
                                                                  changed. */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
-        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass.
+        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
                                                                  0 = On a stage1-only translation, the uTLB is written along with the MTLB.
                                                                  1 = On a stage1-only translation, the uTLB is not written along with the MTLB causing a
                                                                  uTLB miss replay to complete the uTLB fill. */
-        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout.
+        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout. (pass 2.0 only.)
                                                                  timeout = 2^[GSYNCTO].
                                                                  0x0 = disable timeout. */
-        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
+        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
                                                                    * TLBI ALLE2{IS}.
@@ -5715,7 +5720,7 @@ typedef union
                                                                    * TLBI VALE3{IS}.
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
-        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
+        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
 
                                                                  Address-based broadcast TLBI instructions that go to remote cores are converted
                                                                  from address-based TLBI instructions to context-based TLBI instructions. The
@@ -5728,12 +5733,12 @@ typedef union
 
                                                                  1 = The above-mentioned coalescing is suppressed and converted context-based
                                                                  remote TLBIs still go out as such. */
-        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
+        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
-        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed.
+        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = Store-release instructions mark prior relevant write-buffer entries for flush but do
                                                                  not wait for the ACKs to return.
                                                                  1 = Store-release instructions mark prior relevant write-buffer entries for flush and wait
@@ -5747,9 +5752,7 @@ typedef union
         uint64_t node                  : 2;  /**< [ 62: 61](RO) Local node ID. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_ap_cvmmemctl0_el1_cn81xx cn83xx; */
-    /* struct bdk_ap_cvmmemctl0_el1_s cn88xxp2; */
+    } cn88xxp2;
 } bdk_ap_cvmmemctl0_el1_t;
 
 #define BDK_AP_CVMMEMCTL0_EL1 BDK_AP_CVMMEMCTL0_EL1_FUNC()
@@ -5810,6 +5813,101 @@ typedef union
         uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
                                                                  Internal:
                                                                  83xx: Trap any access to nonzero node id. */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable SSO and PKO address region.
+                                                                 0 = Accesses described below will trap.
+                                                                 1 = Allow > 64-bit memory instructions, multi-register memory instructions, and
+                                                                 atomic instructions to SSO and PKO I/O address regions. This must be set if SSO
+                                                                 or PKO are to be used.
+
+                                                                 Other address regions (e.g. SLI) are not affected by this setting. */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
+        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
+        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
+        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
+        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
+        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable SSO and PKO address region.
+                                                                 0 = Accesses described below will trap.
+                                                                 1 = Allow > 64-bit memory instructions, multi-register memory instructions, and
+                                                                 atomic instructions to SSO and PKO I/O address regions. This must be set if SSO
+                                                                 or PKO are to be used.
+
+                                                                 Other address regions (e.g. SLI) are not affected by this setting. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to nonzero node id. */
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
+        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare. */
+        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency. */
+        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency. */
+        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
+                                                                 Internal:
+                                                                 Backpressure is applied if:
+                                                                 <pre>
+                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
+                                                                 </pre>
+
+                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
+                                                                 is the MSB of the 4-bit miss counter being set. */
+        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.
+                                                                 0 = Single counter mode (combined hit and miss latency counter).
+                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
+        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t reserved_39_63        : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_cvmmemctl1_el1_s cn9; */
+    struct bdk_ap_cvmmemctl1_el1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_39_63        : 25;
+        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.
+                                                                 0 = Single counter mode (combined hit and miss latency counter).
+                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
+        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
+                                                                 Internal:
+                                                                 Backpressure is applied if:
+                                                                 <pre>
+                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
+                                                                 </pre>
+
+                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
+                                                                 is the MSB of the 4-bit miss counter being set. */
+        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency. */
+        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency. */
+        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare. */
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to nonzero node id. */
         uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Reserved.
                                                                  Internal:
                                                                  Enable I/O SSO and PKO address region. */
@@ -5861,8 +5959,7 @@ typedef union
                                                                  1 = Flush the ICache. */
         uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_cvmmemctl1_el1_s cn81xx; */
+    } cn81xx;
     struct bdk_ap_cvmmemctl1_el1_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5905,100 +6002,7 @@ typedef union
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_ap_cvmmemctl1_el1_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_39_63        : 25;
-        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
-                                                                 0 = Do nothing.
-                                                                 1 = Flush the ICache. */
-        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.
-                                                                 0 = Do nothing.
-                                                                 1 = Flush the ICache. */
-        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.
-                                                                 0 = Single counter mode (combined hit and miss latency counter).
-                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
-        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
-                                                                 Internal:
-                                                                 Backpressure is applied if:
-                                                                 <pre>
-                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
-                                                                 </pre>
-
-                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
-                                                                 is the MSB of the 4-bit miss counter being set. */
-        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency. */
-        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency. */
-        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare. */
-        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Enable SSO switch-tag. */
-        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Trap any access to nonzero node id. */
-        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable SSO and PKO address region.
-                                                                 0 = Accesses described below will trap.
-                                                                 1 = Allow > 64-bit memory instructions, multi-register memory instructions, and
-                                                                 atomic instructions to SSO and PKO I/O address regions. This must be set if SSO
-                                                                 or PKO are to be used.
-
-                                                                 Other address regions (e.g. SLI) are not affected by this setting. */
-        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Enable/disable LMTST(a). */
-        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
-        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
-        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
-#else /* Word 0 - Little Endian */
-        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
-        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
-        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
-        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Enable/disable LMTST(a). */
-        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable SSO and PKO address region.
-                                                                 0 = Accesses described below will trap.
-                                                                 1 = Allow > 64-bit memory instructions, multi-register memory instructions, and
-                                                                 atomic instructions to SSO and PKO I/O address regions. This must be set if SSO
-                                                                 or PKO are to be used.
-
-                                                                 Other address regions (e.g. SLI) are not affected by this setting. */
-        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Trap any access to nonzero node id. */
-        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Enable SSO switch-tag. */
-        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare. */
-        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency. */
-        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency. */
-        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
-                                                                 Internal:
-                                                                 Backpressure is applied if:
-                                                                 <pre>
-                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
-                                                                 </pre>
-
-                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
-                                                                 is the MSB of the 4-bit miss counter being set. */
-        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.
-                                                                 0 = Single counter mode (combined hit and miss latency counter).
-                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
-        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.
-                                                                 0 = Do nothing.
-                                                                 1 = Flush the ICache. */
-        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
-                                                                 0 = Do nothing.
-                                                                 1 = Flush the ICache. */
-        uint64_t reserved_39_63        : 25;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_ap_cvmmemctl1_el1_s cn83xx; */
 } bdk_ap_cvmmemctl1_el1_t;
 
 #define BDK_AP_CVMMEMCTL1_EL1 BDK_AP_CVMMEMCTL1_EL1_FUNC()
@@ -6013,6 +6017,168 @@ static inline uint64_t BDK_AP_CVMMEMCTL1_EL1_FUNC(void)
 #define basename_BDK_AP_CVMMEMCTL1_EL1 "AP_CVMMEMCTL1_EL1"
 #define busnum_BDK_AP_CVMMEMCTL1_EL1 0
 #define arguments_BDK_AP_CVMMEMCTL1_EL1 -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_cvmmemctl2_el1
+ *
+ * AP Cavium Memory Control 2 Register
+ * This register controls additional memory-unit features.
+ * Internal:
+ * Back-end, non-debug.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_cvmmemctl2_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
+                                                                 For each bit {a} in this field:
+                                                                 _ Mask<{a}>=0 = blocksize {a} is not precisely invalidated.
+                                                                 _ Mask<{a}>=1 = blocksize {a} is     precisely invalidated.
+
+                                                                 _ Mask<0> represents block size 2^12.
+                                                                 _ Mask<1> represents block size 2^14.
+                                                                 _ Mask<2> represents block size 2^16.
+                                                                 _ Mask<3> represents block size 2^21.
+                                                                 _ Mask<4> represents block size 2^25.
+                                                                 _ Mask<5> represents block size 2^29.
+                                                                 _ Mask<6> represents block size 2^30.
+                                                                 _ Mask<7> represents block size 2^34.
+                                                                 _ Mask<8> represents block size 2^42. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
+                                                                 For each bit {a} in this field:
+                                                                 _ Mask<{a}>=0 = blocksize {a} allocated in MTLB1.
+                                                                 _ Mask<{a}>=1 = blocksize {a} allocated in MTLB0.
+
+                                                                 _ Mask<0> represents block size 2^12.
+                                                                 _ Mask<1> represents block size 2^14.
+                                                                 _ Mask<2> represents block size 2^16.
+                                                                 _ Mask<3> represents block size 2^21.
+                                                                 _ Mask<4> represents block size 2^25.
+                                                                 _ Mask<5> represents block size 2^29.
+                                                                 _ Mask<6> represents block size 2^30.
+                                                                 _ Mask<7> represents block size 2^34.
+                                                                 _ Mask<8> represents block size 2^42. */
+#else /* Word 0 - Little Endian */
+        uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
+                                                                 For each bit {a} in this field:
+                                                                 _ Mask<{a}>=0 = blocksize {a} allocated in MTLB1.
+                                                                 _ Mask<{a}>=1 = blocksize {a} allocated in MTLB0.
+
+                                                                 _ Mask<0> represents block size 2^12.
+                                                                 _ Mask<1> represents block size 2^14.
+                                                                 _ Mask<2> represents block size 2^16.
+                                                                 _ Mask<3> represents block size 2^21.
+                                                                 _ Mask<4> represents block size 2^25.
+                                                                 _ Mask<5> represents block size 2^29.
+                                                                 _ Mask<6> represents block size 2^30.
+                                                                 _ Mask<7> represents block size 2^34.
+                                                                 _ Mask<8> represents block size 2^42. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
+                                                                 For each bit {a} in this field:
+                                                                 _ Mask<{a}>=0 = blocksize {a} is not precisely invalidated.
+                                                                 _ Mask<{a}>=1 = blocksize {a} is     precisely invalidated.
+
+                                                                 _ Mask<0> represents block size 2^12.
+                                                                 _ Mask<1> represents block size 2^14.
+                                                                 _ Mask<2> represents block size 2^16.
+                                                                 _ Mask<3> represents block size 2^21.
+                                                                 _ Mask<4> represents block size 2^25.
+                                                                 _ Mask<5> represents block size 2^29.
+                                                                 _ Mask<6> represents block size 2^30.
+                                                                 _ Mask<7> represents block size 2^34.
+                                                                 _ Mask<8> represents block size 2^42. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ap_cvmmemctl2_el1_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_25_31        : 7;
+        uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
+                                                                 For each bit {a} in this field:
+                                                                 _ Mask<{a}>=0 = blocksize {a} is not precisely invalidated.
+                                                                 _ Mask<{a}>=1 = blocksize {a} is     precisely invalidated.
+
+                                                                 _ Mask<0> represents block size 2^12.
+                                                                 _ Mask<1> represents block size 2^14.
+                                                                 _ Mask<2> represents block size 2^16.
+                                                                 _ Mask<3> represents block size 2^21.
+                                                                 _ Mask<4> represents block size 2^25.
+                                                                 _ Mask<5> represents block size 2^29.
+                                                                 _ Mask<6> represents block size 2^30.
+                                                                 _ Mask<7> represents block size 2^34.
+                                                                 _ Mask<8> represents block size 2^42. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
+                                                                 For each bit {a} in this field:
+                                                                 _ Mask<{a}>=0 = blocksize {a} allocated in MTLB1.
+                                                                 _ Mask<{a}>=1 = blocksize {a} allocated in MTLB0.
+
+                                                                 _ Mask<0> represents block size 2^12.
+                                                                 _ Mask<1> represents block size 2^14.
+                                                                 _ Mask<2> represents block size 2^16.
+                                                                 _ Mask<3> represents block size 2^21.
+                                                                 _ Mask<4> represents block size 2^25.
+                                                                 _ Mask<5> represents block size 2^29.
+                                                                 _ Mask<6> represents block size 2^30.
+                                                                 _ Mask<7> represents block size 2^34.
+                                                                 _ Mask<8> represents block size 2^42. */
+#else /* Word 0 - Little Endian */
+        uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
+                                                                 For each bit {a} in this field:
+                                                                 _ Mask<{a}>=0 = blocksize {a} allocated in MTLB1.
+                                                                 _ Mask<{a}>=1 = blocksize {a} allocated in MTLB0.
+
+                                                                 _ Mask<0> represents block size 2^12.
+                                                                 _ Mask<1> represents block size 2^14.
+                                                                 _ Mask<2> represents block size 2^16.
+                                                                 _ Mask<3> represents block size 2^21.
+                                                                 _ Mask<4> represents block size 2^25.
+                                                                 _ Mask<5> represents block size 2^29.
+                                                                 _ Mask<6> represents block size 2^30.
+                                                                 _ Mask<7> represents block size 2^34.
+                                                                 _ Mask<8> represents block size 2^42. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
+                                                                 For each bit {a} in this field:
+                                                                 _ Mask<{a}>=0 = blocksize {a} is not precisely invalidated.
+                                                                 _ Mask<{a}>=1 = blocksize {a} is     precisely invalidated.
+
+                                                                 _ Mask<0> represents block size 2^12.
+                                                                 _ Mask<1> represents block size 2^14.
+                                                                 _ Mask<2> represents block size 2^16.
+                                                                 _ Mask<3> represents block size 2^21.
+                                                                 _ Mask<4> represents block size 2^25.
+                                                                 _ Mask<5> represents block size 2^29.
+                                                                 _ Mask<6> represents block size 2^30.
+                                                                 _ Mask<7> represents block size 2^34.
+                                                                 _ Mask<8> represents block size 2^42. */
+        uint64_t reserved_25_31        : 7;
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
+} bdk_ap_cvmmemctl2_el1_t;
+
+#define BDK_AP_CVMMEMCTL2_EL1 BDK_AP_CVMMEMCTL2_EL1_FUNC()
+static inline uint64_t BDK_AP_CVMMEMCTL2_EL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_CVMMEMCTL2_EL1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x3000b000600ll;
+    __bdk_csr_fatal("AP_CVMMEMCTL2_EL1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_AP_CVMMEMCTL2_EL1 bdk_ap_cvmmemctl2_el1_t
+#define bustype_BDK_AP_CVMMEMCTL2_EL1 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_CVMMEMCTL2_EL1 "AP_CVMMEMCTL2_EL1"
+#define busnum_BDK_AP_CVMMEMCTL2_EL1 0
+#define arguments_BDK_AP_CVMMEMCTL2_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_dacr32_el2
@@ -10187,7 +10353,9 @@ typedef union
 static inline uint64_t BDK_AP_ICC_SEIEN_EL1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_SEIEN_EL1_FUNC(void)
 {
-    return 0x3000c0d0000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
+        return 0x3000c0d0000ll;
+    __bdk_csr_fatal("AP_ICC_SEIEN_EL1", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ICC_SEIEN_EL1 bdk_ap_icc_seien_el1_t
@@ -11658,7 +11826,9 @@ typedef union
 static inline uint64_t BDK_AP_ICH_VSEIR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICH_VSEIR_EL2_FUNC(void)
 {
-    return 0x3040c090400ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
+        return 0x3040c090400ll;
+    __bdk_csr_fatal("AP_ICH_VSEIR_EL2", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ICH_VSEIR_EL2 bdk_ap_ich_vseir_el2_t
@@ -11678,6 +11848,48 @@ typedef union
 {
     uint32_t u;
     struct bdk_ap_ich_vtr_el2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pribits               : 3;  /**< [ 31: 29](RO) The number of virtual priority bits implemented, minus one. */
+        uint32_t prebits               : 3;  /**< [ 28: 26](RO) The number of virtual preemption bits implemented, minus one. */
+        uint32_t idbits                : 3;  /**< [ 25: 23](RO) The number of virtual interrupt identifier bits supported:
+                                                                 All other values are reserved.
+                                                                 0x0 = 16 bits.
+                                                                 0x1 = 24 bits. */
+        uint32_t seis                  : 1;  /**< [ 22: 22](RO) SEI Support. Indicates whether the virtual CPU interface
+                                                                     supports generation of SEIs:
+                                                                 0 = The virtual CPU interface logic does not support generation of
+                                                                     SEIs.
+                                                                 1 = The virtual CPU interface logic supports generation of SEIs. */
+        uint32_t a3v                   : 1;  /**< [ 21: 21](RO) Affinity 3 Valid.
+                                                                 0 = The virtual CPU interface logic only supports zero values of
+                                                                     Affinity 3 in SGI generation system registers.
+                                                                 1 = The virtual CPU interface logic supports nonzero values of
+                                                                     Affinity 3 in SGI generation system registers. */
+        uint32_t reserved_5_20         : 16;
+        uint32_t listregs              : 5;  /**< [  4:  0](RO) The number of implemented List registers, minus one. */
+#else /* Word 0 - Little Endian */
+        uint32_t listregs              : 5;  /**< [  4:  0](RO) The number of implemented List registers, minus one. */
+        uint32_t reserved_5_20         : 16;
+        uint32_t a3v                   : 1;  /**< [ 21: 21](RO) Affinity 3 Valid.
+                                                                 0 = The virtual CPU interface logic only supports zero values of
+                                                                     Affinity 3 in SGI generation system registers.
+                                                                 1 = The virtual CPU interface logic supports nonzero values of
+                                                                     Affinity 3 in SGI generation system registers. */
+        uint32_t seis                  : 1;  /**< [ 22: 22](RO) SEI Support. Indicates whether the virtual CPU interface
+                                                                     supports generation of SEIs:
+                                                                 0 = The virtual CPU interface logic does not support generation of
+                                                                     SEIs.
+                                                                 1 = The virtual CPU interface logic supports generation of SEIs. */
+        uint32_t idbits                : 3;  /**< [ 25: 23](RO) The number of virtual interrupt identifier bits supported:
+                                                                 All other values are reserved.
+                                                                 0x0 = 16 bits.
+                                                                 0x1 = 24 bits. */
+        uint32_t prebits               : 3;  /**< [ 28: 26](RO) The number of virtual preemption bits implemented, minus one. */
+        uint32_t pribits               : 3;  /**< [ 31: 29](RO) The number of virtual priority bits implemented, minus one. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ap_ich_vtr_el2_cn8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pribits               : 3;  /**< [ 31: 29](RO) The number of virtual priority bits implemented, minus one. */
@@ -11722,8 +11934,8 @@ typedef union
         uint32_t prebits               : 3;  /**< [ 28: 26](RO) The number of virtual preemption bits implemented, minus one. */
         uint32_t pribits               : 3;  /**< [ 31: 29](RO) The number of virtual priority bits implemented, minus one. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_ich_vtr_el2_s cn; */
+    } cn8;
+    /* struct bdk_ap_ich_vtr_el2_s cn9; */
 } bdk_ap_ich_vtr_el2_t;
 
 #define BDK_AP_ICH_VTR_EL2 BDK_AP_ICH_VTR_EL2_FUNC()

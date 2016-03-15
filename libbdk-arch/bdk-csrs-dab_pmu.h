@@ -1918,9 +1918,51 @@ typedef union
                                                                      secure EL3 are counted.
                                                                  Otherwise, events in secure EL3 are not counted. */
         uint32_t reserved_16_25        : 10;
-        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. */
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
+                                                                     by event counter PMU()_PMEVCNTR()_EL0.
+                                                                 Enumerated by PMU_PERF_E.
+
+                                                                 Software must program this field with an event defined by the
+                                                                     processor or a common event defined by the architecture.
+                                                                 If evtCount is programmed to an event that is reserved or not
+                                                                     implemented, the behavior depends on the event type.
+                                                                 For common architectural and microarchitectural events:
+                                                                  no events are counted.
+                                                                  The value read back on evtCount is the value written.
+                                                                 For implementation defined events:
+                                                                  It is UNPREDICTABLE what event, if any, is counted.
+                                                                     UNPREDICTABLE in this case means the event must not expose
+                                                                     privileged information.
+                                                                  The value read back on evtCount is an UNKNOWN value with the
+                                                                     same effect.
+                                                                 ARM recommends that the behavior across a family of
+                                                                     implementations is defined such that if a given implementation
+                                                                     does not include an event from a set of common implementation
+                                                                     defined events, then no event is counted and the value read
+                                                                     back on evtCount is the value written. */
 #else /* Word 0 - Little Endian */
-        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. */
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
+                                                                     by event counter PMU()_PMEVCNTR()_EL0.
+                                                                 Enumerated by PMU_PERF_E.
+
+                                                                 Software must program this field with an event defined by the
+                                                                     processor or a common event defined by the architecture.
+                                                                 If evtCount is programmed to an event that is reserved or not
+                                                                     implemented, the behavior depends on the event type.
+                                                                 For common architectural and microarchitectural events:
+                                                                  no events are counted.
+                                                                  The value read back on evtCount is the value written.
+                                                                 For implementation defined events:
+                                                                  It is UNPREDICTABLE what event, if any, is counted.
+                                                                     UNPREDICTABLE in this case means the event must not expose
+                                                                     privileged information.
+                                                                  The value read back on evtCount is an UNKNOWN value with the
+                                                                     same effect.
+                                                                 ARM recommends that the behavior across a family of
+                                                                     implementations is defined such that if a given implementation
+                                                                     does not include an event from a set of common implementation
+                                                                     defined events, then no event is counted and the value read
+                                                                     back on evtCount is the value written. */
         uint32_t reserved_16_25        : 10;
         uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
                                                                      bit and set the value to zero. If EL3 is not implemented, this
@@ -2030,124 +2072,10 @@ typedef union
                                                                  1 = Do not count events in EL1. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_pmux_pmevtyperx_el0_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in nonsecure EL1 is further
-                                                                     controlled by the NSK bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count events in EL1.
-                                                                 1 = Do not count events in EL1. */
-        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in nonsecure EL0 is further
-                                                                     controlled by the NSU bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count events in EL0.
-                                                                 1 = Do not count events in EL0. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
-                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, events in
-                                                                     nonsecure EL1 are counted.
-                                                                 Otherwise, events in nonsecure EL1 are not counted. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
-                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of U, events in
-                                                                     nonsecure EL0 are counted.
-                                                                 Otherwise, events in nonsecure EL0 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
-                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
-                                                                 0 = Do not count events in EL2.
-                                                                 1 = Count events in EL2. */
-        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
-                                                                     bit and set the value to zero. If EL3 is not implemented, this
-                                                                     bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, events in
-                                                                     secure EL3 are counted.
-                                                                 Otherwise, events in secure EL3 are not counted. */
-        uint32_t reserved_16_25        : 10;
-        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
-                                                                     by event counter PMU()_PMEVCNTR()_EL0.
-                                                                 Enumerated by PMU_PERF_E.
-
-                                                                 Software must program this field with an event defined by the
-                                                                     processor or a common event defined by the architecture.
-                                                                 If evtCount is programmed to an event that is reserved or not
-                                                                     implemented, the behavior depends on the event type.
-                                                                 For common architectural and microarchitectural events:
-                                                                  no events are counted.
-                                                                  The value read back on evtCount is the value written.
-                                                                 For implementation defined events:
-                                                                  It is UNPREDICTABLE what event, if any, is counted.
-                                                                     UNPREDICTABLE in this case means the event must not expose
-                                                                     privileged information.
-                                                                  The value read back on evtCount is an UNKNOWN value with the
-                                                                     same effect.
-                                                                 ARM recommends that the behavior across a family of
-                                                                     implementations is defined such that if a given implementation
-                                                                     does not include an event from a set of common implementation
-                                                                     defined events, then no event is counted and the value read
-                                                                     back on evtCount is the value written. */
-#else /* Word 0 - Little Endian */
-        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
-                                                                     by event counter PMU()_PMEVCNTR()_EL0.
-                                                                 Enumerated by PMU_PERF_E.
-
-                                                                 Software must program this field with an event defined by the
-                                                                     processor or a common event defined by the architecture.
-                                                                 If evtCount is programmed to an event that is reserved or not
-                                                                     implemented, the behavior depends on the event type.
-                                                                 For common architectural and microarchitectural events:
-                                                                  no events are counted.
-                                                                  The value read back on evtCount is the value written.
-                                                                 For implementation defined events:
-                                                                  It is UNPREDICTABLE what event, if any, is counted.
-                                                                     UNPREDICTABLE in this case means the event must not expose
-                                                                     privileged information.
-                                                                  The value read back on evtCount is an UNKNOWN value with the
-                                                                     same effect.
-                                                                 ARM recommends that the behavior across a family of
-                                                                     implementations is defined such that if a given implementation
-                                                                     does not include an event from a set of common implementation
-                                                                     defined events, then no event is counted and the value read
-                                                                     back on evtCount is the value written. */
-        uint32_t reserved_16_25        : 10;
-        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
-                                                                     bit and set the value to zero. If EL3 is not implemented, this
-                                                                     bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, events in
-                                                                     secure EL3 are counted.
-                                                                 Otherwise, events in secure EL3 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
-                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
-                                                                 0 = Do not count events in EL2.
-                                                                 1 = Count events in EL2. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
-                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of U, events in
-                                                                     nonsecure EL0 are counted.
-                                                                 Otherwise, events in nonsecure EL0 are not counted. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
-                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, events in
-                                                                     nonsecure EL1 are counted.
-                                                                 Otherwise, events in nonsecure EL1 are not counted. */
-        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in nonsecure EL0 is further
-                                                                     controlled by the NSU bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count events in EL0.
-                                                                 1 = Do not count events in EL0. */
-        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in nonsecure EL1 is further
-                                                                     controlled by the NSK bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count events in EL1.
-                                                                 1 = Do not count events in EL1. */
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pmux_pmevtyperx_el0_cn81xx cn83xx; */
-    /* struct bdk_pmux_pmevtyperx_el0_cn81xx cn88xxp2; */
+    /* struct bdk_pmux_pmevtyperx_el0_s cn9; */
+    /* struct bdk_pmux_pmevtyperx_el0_s cn81xx; */
+    /* struct bdk_pmux_pmevtyperx_el0_s cn83xx; */
+    /* struct bdk_pmux_pmevtyperx_el0_s cn88xxp2; */
 } bdk_pmux_pmevtyperx_el0_t;
 
 static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

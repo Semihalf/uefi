@@ -185,6 +185,8 @@ static inline uint64_t BDK_NCSI_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000b00ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e00b000b00ll;
     __bdk_csr_fatal("NCSI_BIST_STATUS", 0, 0, 0, 0, 0);
 }
 
@@ -219,6 +221,7 @@ typedef union
                                                                  When this register is written, NCSI_INT[BMC2CPU] is set. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_ncsi_bmc2cpu_msg_s cn9; */
     struct bdk_ncsi_bmc2cpu_msg_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -251,6 +254,8 @@ static inline uint64_t BDK_NCSI_BMC2CPU_MSG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000108ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000108ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000108ll;
     __bdk_csr_fatal("NCSI_BMC2CPU_MSG", 0, 0, 0, 0, 0);
 }
@@ -300,7 +305,6 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_config_s cn83xx; */
     /* struct bdk_ncsi_config_s cn88xxp2; */
     struct bdk_ncsi_config_cn88xxp1
     {
@@ -328,6 +332,8 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_ncsi_config_s cn9; */
+    /* struct bdk_ncsi_config_s cn83xx; */
 } bdk_ncsi_config_t;
 
 #define BDK_NCSI_CONFIG BDK_NCSI_CONFIG_FUNC()
@@ -337,6 +343,8 @@ static inline uint64_t BDK_NCSI_CONFIG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000110ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000110ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000110ll;
     __bdk_csr_fatal("NCSI_CONFIG", 0, 0, 0, 0, 0);
 }
@@ -378,6 +386,8 @@ static inline uint64_t BDK_NCSI_CPU2BMC_MSG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000100ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000100ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000100ll;
     __bdk_csr_fatal("NCSI_CPU2BMC_MSG", 0, 0, 0, 0, 0);
 }
@@ -445,7 +455,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_int_s cn83xx; */
     /* struct bdk_ncsi_int_s cn88xxp2; */
     struct bdk_ncsi_int_cn88xxp1
     {
@@ -495,6 +504,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_ncsi_int_s cn9; */
+    /* struct bdk_ncsi_int_s cn83xx; */
 } bdk_ncsi_int_t;
 
 #define BDK_NCSI_INT BDK_NCSI_INT_FUNC()
@@ -504,6 +515,8 @@ static inline uint64_t BDK_NCSI_INT_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000000ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000000ll;
     __bdk_csr_fatal("NCSI_INT", 0, 0, 0, 0, 0);
 }
@@ -564,7 +577,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_int_ena_w1c_s cn83xx; */
     struct bdk_ncsi_int_ena_w1c_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -606,6 +618,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp2;
     /* struct bdk_ncsi_int_ena_w1c_s cn88xxp1; */
+    /* struct bdk_ncsi_int_ena_w1c_s cn9; */
+    /* struct bdk_ncsi_int_ena_w1c_s cn83xx; */
 } bdk_ncsi_int_ena_w1c_t;
 
 #define BDK_NCSI_INT_ENA_W1C BDK_NCSI_INT_ENA_W1C_FUNC()
@@ -615,6 +629,8 @@ static inline uint64_t BDK_NCSI_INT_ENA_W1C_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000018ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000018ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000018ll;
     __bdk_csr_fatal("NCSI_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -675,7 +691,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_int_ena_w1s_s cn83xx; */
     struct bdk_ncsi_int_ena_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -717,6 +732,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp2;
     /* struct bdk_ncsi_int_ena_w1s_s cn88xxp1; */
+    /* struct bdk_ncsi_int_ena_w1s_s cn9; */
+    /* struct bdk_ncsi_int_ena_w1s_s cn83xx; */
 } bdk_ncsi_int_ena_w1s_t;
 
 #define BDK_NCSI_INT_ENA_W1S BDK_NCSI_INT_ENA_W1S_FUNC()
@@ -726,6 +743,8 @@ static inline uint64_t BDK_NCSI_INT_ENA_W1S_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000010ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000010ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000010ll;
     __bdk_csr_fatal("NCSI_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
@@ -786,7 +805,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_int_w1s_s cn83xx; */
     struct bdk_ncsi_int_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -828,6 +846,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp2;
     /* struct bdk_ncsi_int_w1s_s cn88xxp1; */
+    /* struct bdk_ncsi_int_w1s_s cn9; */
+    /* struct bdk_ncsi_int_w1s_s cn83xx; */
 } bdk_ncsi_int_w1s_t;
 
 #define BDK_NCSI_INT_W1S BDK_NCSI_INT_W1S_FUNC()
@@ -837,6 +857,8 @@ static inline uint64_t BDK_NCSI_INT_W1S_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000008ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000008ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000008ll;
     __bdk_csr_fatal("NCSI_INT_W1S", 0, 0, 0, 0, 0);
 }
@@ -887,6 +909,8 @@ static inline uint64_t BDK_NCSI_MEM_CTRL_FUNC(void)
         return 0x87e00b000118ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000118ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e00b000118ll;
     __bdk_csr_fatal("NCSI_MEM_CTRL", 0, 0, 0, 0, 0);
 }
 
@@ -925,6 +949,8 @@ static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
+        return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("NCSI_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -983,6 +1009,8 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a)
         return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
         return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("NCSI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -1025,6 +1053,8 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
+        return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("NCSI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -1078,6 +1108,8 @@ static inline uint64_t BDK_NCSI_RX_FRM_CTL_FUNC(void)
         return 0x87e00b000508ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000508ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e00b000508ll;
     __bdk_csr_fatal("NCSI_RX_FRM_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -1128,6 +1160,8 @@ static inline uint64_t BDK_NCSI_RX_IFG_FUNC(void)
         return 0x87e00b000518ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000518ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e00b000518ll;
     __bdk_csr_fatal("NCSI_RX_IFG", 0, 0, 0, 0, 0);
 }
 
@@ -1176,6 +1210,8 @@ static inline uint64_t BDK_NCSI_RX_MFG_FUNC(void)
         return 0x87e00b000520ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000520ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e00b000520ll;
     __bdk_csr_fatal("NCSI_RX_MFG", 0, 0, 0, 0, 0);
 }
 
@@ -1220,6 +1256,8 @@ static inline uint64_t BDK_NCSI_RX_MIN_PKT_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000510ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000510ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000510ll;
     __bdk_csr_fatal("NCSI_RX_MIN_PKT", 0, 0, 0, 0, 0);
 }
@@ -1267,6 +1305,8 @@ static inline uint64_t BDK_NCSI_RX_STAT0_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000600ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000600ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000600ll;
     __bdk_csr_fatal("NCSI_RX_STAT0", 0, 0, 0, 0, 0);
 }
@@ -1317,6 +1357,8 @@ static inline uint64_t BDK_NCSI_RX_STAT1_FUNC(void)
         return 0x87e00b000608ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000608ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e00b000608ll;
     __bdk_csr_fatal("NCSI_RX_STAT1", 0, 0, 0, 0, 0);
 }
 
@@ -1359,6 +1401,8 @@ static inline uint64_t BDK_NCSI_RX_THRESH_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000500ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000500ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000500ll;
     __bdk_csr_fatal("NCSI_RX_THRESH", 0, 0, 0, 0, 0);
 }
@@ -1410,6 +1454,8 @@ static inline uint64_t BDK_NCSI_SECURE_CONFIG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000800ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000800ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000800ll;
     __bdk_csr_fatal("NCSI_SECURE_CONFIG", 0, 0, 0, 0, 0);
 }
@@ -1480,7 +1526,6 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_tx_frm_ctl_s cn83xx; */
     /* struct bdk_ncsi_tx_frm_ctl_s cn88xxp2; */
     struct bdk_ncsi_tx_frm_ctl_cn88xxp1
     {
@@ -1528,6 +1573,8 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_ncsi_tx_frm_ctl_s cn9; */
+    /* struct bdk_ncsi_tx_frm_ctl_s cn83xx; */
 } bdk_ncsi_tx_frm_ctl_t;
 
 #define BDK_NCSI_TX_FRM_CTL BDK_NCSI_TX_FRM_CTL_FUNC()
@@ -1537,6 +1584,8 @@ static inline uint64_t BDK_NCSI_TX_FRM_CTL_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000120ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000120ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000120ll;
     __bdk_csr_fatal("NCSI_TX_FRM_CTL", 0, 0, 0, 0, 0);
 }
@@ -1583,6 +1632,8 @@ static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e00b000200ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+        return 0x87e00b000200ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e00b000200ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NCSI_TX_FRM_SMACX_CAM", 1, a, 0, 0, 0);
 }
@@ -1633,6 +1684,8 @@ static inline uint64_t BDK_NCSI_TX_IFG_FUNC(void)
         return 0x87e00b000130ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000130ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e00b000130ll;
     __bdk_csr_fatal("NCSI_TX_IFG", 0, 0, 0, 0, 0);
 }
 
@@ -1678,6 +1731,8 @@ static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void)
         return 0x87e00b000128ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000128ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e00b000128ll;
     __bdk_csr_fatal("NCSI_TX_JABBER", 0, 0, 0, 0, 0);
 }
 
@@ -1717,6 +1772,8 @@ static inline uint64_t BDK_NCSI_TX_MIX_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000138ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000138ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000138ll;
     __bdk_csr_fatal("NCSI_TX_MIX", 0, 0, 0, 0, 0);
 }
@@ -1759,6 +1816,8 @@ static inline uint64_t BDK_NCSI_TX_NCP_CH_ST_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000140ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000140ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000140ll;
     __bdk_csr_fatal("NCSI_TX_NCP_CH_ST", 0, 0, 0, 0, 0);
 }
@@ -1831,6 +1890,7 @@ typedef union
                                                                  Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_ncsi_tx_ncp_permx_table_hi_s cn9; */
     struct bdk_ncsi_tx_ncp_permx_table_hi_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1893,6 +1953,8 @@ static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a)
         return 0x87e00b000900ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x87e00b000900ll + 8ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=15))
+        return 0x87e00b000900ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("NCSI_TX_NCP_PERMX_TABLE_HI", 1, a, 0, 0, 0);
 }
 
@@ -1931,6 +1993,8 @@ static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
+        return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=15))
         return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("NCSI_TX_NCP_PERMX_TABLE_LOW", 1, a, 0, 0, 0);
 }
@@ -1971,6 +2035,8 @@ static inline uint64_t BDK_NCSI_TX_NCP_PKG_ST_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000148ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000148ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000148ll;
     __bdk_csr_fatal("NCSI_TX_NCP_PKG_ST", 0, 0, 0, 0, 0);
 }
@@ -2017,6 +2083,8 @@ static inline uint64_t BDK_NCSI_TX_STAT0_FUNC(void)
         return 0x87e00b000300ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000300ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e00b000300ll;
     __bdk_csr_fatal("NCSI_TX_STAT0", 0, 0, 0, 0, 0);
 }
 
@@ -2061,6 +2129,8 @@ static inline uint64_t BDK_NCSI_TX_STAT1_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000308ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e00b000308ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000308ll;
     __bdk_csr_fatal("NCSI_TX_STAT1", 0, 0, 0, 0, 0);
 }

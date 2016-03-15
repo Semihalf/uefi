@@ -317,6 +317,7 @@ typedef union
         uint32_t reserved_7_31         : 25;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pccbr_xxx_e_cap2_s cn9; */
     /* struct bdk_pccbr_xxx_e_cap2_s cn81xx; */
     struct bdk_pccbr_xxx_e_cap2_cn88xx
     {
@@ -361,35 +362,36 @@ typedef union
         uint32_t reserved_24_31        : 8;
         uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. No additional PCI capabilities. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. Points to PCCBR_XXX_EA_CAP_HDR. */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
 #else /* Word 0 - Little Endian */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. No additional PCI capabilities. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. Points to PCCBR_XXX_EA_CAP_HDR. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn88xxp1; */
-    struct bdk_pccbr_xxx_e_cap_hdr_cn81xx
+    struct bdk_pccbr_xxx_e_cap_hdr_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
         uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. Points to PCCBR_XXX_EA_CAP_HDR. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. No additional PCI capabilities. */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
 #else /* Word 0 - Little Endian */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. Points to PCCBR_XXX_EA_CAP_HDR. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. No additional PCI capabilities. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pccbr_xxx_e_cap_hdr_cn81xx cn83xx; */
-    /* struct bdk_pccbr_xxx_e_cap_hdr_cn81xx cn88xxp2; */
+    } cn88xxp1;
+    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn9; */
+    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn81xx; */
+    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn83xx; */
+    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn88xxp2; */
 } bdk_pccbr_xxx_e_cap_hdr_t;
 
 #define BDK_PCCBR_XXX_E_CAP_HDR BDK_PCCBR_XXX_E_CAP_HDR_FUNC()
@@ -435,6 +437,8 @@ static inline uint64_t BDK_PCCBR_XXX_E_DEV_CAP_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x74;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x74;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x74;
     __bdk_csr_fatal("PCCBR_XXX_E_DEV_CAP", 0, 0, 0, 0, 0);
 }
@@ -482,6 +486,8 @@ static inline uint64_t BDK_PCCBR_XXX_EA_BR_FUNC(void)
         return 0xb4;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         return 0xb4;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0xb4;
     __bdk_csr_fatal("PCCBR_XXX_EA_BR", 0, 0, 0, 0, 0);
 }
 
@@ -527,6 +533,8 @@ static inline uint64_t BDK_PCCBR_XXX_EA_CAP_HDR_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0xb0;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+        return 0xb0;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0xb0;
     __bdk_csr_fatal("PCCBR_XXX_EA_CAP_HDR", 0, 0, 0, 0, 0);
 }
@@ -645,6 +653,8 @@ static inline uint64_t BDK_PCCBR_XXX_VSEC_CAP_HDR_FUNC(void)
         return 0x100;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x108;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x100;
     __bdk_csr_fatal("PCCBR_XXX_VSEC_CAP_HDR", 0, 0, 0, 0, 0);
 }
 
@@ -691,6 +701,8 @@ static inline uint64_t BDK_PCCBR_XXX_VSEC_CTL_FUNC(void)
         return 0x108;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x110;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x108;
     __bdk_csr_fatal("PCCBR_XXX_VSEC_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -739,6 +751,8 @@ static inline uint64_t BDK_PCCBR_XXX_VSEC_ID_FUNC(void)
         return 0x104;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x10c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x104;
     __bdk_csr_fatal("PCCBR_XXX_VSEC_ID", 0, 0, 0, 0, 0);
 }
 
@@ -781,6 +795,8 @@ static inline uint64_t BDK_PCCBR_XXX_VSEC_SCTL_FUNC(void)
         return 0x10c;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x114;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x10c;
     __bdk_csr_fatal("PCCBR_XXX_VSEC_SCTL", 0, 0, 0, 0, 0);
 }
 

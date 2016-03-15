@@ -99,6 +99,8 @@ static inline uint64_t BDK_PEMRCX_MSIX_PBAX(unsigned long a, unsigned long b)
         return 0x87e0c0ef0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
         return 0x87e0c0ef0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b==0)))
+        return 0x87e0c0ef0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("PEMRCX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
@@ -179,6 +181,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pemrcx_msix_vecx_addr_s cn83xx; */
+    /* struct bdk_pemrcx_msix_vecx_addr_s cn9; */
 } bdk_pemrcx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_PEMRCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -187,6 +190,8 @@ static inline uint64_t BDK_PEMRCX_MSIX_VECX_ADDR(unsigned long a, unsigned long 
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=1)))
         return 0x87e0c0e00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
+        return 0x87e0c0e00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
         return 0x87e0c0e00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("PEMRCX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -230,6 +235,8 @@ static inline uint64_t BDK_PEMRCX_MSIX_VECX_CTL(unsigned long a, unsigned long b
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=1)))
         return 0x87e0c0e00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
+        return 0x87e0c0e00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
         return 0x87e0c0e00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("PEMRCX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }

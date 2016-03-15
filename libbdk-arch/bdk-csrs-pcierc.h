@@ -77,6 +77,7 @@ typedef union
                                                                  _ <7:0> resets to PCC_DEV_IDL_E::PCIERC. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg000_s cn9; */
     /* struct bdk_pciercx_cfg000_s cn81xx; */
     struct bdk_pciercx_cfg000_cn88xx
     {
@@ -100,6 +101,8 @@ static inline uint64_t BDK_PCIERCX_CFG000(unsigned long a)
         return 0x20000000000ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000000ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000000ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG000", 1, a, 0, 0, 0);
 }
 
@@ -184,6 +187,8 @@ static inline uint64_t BDK_PCIERCX_CFG001(unsigned long a)
         return 0x20000000004ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000004ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000004ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG001", 1, a, 0, 0, 0);
 }
 
@@ -232,6 +237,7 @@ typedef union
                                                                  0x6 = Bridge. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg002_s cn9; */
     /* struct bdk_pciercx_cfg002_s cn81xx; */
     struct bdk_pciercx_cfg002_cn88xx
     {
@@ -277,6 +283,8 @@ static inline uint64_t BDK_PCIERCX_CFG002(unsigned long a)
         return 0x20000000008ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000008ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000008ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG002", 1, a, 0, 0, 0);
 }
 
@@ -299,6 +307,25 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
+        uint32_t mfd                   : 1;  /**< [ 23: 23](RO) Multi function device. */
+        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x1. */
+        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
+        uint32_t cls                   : 8;  /**< [  7:  0](R/W) Cache line size. The cache line size register is R/W for legacy compatibility purposes and
+                                                                 is not applicable to PCI Express device functionality. */
+#else /* Word 0 - Little Endian */
+        uint32_t cls                   : 8;  /**< [  7:  0](R/W) Cache line size. The cache line size register is R/W for legacy compatibility purposes and
+                                                                 is not applicable to PCI Express device functionality. */
+        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
+        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x1. */
+        uint32_t mfd                   : 1;  /**< [ 23: 23](RO) Multi function device. */
+        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg003_s cn9; */
+    struct bdk_pciercx_cfg003_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
         uint32_t mfd                   : 1;  /**< [ 23: 23](RO) Multi function device.  However, this is a single function device. Therefore,
                                                                  the application must not write a 1 to this bit. */
         uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x1. */
@@ -314,8 +341,7 @@ typedef union
                                                                  the application must not write a 1 to this bit. */
         uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg003_s cn81xx; */
+    } cn81xx;
     struct bdk_pciercx_cfg003_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -338,24 +364,7 @@ typedef union
         uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg003_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
-        uint32_t mfd                   : 1;  /**< [ 23: 23](RO) Multi function device. */
-        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x1. */
-        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
-        uint32_t cls                   : 8;  /**< [  7:  0](R/W) Cache line size. The cache line size register is R/W for legacy compatibility purposes and
-                                                                 is not applicable to PCI Express device functionality. */
-#else /* Word 0 - Little Endian */
-        uint32_t cls                   : 8;  /**< [  7:  0](R/W) Cache line size. The cache line size register is R/W for legacy compatibility purposes and
-                                                                 is not applicable to PCI Express device functionality. */
-        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
-        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x1. */
-        uint32_t mfd                   : 1;  /**< [ 23: 23](RO) Multi function device. */
-        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg003_s cn83xx; */
 } bdk_pciercx_cfg003_t;
 
 static inline uint64_t BDK_PCIERCX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
@@ -367,6 +376,8 @@ static inline uint64_t BDK_PCIERCX_CFG003(unsigned long a)
         return 0x2000000000cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000000cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000000cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG003", 1, a, 0, 0, 0);
 }
 
@@ -393,16 +404,17 @@ typedef union
         uint32_t unused                : 32; /**< [ 31:  0](RO/H) Reserved. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg004_s cn81xx; */
-    /* struct bdk_pciercx_cfg004_s cn88xx; */
-    struct bdk_pciercx_cfg004_cn83xx
+    struct bdk_pciercx_cfg004_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn9;
+    /* struct bdk_pciercx_cfg004_s cn81xx; */
+    /* struct bdk_pciercx_cfg004_s cn88xx; */
+    /* struct bdk_pciercx_cfg004_cn9 cn83xx; */
 } bdk_pciercx_cfg004_t;
 
 static inline uint64_t BDK_PCIERCX_CFG004(unsigned long a) __attribute__ ((pure, always_inline));
@@ -414,6 +426,8 @@ static inline uint64_t BDK_PCIERCX_CFG004(unsigned long a)
         return 0x20000000010ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000010ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000010ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG004", 1, a, 0, 0, 0);
 }
 
@@ -440,16 +454,17 @@ typedef union
         uint32_t unused                : 32; /**< [ 31:  0](RO/H) Reserved. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg005_s cn81xx; */
-    /* struct bdk_pciercx_cfg005_s cn88xx; */
-    struct bdk_pciercx_cfg005_cn83xx
+    struct bdk_pciercx_cfg005_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn9;
+    /* struct bdk_pciercx_cfg005_s cn81xx; */
+    /* struct bdk_pciercx_cfg005_s cn88xx; */
+    /* struct bdk_pciercx_cfg005_cn9 cn83xx; */
 } bdk_pciercx_cfg005_t;
 
 static inline uint64_t BDK_PCIERCX_CFG005(unsigned long a) __attribute__ ((pure, always_inline));
@@ -461,6 +476,8 @@ static inline uint64_t BDK_PCIERCX_CFG005(unsigned long a)
         return 0x20000000014ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000014ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000014ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG005", 1, a, 0, 0, 0);
 }
 
@@ -521,6 +538,8 @@ static inline uint64_t BDK_PCIERCX_CFG006(unsigned long a)
         return 0x20000000018ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000018ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000018ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG006", 1, a, 0, 0, 0);
 }
 
@@ -599,6 +618,8 @@ static inline uint64_t BDK_PCIERCX_CFG007(unsigned long a)
         return 0x2000000001cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000001cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000001cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG007", 1, a, 0, 0, 0);
 }
 
@@ -643,6 +664,8 @@ static inline uint64_t BDK_PCIERCX_CFG008(unsigned long a)
         return 0x20000000020ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000020ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000020ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG008", 1, a, 0, 0, 0);
 }
 
@@ -666,7 +689,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lmem_limit            : 12; /**< [ 31: 20](R/W) Upper 12 bits of 32-bit prefetchable memory end address. */
         uint32_t reserved_17_19        : 3;
-        uint32_t mem64b                : 1;  /**< [ 16: 16](RO/H) 64-bit memory addressing:
+        uint32_t mem64b                : 1;  /**< [ 16: 16](RO) 64-bit memory addressing:
                                                                  0 = 32-bit memory addressing.
                                                                  1 = 64-bit memory addressing. */
         uint32_t lmem_base             : 12; /**< [ 15:  4](R/W) Upper 12 bits of 32-bit prefetchable memory start address. */
@@ -686,21 +709,20 @@ typedef union
                                                                  through PEM()_CFG_WR, the same value is written to bit 16 of this register. */
         uint32_t reserved_1_3          : 3;
         uint32_t lmem_base             : 12; /**< [ 15:  4](R/W) Upper 12 bits of 32-bit prefetchable memory start address. */
-        uint32_t mem64b                : 1;  /**< [ 16: 16](RO/H) 64-bit memory addressing:
+        uint32_t mem64b                : 1;  /**< [ 16: 16](RO) 64-bit memory addressing:
                                                                  0 = 32-bit memory addressing.
                                                                  1 = 64-bit memory addressing. */
         uint32_t reserved_17_19        : 3;
         uint32_t lmem_limit            : 12; /**< [ 31: 20](R/W) Upper 12 bits of 32-bit prefetchable memory end address. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg009_s cn81xx; */
-    /* struct bdk_pciercx_cfg009_s cn88xx; */
-    struct bdk_pciercx_cfg009_cn83xx
+    /* struct bdk_pciercx_cfg009_s cn9; */
+    struct bdk_pciercx_cfg009_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lmem_limit            : 12; /**< [ 31: 20](R/W) Upper 12 bits of 32-bit prefetchable memory end address. */
         uint32_t reserved_17_19        : 3;
-        uint32_t mem64b                : 1;  /**< [ 16: 16](RO) 64-bit memory addressing:
+        uint32_t mem64b                : 1;  /**< [ 16: 16](RO/H) 64-bit memory addressing:
                                                                  0 = 32-bit memory addressing.
                                                                  1 = 64-bit memory addressing. */
         uint32_t lmem_base             : 12; /**< [ 15:  4](R/W) Upper 12 bits of 32-bit prefetchable memory start address. */
@@ -720,13 +742,15 @@ typedef union
                                                                  through PEM()_CFG_WR, the same value is written to bit 16 of this register. */
         uint32_t reserved_1_3          : 3;
         uint32_t lmem_base             : 12; /**< [ 15:  4](R/W) Upper 12 bits of 32-bit prefetchable memory start address. */
-        uint32_t mem64b                : 1;  /**< [ 16: 16](RO) 64-bit memory addressing:
+        uint32_t mem64b                : 1;  /**< [ 16: 16](RO/H) 64-bit memory addressing:
                                                                  0 = 32-bit memory addressing.
                                                                  1 = 64-bit memory addressing. */
         uint32_t reserved_17_19        : 3;
         uint32_t lmem_limit            : 12; /**< [ 31: 20](R/W) Upper 12 bits of 32-bit prefetchable memory end address. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg009_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg009_s cn83xx; */
 } bdk_pciercx_cfg009_t;
 
 static inline uint64_t BDK_PCIERCX_CFG009(unsigned long a) __attribute__ ((pure, always_inline));
@@ -738,6 +762,8 @@ static inline uint64_t BDK_PCIERCX_CFG009(unsigned long a)
         return 0x20000000024ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000024ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000024ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG009", 1, a, 0, 0, 0);
 }
 
@@ -778,6 +804,8 @@ static inline uint64_t BDK_PCIERCX_CFG010(unsigned long a)
         return 0x20000000028ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000028ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000028ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG010", 1, a, 0, 0, 0);
 }
 
@@ -818,6 +846,8 @@ static inline uint64_t BDK_PCIERCX_CFG011(unsigned long a)
         return 0x2000000002cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000002cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000002cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG011", 1, a, 0, 0, 0);
 }
 
@@ -858,6 +888,8 @@ static inline uint64_t BDK_PCIERCX_CFG012(unsigned long a)
         return 0x20000000030ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000030ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000030ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG012", 1, a, 0, 0, 0);
 }
 
@@ -900,6 +932,8 @@ static inline uint64_t BDK_PCIERCX_CFG013(unsigned long a)
         return 0x20000000034ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000034ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000034ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG013", 1, a, 0, 0, 0);
 }
 
@@ -921,21 +955,22 @@ typedef union
     struct bdk_pciercx_cfg014_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL/H) Writable, but unused. */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL/H) Writable, but unused. */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL) Reserved. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg014_s cn81xx; */
-    /* struct bdk_pciercx_cfg014_s cn88xx; */
-    struct bdk_pciercx_cfg014_cn83xx
+    /* struct bdk_pciercx_cfg014_s cn9; */
+    struct bdk_pciercx_cfg014_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL) Reserved. */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL/H) Writable, but unused. */
 #else /* Word 0 - Little Endian */
-        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL) Reserved. */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL/H) Writable, but unused. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg014_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg014_s cn83xx; */
 } bdk_pciercx_cfg014_t;
 
 static inline uint64_t BDK_PCIERCX_CFG014(unsigned long a) __attribute__ ((pure, always_inline));
@@ -947,6 +982,8 @@ static inline uint64_t BDK_PCIERCX_CFG014(unsigned long a)
         return 0x20000000038ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000038ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000038ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG014", 1, a, 0, 0, 0);
 }
 
@@ -984,17 +1021,11 @@ typedef union
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
-                                                                 function) uses. The interrupt pin register is writable through
-                                                                 PEM()_CFG_WR. In a single-function configuration, only INTA is used. Therefore, the
-                                                                 application must not change this field. */
-        uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
+        uint32_t il                    : 8;  /**< [  7:  0](RO) Interrupt line. */
 #else /* Word 0 - Little Endian */
-        uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
-                                                                 function) uses. The interrupt pin register is writable through
-                                                                 PEM()_CFG_WR. In a single-function configuration, only INTA is used. Therefore, the
-                                                                 application must not change this field. */
+        uint32_t il                    : 8;  /**< [  7:  0](RO) Interrupt line. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
@@ -1013,9 +1044,8 @@ typedef union
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg015_s cn81xx; */
-    /* struct bdk_pciercx_cfg015_s cn88xx; */
-    struct bdk_pciercx_cfg015_cn83xx
+    /* struct bdk_pciercx_cfg015_s cn9; */
+    struct bdk_pciercx_cfg015_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -1034,11 +1064,17 @@ typedef union
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
-        uint32_t il                    : 8;  /**< [  7:  0](RO) Interrupt line. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
+                                                                 function) uses. The interrupt pin register is writable through
+                                                                 PEM()_CFG_WR. In a single-function configuration, only INTA is used. Therefore, the
+                                                                 application must not change this field. */
+        uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
 #else /* Word 0 - Little Endian */
-        uint32_t il                    : 8;  /**< [  7:  0](RO) Interrupt line. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
+        uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
+                                                                 function) uses. The interrupt pin register is writable through
+                                                                 PEM()_CFG_WR. In a single-function configuration, only INTA is used. Therefore, the
+                                                                 application must not change this field. */
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
@@ -1056,7 +1092,9 @@ typedef union
         uint32_t dtsees                : 1;  /**< [ 27: 27](RO) Discard timer SERR enable status. Not applicable to PCI Express, hardwired to 0. */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg015_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg015_s cn83xx; */
 } bdk_pciercx_cfg015_t;
 
 static inline uint64_t BDK_PCIERCX_CFG015(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1068,6 +1106,8 @@ static inline uint64_t BDK_PCIERCX_CFG015(unsigned long a)
         return 0x2000000003cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000003cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000003cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG015", 1, a, 0, 0, 0);
 }
 
@@ -1114,6 +1154,69 @@ typedef union
         uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
         uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the EA capabilities by default, writable
+                                                                 through PEM()_CFG_WR. */
+        uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the EA capabilities by default, writable
+                                                                 through PEM()_CFG_WR. */
+        uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
+                                                                 PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
+        uint32_t reserved_20           : 1;
+        uint32_t dsi                   : 1;  /**< [ 21: 21](RO/WRSL) Device specific initialization (DSI), writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t auxc                  : 3;  /**< [ 24: 22](RO/WRSL) AUX current, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t d1s                   : 1;  /**< [ 25: 25](RO/WRSL) D1 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t d2s                   : 1;  /**< [ 26: 26](RO/WRSL) D2 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
+                                                                 capable of generating PME messages while in that power state:
+
+                                                                 _ Bit 11: If set, PME Messages can be generated from D0.
+
+                                                                 _ Bit 12: If set, PME Messages can be generated from D1.
+
+                                                                 _ Bit 13: If set, PME Messages can be generated from D2.
+
+                                                                 _ Bit 14: If set, PME Messages can be generated from D3hot.
+
+                                                                 _ Bit 15: If set, PME Messages can be generated from D3cold.
+
+                                                                 The PME_Support field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg016_s cn9; */
+    struct bdk_pciercx_cfg016_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
+                                                                 capable of generating PME messages while in that power state:
+
+                                                                 _ Bit 11: If set, PME Messages can be generated from D0.
+
+                                                                 _ Bit 12: If set, PME Messages can be generated from D1.
+
+                                                                 _ Bit 13: If set, PME Messages can be generated from D2.
+
+                                                                 _ Bit 14: If set, PME Messages can be generated from D3hot.
+
+                                                                 _ Bit 15: If set, PME Messages can be generated from D3cold.
+
+                                                                 The PME_Support field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t d2s                   : 1;  /**< [ 26: 26](RO/WRSL) D2 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t d1s                   : 1;  /**< [ 25: 25](RO/WRSL) D1 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t auxc                  : 3;  /**< [ 24: 22](RO/WRSL) AUX current, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t dsi                   : 1;  /**< [ 21: 21](RO/WRSL) Device specific initialization (DSI), writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t reserved_20           : 1;
+        uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
+        uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
+                                                                 PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the EA capabilities by default, writable through
                                                                  PEM()_CFG_WR. */
         uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
@@ -1147,8 +1250,7 @@ typedef union
                                                                  The PME_Support field is writable through PEM()_CFG_WR. However, the application must
                                                                  not change this field. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg016_s cn81xx; */
+    } cn81xx;
     struct bdk_pciercx_cfg016_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1211,68 +1313,7 @@ typedef union
                                                                  not change this field. */
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg016_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
-                                                                 capable of generating PME messages while in that power state:
-
-                                                                 _ Bit 11: If set, PME Messages can be generated from D0.
-
-                                                                 _ Bit 12: If set, PME Messages can be generated from D1.
-
-                                                                 _ Bit 13: If set, PME Messages can be generated from D2.
-
-                                                                 _ Bit 14: If set, PME Messages can be generated from D3hot.
-
-                                                                 _ Bit 15: If set, PME Messages can be generated from D3cold.
-
-                                                                 The PME_Support field is writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t d2s                   : 1;  /**< [ 26: 26](RO/WRSL) D2 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t d1s                   : 1;  /**< [ 25: 25](RO/WRSL) D1 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t auxc                  : 3;  /**< [ 24: 22](RO/WRSL) AUX current, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t dsi                   : 1;  /**< [ 21: 21](RO/WRSL) Device specific initialization (DSI), writable through PEM()_CFG_WR. However, the
-                                                                 application must not change this field. */
-        uint32_t reserved_20           : 1;
-        uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
-        uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
-                                                                 PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the EA capabilities by default, writable
-                                                                 through PEM()_CFG_WR. */
-        uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
-#else /* Word 0 - Little Endian */
-        uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the EA capabilities by default, writable
-                                                                 through PEM()_CFG_WR. */
-        uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
-                                                                 PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
-        uint32_t reserved_20           : 1;
-        uint32_t dsi                   : 1;  /**< [ 21: 21](RO/WRSL) Device specific initialization (DSI), writable through PEM()_CFG_WR. However, the
-                                                                 application must not change this field. */
-        uint32_t auxc                  : 3;  /**< [ 24: 22](RO/WRSL) AUX current, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t d1s                   : 1;  /**< [ 25: 25](RO/WRSL) D1 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t d2s                   : 1;  /**< [ 26: 26](RO/WRSL) D2 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
-                                                                 capable of generating PME messages while in that power state:
-
-                                                                 _ Bit 11: If set, PME Messages can be generated from D0.
-
-                                                                 _ Bit 12: If set, PME Messages can be generated from D1.
-
-                                                                 _ Bit 13: If set, PME Messages can be generated from D2.
-
-                                                                 _ Bit 14: If set, PME Messages can be generated from D3hot.
-
-                                                                 _ Bit 15: If set, PME Messages can be generated from D3cold.
-
-                                                                 The PME_Support field is writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg016_s cn83xx; */
 } bdk_pciercx_cfg016_t;
 
 static inline uint64_t BDK_PCIERCX_CFG016(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1284,6 +1325,8 @@ static inline uint64_t BDK_PCIERCX_CFG016(unsigned long a)
         return 0x20000000040ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000040ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000040ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG016", 1, a, 0, 0, 0);
 }
 
@@ -1358,6 +1401,8 @@ static inline uint64_t BDK_PCIERCX_CFG017(unsigned long a)
         return 0x20000000044ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000044ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000044ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG017", 1, a, 0, 0, 0);
 }
 
@@ -1370,7 +1415,7 @@ static inline uint64_t BDK_PCIERCX_CFG017(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg020
  *
- * PCIe RC MSI Capability ID/MSI Next Item Pointer/MSI Control Register
+ * PCIe RC Enhanced Allocation Capability ID Register
  * This register contains the twenty-first 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1390,7 +1435,7 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pciercx_cfg020_cn81xx
+    struct bdk_pciercx_cfg020_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ea_rsvd               : 10; /**< [ 31: 22](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
@@ -1415,7 +1460,8 @@ typedef union
         uint32_t ea_rsvd               : 10; /**< [ 31: 22](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
                                                                  not change this field. */
 #endif /* Word 0 - End */
-    } cn81xx;
+    } cn9;
+    /* struct bdk_pciercx_cfg020_cn9 cn81xx; */
     struct bdk_pciercx_cfg020_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1452,7 +1498,7 @@ typedef union
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_pciercx_cfg020_cn81xx cn83xx; */
+    /* struct bdk_pciercx_cfg020_cn9 cn83xx; */
 } bdk_pciercx_cfg020_t;
 
 static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1464,6 +1510,8 @@ static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a)
         return 0x20000000050ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000050ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000050ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG020", 1, a, 0, 0, 0);
 }
 
@@ -1476,7 +1524,7 @@ static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg021
  *
- * PCIe RC MSI Lower 32 Bits Address Register
+ * PCIe RC Enhanced Allocation Capability Second DW Register
  * This register contains the twenty-second 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1490,7 +1538,7 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pciercx_cfg021_cn81xx
+    struct bdk_pciercx_cfg021_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ea_rsvd               : 16; /**< [ 31: 16](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
@@ -1511,7 +1559,8 @@ typedef union
         uint32_t ea_rsvd               : 16; /**< [ 31: 16](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
                                                                  not change this field. */
 #endif /* Word 0 - End */
-    } cn81xx;
+    } cn9;
+    /* struct bdk_pciercx_cfg021_cn9 cn81xx; */
     struct bdk_pciercx_cfg021_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1522,7 +1571,7 @@ typedef union
         uint32_t lmsi                  : 30; /**< [ 31:  2](R/W) Lower 32-bit address. */
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_pciercx_cfg021_cn81xx cn83xx; */
+    /* struct bdk_pciercx_cfg021_cn9 cn83xx; */
 } bdk_pciercx_cfg021_t;
 
 static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1534,6 +1583,8 @@ static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a)
         return 0x20000000054ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000054ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000054ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG021", 1, a, 0, 0, 0);
 }
 
@@ -1546,7 +1597,7 @@ static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg022
  *
- * PCIe RC MSI Upper 32 Bits Address Register
+ * PCIe RC Enhanced Allocation Entry 0 First DW Register
  * This register contains the twenty-third 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1560,7 +1611,7 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pciercx_cfg022_cn81xx
+    struct bdk_pciercx_cfg022_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ena                   : 1;  /**< [ 31: 31](RO/WRSL) Enable for this entry.  This field is writable through PEM()_CFG_WR. However, the
@@ -1607,7 +1658,8 @@ typedef union
                                                                  application must
                                                                  not change this field. */
 #endif /* Word 0 - End */
-    } cn81xx;
+    } cn9;
+    /* struct bdk_pciercx_cfg022_cn9 cn81xx; */
     struct bdk_pciercx_cfg022_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1616,7 +1668,7 @@ typedef union
         uint32_t umsi                  : 32; /**< [ 31:  0](R/W) Upper 32-bit address. */
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_pciercx_cfg022_cn81xx cn83xx; */
+    /* struct bdk_pciercx_cfg022_cn9 cn83xx; */
 } bdk_pciercx_cfg022_t;
 
 static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1628,6 +1680,8 @@ static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a)
         return 0x20000000058ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000058ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000058ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG022", 1, a, 0, 0, 0);
 }
 
@@ -1640,7 +1694,7 @@ static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg023
  *
- * PCIe RC MSI Data Register
+ * PCIe RC Enhanced Allocation Entry 0 Lower Base Register
  * This register contains the twenty-fourth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1654,7 +1708,7 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pciercx_cfg023_cn81xx
+    struct bdk_pciercx_cfg023_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lbase                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  The value is determined by taking the lower 32-bits of PEMRC's BAR4 address
@@ -1673,7 +1727,8 @@ typedef union
                                                                  (PEMRC()_BAR_E::PEMRC()_PF_BAR4) and right-shifting by two bits.  This field is writable
                                                                  through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
-    } cn81xx;
+    } cn9;
+    /* struct bdk_pciercx_cfg023_cn9 cn81xx; */
     struct bdk_pciercx_cfg023_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1686,7 +1741,7 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_pciercx_cfg023_cn81xx cn83xx; */
+    /* struct bdk_pciercx_cfg023_cn9 cn83xx; */
 } bdk_pciercx_cfg023_t;
 
 static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1698,6 +1753,8 @@ static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a)
         return 0x2000000005cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000005cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000005cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG023", 1, a, 0, 0, 0);
 }
 
@@ -1750,6 +1807,8 @@ static inline uint64_t BDK_PCIERCX_CFG024(unsigned long a)
         return 0x20000000060ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000060ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000060ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG024", 1, a, 0, 0, 0);
 }
 
@@ -1793,6 +1852,8 @@ static inline uint64_t BDK_PCIERCX_CFG025(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x20000000064ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000064ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000064ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG025", 1, a, 0, 0, 0);
 }
@@ -1850,6 +1911,8 @@ static inline uint64_t BDK_PCIERCX_CFG028(unsigned long a)
         return 0x20000000070ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000070ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000070ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG028", 1, a, 0, 0, 0);
 }
 
@@ -1967,6 +2030,8 @@ static inline uint64_t BDK_PCIERCX_CFG029(unsigned long a)
         return 0x20000000074ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000074ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000074ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG029", 1, a, 0, 0, 0);
 }
 
@@ -2015,16 +2080,25 @@ typedef union
                                                                  0x2 = 512 bytes.
                                                                  0x3 = 1024 bytes.
                                                                  0x4 = 2048 bytes.
-                                                                 0x5 = 4096 bytes. */
+                                                                 0x5 = 4096 bytes.
+
+                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
+                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
+                                                                 max read request size. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](R/W/H) AUX power PM enable. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable. This bit should never be set; CNXXXX requests never uses phantom
                                                                  functions. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags. */
-        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
-                                                                 Larger sizes are not supported.
-                                                                 The payload size is the actual number of double-words transferred as indicated
-                                                                 in the TLP length field and does not take byte enables into account. */
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
+                                                                 0x0 = 128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 Larger sizes are not supported by CNXXXX.
+
+                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
+                                                                 functionality. */
         uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
         uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
         uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
@@ -2036,14 +2110,19 @@ typedef union
         uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
         uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
         uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
-        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
-                                                                 Larger sizes are not supported.
-                                                                 The payload size is the actual number of double-words transferred as indicated
-                                                                 in the TLP length field and does not take byte enables into account. */
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
+                                                                 0x0 = 128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 Larger sizes are not supported by CNXXXX.
+
+                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
+                                                                 functionality. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags. */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable. This bit should never be set; CNXXXX requests never uses phantom
                                                                  functions. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](R/W/H) AUX power PM enable. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
                                                                  0x0 =128 bytes.
@@ -2051,7 +2130,11 @@ typedef union
                                                                  0x2 = 512 bytes.
                                                                  0x3 = 1024 bytes.
                                                                  0x4 = 2048 bytes.
-                                                                 0x5 = 4096 bytes. */
+                                                                 0x5 = 4096 bytes.
+
+                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
+                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
+                                                                 max read request size. */
         uint32_t reserved_15           : 1;
         uint32_t ce_d                  : 1;  /**< [ 16: 16](R/W1C/H) Correctable error detected. Errors are logged in this register regardless of whether or
                                                                  not error reporting is enabled in the device control register. This field is set if we
@@ -2075,9 +2158,8 @@ typedef union
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg030_s cn81xx; */
-    /* struct bdk_pciercx_cfg030_s cn88xx; */
-    struct bdk_pciercx_cfg030_cn83xx
+    /* struct bdk_pciercx_cfg030_s cn9; */
+    struct bdk_pciercx_cfg030_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_22_31        : 10;
@@ -2107,25 +2189,16 @@ typedef union
                                                                  0x2 = 512 bytes.
                                                                  0x3 = 1024 bytes.
                                                                  0x4 = 2048 bytes.
-                                                                 0x5 = 4096 bytes.
-
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
-                                                                 max read request size. */
+                                                                 0x5 = 4096 bytes. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](R/W/H) AUX power PM enable. */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable. This bit should never be set; CNXXXX requests never uses phantom
                                                                  functions. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags. */
-        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
-                                                                 0x0 = 128 bytes.
-                                                                 0x1 = 256 bytes.
-                                                                 0x2 = 512 bytes.
-                                                                 0x3 = 1024 bytes.
-                                                                 Larger sizes are not supported by CNXXXX.
-
-                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
-                                                                 functionality. */
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
+                                                                 Larger sizes are not supported.
+                                                                 The payload size is the actual number of double-words transferred as indicated
+                                                                 in the TLP length field and does not take byte enables into account. */
         uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
         uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
         uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
@@ -2137,19 +2210,14 @@ typedef union
         uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
         uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
         uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
-        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
-                                                                 0x0 = 128 bytes.
-                                                                 0x1 = 256 bytes.
-                                                                 0x2 = 512 bytes.
-                                                                 0x3 = 1024 bytes.
-                                                                 Larger sizes are not supported by CNXXXX.
-
-                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
-                                                                 functionality. */
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
+                                                                 Larger sizes are not supported.
+                                                                 The payload size is the actual number of double-words transferred as indicated
+                                                                 in the TLP length field and does not take byte enables into account. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags. */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable. This bit should never be set; CNXXXX requests never uses phantom
                                                                  functions. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](R/W/H) AUX power PM enable. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
                                                                  0x0 =128 bytes.
@@ -2157,11 +2225,7 @@ typedef union
                                                                  0x2 = 512 bytes.
                                                                  0x3 = 1024 bytes.
                                                                  0x4 = 2048 bytes.
-                                                                 0x5 = 4096 bytes.
-
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
-                                                                 max read request size. */
+                                                                 0x5 = 4096 bytes. */
         uint32_t reserved_15           : 1;
         uint32_t ce_d                  : 1;  /**< [ 16: 16](R/W1C/H) Correctable error detected. Errors are logged in this register regardless of whether or
                                                                  not error reporting is enabled in the device control register. This field is set if we
@@ -2184,7 +2248,9 @@ typedef union
         uint32_t tp                    : 1;  /**< [ 21: 21](RO) Transaction pending. Hard-wired to 0. */
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg030_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg030_s cn83xx; */
 } bdk_pciercx_cfg030_t;
 
 static inline uint64_t BDK_PCIERCX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2196,6 +2262,8 @@ static inline uint64_t BDK_PCIERCX_CFG030(unsigned long a)
         return 0x20000000078ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000078ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000078ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG030", 1, a, 0, 0, 0);
 }
 
@@ -2239,7 +2307,7 @@ typedef union
                                                                  must not change this field. */
         uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
                                                                  The reset value of this field is determined by the value read from
-                                                                 PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x4, otherwise 0x8.
+                                                                 PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
 
                                                                  This field is writable through PEM()_CFG_WR. */
         uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL) Maximum link speed. The reset value of this field is controlled by the value read from
@@ -2271,7 +2339,7 @@ typedef union
                                                                  this field. */
         uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
                                                                  The reset value of this field is determined by the value read from
-                                                                 PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x4, otherwise 0x8.
+                                                                 PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
 
                                                                  This field is writable through PEM()_CFG_WR. */
         uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. The default value is the value that software specifies
@@ -2296,9 +2364,8 @@ typedef union
                                                                  this field. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg031_s cn81xx; */
-    /* struct bdk_pciercx_cfg031_s cn88xx; */
-    struct bdk_pciercx_cfg031_cn83xx
+    /* struct bdk_pciercx_cfg031_s cn9; */
+    struct bdk_pciercx_cfg031_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_WR. However, the application must not change
@@ -2323,7 +2390,7 @@ typedef union
                                                                  must not change this field. */
         uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
                                                                  The reset value of this field is determined by the value read from
-                                                                 PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
+                                                                 PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x4, otherwise 0x8.
 
                                                                  This field is writable through PEM()_CFG_WR. */
         uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL) Maximum link speed. The reset value of this field is controlled by the value read from
@@ -2355,7 +2422,7 @@ typedef union
                                                                  this field. */
         uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
                                                                  The reset value of this field is determined by the value read from
-                                                                 PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
+                                                                 PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x4, otherwise 0x8.
 
                                                                  This field is writable through PEM()_CFG_WR. */
         uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. The default value is the value that software specifies
@@ -2379,7 +2446,9 @@ typedef union
         uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg031_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg031_s cn83xx; */
 } bdk_pciercx_cfg031_t;
 
 static inline uint64_t BDK_PCIERCX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2391,6 +2460,8 @@ static inline uint64_t BDK_PCIERCX_CFG031(unsigned long a)
         return 0x2000000007cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000007cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000007cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG031", 1, a, 0, 0, 0);
 }
 
@@ -2444,6 +2515,101 @@ typedef union
                                                                  interrupt to indicate that the link autonomous bandwidth status bit has been set. */
         uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
                                                                  interrupt to indicate that the link bandwidth management status bit has been set. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
+                                                                 link capabilities register. */
+        uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
+        uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. */
+        uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
+        uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
+                                                                 PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
+                                                                 bytes is not supported. */
+        uint32_t reserved_2            : 1;
+        uint32_t aslpc                 : 2;  /**< [  1:  0](R/W) Active state link PM control. */
+#else /* Word 0 - Little Endian */
+        uint32_t aslpc                 : 2;  /**< [  1:  0](R/W) Active state link PM control. */
+        uint32_t reserved_2            : 1;
+        uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
+                                                                 PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
+                                                                 bytes is not supported. */
+        uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. */
+        uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
+        uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
+                                                                 link capabilities register. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link bandwidth management status bit has been set. */
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](R/W) Link autonomous bandwidth interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link autonomous bandwidth status bit has been set. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t ls                    : 4;  /**< [ 19: 16](RO/H) Current link speed. The encoded value specifies a bit location in the supported link
+                                                                 speeds vector (in the link capabilities 2 register) that corresponds to the current link
+                                                                 speed.
+                                                                 0x1 = Supported link speeds vector field bit 0.
+                                                                 0x2 = Supported link speeds vector field bit 1.
+                                                                 0x3 = Supported link speeds vector field bit 2. */
+        uint32_t nlw                   : 6;  /**< [ 25: 20](RO/H) Negotiated link width. Set automatically by hardware after link initialization. Value is
+                                                                 undefined when link is not up. */
+        uint32_t reserved_26           : 1;
+        uint32_t lt                    : 1;  /**< [ 27: 27](RO/H) Link training. */
+        uint32_t scc                   : 1;  /**< [ 28: 28](RO/WRSL) Slot clock configuration. Indicates that the component uses the same physical reference
+                                                                 clock that the platform provides on the connector. The default value is the value you
+                                                                 select during hardware configuration, writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t dlla                  : 1;  /**< [ 29: 29](RO/H) Data link layer active. */
+        uint32_t lbm                   : 1;  /**< [ 30: 30](R/W1C/H) Link bandwidth management status. This bit is set to indicate either of the following has
+                                                                 occurred without the port transitioning through DL_DOWN status:
+
+                                                                 * A link retraining has completed following a write of 1b to the retrain link bit.
+
+                                                                 * Hardware has changed the Link speed or width to attempt to correct unreliable link
+                                                                 operation, either through a LTSSM timeout of higher level process. This bit must be set if
+                                                                 the physical layer reports a speed or width change was initiated by the downstream
+                                                                 component that was not indicated as an autonomous change. */
+        uint32_t lab                   : 1;  /**< [ 31: 31](R/W1C/H) Link autonomous bandwidth status. This bit is set to indicate that hardware has
+                                                                 autonomously changed link speed or width, without the port transitioning through DL_Down
+                                                                 status, for reasons other than to attempt to correct unreliable link operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg032_s cn9; */
+    struct bdk_pciercx_cfg032_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lab                   : 1;  /**< [ 31: 31](R/W1C/H) Link autonomous bandwidth status. This bit is set to indicate that hardware has
+                                                                 autonomously changed link speed or width, without the port transitioning through DL_Down
+                                                                 status, for reasons other than to attempt to correct unreliable link operation. */
+        uint32_t lbm                   : 1;  /**< [ 30: 30](R/W1C/H) Link bandwidth management status. This bit is set to indicate either of the following has
+                                                                 occurred without the port transitioning through DL_DOWN status:
+
+                                                                 * A link retraining has completed following a write of 1b to the retrain link bit.
+
+                                                                 * Hardware has changed the Link speed or width to attempt to correct unreliable link
+                                                                 operation, either through a LTSSM timeout of higher level process. This bit must be set if
+                                                                 the physical layer reports a speed or width change was initiated by the downstream
+                                                                 component that was not indicated as an autonomous change. */
+        uint32_t dlla                  : 1;  /**< [ 29: 29](RO/H) Data link layer active. */
+        uint32_t scc                   : 1;  /**< [ 28: 28](RO/WRSL) Slot clock configuration. Indicates that the component uses the same physical reference
+                                                                 clock that the platform provides on the connector. The default value is the value you
+                                                                 select during hardware configuration, writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t lt                    : 1;  /**< [ 27: 27](RO/H) Link training. */
+        uint32_t reserved_26           : 1;
+        uint32_t nlw                   : 6;  /**< [ 25: 20](RO/H) Negotiated link width. Set automatically by hardware after link initialization. Value is
+                                                                 undefined when link is not up. */
+        uint32_t ls                    : 4;  /**< [ 19: 16](RO/H) Current link speed. The encoded value specifies a bit location in the supported link
+                                                                 speeds vector (in the link capabilities 2 register) that corresponds to the current link
+                                                                 speed.
+                                                                 0x1 = Supported link speeds vector field bit 0.
+                                                                 0x2 = Supported link speeds vector field bit 1.
+                                                                 0x3 = Supported link speeds vector field bit 2. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](R/W) Link autonomous bandwidth interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link autonomous bandwidth status bit has been set. */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link bandwidth management status bit has been set. */
         uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
         uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
                                                                  link capabilities register. */
@@ -2502,8 +2668,7 @@ typedef union
                                                                  autonomously changed link speed or width, without the port transitioning through DL_Down
                                                                  status, for reasons other than to attempt to correct unreliable link operation. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg032_s cn81xx; */
+    } cn81xx;
     struct bdk_pciercx_cfg032_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2598,100 +2763,7 @@ typedef union
                                                                  status, for reasons other than to attempt to correct unreliable link operation. */
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg032_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lab                   : 1;  /**< [ 31: 31](R/W1C/H) Link autonomous bandwidth status. This bit is set to indicate that hardware has
-                                                                 autonomously changed link speed or width, without the port transitioning through DL_Down
-                                                                 status, for reasons other than to attempt to correct unreliable link operation. */
-        uint32_t lbm                   : 1;  /**< [ 30: 30](R/W1C/H) Link bandwidth management status. This bit is set to indicate either of the following has
-                                                                 occurred without the port transitioning through DL_DOWN status:
-
-                                                                 * A link retraining has completed following a write of 1b to the retrain link bit.
-
-                                                                 * Hardware has changed the Link speed or width to attempt to correct unreliable link
-                                                                 operation, either through a LTSSM timeout of higher level process. This bit must be set if
-                                                                 the physical layer reports a speed or width change was initiated by the downstream
-                                                                 component that was not indicated as an autonomous change. */
-        uint32_t dlla                  : 1;  /**< [ 29: 29](RO/H) Data link layer active. */
-        uint32_t scc                   : 1;  /**< [ 28: 28](RO/WRSL) Slot clock configuration. Indicates that the component uses the same physical reference
-                                                                 clock that the platform provides on the connector. The default value is the value you
-                                                                 select during hardware configuration, writable through PEM()_CFG_WR. However, the
-                                                                 application must not change this field. */
-        uint32_t lt                    : 1;  /**< [ 27: 27](RO/H) Link training. */
-        uint32_t reserved_26           : 1;
-        uint32_t nlw                   : 6;  /**< [ 25: 20](RO/H) Negotiated link width. Set automatically by hardware after link initialization. Value is
-                                                                 undefined when link is not up. */
-        uint32_t ls                    : 4;  /**< [ 19: 16](RO/H) Current link speed. The encoded value specifies a bit location in the supported link
-                                                                 speeds vector (in the link capabilities 2 register) that corresponds to the current link
-                                                                 speed.
-                                                                 0x1 = Supported link speeds vector field bit 0.
-                                                                 0x2 = Supported link speeds vector field bit 1.
-                                                                 0x3 = Supported link speeds vector field bit 2. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](R/W) Link autonomous bandwidth interrupt enable. When set, enables the generation of an
-                                                                 interrupt to indicate that the link autonomous bandwidth status bit has been set. */
-        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
-                                                                 interrupt to indicate that the link bandwidth management status bit has been set. */
-        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
-        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
-                                                                 link capabilities register. */
-        uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
-        uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. */
-        uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
-        uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
-                                                                 PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
-                                                                 bytes is not supported. */
-        uint32_t reserved_2            : 1;
-        uint32_t aslpc                 : 2;  /**< [  1:  0](R/W) Active state link PM control. */
-#else /* Word 0 - Little Endian */
-        uint32_t aslpc                 : 2;  /**< [  1:  0](R/W) Active state link PM control. */
-        uint32_t reserved_2            : 1;
-        uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
-                                                                 PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
-                                                                 bytes is not supported. */
-        uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. */
-        uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
-        uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
-        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
-                                                                 link capabilities register. */
-        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
-        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
-                                                                 interrupt to indicate that the link bandwidth management status bit has been set. */
-        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](R/W) Link autonomous bandwidth interrupt enable. When set, enables the generation of an
-                                                                 interrupt to indicate that the link autonomous bandwidth status bit has been set. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t ls                    : 4;  /**< [ 19: 16](RO/H) Current link speed. The encoded value specifies a bit location in the supported link
-                                                                 speeds vector (in the link capabilities 2 register) that corresponds to the current link
-                                                                 speed.
-                                                                 0x1 = Supported link speeds vector field bit 0.
-                                                                 0x2 = Supported link speeds vector field bit 1.
-                                                                 0x3 = Supported link speeds vector field bit 2. */
-        uint32_t nlw                   : 6;  /**< [ 25: 20](RO/H) Negotiated link width. Set automatically by hardware after link initialization. Value is
-                                                                 undefined when link is not up. */
-        uint32_t reserved_26           : 1;
-        uint32_t lt                    : 1;  /**< [ 27: 27](RO/H) Link training. */
-        uint32_t scc                   : 1;  /**< [ 28: 28](RO/WRSL) Slot clock configuration. Indicates that the component uses the same physical reference
-                                                                 clock that the platform provides on the connector. The default value is the value you
-                                                                 select during hardware configuration, writable through PEM()_CFG_WR. However, the
-                                                                 application must not change this field. */
-        uint32_t dlla                  : 1;  /**< [ 29: 29](RO/H) Data link layer active. */
-        uint32_t lbm                   : 1;  /**< [ 30: 30](R/W1C/H) Link bandwidth management status. This bit is set to indicate either of the following has
-                                                                 occurred without the port transitioning through DL_DOWN status:
-
-                                                                 * A link retraining has completed following a write of 1b to the retrain link bit.
-
-                                                                 * Hardware has changed the Link speed or width to attempt to correct unreliable link
-                                                                 operation, either through a LTSSM timeout of higher level process. This bit must be set if
-                                                                 the physical layer reports a speed or width change was initiated by the downstream
-                                                                 component that was not indicated as an autonomous change. */
-        uint32_t lab                   : 1;  /**< [ 31: 31](R/W1C/H) Link autonomous bandwidth status. This bit is set to indicate that hardware has
-                                                                 autonomously changed link speed or width, without the port transitioning through DL_Down
-                                                                 status, for reasons other than to attempt to correct unreliable link operation. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg032_s cn83xx; */
 } bdk_pciercx_cfg032_t;
 
 static inline uint64_t BDK_PCIERCX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2703,6 +2775,8 @@ static inline uint64_t BDK_PCIERCX_CFG032(unsigned long a)
         return 0x20000000080ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000080ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000080ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG032", 1, a, 0, 0, 0);
 }
 
@@ -2783,6 +2857,8 @@ static inline uint64_t BDK_PCIERCX_CFG033(unsigned long a)
         return 0x20000000084ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000084ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000084ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG033", 1, a, 0, 0, 0);
 }
 
@@ -2851,6 +2927,7 @@ typedef union
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg034_s cn9; */
     /* struct bdk_pciercx_cfg034_s cn81xx; */
     struct bdk_pciercx_cfg034_cn88xx
     {
@@ -2914,6 +2991,8 @@ static inline uint64_t BDK_PCIERCX_CFG034(unsigned long a)
         return 0x20000000088ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000088ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000088ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG034", 1, a, 0, 0, 0);
 }
 
@@ -2966,6 +3045,8 @@ static inline uint64_t BDK_PCIERCX_CFG035(unsigned long a)
         return 0x2000000008cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000008cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000008cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG035", 1, a, 0, 0, 0);
 }
 
@@ -3010,6 +3091,8 @@ static inline uint64_t BDK_PCIERCX_CFG036(unsigned long a)
         return 0x20000000090ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000090ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000090ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG036", 1, a, 0, 0, 0);
 }
 
@@ -3038,16 +3121,22 @@ typedef union
                                                                  0x3 = 3.
                                                                  0x0 = 4. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported (not supported). */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
         uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
@@ -3057,16 +3146,22 @@ typedef union
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
         uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported (not supported). */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
         uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
                                                                  0x1 = 1.
@@ -3124,8 +3219,8 @@ typedef union
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_pciercx_cfg037_s cn81xx; */
-    struct bdk_pciercx_cfg037_cn83xx
+    /* struct bdk_pciercx_cfg037_s cn9; */
+    struct bdk_pciercx_cfg037_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -3135,22 +3230,16 @@ typedef union
                                                                  0x3 = 3.
                                                                  0x0 = 4. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
         uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
@@ -3160,22 +3249,16 @@ typedef union
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
         uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
         uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
                                                                  0x1 = 1.
@@ -3184,7 +3267,8 @@ typedef union
                                                                  0x0 = 4. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg037_s cn83xx; */
     struct bdk_pciercx_cfg037_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3246,6 +3330,8 @@ static inline uint64_t BDK_PCIERCX_CFG037(unsigned long a)
         return 0x20000000094ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000094ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000094ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG037", 1, a, 0, 0, 0);
 }
 
@@ -3265,6 +3351,59 @@ typedef union
 {
     uint32_t u;
     struct bdk_pciercx_cfg038_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
+        uint32_t reserved_11_12        : 2;
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s.
+                                                                 0xE = 17 s to 64 s.
+
+                                                                 Values not defined are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s.
+                                                                 0xE = 17 s to 64 s.
+
+                                                                 Values not defined are reserved. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
+        uint32_t reserved_11_12        : 2;
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg038_s cn9; */
+    struct bdk_pciercx_cfg038_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -3315,8 +3454,7 @@ typedef union
         uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg038_s cn81xx; */
+    } cn81xx;
     struct bdk_pciercx_cfg038_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3369,58 +3507,7 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg038_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
-        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
-        uint32_t reserved_11_12        : 2;
-        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
-        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
-        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
-        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
-        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
-        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
-        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
-        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
-                                                                 0x0 = Default range: 16 ms to 55 ms.
-                                                                 0x1 = 50 us to 100 us.
-                                                                 0x2 = 1 ms to 10 ms.
-                                                                 0x3 = 16 ms to 55 ms.
-                                                                 0x6 = 65 ms to 210 ms.
-                                                                 0x9 = 260 ms to 900 ms.
-                                                                 0xA = 1 s to 3.5 s.
-                                                                 0xD = 4 s to 13 s.
-                                                                 0xE = 17 s to 64 s.
-
-                                                                 Values not defined are reserved. */
-#else /* Word 0 - Little Endian */
-        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
-                                                                 0x0 = Default range: 16 ms to 55 ms.
-                                                                 0x1 = 50 us to 100 us.
-                                                                 0x2 = 1 ms to 10 ms.
-                                                                 0x3 = 16 ms to 55 ms.
-                                                                 0x6 = 65 ms to 210 ms.
-                                                                 0x9 = 260 ms to 900 ms.
-                                                                 0xA = 1 s to 3.5 s.
-                                                                 0xD = 4 s to 13 s.
-                                                                 0xE = 17 s to 64 s.
-
-                                                                 Values not defined are reserved. */
-        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
-        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
-        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
-        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
-        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
-        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
-        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
-        uint32_t reserved_11_12        : 2;
-        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
-        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg038_s cn83xx; */
 } bdk_pciercx_cfg038_t;
 
 static inline uint64_t BDK_PCIERCX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3432,6 +3519,8 @@ static inline uint64_t BDK_PCIERCX_CFG038(unsigned long a)
         return 0x20000000098ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000098ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000098ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG038", 1, a, 0, 0, 0);
 }
 
@@ -3516,6 +3605,8 @@ static inline uint64_t BDK_PCIERCX_CFG039(unsigned long a)
         return 0x2000000009cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000009cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000009cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG039", 1, a, 0, 0, 0);
 }
 
@@ -3688,6 +3779,8 @@ static inline uint64_t BDK_PCIERCX_CFG040(unsigned long a)
         return 0x200000000a0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x200000000a0ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000a0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG040", 1, a, 0, 0, 0);
 }
 
@@ -3726,6 +3819,8 @@ static inline uint64_t BDK_PCIERCX_CFG041(unsigned long a)
         return 0x200000000a4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x200000000a4ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000a4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG041", 1, a, 0, 0, 0);
 }
 
@@ -3764,6 +3859,8 @@ static inline uint64_t BDK_PCIERCX_CFG042(unsigned long a)
         return 0x200000000a8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x200000000a8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000a8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG042", 1, a, 0, 0, 0);
 }
 
@@ -3783,6 +3880,33 @@ typedef union
 {
     uint32_t u;
     struct bdk_pciercx_cfg044_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
+        uint32_t funm                  : 1;  /**< [ 30: 30](RO/WRSL) Function mask.
+                                                                 0 = Each vectors mask bit determines whether the vector is masked or not.
+                                                                 1 = All vectors associated with the function are masked, regardless of their respective
+                                                                 per-vector mask bits. */
+        uint32_t reserved_27_29        : 3;
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) "Next capability pointer. Writable through PEM#_CFG_WR. However, the application must not
+                                                                 change this field." */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO/H) MSI-X capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO/H) MSI-X capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) "Next capability pointer. Writable through PEM#_CFG_WR. However, the application must not
+                                                                 change this field." */
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). */
+        uint32_t reserved_27_29        : 3;
+        uint32_t funm                  : 1;  /**< [ 30: 30](RO/WRSL) Function mask.
+                                                                 0 = Each vectors mask bit determines whether the vector is masked or not.
+                                                                 1 = All vectors associated with the function are masked, regardless of their respective
+                                                                 per-vector mask bits. */
+        uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg044_s cn9; */
+    struct bdk_pciercx_cfg044_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. */
@@ -3807,8 +3931,7 @@ typedef union
                                                                  per-vector mask bits. */
         uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg044_s cn81xx; */
+    } cn81xx;
     struct bdk_pciercx_cfg044_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3835,32 +3958,7 @@ typedef union
         uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg044_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
-        uint32_t funm                  : 1;  /**< [ 30: 30](RO/WRSL) Function mask.
-                                                                 0 = Each vectors mask bit determines whether the vector is masked or not.
-                                                                 1 = All vectors associated with the function are masked, regardless of their respective
-                                                                 per-vector mask bits. */
-        uint32_t reserved_27_29        : 3;
-        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) "Next capability pointer. Writable through PEM#_CFG_WR. However, the application must not
-                                                                 change this field." */
-        uint32_t msixcid               : 8;  /**< [  7:  0](RO/H) MSI-X capability ID. */
-#else /* Word 0 - Little Endian */
-        uint32_t msixcid               : 8;  /**< [  7:  0](RO/H) MSI-X capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) "Next capability pointer. Writable through PEM#_CFG_WR. However, the application must not
-                                                                 change this field." */
-        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). */
-        uint32_t reserved_27_29        : 3;
-        uint32_t funm                  : 1;  /**< [ 30: 30](RO/WRSL) Function mask.
-                                                                 0 = Each vectors mask bit determines whether the vector is masked or not.
-                                                                 1 = All vectors associated with the function are masked, regardless of their respective
-                                                                 per-vector mask bits. */
-        uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg044_s cn83xx; */
 } bdk_pciercx_cfg044_t;
 
 static inline uint64_t BDK_PCIERCX_CFG044(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3872,6 +3970,8 @@ static inline uint64_t BDK_PCIERCX_CFG044(unsigned long a)
         return 0x200000000b0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x200000000b0ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000b0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG044", 1, a, 0, 0, 0);
 }
 
@@ -3908,6 +4008,7 @@ typedef union
                                                                  However, the application must not change this field. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg045_s cn9; */
     /* struct bdk_pciercx_cfg045_s cn81xx; */
     struct bdk_pciercx_cfg045_cn88xx
     {
@@ -3939,6 +4040,8 @@ static inline uint64_t BDK_PCIERCX_CFG045(unsigned long a)
         return 0x200000000b4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x200000000b4ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000b4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG045", 1, a, 0, 0, 0);
 }
 
@@ -3960,7 +4063,7 @@ typedef union
     struct bdk_pciercx_cfg046_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL/H) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
                                                                  address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
         uint32_t msixpbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
@@ -3970,16 +4073,16 @@ typedef union
         uint32_t msixpbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
                                                                  pending bit array into memory space.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field." */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL/H) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
                                                                  address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg046_s cn81xx; */
-    struct bdk_pciercx_cfg046_cn88xx
+    /* struct bdk_pciercx_cfg046_s cn9; */
+    struct bdk_pciercx_cfg046_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL/H) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
                                                                  address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
         uint32_t msixpbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
@@ -3989,12 +4092,13 @@ typedef union
         uint32_t msixpbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
                                                                  pending bit array into memory space.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field." */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL/H) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
                                                                  address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_pciercx_cfg046_cn88xx cn83xx; */
+    } cn81xx;
+    /* struct bdk_pciercx_cfg046_s cn88xx; */
+    /* struct bdk_pciercx_cfg046_s cn83xx; */
 } bdk_pciercx_cfg046_t;
 
 static inline uint64_t BDK_PCIERCX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4006,6 +4110,8 @@ static inline uint64_t BDK_PCIERCX_CFG046(unsigned long a)
         return 0x200000000b8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x200000000b8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG046", 1, a, 0, 0, 0);
 }
 
@@ -4045,6 +4151,8 @@ static inline uint64_t BDK_PCIERCX_CFG047(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000000bcll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000bcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000000bcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG047", 1, a, 0, 0, 0);
 }
@@ -4086,6 +4194,8 @@ static inline uint64_t BDK_PCIERCX_CFG048(unsigned long a)
         return 0x200000000c0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000c0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000c0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG048", 1, a, 0, 0, 0);
 }
 
@@ -4125,6 +4235,8 @@ static inline uint64_t BDK_PCIERCX_CFG049(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000000c4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000c4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000000c4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG049", 1, a, 0, 0, 0);
 }
@@ -4166,6 +4278,8 @@ static inline uint64_t BDK_PCIERCX_CFG050(unsigned long a)
         return 0x200000000c8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000c8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000c8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG050", 1, a, 0, 0, 0);
 }
 
@@ -4205,6 +4319,8 @@ static inline uint64_t BDK_PCIERCX_CFG051(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000000ccll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000ccll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000000ccll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG051", 1, a, 0, 0, 0);
 }
@@ -4246,6 +4362,8 @@ static inline uint64_t BDK_PCIERCX_CFG052(unsigned long a)
         return 0x200000000d0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000d0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000d0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG052", 1, a, 0, 0, 0);
 }
 
@@ -4285,6 +4403,8 @@ static inline uint64_t BDK_PCIERCX_CFG053(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000000d4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000d4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000000d4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG053", 1, a, 0, 0, 0);
 }
@@ -4326,6 +4446,8 @@ static inline uint64_t BDK_PCIERCX_CFG054(unsigned long a)
         return 0x200000000d8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000d8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000d8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG054", 1, a, 0, 0, 0);
 }
 
@@ -4365,6 +4487,8 @@ static inline uint64_t BDK_PCIERCX_CFG055(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000000dcll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000dcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000000dcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG055", 1, a, 0, 0, 0);
 }
@@ -4406,6 +4530,8 @@ static inline uint64_t BDK_PCIERCX_CFG056(unsigned long a)
         return 0x200000000e0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000e0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000e0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG056", 1, a, 0, 0, 0);
 }
 
@@ -4445,6 +4571,8 @@ static inline uint64_t BDK_PCIERCX_CFG057(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000000e4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000e4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000000e4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG057", 1, a, 0, 0, 0);
 }
@@ -4486,6 +4614,8 @@ static inline uint64_t BDK_PCIERCX_CFG058(unsigned long a)
         return 0x200000000e8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000e8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000e8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG058", 1, a, 0, 0, 0);
 }
 
@@ -4525,6 +4655,8 @@ static inline uint64_t BDK_PCIERCX_CFG059(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000000ecll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000ecll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000000ecll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG059", 1, a, 0, 0, 0);
 }
@@ -4566,6 +4698,8 @@ static inline uint64_t BDK_PCIERCX_CFG060(unsigned long a)
         return 0x200000000f0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000f0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000f0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG060", 1, a, 0, 0, 0);
 }
 
@@ -4605,6 +4739,8 @@ static inline uint64_t BDK_PCIERCX_CFG061(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000000f4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000f4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000000f4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG061", 1, a, 0, 0, 0);
 }
@@ -4646,6 +4782,8 @@ static inline uint64_t BDK_PCIERCX_CFG062(unsigned long a)
         return 0x200000000f8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000f8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000000f8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG062", 1, a, 0, 0, 0);
 }
 
@@ -4685,6 +4823,8 @@ static inline uint64_t BDK_PCIERCX_CFG063(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000000fcll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000fcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000000fcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG063", 1, a, 0, 0, 0);
 }
@@ -4734,6 +4874,8 @@ static inline uint64_t BDK_PCIERCX_CFG064(unsigned long a)
         return 0x20000000100ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000100ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000100ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG064", 1, a, 0, 0, 0);
 }
 
@@ -4853,6 +4995,8 @@ static inline uint64_t BDK_PCIERCX_CFG065(unsigned long a)
         return 0x20000000104ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000104ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000104ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG065", 1, a, 0, 0, 0);
 }
 
@@ -4961,7 +5105,7 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_pciercx_cfg066_cn81xx
+    struct bdk_pciercx_cfg066_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -5006,9 +5150,10 @@ typedef union
         uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pciercx_cfg066_cn81xx cn83xx; */
-    /* struct bdk_pciercx_cfg066_cn81xx cn88xxp2; */
+    } cn9;
+    /* struct bdk_pciercx_cfg066_cn9 cn81xx; */
+    /* struct bdk_pciercx_cfg066_cn9 cn83xx; */
+    /* struct bdk_pciercx_cfg066_cn9 cn88xxp2; */
 } bdk_pciercx_cfg066_t;
 
 static inline uint64_t BDK_PCIERCX_CFG066(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5020,6 +5165,8 @@ static inline uint64_t BDK_PCIERCX_CFG066(unsigned long a)
         return 0x20000000108ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000108ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000108ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG066", 1, a, 0, 0, 0);
 }
 
@@ -5120,7 +5267,7 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_pciercx_cfg067_cn81xx
+    struct bdk_pciercx_cfg067_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -5161,9 +5308,10 @@ typedef union
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pciercx_cfg067_cn81xx cn83xx; */
-    /* struct bdk_pciercx_cfg067_cn81xx cn88xxp2; */
+    } cn9;
+    /* struct bdk_pciercx_cfg067_cn9 cn81xx; */
+    /* struct bdk_pciercx_cfg067_cn9 cn83xx; */
+    /* struct bdk_pciercx_cfg067_cn9 cn88xxp2; */
 } bdk_pciercx_cfg067_t;
 
 static inline uint64_t BDK_PCIERCX_CFG067(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5175,6 +5323,8 @@ static inline uint64_t BDK_PCIERCX_CFG067(unsigned long a)
         return 0x2000000010cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000010cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000010cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG067", 1, a, 0, 0, 0);
 }
 
@@ -5198,7 +5348,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
         uint32_t chlo                  : 1;  /**< [ 15: 15](R/W1C/H) Corrected header log overflow status. */
-        uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C) Corrected internal error status. */
+        uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C/H) Corrected internal error status. */
         uint32_t anfes                 : 1;  /**< [ 13: 13](R/W1C/H) Advisory nonfatal error status. */
         uint32_t rtts                  : 1;  /**< [ 12: 12](R/W1C/H) Replay timer timeout status. */
         uint32_t reserved_9_11         : 3;
@@ -5216,11 +5366,12 @@ typedef union
         uint32_t reserved_9_11         : 3;
         uint32_t rtts                  : 1;  /**< [ 12: 12](R/W1C/H) Replay timer timeout status. */
         uint32_t anfes                 : 1;  /**< [ 13: 13](R/W1C/H) Advisory nonfatal error status. */
-        uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C) Corrected internal error status. */
+        uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C/H) Corrected internal error status. */
         uint32_t chlo                  : 1;  /**< [ 15: 15](R/W1C/H) Corrected header log overflow status. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg068_s cn9; */
     struct bdk_pciercx_cfg068_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5248,34 +5399,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pciercx_cfg068_cn81xx cn88xx; */
-    struct bdk_pciercx_cfg068_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t chlo                  : 1;  /**< [ 15: 15](R/W1C/H) Corrected header log overflow status. */
-        uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C/H) Corrected internal error status. */
-        uint32_t anfes                 : 1;  /**< [ 13: 13](R/W1C/H) Advisory nonfatal error status. */
-        uint32_t rtts                  : 1;  /**< [ 12: 12](R/W1C/H) Replay timer timeout status. */
-        uint32_t reserved_9_11         : 3;
-        uint32_t rnrs                  : 1;  /**< [  8:  8](R/W1C/H) REPLAY_NUM rollover status. */
-        uint32_t bdllps                : 1;  /**< [  7:  7](R/W1C/H) Bad DLLP status. */
-        uint32_t btlps                 : 1;  /**< [  6:  6](R/W1C/H) Bad TLP status. */
-        uint32_t reserved_1_5          : 5;
-        uint32_t res                   : 1;  /**< [  0:  0](R/W1C/H) Receiver error status. */
-#else /* Word 0 - Little Endian */
-        uint32_t res                   : 1;  /**< [  0:  0](R/W1C/H) Receiver error status. */
-        uint32_t reserved_1_5          : 5;
-        uint32_t btlps                 : 1;  /**< [  6:  6](R/W1C/H) Bad TLP status. */
-        uint32_t bdllps                : 1;  /**< [  7:  7](R/W1C/H) Bad DLLP status. */
-        uint32_t rnrs                  : 1;  /**< [  8:  8](R/W1C/H) REPLAY_NUM rollover status. */
-        uint32_t reserved_9_11         : 3;
-        uint32_t rtts                  : 1;  /**< [ 12: 12](R/W1C/H) Replay timer timeout status. */
-        uint32_t anfes                 : 1;  /**< [ 13: 13](R/W1C/H) Advisory nonfatal error status. */
-        uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C/H) Corrected internal error status. */
-        uint32_t chlo                  : 1;  /**< [ 15: 15](R/W1C/H) Corrected header log overflow status. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg068_s cn83xx; */
 } bdk_pciercx_cfg068_t;
 
 static inline uint64_t BDK_PCIERCX_CFG068(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5287,6 +5411,8 @@ static inline uint64_t BDK_PCIERCX_CFG068(unsigned long a)
         return 0x20000000110ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000110ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000110ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG068", 1, a, 0, 0, 0);
 }
 
@@ -5333,6 +5459,7 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg069_s cn9; */
     struct bdk_pciercx_cfg069_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5372,6 +5499,8 @@ static inline uint64_t BDK_PCIERCX_CFG069(unsigned long a)
         return 0x20000000114ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000114ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000114ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG069", 1, a, 0, 0, 0);
 }
 
@@ -5412,6 +5541,30 @@ typedef union
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } s;
+    struct bdk_pciercx_cfg070_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](RO) Multiple header recording enable (not supported). */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple header recording capability (not supported). */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
+#else /* Word 0 - Little Endian */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple header recording capability (not supported). */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](RO) Multiple header recording enable (not supported). */
+        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } cn9;
     struct bdk_pciercx_cfg070_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5435,30 +5588,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pciercx_cfg070_cn81xx cn88xx; */
-    struct bdk_pciercx_cfg070_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_12_31        : 20;
-        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
-        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](RO) Multiple header recording enable (not supported). */
-        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple header recording capability (not supported). */
-        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
-        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
-        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
-        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
-        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
-#else /* Word 0 - Little Endian */
-        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
-        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
-        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
-        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
-        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
-        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple header recording capability (not supported). */
-        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](RO) Multiple header recording enable (not supported). */
-        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
-        uint32_t reserved_12_31        : 20;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg070_cn9 cn83xx; */
 } bdk_pciercx_cfg070_t;
 
 static inline uint64_t BDK_PCIERCX_CFG070(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5470,6 +5600,8 @@ static inline uint64_t BDK_PCIERCX_CFG070(unsigned long a)
         return 0x20000000118ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000118ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000118ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG070", 1, a, 0, 0, 0);
 }
 
@@ -5509,6 +5641,8 @@ static inline uint64_t BDK_PCIERCX_CFG071(unsigned long a)
         return 0x2000000011cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000011cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000011cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG071", 1, a, 0, 0, 0);
 }
 
@@ -5548,6 +5682,8 @@ static inline uint64_t BDK_PCIERCX_CFG072(unsigned long a)
         return 0x20000000120ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000120ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000120ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG072", 1, a, 0, 0, 0);
 }
 
@@ -5587,6 +5723,8 @@ static inline uint64_t BDK_PCIERCX_CFG073(unsigned long a)
         return 0x20000000124ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000124ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000124ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG073", 1, a, 0, 0, 0);
 }
 
@@ -5626,6 +5764,8 @@ static inline uint64_t BDK_PCIERCX_CFG074(unsigned long a)
         return 0x20000000128ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000128ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000128ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG074", 1, a, 0, 0, 0);
 }
 
@@ -5670,6 +5810,8 @@ static inline uint64_t BDK_PCIERCX_CFG075(unsigned long a)
         return 0x2000000012cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000012cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000012cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG075", 1, a, 0, 0, 0);
 }
 
@@ -5726,6 +5868,8 @@ static inline uint64_t BDK_PCIERCX_CFG076(unsigned long a)
         return 0x20000000130ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000130ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000130ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG076", 1, a, 0, 0, 0);
 }
 
@@ -5754,6 +5898,7 @@ typedef union
         uint32_t efnfsi                : 16; /**< [ 31: 16](RO/H) ERR_FATAL/NONFATAL source identification. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg077_s cn9; */
     /* struct bdk_pciercx_cfg077_s cn81xx; */
     struct bdk_pciercx_cfg077_cn88xx
     {
@@ -5777,6 +5922,8 @@ static inline uint64_t BDK_PCIERCX_CFG077(unsigned long a)
         return 0x20000000134ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000134ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000134ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG077", 1, a, 0, 0, 0);
 }
 
@@ -5798,6 +5945,25 @@ typedef union
     struct bdk_pciercx_cfg086_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the Vendor Specific capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the Vendor Specific capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg086_s cn9; */
+    struct bdk_pciercx_cfg086_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
@@ -5812,8 +5978,7 @@ typedef union
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg086_s cn81xx; */
+    } cn81xx;
     struct bdk_pciercx_cfg086_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5832,24 +5997,7 @@ typedef union
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg086_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the Vendor Specific capabilities.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-#else /* Word 0 - Little Endian */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the Vendor Specific capabilities.
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg086_s cn83xx; */
 } bdk_pciercx_cfg086_t;
 
 static inline uint64_t BDK_PCIERCX_CFG086(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5861,6 +6009,8 @@ static inline uint64_t BDK_PCIERCX_CFG086(unsigned long a)
         return 0x20000000158ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000158ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000158ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG086", 1, a, 0, 0, 0);
 }
 
@@ -5903,6 +6053,8 @@ static inline uint64_t BDK_PCIERCX_CFG087(unsigned long a)
         return 0x2000000015cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000015cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000015cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG087", 1, a, 0, 0, 0);
 }
 
@@ -5943,6 +6095,8 @@ static inline uint64_t BDK_PCIERCX_CFG088(unsigned long a)
         return 0x20000000160ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000160ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000160ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG088", 1, a, 0, 0, 0);
 }
 
@@ -6019,6 +6173,8 @@ static inline uint64_t BDK_PCIERCX_CFG089(unsigned long a)
         return 0x20000000164ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000164ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000164ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG089", 1, a, 0, 0, 0);
 }
 
@@ -6095,6 +6251,8 @@ static inline uint64_t BDK_PCIERCX_CFG090(unsigned long a)
         return 0x20000000168ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000168ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000168ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG090", 1, a, 0, 0, 0);
 }
 
@@ -6171,6 +6329,8 @@ static inline uint64_t BDK_PCIERCX_CFG091(unsigned long a)
         return 0x2000000016cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000016cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000016cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG091", 1, a, 0, 0, 0);
 }
 
@@ -6247,6 +6407,8 @@ static inline uint64_t BDK_PCIERCX_CFG092(unsigned long a)
         return 0x20000000170ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000170ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000170ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG092", 1, a, 0, 0, 0);
 }
 
@@ -6293,6 +6455,8 @@ static inline uint64_t BDK_PCIERCX_CFG110(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000001b8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000001b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG110", 1, a, 0, 0, 0);
 }
 
@@ -6330,6 +6494,8 @@ static inline uint64_t BDK_PCIERCX_CFG111(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG111(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000001bcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000001bcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG111", 1, a, 0, 0, 0);
 }
@@ -6435,6 +6601,8 @@ static inline uint64_t BDK_PCIERCX_CFG112(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000001c0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000001c0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG112", 1, a, 0, 0, 0);
 }
 
@@ -6470,6 +6638,8 @@ static inline uint64_t BDK_PCIERCX_CFG113(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG113(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000001c4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000001c4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG113", 1, a, 0, 0, 0);
 }
@@ -6583,6 +6753,8 @@ static inline uint64_t BDK_PCIERCX_CFG114(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000001c8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000001c8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG114", 1, a, 0, 0, 0);
 }
 
@@ -6620,6 +6792,8 @@ static inline uint64_t BDK_PCIERCX_CFG115(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG115(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000001ccll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000001ccll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG115", 1, a, 0, 0, 0);
 }
@@ -6684,6 +6858,8 @@ static inline uint64_t BDK_PCIERCX_CFG121(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG121(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000001e8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000001e8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG121", 1, a, 0, 0, 0);
 }
@@ -6766,6 +6942,8 @@ static inline uint64_t BDK_PCIERCX_CFG122(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG122(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000001ecll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000001ecll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG122", 1, a, 0, 0, 0);
 }
@@ -6853,6 +7031,8 @@ static inline uint64_t BDK_PCIERCX_CFG123(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000001f0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000001f0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG123", 1, a, 0, 0, 0);
 }
 
@@ -6914,6 +7094,8 @@ static inline uint64_t BDK_PCIERCX_CFG124(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG124(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000001f4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000001f4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG124", 1, a, 0, 0, 0);
 }
@@ -6984,6 +7166,8 @@ static inline uint64_t BDK_PCIERCX_CFG125(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG125(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000001f8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000001f8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG125", 1, a, 0, 0, 0);
 }
@@ -7087,6 +7271,8 @@ static inline uint64_t BDK_PCIERCX_CFG126(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000001fcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000001fcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG126", 1, a, 0, 0, 0);
 }
 
@@ -7144,6 +7330,8 @@ static inline uint64_t BDK_PCIERCX_CFG127(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG127(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000200ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000200ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG127", 1, a, 0, 0, 0);
 }
@@ -7205,6 +7393,7 @@ typedef union
                                                                  PCIERC()_CFG127[EIN6_COM_VAL_H0] match, an error is inserted into the TLP. */
 #endif /* Word 0 - End */
     } cn83xx;
+    /* struct bdk_pciercx_cfg128_cn83xx cn9; */
 } bdk_pciercx_cfg128_t;
 
 static inline uint64_t BDK_PCIERCX_CFG128(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7213,6 +7402,8 @@ static inline uint64_t BDK_PCIERCX_CFG128(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x20000000200ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000204ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000204ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG128", 1, a, 0, 0, 0);
 }
@@ -7312,6 +7503,7 @@ typedef union
                                                                  PCIERC()_CFG134[EIN6_COM_VAL_H1] match, an error is inserted into the TLP. */
 #endif /* Word 0 - End */
     } cn83xx;
+    /* struct bdk_pciercx_cfg129_cn83xx cn9; */
 } bdk_pciercx_cfg129_t;
 
 static inline uint64_t BDK_PCIERCX_CFG129(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7320,6 +7512,8 @@ static inline uint64_t BDK_PCIERCX_CFG129(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x20000000204ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000208ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000208ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG129", 1, a, 0, 0, 0);
 }
@@ -7371,6 +7565,7 @@ typedef union
                                                                  PCIERC()_CFG134[EIN6_COM_VAL_H2] match, an error is inserted into the TLP. */
 #endif /* Word 0 - End */
     } cn83xx;
+    /* struct bdk_pciercx_cfg130_cn83xx cn9; */
 } bdk_pciercx_cfg130_t;
 
 static inline uint64_t BDK_PCIERCX_CFG130(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7379,6 +7574,8 @@ static inline uint64_t BDK_PCIERCX_CFG130(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x20000000208ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x2000000020cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x2000000020cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG130", 1, a, 0, 0, 0);
 }
@@ -7422,6 +7619,8 @@ static inline uint64_t BDK_PCIERCX_CFG131(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000210ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000210ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG131", 1, a, 0, 0, 0);
 }
 
@@ -7459,6 +7658,8 @@ static inline uint64_t BDK_PCIERCX_CFG132(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG132(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000214ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000214ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG132", 1, a, 0, 0, 0);
 }
@@ -7498,6 +7699,8 @@ static inline uint64_t BDK_PCIERCX_CFG133(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000218ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000218ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG133", 1, a, 0, 0, 0);
 }
 
@@ -7535,6 +7738,8 @@ static inline uint64_t BDK_PCIERCX_CFG134(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG134(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x2000000021cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x2000000021cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG134", 1, a, 0, 0, 0);
 }
@@ -7574,6 +7779,8 @@ static inline uint64_t BDK_PCIERCX_CFG135(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000220ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000220ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG135", 1, a, 0, 0, 0);
 }
 
@@ -7611,6 +7818,8 @@ static inline uint64_t BDK_PCIERCX_CFG136(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG136(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000224ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000224ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG136", 1, a, 0, 0, 0);
 }
@@ -7650,6 +7859,8 @@ static inline uint64_t BDK_PCIERCX_CFG137(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000228ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000228ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG137", 1, a, 0, 0, 0);
 }
 
@@ -7688,6 +7899,8 @@ static inline uint64_t BDK_PCIERCX_CFG138(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000022cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000022cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG138", 1, a, 0, 0, 0);
 }
 
@@ -7725,6 +7938,8 @@ static inline uint64_t BDK_PCIERCX_CFG139(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG139(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000230ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000230ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG139", 1, a, 0, 0, 0);
 }
@@ -7766,6 +7981,8 @@ static inline uint64_t BDK_PCIERCX_CFG140(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000234ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000234ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG140", 1, a, 0, 0, 0);
 }
 
@@ -7805,6 +8022,8 @@ static inline uint64_t BDK_PCIERCX_CFG141(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG141(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000238ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000238ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG141", 1, a, 0, 0, 0);
 }
@@ -7846,6 +8065,8 @@ static inline uint64_t BDK_PCIERCX_CFG142(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000023cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000023cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG142", 1, a, 0, 0, 0);
 }
 
@@ -7885,6 +8106,8 @@ static inline uint64_t BDK_PCIERCX_CFG143(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG143(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000240ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000240ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG143", 1, a, 0, 0, 0);
 }
@@ -7959,6 +8182,8 @@ static inline uint64_t BDK_PCIERCX_CFG144(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG144(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000244ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000244ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG144", 1, a, 0, 0, 0);
 }
@@ -8076,6 +8301,8 @@ static inline uint64_t BDK_PCIERCX_CFG149(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000258ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000258ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG149", 1, a, 0, 0, 0);
 }
 
@@ -8159,6 +8386,8 @@ static inline uint64_t BDK_PCIERCX_CFG150(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG150(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x2000000025cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x2000000025cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG150", 1, a, 0, 0, 0);
 }
@@ -8249,6 +8478,8 @@ static inline uint64_t BDK_PCIERCX_CFG153(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG153(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000268ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000268ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG153", 1, a, 0, 0, 0);
 }
@@ -8410,6 +8641,8 @@ static inline uint64_t BDK_PCIERCX_CFG154(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000026cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000026cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG154", 1, a, 0, 0, 0);
 }
 
@@ -8546,6 +8779,8 @@ static inline uint64_t BDK_PCIERCX_CFG155(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000270ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000270ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG155", 1, a, 0, 0, 0);
 }
 
@@ -8605,6 +8840,8 @@ static inline uint64_t BDK_PCIERCX_CFG156(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG156(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000274ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000274ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG156", 1, a, 0, 0, 0);
 }
@@ -8734,6 +8971,8 @@ static inline uint64_t BDK_PCIERCX_CFG157(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000278ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000278ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG157", 1, a, 0, 0, 0);
 }
 
@@ -8811,6 +9050,8 @@ static inline uint64_t BDK_PCIERCX_CFG158(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG158(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x2000000027cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x2000000027cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG158", 1, a, 0, 0, 0);
 }
@@ -8916,6 +9157,8 @@ static inline uint64_t BDK_PCIERCX_CFG161(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000288ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000288ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG161", 1, a, 0, 0, 0);
 }
 
@@ -9006,6 +9249,8 @@ static inline uint64_t BDK_PCIERCX_CFG162(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000028cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000028cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG162", 1, a, 0, 0, 0);
 }
 
@@ -9083,6 +9328,8 @@ static inline uint64_t BDK_PCIERCX_CFG163(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG163(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000290ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000290ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG163", 1, a, 0, 0, 0);
 }
@@ -9180,6 +9427,8 @@ static inline uint64_t BDK_PCIERCX_CFG165(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000298ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000298ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG165", 1, a, 0, 0, 0);
 }
 
@@ -9233,6 +9482,8 @@ static inline uint64_t BDK_PCIERCX_CFG166(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG166(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x2000000029cll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x2000000029cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG166", 1, a, 0, 0, 0);
 }
@@ -9288,6 +9539,8 @@ static inline uint64_t BDK_PCIERCX_CFG167(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000002a0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000002a0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG167", 1, a, 0, 0, 0);
 }
 
@@ -9332,6 +9585,8 @@ static inline uint64_t BDK_PCIERCX_CFG174(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000002b8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000002b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG174", 1, a, 0, 0, 0);
 }
 
@@ -9369,6 +9624,8 @@ static inline uint64_t BDK_PCIERCX_CFG175(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG175(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000002bcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000002bcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG175", 1, a, 0, 0, 0);
 }
@@ -9433,6 +9690,8 @@ static inline uint64_t BDK_PCIERCX_CFG176(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG176(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000002c0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000002c0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG176", 1, a, 0, 0, 0);
 }
@@ -9510,6 +9769,8 @@ static inline uint64_t BDK_PCIERCX_CFG177(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000002c4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000002c4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG177", 1, a, 0, 0, 0);
 }
 
@@ -9575,6 +9836,8 @@ static inline uint64_t BDK_PCIERCX_CFG178(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG178(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000002c8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000002c8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG178", 1, a, 0, 0, 0);
 }
@@ -9652,6 +9915,8 @@ static inline uint64_t BDK_PCIERCX_CFG179(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000002ccll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000002ccll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG179", 1, a, 0, 0, 0);
 }
 
@@ -9718,6 +9983,8 @@ static inline uint64_t BDK_PCIERCX_CFG180(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000002d0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000002d0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG180", 1, a, 0, 0, 0);
 }
 
@@ -9779,6 +10046,8 @@ static inline uint64_t BDK_PCIERCX_CFG181(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG181(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000002d4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000002d4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG181", 1, a, 0, 0, 0);
 }
@@ -9880,6 +10149,8 @@ static inline uint64_t BDK_PCIERCX_CFG182(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000002d8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000002d8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG182", 1, a, 0, 0, 0);
 }
 
@@ -9980,6 +10251,8 @@ static inline uint64_t BDK_PCIERCX_CFG183(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000002dcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000002dcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG183", 1, a, 0, 0, 0);
 }
 
@@ -10019,6 +10292,8 @@ static inline uint64_t BDK_PCIERCX_CFG184(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG184(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000002e0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000002e0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG184", 1, a, 0, 0, 0);
 }
@@ -10060,6 +10335,8 @@ static inline uint64_t BDK_PCIERCX_CFG185(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000002e4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000002e4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG185", 1, a, 0, 0, 0);
 }
 
@@ -10098,6 +10375,8 @@ static inline uint64_t BDK_PCIERCX_CFG186(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000002e8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000002e8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG186", 1, a, 0, 0, 0);
 }
 
@@ -10135,6 +10414,8 @@ static inline uint64_t BDK_PCIERCX_CFG187(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG187(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000002ecll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000002ecll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG187", 1, a, 0, 0, 0);
 }
@@ -10179,6 +10460,8 @@ static inline uint64_t BDK_PCIERCX_CFG192(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG192(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000300ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000300ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG192", 1, a, 0, 0, 0);
 }
@@ -10262,6 +10545,8 @@ static inline uint64_t BDK_PCIERCX_CFG193(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000304ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000304ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG193", 1, a, 0, 0, 0);
 }
 
@@ -10295,6 +10580,8 @@ static inline uint64_t BDK_PCIERCX_CFG194(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG194(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000308ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x20000000308ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG194", 1, a, 0, 0, 0);
 }
@@ -10350,6 +10637,8 @@ static inline uint64_t BDK_PCIERCX_CFG448(unsigned long a)
         return 0x20000000700ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000700ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000700ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG448", 1, a, 0, 0, 0);
 }
 
@@ -10402,6 +10691,8 @@ static inline uint64_t BDK_PCIERCX_CFG449(unsigned long a)
         return 0x20000000704ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000704ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000704ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG449", 1, a, 0, 0, 0);
 }
 
@@ -10522,6 +10813,7 @@ typedef union
                                                                  and status (PCIRC()_CFG017) register. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg450_s cn9; */
     /* struct bdk_pciercx_cfg450_s cn81xx; */
     struct bdk_pciercx_cfg450_cn88xx
     {
@@ -10637,6 +10929,8 @@ static inline uint64_t BDK_PCIERCX_CFG450(unsigned long a)
         return 0x20000000708ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000708ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000708ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG450", 1, a, 0, 0, 0);
 }
 
@@ -10737,6 +11031,8 @@ static inline uint64_t BDK_PCIERCX_CFG451(unsigned long a)
         return 0x2000000070cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000070cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000070cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG451", 1, a, 0, 0, 0);
 }
 
@@ -10763,7 +11059,7 @@ typedef union
                                                                  0x1 = x1.
                                                                  0x3 = x2.
                                                                  0x7 = x4.
-                                                                 0xF = x8 (not supported).
+                                                                 0xF = x8.
                                                                  0x1F = x16 (not supported).
                                                                  0x3F = x32 (not supported).
 
@@ -10773,9 +11069,9 @@ typedef union
                                                                  PCIERC()_CFG031[MLW].
                                                                  The value of this field does not indicate the number of lanes in use by the PCIe. This
                                                                  field sets the maximum number of lanes in the PCIe core that could be used. As per the
-                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x4,
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
                                                                  x2, and x1 are supported when
-                                                                 LME = 0x7, for example. */
+                                                                 LME = 0xF, for example. */
         uint32_t reserved_12_15        : 4;
         uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
         uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes. */
@@ -10813,7 +11109,7 @@ typedef union
                                                                  0x1 = x1.
                                                                  0x3 = x2.
                                                                  0x7 = x4.
-                                                                 0xF = x8 (not supported).
+                                                                 0xF = x8.
                                                                  0x1F = x16 (not supported).
                                                                  0x3F = x32 (not supported).
 
@@ -10823,12 +11119,90 @@ typedef union
                                                                  PCIERC()_CFG031[MLW].
                                                                  The value of this field does not indicate the number of lanes in use by the PCIe. This
                                                                  field sets the maximum number of lanes in the PCIe core that could be used. As per the
-                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x4,
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
                                                                  x2, and x1 are supported when
-                                                                 LME = 0x7, for example. */
+                                                                 LME = 0xF, for example. */
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } s;
+    struct bdk_pciercx_cfg452_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t reserved_24_27        : 4;
+        uint32_t reserved_22_23        : 2;
+        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
+                                                                 0x1 = x1.
+                                                                 0x3 = x2.
+                                                                 0x7 = x4.
+                                                                 0xF = x8.
+                                                                 0x1F = x16 (not supported).
+                                                                 0x3F = x32 (not supported).
+
+                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
+                                                                 be set less than 0xF to limit the number of lanes the PCIe will attempt to use. The
+                                                                 programming of this field needs to be done by software before enabling the link. See also
+                                                                 PCIERC()_CFG031[MLW].
+                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
+                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
+                                                                 x2, and x1 are supported when
+                                                                 LME = 0xF, for example. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
+        uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes. */
+        uint32_t reserved_6            : 1;
+        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
+                                                                 does not transmit InitFC DLLPs and does not establish a link. */
+        uint32_t reserved_4            : 1;
+        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
+                                                                 port only). */
+        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
+                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
+                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
+                                                                 mode, take the link through a reset sequence. */
+        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
+        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a 1 to this bit, the PCI Express bus transmits
+                                                                 the message contained in the other message register. */
+#else /* Word 0 - Little Endian */
+        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a 1 to this bit, the PCI Express bus transmits
+                                                                 the message contained in the other message register. */
+        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
+        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
+                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
+                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
+                                                                 mode, take the link through a reset sequence. */
+        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
+                                                                 port only). */
+        uint32_t reserved_4            : 1;
+        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
+                                                                 does not transmit InitFC DLLPs and does not establish a link. */
+        uint32_t reserved_6            : 1;
+        uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes. */
+        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
+                                                                 0x1 = x1.
+                                                                 0x3 = x2.
+                                                                 0x7 = x4.
+                                                                 0xF = x8.
+                                                                 0x1F = x16 (not supported).
+                                                                 0x3F = x32 (not supported).
+
+                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
+                                                                 be set less than 0xF to limit the number of lanes the PCIe will attempt to use. The
+                                                                 programming of this field needs to be done by software before enabling the link. See also
+                                                                 PCIERC()_CFG031[MLW].
+                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
+                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
+                                                                 x2, and x1 are supported when
+                                                                 LME = 0xF, for example. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t reserved_24_27        : 4;
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } cn9;
     struct bdk_pciercx_cfg452_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -10907,85 +11281,8 @@ typedef union
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_pciercx_cfg452_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_28_31        : 4;
-        uint32_t reserved_24_27        : 4;
-        uint32_t reserved_22_23        : 2;
-        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
-                                                                 0x1 = x1.
-                                                                 0x3 = x2.
-                                                                 0x7 = x4.
-                                                                 0xF = x8.
-                                                                 0x1F = x16 (not supported).
-                                                                 0x3F = x32 (not supported).
-
-                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
-                                                                 be set less than 0xF to limit the number of lanes the PCIe will attempt to use. The
-                                                                 programming of this field needs to be done by software before enabling the link. See also
-                                                                 PCIERC()_CFG031[MLW].
-                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
-                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
-                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
-                                                                 x2, and x1 are supported when
-                                                                 LME = 0xF, for example. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
-        uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes. */
-        uint32_t reserved_6            : 1;
-        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
-                                                                 does not transmit InitFC DLLPs and does not establish a link. */
-        uint32_t reserved_4            : 1;
-        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
-                                                                 port only). */
-        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
-                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
-                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
-                                                                 mode, take the link through a reset sequence. */
-        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
-        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a 1 to this bit, the PCI Express bus transmits
-                                                                 the message contained in the other message register. */
-#else /* Word 0 - Little Endian */
-        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a 1 to this bit, the PCI Express bus transmits
-                                                                 the message contained in the other message register. */
-        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
-        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
-                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
-                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
-                                                                 mode, take the link through a reset sequence. */
-        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
-                                                                 port only). */
-        uint32_t reserved_4            : 1;
-        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
-                                                                 does not transmit InitFC DLLPs and does not establish a link. */
-        uint32_t reserved_6            : 1;
-        uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes. */
-        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
-                                                                 0x1 = x1.
-                                                                 0x3 = x2.
-                                                                 0x7 = x4.
-                                                                 0xF = x8.
-                                                                 0x1F = x16 (not supported).
-                                                                 0x3F = x32 (not supported).
-
-                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
-                                                                 be set less than 0xF to limit the number of lanes the PCIe will attempt to use. The
-                                                                 programming of this field needs to be done by software before enabling the link. See also
-                                                                 PCIERC()_CFG031[MLW].
-                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
-                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
-                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
-                                                                 x2, and x1 are supported when
-                                                                 LME = 0xF, for example. */
-        uint32_t reserved_22_23        : 2;
-        uint32_t reserved_24_27        : 4;
-        uint32_t reserved_28_31        : 4;
-#endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_pciercx_cfg452_cn88xx cn83xx; */
+    /* struct bdk_pciercx_cfg452_cn9 cn88xx; */
+    /* struct bdk_pciercx_cfg452_cn9 cn83xx; */
 } bdk_pciercx_cfg452_t;
 
 static inline uint64_t BDK_PCIERCX_CFG452(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10997,6 +11294,8 @@ static inline uint64_t BDK_PCIERCX_CFG452(unsigned long a)
         return 0x20000000710ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000710ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000710ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG452", 1, a, 0, 0, 0);
 }
 
@@ -11049,6 +11348,8 @@ static inline uint64_t BDK_PCIERCX_CFG453(unsigned long a)
         return 0x20000000714ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000714ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000714ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG453", 1, a, 0, 0, 0);
 }
 
@@ -11105,6 +11406,8 @@ static inline uint64_t BDK_PCIERCX_CFG454(unsigned long a)
         return 0x20000000718ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000718ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000718ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG454", 1, a, 0, 0, 0);
 }
 
@@ -11179,6 +11482,8 @@ static inline uint64_t BDK_PCIERCX_CFG455(unsigned long a)
         return 0x2000000071cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000071cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000071cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG455", 1, a, 0, 0, 0);
 }
 
@@ -11225,6 +11530,8 @@ static inline uint64_t BDK_PCIERCX_CFG456(unsigned long a)
         return 0x20000000720ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000720ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000720ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG456", 1, a, 0, 0, 0);
 }
 
@@ -11263,6 +11570,8 @@ static inline uint64_t BDK_PCIERCX_CFG458(unsigned long a)
         return 0x20000000728ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000728ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000728ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG458", 1, a, 0, 0, 0);
 }
 
@@ -11301,6 +11610,8 @@ static inline uint64_t BDK_PCIERCX_CFG459(unsigned long a)
         return 0x2000000072cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000072cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000072cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG459", 1, a, 0, 0, 0);
 }
 
@@ -11347,6 +11658,8 @@ static inline uint64_t BDK_PCIERCX_CFG460(unsigned long a)
         return 0x20000000730ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000730ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000730ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG460", 1, a, 0, 0, 0);
 }
 
@@ -11393,6 +11706,8 @@ static inline uint64_t BDK_PCIERCX_CFG461(unsigned long a)
         return 0x20000000734ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000734ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000734ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG461", 1, a, 0, 0, 0);
 }
 
@@ -11439,6 +11754,8 @@ static inline uint64_t BDK_PCIERCX_CFG462(unsigned long a)
         return 0x20000000738ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000738ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000738ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG462", 1, a, 0, 0, 0);
 }
 
@@ -11501,6 +11818,8 @@ static inline uint64_t BDK_PCIERCX_CFG463(unsigned long a)
         return 0x2000000073cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000073cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000073cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG463", 1, a, 0, 0, 0);
 }
 
@@ -11522,33 +11841,34 @@ typedef union
     struct bdk_pciercx_cfg464_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO/H) WRR Weight for VC3. */
-        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO/H) WRR Weight for VC2. */
-        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO/H) WRR Weight for VC1. */
-        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO/H) WRR Weight for VC0. */
+        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO) WRR Weight for VC3. */
+        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO) WRR Weight for VC2. */
+        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO) WRR Weight for VC1. */
+        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO) WRR Weight for VC0. */
 #else /* Word 0 - Little Endian */
-        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO/H) WRR Weight for VC0. */
-        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO/H) WRR Weight for VC1. */
-        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO/H) WRR Weight for VC2. */
-        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO/H) WRR Weight for VC3. */
+        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO) WRR Weight for VC0. */
+        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO) WRR Weight for VC1. */
+        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO) WRR Weight for VC2. */
+        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO) WRR Weight for VC3. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg464_s cn81xx; */
-    /* struct bdk_pciercx_cfg464_s cn88xx; */
-    struct bdk_pciercx_cfg464_cn83xx
+    /* struct bdk_pciercx_cfg464_s cn9; */
+    struct bdk_pciercx_cfg464_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO) WRR Weight for VC3. */
-        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO) WRR Weight for VC2. */
-        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO) WRR Weight for VC1. */
-        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO) WRR Weight for VC0. */
+        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO/H) WRR Weight for VC3. */
+        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO/H) WRR Weight for VC2. */
+        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO/H) WRR Weight for VC1. */
+        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO/H) WRR Weight for VC0. */
 #else /* Word 0 - Little Endian */
-        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO) WRR Weight for VC0. */
-        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO) WRR Weight for VC1. */
-        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO) WRR Weight for VC2. */
-        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO) WRR Weight for VC3. */
+        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO/H) WRR Weight for VC0. */
+        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO/H) WRR Weight for VC1. */
+        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO/H) WRR Weight for VC2. */
+        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO/H) WRR Weight for VC3. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg464_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg464_s cn83xx; */
 } bdk_pciercx_cfg464_t;
 
 static inline uint64_t BDK_PCIERCX_CFG464(unsigned long a) __attribute__ ((pure, always_inline));
@@ -11560,6 +11880,8 @@ static inline uint64_t BDK_PCIERCX_CFG464(unsigned long a)
         return 0x20000000740ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000740ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000740ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG464", 1, a, 0, 0, 0);
 }
 
@@ -11581,33 +11903,34 @@ typedef union
     struct bdk_pciercx_cfg465_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO/H) WRR Weight for VC7. */
-        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO/H) WRR Weight for VC6. */
-        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO/H) WRR Weight for VC5. */
-        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO/H) WRR Weight for VC4. */
+        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO) WRR Weight for VC7. */
+        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO) WRR Weight for VC6. */
+        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO) WRR Weight for VC5. */
+        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO) WRR Weight for VC4. */
 #else /* Word 0 - Little Endian */
-        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO/H) WRR Weight for VC4. */
-        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO/H) WRR Weight for VC5. */
-        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO/H) WRR Weight for VC6. */
-        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO/H) WRR Weight for VC7. */
+        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO) WRR Weight for VC4. */
+        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO) WRR Weight for VC5. */
+        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO) WRR Weight for VC6. */
+        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO) WRR Weight for VC7. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg465_s cn81xx; */
-    /* struct bdk_pciercx_cfg465_s cn88xx; */
-    struct bdk_pciercx_cfg465_cn83xx
+    /* struct bdk_pciercx_cfg465_s cn9; */
+    struct bdk_pciercx_cfg465_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO) WRR Weight for VC7. */
-        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO) WRR Weight for VC6. */
-        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO) WRR Weight for VC5. */
-        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO) WRR Weight for VC4. */
+        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO/H) WRR Weight for VC7. */
+        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO/H) WRR Weight for VC6. */
+        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO/H) WRR Weight for VC5. */
+        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO/H) WRR Weight for VC4. */
 #else /* Word 0 - Little Endian */
-        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO) WRR Weight for VC4. */
-        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO) WRR Weight for VC5. */
-        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO) WRR Weight for VC6. */
-        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO) WRR Weight for VC7. */
+        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO/H) WRR Weight for VC4. */
+        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO/H) WRR Weight for VC5. */
+        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO/H) WRR Weight for VC6. */
+        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO/H) WRR Weight for VC7. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg465_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg465_s cn83xx; */
 } bdk_pciercx_cfg465_t;
 
 static inline uint64_t BDK_PCIERCX_CFG465(unsigned long a) __attribute__ ((pure, always_inline));
@@ -11619,6 +11942,8 @@ static inline uint64_t BDK_PCIERCX_CFG465(unsigned long a)
         return 0x20000000744ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000744ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000744ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG465", 1, a, 0, 0, 0);
 }
 
@@ -11717,6 +12042,8 @@ static inline uint64_t BDK_PCIERCX_CFG466(unsigned long a)
         return 0x20000000748ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000748ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000748ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG466", 1, a, 0, 0, 0);
 }
 
@@ -11791,6 +12118,8 @@ static inline uint64_t BDK_PCIERCX_CFG467(unsigned long a)
         return 0x2000000074cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000074cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000074cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG467", 1, a, 0, 0, 0);
 }
 
@@ -11867,6 +12196,8 @@ static inline uint64_t BDK_PCIERCX_CFG468(unsigned long a)
         return 0x20000000750ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000750ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000750ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG468", 1, a, 0, 0, 0);
 }
 
@@ -11921,6 +12252,90 @@ typedef union
         uint32_t reserved_21_31        : 11;
 #endif /* Word 0 - End */
     } s;
+    struct bdk_pciercx_cfg515_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t reserved_21           : 1;
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
+        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
+                                                                 with the compliance receive bit assert (equal to 1). */
+        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
+                                                                 indicates full swing. When set to 0, indicates low swing. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
+        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
+        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
+                                                                 physical lane is connected to logical Lane0 by the flip
+                                                                 operation performed in detect.
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Connect logical Lane0 to physical lane 1.
+                                                                   0x2 = Connect logical Lane0 to physical lane 3.
+                                                                   0x3 = Connect logical Lane0 to physical lane 7.
+                                                                   0x4 = Connect logical Lane0 to physical lane 15.
+                                                                   0x5 - 0x7 = Reserved. */
+        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
+                                                                 lanes which are connected and not bad. Used to limit the
+                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 detect a receiver. Indicates the number of lanes to check for
+                                                                 exit from electrical idle in Polling.Active and L2.Idle.
+                                                                 0x1 = 1 lane.
+                                                                 0x2 = 2 lanes.
+                                                                 0x3 = 3 lanes.
+                                                                 ..
+                                                                 0x8 = 8 lanes.
+                                                                 0x9-0x1F =Reserved.
+                                                                 When you have unused lanes in your system, then you must
+                                                                 change the value in this register to reflect the number of
+                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
+        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
+                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
+                                                                 PHY's ability to recover synchronization after a low power state.
+
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
+                                                                 when
+                                                                 exiting from L0s. */
+#else /* Word 0 - Little Endian */
+        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
+                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
+                                                                 PHY's ability to recover synchronization after a low power state.
+
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
+                                                                 when
+                                                                 exiting from L0s. */
+        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
+                                                                 lanes which are connected and not bad. Used to limit the
+                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 detect a receiver. Indicates the number of lanes to check for
+                                                                 exit from electrical idle in Polling.Active and L2.Idle.
+                                                                 0x1 = 1 lane.
+                                                                 0x2 = 2 lanes.
+                                                                 0x3 = 3 lanes.
+                                                                 ..
+                                                                 0x8 = 8 lanes.
+                                                                 0x9-0x1F =Reserved.
+                                                                 When you have unused lanes in your system, then you must
+                                                                 change the value in this register to reflect the number of
+                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
+        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
+                                                                 physical lane is connected to logical Lane0 by the flip
+                                                                 operation performed in detect.
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Connect logical Lane0 to physical lane 1.
+                                                                   0x2 = Connect logical Lane0 to physical lane 3.
+                                                                   0x3 = Connect logical Lane0 to physical lane 7.
+                                                                   0x4 = Connect logical Lane0 to physical lane 15.
+                                                                   0x5 - 0x7 = Reserved. */
+        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
+        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
+                                                                 indicates full swing. When set to 0, indicates low swing. */
+        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
+                                                                 with the compliance receive bit assert (equal to 1). */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
+        uint32_t reserved_21           : 1;
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } cn9;
     struct bdk_pciercx_cfg515_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -12025,90 +12440,7 @@ typedef union
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg515_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_22_31        : 10;
-        uint32_t reserved_21           : 1;
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
-        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
-                                                                 with the compliance receive bit assert (equal to 1). */
-        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
-        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
-        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
-                                                                 physical lane is connected to logical Lane0 by the flip
-                                                                 operation performed in detect.
-                                                                   0x0 = Reserved.
-                                                                   0x1 = Connect logical Lane0 to physical lane 1.
-                                                                   0x2 = Connect logical Lane0 to physical lane 3.
-                                                                   0x3 = Connect logical Lane0 to physical lane 7.
-                                                                   0x4 = Connect logical Lane0 to physical lane 15.
-                                                                   0x5 - 0x7 = Reserved. */
-        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
-                                                                 lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
-                                                                 detect a receiver. Indicates the number of lanes to check for
-                                                                 exit from electrical idle in Polling.Active and L2.Idle.
-                                                                 0x1 = 1 lane.
-                                                                 0x2 = 2 lanes.
-                                                                 0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
-        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
-                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
-                                                                 PHY's ability to recover synchronization after a low power state.
-
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
-#else /* Word 0 - Little Endian */
-        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
-                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
-                                                                 PHY's ability to recover synchronization after a low power state.
-
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
-        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
-                                                                 lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
-                                                                 detect a receiver. Indicates the number of lanes to check for
-                                                                 exit from electrical idle in Polling.Active and L2.Idle.
-                                                                 0x1 = 1 lane.
-                                                                 0x2 = 2 lanes.
-                                                                 0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
-        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
-                                                                 physical lane is connected to logical Lane0 by the flip
-                                                                 operation performed in detect.
-                                                                   0x0 = Reserved.
-                                                                   0x1 = Connect logical Lane0 to physical lane 1.
-                                                                   0x2 = Connect logical Lane0 to physical lane 3.
-                                                                   0x3 = Connect logical Lane0 to physical lane 7.
-                                                                   0x4 = Connect logical Lane0 to physical lane 15.
-                                                                   0x5 - 0x7 = Reserved. */
-        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
-        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
-        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
-                                                                 with the compliance receive bit assert (equal to 1). */
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
-        uint32_t reserved_21           : 1;
-        uint32_t reserved_22_31        : 10;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg515_cn9 cn83xx; */
 } bdk_pciercx_cfg515_t;
 
 static inline uint64_t BDK_PCIERCX_CFG515(unsigned long a) __attribute__ ((pure, always_inline));
@@ -12120,6 +12452,8 @@ static inline uint64_t BDK_PCIERCX_CFG515(unsigned long a)
         return 0x2000000080cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000080cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x2000000080cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG515", 1, a, 0, 0, 0);
 }
 
@@ -12158,6 +12492,8 @@ static inline uint64_t BDK_PCIERCX_CFG516(unsigned long a)
         return 0x20000000810ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000810ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000810ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG516", 1, a, 0, 0, 0);
 }
 
@@ -12196,6 +12532,8 @@ static inline uint64_t BDK_PCIERCX_CFG517(unsigned long a)
         return 0x20000000814ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000814ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000814ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG517", 1, a, 0, 0, 0);
 }
 
@@ -12258,6 +12596,7 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg548_s cn9; */
     struct bdk_pciercx_cfg548_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -12350,6 +12689,8 @@ static inline uint64_t BDK_PCIERCX_CFG548(unsigned long a)
         return 0x20000000890ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000890ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x20000000890ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG548", 1, a, 0, 0, 0);
 }
 
@@ -12377,8 +12718,7 @@ typedef union
         uint32_t reserved_25           : 1;
         uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
                                                                  performed in the EQ master, when finding the highest FOM among all preset evaluations. */
-        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part
-                                                                 of the EQ master
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
                                                                  phase. Encoding scheme as follows:
 
                                                                  Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
@@ -12459,8 +12799,7 @@ typedef union
                                                                  1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
                                                                  require more than 2 ms to respond to the assertion of RxEqEval. */
         uint32_t reserved_6_7          : 2;
-        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part
-                                                                 of the EQ master
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
                                                                  phase. Encoding scheme as follows:
 
                                                                  Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
@@ -12626,8 +12965,8 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_pciercx_cfg554_s cn81xx; */
-    struct bdk_pciercx_cfg554_cn83xx
+    /* struct bdk_pciercx_cfg554_s cn9; */
+    struct bdk_pciercx_cfg554_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_27_31        : 5;
@@ -12636,7 +12975,8 @@ typedef union
         uint32_t reserved_25           : 1;
         uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
                                                                  performed in the EQ master, when finding the highest FOM among all preset evaluations. */
-        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part
+                                                                 of the EQ master
                                                                  phase. Encoding scheme as follows:
 
                                                                  Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
@@ -12717,7 +13057,8 @@ typedef union
                                                                  1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
                                                                  require more than 2 ms to respond to the assertion of RxEqEval. */
         uint32_t reserved_6_7          : 2;
-        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part
+                                                                 of the EQ master
                                                                  phase. Encoding scheme as follows:
 
                                                                  Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
@@ -12756,7 +13097,8 @@ typedef union
                                                                  presets to coefficient mapping is complete. */
         uint32_t reserved_27_31        : 5;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg554_s cn83xx; */
     struct bdk_pciercx_cfg554_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -12896,6 +13238,8 @@ static inline uint64_t BDK_PCIERCX_CFG554(unsigned long a)
         return 0x200000008a8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x200000008a8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000008a8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG554", 1, a, 0, 0, 0);
 }
 
@@ -12936,6 +13280,8 @@ static inline uint64_t BDK_PCIERCX_CFG558(unsigned long a)
         return 0x200000008b8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x200000008b8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x200000008b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG558", 1, a, 0, 0, 0);
 }
 
@@ -12958,25 +13304,26 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  This bit should not be cleared in normal operation. */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writeable from the DBI. */
 #else /* Word 0 - Little Endian */
-        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  This bit should not be cleared in normal operation. */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writeable from the DBI. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg559_s cn81xx; */
-    struct bdk_pciercx_cfg559_cn83xx
+    struct bdk_pciercx_cfg559_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
-                                                                 RO bits are writeable from the DBI. */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  This bit should not be cleared in normal operation. */
 #else /* Word 0 - Little Endian */
-        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
-                                                                 RO bits are writeable from the DBI. */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  This bit should not be cleared in normal operation. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg559_s cn83xx; */
+    /* struct bdk_pciercx_cfg559_s cn9; */
 } bdk_pciercx_cfg559_t;
 
 static inline uint64_t BDK_PCIERCX_CFG559(unsigned long a) __attribute__ ((pure, always_inline));
@@ -12985,6 +13332,8 @@ static inline uint64_t BDK_PCIERCX_CFG559(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x200000008bcll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000008bcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000008bcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG559", 1, a, 0, 0, 0);
 }
@@ -13073,6 +13422,8 @@ static inline uint64_t BDK_PCIERCX_CFG560(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_PCIERCX_CFG560(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000008c0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x200000008c0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG560", 1, a, 0, 0, 0);
 }

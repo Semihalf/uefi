@@ -735,8 +735,7 @@ typedef union
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gic_cfg_ctlr_s cn81xx; */
-    struct bdk_gic_cfg_ctlr_cn88xx
+    struct bdk_gic_cfg_ctlr_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
@@ -783,8 +782,10 @@ typedef union
         uint64_t dis_cpu_if_load_balancer : 1;/**< [ 32: 32](SR/W) Disable the CPU interface load balancer. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_gic_cfg_ctlr_cn88xx cn83xx; */
+    } cn9;
+    /* struct bdk_gic_cfg_ctlr_s cn81xx; */
+    /* struct bdk_gic_cfg_ctlr_cn9 cn88xx; */
+    /* struct bdk_gic_cfg_ctlr_cn9 cn83xx; */
 } bdk_gic_cfg_ctlr_t;
 
 #define BDK_GIC_CFG_CTLR BDK_GIC_CFG_CTLR_FUNC()
@@ -846,6 +847,8 @@ static inline uint64_t BDK_GIC_DEL3T_CTLR_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x801000010060ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+        return 0x801000010060ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x801000010060ll;
     __bdk_csr_fatal("GIC_DEL3T_CTLR", 0, 0, 0, 0, 0);
 }
@@ -1072,6 +1075,8 @@ static inline uint64_t BDK_GIC_RDB_ITS_IF_ERR_STATUSR_FUNC(void)
         return 0x801000010070ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x801000010070ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x801000010070ll;
     __bdk_csr_fatal("GIC_RDB_ITS_IF_ERR_STATUSR", 0, 0, 0, 0, 0);
 }
 
@@ -1249,6 +1254,8 @@ static inline uint64_t BDK_GIC_SYNC_CFG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x801000010050ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+        return 0x801000010050ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x801000010050ll;
     __bdk_csr_fatal("GIC_SYNC_CFG", 0, 0, 0, 0, 0);
 }
@@ -1507,7 +1514,7 @@ typedef union
     struct bdk_gicd_icactiverx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
@@ -1516,7 +1523,7 @@ typedef union
 
                                                                  A clear-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
@@ -1526,10 +1533,12 @@ typedef union
                                                                  A clear-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicd_icactiverx_cn81xx
+    /* struct bdk_gicd_icactiverx_s cn9; */
+    /* struct bdk_gicd_icactiverx_s cn81xx; */
+    struct bdk_gicd_icactiverx_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
@@ -1538,7 +1547,7 @@ typedef union
 
                                                                  A clear-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
@@ -1547,9 +1556,8 @@ typedef union
 
                                                                  A clear-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicd_icactiverx_s cn88xx; */
-    /* struct bdk_gicd_icactiverx_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicd_icactiverx_s cn83xx; */
 } bdk_gicd_icactiverx_t;
 
 static inline uint64_t BDK_GICD_ICACTIVERX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1681,7 +1689,7 @@ typedef union
     struct bdk_gicd_icpendrx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
@@ -1690,7 +1698,7 @@ typedef union
 
                                                                  A clear-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
@@ -1700,10 +1708,12 @@ typedef union
                                                                  A clear-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicd_icpendrx_cn81xx
+    /* struct bdk_gicd_icpendrx_s cn9; */
+    /* struct bdk_gicd_icpendrx_s cn81xx; */
+    struct bdk_gicd_icpendrx_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
@@ -1712,7 +1722,7 @@ typedef union
 
                                                                  A clear-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
@@ -1721,9 +1731,8 @@ typedef union
 
                                                                  A clear-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicd_icpendrx_s cn88xx; */
-    /* struct bdk_gicd_icpendrx_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicd_icpendrx_s cn83xx; */
 } bdk_gicd_icpendrx_t;
 
 static inline uint64_t BDK_GICD_ICPENDRX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1984,7 +1993,7 @@ typedef union
     struct bdk_gicd_isactiverx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
@@ -1993,7 +2002,7 @@ typedef union
 
                                                                  A set-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
@@ -2003,10 +2012,12 @@ typedef union
                                                                  A set-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicd_isactiverx_cn81xx
+    /* struct bdk_gicd_isactiverx_s cn9; */
+    /* struct bdk_gicd_isactiverx_s cn81xx; */
+    struct bdk_gicd_isactiverx_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
@@ -2015,7 +2026,7 @@ typedef union
 
                                                                  A set-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
@@ -2024,9 +2035,8 @@ typedef union
 
                                                                  A set-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicd_isactiverx_s cn88xx; */
-    /* struct bdk_gicd_isactiverx_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicd_isactiverx_s cn83xx; */
 } bdk_gicd_isactiverx_t;
 
 static inline uint64_t BDK_GICD_ISACTIVERX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2100,7 +2110,7 @@ typedef union
     struct bdk_gicd_ispendrx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
@@ -2109,7 +2119,7 @@ typedef union
 
                                                                  A set-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
@@ -2119,10 +2129,12 @@ typedef union
                                                                  A set-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicd_ispendrx_cn81xx
+    /* struct bdk_gicd_ispendrx_s cn9; */
+    /* struct bdk_gicd_ispendrx_s cn81xx; */
+    struct bdk_gicd_ispendrx_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
@@ -2131,7 +2143,7 @@ typedef union
 
                                                                  A set-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
@@ -2140,9 +2152,8 @@ typedef union
 
                                                                  A set-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicd_ispendrx_s cn88xx; */
-    /* struct bdk_gicd_ispendrx_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicd_ispendrx_s cn83xx; */
 } bdk_gicd_ispendrx_t;
 
 static inline uint64_t BDK_GICD_ISPENDRX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2748,52 +2759,53 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
-        uint32_t wrod                  : 1;  /**< [  3:  3](R/W) This bit is set if a write to a read-only location is detected. Software must write a one
+        uint32_t wrod                  : 1;  /**< [  3:  3](R/W/H) This bit is set if a write to a read-only location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t rwod                  : 1;  /**< [  2:  2](R/W) This bit is set if a read to a write-only location is detected. Software must write a one
+        uint32_t rwod                  : 1;  /**< [  2:  2](R/W/H) This bit is set if a read to a write-only location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t wrd                   : 1;  /**< [  1:  1](R/W) This bit is set if a write to a reserved location is detected. Software must write a one
+        uint32_t wrd                   : 1;  /**< [  1:  1](R/W/H) This bit is set if a write to a reserved location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t rrd                   : 1;  /**< [  0:  0](R/W) This bit is set if a read to a reserved location is detected. Software must write a one to
+        uint32_t rrd                   : 1;  /**< [  0:  0](R/W/H) This bit is set if a read to a reserved location is detected. Software must write a one to
                                                                  this bit to clear it. */
 #else /* Word 0 - Little Endian */
-        uint32_t rrd                   : 1;  /**< [  0:  0](R/W) This bit is set if a read to a reserved location is detected. Software must write a one to
+        uint32_t rrd                   : 1;  /**< [  0:  0](R/W/H) This bit is set if a read to a reserved location is detected. Software must write a one to
                                                                  this bit to clear it. */
-        uint32_t wrd                   : 1;  /**< [  1:  1](R/W) This bit is set if a write to a reserved location is detected. Software must write a one
+        uint32_t wrd                   : 1;  /**< [  1:  1](R/W/H) This bit is set if a write to a reserved location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t rwod                  : 1;  /**< [  2:  2](R/W) This bit is set if a read to a write-only location is detected. Software must write a one
+        uint32_t rwod                  : 1;  /**< [  2:  2](R/W/H) This bit is set if a read to a write-only location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t wrod                  : 1;  /**< [  3:  3](R/W) This bit is set if a write to a read-only location is detected. Software must write a one
+        uint32_t wrod                  : 1;  /**< [  3:  3](R/W/H) This bit is set if a write to a read-only location is detected. Software must write a one
                                                                  to this bit to clear it. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicd_sstatusr_cn81xx
+    /* struct bdk_gicd_sstatusr_s cn9; */
+    /* struct bdk_gicd_sstatusr_s cn81xx; */
+    struct bdk_gicd_sstatusr_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
-        uint32_t wrod                  : 1;  /**< [  3:  3](R/W/H) This bit is set if a write to a read-only location is detected. Software must write a one
+        uint32_t wrod                  : 1;  /**< [  3:  3](R/W) This bit is set if a write to a read-only location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t rwod                  : 1;  /**< [  2:  2](R/W/H) This bit is set if a read to a write-only location is detected. Software must write a one
+        uint32_t rwod                  : 1;  /**< [  2:  2](R/W) This bit is set if a read to a write-only location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t wrd                   : 1;  /**< [  1:  1](R/W/H) This bit is set if a write to a reserved location is detected. Software must write a one
+        uint32_t wrd                   : 1;  /**< [  1:  1](R/W) This bit is set if a write to a reserved location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t rrd                   : 1;  /**< [  0:  0](R/W/H) This bit is set if a read to a reserved location is detected. Software must write a one to
+        uint32_t rrd                   : 1;  /**< [  0:  0](R/W) This bit is set if a read to a reserved location is detected. Software must write a one to
                                                                  this bit to clear it. */
 #else /* Word 0 - Little Endian */
-        uint32_t rrd                   : 1;  /**< [  0:  0](R/W/H) This bit is set if a read to a reserved location is detected. Software must write a one to
+        uint32_t rrd                   : 1;  /**< [  0:  0](R/W) This bit is set if a read to a reserved location is detected. Software must write a one to
                                                                  this bit to clear it. */
-        uint32_t wrd                   : 1;  /**< [  1:  1](R/W/H) This bit is set if a write to a reserved location is detected. Software must write a one
+        uint32_t wrd                   : 1;  /**< [  1:  1](R/W) This bit is set if a write to a reserved location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t rwod                  : 1;  /**< [  2:  2](R/W/H) This bit is set if a read to a write-only location is detected. Software must write a one
+        uint32_t rwod                  : 1;  /**< [  2:  2](R/W) This bit is set if a read to a write-only location is detected. Software must write a one
                                                                  to this bit to clear it. */
-        uint32_t wrod                  : 1;  /**< [  3:  3](R/W/H) This bit is set if a write to a read-only location is detected. Software must write a one
+        uint32_t wrod                  : 1;  /**< [  3:  3](R/W) This bit is set if a write to a read-only location is detected. Software must write a one
                                                                  to this bit to clear it. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicd_sstatusr_s cn88xx; */
-    /* struct bdk_gicd_sstatusr_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicd_sstatusr_s cn83xx; */
 } bdk_gicd_sstatusr_t;
 
 #define BDK_GICD_SSTATUSR BDK_GICD_SSTATUSR_FUNC()
@@ -2896,6 +2908,8 @@ static inline uint64_t BDK_GICRX_CIDR0(unsigned long a)
         return 0x80108000fff0ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000fff0ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000fff0ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_CIDR0", 1, a, 0, 0, 0);
 }
 
@@ -2936,6 +2950,8 @@ static inline uint64_t BDK_GICRX_CIDR1(unsigned long a)
         return 0x80108000fff4ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000fff4ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000fff4ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_CIDR1", 1, a, 0, 0, 0);
 }
 
@@ -2976,6 +2992,8 @@ static inline uint64_t BDK_GICRX_CIDR2(unsigned long a)
         return 0x80108000fff8ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000fff8ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000fff8ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_CIDR2", 1, a, 0, 0, 0);
 }
 
@@ -3016,6 +3034,8 @@ static inline uint64_t BDK_GICRX_CIDR3(unsigned long a)
         return 0x80108000fffcll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000fffcll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000fffcll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_CIDR3", 1, a, 0, 0, 0);
 }
 
@@ -3062,6 +3082,8 @@ static inline uint64_t BDK_GICRX_CLRLPIR(unsigned long a)
         return 0x801080000048ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000048ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000048ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_CLRLPIR", 1, a, 0, 0, 0);
 }
 
@@ -3085,7 +3107,7 @@ typedef union
     struct bdk_gicrx_icactiver0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not active. If read as 1, the interrupt is in active state.
 
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
@@ -3093,7 +3115,7 @@ typedef union
 
                                                                  A clear-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not active. If read as 1, the interrupt is in active state.
 
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
@@ -3102,10 +3124,12 @@ typedef union
                                                                  A clear-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicrx_icactiver0_cn81xx
+    /* struct bdk_gicrx_icactiver0_s cn9; */
+    /* struct bdk_gicrx_icactiver0_s cn81xx; */
+    struct bdk_gicrx_icactiver0_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not active. If read as 1, the interrupt is in active state.
 
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
@@ -3113,7 +3137,7 @@ typedef union
 
                                                                  A clear-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not active. If read as 1, the interrupt is in active state.
 
                                                                  Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
@@ -3121,9 +3145,8 @@ typedef union
 
                                                                  A clear-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicrx_icactiver0_s cn88xx; */
-    /* struct bdk_gicrx_icactiver0_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicrx_icactiver0_s cn83xx; */
 } bdk_gicrx_icactiver0_t;
 
 static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3135,6 +3158,8 @@ static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a)
         return 0x801080010380ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010380ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010380ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_ICACTIVER0", 1, a, 0, 0, 0);
 }
 
@@ -3196,6 +3221,8 @@ static inline uint64_t BDK_GICRX_ICENABLER0(unsigned long a)
         return 0x801080010180ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010180ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010180ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_ICENABLER0", 1, a, 0, 0, 0);
 }
 
@@ -3252,6 +3279,8 @@ static inline uint64_t BDK_GICRX_ICFGR0(unsigned long a)
         return 0x801080010c00ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010c00ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010c00ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_ICFGR0", 1, a, 0, 0, 0);
 }
 
@@ -3307,6 +3336,8 @@ static inline uint64_t BDK_GICRX_ICFGR1(unsigned long a)
         return 0x801080010c04ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010c04ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010c04ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_ICFGR1", 1, a, 0, 0, 0);
 }
 
@@ -3330,7 +3361,7 @@ typedef union
     struct bdk_gicrx_icpendr0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
 
                                                                  Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
@@ -3338,7 +3369,7 @@ typedef union
 
                                                                  A clear-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
 
                                                                  Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
@@ -3347,10 +3378,12 @@ typedef union
                                                                  A clear-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicrx_icpendr0_cn81xx
+    /* struct bdk_gicrx_icpendr0_s cn9; */
+    /* struct bdk_gicrx_icpendr0_s cn81xx; */
+    struct bdk_gicrx_icpendr0_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
 
                                                                  Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
@@ -3358,7 +3391,7 @@ typedef union
 
                                                                  A clear-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
 
                                                                  Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
@@ -3366,9 +3399,8 @@ typedef union
 
                                                                  A clear-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicrx_icpendr0_s cn88xx; */
-    /* struct bdk_gicrx_icpendr0_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicrx_icpendr0_s cn83xx; */
 } bdk_gicrx_icpendr0_t;
 
 static inline uint64_t BDK_GICRX_ICPENDR0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3380,6 +3412,8 @@ static inline uint64_t BDK_GICRX_ICPENDR0(unsigned long a)
         return 0x801080010280ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010280ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010280ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_ICPENDR0", 1, a, 0, 0, 0);
 }
 
@@ -3428,6 +3462,8 @@ static inline uint64_t BDK_GICRX_IGROUPR0(unsigned long a)
         return 0x801080010080ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010080ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010080ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_IGROUPR0", 1, a, 0, 0, 0);
 }
 
@@ -3477,6 +3513,8 @@ static inline uint64_t BDK_GICRX_IGRPMODR0(unsigned long a)
         return 0x801080010d00ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010d00ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010d00ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_IGRPMODR0", 1, a, 0, 0, 0);
 }
 
@@ -3533,6 +3571,8 @@ static inline uint64_t BDK_GICRX_IIDR(unsigned long a)
         return 0x801080000004ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000004ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000004ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_IIDR", 1, a, 0, 0, 0);
 }
 
@@ -3573,6 +3613,8 @@ static inline uint64_t BDK_GICRX_INVALLR(unsigned long a)
         return 0x8010800000b0ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x8010800000b0ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x8010800000b0ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_INVALLR", 1, a, 0, 0, 0);
 }
 
@@ -3619,6 +3661,8 @@ static inline uint64_t BDK_GICRX_INVLPIR(unsigned long a)
         return 0x8010800000a0ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x8010800000a0ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x8010800000a0ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_INVLPIR", 1, a, 0, 0, 0);
 }
 
@@ -3673,6 +3717,8 @@ static inline uint64_t BDK_GICRX_IPRIORITYRX(unsigned long a, unsigned long b)
         return 0x801080010400ll + 0x20000ll * ((a) & 0x1f) + 4ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=47) && (b<=7)))
         return 0x801080010400ll + 0x20000ll * ((a) & 0x3f) + 4ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=23) && (b<=7)))
+        return 0x801080010400ll + 0x20000ll * ((a) & 0x1f) + 4ll * ((b) & 0x7);
     __bdk_csr_fatal("GICRX_IPRIORITYRX", 2, a, b, 0, 0);
 }
 
@@ -3696,7 +3742,7 @@ typedef union
     struct bdk_gicrx_isactiver0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not active. If read as 1, the interrupt is in active state.
 
                                                                  Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
@@ -3704,7 +3750,7 @@ typedef union
 
                                                                  A set-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not active. If read as 1, the interrupt is in active state.
 
                                                                  Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
@@ -3713,10 +3759,12 @@ typedef union
                                                                  A set-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicrx_isactiver0_cn81xx
+    /* struct bdk_gicrx_isactiver0_s cn9; */
+    /* struct bdk_gicrx_isactiver0_s cn81xx; */
+    struct bdk_gicrx_isactiver0_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not active. If read as 1, the interrupt is in active state.
 
                                                                  Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
@@ -3724,7 +3772,7 @@ typedef union
 
                                                                  A set-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not active. If read as 1, the interrupt is in active state.
 
                                                                  Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
@@ -3732,9 +3780,8 @@ typedef union
 
                                                                  A set-active bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicrx_isactiver0_s cn88xx; */
-    /* struct bdk_gicrx_isactiver0_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicrx_isactiver0_s cn83xx; */
 } bdk_gicrx_isactiver0_t;
 
 static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3746,6 +3793,8 @@ static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a)
         return 0x801080010300ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010300ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010300ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_ISACTIVER0", 1, a, 0, 0, 0);
 }
 
@@ -3793,6 +3842,8 @@ static inline uint64_t BDK_GICRX_ISENABLER0(unsigned long a)
         return 0x801080010100ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010100ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010100ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_ISENABLER0", 1, a, 0, 0, 0);
 }
 
@@ -3816,7 +3867,7 @@ typedef union
     struct bdk_gicrx_ispendr0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not pending. If read as 1, the interrupt is in pending state.
 
                                                                  Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
@@ -3824,7 +3875,7 @@ typedef union
 
                                                                  A set-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not pending. If read as 1, the interrupt is in pending state.
 
                                                                  Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
@@ -3833,10 +3884,12 @@ typedef union
                                                                  A set-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicrx_ispendr0_cn81xx
+    /* struct bdk_gicrx_ispendr0_s cn9; */
+    /* struct bdk_gicrx_ispendr0_s cn81xx; */
+    struct bdk_gicrx_ispendr0_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not pending. If read as 1, the interrupt is in pending state.
 
                                                                  Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
@@ -3844,7 +3897,7 @@ typedef union
 
                                                                  A set-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not pending. If read as 1, the interrupt is in pending state.
 
                                                                  Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
@@ -3852,9 +3905,8 @@ typedef union
 
                                                                  A set-pending bit for a secure interrupt is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicrx_ispendr0_s cn88xx; */
-    /* struct bdk_gicrx_ispendr0_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicrx_ispendr0_s cn83xx; */
 } bdk_gicrx_ispendr0_t;
 
 static inline uint64_t BDK_GICRX_ISPENDR0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3866,6 +3918,8 @@ static inline uint64_t BDK_GICRX_ISPENDR0(unsigned long a)
         return 0x801080010200ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010200ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010200ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_ISPENDR0", 1, a, 0, 0, 0);
 }
 
@@ -3912,6 +3966,8 @@ static inline uint64_t BDK_GICRX_MOVALLR(unsigned long a)
         return 0x801080000110ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000110ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000110ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_MOVALLR", 1, a, 0, 0, 0);
 }
 
@@ -3958,6 +4014,8 @@ static inline uint64_t BDK_GICRX_MOVLPIR(unsigned long a)
         return 0x801080000100ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000100ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000100ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_MOVLPIR", 1, a, 0, 0, 0);
 }
 
@@ -4016,6 +4074,8 @@ static inline uint64_t BDK_GICRX_NSACR(unsigned long a)
         return 0x801080010e00ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080010e00ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080010e00ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_NSACR", 1, a, 0, 0, 0);
 }
 
@@ -4084,6 +4144,7 @@ typedef union
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_gicrx_pendbaser_s cn9; */
     /* struct bdk_gicrx_pendbaser_s cn81xx; */
     /* struct bdk_gicrx_pendbaser_s cn83xx; */
     /* struct bdk_gicrx_pendbaser_s cn88xxp2; */
@@ -4098,6 +4159,8 @@ static inline uint64_t BDK_GICRX_PENDBASER(unsigned long a)
         return 0x801080000078ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000078ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000078ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PENDBASER", 1, a, 0, 0, 0);
 }
 
@@ -4138,6 +4201,8 @@ static inline uint64_t BDK_GICRX_PIDR0(unsigned long a)
         return 0x80108000ffe0ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000ffe0ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000ffe0ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PIDR0", 1, a, 0, 0, 0);
 }
 
@@ -4180,6 +4245,8 @@ static inline uint64_t BDK_GICRX_PIDR1(unsigned long a)
         return 0x80108000ffe4ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000ffe4ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000ffe4ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PIDR1", 1, a, 0, 0, 0);
 }
 
@@ -4234,6 +4301,8 @@ static inline uint64_t BDK_GICRX_PIDR2(unsigned long a)
         return 0x80108000ffe8ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000ffe8ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000ffe8ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PIDR2", 1, a, 0, 0, 0);
 }
 
@@ -4278,6 +4347,8 @@ static inline uint64_t BDK_GICRX_PIDR3(unsigned long a)
         return 0x80108000ffecll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000ffecll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000ffecll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PIDR3", 1, a, 0, 0, 0);
 }
 
@@ -4320,6 +4391,8 @@ static inline uint64_t BDK_GICRX_PIDR4(unsigned long a)
         return 0x80108000ffd0ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000ffd0ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000ffd0ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PIDR4", 1, a, 0, 0, 0);
 }
 
@@ -4358,6 +4431,8 @@ static inline uint64_t BDK_GICRX_PIDR5(unsigned long a)
         return 0x80108000ffd4ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000ffd4ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000ffd4ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PIDR5", 1, a, 0, 0, 0);
 }
 
@@ -4396,6 +4471,8 @@ static inline uint64_t BDK_GICRX_PIDR6(unsigned long a)
         return 0x80108000ffd8ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000ffd8ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000ffd8ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PIDR6", 1, a, 0, 0, 0);
 }
 
@@ -4434,6 +4511,8 @@ static inline uint64_t BDK_GICRX_PIDR7(unsigned long a)
         return 0x80108000ffdcll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000ffdcll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000ffdcll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PIDR7", 1, a, 0, 0, 0);
 }
 
@@ -4496,6 +4575,7 @@ typedef union
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    /* struct bdk_gicrx_propbaser_s cn9; */
     /* struct bdk_gicrx_propbaser_s cn81xx; */
     /* struct bdk_gicrx_propbaser_s cn83xx; */
     /* struct bdk_gicrx_propbaser_s cn88xxp2; */
@@ -4510,6 +4590,8 @@ static inline uint64_t BDK_GICRX_PROPBASER(unsigned long a)
         return 0x801080000070ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000070ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000070ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_PROPBASER", 1, a, 0, 0, 0);
 }
 
@@ -4587,6 +4669,8 @@ static inline uint64_t BDK_GICRX_SCTLR(unsigned long a)
         return 0x801080000000ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000000ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000000ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_SCTLR", 1, a, 0, 0, 0);
 }
 
@@ -4633,6 +4717,8 @@ static inline uint64_t BDK_GICRX_SEIR(unsigned long a)
         return 0x801080000068ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000068ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000068ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_SEIR", 1, a, 0, 0, 0);
 }
 
@@ -4681,6 +4767,8 @@ static inline uint64_t BDK_GICRX_SETDEL3TR_EL1S(unsigned long a)
         return 0x80108000c000ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x80108000c000ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x80108000c000ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_SETDEL3TR_EL1S", 1, a, 0, 0, 0);
 }
 
@@ -4727,6 +4815,8 @@ static inline uint64_t BDK_GICRX_SETLPIR(unsigned long a)
         return 0x801080000040ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000040ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000040ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_SETLPIR", 1, a, 0, 0, 0);
 }
 
@@ -4781,6 +4871,8 @@ static inline uint64_t BDK_GICRX_SSTATUSR(unsigned long a)
         return 0x801080000010ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000010ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000010ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_SSTATUSR", 1, a, 0, 0, 0);
 }
 
@@ -4839,6 +4931,8 @@ static inline uint64_t BDK_GICRX_SYNCR(unsigned long a)
         return 0x8010800000c0ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x8010800000c0ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x8010800000c0ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_SYNCR", 1, a, 0, 0, 0);
 }
 
@@ -4915,6 +5009,8 @@ static inline uint64_t BDK_GICRX_TYPER(unsigned long a)
         return 0x801080000008ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000008ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000008ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_TYPER", 1, a, 0, 0, 0);
 }
 
@@ -4936,9 +5032,9 @@ typedef union
     struct bdk_gicrx_waker_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO) Indicates that redistributor is quiescent and can be powered off. */
+        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO/H) Indicates that redistributor is quiescent and can be powered off. */
         uint32_t reserved_3_30         : 28;
-        uint32_t ca                    : 1;  /**< [  2:  2](SRO) Children asleep.
+        uint32_t ca                    : 1;  /**< [  2:  2](SRO/H) Children asleep.
                                                                  When [PS] is one, the redistributor treats the interrupt group enables as zero
                                                                  until a subsequent update to the enables is received. */
         uint32_t ps                    : 1;  /**< [  1:  1](SR/W) Processor sleep.
@@ -4956,19 +5052,21 @@ typedef union
                                                                  0 = The redistributor never asserts WakeRequest.
                                                                  1 = The redistributor must assert WakeRequest and hold interrupts as pending if an enable
                                                                  bit is zero for an interrupt group and there is a pending interrupt for that group. */
-        uint32_t ca                    : 1;  /**< [  2:  2](SRO) Children asleep.
+        uint32_t ca                    : 1;  /**< [  2:  2](SRO/H) Children asleep.
                                                                  When [PS] is one, the redistributor treats the interrupt group enables as zero
                                                                  until a subsequent update to the enables is received. */
         uint32_t reserved_3_30         : 28;
-        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO) Indicates that redistributor is quiescent and can be powered off. */
+        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO/H) Indicates that redistributor is quiescent and can be powered off. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicrx_waker_cn81xx
+    /* struct bdk_gicrx_waker_s cn9; */
+    /* struct bdk_gicrx_waker_s cn81xx; */
+    struct bdk_gicrx_waker_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO/H) Indicates that redistributor is quiescent and can be powered off. */
+        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO) Indicates that redistributor is quiescent and can be powered off. */
         uint32_t reserved_3_30         : 28;
-        uint32_t ca                    : 1;  /**< [  2:  2](SRO/H) Children asleep.
+        uint32_t ca                    : 1;  /**< [  2:  2](SRO) Children asleep.
                                                                  When [PS] is one, the redistributor treats the interrupt group enables as zero
                                                                  until a subsequent update to the enables is received. */
         uint32_t ps                    : 1;  /**< [  1:  1](SR/W) Processor sleep.
@@ -4986,15 +5084,14 @@ typedef union
                                                                  0 = The redistributor never asserts WakeRequest.
                                                                  1 = The redistributor must assert WakeRequest and hold interrupts as pending if an enable
                                                                  bit is zero for an interrupt group and there is a pending interrupt for that group. */
-        uint32_t ca                    : 1;  /**< [  2:  2](SRO/H) Children asleep.
+        uint32_t ca                    : 1;  /**< [  2:  2](SRO) Children asleep.
                                                                  When [PS] is one, the redistributor treats the interrupt group enables as zero
                                                                  until a subsequent update to the enables is received. */
         uint32_t reserved_3_30         : 28;
-        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO/H) Indicates that redistributor is quiescent and can be powered off. */
+        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO) Indicates that redistributor is quiescent and can be powered off. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gicrx_waker_s cn88xx; */
-    /* struct bdk_gicrx_waker_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_gicrx_waker_s cn83xx; */
 } bdk_gicrx_waker_t;
 
 static inline uint64_t BDK_GICRX_WAKER(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5006,6 +5103,8 @@ static inline uint64_t BDK_GICRX_WAKER(unsigned long a)
         return 0x801080000014ll + 0x20000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x801080000014ll + 0x20000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x801080000014ll + 0x20000ll * ((a) & 0x1f);
     __bdk_csr_fatal("GICRX_WAKER", 1, a, 0, 0, 0);
 }
 
@@ -5060,15 +5159,16 @@ typedef union
                                                                    * If the type field specifies the interrupt collections table and GITS_TYPER.HCC is
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
-        uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable.
-                                                                 0x1 = Noncacheable.
-                                                                 0x2 = Read-allocate, writethrough.
-                                                                 0x3 = Read-allocate, writeback.
-                                                                 0x4 = Write-allocate, writethrough.
-                                                                 0x5 = Write-allocate, writeback.
-                                                                 0x6 = Read-allocate, write-allocate, writethrough.
-                                                                 0x7 = Read-allocate, write-allocate, writeback.
+        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table. If the Type field is
+                                                                 zero this field is RAZ/WI.
+                                                                 0x0 = Device-nGnRnE.
+                                                                 0x1 = Normal inner non-cacheable.
+                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
+                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
+                                                                 0x4 = Normal inner cacheable write-allocate,write-through.
+                                                                 0x5 = Normal inner cacheable write-allocate,write-back.
+                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
+                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t tbl_type              : 3;  /**< [ 58: 56](RO) This field is read-only and specifies the type of entity that requires entries in the
@@ -5104,7 +5204,7 @@ typedef union
 
                                                                  In CNXXXX where the address must be in DRAM this contains fewer than 48 bits of
                                                                  physical address bits. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](RO) Shareability attribute:
+        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute:
                                                                  0x0 = Accesses are nonshareable.
                                                                  0x1 = Accesses are inner-shareable.
                                                                  0x2 = Accesses are outer-shareable.
@@ -5124,7 +5224,7 @@ typedef union
                                                                  0x1 = 16 KB pages (not supported, reserved).
                                                                  0x2 = 64 KB pages.
                                                                  0x3 = Reserved. Treated as 64kB pages. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](RO) Shareability attribute:
+        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute:
                                                                  0x0 = Accesses are nonshareable.
                                                                  0x1 = Accesses are inner-shareable.
                                                                  0x2 = Accesses are outer-shareable.
@@ -5164,15 +5264,16 @@ typedef union
                                                                  indicate "Devices","Interrupt Collections" or "Physical Processors".
                                                                  Software must provision memory for "Virtual Processors" if virtual LPIs will be enabled
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
-        uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable.
-                                                                 0x1 = Noncacheable.
-                                                                 0x2 = Read-allocate, writethrough.
-                                                                 0x3 = Read-allocate, writeback.
-                                                                 0x4 = Write-allocate, writethrough.
-                                                                 0x5 = Write-allocate, writeback.
-                                                                 0x6 = Read-allocate, write-allocate, writethrough.
-                                                                 0x7 = Read-allocate, write-allocate, writeback.
+        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table. If the Type field is
+                                                                 zero this field is RAZ/WI.
+                                                                 0x0 = Device-nGnRnE.
+                                                                 0x1 = Normal inner non-cacheable.
+                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
+                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
+                                                                 0x4 = Normal inner cacheable write-allocate,write-through.
+                                                                 0x5 = Normal inner cacheable write-allocate,write-back.
+                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
+                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t indirect              : 1;  /**< [ 62: 62](RO) Indirect.This field indicates whether an implemented register specifies a single, flat
@@ -5381,7 +5482,7 @@ typedef union
                                                                  1 = Memory has been allocated to the table  by software. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_gits_baserx_cn81xx
+    struct bdk_gits_baserx_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid:
@@ -5582,9 +5683,10 @@ typedef union
                                                                  discards any writes to the interrupt translation page.
                                                                  1 = Memory has been allocated to the table  by software. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gits_baserx_cn81xx cn83xx; */
-    /* struct bdk_gits_baserx_cn81xx cn88xxp2; */
+    } cn9;
+    /* struct bdk_gits_baserx_cn9 cn81xx; */
+    /* struct bdk_gits_baserx_cn9 cn83xx; */
+    /* struct bdk_gits_baserx_cn9 cn88xxp2; */
 } bdk_gits_baserx_t;
 
 static inline uint64_t BDK_GITS_BASERX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5664,16 +5766,15 @@ typedef union
                                                                  When set to zero, no memory has been allocated to the command queue and the ITS discards
                                                                  any writes to the interrupt translation page. */
         uint64_t reserved_62           : 1;
-        uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable.
-                                                                 0x1 = Noncacheable.
-                                                                 0x2 = Read-allocate, writethrough.
-                                                                 0x3 = Read-allocate, writeback.
-                                                                 0x4 = Write-allocate, writethrough.
-                                                                 0x5 = Write-allocate, writeback.
-                                                                 0x6 = Read-allocate, write-allocate, writethrough.
-                                                                 0x7 = Read-allocate, write-allocate, writeback.
-
+        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table.
+                                                                 0x0 = Device-nGnRnE.
+                                                                 0x1 = Normal inner non-cacheable.
+                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
+                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
+                                                                 0x4 = Normal inner cacheable write-allocate, write-through.
+                                                                 0x5 = Normal inner cacheable write-allocate, write-back.
+                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
+                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t reserved_56_58        : 3;
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
@@ -5693,13 +5794,13 @@ typedef union
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
                                                                  containing the command queue. Bits <11:0> of the base address of the queue are
                                                                  zero. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](RO) Shareability attribute:
-                                                                 0x0 = Accesses are nonshareable.
+        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute. The shareability attributes of accesses to the table.
+                                                                 0x0 = Accesses are non-shareable.
                                                                  0x1 = Accesses are inner-shareable.
                                                                  0x2 = Accesses are outer-shareable.
                                                                  0x3 = Reserved.  Treated as 0x0.
 
-                                                                 Ignored in CNXXXX. */
+                                                                 In CNXXXX not implemented, ignored. */
         uint64_t reserved_8_9          : 2;
         uint64_t size                  : 8;  /**< [  7:  0](R/W) The number of 4kB pages of physical memory provided for the command queue, minus one.
                                                                  The command queue is a circular buffer and wraps at physical address <47:0> + (4096 *
@@ -5709,13 +5810,13 @@ typedef union
                                                                  The command queue is a circular buffer and wraps at physical address <47:0> + (4096 *
                                                                  (SIZE+1)). */
         uint64_t reserved_8_9          : 2;
-        uint64_t shareability          : 2;  /**< [ 11: 10](RO) Shareability attribute:
-                                                                 0x0 = Accesses are nonshareable.
+        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute. The shareability attributes of accesses to the table.
+                                                                 0x0 = Accesses are non-shareable.
                                                                  0x1 = Accesses are inner-shareable.
                                                                  0x2 = Accesses are outer-shareable.
                                                                  0x3 = Reserved.  Treated as 0x0.
 
-                                                                 Ignored in CNXXXX. */
+                                                                 In CNXXXX not implemented, ignored. */
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
                                                                  containing the command queue. Bits <11:0> of the base address of the queue are
                                                                  zero. */
@@ -5734,16 +5835,15 @@ typedef union
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t reserved_56_58        : 3;
-        uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable.
-                                                                 0x1 = Noncacheable.
-                                                                 0x2 = Read-allocate, writethrough.
-                                                                 0x3 = Read-allocate, writeback.
-                                                                 0x4 = Write-allocate, writethrough.
-                                                                 0x5 = Write-allocate, writeback.
-                                                                 0x6 = Read-allocate, write-allocate, writethrough.
-                                                                 0x7 = Read-allocate, write-allocate, writeback.
-
+        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table.
+                                                                 0x0 = Device-nGnRnE.
+                                                                 0x1 = Normal inner non-cacheable.
+                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
+                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
+                                                                 0x4 = Normal inner cacheable write-allocate, write-through.
+                                                                 0x5 = Normal inner cacheable write-allocate, write-back.
+                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
+                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t reserved_62           : 1;
         uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid.
@@ -5825,104 +5925,10 @@ typedef union
                                                                  any writes to the interrupt translation page. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_gits_cbaser_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid.
-                                                                 When set to one, indicates that memory has been allocated by software for the command
-                                                                 queue
-                                                                 When set to zero, no memory has been allocated to the command queue and the ITS discards
-                                                                 any writes to the interrupt translation page. */
-        uint64_t reserved_62           : 1;
-        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table.
-                                                                 0x0 = Device-nGnRnE.
-                                                                 0x1 = Normal inner non-cacheable.
-                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
-                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
-                                                                 0x4 = Normal inner cacheable write-allocate, write-through.
-                                                                 0x5 = Normal inner cacheable write-allocate, write-back.
-                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t reserved_56_58        : 3;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
-                                                                 0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable.
-                                                                 0x1 = Normal outer non-cacheable.
-                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
-                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
-                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
-                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
-                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
-
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t reserved_48_52        : 5;
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
-                                                                 containing the command queue. Bits <11:0> of the base address of the queue are
-                                                                 zero. */
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute. The shareability attributes of accesses to the table.
-                                                                 0x0 = Accesses are non-shareable.
-                                                                 0x1 = Accesses are inner-shareable.
-                                                                 0x2 = Accesses are outer-shareable.
-                                                                 0x3 = Reserved.  Treated as 0x0.
-
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t reserved_8_9          : 2;
-        uint64_t size                  : 8;  /**< [  7:  0](R/W) The number of 4kB pages of physical memory provided for the command queue, minus one.
-                                                                 The command queue is a circular buffer and wraps at physical address <47:0> + (4096 *
-                                                                 (SIZE+1)). */
-#else /* Word 0 - Little Endian */
-        uint64_t size                  : 8;  /**< [  7:  0](R/W) The number of 4kB pages of physical memory provided for the command queue, minus one.
-                                                                 The command queue is a circular buffer and wraps at physical address <47:0> + (4096 *
-                                                                 (SIZE+1)). */
-        uint64_t reserved_8_9          : 2;
-        uint64_t shareability          : 2;  /**< [ 11: 10](R/W) Shareability attribute. The shareability attributes of accesses to the table.
-                                                                 0x0 = Accesses are non-shareable.
-                                                                 0x1 = Accesses are inner-shareable.
-                                                                 0x2 = Accesses are outer-shareable.
-                                                                 0x3 = Reserved.  Treated as 0x0.
-
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
-                                                                 containing the command queue. Bits <11:0> of the base address of the queue are
-                                                                 zero. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
-        uint64_t reserved_48_52        : 5;
-        uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
-                                                                 0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable.
-                                                                 0x1 = Normal outer non-cacheable.
-                                                                 0x2 = Normal outer cacheable read-allocate, write-through.
-                                                                 0x3 = Normal outer cacheable read-allocate, write-back.
-                                                                 0x4 = Normal outer cacheable write-allocate, write-through.
-                                                                 0x5 = Normal outer cacheable write-allocate, write-back.
-                                                                 0x6 = Normal outer cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal outer cacheable read-allocate, write-allocate, write-back.
-
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t reserved_56_58        : 3;
-        uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Cacheability. The cacheability attributes of accesses to the table.
-                                                                 0x0 = Device-nGnRnE.
-                                                                 0x1 = Normal inner non-cacheable.
-                                                                 0x2 = Normal inner cacheable read-allocate, write-through.
-                                                                 0x3 = Normal inner cacheable read-allocate, write-back.
-                                                                 0x4 = Normal inner cacheable write-allocate, write-through.
-                                                                 0x5 = Normal inner cacheable write-allocate, write-back.
-                                                                 0x6 = Normal inner cacheable read-allocate, write-allocate, write-through.
-                                                                 0x7 = Normal inner cacheable read-allocate, write-allocate, write-back.
-                                                                 In CNXXXX not implemented, ignored. */
-        uint64_t reserved_62           : 1;
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) Valid.
-                                                                 When set to one, indicates that memory has been allocated by software for the command
-                                                                 queue
-                                                                 When set to zero, no memory has been allocated to the command queue and the ITS discards
-                                                                 any writes to the interrupt translation page. */
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gits_cbaser_cn81xx cn83xx; */
-    /* struct bdk_gits_cbaser_cn81xx cn88xxp2; */
+    /* struct bdk_gits_cbaser_s cn9; */
+    /* struct bdk_gits_cbaser_s cn81xx; */
+    /* struct bdk_gits_cbaser_s cn83xx; */
+    /* struct bdk_gits_cbaser_s cn88xxp2; */
 } bdk_gits_cbaser_t;
 
 #define BDK_GITS_CBASER BDK_GITS_CBASER_FUNC()
@@ -6788,15 +6794,13 @@ typedef union
                                                                  provisioning of external memory. If this field is nonzero,
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
-
-                                                                 Internal:
-                                                                 Note when this field is nonzero and an ITS is dynamically powered-off and back
-                                                                 on,
-                                                                 software must ensure that any hardware collections
-                                                                 are re-mapped following power-on. */
+                                                                 NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
+                                                                 on, software must ensure that any hardware collections are re-mapped following power-on.
+                                                                 A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
+                                                                 point of view. */
         uint64_t reserved_20_23        : 4;
-        uint64_t pta                   : 1;  /**< [ 19: 19](RO) Physical target addresses supported. See section 4.9.16.
-                                                                   0 = Target addresses correspond to linear processor numbers. See section 5.4.6.
+        uint64_t pta                   : 1;  /**< [ 19: 19](RO) Physical target addresses supported.
+                                                                   0 = Target addresses correspond to linear processor numbers.
                                                                    1 = Target addresses correspond to the base physical address of re-distributors. */
         uint64_t seis                  : 1;  /**< [ 18: 18](RO) Locally generated system error interrupts supported. */
         uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-its device ID is defined
@@ -6821,20 +6825,18 @@ typedef union
         uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-its device ID is defined
                                                                  as {node_id[1:0], iob_id[2:0], stream_id[15:0]}. */
         uint64_t seis                  : 1;  /**< [ 18: 18](RO) Locally generated system error interrupts supported. */
-        uint64_t pta                   : 1;  /**< [ 19: 19](RO) Physical target addresses supported. See section 4.9.16.
-                                                                   0 = Target addresses correspond to linear processor numbers. See section 5.4.6.
+        uint64_t pta                   : 1;  /**< [ 19: 19](RO) Physical target addresses supported.
+                                                                   0 = Target addresses correspond to linear processor numbers.
                                                                    1 = Target addresses correspond to the base physical address of re-distributors. */
         uint64_t reserved_20_23        : 4;
         uint64_t hcc                   : 8;  /**< [ 31: 24](RO) Hardware collection count. The number of collections supported by the ITS without
                                                                  provisioning of external memory. If this field is nonzero,
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
-
-                                                                 Internal:
-                                                                 Note when this field is nonzero and an ITS is dynamically powered-off and back
-                                                                 on,
-                                                                 software must ensure that any hardware collections
-                                                                 are re-mapped following power-on. */
+                                                                 NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
+                                                                 on, software must ensure that any hardware collections are re-mapped following power-on.
+                                                                 A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
+                                                                 point of view. */
         uint64_t cid_bits              : 4;  /**< [ 35: 32](RAZ) Number of Collection ID bits. The number of bits of Collection ID - 1.
                                                                  When GITS_TYPER.CIL==0, this field is RES0. */
         uint64_t cil                   : 1;  /**< [ 36: 36](RAZ) 0 = ITS supports 16-bit Collection ID, GITS_TYPER[CIDbits] is RES0.
@@ -6898,73 +6900,9 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_gits_typer_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
-        uint64_t cil                   : 1;  /**< [ 36: 36](RAZ) 0 = ITS supports 16-bit Collection ID, GITS_TYPER[CIDbits] is RES0.
-                                                                 1 = GITS_TYPER[CIDBITS] indicates supported collection ID size
-                                                                 CNXXXX implementations do not support collections in external memory, this bit
-                                                                 reads as zero and number of Collections supported is reported by GITS_TYPER[HCC]. */
-        uint64_t cid_bits              : 4;  /**< [ 35: 32](RAZ) Number of Collection ID bits. The number of bits of Collection ID - 1.
-                                                                 When GITS_TYPER.CIL==0, this field is RES0. */
-        uint64_t hcc                   : 8;  /**< [ 31: 24](RO) Hardware collection count. The number of collections supported by the ITS without
-                                                                 provisioning of external memory. If this field is nonzero,
-                                                                 collections in the range zero to (HCC minus one) are solely maintained in storage within
-                                                                 the ITS.
-                                                                 NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
-                                                                 on, software must ensure that any hardware collections are re-mapped following power-on.
-                                                                 A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
-                                                                 point of view. */
-        uint64_t reserved_20_23        : 4;
-        uint64_t pta                   : 1;  /**< [ 19: 19](RO) Physical target addresses supported.
-                                                                   0 = Target addresses correspond to linear processor numbers.
-                                                                   1 = Target addresses correspond to the base physical address of re-distributors. */
-        uint64_t seis                  : 1;  /**< [ 18: 18](RO) Locally generated system error interrupts supported. */
-        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-its device ID is defined
-                                                                 as {node_id[1:0], iob_id[2:0], stream_id[15:0]}. */
-        uint64_t idbits                : 5;  /**< [ 12:  8](RO) The number of interrupt identifier bits supported, minus one. */
-        uint64_t itte_size             : 4;  /**< [  7:  4](RO) ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
-                                                                 bytes (32-bit). */
-        uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */
-        uint64_t reserved_2            : 1;
-        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported.
-                                                                 This field is 0 in GICv3 implementations. */
-        uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
-        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported.
-                                                                 This field is 0 in GICv3 implementations. */
-        uint64_t reserved_2            : 1;
-        uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */
-        uint64_t itte_size             : 4;  /**< [  7:  4](RO) ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
-                                                                 bytes (32-bit). */
-        uint64_t idbits                : 5;  /**< [ 12:  8](RO) The number of interrupt identifier bits supported, minus one. */
-        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-its device ID is defined
-                                                                 as {node_id[1:0], iob_id[2:0], stream_id[15:0]}. */
-        uint64_t seis                  : 1;  /**< [ 18: 18](RO) Locally generated system error interrupts supported. */
-        uint64_t pta                   : 1;  /**< [ 19: 19](RO) Physical target addresses supported.
-                                                                   0 = Target addresses correspond to linear processor numbers.
-                                                                   1 = Target addresses correspond to the base physical address of re-distributors. */
-        uint64_t reserved_20_23        : 4;
-        uint64_t hcc                   : 8;  /**< [ 31: 24](RO) Hardware collection count. The number of collections supported by the ITS without
-                                                                 provisioning of external memory. If this field is nonzero,
-                                                                 collections in the range zero to (HCC minus one) are solely maintained in storage within
-                                                                 the ITS.
-                                                                 NOTE: Note when this field is nonzero and an ITS is dynamically powered-off and back
-                                                                 on, software must ensure that any hardware collections are re-mapped following power-on.
-                                                                 A powered back on event is defined as cold reset is asserted and the de-asserted from ITS
-                                                                 point of view. */
-        uint64_t cid_bits              : 4;  /**< [ 35: 32](RAZ) Number of Collection ID bits. The number of bits of Collection ID - 1.
-                                                                 When GITS_TYPER.CIL==0, this field is RES0. */
-        uint64_t cil                   : 1;  /**< [ 36: 36](RAZ) 0 = ITS supports 16-bit Collection ID, GITS_TYPER[CIDbits] is RES0.
-                                                                 1 = GITS_TYPER[CIDBITS] indicates supported collection ID size
-                                                                 CNXXXX implementations do not support collections in external memory, this bit
-                                                                 reads as zero and number of Collections supported is reported by GITS_TYPER[HCC]. */
-        uint64_t reserved_37_63        : 27;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gits_typer_cn81xx cn83xx; */
+    /* struct bdk_gits_typer_s cn9; */
+    /* struct bdk_gits_typer_s cn81xx; */
+    /* struct bdk_gits_typer_s cn83xx; */
     struct bdk_gits_typer_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
