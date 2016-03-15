@@ -1825,7 +1825,7 @@ typedef union
 
                                                                  _  fpf_sz * 0.75
 
-                                                                 _  where, fpf_sz = FPA_CONST[FPFS] * (FPA_CONST[POOLS] / 2^(FPA_GEN_CFG[POOLS]-1)).
+                                                                 _  where, fpf_sz = FPA_CONST[FPFS] / (FPA_CONST[POOLS] >> (FPA_GEN_CFG[POOLS]-1)).
 
                                                                  The maximum value is fpf_sz - 48.
 
@@ -1846,7 +1846,7 @@ typedef union
 
                                                                  _  fpf_sz * 0.75
 
-                                                                 _  where, fpf_sz = FPA_CONST[FPFS] * (FPA_CONST[POOLS] / 2^(FPA_GEN_CFG[POOLS]-1)).
+                                                                 _  where, fpf_sz = FPA_CONST[FPFS] / (FPA_CONST[POOLS] >> (FPA_GEN_CFG[POOLS]-1)).
 
                                                                  The maximum value is fpf_sz - 48.
 

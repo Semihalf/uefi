@@ -83,21 +83,21 @@
 #define BDK_DDF_COMP_E_FAULT (2) /**< Memory fault was detected reading/writing data related to this instruction.  The
                                        instruction may have been partially completed, and as such the result and record state is
                                        now undefined. */
-#define BDK_DDF_COMP_E_FILTER_TOO_BIG (5) /**< Filter is larger than 512B. Violates the rule 2^(2+NESTSZP2+NBKTP2) <= 512. */
+#define BDK_DDF_COMP_E_FILTER_TOO_BIG (5) /**< Filter is larger than 512B. Violates the rule 2^(2+NESTSZP2+NBUCKP2) <= 512. */
 #define BDK_DDF_COMP_E_FULL (3) /**< Insert operation not completed due to no space (nests all full, and if
                                        DDF_INST_FIND_S[VICTEN]=1 the victim is full). */
 #define BDK_DDF_COMP_E_GOOD (1) /**< Operation completed without error. */
 #define BDK_DDF_COMP_E_HDR_ALIGN (0x11) /**< Improperly aligned header address; HDR_ADDR % 2^[HDRSZP2+NWAYP2] != 0, min 16B. */
 #define BDK_DDF_COMP_E_HDR_LT_NEST (8) /**< Header is smaller than nest and won't fit all of opaque data and tag. Violates
-                                       the rule VICTEN && ((HDRSZP2 >= NESTSZP2) && NBKTP2==0) || (HDRSZP2 > NESTSZP2)
-                                       && NBKTP2 > 0)). */
+                                       the rule VICTEN && ((HDRSZP2 >= NESTSZP2) && NBUCKP2==0) || (HDRSZP2 > NESTSZP2)
+                                       && NBUCKP2 > 0)). */
 #define BDK_DDF_COMP_E_HDR_TOO_BIG (6) /**< Header is larger than 128B. Violates the rule 2^(NWAYP2 + HDRSZP2) <= 128. */
 #define BDK_DDF_COMP_E_ILLEGAL_QWORDS (4) /**< Instruction contained an illegal QWORDS value, must be between 1 and 16. */
 #define BDK_DDF_COMP_E_KEY_GT_HDR (0xa) /**< Key is larger than header, entire tag won't fit. Violates the rule
-                                       VICTEN && (((NBKTP2<<2) + TAGBITSM1 + 1) <= (HDRSZP2<<3)). */
+                                       VICTEN && (((NBUCKP2<<2) + TAGBITSM1 + 1) <= (HDRSZP2<<3)). */
 #define BDK_DDF_COMP_E_KEY_GT_NEST (9) /**< Key is larger than nest, entire tag won't fit. Violates the rule
-                                       (NBKTP2 + TAGBITSM1+1) <= (NESTSZP2<<3). */
-#define BDK_DDF_COMP_E_KEY_TOO_SMALL (0xb) /**< Configured data won't fit in key. Violates the rule (NRANKP2 + (2 * NBKTP2) + TAGBITS) <= 256. */
+                                       (NBUCKP2 + TAGBITSM1+1) <= (NESTSZP2<<3). */
+#define BDK_DDF_COMP_E_KEY_TOO_SMALL (0xb) /**< Configured data won't fit in key. Violates the rule (NRANKP2 + (2 * NBUCKP2) + TAGBITS) <= 256. */
 #define BDK_DDF_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by
                                        software to indicate the DDF_RES_FIND_S/DDF_RES_MATCH_S has not yet been
                                        updated by hardware. */
@@ -105,7 +105,7 @@
 #define BDK_DDF_COMP_E_NO_RANK (0xc) /**< No rank address; RANK_ADDR == 0. */
 #define BDK_DDF_COMP_E_NO_RB (0xe) /**< No record block address; RB_ADDR == 0. */
 #define BDK_DDF_COMP_E_NULL_INSERT (0xf) /**< No key specified for FIND_INSERT; {KEY3,KEY2,KEY1,KEY0} == 0x0. */
-#define BDK_DDF_COMP_E_RANK_ALIGN (0x10) /**< Improperly aligned rank address; RANK_ADDR % (2^(NESTP2+2)) !=0, min 16B. */
+#define BDK_DDF_COMP_E_RANK_ALIGN (0x10) /**< Improperly aligned rank address; RANK_ADDR % (2^(BKTSZP2+NESTP2+2)) !=0, min 16B. */
 #define BDK_DDF_COMP_E_WAY_TOO_BIG (7) /**< WAY exceeds number of ways. Violates the rule WAY < 2^NWAYP2. */
 
 /**
@@ -522,7 +522,7 @@ union bdk_ddf_inst_find_s
                                                                  <48> for forward compatibility. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t rank_addr             : 64; /**< [511:448] Must be nonzero. Must be aligned to a 4 * 2^[NESTSZP2] byte boundary, minimum
+        uint64_t rank_addr             : 64; /**< [511:448] Must be nonzero. Must be aligned to a 2^[NBUCKP2+NESTSZP2+2] byte boundary, minimum
                                                                  alignment of 16 bytes.
 
                                                                  If [RANK_ABS]=0, IOVA for rank 0, bucket 0, way 0, nest 0.
@@ -532,7 +532,7 @@ union bdk_ddf_inst_find_s
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility. */
 #else /* Word 7 - Little Endian */
-        uint64_t rank_addr             : 64; /**< [511:448] Must be nonzero. Must be aligned to a 4 * 2^[NESTSZP2] byte boundary, minimum
+        uint64_t rank_addr             : 64; /**< [511:448] Must be nonzero. Must be aligned to a 2^[NBUCKP2+NESTSZP2+2] byte boundary, minimum
                                                                  alignment of 16 bytes.
 
                                                                  If [RANK_ABS]=0, IOVA for rank 0, bucket 0, way 0, nest 0.
@@ -2521,8 +2521,9 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t reserved_4_6          : 3;
-        uint64_t grp                   : 3;  /**< [  3:  1](RO) Reserved. */
+        uint64_t reserved_2_6          : 5;
+        uint64_t grp                   : 1;  /**< [  1:  1](R/W) Engine group. For optimal performance group 0 should always be used for
+                                                                 DDF_INST_FIND_S instructions and group 1 for DDF_INST_MATCH_S instructions. */
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues. */
@@ -2530,8 +2531,9 @@ typedef union
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues. */
-        uint64_t grp                   : 3;  /**< [  3:  1](RO) Reserved. */
-        uint64_t reserved_4_6          : 3;
+        uint64_t grp                   : 1;  /**< [  1:  1](R/W) Engine group. For optimal performance group 0 should always be used for
+                                                                 DDF_INST_FIND_S instructions and group 1 for DDF_INST_MATCH_S instructions. */
+        uint64_t reserved_2_6          : 5;
         uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the

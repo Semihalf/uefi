@@ -1801,6 +1801,58 @@ typedef union
                                                                  Default values allow default access to:
 
                                                                    * All NCSI addresses except secure registers.
+                                                                   * All BGX(0..3) addresses except secure registers.
+                                                                   * All SERDES addresses serving BGX(0...3), namely QLM2, QLM3, DLM4, DLM5 and DLM6.
+
+                                                                 Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the high physical address in formulating a permissions filter for OEM command
+                                                                 access.
+                                                                 Together with the respective NCSI_TX_NCP_PERM()_TABLE_LOW entry, specifies
+                                                                 a range, from NCSI_TX_NCP_PERM_TABLE()_LOW[n] to NCSI_TX_NCP_PERM()_TABLE_HI[n] of
+                                                                 physical addresses, contained in the OEM command, that have permissions to execute
+                                                                 read or writes to CNXXXX general registers through MRML.
+
+                                                                 Values per entry should be set such that LOW[n]<=HI[n]. To specify a single address the hi
+                                                                 and low are programmed with the same value.
+                                                                 If a range in one set of HI/LOW entries overlaps with another, the
+                                                                 overlap is harmlessly redundant.
+
+                                                                 Address bit <63> is used as the secure bit, and thus to allow secure and
+                                                                 nonsecure access to a given register, both the register's address with <63>=0,
+                                                                 and register's address with <63>=1 must be within the range(s).
+
+                                                                 Default values allow default access to:
+
+                                                                   * All NCSI addresses except secure registers.
+                                                                   * All BGX(0..3) addresses except secure registers.
+                                                                   * All SERDES addresses serving BGX(0...3), namely QLM2, QLM3, DLM4, DLM5 and DLM6.
+
+                                                                 Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ncsi_tx_ncp_permx_table_hi_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the high physical address in formulating a permissions filter for OEM command
+                                                                 access.
+                                                                 Together with the respective NCSI_TX_NCP_PERM()_TABLE_LOW entry, specifies
+                                                                 a range, from NCSI_TX_NCP_PERM_TABLE()_LOW[n] to NCSI_TX_NCP_PERM()_TABLE_HI[n] of
+                                                                 physical addresses, contained in the OEM command, that have permissions to execute
+                                                                 read or writes to CNXXXX general registers through MRML.
+
+                                                                 Values per entry should be set such that LOW[n]<=HI[n]. To specify a single address the hi
+                                                                 and low are programmed with the same value.
+                                                                 If a range in one set of HI/LOW entries overlaps with another, the
+                                                                 overlap is harmlessly redundant.
+
+                                                                 Address bit <63> is used as the secure bit, and thus to allow secure and
+                                                                 nonsecure access to a given register, both the register's address with <63>=0,
+                                                                 and register's address with <63>=1 must be within the range(s).
+
+                                                                 Default values allow default access to:
+
+                                                                   * All NCSI addresses except secure registers.
                                                                    * All BGX0 and BGX1 addresses except secure registers.
                                                                    * All SERDES addresses serving BGX0 and BGX1, namely QLM0 and QLM1.
 
@@ -1830,8 +1882,8 @@ typedef union
 
                                                                  Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_tx_ncp_permx_table_hi_s cn; */
+    } cn88xx;
+    /* struct bdk_ncsi_tx_ncp_permx_table_hi_s cn83xx; */
 } bdk_ncsi_tx_ncp_permx_table_hi_t;
 
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a) __attribute__ ((pure, always_inline));

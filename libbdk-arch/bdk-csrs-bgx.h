@@ -1113,6 +1113,26 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface.
+                                                                 Reported on this LMAC for ids in the range of LMAC_ID+4, LMAC_ID+8 and LMAC_ID+12.
+                                                                 Reported regardless of LMAC enable or P2X_SELECT association for this LMAC. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface.
+                                                                 Reported on this LMAC for ids in the range of LMAC_ID+4, LMAC_ID+8 and LMAC_ID+12.
+                                                                 Reported regardless of LMAC enable or P2X_SELECT association for this LMAC. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_cmrx_int_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. */
         uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
@@ -1124,8 +1144,7 @@ typedef union
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_int_s cn81xx; */
+    } cn81xx;
     struct bdk_bgxx_cmrx_int_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1144,15 +1163,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. */
-        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface.
+                                                                 Reported on this LMAC for ids in the range of LMAC_ID+4, LMAC_ID+8 and LMAC_ID+12.
+                                                                 Reported regardless of LMAC enable or P2X_SELECT association for this LMAC. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface.
+                                                                 Reported on this LMAC for ids in the range of LMAC_ID+4, LMAC_ID+8 and LMAC_ID+12.
+                                                                 Reported regardless of LMAC enable or P2X_SELECT association for this LMAC. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
         uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
 #else /* Word 0 - Little Endian */
         uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
-        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. */
-        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface.
+                                                                 Reported on this LMAC for ids in the range of LMAC_ID+4, LMAC_ID+8 and LMAC_ID+12.
+                                                                 Reported regardless of LMAC enable or P2X_SELECT association for this LMAC. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface.
+                                                                 Reported on this LMAC for ids in the range of LMAC_ID+4, LMAC_ID+8 and LMAC_ID+12.
+                                                                 Reported regardless of LMAC enable or P2X_SELECT association for this LMAC. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;

@@ -1756,10 +1756,14 @@ typedef union
                                                                  DMA operations page will be returned to when freed. */
         uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits <7:0> for instruction reads. Stream ID <15:8> is from the DPI's
                                                                  PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
-                                                                 internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
+
+                                                                 Internal:
+                                                                 Stream ID <15:8> comes from pcc__blk_stream_id. */
         uint64_t dma_strm              : 8;  /**< [ 39: 32](R/W) Stream identifier bits <7:0> for DMA reads and writes. Stream ID <15:8> is from the DPI's
                                                                  PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
-                                                                 internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
+
+                                                                 Internal:
+                                                                 Stream ID <15:8> comes from pcc__blk_stream_id. */
         uint64_t reserved_16_31        : 16;
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID this request queue uses for FPA buffer
                                                                  free/allocates, and for SSO add-works.
@@ -1771,10 +1775,14 @@ typedef union
         uint64_t reserved_16_31        : 16;
         uint64_t dma_strm              : 8;  /**< [ 39: 32](R/W) Stream identifier bits <7:0> for DMA reads and writes. Stream ID <15:8> is from the DPI's
                                                                  PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
-                                                                 internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
+
+                                                                 Internal:
+                                                                 Stream ID <15:8> comes from pcc__blk_stream_id. */
         uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits <7:0> for instruction reads. Stream ID <15:8> is from the DPI's
                                                                  PCC bus identifier, PCC_DEV_CON_E::DPI()<15:8>.
-                                                                 internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
+
+                                                                 Internal:
+                                                                 Stream ID <15:8> comes from pcc__blk_stream_id. */
         uint64_t inst_aura             : 12; /**< [ 59: 48](R/W) FPA guest-aura instruction chunk. The guest-aura that the instruction chunk for
                                                                  DMA operations page will be returned to when freed. */
         uint64_t reserved_60_63        : 4;

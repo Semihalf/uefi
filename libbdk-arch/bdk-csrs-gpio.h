@@ -128,37 +128,24 @@
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN81XX(a) (0x242 + (a)) /**< Multichip debug output; see OCLA chapter. */
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN88XX(a) (0x14 + (a)) /**< Multichip debug output; see OCLA chapter. */
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN83XX(a) (0x242 + (a)) /**< Multichip debug output; see OCLA chapter. */
-#define BDK_GPIO_PIN_SEL_E_NCSI_CN81XX (0x230) /**< Internal:
-                                       NCSI inputs and outputs.
-                                       
-                                       This encoding must be used on 8 contiguous GPIO pins, either GPIO<16..31>,
-                                       GPIO<24..31>, GPIO<32..39>, GPIO<40..47>, GPIO<48..55> or GPIO<56..63>.
-                                       
-                                       <pre>
-                                       NCSI_REF_CLK input = GPIO<16> or <24> or <32> or <40> or <48> or <56>
-                                       NCSI_TX_EN output  = GPIO<17> or <25> or <33> or <41> or <49> or <57>
-                                       NCSI_TXD<0> output = GPIO<18> or <26> or <34> or <42> or <50> or <58>
-                                       NCSI_TXD<1> output = GPIO<19> or <27> or <35> or <43> or <51> or <59>
-                                       NCSI_CRS_DV input  = GPIO<20> or <28> or <36> or <44> or <52> or <60>
-                                       NCSI_RXD<0> input  = GPIO<21> or <29> or <37> or <45> or <53> or <61>
-                                       NCSI_RXD<1> input  = GPIO<22> or <30> or <38> or <46> or <54> or <62>
-                                       NCSI_RX_ER input   = GPIO<23> or <31> or <39> or <47> or <55> or <63>
-                                       </pre> */
-#define BDK_GPIO_PIN_SEL_E_NCSI_CN83XX (0x230) /**< NCSI inputs and outputs.
-                                       
-                                       This encoding must be used on 8 contiguous GPIO pins, either GPIO<16..31>,
-                                       GPIO<24..31>, GPIO<32..39>, GPIO<40..47>, GPIO<48..55> or GPIO<56..63>.
-                                       
-                                       <pre>
-                                       NCSI_REF_CLK input = GPIO<16> or <24> or <32> or <40> or <48> or <56>
-                                       NCSI_TX_EN output  = GPIO<17> or <25> or <33> or <41> or <49> or <57>
-                                       NCSI_TXD<0> output = GPIO<18> or <26> or <34> or <42> or <50> or <58>
-                                       NCSI_TXD<1> output = GPIO<19> or <27> or <35> or <43> or <51> or <59>
-                                       NCSI_CRS_DV input  = GPIO<20> or <28> or <36> or <44> or <52> or <60>
-                                       NCSI_RXD<0> input  = GPIO<21> or <29> or <37> or <45> or <53> or <61>
-                                       NCSI_RXD<1> input  = GPIO<22> or <30> or <38> or <46> or <54> or <62>
-                                       NCSI_RX_ER input   = GPIO<23> or <31> or <39> or <47> or <55> or <63>
-                                       </pre> */
+#define BDK_GPIO_PIN_SEL_E_NCSI_CRS_DV_CN81XX (0x258) /**< Internal:
+                                       NC-SI carrier sense/receive data valid output; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_CRS_DV_CN83XX (0x258) /**< NC-SI carrier sense/receive data valid output; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_REF_CLK_CN81XX (0x25c) /**< Internal:
+                                       NC-SI reference clock input; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_REF_CLK_CN83XX (0x25c) /**< NC-SI reference clock input; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_RXDX_CN81XX(a) (0x25a + (a)) /**< Internal:
+                                       NC-SI receive data output; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_RXDX_CN83XX(a) (0x25a + (a)) /**< NC-SI receive data output; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_RX_ER_CN81XX (0x259) /**< Internal:
+                                       NC-SI receive error output; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_RX_ER_CN83XX (0x259) /**< NC-SI receive error output; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_TXDX_CN81XX(a) (0x25e + (a)) /**< Internal:
+                                       NC-SI transmit data input; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_TXDX_CN83XX(a) (0x25e + (a)) /**< NC-SI transmit data input; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_TX_EN_CN81XX (0x25d) /**< Internal:
+                                       NC-SI transmit enable input; see NCSI chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI_TX_EN_CN83XX (0x25d) /**< NC-SI transmit enable input; see NCSI chapter. */
 #define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN81XX (0x231) /**< OCLA external trigger input; see OCLA()_GEN_CTL[EXTEN].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
@@ -209,9 +196,11 @@
 #define BDK_GPIO_PIN_SEL_E_PCM_FSYNCX_CN81XX(a) (0x24a + (a)) /**< PCM FSYNC bi-directional bus; see TDM/PCM chapter. */
 #define BDK_GPIO_PIN_SEL_E_PCM_FSYNCX_CN83XX(a) (0x24a + (a)) /**< Internal:
                                        CN81XX only. PCM FSYNC bi-directional bus; see TDM/PCM chapter. */
-#define BDK_GPIO_PIN_SEL_E_PTP_EVTCNT (0x252) /**< PTP event count input; see MIO_PTP_CLOCK_CFG. */
+#define BDK_GPIO_PIN_SEL_E_PTP_EVTCNT_CN81XX (0x252) /**< PTP event count input; see PTP chapter. */
+#define BDK_GPIO_PIN_SEL_E_PTP_EVTCNT_CN83XX (0x252) /**< PTP event count input; see MIO_PTP_CLOCK_CFG. */
 #define BDK_GPIO_PIN_SEL_E_PTP_EXT_CLK (0x250) /**< PTP external clock input; see MIO_PTP_CLOCK_CFG. */
-#define BDK_GPIO_PIN_SEL_E_PTP_TSTMP (0x251) /**< PTP time stamp input; see MIO_PTP_CLOCK_CFG. */
+#define BDK_GPIO_PIN_SEL_E_PTP_TSTMP_CN81XX (0x251) /**< PTP time stamp input; see PTP chapter. */
+#define BDK_GPIO_PIN_SEL_E_PTP_TSTMP_CN83XX (0x251) /**< PTP time stamp input; see MIO_PTP_CLOCK_CFG. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN81XX(a) (0x16a + (a)) /**< SATA activity LED output; see SATA chapter. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN88XX(a) (0x60 + (a)) /**< SATA activity LED output; see SATA chapter. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN83XX(a) (0x16a + (a)) /**< SATA activity LED output; see SATA chapter. */

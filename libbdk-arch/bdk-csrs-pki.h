@@ -8272,7 +8272,6 @@ static inline uint64_t BDK_PKI_PBE_ECO_FUNC(void)
  *
  * INTERNAL: PKI PBE FXA Result Register
  *
- * Internal:
  * For diagnostic use only.
  * Reads of this register will indicate whether or not FPA has returned a pointer back
  * to PKI and, if so, the values that were returned.  A write to this register with any
@@ -8286,32 +8285,22 @@ typedef union
     struct bdk_pki_pbe_fxa_result_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W/H) Internal:
-                                                                 If set, indicates that remaining fields within this register are valid to be
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W/H) If set, indicates that remaining fields within this register are valid to be
                                                                  read by SW. */
-        uint64_t fault                 : 1;  /**< [ 62: 62](R/W/H) Internal:
-                                                                 The value of FAULT returned by FPA.  Indicates an illegal combination of GMID/GAURA
+        uint64_t fault                 : 1;  /**< [ 62: 62](R/W/H) The value of FAULT returned by FPA.  Indicates an illegal combination of GMID/GAURA
                                                                  during the request for a pointer. */
-        uint64_t avail                 : 1;  /**< [ 61: 61](R/W/H) Internal:
-                                                                 The value of AVAIL returned by FPA as part of a pointer return. */
-        uint64_t red                   : 1;  /**< [ 60: 60](R/W/H) Internal:
-                                                                 The value of RED returned by FPA as part of a pointer return. */
+        uint64_t avail                 : 1;  /**< [ 61: 61](R/W/H) The value of AVAIL returned by FPA as part of a pointer return. */
+        uint64_t red                   : 1;  /**< [ 60: 60](R/W/H) The value of RED returned by FPA as part of a pointer return. */
         uint64_t reserved_42_59        : 18;
-        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Internal:
-                                                                 Defines the 128-byte aligned pointer returned by FPA.  So pointer<48:7>. */
+        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Defines the 128-byte aligned pointer returned by FPA.  So pointer<48:7>. */
 #else /* Word 0 - Little Endian */
-        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Internal:
-                                                                 Defines the 128-byte aligned pointer returned by FPA.  So pointer<48:7>. */
+        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Defines the 128-byte aligned pointer returned by FPA.  So pointer<48:7>. */
         uint64_t reserved_42_59        : 18;
-        uint64_t red                   : 1;  /**< [ 60: 60](R/W/H) Internal:
-                                                                 The value of RED returned by FPA as part of a pointer return. */
-        uint64_t avail                 : 1;  /**< [ 61: 61](R/W/H) Internal:
-                                                                 The value of AVAIL returned by FPA as part of a pointer return. */
-        uint64_t fault                 : 1;  /**< [ 62: 62](R/W/H) Internal:
-                                                                 The value of FAULT returned by FPA.  Indicates an illegal combination of GMID/GAURA
+        uint64_t red                   : 1;  /**< [ 60: 60](R/W/H) The value of RED returned by FPA as part of a pointer return. */
+        uint64_t avail                 : 1;  /**< [ 61: 61](R/W/H) The value of AVAIL returned by FPA as part of a pointer return. */
+        uint64_t fault                 : 1;  /**< [ 62: 62](R/W/H) The value of FAULT returned by FPA.  Indicates an illegal combination of GMID/GAURA
                                                                  during the request for a pointer. */
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W/H) Internal:
-                                                                 If set, indicates that remaining fields within this register are valid to be
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W/H) If set, indicates that remaining fields within this register are valid to be
                                                                  read by SW. */
 #endif /* Word 0 - End */
     } s;
@@ -8339,7 +8328,6 @@ static inline uint64_t BDK_PKI_PBE_FXA_RESULT_FUNC(void)
  *
  * INTERNAL: PKI PBE LWA Inject High Register
  *
- * Internal:
  * For diagnostic use only.
  * A write to this register will prepare some of the control fields needed to initiate
  * a long work add request so SSO.  The request will not be made until both
@@ -8355,19 +8343,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t gmid                  : 16; /**< [ 47: 32](R/W) Internal:
-                                                                 Bus GMID field for the request when written.  Reads as 0. */
-        uint64_t tag                   : 32; /**< [ 31:  0](R/W) Internal:
-                                                                 Bus tag field for the request when written.
+        uint64_t gmid                  : 16; /**< [ 47: 32](R/W) Bus GMID field for the request when written.  Reads as 0. */
+        uint64_t tag                   : 32; /**< [ 31:  0](R/W) Bus tag field for the request when written.
                                                                  On a read, <0> indicates that a previous LWA request
                                                                  is pending (SSO has not yet given a grant for the request). */
 #else /* Word 0 - Little Endian */
-        uint64_t tag                   : 32; /**< [ 31:  0](R/W) Internal:
-                                                                 Bus tag field for the request when written.
+        uint64_t tag                   : 32; /**< [ 31:  0](R/W) Bus tag field for the request when written.
                                                                  On a read, <0> indicates that a previous LWA request
                                                                  is pending (SSO has not yet given a grant for the request). */
-        uint64_t gmid                  : 16; /**< [ 47: 32](R/W) Internal:
-                                                                 Bus GMID field for the request when written.  Reads as 0. */
+        uint64_t gmid                  : 16; /**< [ 47: 32](R/W) Bus GMID field for the request when written.  Reads as 0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -8395,7 +8379,6 @@ static inline uint64_t BDK_PKI_PBE_LWA_INJECT_HI_FUNC(void)
  *
  * INTERNAL: PKI PBE LWA Inject Low Register
  *
- * Internal:
  * For diagnostic use only.
  * A write to this register will prepare some of the control fields needed to initiate
  * a long work add request so SSO.  The request will not be made until both
@@ -8410,31 +8393,23 @@ typedef union
     struct bdk_pki_pbe_lwa_inject_lo_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ttype                 : 2;  /**< [ 63: 62](R/W) Internal:
-                                                                 Bus ttype field for request when written.  Reads as 0. */
+        uint64_t ttype                 : 2;  /**< [ 63: 62](R/W) Bus ttype field for request when written.  Reads as 0. */
         uint64_t reserved_61           : 1;
-        uint64_t lwa                   : 1;  /**< [ 60: 60](R/W) Internal:
-                                                                 Bus LWA field for request when written.  Reads as 0. */
-        uint64_t ggrp                  : 10; /**< [ 59: 50](R/W) Internal:
-                                                                 Bus GGRP field for request when written.  Reads as 0. */
+        uint64_t lwa                   : 1;  /**< [ 60: 60](R/W) Bus LWA field for request when written.  Reads as 0. */
+        uint64_t ggrp                  : 10; /**< [ 59: 50](R/W) Bus GGRP field for request when written.  Reads as 0. */
         uint64_t reserved_46_49        : 4;
-        uint64_t wqp                   : 46; /**< [ 45:  0](R/W) Internal:
-                                                                 Bus WQP<48:3> field for the LWA request to SSO when written.
+        uint64_t wqp                   : 46; /**< [ 45:  0](R/W) Bus WQP<48:3> field for the LWA request to SSO when written.
                                                                  On a read, <0> indicates that a previous LWA request
                                                                  is pending (SSO has not yet given a grant for the request). */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 46; /**< [ 45:  0](R/W) Internal:
-                                                                 Bus WQP<48:3> field for the LWA request to SSO when written.
+        uint64_t wqp                   : 46; /**< [ 45:  0](R/W) Bus WQP<48:3> field for the LWA request to SSO when written.
                                                                  On a read, <0> indicates that a previous LWA request
                                                                  is pending (SSO has not yet given a grant for the request). */
         uint64_t reserved_46_49        : 4;
-        uint64_t ggrp                  : 10; /**< [ 59: 50](R/W) Internal:
-                                                                 Bus GGRP field for request when written.  Reads as 0. */
-        uint64_t lwa                   : 1;  /**< [ 60: 60](R/W) Internal:
-                                                                 Bus LWA field for request when written.  Reads as 0. */
+        uint64_t ggrp                  : 10; /**< [ 59: 50](R/W) Bus GGRP field for request when written.  Reads as 0. */
+        uint64_t lwa                   : 1;  /**< [ 60: 60](R/W) Bus LWA field for request when written.  Reads as 0. */
         uint64_t reserved_61           : 1;
-        uint64_t ttype                 : 2;  /**< [ 63: 62](R/W) Internal:
-                                                                 Bus ttype field for request when written.  Reads as 0. */
+        uint64_t ttype                 : 2;  /**< [ 63: 62](R/W) Bus ttype field for request when written.  Reads as 0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_lwa_inject_lo_s cn; */
@@ -8461,7 +8436,6 @@ static inline uint64_t BDK_PKI_PBE_LWA_INJECT_LO_FUNC(void)
  *
  * INTERNAL: PKI PBE XFR Inject Register
  *
- * Internal:
  * For diagnostic use only.
  * A write to this register will initiate a pointer request using the fields shown below.
  * A read of this register is 0x0 for all bits except <0> which indicates if
@@ -8474,25 +8448,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
-        uint64_t red                   : 1;  /**< [ 33: 33](R/W) Internal:
-                                                                 RED field for request when written.  Reads as 0. */
-        uint64_t drop                  : 1;  /**< [ 32: 32](R/W) Internal:
-                                                                 DROP field for request when written.  Reads as 0. */
-        uint64_t gmid                  : 16; /**< [ 31: 16](R/W) Internal:
-                                                                 GMID field for request when written.  Reads as 0. */
-        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
-                                                                 GAURA field for request when written.  On reads,
+        uint64_t red                   : 1;  /**< [ 33: 33](R/W) RED field for request when written.  Reads as 0. */
+        uint64_t drop                  : 1;  /**< [ 32: 32](R/W) DROP field for request when written.  Reads as 0. */
+        uint64_t gmid                  : 16; /**< [ 31: 16](R/W) GMID field for request when written.  Reads as 0. */
+        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) GAURA field for request when written.  On reads,
                                                                  indicates a previously initiated request is still waiting for grant. */
 #else /* Word 0 - Little Endian */
-        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
-                                                                 GAURA field for request when written.  On reads,
+        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) GAURA field for request when written.  On reads,
                                                                  indicates a previously initiated request is still waiting for grant. */
-        uint64_t gmid                  : 16; /**< [ 31: 16](R/W) Internal:
-                                                                 GMID field for request when written.  Reads as 0. */
-        uint64_t drop                  : 1;  /**< [ 32: 32](R/W) Internal:
-                                                                 DROP field for request when written.  Reads as 0. */
-        uint64_t red                   : 1;  /**< [ 33: 33](R/W) Internal:
-                                                                 RED field for request when written.  Reads as 0. */
+        uint64_t gmid                  : 16; /**< [ 31: 16](R/W) GMID field for request when written.  Reads as 0. */
+        uint64_t drop                  : 1;  /**< [ 32: 32](R/W) DROP field for request when written.  Reads as 0. */
+        uint64_t red                   : 1;  /**< [ 33: 33](R/W) RED field for request when written.  Reads as 0. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
@@ -8520,7 +8486,6 @@ static inline uint64_t BDK_PKI_PBE_XFR_INJECT_FUNC(void)
  *
  * INTERNAL: PKI PBE XPD Inject High Register
  *
- * Internal:
  * For diagnostic use only.
  * A write to this register will prepare some of the control fields needed to initiate
  * a pointer deallocate request.  The request will not be made until both
@@ -8535,35 +8500,25 @@ typedef union
     struct bdk_pki_pbe_xpd_inject_hi_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t gmid                  : 16; /**< [ 63: 48](R/W) Internal:
-                                                                 GMID field for request when written.  Reads as 0. */
+        uint64_t gmid                  : 16; /**< [ 63: 48](R/W) GMID field for request when written.  Reads as 0. */
         uint64_t reserved_38_47        : 10;
-        uint64_t abs                   : 1;  /**< [ 37: 37](R/W) Internal:
-                                                                 ABS field for request when written.  Reads as 0. */
-        uint64_t sub                   : 1;  /**< [ 36: 36](R/W) Internal:
-                                                                 SUB field for request when written.  Reads as 0. */
+        uint64_t abs                   : 1;  /**< [ 37: 37](R/W) ABS field for request when written.  Reads as 0. */
+        uint64_t sub                   : 1;  /**< [ 36: 36](R/W) SUB field for request when written.  Reads as 0. */
         uint64_t reserved_33_35        : 3;
-        uint64_t value                 : 17; /**< [ 32: 16](R/W) Internal:
-                                                                 VALUE field for request when written.  Reads as 0. */
-        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
-                                                                 GAURA field for the request when written.
+        uint64_t value                 : 17; /**< [ 32: 16](R/W) VALUE field for request when written.  Reads as 0. */
+        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) GAURA field for the request when written.
                                                                  On a read, <0> indicates that a previous deallocate request
                                                                  is pending (FPA has not yet given a grant for the request). */
 #else /* Word 0 - Little Endian */
-        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
-                                                                 GAURA field for the request when written.
+        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) GAURA field for the request when written.
                                                                  On a read, <0> indicates that a previous deallocate request
                                                                  is pending (FPA has not yet given a grant for the request). */
-        uint64_t value                 : 17; /**< [ 32: 16](R/W) Internal:
-                                                                 VALUE field for request when written.  Reads as 0. */
+        uint64_t value                 : 17; /**< [ 32: 16](R/W) VALUE field for request when written.  Reads as 0. */
         uint64_t reserved_33_35        : 3;
-        uint64_t sub                   : 1;  /**< [ 36: 36](R/W) Internal:
-                                                                 SUB field for request when written.  Reads as 0. */
-        uint64_t abs                   : 1;  /**< [ 37: 37](R/W) Internal:
-                                                                 ABS field for request when written.  Reads as 0. */
+        uint64_t sub                   : 1;  /**< [ 36: 36](R/W) SUB field for request when written.  Reads as 0. */
+        uint64_t abs                   : 1;  /**< [ 37: 37](R/W) ABS field for request when written.  Reads as 0. */
         uint64_t reserved_38_47        : 10;
-        uint64_t gmid                  : 16; /**< [ 63: 48](R/W) Internal:
-                                                                 GMID field for request when written.  Reads as 0. */
+        uint64_t gmid                  : 16; /**< [ 63: 48](R/W) GMID field for request when written.  Reads as 0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_xpd_inject_hi_s cn; */
@@ -8590,7 +8545,6 @@ static inline uint64_t BDK_PKI_PBE_XPD_INJECT_HI_FUNC(void)
  *
  * INTERNAL: PKI PBE XPD Inject Low Register
  *
- * Internal:
  * For diagnostic use only.
  * A write to this register will prepare some of the control fields needed to initiate
  * a pointer deallocate request.  The request will not be made until both
@@ -8605,21 +8559,17 @@ typedef union
     struct bdk_pki_pbe_xpd_inject_lo_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dmode                 : 2;  /**< [ 63: 62](R/W) Internal:
-                                                                 Defines DMODE field for request when written.  Reads as 0. */
+        uint64_t dmode                 : 2;  /**< [ 63: 62](R/W) Defines DMODE field for request when written.  Reads as 0. */
         uint64_t reserved_42_61        : 20;
-        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Internal:
-                                                                 Defines the 128-byte aligned pointer to be deallocated.  So pointer<48:7>.
+        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Defines the 128-byte aligned pointer to be deallocated.  So pointer<48:7>.
                                                                  On a read, <0> indicates that a previous deallocate request
                                                                  is pending (FPA has not yet given a grant for the request). */
 #else /* Word 0 - Little Endian */
-        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Internal:
-                                                                 Defines the 128-byte aligned pointer to be deallocated.  So pointer<48:7>.
+        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Defines the 128-byte aligned pointer to be deallocated.  So pointer<48:7>.
                                                                  On a read, <0> indicates that a previous deallocate request
                                                                  is pending (FPA has not yet given a grant for the request). */
         uint64_t reserved_42_61        : 20;
-        uint64_t dmode                 : 2;  /**< [ 63: 62](R/W) Internal:
-                                                                 Defines DMODE field for request when written.  Reads as 0. */
+        uint64_t dmode                 : 2;  /**< [ 63: 62](R/W) Defines DMODE field for request when written.  Reads as 0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_xpd_inject_lo_s cn; */
@@ -9122,6 +9072,223 @@ static inline uint64_t BDK_PKI_PKT_ERR_FUNC(void)
 #define device_bar_BDK_PKI_PKT_ERR 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PKT_ERR 0
 #define arguments_BDK_PKI_PKT_ERR -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_pstat_cfg
+ *
+ * INTERNAL: PKI Performance Statistics Configuration Register
+ *
+ * This register configures the performance statistics logic.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pstat_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t mode                  : 1;  /**< [ 12: 12](R/W) Select which pipelines are used for latency sampling:
+
+                                                                 0 = The following PBE pipes are sampled:
+                                                                   * PKI_PSTATA_STAT(0) etc. sample FPA request latency.
+                                                                   * PKI_PSTATA_STAT(1) etc. sample PFE to PBE transfer latency.
+                                                                   * PKI_PSTATA_STAT(2) etc. sample store commit latency.
+
+                                                                 1 = The following PFE pipes are sampled:
+                                                                   * PKI_PSTATA_STAT(0) etc. sample packet load time.
+                                                                   * PKI_PSTATA_STAT(1) etc. sample PIX scheduling time.
+                                                                   * PKI_PSTATA_STAT(2) etc. sample PIX processing time. */
+        uint64_t gran2                 : 4;  /**< [ 11:  8](R/W) Granularity 2. Number of bits to left-shift count inputs to counter 2. */
+        uint64_t gran1                 : 4;  /**< [  7:  4](R/W) Granularity 1. Number of bits to left-shift count inputs to counter 1. */
+        uint64_t gran0                 : 4;  /**< [  3:  0](R/W) Granularity 0. Number of bits to left-shift count inputs to counter 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t gran0                 : 4;  /**< [  3:  0](R/W) Granularity 0. Number of bits to left-shift count inputs to counter 0. */
+        uint64_t gran1                 : 4;  /**< [  7:  4](R/W) Granularity 1. Number of bits to left-shift count inputs to counter 1. */
+        uint64_t gran2                 : 4;  /**< [ 11:  8](R/W) Granularity 2. Number of bits to left-shift count inputs to counter 2. */
+        uint64_t mode                  : 1;  /**< [ 12: 12](R/W) Select which pipelines are used for latency sampling:
+
+                                                                 0 = The following PBE pipes are sampled:
+                                                                   * PKI_PSTATA_STAT(0) etc. sample FPA request latency.
+                                                                   * PKI_PSTATA_STAT(1) etc. sample PFE to PBE transfer latency.
+                                                                   * PKI_PSTATA_STAT(2) etc. sample store commit latency.
+
+                                                                 1 = The following PFE pipes are sampled:
+                                                                   * PKI_PSTATA_STAT(0) etc. sample packet load time.
+                                                                   * PKI_PSTATA_STAT(1) etc. sample PIX scheduling time.
+                                                                   * PKI_PSTATA_STAT(2) etc. sample PIX processing time. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pstat_cfg_s cn; */
+} bdk_pki_pstat_cfg_t;
+
+#define BDK_PKI_PSTAT_CFG BDK_PKI_PSTAT_CFG_FUNC()
+static inline uint64_t BDK_PKI_PSTAT_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PSTAT_CFG_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000f14200ll;
+    __bdk_csr_fatal("PKI_PSTAT_CFG", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PSTAT_CFG bdk_pki_pstat_cfg_t
+#define bustype_BDK_PKI_PSTAT_CFG BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PSTAT_CFG "PKI_PSTAT_CFG"
+#define device_bar_BDK_PKI_PSTAT_CFG 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PSTAT_CFG 0
+#define arguments_BDK_PKI_PSTAT_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_pstat_cntr
+ *
+ * INTERNAL: PKI Performance Statistics Counter Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pstat_cntr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cntr                  : 64; /**< [ 63:  0](R/W/H) Number of coprocessor-clock cycles over which to sample performance statistics. */
+#else /* Word 0 - Little Endian */
+        uint64_t cntr                  : 64; /**< [ 63:  0](R/W/H) Number of coprocessor-clock cycles over which to sample performance statistics. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pstat_cntr_s cn; */
+} bdk_pki_pstat_cntr_t;
+
+#define BDK_PKI_PSTAT_CNTR BDK_PKI_PSTAT_CNTR_FUNC()
+static inline uint64_t BDK_PKI_PSTAT_CNTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PSTAT_CNTR_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000f14208ll;
+    __bdk_csr_fatal("PKI_PSTAT_CNTR", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PSTAT_CNTR bdk_pki_pstat_cntr_t
+#define bustype_BDK_PKI_PSTAT_CNTR BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PSTAT_CNTR "PKI_PSTAT_CNTR"
+#define device_bar_BDK_PKI_PSTAT_CNTR 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PSTAT_CNTR 0
+#define arguments_BDK_PKI_PSTAT_CNTR -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_pstata_stat#
+ *
+ * INTERNAL: PKI Performance Statistics Average Registers
+ *
+ * This register holds statistics for the chosen metrics.
+ * See PKI_PSTAT_CFG[MODE] for the meaning of each index.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pstata_statx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W) Accumulated sum of latencies of the selected statistic. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W) Accumulated sum of latencies of the selected statistic. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pstata_statx_s cn; */
+} bdk_pki_pstata_statx_t;
+
+static inline uint64_t BDK_PKI_PSTATA_STATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PSTATA_STATX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x86c000f14000ll + 0x20ll * ((a) & 0x3);
+    __bdk_csr_fatal("PKI_PSTATA_STATX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PSTATA_STATX(a) bdk_pki_pstata_statx_t
+#define bustype_BDK_PKI_PSTATA_STATX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PSTATA_STATX(a) "PKI_PSTATA_STATX"
+#define device_bar_BDK_PKI_PSTATA_STATX(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PSTATA_STATX(a) (a)
+#define arguments_BDK_PKI_PSTATA_STATX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pki_pstatb_stat#
+ *
+ * INTERNAL: PKI Performance Statistics Sampled Registers
+ *
+ * This register holds statistics for the chosen metrics.
+ * See PKI_PSTAT_CFG[MODE] for the meaning of each index.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pstatb_statx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W) Number of packets sampled for the selected statistic. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W) Number of packets sampled for the selected statistic. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pstatb_statx_s cn; */
+} bdk_pki_pstatb_statx_t;
+
+static inline uint64_t BDK_PKI_PSTATB_STATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PSTATB_STATX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x86c000f14008ll + 0x20ll * ((a) & 0x3);
+    __bdk_csr_fatal("PKI_PSTATB_STATX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PSTATB_STATX(a) bdk_pki_pstatb_statx_t
+#define bustype_BDK_PKI_PSTATB_STATX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PSTATB_STATX(a) "PKI_PSTATB_STATX"
+#define device_bar_BDK_PKI_PSTATB_STATX(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PSTATB_STATX(a) (a)
+#define arguments_BDK_PKI_PSTATB_STATX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pki_pstatc_stat#
+ *
+ * INTERNAL: PKI Performance Statistics Minimum/Maximum Registers
+ *
+ * This register holds statistics for the chosen metrics.
+ * See PKI_PSTAT_CFG[MODE] for the meaning of each index.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pstatc_statx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t ov                    : 1;  /**< [ 42: 42](RO/H) Statistic counter overflowed. */
+        uint64_t max_lat               : 21; /**< [ 41: 21](R/W) Maximum value of statistic. */
+        uint64_t min_lat               : 21; /**< [ 20:  0](R/W) Minimum value of statistic. */
+#else /* Word 0 - Little Endian */
+        uint64_t min_lat               : 21; /**< [ 20:  0](R/W) Minimum value of statistic. */
+        uint64_t max_lat               : 21; /**< [ 41: 21](R/W) Maximum value of statistic. */
+        uint64_t ov                    : 1;  /**< [ 42: 42](RO/H) Statistic counter overflowed. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pstatc_statx_s cn; */
+} bdk_pki_pstatc_statx_t;
+
+static inline uint64_t BDK_PKI_PSTATC_STATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PSTATC_STATX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x86c000f14010ll + 0x20ll * ((a) & 0x3);
+    __bdk_csr_fatal("PKI_PSTATC_STATX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PSTATC_STATX(a) bdk_pki_pstatc_statx_t
+#define bustype_BDK_PKI_PSTATC_STATX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PSTATC_STATX(a) "PKI_PSTATC_STATX"
+#define device_bar_BDK_PKI_PSTATC_STATX(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PSTATC_STATX(a) (a)
+#define arguments_BDK_PKI_PSTATC_STATX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pki_ptag_avail

@@ -1406,33 +1406,34 @@ typedef union
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1C/H) Single-bit error for  RAM. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Double-bit error for WES RAM. */
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Single-bit error for WES RAM. */
-        uint64_t reserved_10_31        : 22;
-        uint64_t gmid_multi            : 1;  /**< [  9:  9](R/W1C/H) GMID map had double hit error. Set when either:
+        uint64_t reserved_11_31        : 21;
+        uint64_t gmid_multi            : 1;  /**< [ 10: 10](R/W1C/H) GMID map had double hit error. Set when either:
 
                                                                    * Coprocessor add-work is dropped due to SSO_PF_MAP() having a double
                                                                  hit. When a request thus dropped, even if this bit is already set,
                                                                  SSO_UNMAP_INFO is loaded.
 
                                                                    * An AP initiated operation results in a double hit. */
-        uint64_t gmid_unmap            : 1;  /**< [  8:  8](R/W1C/H) GMID mapping not found error. Set when either:
+        uint64_t gmid_unmap            : 1;  /**< [  9:  9](R/W1C/H) GMID mapping not found error. Set when either:
 
                                                                    * Coprocessor add-work dropped due to that coprocessor requesting with GMID
                                                                  not mapped in SSO_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, SSO_UNMAP_INFO is loaded.
 
                                                                    * An AP initiated operation has a request with an unmapped GMID. */
-        uint64_t gmid0                 : 1;  /**< [  7:  7](R/W1C/H) GMID zero access error. Set when either:
+        uint64_t gmid0                 : 1;  /**< [  8:  8](R/W1C/H) GMID zero access error. Set when either:
 
                                                                    * Coprocessor add-work dropped due to that coprocessor requesting with
                                                                  GMID=0x0. See PKI_QPG_TBLB()[GMID], TIM_RING()_GMCTL[GMID], and other GMID
                                                                  registers.
 
                                                                    * An AP initiated operation has a request with GMID 0. */
-        uint64_t addwq_dropped_wqp0    : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to WQP being 0x0. */
-        uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1C/H) Add work dropped due to wrong command/DID requested. */
-        uint64_t awempty               : 1;  /**< [  4:  4](R/W1C/H) Received add work with tag specified as EMPTY. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1C/H) Add work to disabled hardware-group. An ADDWQ was received and dropped to a
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Add work dropped due to WQP being 0x0. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to wrong command/DID requested. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Received add work with tag specified as EMPTY. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Add work to disabled hardware-group. An ADDWQ was received and dropped to a
                                                                  hardware-group with SSO_GRP()_IAQ_THR[RSVD_THR] = 0. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Bad-fill-packet NCB error. NCB detected error on fill data. */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Bad-fill-packet error. The WAE VLD_CRC field was incorrect, or the XAQ next address was
                                                                  zero. */
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1C/H) Out-of-memory error. (ADDWQ request is dropped.) */
@@ -1444,33 +1445,34 @@ typedef union
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1C/H) Out-of-memory error. (ADDWQ request is dropped.) */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Bad-fill-packet error. The WAE VLD_CRC field was incorrect, or the XAQ next address was
                                                                  zero. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1C/H) Add work to disabled hardware-group. An ADDWQ was received and dropped to a
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Bad-fill-packet NCB error. NCB detected error on fill data. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Add work to disabled hardware-group. An ADDWQ was received and dropped to a
                                                                  hardware-group with SSO_GRP()_IAQ_THR[RSVD_THR] = 0. */
-        uint64_t awempty               : 1;  /**< [  4:  4](R/W1C/H) Received add work with tag specified as EMPTY. */
-        uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1C/H) Add work dropped due to wrong command/DID requested. */
-        uint64_t addwq_dropped_wqp0    : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to WQP being 0x0. */
-        uint64_t gmid0                 : 1;  /**< [  7:  7](R/W1C/H) GMID zero access error. Set when either:
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Received add work with tag specified as EMPTY. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to wrong command/DID requested. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Add work dropped due to WQP being 0x0. */
+        uint64_t gmid0                 : 1;  /**< [  8:  8](R/W1C/H) GMID zero access error. Set when either:
 
                                                                    * Coprocessor add-work dropped due to that coprocessor requesting with
                                                                  GMID=0x0. See PKI_QPG_TBLB()[GMID], TIM_RING()_GMCTL[GMID], and other GMID
                                                                  registers.
 
                                                                    * An AP initiated operation has a request with GMID 0. */
-        uint64_t gmid_unmap            : 1;  /**< [  8:  8](R/W1C/H) GMID mapping not found error. Set when either:
+        uint64_t gmid_unmap            : 1;  /**< [  9:  9](R/W1C/H) GMID mapping not found error. Set when either:
 
                                                                    * Coprocessor add-work dropped due to that coprocessor requesting with GMID
                                                                  not mapped in SSO_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, SSO_UNMAP_INFO is loaded.
 
                                                                    * An AP initiated operation has a request with an unmapped GMID. */
-        uint64_t gmid_multi            : 1;  /**< [  9:  9](R/W1C/H) GMID map had double hit error. Set when either:
+        uint64_t gmid_multi            : 1;  /**< [ 10: 10](R/W1C/H) GMID map had double hit error. Set when either:
 
                                                                    * Coprocessor add-work is dropped due to SSO_PF_MAP() having a double
                                                                  hit. When a request thus dropped, even if this bit is already set,
                                                                  SSO_UNMAP_INFO is loaded.
 
                                                                    * An AP initiated operation results in a double hit. */
-        uint64_t reserved_10_31        : 22;
+        uint64_t reserved_11_31        : 21;
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Single-bit error for WES RAM. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Double-bit error for WES RAM. */
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1C/H) Single-bit error for  RAM. */
@@ -1554,14 +1556,15 @@ typedef union
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for SSO_ERR0[FFF_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for SSO_ERR0[WES_DBE]. */
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for SSO_ERR0[WES_SBE]. */
-        uint64_t reserved_10_31        : 22;
-        uint64_t gmid_multi            : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_MULTI]. */
-        uint64_t gmid_unmap            : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_UNMAP]. */
-        uint64_t gmid0                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID0]. */
-        uint64_t addwq_dropped_wqp0    : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
-        uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED]. */
-        uint64_t awempty               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SSO_ERR0[AWEMPTY]. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_ERR0[GRPDIS]. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t gmid_multi            : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_MULTI]. */
+        uint64_t gmid_unmap            : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_UNMAP]. */
+        uint64_t gmid0                 : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID0]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SSO_ERR0[AWEMPTY]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SSO_ERR0[GRPDIS]. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_ERR0[BFPN]. */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_ERR0[BFP]. */
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_ERR0[AWE]. */
         uint64_t fpe                   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SSO_ERR0[FPE]. */
@@ -1569,14 +1572,15 @@ typedef union
         uint64_t fpe                   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SSO_ERR0[FPE]. */
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_ERR0[AWE]. */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_ERR0[BFP]. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_ERR0[GRPDIS]. */
-        uint64_t awempty               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SSO_ERR0[AWEMPTY]. */
-        uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED]. */
-        uint64_t addwq_dropped_wqp0    : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
-        uint64_t gmid0                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID0]. */
-        uint64_t gmid_unmap            : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_UNMAP]. */
-        uint64_t gmid_multi            : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_MULTI]. */
-        uint64_t reserved_10_31        : 22;
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_ERR0[BFPN]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SSO_ERR0[GRPDIS]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SSO_ERR0[AWEMPTY]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t gmid0                 : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID0]. */
+        uint64_t gmid_unmap            : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_UNMAP]. */
+        uint64_t gmid_multi            : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_MULTI]. */
+        uint64_t reserved_11_31        : 21;
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for SSO_ERR0[WES_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for SSO_ERR0[WES_DBE]. */
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for SSO_ERR0[FFF_SBE]. */
@@ -1660,14 +1664,15 @@ typedef union
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for SSO_ERR0[FFF_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for SSO_ERR0[WES_DBE]. */
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for SSO_ERR0[WES_SBE]. */
-        uint64_t reserved_10_31        : 22;
-        uint64_t gmid_multi            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_MULTI]. */
-        uint64_t gmid_unmap            : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_UNMAP]. */
-        uint64_t gmid0                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID0]. */
-        uint64_t addwq_dropped_wqp0    : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
-        uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED]. */
-        uint64_t awempty               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SSO_ERR0[AWEMPTY]. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_ERR0[GRPDIS]. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t gmid_multi            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_MULTI]. */
+        uint64_t gmid_unmap            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_UNMAP]. */
+        uint64_t gmid0                 : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID0]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SSO_ERR0[AWEMPTY]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SSO_ERR0[GRPDIS]. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_ERR0[BFPN]. */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_ERR0[BFP]. */
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_ERR0[AWE]. */
         uint64_t fpe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SSO_ERR0[FPE]. */
@@ -1675,14 +1680,15 @@ typedef union
         uint64_t fpe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SSO_ERR0[FPE]. */
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_ERR0[AWE]. */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_ERR0[BFP]. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_ERR0[GRPDIS]. */
-        uint64_t awempty               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SSO_ERR0[AWEMPTY]. */
-        uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED]. */
-        uint64_t addwq_dropped_wqp0    : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
-        uint64_t gmid0                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID0]. */
-        uint64_t gmid_unmap            : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_UNMAP]. */
-        uint64_t gmid_multi            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_MULTI]. */
-        uint64_t reserved_10_31        : 22;
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_ERR0[BFPN]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SSO_ERR0[GRPDIS]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SSO_ERR0[AWEMPTY]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t gmid0                 : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID0]. */
+        uint64_t gmid_unmap            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_UNMAP]. */
+        uint64_t gmid_multi            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_MULTI]. */
+        uint64_t reserved_11_31        : 21;
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for SSO_ERR0[WES_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for SSO_ERR0[WES_DBE]. */
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for SSO_ERR0[FFF_SBE]. */
@@ -1766,14 +1772,15 @@ typedef union
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets SSO_ERR0[FFF_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets SSO_ERR0[WES_DBE]. */
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets SSO_ERR0[WES_SBE]. */
-        uint64_t reserved_10_31        : 22;
-        uint64_t gmid_multi            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SSO_ERR0[GMID_MULTI]. */
-        uint64_t gmid_unmap            : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SSO_ERR0[GMID_UNMAP]. */
-        uint64_t gmid0                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SSO_ERR0[GMID0]. */
-        uint64_t addwq_dropped_wqp0    : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
-        uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED]. */
-        uint64_t awempty               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SSO_ERR0[AWEMPTY]. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_ERR0[GRPDIS]. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t gmid_multi            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets SSO_ERR0[GMID_MULTI]. */
+        uint64_t gmid_unmap            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SSO_ERR0[GMID_UNMAP]. */
+        uint64_t gmid0                 : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SSO_ERR0[GMID0]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SSO_ERR0[AWEMPTY]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SSO_ERR0[GRPDIS]. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_ERR0[BFPN]. */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_ERR0[BFP]. */
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_ERR0[AWE]. */
         uint64_t fpe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SSO_ERR0[FPE]. */
@@ -1781,14 +1788,15 @@ typedef union
         uint64_t fpe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SSO_ERR0[FPE]. */
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_ERR0[AWE]. */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_ERR0[BFP]. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_ERR0[GRPDIS]. */
-        uint64_t awempty               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SSO_ERR0[AWEMPTY]. */
-        uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED]. */
-        uint64_t addwq_dropped_wqp0    : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
-        uint64_t gmid0                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SSO_ERR0[GMID0]. */
-        uint64_t gmid_unmap            : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SSO_ERR0[GMID_UNMAP]. */
-        uint64_t gmid_multi            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SSO_ERR0[GMID_MULTI]. */
-        uint64_t reserved_10_31        : 22;
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_ERR0[BFPN]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SSO_ERR0[GRPDIS]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SSO_ERR0[AWEMPTY]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t gmid0                 : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SSO_ERR0[GMID0]. */
+        uint64_t gmid_unmap            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SSO_ERR0[GMID_UNMAP]. */
+        uint64_t gmid_multi            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets SSO_ERR0[GMID_MULTI]. */
+        uint64_t reserved_11_31        : 21;
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets SSO_ERR0[WES_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets SSO_ERR0[WES_DBE]. */
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets SSO_ERR0[FFF_SBE]. */
@@ -2146,10 +2154,11 @@ typedef union
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1C/H) Work-slot operation found a SSO_PF_MAP() double hit; no-work was returned or the
                                                                  switch-tag was not performed. When a request thus dropped, even if this bit is
                                                                  already set, SSO_UNMAP_INFO is loaded. */
-        uint64_t reserved_14_27        : 14;
-        uint64_t iop                   : 14; /**< [ 13:  0](R/W1C/H) Illegal operation errors:
-                                                                 <13> = Received command before SSO_RESET[BUSY] cleared.
-                                                                 <12> = Received illegal opcode.
+        uint64_t reserved_15_27        : 13;
+        uint64_t iop                   : 15; /**< [ 14:  0](R/W1C/H) Illegal operation errors:
+                                                                 <14> = Received command before SSO_RESET[BUSY] cleared.
+                                                                 <13> = Received illegal opcode.
+                                                                 <12> = Received GET_WORK(INDEXED) when SSO_HWS()_GMCTL[GW_INDX_ENA] is zero.
                                                                  <11> = Received illegal load for work slot op.
                                                                  <10> = Received illegal store for work slot op.
                                                                  <9> = Received UPD_WQP_GRP/SWTAG_FULL/CLR_NSCHED with WQP=0
@@ -2168,9 +2177,10 @@ typedef union
                                                                  <0> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP from work slot in EMPTY
                                                                  state. */
 #else /* Word 0 - Little Endian */
-        uint64_t iop                   : 14; /**< [ 13:  0](R/W1C/H) Illegal operation errors:
-                                                                 <13> = Received command before SSO_RESET[BUSY] cleared.
-                                                                 <12> = Received illegal opcode.
+        uint64_t iop                   : 15; /**< [ 14:  0](R/W1C/H) Illegal operation errors:
+                                                                 <14> = Received command before SSO_RESET[BUSY] cleared.
+                                                                 <13> = Received illegal opcode.
+                                                                 <12> = Received GET_WORK(INDEXED) when SSO_HWS()_GMCTL[GW_INDX_ENA] is zero.
                                                                  <11> = Received illegal load for work slot op.
                                                                  <10> = Received illegal store for work slot op.
                                                                  <9> = Received UPD_WQP_GRP/SWTAG_FULL/CLR_NSCHED with WQP=0
@@ -2188,7 +2198,7 @@ typedef union
                                                                  <1> = Received SWTAG/SWTAG_DESCH/DESCH/UPD_WQP_GRP from work slot in UNTAGGED state.
                                                                  <0> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP from work slot in EMPTY
                                                                  state. */
-        uint64_t reserved_14_27        : 14;
+        uint64_t reserved_15_27        : 13;
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1C/H) Work-slot operation found a SSO_PF_MAP() double hit; no-work was returned or the
                                                                  switch-tag was not performed. When a request thus dropped, even if this bit is
                                                                  already set, SSO_UNMAP_INFO is loaded. */
@@ -2270,11 +2280,11 @@ typedef union
         uint64_t ws_gmid0              : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_GMID0]. */
         uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_MULTI]. */
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_UNMAP]. */
-        uint64_t reserved_14_27        : 14;
-        uint64_t iop                   : 14; /**< [ 13:  0](R/W1C/H) Reads or clears enable for SSO_ERR2[IOP]. */
+        uint64_t reserved_15_27        : 13;
+        uint64_t iop                   : 15; /**< [ 14:  0](R/W1C/H) Reads or clears enable for SSO_ERR2[IOP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t iop                   : 14; /**< [ 13:  0](R/W1C/H) Reads or clears enable for SSO_ERR2[IOP]. */
-        uint64_t reserved_14_27        : 14;
+        uint64_t iop                   : 15; /**< [ 14:  0](R/W1C/H) Reads or clears enable for SSO_ERR2[IOP]. */
+        uint64_t reserved_15_27        : 13;
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_UNMAP]. */
         uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_MULTI]. */
         uint64_t ws_gmid0              : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_GMID0]. */
@@ -2350,11 +2360,11 @@ typedef union
         uint64_t ws_gmid0              : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_GMID0]. */
         uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_MULTI]. */
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_UNMAP]. */
-        uint64_t reserved_14_27        : 14;
-        uint64_t iop                   : 14; /**< [ 13:  0](R/W1S/H) Reads or sets enable for SSO_ERR2[IOP]. */
+        uint64_t reserved_15_27        : 13;
+        uint64_t iop                   : 15; /**< [ 14:  0](R/W1S/H) Reads or sets enable for SSO_ERR2[IOP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t iop                   : 14; /**< [ 13:  0](R/W1S/H) Reads or sets enable for SSO_ERR2[IOP]. */
-        uint64_t reserved_14_27        : 14;
+        uint64_t iop                   : 15; /**< [ 14:  0](R/W1S/H) Reads or sets enable for SSO_ERR2[IOP]. */
+        uint64_t reserved_15_27        : 13;
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_UNMAP]. */
         uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_MULTI]. */
         uint64_t ws_gmid0              : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_GMID0]. */
@@ -2430,11 +2440,11 @@ typedef union
         uint64_t ws_gmid0              : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets SSO_ERR2[WS_GMID0]. */
         uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets SSO_ERR2[WS_MULTI]. */
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets SSO_ERR2[WS_UNMAP]. */
-        uint64_t reserved_14_27        : 14;
-        uint64_t iop                   : 14; /**< [ 13:  0](R/W1S/H) Reads or sets SSO_ERR2[IOP]. */
+        uint64_t reserved_15_27        : 13;
+        uint64_t iop                   : 15; /**< [ 14:  0](R/W1S/H) Reads or sets SSO_ERR2[IOP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t iop                   : 14; /**< [ 13:  0](R/W1S/H) Reads or sets SSO_ERR2[IOP]. */
-        uint64_t reserved_14_27        : 14;
+        uint64_t iop                   : 15; /**< [ 14:  0](R/W1S/H) Reads or sets SSO_ERR2[IOP]. */
+        uint64_t reserved_15_27        : 13;
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets SSO_ERR2[WS_UNMAP]. */
         uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets SSO_ERR2[WS_MULTI]. */
         uint64_t ws_gmid0              : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets SSO_ERR2[WS_GMID0]. */
@@ -3119,7 +3129,7 @@ typedef union
         uint64_t reserved_17_63        : 47;
         uint64_t gw_indx_ena           : 1;  /**< [ 16: 16](R/W) Get work indexeded enable.
                                                                  0 = Get work indexed operations for the given HWS will immediately return
-                                                                 NO_WORK.
+                                                                 error response.
                                                                  1 = Get-work indexed operations are allowed. However software can only perform
                                                                  get-work indexed for entries that were previously descheduled by a HWS, and have
                                                                  a vhgroup which has a valid guest-group mapping for the GMID which is performing
@@ -3170,7 +3180,7 @@ typedef union
                                                                  transformations performed; which generally use SSO_PF_MAP(). */
         uint64_t gw_indx_ena           : 1;  /**< [ 16: 16](R/W) Get work indexeded enable.
                                                                  0 = Get work indexed operations for the given HWS will immediately return
-                                                                 NO_WORK.
+                                                                 error response.
                                                                  1 = Get-work indexed operations are allowed. However software can only perform
                                                                  get-work indexed for entries that were previously descheduled by a HWS, and have
                                                                  a vhgroup which has a valid guest-group mapping for the GMID which is performing
@@ -4673,9 +4683,9 @@ static inline uint64_t BDK_SSO_TOAQX_STATUS(unsigned long a)
  * Register (NCB) sso_unmap_info
  *
  * SSO PF Unmapped Error Information Register
- * When any SSO_ERR0[GMID_UNMAP], SSO_ERR0[GMID_MULTI], SSO_ERR2[WS_UNMAP] or
- * SSO_ERR2[WS_MULTI] error occurs, this register is latched with information from the
- * original request.
+ * When any SSO_ERR0[GMID_UNMAP], SSO_ERR0[GMID_MULTI], SSO_ERR2[WS_UNMAP],
+ * SSO_ERR2[WS_MULTI], or SSO_ERR2[ADDWQ_DROPPED_WQP0] error occurs, this
+ * register is latched with information from the original request.
  */
 typedef union
 {
@@ -4684,7 +4694,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
-        uint64_t wqp0_src              : 10; /**< [ 41: 32](RO/H) Illegal WQP0 error from:
+        uint64_t wqp0_src              : 10; /**< [ 41: 32](RO/H) Illegal WQP0 error source. This field is updated when
+                                                                 SSO_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
+                                                                 SSO_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
                                                                  <9> = DDF.
                                                                  <8> = ZIP.
                                                                  <7> = TIM.
@@ -4695,24 +4707,40 @@ typedef union
                                                                  <2> = ADDWQ.
                                                                  <1> = CPT0.
                                                                  <0> = PKI. */
-        uint64_t cam_src               : 4;  /**< [ 31: 28](RO/H) Failing GMID error path:
+        uint64_t cam_src               : 4;  /**< [ 31: 28](RO/H) Failing GMID error path. This field is updated when any of he following errors
+                                                                 occur: SSO_ERR0[GMID_UNMAP], SSO_ERR0[GMID_MULTI], SSO_ERR2[WS_UNMAP]
+                                                                 SSO_ERR2[WS_MULTI], and is held until all of the above errors are cleared.
                                                                  <3> = From WS to PP (VHGRP to GGRP).
                                                                  <2> = From NCBO1 to WS (GGRP to VHGRP).
                                                                  <1> = From NCBO0 to WS (GGRP to VHGRP).
                                                                  <0> = Coprocessor to WS (GGRP to VHGRP). */
         uint64_t reserved_26_27        : 2;
-        uint64_t ggrp                  : 10; /**< [ 25: 16](RO/H) Failing GGRP. */
-        uint64_t gmid                  : 16; /**< [ 15:  0](RO/H) Failing GMID. */
+        uint64_t ggrp                  : 10; /**< [ 25: 16](RO/H) This field indicates the failing GGRP or VHGRP. See [CAM_SRC] to identify the
+                                                                 type. This field is updated when any of he following errors occur:
+                                                                 SSO_ERR0[GMID_UNMAP], SSO_ERR0[GMID_MULTI], SSO_ERR2[WS_UNMAP]
+                                                                 SSO_ERR2[WS_MULTI], and is held until all of the above errors are cleared. */
+        uint64_t gmid                  : 16; /**< [ 15:  0](RO/H) Failing GMID. This field is updated when any of he following errors occur:
+                                                                 SSO_ERR0[GMID_UNMAP], SSO_ERR0[GMID_MULTI], SSO_ERR2[WS_UNMAP]
+                                                                 SSO_ERR2[WS_MULTI], and is held until all of the above errors are cleared. */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](RO/H) Failing GMID. */
-        uint64_t ggrp                  : 10; /**< [ 25: 16](RO/H) Failing GGRP. */
+        uint64_t gmid                  : 16; /**< [ 15:  0](RO/H) Failing GMID. This field is updated when any of he following errors occur:
+                                                                 SSO_ERR0[GMID_UNMAP], SSO_ERR0[GMID_MULTI], SSO_ERR2[WS_UNMAP]
+                                                                 SSO_ERR2[WS_MULTI], and is held until all of the above errors are cleared. */
+        uint64_t ggrp                  : 10; /**< [ 25: 16](RO/H) This field indicates the failing GGRP or VHGRP. See [CAM_SRC] to identify the
+                                                                 type. This field is updated when any of he following errors occur:
+                                                                 SSO_ERR0[GMID_UNMAP], SSO_ERR0[GMID_MULTI], SSO_ERR2[WS_UNMAP]
+                                                                 SSO_ERR2[WS_MULTI], and is held until all of the above errors are cleared. */
         uint64_t reserved_26_27        : 2;
-        uint64_t cam_src               : 4;  /**< [ 31: 28](RO/H) Failing GMID error path:
+        uint64_t cam_src               : 4;  /**< [ 31: 28](RO/H) Failing GMID error path. This field is updated when any of he following errors
+                                                                 occur: SSO_ERR0[GMID_UNMAP], SSO_ERR0[GMID_MULTI], SSO_ERR2[WS_UNMAP]
+                                                                 SSO_ERR2[WS_MULTI], and is held until all of the above errors are cleared.
                                                                  <3> = From WS to PP (VHGRP to GGRP).
                                                                  <2> = From NCBO1 to WS (GGRP to VHGRP).
                                                                  <1> = From NCBO0 to WS (GGRP to VHGRP).
                                                                  <0> = Coprocessor to WS (GGRP to VHGRP). */
-        uint64_t wqp0_src              : 10; /**< [ 41: 32](RO/H) Illegal WQP0 error from:
+        uint64_t wqp0_src              : 10; /**< [ 41: 32](RO/H) Illegal WQP0 error source. This field is updated when
+                                                                 SSO_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
+                                                                 SSO_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
                                                                  <9> = DDF.
                                                                  <8> = ZIP.
                                                                  <7> = TIM.

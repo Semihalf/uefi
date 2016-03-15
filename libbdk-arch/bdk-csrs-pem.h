@@ -7823,11 +7823,13 @@ typedef union
     struct bdk_pemx_latency_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t latency               : 64; /**< [ 63:  0](RO/H) Total read latency count in units of coprocessor-clocks, for internal reads from
-                                                                 external host memory aggregated across all non-masked SWI tags. */
+        uint64_t latency               : 64; /**< [ 63:  0](RO/H) Total read latency count in units of coprocessor-clocks measured from
+                                                                 SLI read request until first data is returned from remote memory aggregated
+                                                                 across all non-masked SWI tags. */
 #else /* Word 0 - Little Endian */
-        uint64_t latency               : 64; /**< [ 63:  0](RO/H) Total read latency count in units of coprocessor-clocks, for internal reads from
-                                                                 external host memory aggregated across all non-masked SWI tags. */
+        uint64_t latency               : 64; /**< [ 63:  0](RO/H) Total read latency count in units of coprocessor-clocks measured from
+                                                                 SLI read request until first data is returned from remote memory aggregated
+                                                                 across all non-masked SWI tags. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_latency_pc_s cn; */
@@ -8585,15 +8587,15 @@ typedef union
     struct bdk_pemx_reads_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reads                 : 64; /**< [ 63:  0](RO/H) Total number of internal reads from external host memory aggregated across
-                                                                 all non-masked SWI tags. Software can calculate the average read latency per
-                                                                 read request over SWI by dividing PEM()_LATENCY_PC[LATENCY] by
-                                                                 PEM()_READS_PC[READS]. */
+        uint64_t reads                 : 64; /**< [ 63:  0](RO/H) Total number of SLI reads from remote memory aggregated across
+                                                                 all non-masked SWI tags.  Software can calculate the average read
+                                                                 latency per read request over SWI by dividing PEM()_LATENCY_PC[LATENCY]
+                                                                 by PEM()_READS_PC[READS]. */
 #else /* Word 0 - Little Endian */
-        uint64_t reads                 : 64; /**< [ 63:  0](RO/H) Total number of internal reads from external host memory aggregated across
-                                                                 all non-masked SWI tags. Software can calculate the average read latency per
-                                                                 read request over SWI by dividing PEM()_LATENCY_PC[LATENCY] by
-                                                                 PEM()_READS_PC[READS]. */
+        uint64_t reads                 : 64; /**< [ 63:  0](RO/H) Total number of SLI reads from remote memory aggregated across
+                                                                 all non-masked SWI tags.  Software can calculate the average read
+                                                                 latency per read request over SWI by dividing PEM()_LATENCY_PC[LATENCY]
+                                                                 by PEM()_READS_PC[READS]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_reads_pc_s cn; */
@@ -8625,19 +8627,23 @@ typedef union
     struct bdk_pemx_spi_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t start_busy            : 1;  /**< [ 13: 13](R/W) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
-        uint64_t tvalid                : 1;  /**< [ 12: 12](R/W) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
+        uint64_t reserved_16_63        : 48;
+        uint64_t start_busy            : 1;  /**< [ 15: 15](R/W) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
+        uint64_t tvalid                : 1;  /**< [ 14: 14](R/W) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
                                                                  clear status. */
-        uint64_t cmd                   : 3;  /**< [ 11:  9](R/W) SPI commands; WREN (110), WRDI (100), READ (011), WRITE (010), RDSR (101), WRSR (001) */
-        uint64_t adr                   : 9;  /**< [  8:  0](R/W) EEPROM read/write address. */
+        uint64_t cmd                   : 3;  /**< [ 13: 11](R/W) SPI commands; WREN (110), WRDI (100), READ (011), WRITE (010), RDSR (101), WRSR (001).
+                                                                 Unsupported Commands; Read Identification, Read Data at Higher Speed, Page Program,
+                                                                 Sector Erase, Bulk Erase, Deep Power-down, and Release from Deep Power-Down. */
+        uint64_t adr                   : 11; /**< [ 10:  0](R/W) EEPROM read/write address. */
 #else /* Word 0 - Little Endian */
-        uint64_t adr                   : 9;  /**< [  8:  0](R/W) EEPROM read/write address. */
-        uint64_t cmd                   : 3;  /**< [ 11:  9](R/W) SPI commands; WREN (110), WRDI (100), READ (011), WRITE (010), RDSR (101), WRSR (001) */
-        uint64_t tvalid                : 1;  /**< [ 12: 12](R/W) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
+        uint64_t adr                   : 11; /**< [ 10:  0](R/W) EEPROM read/write address. */
+        uint64_t cmd                   : 3;  /**< [ 13: 11](R/W) SPI commands; WREN (110), WRDI (100), READ (011), WRITE (010), RDSR (101), WRSR (001).
+                                                                 Unsupported Commands; Read Identification, Read Data at Higher Speed, Page Program,
+                                                                 Sector Erase, Bulk Erase, Deep Power-down, and Release from Deep Power-Down. */
+        uint64_t tvalid                : 1;  /**< [ 14: 14](R/W) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
                                                                  clear status. */
-        uint64_t start_busy            : 1;  /**< [ 13: 13](R/W) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t start_busy            : 1;  /**< [ 15: 15](R/W) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_spi_ctl_s cn; */
@@ -8843,23 +8849,23 @@ typedef union
         uint64_t pem_cpl               : 12; /**< [ 63: 52](R/W) TLP 16 B credits for completion TLPs in the peer. Legal values are 0x42 to 0x104. */
         uint64_t pem_np                : 8;  /**< [ 51: 44](R/W) TLP 16 B credits for nonposted TLPs in the peer. Legal values are 0x4 to 0x20. */
         uint64_t pem_p                 : 12; /**< [ 43: 32](R/W) TLP 16 B credits for posted TLPs in the peer. Legal values are 0x42 to 0x104. */
-        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x84 to 0x100
+        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x84 to 0x200
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
         uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x4 to 0x20
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x84 to 0x100 and this value
+        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x84 to 0x200 and this value
                                                                  is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
                                                                  register for performance reasons. */
 #else /* Word 0 - Little Endian */
-        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x84 to 0x100 and this value
+        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x84 to 0x200 and this value
                                                                  is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
                                                                  register for performance reasons. */
         uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x4 to 0x20
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x84 to 0x100
+        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x84 to 0x200
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
         uint64_t pem_p                 : 12; /**< [ 43: 32](R/W) TLP 16 B credits for posted TLPs in the peer. Legal values are 0x42 to 0x104. */

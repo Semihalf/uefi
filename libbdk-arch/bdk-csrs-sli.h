@@ -196,6 +196,10 @@
                                        interrupt sets SDP(0)_ECC(0..1)_LINT_W1S,
                                        enable clears SDP(0)_ECC(0..1)_LINT_ENA_W1C,
                                        and enable sets SDP(0)_ECC(0..1)_LINT_ENA_W1S. */
+#define BDK_SLI_INT_VEC_E_SDP_EPFX_FLR_VF_LINT(a) (0 + (a)) /**< See interrupt clears SDP(0)_EPF(0..1)_FLR_VF_LINT,
+                                       interrupt sets SDP(0)_EPF(0..1)_FLR_VF_LINT_W1S,
+                                       enable clears SDP(0)_EPF(0..1)_FLR_VF_LINT_ENA_W1C,
+                                       and enable sets SDP(0)_EPF(0..1)_FLR_VF_LINT_ENA_W1S, */
 #define BDK_SLI_INT_VEC_E_SDP_EPFX_IRERR_LINT(a) (0xa + (a)) /**< See interrupt clears SDP(0)_EPF(0..1)_IRERR_LINT
                                        interrupt sets SDP(0)_EPF(0..1)_IRERR_LINT_W1S
                                        enable clears SDP(0)_EPF(0..1)_IRERR_LINT_ENA_W1C
@@ -208,10 +212,6 @@
                                        interrupt sets SLI(0)_EPF(0..1)_DMA_VF_LINT_W1S,
                                        enable clears SLI(0)_EPF(0..1)_DMA_VF_LINT_ENA_W1C,
                                        and enable sets SLI(0)_EPF(0..1)_DMA_VF_LINT_ENA_W1S, */
-#define BDK_SLI_INT_VEC_E_SLI_EPFX_FLR_VF_LINT(a) (0 + (a)) /**< See interrupt clears SLI(0)_EPF(0..1)_FLR_VF_LINT,
-                                       interrupt sets SLI(0)_EPF(0..1)_FLR_VF_LINT_W1S,
-                                       enable clears SLI(0)_EPF(0..1)_FLR_VF_LINT_ENA_W1C,
-                                       and enable sets SLI(0)_EPF(0..1)_FLR_VF_LINT_ENA_W1S, */
 #define BDK_SLI_INT_VEC_E_SLI_EPFX_MISC_LINT(a) (2 + (a)) /**< See interrupt clears SLI(0)_EPF(0..3)_MISC_LINT
                                        interrupt sets SLI(0)_EPF(0..3)_MISC_LINT_W1S
                                        enable clears SLI(0)_EPF(0..3)_MISC_LINT_ENA_W1C
@@ -1250,6 +1250,146 @@ static inline uint64_t BDK_SDPX_ECO(unsigned long a)
 #define device_bar_BDK_SDPX_ECO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SDPX_ECO(a) (a)
 #define arguments_BDK_SDPX_ECO(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) sdp#_epf#_flr_vf_lint
+ *
+ * SDP Function Level Reset VF Bit Array Registers
+ * These registers are only valid for PEM0 PF0 and PEM2 PF0.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sdpx_epfx_flr_vf_lint_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) When a VF causes an FLR the appropriate VF indexed bit is set. */
+#else /* Word 0 - Little Endian */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) When a VF causes an FLR the appropriate VF indexed bit is set. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sdpx_epfx_flr_vf_lint_s cn; */
+} bdk_sdpx_epfx_flr_vf_lint_t;
+
+static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
+        return 0x874000880c00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("SDPX_EPFX_FLR_VF_LINT", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_SDPX_EPFX_FLR_VF_LINT(a,b) bdk_sdpx_epfx_flr_vf_lint_t
+#define bustype_BDK_SDPX_EPFX_FLR_VF_LINT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_SDPX_EPFX_FLR_VF_LINT(a,b) "SDPX_EPFX_FLR_VF_LINT"
+#define device_bar_BDK_SDPX_EPFX_FLR_VF_LINT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SDPX_EPFX_FLR_VF_LINT(a,b) (a)
+#define arguments_BDK_SDPX_EPFX_FLR_VF_LINT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) sdp#_epf#_flr_vf_lint_ena_w1c
+ *
+ * SDP Function Level Reset VF Bit Array Local Enable Clear Registers
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sdpx_epfx_flr_vf_lint_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sdpx_epfx_flr_vf_lint_ena_w1c_s cn; */
+} bdk_sdpx_epfx_flr_vf_lint_ena_w1c_t;
+
+static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
+        return 0x874000880e00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("SDPX_EPFX_FLR_VF_LINT_ENA_W1C", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) bdk_sdpx_epfx_flr_vf_lint_ena_w1c_t
+#define bustype_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) "SDPX_EPFX_FLR_VF_LINT_ENA_W1C"
+#define device_bar_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) (a)
+#define arguments_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) sdp#_epf#_flr_vf_lint_ena_w1s
+ *
+ * SDP Function Level Reset VF Bit Array Local Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sdpx_epfx_flr_vf_lint_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sdpx_epfx_flr_vf_lint_ena_w1s_s cn; */
+} bdk_sdpx_epfx_flr_vf_lint_ena_w1s_t;
+
+static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
+        return 0x874000880f00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("SDPX_EPFX_FLR_VF_LINT_ENA_W1S", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) bdk_sdpx_epfx_flr_vf_lint_ena_w1s_t
+#define bustype_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) "SDPX_EPFX_FLR_VF_LINT_ENA_W1S"
+#define device_bar_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) (a)
+#define arguments_BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) sdp#_epf#_flr_vf_lint_w1s
+ *
+ * SDP Function Level Reset VF Bit Array Set Registers
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sdpx_epfx_flr_vf_lint_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sdpx_epfx_flr_vf_lint_w1s_s cn; */
+} bdk_sdpx_epfx_flr_vf_lint_w1s_t;
+
+static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_W1S(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
+        return 0x874000880d00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("SDPX_EPFX_FLR_VF_LINT_W1S", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_SDPX_EPFX_FLR_VF_LINT_W1S(a,b) bdk_sdpx_epfx_flr_vf_lint_w1s_t
+#define bustype_BDK_SDPX_EPFX_FLR_VF_LINT_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_SDPX_EPFX_FLR_VF_LINT_W1S(a,b) "SDPX_EPFX_FLR_VF_LINT_W1S"
+#define device_bar_BDK_SDPX_EPFX_FLR_VF_LINT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SDPX_EPFX_FLR_VF_LINT_W1S(a,b) (a)
+#define arguments_BDK_SDPX_EPFX_FLR_VF_LINT_W1S(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) sdp#_epf#_irerr_lint
@@ -4045,11 +4185,11 @@ typedef union
         uint64_t pkpfval               : 1;  /**< [  3:  3](R/W) When zero, only VF's are subject to SLI_PKT_PKIND_VALID constraints, and PF instructions
                                                                  can select any PKI PKIND. When one, both PF's and VF's are subject to SLI_PKT_PKIND_VALID
                                                                  constraints. */
-        uint64_t bpflr_d               : 1;  /**< [  2:  2](R/W) Disables clearing SLI_PKT_OUT_BP_EN bit on an FLR. */
+        uint64_t bpflr_d               : 1;  /**< [  2:  2](R/W) Disables clearing SDP_PKT_OUT_BP_EN bit on an FLR. */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
-        uint64_t bpflr_d               : 1;  /**< [  2:  2](R/W) Disables clearing SLI_PKT_OUT_BP_EN bit on an FLR. */
+        uint64_t bpflr_d               : 1;  /**< [  2:  2](R/W) Disables clearing SDP_PKT_OUT_BP_EN bit on an FLR. */
         uint64_t pkpfval               : 1;  /**< [  3:  3](R/W) When zero, only VF's are subject to SLI_PKT_PKIND_VALID constraints, and PF instructions
                                                                  can select any PKI PKIND. When one, both PF's and VF's are subject to SLI_PKT_PKIND_VALID
                                                                  constraints. */
@@ -4275,6 +4415,49 @@ static inline uint64_t BDK_SDPX_SCRATCHX(unsigned long a, unsigned long b)
 #define device_bar_BDK_SDPX_SCRATCHX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SDPX_SCRATCHX(a,b) (a)
 #define arguments_BDK_SDPX_SCRATCHX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) sli#_bar3_addr
+ *
+ * SLI BAR3 Address Register
+ * This register configures PEM BAR3 accesses.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_slix_bar3_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wvirt                 : 1;  /**< [ 63: 63](R/W) Virtual:
+                                                                   0 = [RD_ADDR] is a physical addresses.
+                                                                   1 = [RD_ADDR] is a virtual address. */
+        uint64_t reserved_49_62        : 14;
+        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) Base address for PEM BAR3 transactions. */
+#else /* Word 0 - Little Endian */
+        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) Base address for PEM BAR3 transactions. */
+        uint64_t reserved_49_62        : 14;
+        uint64_t wvirt                 : 1;  /**< [ 63: 63](R/W) Virtual:
+                                                                   0 = [RD_ADDR] is a physical addresses.
+                                                                   1 = [RD_ADDR] is a virtual address. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_slix_bar3_addr_s cn; */
+} bdk_slix_bar3_addr_t;
+
+static inline uint64_t BDK_SLIX_BAR3_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SLIX_BAR3_ADDR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x874001002400ll + 0x1000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("SLIX_BAR3_ADDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SLIX_BAR3_ADDR(a) bdk_slix_bar3_addr_t
+#define bustype_BDK_SLIX_BAR3_ADDR(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SLIX_BAR3_ADDR(a) "SLIX_BAR3_ADDR"
+#define device_bar_BDK_SLIX_BAR3_ADDR(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SLIX_BAR3_ADDR(a) (a)
+#define arguments_BDK_SLIX_BAR3_ADDR(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) sli#_bist_status
@@ -5281,146 +5464,6 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_W1S(unsigned long a, unsigned l
 #define arguments_BDK_SLIX_EPFX_DMA_VF_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_flr_vf_lint
- *
- * SLI Function Level Reset VF Bit Array Registers
- * These registers are only valid for PEM0 PF0 and PEM2 PF0.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_slix_epfx_flr_vf_lint_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) When a VF causes an FLR the appropriate VF indexed bit is set. */
-#else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) When a VF causes an FLR the appropriate VF indexed bit is set. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_epfx_flr_vf_lint_s cn; */
-} bdk_slix_epfx_flr_vf_lint_t;
-
-static inline uint64_t BDK_SLIX_EPFX_FLR_VF_LINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SLIX_EPFX_FLR_VF_LINT(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
-        return 0x874080028480ll + 0x1000000000ll * ((a) & 0x0) + 0x800000ll * ((b) & 0x1);
-    __bdk_csr_fatal("SLIX_EPFX_FLR_VF_LINT", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_SLIX_EPFX_FLR_VF_LINT(a,b) bdk_slix_epfx_flr_vf_lint_t
-#define bustype_BDK_SLIX_EPFX_FLR_VF_LINT(a,b) BDK_CSR_TYPE_PEXP_NCB
-#define basename_BDK_SLIX_EPFX_FLR_VF_LINT(a,b) "SLIX_EPFX_FLR_VF_LINT"
-#define device_bar_BDK_SLIX_EPFX_FLR_VF_LINT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_SLIX_EPFX_FLR_VF_LINT(a,b) (a)
-#define arguments_BDK_SLIX_EPFX_FLR_VF_LINT(a,b) (a),(b),-1,-1
-
-/**
- * Register (PEXP_NCB) sli#_epf#_flr_vf_lint_ena_w1c
- *
- * SLI Function Level Reset VF Bit Array Local Enable Clear Registers
- * This register clears interrupt enable bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_slix_epfx_flr_vf_lint_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_epfx_flr_vf_lint_ena_w1c_s cn; */
-} bdk_slix_epfx_flr_vf_lint_ena_w1c_t;
-
-static inline uint64_t BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1C(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
-        return 0x8740800284a0ll + 0x1000000000ll * ((a) & 0x0) + 0x800000ll * ((b) & 0x1);
-    __bdk_csr_fatal("SLIX_EPFX_FLR_VF_LINT_ENA_W1C", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) bdk_slix_epfx_flr_vf_lint_ena_w1c_t
-#define bustype_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) BDK_CSR_TYPE_PEXP_NCB
-#define basename_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) "SLIX_EPFX_FLR_VF_LINT_ENA_W1C"
-#define device_bar_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) (a)
-#define arguments_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1C(a,b) (a),(b),-1,-1
-
-/**
- * Register (PEXP_NCB) sli#_epf#_flr_vf_lint_ena_w1s
- *
- * SLI Function Level Reset VF Bit Array Local Enable Set Registers
- * This register sets interrupt enable bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_slix_epfx_flr_vf_lint_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_epfx_flr_vf_lint_ena_w1s_s cn; */
-} bdk_slix_epfx_flr_vf_lint_ena_w1s_t;
-
-static inline uint64_t BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1S(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
-        return 0x8740800284b0ll + 0x1000000000ll * ((a) & 0x0) + 0x800000ll * ((b) & 0x1);
-    __bdk_csr_fatal("SLIX_EPFX_FLR_VF_LINT_ENA_W1S", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) bdk_slix_epfx_flr_vf_lint_ena_w1s_t
-#define bustype_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
-#define basename_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) "SLIX_EPFX_FLR_VF_LINT_ENA_W1S"
-#define device_bar_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) (a)
-#define arguments_BDK_SLIX_EPFX_FLR_VF_LINT_ENA_W1S(a,b) (a),(b),-1,-1
-
-/**
- * Register (PEXP_NCB) sli#_epf#_flr_vf_lint_w1s
- *
- * SLI Function Level Reset VF Bit Array Set Registers
- * This register sets interrupt bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_slix_epfx_flr_vf_lint_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SLI(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SLI(0)_EPF(0..1)_FLR_VF_LINT[VF_INT]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_epfx_flr_vf_lint_w1s_s cn; */
-} bdk_slix_epfx_flr_vf_lint_w1s_t;
-
-static inline uint64_t BDK_SLIX_EPFX_FLR_VF_LINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SLIX_EPFX_FLR_VF_LINT_W1S(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
-        return 0x874080028490ll + 0x1000000000ll * ((a) & 0x0) + 0x800000ll * ((b) & 0x1);
-    __bdk_csr_fatal("SLIX_EPFX_FLR_VF_LINT_W1S", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_SLIX_EPFX_FLR_VF_LINT_W1S(a,b) bdk_slix_epfx_flr_vf_lint_w1s_t
-#define bustype_BDK_SLIX_EPFX_FLR_VF_LINT_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
-#define basename_BDK_SLIX_EPFX_FLR_VF_LINT_W1S(a,b) "SLIX_EPFX_FLR_VF_LINT_W1S"
-#define device_bar_BDK_SLIX_EPFX_FLR_VF_LINT_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_SLIX_EPFX_FLR_VF_LINT_W1S(a,b) (a)
-#define arguments_BDK_SLIX_EPFX_FLR_VF_LINT_W1S(a,b) (a),(b),-1,-1
-
-/**
  * Register (PEXP_NCB) sli#_epf#_misc_lint
  *
  * SLI MAC Interrupt Summary Register
@@ -5642,8 +5685,7 @@ typedef union
     struct bdk_slix_epfx_misc_rint_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t flr                   : 1;  /**< [  6:  6](R/W1C/H) A FLR occurred for the PF on the corresponding MAC. */
+        uint64_t reserved_6_63         : 58;
         uint64_t dmapf_err             : 1;  /**< [  5:  5](R/W1C/H) Set when an error response is received for a PF DMA transaction read. */
         uint64_t pppf_err              : 1;  /**< [  4:  4](R/W1C/H) Set when an error response is received for a PF PP transaction read. */
         uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1C/H) Received unsupported N-TLP for window register from the corresponding MAC. This
@@ -5669,8 +5711,7 @@ typedef union
                                                                  occurs. */
         uint64_t pppf_err              : 1;  /**< [  4:  4](R/W1C/H) Set when an error response is received for a PF PP transaction read. */
         uint64_t dmapf_err             : 1;  /**< [  5:  5](R/W1C/H) Set when an error response is received for a PF DMA transaction read. */
-        uint64_t flr                   : 1;  /**< [  6:  6](R/W1C/H) A FLR occurred for the PF on the corresponding MAC. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_rint_s cn; */
@@ -5703,8 +5744,7 @@ typedef union
     struct bdk_slix_epfx_misc_rint_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t flr                   : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..3)_MISC_RINT[FLR]. */
+        uint64_t reserved_6_63         : 58;
         uint64_t dmapf_err             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..3)_MISC_RINT[DMAPF_ERR]. */
         uint64_t pppf_err              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..3)_MISC_RINT[PPPF_ERR]. */
         uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..3)_MISC_RINT[UN_WI]. */
@@ -5718,8 +5758,7 @@ typedef union
         uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..3)_MISC_RINT[UN_WI]. */
         uint64_t pppf_err              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..3)_MISC_RINT[PPPF_ERR]. */
         uint64_t dmapf_err             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..3)_MISC_RINT[DMAPF_ERR]. */
-        uint64_t flr                   : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SLI(0)_EPF(0..3)_MISC_RINT[FLR]. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_rint_ena_w1c_s cn; */
@@ -5752,8 +5791,7 @@ typedef union
     struct bdk_slix_epfx_misc_rint_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t flr                   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..3)_MISC_RINT[FLR]. */
+        uint64_t reserved_6_63         : 58;
         uint64_t dmapf_err             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..3)_MISC_RINT[DMAPF_ERR]. */
         uint64_t pppf_err              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..3)_MISC_RINT[PPPF_ERR]. */
         uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..3)_MISC_RINT[UN_WI]. */
@@ -5767,8 +5805,7 @@ typedef union
         uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..3)_MISC_RINT[UN_WI]. */
         uint64_t pppf_err              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..3)_MISC_RINT[PPPF_ERR]. */
         uint64_t dmapf_err             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..3)_MISC_RINT[DMAPF_ERR]. */
-        uint64_t flr                   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SLI(0)_EPF(0..3)_MISC_RINT[FLR]. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_rint_ena_w1s_s cn; */
@@ -5801,8 +5838,7 @@ typedef union
     struct bdk_slix_epfx_misc_rint_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t flr                   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SLI(0)_EPF(0..3)_MISC_RINT[FLR]. */
+        uint64_t reserved_6_63         : 58;
         uint64_t dmapf_err             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SLI(0)_EPF(0..3)_MISC_RINT[DMAPF_ERR]. */
         uint64_t pppf_err              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SLI(0)_EPF(0..3)_MISC_RINT[PPPF_ERR]. */
         uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SLI(0)_EPF(0..3)_MISC_RINT[UN_WI]. */
@@ -5816,8 +5852,7 @@ typedef union
         uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SLI(0)_EPF(0..3)_MISC_RINT[UN_WI]. */
         uint64_t pppf_err              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SLI(0)_EPF(0..3)_MISC_RINT[PPPF_ERR]. */
         uint64_t dmapf_err             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SLI(0)_EPF(0..3)_MISC_RINT[DMAPF_ERR]. */
-        uint64_t flr                   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SLI(0)_EPF(0..3)_MISC_RINT[FLR]. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_rint_w1s_s cn; */
