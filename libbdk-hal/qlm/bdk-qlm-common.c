@@ -1295,6 +1295,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
             /* Don't tune PCIe Gen3 as it has its own builtin, similar to KR */
             if (baud_mhz > 5000)
                 return;
+            break;
         case BDK_QLM_MODE_OCI:
         {
             /* Skip tuning for CCPI running KR training as tuning overrides
