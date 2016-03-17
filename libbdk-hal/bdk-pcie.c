@@ -239,13 +239,32 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),
             c.s.lme = (pemx_cfg.s.lanes8) ? 0xf : 0x7);
     }
+
     /* Errata PEM-26189 - PEM EQ Preset Removal */
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-    {
-        /* CFG554.PRV default changed from 16'h7ff to 16'h593. */
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG554(pcie_port),
-            c.s.prv = 0x593);
-    }
+    /* CFG554.PRV default changed from 16'h7ff to 16'h593. Should be
+       safe to apply to CN88XX, CN81XX, and CN83XX */
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG554(pcie_port),
+        c.s.prv = 0x593);
+
+    /* Errata PEM-26189 - Disable the 2ms timer on all chips */
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG554(pcie_port),
+        c.s.p23td = 1);
+
+    /* Errata PEM-21178 - Change the CFG[089-092] LxUTP defaults. Should be
+       safe to apply to CN88XX, CN81XX, and CN83XX */
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG089(pcie_port),
+        c.s.l0utp = 0x7;
+        c.s.l1utp = 0x7);
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG090(pcie_port),
+        c.s.l2utp = 0x7;
+        c.s.l3utp = 0x7);
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG091(pcie_port),
+        c.s.l4utp = 0x7;
+        c.s.l5utp = 0x7);
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG092(pcie_port),
+        c.s.l6utp = 0x7;
+        c.s.l7utp = 0x7);
+
     /* (ECAM-27114) PCIERC has incorrect device code */
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG002(pcie_port),
         c.s.sc = 0x4;
