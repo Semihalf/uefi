@@ -97,4 +97,13 @@ static inline int CAVIUM_IS_MODEL(uint32_t arg_model)
  */
 extern int cavium_is_altpkg(uint32_t arg_model);
 
+/**
+ * Return the SKU string for a chip
+ *
+ * @param node   Node to get SKU for
+ *
+ * @return Chip's SKU
+ */
+extern const char* bdk_model_get_sku(int node);
+
 /** @} */

@@ -71,6 +71,7 @@ void bdk_boot_info_strapping(bdk_node_t node)
 
     printf(
         "Chip:  0x%x Pass %d.%d%s\n"
+        "SKU:   %s\n"
         "L2:    %d KB\n"
         "RCLK:  %lu Mhz\n"
         "SCLK:  %lu Mhz\n"
@@ -78,6 +79,7 @@ void bdk_boot_info_strapping(bdk_node_t node)
         "VRM:   %s\n"
         "Trust: %s\n",
         gicd_iidr.s.productid, major_pass, minor_pass, package_str,
+        bdk_model_get_sku(node),
         bdk_l2c_get_cache_size_bytes(node) >> 10,
         bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000,
         bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000,
