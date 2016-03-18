@@ -905,10 +905,10 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "default value should be good for most cases.",
     /* SGPIO configuration */
     [BDK_CONFIG_SGPIO_SCLOCK_FREQ] =
-            "Reference clock in Hz. CN88XX drives data on rising edges of this"
-            "clock, and the target latches data on the falling edges of this"
-            "clock. On reset CN88XX tristates SGPIO_SCLK. When not exchanging a"
-            "bit stream CN88XX keeps SGPIO_SCLK low.\n"
+            "Reference clock in Hz. CN88XX drives data on rising edges of this\n"
+            "clock, and the target latches data on the falling edges of this\n"
+            "clock. On reset CN88XX tristates SGPIO_SCLK. When not exchanging\n"
+            "a bit stream CN88XX keeps SGPIO_SCLK low.\n"
             "  Min: 128 Hz\n"
             "  Max: 100 kHz",
     [BDK_CONFIG_SGPIO_PIN_POWER] =
