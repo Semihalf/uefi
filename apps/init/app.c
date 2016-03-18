@@ -281,6 +281,7 @@ int main(int argc, const char **argv)
 
     if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
+        bdk_config_set_str(bdk_model_get_sku(node), BDK_CONFIG_CHIP_SKU, node);
         bdk_boot_status(BDK_BOOT_STATUS_INIT_NODE0_DRAM);
         bdk_boot_dram(bdk_numa_master(), MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 0 */
         // FIXME: Failure?
@@ -293,6 +294,7 @@ int main(int argc, const char **argv)
 
         if (bdk_numa_exists(BDK_NODE_1))
         {
+            bdk_config_set_str(bdk_model_get_sku(BDK_NODE_1), BDK_CONFIG_CHIP_SKU, BDK_NODE_1);
             bdk_boot_info_strapping(BDK_NODE_1);
             bdk_boot_status(BDK_BOOT_STATUS_INIT_NODE1_DRAM);
             bdk_boot_dram(BDK_NODE_1, MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 1 */

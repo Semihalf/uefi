@@ -143,6 +143,10 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "        CN88XX pass 1.x.\n"
             "    1 = Force lane reversal, required on CN88XX pass 1.0 with CCPI\n"
             "        lanes reversed.",
+    [BDK_CONFIG_CHIP_SKU] =
+            "Cavium SKU for the chip. This is determined by early code and\n"
+            "passed to later software for display. This should not be set in\n"
+            "the input device tree, it will be ignored.",
     /* QLM related config */
     [BDK_CONFIG_QLM_AUTO_CONFIG] =
             "For Cavium evaluation boards, query the MCU for QLM setup\n"

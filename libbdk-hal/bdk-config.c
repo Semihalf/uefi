@@ -174,6 +174,11 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 0,
         .max_value = 1,
     },
+    [BDK_CONFIG_CHIP_SKU] = {
+        .format = "CHIP-SKU.NODE%d", /* Parameter: Node */
+        .ctype = BDK_CONFIG_TYPE_STR,
+        .default_value = (long)"THUNDERX",
+    },
 
     /* QLM related config */
     [BDK_CONFIG_QLM_AUTO_CONFIG] = {
