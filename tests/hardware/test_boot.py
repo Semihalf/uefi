@@ -22,6 +22,7 @@ def wait_for_bootstub_messages(cnx):
     except:
         pass
     cnx.matchRE("Chip:  0xa1 Pass [1-2]\\.[0-1]")
+    cnx.matchRE("SKU:   CN[0-9]+-[0-9]+BG[0-9]+-[A-Z]+(-[Y-Z])?-G")
     cnx.match("L2:    16384 KB")
     cnx.matchRE("RCLK:  [0-9]+ Mhz")
     cnx.matchRE("SCLK:  [0-9]+ Mhz")
