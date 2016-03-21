@@ -64,7 +64,7 @@ def _validateEnum(root, name):
         raiseException(enum, "Enum: Illegal name \"%s\"" % name)
     # Check enum width
     for chip in enum["width"]:
-        if (enum["width"][chip] < 1) or (enum["width"][chip] > 48):
+        if (enum["width"][chip] < 1) or (enum["width"][chip] > 52):
             raiseException(enum, "Enum: Illegal width \"%s\" for chip %s" % (enum["width"][chip], chip))
     for n in enum["values"]:
         v = enum["values"][n]
