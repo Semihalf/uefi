@@ -107,6 +107,19 @@
   ## ClassCode3
   gMarvellTokenSpaceGuid.PcdPciEDevClassCode3|L"0x0C;0x0C"
 
+  #NET
+  gMarvellTokenSpaceGuid.PcdPhySmiAddresses|{ 0x0, 0x1 }
+  gMarvellTokenSpaceGuid.PcdPp2PortNumber|2
+  gMarvellTokenSpaceGuid.PcdPp2PortIds|{ 0x2, 0x3 }
+# TODO: right values
+  gMarvellTokenSpaceGuid.PcdPp2SharedAddress|0xf2000000
+  gMarvellTokenSpaceGuid.PcdPp2GmacBaseAddress|0xf2130e00
+  gMarvellTokenSpaceGuid.PcdPp2GmacObjSize|0x1000
+  gMarvellTokenSpaceGuid.PcdPp2XlgBaseAddress|0xf2130f00
+  gMarvellTokenSpaceGuid.PcdPp2XlgObjSize|0x1000
+  gMarvellTokenSpaceGuid.PcdPp2Rfu1BaseAddress|0xf2441000
+  gMarvellTokenSpaceGuid.PcdPp2SmiBaseAddress|0xf212A200
+
 [Components.common]
   OpenPlatformPkg/Platforms/Marvell/PciEmulation/PciEmulation.inf
   MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf

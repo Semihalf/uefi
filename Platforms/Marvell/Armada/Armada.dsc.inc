@@ -326,7 +326,7 @@
   #  DEBUG_LOADFILE  0x00020000  // UNDI Driver
   #  DEBUG_EVENT     0x00080000  // Event messages
   #  DEBUG_ERROR     0x80000000  // Error
-  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x8000000F
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x80000000
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0x07
 
   gEmbeddedTokenSpaceGuid.PcdEmbeddedAutomaticBootCommand|""
@@ -405,6 +405,7 @@
   MdeModulePkg/Universal/Network/Mtftp4Dxe/Mtftp4Dxe.inf
   MdeModulePkg/Universal/Network/Udp4Dxe/Udp4Dxe.inf
   MdeModulePkg/Universal/Network/Tcp4Dxe/Tcp4Dxe.inf
+  OpenPlatformPkg/Drivers/Net/Pp2Dxe/Pp2Dxe.inf
   OpenPlatformPkg/Drivers/Net/MdioDxe/MdioDxe.inf
   OpenPlatformPkg/Drivers/Net/MvPhyDxe/MvPhyDxe.inf
 
