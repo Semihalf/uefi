@@ -156,6 +156,9 @@ def writeDB(arch, regs):
     for chip in chip_list.getChips():
         if not csr_utils.isChipArch(arch, chip):
             continue
+        # Skip minor passes as they are basically the same as the major pass
+        if not chip.endswith("_0"):
+            continue
         out.write("static const int16_t __bdk_csr_db_%s[] = {\n" % chip)
         names = regs.keys()
         names.sort()
@@ -246,7 +249,13 @@ def writeDB(arch, regs):
     for chip in chip_list.getChips():
         if not csr_utils.isChipArch(arch, chip):
             continue
-        out.write("    {%s%s, __bdk_csr_db_%s},\n" % (model_prefex, chip.replace("P", "_PASS"), chip))
+        # Skip minor passes as they are basically the same as the major pass
+        if not chip.endswith("_0"):
+            continue
+        # Change the model check to match any minor pass
+        model_check = model_prefex + chip.replace("P", "_PASS")
+        model_check = model_check[0:-2] + "_X"
+        out.write("    {%s, __bdk_csr_db_%s},\n" % (model_check, chip))
     out.write("    {0, NULL}\n")
     out.write("};\n\n")
     out.close()
