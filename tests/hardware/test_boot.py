@@ -117,6 +117,7 @@ def wait_for_main_menu(cnx):
     cnx.match("emmc) eMMC/SD options")
     cnx.match("sata) SATA options")
     cnx.match("gpio) GPIO options")
+    cnx.match("sgpio) SGPIO options")
     cnx.match("usb) USB options")
     cnx.match("ilua) Interactive Lua prompt")
     cnx.match("tg) Traffic Generator")
