@@ -58,8 +58,8 @@
  * PEM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_PEM_BAR_E_PEMX_PF_BAR0(a) (0x87e0c0000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_PEM_BAR_E_PEMX_PF_BAR4(a) (0x87e0c0f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_PEM_BAR_E_PEMX_PF_BAR0(a) (0x87e0c0000000ll + 0x1000000ll * (a))
+#define BDK_PEM_BAR_E_PEMX_PF_BAR4(a) (0x87e0c0f00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration pem_int_vec_e
@@ -67,80 +67,53 @@
  * PEM MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_PEM_INT_VEC_E_DBG_INFO_CN9 (0xb) /**< See interrupt clears PEM()_DBG_INFO,
-                                       interrupt sets PEM()_DBG_INFO_W1S,
-                                       enable clears PEM()_DBG_ENA_W1C,
-                                       and enable sets PEM()_DBG_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_DBG_INFO_CN81XX (0xb) /**< See interrupt clears PEM()_DBG_INFO,
-                                       interrupt sets PEM()_DBG_INFO_W1S,
-                                       enable clears PEM()_DBG_ENA_W1C,
-                                       and enable sets PEM()_DBG_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_DBG_INFO_CN88XX (0xd) /**< See interrupt clears PEM()_DBG_INFO,
-                                       interrupt sets PEM()_DBG_INFO_W1S,
-                                       enable clears PEM()_DBG_ENA_W1C,
-                                       and enable sets PEM()_DBG_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_DBG_INFO_CN83XX (0xb) /**< See interrupt clears PEM()_DBG_INFO,
-                                       interrupt sets PEM()_DBG_INFO_W1S,
-                                       enable clears PEM()_DBG_ENA_W1C,
-                                       and enable sets PEM()_DBG_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_ERROR_AERI_CN9 (0) /**< This legacy interrupt is deprecated. See PEMRC_INT_VEC_E entry. */
-#define BDK_PEM_INT_VEC_E_ERROR_AERI_CN81XX (0) /**< This legacy interrupt is deprecated. See PEMRC_INT_VEC_E entry. */
-#define BDK_PEM_INT_VEC_E_ERROR_AERI_CN88XX (0) /**< See PCIERC()_CFG076. */
-#define BDK_PEM_INT_VEC_E_ERROR_AERI_CN83XX (0) /**< This legacy interrupt is deprecated. See PEMRC_INT_VEC_E entry. */
-#define BDK_PEM_INT_VEC_E_ERROR_AERI_CLEAR (1) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_ERROR_PMEI (2) /**< See PCIERC()_CFG036. */
-#define BDK_PEM_INT_VEC_E_ERROR_PMEI_CLEAR (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_HP_INT (0xe) /**< PCI hot-plug interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_HP_INT_CLEAR (0xf) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_HP_PMEI (1) /**< This legacy interrupt is deprecated. See PEMRC_INT_VEC_E entry. */
-#define BDK_PEM_INT_VEC_E_INTA_CN9 (2) /**< PCI INTA legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTA_CN81XX (2) /**< PCI INTA legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTA_CN88XX (4) /**< PCI INTA legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTA_CN83XX (2) /**< PCI INTA legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTA_CLEAR_CN9 (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTA_CLEAR_CN81XX (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTA_CLEAR_CN88XX (5) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTA_CLEAR_CN83XX (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTB_CN9 (4) /**< PCI INTB legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTB_CN81XX (4) /**< PCI INTB legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTB_CN88XX (6) /**< PCI INTB legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTB_CN83XX (4) /**< PCI INTB legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTB_CLEAR_CN9 (5) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTB_CLEAR_CN81XX (5) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTB_CLEAR_CN88XX (7) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTB_CLEAR_CN83XX (5) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTC_CN9 (6) /**< PCI INTC legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTC_CN81XX (6) /**< PCI INTC legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTC_CN88XX (8) /**< PCI INTC legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTC_CN83XX (6) /**< PCI INTC legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTC_CLEAR_CN9 (7) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTC_CLEAR_CN81XX (7) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTC_CLEAR_CN88XX (9) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTC_CLEAR_CN83XX (7) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTD_CN9 (8) /**< PCI INTD legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTD_CN81XX (8) /**< PCI INTD legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTD_CN88XX (0xa) /**< PCI INTD legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTD_CN83XX (8) /**< PCI INTD legacy interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_INTD_CLEAR_CN9 (9) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTD_CLEAR_CN81XX (9) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTD_CLEAR_CN88XX (0xb) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INTD_CLEAR_CN83XX (9) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INT_SUM_CN9 (0xa) /**< See interrupt clears PEM()_INT_SUM,
-                                       interrupt sets PEM()_INT_SUM_W1S,
-                                       enable clears PEM()_INT_ENA_W1C,
-                                       and enable sets PEM()_INT_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_INT_SUM_CN81XX (0xa) /**< See interrupt clears PEM()_INT_SUM,
-                                       interrupt sets PEM()_INT_SUM_W1S,
-                                       enable clears PEM()_INT_ENA_W1C,
-                                       and enable sets PEM()_INT_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_INT_SUM_CN88XX (0xc) /**< See interrupt clears PEM()_INT_SUM,
-                                       interrupt sets PEM()_INT_SUM_W1S,
-                                       enable clears PEM()_INT_ENA_W1C,
-                                       and enable sets PEM()_INT_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_INT_SUM_CN83XX (0xa) /**< See interrupt clears PEM()_INT_SUM,
-                                       interrupt sets PEM()_INT_SUM_W1S,
-                                       enable clears PEM()_INT_ENA_W1C,
-                                       and enable sets PEM()_INT_ENA_W1S. */
+#define BDK_PEM_INT_VEC_E_DBG_INFO_CN9 (0xb)
+#define BDK_PEM_INT_VEC_E_DBG_INFO_CN81XX (0xb)
+#define BDK_PEM_INT_VEC_E_DBG_INFO_CN88XX (0xd)
+#define BDK_PEM_INT_VEC_E_DBG_INFO_CN83XX (0xb)
+#define BDK_PEM_INT_VEC_E_ERROR_AERI (0)
+#define BDK_PEM_INT_VEC_E_ERROR_AERI_CLEAR (1)
+#define BDK_PEM_INT_VEC_E_ERROR_PMEI (2)
+#define BDK_PEM_INT_VEC_E_ERROR_PMEI_CLEAR (3)
+#define BDK_PEM_INT_VEC_E_HP_INT (0xe)
+#define BDK_PEM_INT_VEC_E_HP_INT_CLEAR (0xf)
+#define BDK_PEM_INT_VEC_E_HP_PMEI (1)
+#define BDK_PEM_INT_VEC_E_INTA_CN9 (2)
+#define BDK_PEM_INT_VEC_E_INTA_CN81XX (2)
+#define BDK_PEM_INT_VEC_E_INTA_CN88XX (4)
+#define BDK_PEM_INT_VEC_E_INTA_CN83XX (2)
+#define BDK_PEM_INT_VEC_E_INTA_CLEAR_CN9 (3)
+#define BDK_PEM_INT_VEC_E_INTA_CLEAR_CN81XX (3)
+#define BDK_PEM_INT_VEC_E_INTA_CLEAR_CN88XX (5)
+#define BDK_PEM_INT_VEC_E_INTA_CLEAR_CN83XX (3)
+#define BDK_PEM_INT_VEC_E_INTB_CN9 (4)
+#define BDK_PEM_INT_VEC_E_INTB_CN81XX (4)
+#define BDK_PEM_INT_VEC_E_INTB_CN88XX (6)
+#define BDK_PEM_INT_VEC_E_INTB_CN83XX (4)
+#define BDK_PEM_INT_VEC_E_INTB_CLEAR_CN9 (5)
+#define BDK_PEM_INT_VEC_E_INTB_CLEAR_CN81XX (5)
+#define BDK_PEM_INT_VEC_E_INTB_CLEAR_CN88XX (7)
+#define BDK_PEM_INT_VEC_E_INTB_CLEAR_CN83XX (5)
+#define BDK_PEM_INT_VEC_E_INTC_CN9 (6)
+#define BDK_PEM_INT_VEC_E_INTC_CN81XX (6)
+#define BDK_PEM_INT_VEC_E_INTC_CN88XX (8)
+#define BDK_PEM_INT_VEC_E_INTC_CN83XX (6)
+#define BDK_PEM_INT_VEC_E_INTC_CLEAR_CN9 (7)
+#define BDK_PEM_INT_VEC_E_INTC_CLEAR_CN81XX (7)
+#define BDK_PEM_INT_VEC_E_INTC_CLEAR_CN88XX (9)
+#define BDK_PEM_INT_VEC_E_INTC_CLEAR_CN83XX (7)
+#define BDK_PEM_INT_VEC_E_INTD_CN9 (8)
+#define BDK_PEM_INT_VEC_E_INTD_CN81XX (8)
+#define BDK_PEM_INT_VEC_E_INTD_CN88XX (0xa)
+#define BDK_PEM_INT_VEC_E_INTD_CN83XX (8)
+#define BDK_PEM_INT_VEC_E_INTD_CLEAR_CN9 (9)
+#define BDK_PEM_INT_VEC_E_INTD_CLEAR_CN81XX (9)
+#define BDK_PEM_INT_VEC_E_INTD_CLEAR_CN88XX (0xb)
+#define BDK_PEM_INT_VEC_E_INTD_CLEAR_CN83XX (9)
+#define BDK_PEM_INT_VEC_E_INT_SUM_CN9 (0xa)
+#define BDK_PEM_INT_VEC_E_INT_SUM_CN81XX (0xa)
+#define BDK_PEM_INT_VEC_E_INT_SUM_CN88XX (0xc)
+#define BDK_PEM_INT_VEC_E_INT_SUM_CN83XX (0xa)
 
 /**
  * Register (RSL) pem#_bar1_index#
@@ -1667,7 +1640,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Added in pass 2.0. Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t reserved_51_55        : 5;
         uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[C_C_DBE]. */
@@ -1889,7 +1862,7 @@ typedef union
         uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[C_C_DBE]. */
         uint64_t reserved_51_55        : 5;
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Added in pass 2.0. Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
@@ -2610,7 +2583,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Added in pass 2.0. Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
@@ -2842,7 +2815,7 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Added in pass 2.0. Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
@@ -2882,7 +2855,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t reserved_51_55        : 5;
         uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[C_C_DBE]. */
@@ -3104,7 +3077,7 @@ typedef union
         uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[C_C_DBE]. */
         uint64_t reserved_51_55        : 5;
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
@@ -3825,7 +3798,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
@@ -4057,7 +4030,7 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
@@ -5165,7 +5138,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t reserved_51_55        : 5;
         uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[C_C_DBE]. */
@@ -5387,7 +5360,7 @@ typedef union
         uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[C_C_DBE]. */
         uint64_t reserved_51_55        : 5;
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
@@ -6108,7 +6081,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
@@ -6340,7 +6313,7 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
@@ -8543,6 +8516,21 @@ typedef union
     struct bdk_pemx_reads_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reads                 : 64; /**< [ 63:  0](RO/H) Total number of SLI reads from remote memory aggregated across all
+                                                                 non-masked SWI tags.  Software can calculate the average read latency
+                                                                 to first data per SLI read request by dividing PEM()_LATENCY_PC[LATENCY]
+                                                                 by PEM()_READS_PC[READS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t reads                 : 64; /**< [ 63:  0](RO/H) Total number of SLI reads from remote memory aggregated across all
+                                                                 non-masked SWI tags.  Software can calculate the average read latency
+                                                                 to first data per SLI read request by dividing PEM()_LATENCY_PC[LATENCY]
+                                                                 by PEM()_READS_PC[READS]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pemx_reads_pc_s cn8; */
+    struct bdk_pemx_reads_pc_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reads                 : 64; /**< [ 63:  0](RO/H) Total number of SLI reads from remote memory aggregated across
                                                                  all non-masked SWI tags.  Software can calculate the average read
                                                                  latency per read request over SWI by dividing PEM()_LATENCY_PC[LATENCY]
@@ -8553,8 +8541,7 @@ typedef union
                                                                  latency per read request over SWI by dividing PEM()_LATENCY_PC[LATENCY]
                                                                  by PEM()_READS_PC[READS]. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pemx_reads_pc_s cn; */
+    } cn9;
 } bdk_pemx_reads_pc_t;
 
 static inline uint64_t BDK_PEMX_READS_PC(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8837,7 +8824,36 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_pemx_tlp_credits_cn9 cn83xx; */
+    struct bdk_pemx_tlp_credits_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pem_cpl               : 12; /**< [ 63: 52](R/W) TLP 16 B credits for completion TLPs in the peer. Legal values are 0x42 to 0x104. */
+        uint64_t pem_np                : 8;  /**< [ 51: 44](R/W) TLP 16 B credits for nonposted TLPs in the peer. Legal values are 0x4 to 0x20. */
+        uint64_t pem_p                 : 12; /**< [ 43: 32](R/W) TLP 16 B credits for posted TLPs in the peer. Legal values are 0x42 to 0x104. */
+        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x41 to 0x104
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x3 to 0x20
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x41 to 0x104 and this value
+                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
+                                                                 register for performance reasons. */
+#else /* Word 0 - Little Endian */
+        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x41 to 0x104 and this value
+                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
+                                                                 register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x3 to 0x20
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x41 to 0x104
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t pem_p                 : 12; /**< [ 43: 32](R/W) TLP 16 B credits for posted TLPs in the peer. Legal values are 0x42 to 0x104. */
+        uint64_t pem_np                : 8;  /**< [ 51: 44](R/W) TLP 16 B credits for nonposted TLPs in the peer. Legal values are 0x4 to 0x20. */
+        uint64_t pem_cpl               : 12; /**< [ 63: 52](R/W) TLP 16 B credits for completion TLPs in the peer. Legal values are 0x42 to 0x104. */
+#endif /* Word 0 - End */
+    } cn83xx;
     struct bdk_pemx_tlp_credits_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

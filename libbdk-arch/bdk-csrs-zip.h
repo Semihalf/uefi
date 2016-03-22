@@ -58,12 +58,12 @@
  * ZIP Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_ZIP_BAR_E_ZIP_PF_BAR0 (0x838000000000ll) /**< Base address for standard registers. */
-#define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN9 (0x838010000000ll) /**< Base address for MSI-X registers. */
-#define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN88XX (0x838000f00000ll) /**< Base address for MSI-X registers. */
-#define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN83XX (0x838010000000ll) /**< Base address for MSI-X registers. */
-#define BDK_ZIP_BAR_E_ZIP_VFX_BAR0(a) (0x838020000000ll + 0x100000ll * (a)) /**< Base address for virtual function standard registers. */
-#define BDK_ZIP_BAR_E_ZIP_VFX_BAR4(a) (0x838030000000ll + 0x100000ll * (a)) /**< Base address for virtual function MSI-X registers. */
+#define BDK_ZIP_BAR_E_ZIP_PF_BAR0 (0x838000000000ll)
+#define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN9 (0x838010000000ll)
+#define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN88XX (0x838000f00000ll)
+#define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN83XX (0x838010000000ll)
+#define BDK_ZIP_BAR_E_ZIP_VFX_BAR0(a) (0x838020000000ll + 0x100000ll * (a))
+#define BDK_ZIP_BAR_E_ZIP_VFX_BAR4(a) (0x838030000000ll + 0x100000ll * (a))
 
 /**
  * Enumeration zip_comp_e
@@ -71,114 +71,20 @@
  * ZIP Completion Enumeration
  * Enumerates the values of ZIP_ZRES_S[COMPCODE].
  */
-#define BDK_ZIP_COMP_E_BADCODE (7) /**< Uncompress found a bad code in the main Huffman codes. This is a fatal error and
-                                       all other outputs (bytes in the output stream and ZIP_ZRES_S fields excluding
-                                       ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are unpredictable and should not
-                                       be used by software.
-                                       
-                                       This code is specific to DEFLATE processing and is N/A for compression. */
-#define BDK_ZIP_COMP_E_BADCODE2 (8) /**< Uncompress found a bad code in the 19 Huffman codes used to encode lengths. This
-                                       is a fatal error and all other outputs (bytes in the output stream and
-                                       ZIP_ZRES_S fields excluding ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are
-                                       unpredictable and should not be used by software.
-                                       
-                                       This code is specific to DEFLATE processing and is N/A for compression. */
-#define BDK_ZIP_COMP_E_DSTOP (3) /**< Uncompress dynamically stopped. The ZIP coprocessor saved its state in the
-                                       context, and the ZIP coprocessor can be restarted again when more space is
-                                       available for output stream bytes. ZIP_ZRES_S[TOTALBYTESREAD] indicates the
-                                       number of input bytes processed during this invocation of the ZIP
-                                       coprocessor. ZIP_ZRES_S[TOTALBYTESWRITTEN] indicates the number of output stream
-                                       bytes written during this invocation of the ZIP coprocessor. ZIP_ZRES_S[EF] is
-                                       never set when the ZIP coprocessor returns this completion code.
-                                       
-                                       This code is N/A for compression. */
-#define BDK_ZIP_COMP_E_DTRUNC (2) /**< Output truncated. This is a fatal error and all other outputs (bytes in the
-                                       output stream and ZIP_ZRES_S fields excluding ZIP_ZRES_S[COMPCODE]) from the ZIP
-                                       coprocessor are unpredictable and should not be used by software. Refer to the
-                                       IWORD0[TOTALOUTPUTLENGTH] description. */
-#define BDK_ZIP_COMP_E_FATAL (0xb) /**< Uncompress found a string identifier that precedes the uncompressed data and
-                                       decompression history. This is a fatal error and all other outputs (bytes in the
-                                       output stream and ZIP_ZRES_S fields excluding ZIP_ZRES_S[COMPCODE]) from the ZIP
-                                       coprocessor are unpredictable and should not be used by software.
-                                       
-                                       This code is N/A for compression. */
-#define BDK_ZIP_COMP_E_ITRUNC (4) /**< Uncompress ran out of input data when IWORD0[EF] was set. This is a fatal error
-                                       and all other outputs (bytes in the output stream and ZIP_ZRES_S fields
-                                       excluding ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are unpredictable and
-                                       should not be used by software.
-                                       
-                                       This code is N/A for compression. */
-#define BDK_ZIP_COMP_E_NLEN (6) /**< Uncompress found LEN != NLEN in an uncompressed block in the input. This is a
-                                       fatal error and all other outputs (bytes in the output stream and ZIP_ZRES_S
-                                       fields excluding ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are
-                                       unpredictable and should not be used by software.
-                                       
-                                       This code is specific to DEFLATE processing and is N/A for compression. */
-#define BDK_ZIP_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by software to
-                                       indicate the ZIP_ZRES_S structure has not yet been updated by hardware. */
-#define BDK_ZIP_COMP_E_PARITY_CN9 (0xa) /**< The compress, decompress or hash encountered an internal parity or ECC DBE error. This
-                                       is a fatal error and all other outputs (bytes in the output stream and ZIP_ZRES_S fields
-                                       excluding ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are unpredictable and
-                                       should not be used by the software. */
-#define BDK_ZIP_COMP_E_PARITY_CN88XX (0xa) /**< The compress or decompress encountered an internal parity error. This is a fatal
-                                       error and all other outputs (bytes in the output stream and ZIP_ZRES_S fields
-                                       excluding ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are unpredictable and
-                                       should not be used by the software. */
-#define BDK_ZIP_COMP_E_PARITY_CN83XX (0xa) /**< The compress, decompress or hash encountered an internal parity or ECC DBE error. This
-                                       is a fatal error and all other outputs (bytes in the output stream and ZIP_ZRES_S fields
-                                       excluding ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are unpredictable and
-                                       should not be used by the software. */
-#define BDK_ZIP_COMP_E_RBLOCK (5) /**< Uncompress found the reserved block type 3. This is a fatal error and all other
-                                       outputs (bytes in the output stream and ZIP_ZRES_S fields excluding
-                                       ZIP_ZRES_S[COMPCODE]) from the ZIP coprocessor are unpredictable and should not
-                                       be used by software. This code is specific to DEFLATE processing and is N/A for
-                                       compression. */
-#define BDK_ZIP_COMP_E_STOP (3) /**< Uncompress dynamically stopped. The ZIP coprocessor saved its state in the
-                                       context, and the ZIP coprocessor can be restarted again when more space is
-                                       available for output stream bytes. ZIP_ZRES_S[TOTALBYTESREAD] indicates the
-                                       number of input bytes processed during this invocation of the ZIP
-                                       coprocessor. ZIP_ZRES_S[TOTALBYTESWRITTEN] indicates the number of output stream
-                                       bytes written during this invocation of the ZIP coprocessor. ZIP_ZRES_S[EF] is
-                                       never set when the ZIP coprocessor returns this completion code.
-                                       
-                                       This code is N/A for compression. */
-#define BDK_ZIP_COMP_E_SUCCESS (1) /**< Successful completion. All input-stream bytes were processed and all necessary output
-                                       stream bytes produced. (ZIP_ZRES_S[TOTALBYTESWRITTEN] indicates the number of output bytes
-                                       written during this invocation of the ZIP coprocessor.)
-                                       
-                                       For decompression:
-                                       
-                                       * If a decompression operation and ZIP_ZRES_S[EF] = 0, the ZIP coprocessor saved state in
-                                       the
-                                       context and can be restarted.
-                                       
-                                       * If a decompression operation and ZIP_ZRES_S[EF] = 1, the ZIP coprocessor completed
-                                       decompression of all blocks in the file, and ZIP_ZRES_S[TOTALBITSPROCESSED] contains the
-                                       total
-                                       number of input bits processed to decompress all blocks in the file.
-                                       
-                                       Normally, an error-free full-file-decompression completion (i.e. one where ZIP_ZRES_S[EF]
-                                       = 1
-                                       and ZIP_ZRES_S[COMPCODE] = 0x1) means that the file was successfully decompressed by the
-                                       hardware. However, when IWORD0[EF] was set for the ZIP invocation, the file may not have
-                                       been successfully decompressed. In this case, software must also check the total number of
-                                       bits used to decompress the file to guarantee that the hardware correctly found the end of
-                                       the compressed input file. If the total number of bits used to decompress the file (the
-                                       least-significant 32 bits of the total is specified in ZIP_ZRES_S[TOTALBITSPROCESSED])
-                                       exceeds
-                                       the total number of bits of the input that were used by all ZIP invocations for the file,
-                                       then this invocation should be considered in error, exactly as if ZIP_ZRES_S[COMPCODE]
-                                       were
-                                       set to 4 (uncompress ran out of data). The total number of bits of input for the file is
-                                       the sum of ZIP_ZRES_S[TOTALBYTESREAD] for all prior error-free ZIP decompression
-                                       invocations
-                                       for the file plus the number of input bytes for this invocation, times 8 (8 bits per
-                                       byte). */
-#define BDK_ZIP_COMP_E_TIMEOUT (0xc) /**< The compress or decompress operation timed out. All bytes in the output stream
-                                       and ZIP_ZRES_S fields excluding ZIP_ZRES_S[COMPCODE] and ZIP_ZRES_S[DONEINT]
-                                       from the ZIP coprocessor are unpredictable and must not be used by the
-                                       software. */
-#define BDK_ZIP_COMP_E_ZERO_LEN (9) /**< Compress found a zero-length input. */
+#define BDK_ZIP_COMP_E_BADCODE (7)
+#define BDK_ZIP_COMP_E_BADCODE2 (8)
+#define BDK_ZIP_COMP_E_DSTOP (3)
+#define BDK_ZIP_COMP_E_DTRUNC (2)
+#define BDK_ZIP_COMP_E_FATAL (0xb)
+#define BDK_ZIP_COMP_E_ITRUNC (4)
+#define BDK_ZIP_COMP_E_NLEN (6)
+#define BDK_ZIP_COMP_E_NOTDONE (0)
+#define BDK_ZIP_COMP_E_PARITY (0xa)
+#define BDK_ZIP_COMP_E_RBLOCK (5)
+#define BDK_ZIP_COMP_E_STOP (3)
+#define BDK_ZIP_COMP_E_SUCCESS (1)
+#define BDK_ZIP_COMP_E_TIMEOUT (0xc)
+#define BDK_ZIP_COMP_E_ZERO_LEN (9)
 
 /**
  * Enumeration zip_hash_alg_e
@@ -186,37 +92,9 @@
  * ZIP Hash Algorithm Enumeration
  * Enumerates ZIP_INST_S[HALG].
  */
-#define BDK_ZIP_HASH_ALG_E_NONE (0) /**< No hashing. ZIP_ZRES_S writes 24 bytes. */
-#define BDK_ZIP_HASH_ALG_E_SHA1 (1) /**< SHA-1 hashing. ZIP_ZRES_S writes 64 bytes.
-                                       
-                                       If ZIP_INST_S[IV] is set, ZIP_INST_S[HASH_PTR] points to a ZIP_HASH_S containing
-                                       the hash initial value. If ZIP_INST_S[IV] is clear, the initial hash value is
-                                       the SHA-1 standard 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476,
-                                       0xC3D2E1F0.
-                                       
-                                       ZIP calculates SHA hashes on 64-byte hash-blocks. If ZIP_INST_S[HMIF] is clear,
-                                       the final hash-block will be padded and length added as required by the
-                                       algorithm to close the hash.  If ZIP_INST_S[HMIF] is set, the internmediate
-                                       state of the final up to 63 bytes that did not complete a hash-block will be
-                                       stored in the ZIP_HASH_S pointed to by ZIP_INST_S[HASH_PTR].
-                                       
-                                       Internal:
-                                       Verify this default IVs result in the proper standard hash results. */
-#define BDK_ZIP_HASH_ALG_E_SHA256 (2) /**< SHA-256 hashing. ZIP_ZRES_S writes 64 bytes.
-                                       
-                                       If ZIP_INST_S[IV] is set, ZIP_INST_S[HASH_PTR] if nonzero points to a ZIP_HASH_S
-                                       containing the hash initial value. If ZIP_INST_S[IV] is clear, the initial hash
-                                       value is the SHA-256 standard 0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
-                                       0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19.
-                                       
-                                       ZIP calculates SHA hashes on 64-byte hash-blocks. If ZIP_INST_S[HMIF] is clear,
-                                       the final hash-block will be padded and length added as required by the
-                                       algorithm to close the hash.  If ZIP_INST_S[HMIF] is set, the intermediate state
-                                       of the final up to 63 bytes that did not complete a hash-block will be stored in
-                                       the ZIP_HASH_S pointed to by ZIP_INST_S[HASH_PTR].
-                                       
-                                       Internal:
-                                       Verify this default IVs result in the proper standard hash results. */
+#define BDK_ZIP_HASH_ALG_E_NONE (0)
+#define BDK_ZIP_HASH_ALG_E_SHA1 (1)
+#define BDK_ZIP_HASH_ALG_E_SHA256 (2)
 
 /**
  * Enumeration zip_int_vec_e
@@ -224,17 +102,10 @@
  * ZIP MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_ZIP_INT_VEC_E_ECCE (0x10) /**< See interrupt clears ZIP_ECCE_INT, interrupt sets ZIP_ECCE_INT_W1S, enable clears
-                                       ZIP_ECCE_ENA_W1C, and enable sets ZIP_ECCE_ENA_W1S. */
-#define BDK_ZIP_INT_VEC_E_FIFE (0x11) /**< See interrupt clears ZIP_FIFE_INT, interrupt sets ZIP_FIFE_INT_W1S, enable clears
-                                       ZIP_FIFE_ENA_W1C, and enable sets ZIP_FIFE_ENA_W1S. */
-#define BDK_ZIP_INT_VEC_E_QUEX_DONE(a) (0 + (a)) /**< See interrupt clears ZIP_QUE(0..7)_DONE_ACK, interrupt sets ZIP_QUE(0..7)_DONE and
-                                       interrupt coalescing
-                                       waits ZIP_QUE(0..7)_DONE_WAIT, enable clears ZIP_QUE(0..7)_DONE_ENA_W1C, and enable sets
-                                       ZIP_QUE(0..7)_DONE_ENA_W1S. */
-#define BDK_ZIP_INT_VEC_E_QUEX_ERR(a) (8 + (a)) /**< See interrupt clears ZIP_QUE(0..7)_ERR_INT, interrupt sets ZIP_QUE(0..7)_ERR_INT_W1S,
-                                       enable clears
-                                       ZIP_QUE(0..7)_ERR_ENA_W1C, and enable sets ZIP_QUE(0..7)_ERR_ENA_W1S. */
+#define BDK_ZIP_INT_VEC_E_ECCE (0x10)
+#define BDK_ZIP_INT_VEC_E_FIFE (0x11)
+#define BDK_ZIP_INT_VEC_E_QUEX_DONE(a) (0 + (a))
+#define BDK_ZIP_INT_VEC_E_QUEX_ERR(a) (8 + (a))
 
 /**
  * Enumeration zip_op_e
@@ -244,9 +115,9 @@
  * Internal:
  * This encoding provides backward compatibility with CN88XX software.
  */
-#define BDK_ZIP_OP_E_COMP (2) /**< Compression. */
-#define BDK_ZIP_OP_E_DECOMP (0) /**< Decompression. */
-#define BDK_ZIP_OP_E_NOCOMP (1) /**< Hash only; no compression nor decompression. */
+#define BDK_ZIP_OP_E_COMP (2)
+#define BDK_ZIP_OP_E_DECOMP (0)
+#define BDK_ZIP_OP_E_NOCOMP (1)
 
 /**
  * Enumeration zip_pf_int_vec_e
@@ -254,14 +125,9 @@
  * ZIP MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_ZIP_PF_INT_VEC_E_ECCE (0) /**< See interrupt clears ZIP_ECCE_INT, interrupt sets ZIP_ECCE_INT_W1S, enable clears
-                                       ZIP_ECCE_ENA_W1C, and enable sets ZIP_ECCE_ENA_W1S. */
-#define BDK_ZIP_PF_INT_VEC_E_FIFE (1) /**< See interrupt clears ZIP_FIFE_INT, interrupt sets ZIP_FIFE_INT_W1S, enable clears
-                                       ZIP_FIFE_ENA_W1C, and enable sets ZIP_FIFE_ENA_W1S. */
-#define BDK_ZIP_PF_INT_VEC_E_MBOXX(a) (2 + (a)) /**< See interrupt clears ZIP_PF_MBOX_INT(0),
-                                       interrupt sets ZIP_PF_MBOX_INT_W1S(0),
-                                       enable clears ZIP_PF_MBOX_ENA_W1C(0),
-                                       and enable sets ZIP_PF_MBOX_ENA_W1S(0). */
+#define BDK_ZIP_PF_INT_VEC_E_ECCE (0)
+#define BDK_ZIP_PF_INT_VEC_E_FIFE (1)
+#define BDK_ZIP_PF_INT_VEC_E_MBOXX(a) (2 + (a))
 
 /**
  * Enumeration zip_vf_int_vec_e
@@ -269,11 +135,8 @@
  * ZIP VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_ZIP_VF_INT_VEC_E_QUE_DONE (0) /**< See interrupt clears ZIP_VQ()_DONE_ACK, interrupt sets ZIP_VQ()_DONE and
-                                       interrupt coalescing waits ZIP_VQ()_DONE_WAIT, enable clears
-                                       ZIP_VQ()_DONE_ENA_W1C, and enable sets ZIP_VQ()_DONE_ENA_W1S. */
-#define BDK_ZIP_VF_INT_VEC_E_QUE_ERR (1) /**< See interrupt clears ZIP_VF()_MISC_INT, interrupt sets ZIP_VF()_MISC_INT_W1S,
-                                       enable clears ZIP_VF()_MISC_ENA_W1C, and enable sets ZIP_VF()_MISC_ENA_W1S. */
+#define BDK_ZIP_VF_INT_VEC_E_QUE_DONE (0)
+#define BDK_ZIP_VF_INT_VEC_E_QUE_ERR (1)
 
 /**
  * Structure zip_hash_s
@@ -4980,7 +4843,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Added in pass 2.0. Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
         uint64_t reserved_5_15         : 11;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
@@ -4994,7 +4857,7 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t reserved_5_15         : 11;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Added in pass 2.0. Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5051,7 +4914,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
         uint64_t reserved_5_15         : 11;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
@@ -5065,7 +4928,7 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t reserved_5_15         : 11;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5193,7 +5056,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[CTO]. */
         uint64_t reserved_5_15         : 11;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NWRP]. */
@@ -5207,7 +5070,7 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t reserved_5_15         : 11;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[CTO]. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;

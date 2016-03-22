@@ -61,159 +61,145 @@
  * of the devices available. The value of the enumeration is formatted as defined by
  * PCC_DEV_CON_S.
  */
-#define BDK_PCC_DEV_CON_E_BCH (0x300) /**< BCH (under PCCBR_BCH). */
-#define BDK_PCC_DEV_CON_E_BGXX(a) (0x180 + (a)) /**< Ethernet interface. */
-#define BDK_PCC_DEV_CON_E_CPT0 (0x400) /**< CPT 0 (under PCCBR_CPT0). */
-#define BDK_PCC_DEV_CON_E_CPT1 (0x500) /**< CPT 1 (under PCCBR_CPT1). */
-#define BDK_PCC_DEV_CON_E_DAP (0x102) /**< Debug access point. */
-#define BDK_PCC_DEV_CON_E_DDF0 (0x10500) /**< DDF (under PCCBR_DDF0). */
-#define BDK_PCC_DEV_CON_E_DFA (0x400) /**< HFA. */
-#define BDK_PCC_DEV_CON_E_DPI0 (0xb00) /**< DPI 0 (under PCCBR_DPI0). */
-#define BDK_PCC_DEV_CON_E_FPA (0x900) /**< FPA (under PCCBR_FPA). */
-#define BDK_PCC_DEV_CON_E_FUSF (0x104) /**< Field Fuses. */
-#define BDK_PCC_DEV_CON_E_GIC (0x18) /**< GIC interrupt unit. */
-#define BDK_PCC_DEV_CON_E_GPIO (0x30) /**< GPIO. */
-#define BDK_PCC_DEV_CON_E_GSERX(a) (0x1e0 + (a)) /**< SerDes. */
-#define BDK_PCC_DEV_CON_E_GTI (0x20) /**< Timer. */
-#define BDK_PCC_DEV_CON_E_IOBNX(a) (0x158 + (a)) /**< I/O bridge. */
-#define BDK_PCC_DEV_CON_E_KEY (0x10d) /**< KEY. */
-#define BDK_PCC_DEV_CON_E_L2C (0x109) /**< Level 2 cache. */
-#define BDK_PCC_DEV_CON_E_L2C_CBCX(a) (0x138 + (a)) /**< Level 2 cache CBC. */
-#define BDK_PCC_DEV_CON_E_L2C_MCIX(a) (0x13c + (a)) /**< Level 2 cache MCI. */
-#define BDK_PCC_DEV_CON_E_L2C_TADX(a) (0x130 + (a)) /**< Level 2 cache TAD. */
-#define BDK_PCC_DEV_CON_E_LBKX(a) (0x168 + (a)) /**< Loopback. */
-#define BDK_PCC_DEV_CON_E_LMCX(a) (0x150 + (a)) /**< LMC interface. */
-#define BDK_PCC_DEV_CON_E_MIO_BOOT_CN9 (0x10e) /**< Boot registers. */
-#define BDK_PCC_DEV_CON_E_MIO_BOOT_CN81XX (0x10e) /**< Boot registers. */
-#define BDK_PCC_DEV_CON_E_MIO_BOOT_CN88XX (0x10e) /**< Boot-bus. */
-#define BDK_PCC_DEV_CON_E_MIO_BOOT_CN83XX (0x10e) /**< Boot registers. */
-#define BDK_PCC_DEV_CON_E_MIO_EMM (0x10c) /**< eMMC. */
-#define BDK_PCC_DEV_CON_E_MIO_FUS (0x103) /**< Fuses. */
-#define BDK_PCC_DEV_CON_E_MIO_PTP (0x40) /**< Precision time-stamping. */
-#define BDK_PCC_DEV_CON_E_MIO_TWSX(a) (0x148 + (a)) /**< TWSI. */
-#define BDK_PCC_DEV_CON_E_MPI (0x38) /**< MPI. */
-#define BDK_PCC_DEV_CON_E_MRML_CN9 (0x100) /**< Master RSL bus bridge (under PCCBR_MRML). */
-#define BDK_PCC_DEV_CON_E_MRML_CN81XX (0x100) /**< Master RSL bus bridge (under PCCBR_MRML). */
-#define BDK_PCC_DEV_CON_E_MRML_CN88XX (0x100) /**< Master RSL bus bridge. */
-#define BDK_PCC_DEV_CON_E_MRML_CN83XX (0x100) /**< Master RSL bus bridge (under PCCBR_MRML). */
-#define BDK_PCC_DEV_CON_E_NCSI (0x108) /**< NC-SI interface. */
-#define BDK_PCC_DEV_CON_E_NDF (0x58) /**< NAND flash. */
-#define BDK_PCC_DEV_CON_E_NIC_CN9 (0x10100) /**< Network interface controller (under PCCBR_NIC). */
-#define BDK_PCC_DEV_CON_E_NIC_CN81XX (0x500) /**< Network interface controller (under PCCBR_NIC). */
-#define BDK_PCC_DEV_CON_E_NIC_CN88XX (0x20100) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
-#define BDK_PCC_DEV_CON_E_NIC_CN83XX (0x10100) /**< Network interface controller (under PCCBR_NIC). */
-#define BDK_PCC_DEV_CON_E_OCLAX(a) (0x160 + (a)) /**< OCLA. */
-#define BDK_PCC_DEV_CON_E_OCX (0x105) /**< OCX. */
-#define BDK_PCC_DEV_CON_E_PBUS (0x10f) /**< Parallel bus. */
-#define BDK_PCC_DEV_CON_E_PCCBR_BCH (0x50) /**< Bridge for BCH, creating ECAM 0's bus 3. */
-#define BDK_PCC_DEV_CON_E_PCCBR_CPT0 (0x60) /**< Bridge for CPT 0, creating ECAM 0's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCCBR_CPT1 (0x68) /**< Bridge for CPT 1, creating ECAM 0's bus 5. */
-#define BDK_PCC_DEV_CON_E_PCCBR_DDF0 (0x100a0) /**< Bridge for DDF0, creating ECAM 1's bus 5. */
-#define BDK_PCC_DEV_CON_E_PCCBR_DFA (0xb0) /**< Bridge for DFA, creating ECAM 0's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCCBR_DPI0 (0xa0) /**< Bridge for DPI 0, creating ECAM 0's bus 11. */
-#define BDK_PCC_DEV_CON_E_PCCBR_FPA (0x90) /**< Bridge for FPA, creating ECAM 0's bus 9. */
-#define BDK_PCC_DEV_CON_E_PCCBR_MRML (8) /**< Bridge for MRML, creating ECAM 0's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN9 (0x10080) /**< Bridge for NIC, creating ECAM 1's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN81XX (0x78) /**< Bridge for NIC, creating ECAM 0's bus 5. */
-#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN88XX (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN83XX (0x10080) /**< Bridge for NIC, creating ECAM 1's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_PKI (0x10088) /**< Bridge for PKI, creating ECAM 1's bus 2. */
-#define BDK_PCC_DEV_CON_E_PCCBR_PKO (0x10090) /**< Bridge for PKO, creating ECAM 1's bus 3. */
-#define BDK_PCC_DEV_CON_E_PCCBR_RAD_CN9 (0x70) /**< Bridge for RAD, creating ECAM 0's bus 6. */
-#define BDK_PCC_DEV_CON_E_PCCBR_RAD_CN88XX (0xa0) /**< Bridge for RAD, creating ECAM 0's bus 2. */
-#define BDK_PCC_DEV_CON_E_PCCBR_RAD_CN83XX (0x70) /**< Bridge for RAD, creating ECAM 0's bus 6. */
-#define BDK_PCC_DEV_CON_E_PCCBR_RNM (0x48) /**< Bridge for RNM, creating ECAM 0's bus 2. */
-#define BDK_PCC_DEV_CON_E_PCCBR_SSO (0x80) /**< Bridge for SSO, creating ECAM 0's bus 7. */
-#define BDK_PCC_DEV_CON_E_PCCBR_SSOW (0x88) /**< Bridge for SSOW, creating ECAM 0's bus 8. */
-#define BDK_PCC_DEV_CON_E_PCCBR_TIM (0x98) /**< Bridge for TIM, creating ECAM 0's bus 10. */
-#define BDK_PCC_DEV_CON_E_PCCBR_ZIP_CN9 (0x10098) /**< Bridge for ZIP, creating ECAM 1's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCCBR_ZIP_CN88XX (0xa8) /**< Bridge for ZIP, creating ECAM 0's bus 3. */
-#define BDK_PCC_DEV_CON_E_PCCBR_ZIP_CN83XX (0x10098) /**< Bridge for ZIP, creating ECAM 1's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCIERC0_CN9 (0xc8) /**< PCIe endpoint 0.
-                                       Internal:
-                                       Note attributes represent those to create PCCBR_PCIERC. */
-#define BDK_PCC_DEV_CON_E_PCIERC0_CN81XX (0xc0) /**< PCIe endpoint 0.
-                                       Internal:
-                                       This device represents pcierc.csr (the real registers), pemrc.csr (for PCIERC's
-                                       MSI-X) and pcc_snoop_pcierc.v (for IOB to snoop PCIERC). */
-#define BDK_PCC_DEV_CON_E_PCIERC0_CN88XX (0x10080) /**< PCIe endpoint 0.
-                                       Internal:
-                                       Note attributes represent those to create PCCBR_PCIERC. */
-#define BDK_PCC_DEV_CON_E_PCIERC0_CN83XX (0xc8) /**< PCIe endpoint 0.
-                                       Internal:
-                                       Note attributes represent those to create PCCBR_PCIERC. */
-#define BDK_PCC_DEV_CON_E_PCIERC1_CN9 (0xd0) /**< PCIe endpoint 1. */
-#define BDK_PCC_DEV_CON_E_PCIERC1_CN81XX (0xc8) /**< PCIe endpoint 1. */
-#define BDK_PCC_DEV_CON_E_PCIERC1_CN88XX (0x10090) /**< PCIe endpoint 1. */
-#define BDK_PCC_DEV_CON_E_PCIERC1_CN83XX (0xd0) /**< PCIe endpoint 1. */
-#define BDK_PCC_DEV_CON_E_PCIERC2_CN9 (0xd8) /**< PCIe endpoint 2. */
-#define BDK_PCC_DEV_CON_E_PCIERC2_CN81XX (0xd0) /**< PCIe endpoint 2. */
-#define BDK_PCC_DEV_CON_E_PCIERC2_CN88XX (0x100a0) /**< PCIe endpoint 2. */
-#define BDK_PCC_DEV_CON_E_PCIERC2_CN83XX (0xd8) /**< PCIe endpoint 2. */
-#define BDK_PCC_DEV_CON_E_PCIERC3_CN9 (0xe0) /**< PCIe endpoint 3. */
-#define BDK_PCC_DEV_CON_E_PCIERC3_CN88XX (0x30080) /**< PCIe endpoint 3. */
-#define BDK_PCC_DEV_CON_E_PCIERC3_CN83XX (0xe0) /**< PCIe endpoint 3. */
-#define BDK_PCC_DEV_CON_E_PCIERC4 (0x30090) /**< PCIe endpoint 4. */
-#define BDK_PCC_DEV_CON_E_PCIERC5 (0x300a0) /**< PCIe endpoint 5. */
-#define BDK_PCC_DEV_CON_E_PCM (0x68) /**< PCM. */
-#define BDK_PCC_DEV_CON_E_PEMX(a) (0x170 + (a)) /**< PCI controller. */
-#define BDK_PCC_DEV_CON_E_PKI (0x10200) /**< PKI (under PCCBR_PKI). */
-#define BDK_PCC_DEV_CON_E_PKO (0x10300) /**< PKO (under PCCBR_PKO). */
-#define BDK_PCC_DEV_CON_E_RAD_CN9 (0x600) /**< RAID unit (under PCCBR_RAD). */
-#define BDK_PCC_DEV_CON_E_RAD_CN88XX (0x200) /**< RAID unit. */
-#define BDK_PCC_DEV_CON_E_RAD_CN83XX (0x600) /**< RAID unit (under PCCBR_RAD). */
-#define BDK_PCC_DEV_CON_E_RGXX(a) (0x190 + (a)) /**< Ethernet interface. */
-#define BDK_PCC_DEV_CON_E_RNM_CN9 (0x200) /**< Random number generator (under PCCBR_RNM). */
-#define BDK_PCC_DEV_CON_E_RNM_CN81XX (0x200) /**< Random number generator (under PCCBR_RNM). */
-#define BDK_PCC_DEV_CON_E_RNM_CN88XX (0x48) /**< Random number generator. */
-#define BDK_PCC_DEV_CON_E_RNM_CN83XX (0x200) /**< Random number generator (under PCCBR_RNM). */
-#define BDK_PCC_DEV_CON_E_RST (0x101) /**< Reset. */
-#define BDK_PCC_DEV_CON_E_SATA0_CN9 (0x10020) /**< SATA 0. */
-#define BDK_PCC_DEV_CON_E_SATA0_CN81XX (0xb0) /**< SATA 0. */
-#define BDK_PCC_DEV_CON_E_SATA0_CN88XX (0x10020) /**< SATA 0. */
-#define BDK_PCC_DEV_CON_E_SATA0_CN83XX (0x10020) /**< SATA 0. */
-#define BDK_PCC_DEV_CON_E_SATA1_CN9 (0x10028) /**< SATA 1. */
-#define BDK_PCC_DEV_CON_E_SATA1_CN81XX (0xb8) /**< SATA 1. */
-#define BDK_PCC_DEV_CON_E_SATA1_CN88XX (0x10028) /**< SATA 1. */
-#define BDK_PCC_DEV_CON_E_SATA1_CN83XX (0x10028) /**< SATA 1. */
-#define BDK_PCC_DEV_CON_E_SATA10 (0x30030) /**< SATA 10. */
-#define BDK_PCC_DEV_CON_E_SATA11 (0x30038) /**< SATA 11. */
-#define BDK_PCC_DEV_CON_E_SATA12 (0x30040) /**< SATA 12. */
-#define BDK_PCC_DEV_CON_E_SATA13 (0x30048) /**< SATA 13. */
-#define BDK_PCC_DEV_CON_E_SATA14 (0x30050) /**< SATA 14. */
-#define BDK_PCC_DEV_CON_E_SATA15 (0x30058) /**< SATA 15. */
-#define BDK_PCC_DEV_CON_E_SATA2 (0x10030) /**< SATA 2. */
-#define BDK_PCC_DEV_CON_E_SATA3 (0x10038) /**< SATA 3. */
-#define BDK_PCC_DEV_CON_E_SATA4 (0x10040) /**< SATA 4. */
-#define BDK_PCC_DEV_CON_E_SATA5 (0x10048) /**< SATA 5. */
-#define BDK_PCC_DEV_CON_E_SATA6 (0x10050) /**< SATA 6. */
-#define BDK_PCC_DEV_CON_E_SATA7 (0x10058) /**< SATA 7. */
-#define BDK_PCC_DEV_CON_E_SATA8 (0x30020) /**< SATA 8. */
-#define BDK_PCC_DEV_CON_E_SATA9 (0x30028) /**< SATA 9. */
-#define BDK_PCC_DEV_CON_E_SGP (0x10a) /**< Serial GPIO. */
-#define BDK_PCC_DEV_CON_E_SLI0_CN81XX (0x70) /**< SLI 0. */
-#define BDK_PCC_DEV_CON_E_SLI0_CN88XX (0x10010) /**< SLI 0. */
-#define BDK_PCC_DEV_CON_E_SLI1 (0x30010) /**< SLI 1. */
-#define BDK_PCC_DEV_CON_E_SLIRE0 (0xc0) /**< SLI 0. */
-#define BDK_PCC_DEV_CON_E_SMI (0x10b) /**< SMI. */
-#define BDK_PCC_DEV_CON_E_SMMU0 (0x10) /**< System memory management unit. */
-#define BDK_PCC_DEV_CON_E_SMMU1 (0x10008) /**< System memory management unit. */
-#define BDK_PCC_DEV_CON_E_SMMU2 (0x20008) /**< System memory management unit. */
-#define BDK_PCC_DEV_CON_E_SMMU3 (0x30008) /**< System memory management unit. */
-#define BDK_PCC_DEV_CON_E_SSO (0x700) /**< SSO (under PCCBR_SSO). */
-#define BDK_PCC_DEV_CON_E_SSOW (0x800) /**< SSO work slots (under PCCBR_SSOW). */
-#define BDK_PCC_DEV_CON_E_TIM (0xa00) /**< TIM (under PCCBR_TIM). */
-#define BDK_PCC_DEV_CON_E_TNS (0x20018) /**< Network switch. */
-#define BDK_PCC_DEV_CON_E_UAAX(a) (0x140 + (a)) /**< UART. */
-#define BDK_PCC_DEV_CON_E_USBDRDX_CN81XX(a) (0x80 + 8 * (a)) /**< USB interface. */
-#define BDK_PCC_DEV_CON_E_USBDRDX_CN83XX(a) (0x10060 + 8 * (a)) /**< USB interface. */
-#define BDK_PCC_DEV_CON_E_USBDRDX_CN9(a) (0x10060 + 8 * (a)) /**< USB interface. */
-#define BDK_PCC_DEV_CON_E_USBHX(a) (0x80 + 8 * (a)) /**< USB interface. */
-#define BDK_PCC_DEV_CON_E_VRMX(a) (0x144 + (a)) /**< Voltage regulator. */
-#define BDK_PCC_DEV_CON_E_XCVX(a) (0x110 + (a)) /**< RGMII XCV. */
-#define BDK_PCC_DEV_CON_E_ZIP_CN9 (0x10400) /**< ZIP (under PCCBR_ZIP). */
-#define BDK_PCC_DEV_CON_E_ZIP_CN88XX (0x300) /**< ZIP. */
-#define BDK_PCC_DEV_CON_E_ZIP_CN83XX (0x10400) /**< ZIP (under PCCBR_ZIP). */
+#define BDK_PCC_DEV_CON_E_BCH (0x300)
+#define BDK_PCC_DEV_CON_E_BGXX(a) (0x180 + (a))
+#define BDK_PCC_DEV_CON_E_CPT0 (0x400)
+#define BDK_PCC_DEV_CON_E_CPT1 (0x500)
+#define BDK_PCC_DEV_CON_E_DAP (0x102)
+#define BDK_PCC_DEV_CON_E_DDF0 (0x10500)
+#define BDK_PCC_DEV_CON_E_DFA (0x400)
+#define BDK_PCC_DEV_CON_E_DPI0 (0xb00)
+#define BDK_PCC_DEV_CON_E_FPA (0x900)
+#define BDK_PCC_DEV_CON_E_FUSF (0x104)
+#define BDK_PCC_DEV_CON_E_GIC (0x18)
+#define BDK_PCC_DEV_CON_E_GPIO (0x30)
+#define BDK_PCC_DEV_CON_E_GSERX(a) (0x1e0 + (a))
+#define BDK_PCC_DEV_CON_E_GTI (0x20)
+#define BDK_PCC_DEV_CON_E_IOBNX(a) (0x158 + (a))
+#define BDK_PCC_DEV_CON_E_KEY (0x10d)
+#define BDK_PCC_DEV_CON_E_L2C (0x109)
+#define BDK_PCC_DEV_CON_E_L2C_CBCX(a) (0x138 + (a))
+#define BDK_PCC_DEV_CON_E_L2C_MCIX(a) (0x13c + (a))
+#define BDK_PCC_DEV_CON_E_L2C_TADX(a) (0x130 + (a))
+#define BDK_PCC_DEV_CON_E_LBKX(a) (0x168 + (a))
+#define BDK_PCC_DEV_CON_E_LMCX(a) (0x150 + (a))
+#define BDK_PCC_DEV_CON_E_MIO_BOOT (0x10e)
+#define BDK_PCC_DEV_CON_E_MIO_EMM (0x10c)
+#define BDK_PCC_DEV_CON_E_MIO_FUS (0x103)
+#define BDK_PCC_DEV_CON_E_MIO_PTP (0x40)
+#define BDK_PCC_DEV_CON_E_MIO_TWSX(a) (0x148 + (a))
+#define BDK_PCC_DEV_CON_E_MPI (0x38)
+#define BDK_PCC_DEV_CON_E_MRML (0x100)
+#define BDK_PCC_DEV_CON_E_NCSI (0x108)
+#define BDK_PCC_DEV_CON_E_NDF (0x58)
+#define BDK_PCC_DEV_CON_E_NIC_CN9 (0x10100)
+#define BDK_PCC_DEV_CON_E_NIC_CN81XX (0x500)
+#define BDK_PCC_DEV_CON_E_NIC_CN88XX (0x20100)
+#define BDK_PCC_DEV_CON_E_NIC_CN83XX (0x10100)
+#define BDK_PCC_DEV_CON_E_NPC (0xf8)
+#define BDK_PCC_DEV_CON_E_OCLAX(a) (0x160 + (a))
+#define BDK_PCC_DEV_CON_E_OCX (0x105)
+#define BDK_PCC_DEV_CON_E_PBUS (0x10f)
+#define BDK_PCC_DEV_CON_E_PCCBR_BCH (0x50)
+#define BDK_PCC_DEV_CON_E_PCCBR_CPT0 (0x60)
+#define BDK_PCC_DEV_CON_E_PCCBR_CPT1 (0x68)
+#define BDK_PCC_DEV_CON_E_PCCBR_DDF0 (0x100a0)
+#define BDK_PCC_DEV_CON_E_PCCBR_DFA (0xb0)
+#define BDK_PCC_DEV_CON_E_PCCBR_DPI0 (0xa0)
+#define BDK_PCC_DEV_CON_E_PCCBR_FPA (0x90)
+#define BDK_PCC_DEV_CON_E_PCCBR_MRML (8)
+#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN9 (0x10080)
+#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN81XX (0x78)
+#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN88XX (0x20010)
+#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN83XX (0x10080)
+#define BDK_PCC_DEV_CON_E_PCCBR_PKI (0x10088)
+#define BDK_PCC_DEV_CON_E_PCCBR_PKO (0x10090)
+#define BDK_PCC_DEV_CON_E_PCCBR_RAD_CN9 (0x70)
+#define BDK_PCC_DEV_CON_E_PCCBR_RAD_CN88XX (0xa0)
+#define BDK_PCC_DEV_CON_E_PCCBR_RAD_CN83XX (0x70)
+#define BDK_PCC_DEV_CON_E_PCCBR_RNM (0x48)
+#define BDK_PCC_DEV_CON_E_PCCBR_SSO (0x80)
+#define BDK_PCC_DEV_CON_E_PCCBR_SSOW (0x88)
+#define BDK_PCC_DEV_CON_E_PCCBR_TIM (0x98)
+#define BDK_PCC_DEV_CON_E_PCCBR_ZIP_CN9 (0x10098)
+#define BDK_PCC_DEV_CON_E_PCCBR_ZIP_CN88XX (0xa8)
+#define BDK_PCC_DEV_CON_E_PCCBR_ZIP_CN83XX (0x10098)
+#define BDK_PCC_DEV_CON_E_PCIERC0_CN9 (0xc8)
+#define BDK_PCC_DEV_CON_E_PCIERC0_CN81XX (0xc0)
+#define BDK_PCC_DEV_CON_E_PCIERC0_CN88XX (0x10080)
+#define BDK_PCC_DEV_CON_E_PCIERC0_CN83XX (0xc8)
+#define BDK_PCC_DEV_CON_E_PCIERC1_CN9 (0xd0)
+#define BDK_PCC_DEV_CON_E_PCIERC1_CN81XX (0xc8)
+#define BDK_PCC_DEV_CON_E_PCIERC1_CN88XX (0x10090)
+#define BDK_PCC_DEV_CON_E_PCIERC1_CN83XX (0xd0)
+#define BDK_PCC_DEV_CON_E_PCIERC2_CN9 (0xd8)
+#define BDK_PCC_DEV_CON_E_PCIERC2_CN81XX (0xd0)
+#define BDK_PCC_DEV_CON_E_PCIERC2_CN88XX (0x100a0)
+#define BDK_PCC_DEV_CON_E_PCIERC2_CN83XX (0xd8)
+#define BDK_PCC_DEV_CON_E_PCIERC3_CN9 (0xe0)
+#define BDK_PCC_DEV_CON_E_PCIERC3_CN88XX (0x30080)
+#define BDK_PCC_DEV_CON_E_PCIERC3_CN83XX (0xe0)
+#define BDK_PCC_DEV_CON_E_PCIERC4 (0x30090)
+#define BDK_PCC_DEV_CON_E_PCIERC5 (0x300a0)
+#define BDK_PCC_DEV_CON_E_PCM (0x68)
+#define BDK_PCC_DEV_CON_E_PEMX(a) (0x170 + (a))
+#define BDK_PCC_DEV_CON_E_PKI (0x10200)
+#define BDK_PCC_DEV_CON_E_PKO (0x10300)
+#define BDK_PCC_DEV_CON_E_RAD_CN9 (0x600)
+#define BDK_PCC_DEV_CON_E_RAD_CN88XX (0x200)
+#define BDK_PCC_DEV_CON_E_RAD_CN83XX (0x600)
+#define BDK_PCC_DEV_CON_E_RGXX(a) (0x190 + (a))
+#define BDK_PCC_DEV_CON_E_RNM_CN9 (0x200)
+#define BDK_PCC_DEV_CON_E_RNM_CN81XX (0x200)
+#define BDK_PCC_DEV_CON_E_RNM_CN88XX (0x48)
+#define BDK_PCC_DEV_CON_E_RNM_CN83XX (0x200)
+#define BDK_PCC_DEV_CON_E_RST (0x101)
+#define BDK_PCC_DEV_CON_E_SATA0_CN9 (0x10020)
+#define BDK_PCC_DEV_CON_E_SATA0_CN81XX (0xb0)
+#define BDK_PCC_DEV_CON_E_SATA0_CN88XX (0x10020)
+#define BDK_PCC_DEV_CON_E_SATA0_CN83XX (0x10020)
+#define BDK_PCC_DEV_CON_E_SATA1_CN9 (0x10028)
+#define BDK_PCC_DEV_CON_E_SATA1_CN81XX (0xb8)
+#define BDK_PCC_DEV_CON_E_SATA1_CN88XX (0x10028)
+#define BDK_PCC_DEV_CON_E_SATA1_CN83XX (0x10028)
+#define BDK_PCC_DEV_CON_E_SATA10 (0x30030)
+#define BDK_PCC_DEV_CON_E_SATA11 (0x30038)
+#define BDK_PCC_DEV_CON_E_SATA12 (0x30040)
+#define BDK_PCC_DEV_CON_E_SATA13 (0x30048)
+#define BDK_PCC_DEV_CON_E_SATA14 (0x30050)
+#define BDK_PCC_DEV_CON_E_SATA15 (0x30058)
+#define BDK_PCC_DEV_CON_E_SATA2 (0x10030)
+#define BDK_PCC_DEV_CON_E_SATA3 (0x10038)
+#define BDK_PCC_DEV_CON_E_SATA4 (0x10040)
+#define BDK_PCC_DEV_CON_E_SATA5 (0x10048)
+#define BDK_PCC_DEV_CON_E_SATA6 (0x10050)
+#define BDK_PCC_DEV_CON_E_SATA7 (0x10058)
+#define BDK_PCC_DEV_CON_E_SATA8 (0x30020)
+#define BDK_PCC_DEV_CON_E_SATA9 (0x30028)
+#define BDK_PCC_DEV_CON_E_SGP (0x10a)
+#define BDK_PCC_DEV_CON_E_SLI0_CN81XX (0x70)
+#define BDK_PCC_DEV_CON_E_SLI0_CN88XX (0x10010)
+#define BDK_PCC_DEV_CON_E_SLI1 (0x30010)
+#define BDK_PCC_DEV_CON_E_SLIRE0 (0xc0)
+#define BDK_PCC_DEV_CON_E_SMI (0x10b)
+#define BDK_PCC_DEV_CON_E_SMMU0 (0x10)
+#define BDK_PCC_DEV_CON_E_SMMU1 (0x10008)
+#define BDK_PCC_DEV_CON_E_SMMU2 (0x20008)
+#define BDK_PCC_DEV_CON_E_SMMU3 (0x30008)
+#define BDK_PCC_DEV_CON_E_SSO (0x700)
+#define BDK_PCC_DEV_CON_E_SSOW (0x800)
+#define BDK_PCC_DEV_CON_E_TIM (0xa00)
+#define BDK_PCC_DEV_CON_E_TNS (0x20018)
+#define BDK_PCC_DEV_CON_E_UAAX(a) (0x140 + (a))
+#define BDK_PCC_DEV_CON_E_USBDRDX_CN81XX(a) (0x80 + 8 * (a))
+#define BDK_PCC_DEV_CON_E_USBDRDX_CN83XX(a) (0x10060 + 8 * (a))
+#define BDK_PCC_DEV_CON_E_USBDRDX_CN9(a) (0x10060 + 8 * (a))
+#define BDK_PCC_DEV_CON_E_USBHX(a) (0x80 + 8 * (a))
+#define BDK_PCC_DEV_CON_E_VRMX(a) (0x144 + (a))
+#define BDK_PCC_DEV_CON_E_XCVX(a) (0x110 + (a))
+#define BDK_PCC_DEV_CON_E_ZIP_CN9 (0x10400)
+#define BDK_PCC_DEV_CON_E_ZIP_CN88XX (0x300)
+#define BDK_PCC_DEV_CON_E_ZIP_CN83XX (0x10400)
 
 /**
  * Enumeration pcc_dev_idl_e
@@ -222,181 +208,84 @@
  * Enumerates the values of the PCI configuration header Device ID and Subsystem Device ID bits
  * <7:0>. The value of the enumeration is formatted as defined by PCC_DEV_IDL_S.
  */
-#define BDK_PCC_DEV_IDL_E_BCH (0x43) /**< BCH. */
-#define BDK_PCC_DEV_IDL_E_BCH_VF (0x44) /**< BCH. */
-#define BDK_PCC_DEV_IDL_E_BGX (0x26) /**< Ethernet interface. */
-#define BDK_PCC_DEV_IDL_E_CHIP (0) /**< Reserved. */
-#define BDK_PCC_DEV_IDL_E_CHIP_VF_CN81XX (3) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_CHIP_VF_CN83XX (3) /**< External view of CNXXXX as endpoint VF. See PCIEEP()_CFG100[VFDEV]. */
-#define BDK_PCC_DEV_IDL_E_CHIP_VF_CN9 (3) /**< External view of CNXXXX as endpoint VF. See PCIEEP()_CFG100[VFDEV]. */
-#define BDK_PCC_DEV_IDL_E_CPT_CN9 (0x40) /**< Cryptographic accelerator. */
-#define BDK_PCC_DEV_IDL_E_CPT_CN81XX (0x40) /**< Cryptographic accelerator. */
-#define BDK_PCC_DEV_IDL_E_CPT_CN88XX (0x40) /**< Internal:
-                                       Reserved. 83xx crypto. */
-#define BDK_PCC_DEV_IDL_E_CPT_CN83XX (0x40) /**< Cryptographic accelerator. */
-#define BDK_PCC_DEV_IDL_E_CPT_VF_CN9 (0x41) /**< Cryptographic accelerator SR-IOV virtual function. */
-#define BDK_PCC_DEV_IDL_E_CPT_VF_CN81XX (0x41) /**< Cryptographic accelerator SR-IOV virtual function. */
-#define BDK_PCC_DEV_IDL_E_CPT_VF_CN88XX (0x41) /**< Internal:
-                                       Reserved. 83xx crypto. */
-#define BDK_PCC_DEV_IDL_E_CPT_VF_CN83XX (0x41) /**< Cryptographic accelerator SR-IOV virtual function. */
-#define BDK_PCC_DEV_IDL_E_DAP (0x2c) /**< Debug access point. */
-#define BDK_PCC_DEV_IDL_E_DDF_CN81XX (0x45) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_DDF_CN83XX (0x45) /**< Dedup. */
-#define BDK_PCC_DEV_IDL_E_DDF_CN9 (0x45) /**< Dedup. */
-#define BDK_PCC_DEV_IDL_E_DDF_VF_CN81XX (0x46) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_DDF_VF_CN83XX (0x46) /**< Dedup virtual function. */
-#define BDK_PCC_DEV_IDL_E_DDF_VF_CN9 (0x46) /**< Dedup virtual function. */
-#define BDK_PCC_DEV_IDL_E_DFA_CN9 (0x19) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_DFA_CN81XX (0x19) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_DFA_CN88XX (0x19) /**< HFA. */
-#define BDK_PCC_DEV_IDL_E_DFA_CN83XX (0x19) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_DPI_CN81XX (0x57) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_DPI_CN83XX (0x57) /**< DPI. */
-#define BDK_PCC_DEV_IDL_E_DPI_CN9 (0x57) /**< DPI. */
-#define BDK_PCC_DEV_IDL_E_FPA_CN81XX (0x52) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_FPA_CN83XX (0x52) /**< Free pool allocator. */
-#define BDK_PCC_DEV_IDL_E_FPA_CN9 (0x52) /**< Free pool allocator. */
-#define BDK_PCC_DEV_IDL_E_FPA_VF_CN81XX (0x53) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_FPA_VF_CN83XX (0x53) /**< Free pool allocator virtual function. */
-#define BDK_PCC_DEV_IDL_E_FPA_VF_CN9 (0x53) /**< Free pool allocator virtual function. */
-#define BDK_PCC_DEV_IDL_E_FUSF (0x32) /**< Field Fuses. */
-#define BDK_PCC_DEV_IDL_E_GIC (9) /**< GIC interrupt unit. */
-#define BDK_PCC_DEV_IDL_E_GPIO (0xa) /**< GPIO. */
-#define BDK_PCC_DEV_IDL_E_GSER (0x25) /**< SerDes. */
-#define BDK_PCC_DEV_IDL_E_GTI (0x17) /**< Timer. */
-#define BDK_PCC_DEV_IDL_E_IOBN (0x27) /**< I/O Bridge. */
-#define BDK_PCC_DEV_IDL_E_KEY (0x16) /**< KEY. Accessible only in secure mode. */
-#define BDK_PCC_DEV_IDL_E_L2C (0x21) /**< Level 2 cache. */
-#define BDK_PCC_DEV_IDL_E_L2C_CBC (0x2f) /**< Level 2 cache CBC. */
-#define BDK_PCC_DEV_IDL_E_L2C_MCI (0x30) /**< Level 2 cache MCI. */
-#define BDK_PCC_DEV_IDL_E_L2C_TAD (0x2e) /**< Level 2 cache TAD. */
-#define BDK_PCC_DEV_IDL_E_LBK (0x42) /**< Loopback. */
-#define BDK_PCC_DEV_IDL_E_LMC (0x22) /**< LMC interface. */
-#define BDK_PCC_DEV_IDL_E_MIO_BOOT (0x11) /**< Boot-bus. */
-#define BDK_PCC_DEV_IDL_E_MIO_EMM (0x10) /**< eMMC. */
-#define BDK_PCC_DEV_IDL_E_MIO_FUS (0x31) /**< Fuses. */
-#define BDK_PCC_DEV_IDL_E_MIO_PTP (0xc) /**< Precision time-stamping. */
-#define BDK_PCC_DEV_IDL_E_MIO_TWS (0x12) /**< TWSI. */
-#define BDK_PCC_DEV_IDL_E_MIX (0xd) /**< MIX. */
-#define BDK_PCC_DEV_IDL_E_MPI (0xb) /**< MPI. */
-#define BDK_PCC_DEV_IDL_E_MRML (1) /**< Master RSL bus bridge. */
-#define BDK_PCC_DEV_IDL_E_NCSI_CN9 (0x29) /**< NC-SI interface. */
-#define BDK_PCC_DEV_IDL_E_NCSI_CN81XX (0x29) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_NCSI_CN88XX (0x29) /**< NC-SI interface. */
-#define BDK_PCC_DEV_IDL_E_NCSI_CN83XX (0x29) /**< NC-SI interface. */
-#define BDK_PCC_DEV_IDL_E_NDF (0x4f) /**< NAND flash. */
-#define BDK_PCC_DEV_IDL_E_NIC (0x1e) /**< Network interface controller. */
-#define BDK_PCC_DEV_IDL_E_NIC_VF (0x34) /**< Network interface controller SR-IOV virtual function. */
-#define BDK_PCC_DEV_IDL_E_NPC (0x60) /**< NPC. */
-#define BDK_PCC_DEV_IDL_E_OCLA (0x23) /**< OCLA. */
-#define BDK_PCC_DEV_IDL_E_OCX_CN9 (0x13) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_OCX_CN81XX (0x13) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_OCX_CN88XX (0x13) /**< OCX. */
-#define BDK_PCC_DEV_IDL_E_OCX_CN83XX (0x13) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_OSM_CN9 (0x24) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_OSM_CN81XX (0x24) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_OSM_CN88XX (0x24) /**< OSM. */
-#define BDK_PCC_DEV_IDL_E_OSM_CN83XX (0x24) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_PBUS (0x35) /**< Parallel bus. */
-#define BDK_PCC_DEV_IDL_E_PCCBR (2) /**< PCC bridge. */
-#define BDK_PCC_DEV_IDL_E_PCIERC (0x2d) /**< PCIe host bridge.
-                                       Internal:
-                                       Also used by fake PCCBR_PCIERC inside IOB. */
-#define BDK_PCC_DEV_IDL_E_PCM_CN81XX (0x4e) /**< PCM interface. */
-#define BDK_PCC_DEV_IDL_E_PCM_CN83XX (0x4e) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_PCM_CN9 (0x4e) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_PEM (0x20) /**< PCI controller. */
-#define BDK_PCC_DEV_IDL_E_PKI_CN81XX (0x47) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_PKI_CN83XX (0x47) /**< Packet input. */
-#define BDK_PCC_DEV_IDL_E_PKI_CN9 (0x47) /**< Packet input. */
-#define BDK_PCC_DEV_IDL_E_PKO_CN81XX (0x48) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_PKO_CN83XX (0x48) /**< Packet output. */
-#define BDK_PCC_DEV_IDL_E_PKO_CN9 (0x48) /**< Packet output. */
-#define BDK_PCC_DEV_IDL_E_PKO_VF_CN81XX (0x49) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_PKO_VF_CN83XX (0x49) /**< Packet output. */
-#define BDK_PCC_DEV_IDL_E_PKO_VF_CN9 (0x49) /**< Packet output. */
-#define BDK_PCC_DEV_IDL_E_RAD_CN9 (0x1d) /**< RAID unit. */
-#define BDK_PCC_DEV_IDL_E_RAD_CN81XX (0x1d) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_RAD_CN88XX (0x1d) /**< RAID unit. */
-#define BDK_PCC_DEV_IDL_E_RAD_CN83XX (0x1d) /**< RAID unit. */
-#define BDK_PCC_DEV_IDL_E_RAD_VF (0x36) /**< RAID unit VF. */
-#define BDK_PCC_DEV_IDL_E_RGX_CN81XX (0x54) /**< RGMII Ethernet interface. */
-#define BDK_PCC_DEV_IDL_E_RGX_CN83XX (0x54) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_RGX_CN9 (0x54) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_RNM (0x18) /**< Random number generator. */
-#define BDK_PCC_DEV_IDL_E_RNM_VF (0x33) /**< Random number generator SR-IOV virtual function. */
-#define BDK_PCC_DEV_IDL_E_RST (0xe) /**< Reset. */
-#define BDK_PCC_DEV_IDL_E_SATA (0x1c) /**< SATA interface. */
-#define BDK_PCC_DEV_IDL_E_SGP (0x2a) /**< Serial GPIO interface. */
-#define BDK_PCC_DEV_IDL_E_SLI_CN9 (0x15) /**< Internal:
-                                       Reserved. SLI, which supports only root complex. */
-#define BDK_PCC_DEV_IDL_E_SLI_CN81XX (0x15) /**< SLI. */
-#define BDK_PCC_DEV_IDL_E_SLI_CN88XX (0x15) /**< SLI. */
-#define BDK_PCC_DEV_IDL_E_SLI_CN83XX (0x15) /**< Internal:
-                                       Reserved. SLI, which supports only root complex. */
-#define BDK_PCC_DEV_IDL_E_SLIRE (0x38) /**< SLI, which supports both root complex and endpoint. */
-#define BDK_PCC_DEV_IDL_E_SMI (0x2b) /**< SMI. */
-#define BDK_PCC_DEV_IDL_E_SMMU (8) /**< System memory management unit. */
-#define BDK_PCC_DEV_IDL_E_SSO (0x4a) /**< SSO. */
-#define BDK_PCC_DEV_IDL_E_SSOW (0x4c) /**< SSO work slots. */
-#define BDK_PCC_DEV_IDL_E_SSOW_VF (0x4d) /**< SSO work slots virtual function. */
-#define BDK_PCC_DEV_IDL_E_SSO_VF (0x4b) /**< SSO group virtual function. */
-#define BDK_PCC_DEV_IDL_E_TIM_CN81XX (0x50) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_TIM_CN83XX (0x50) /**< Work timers. */
-#define BDK_PCC_DEV_IDL_E_TIM_CN9 (0x50) /**< Work timers. */
-#define BDK_PCC_DEV_IDL_E_TIM_VF_CN81XX (0x51) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_TIM_VF_CN83XX (0x51) /**< Work timer virtual function. */
-#define BDK_PCC_DEV_IDL_E_TIM_VF_CN9 (0x51) /**< Work timer virtual function. */
-#define BDK_PCC_DEV_IDL_E_TNS_CN9 (0x1f) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_TNS_CN81XX (0x1f) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_TNS_CN88XX (0x1f) /**< Network switch. */
-#define BDK_PCC_DEV_IDL_E_TNS_CN83XX (0x1f) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_UAA (0xf) /**< UART. */
-#define BDK_PCC_DEV_IDL_E_USBDRD (0x55) /**< USB host and endpoint interface. */
-#define BDK_PCC_DEV_IDL_E_USBH_CN9 (0x1b) /**< Internal:
-                                       Reserved. (See USBDRD instead.) */
-#define BDK_PCC_DEV_IDL_E_USBH_CN81XX (0x1b) /**< Internal:
-                                       Reserved. (See USBDRD instead.) */
-#define BDK_PCC_DEV_IDL_E_USBH_CN88XX (0x1b) /**< USB host-only interface. */
-#define BDK_PCC_DEV_IDL_E_USBH_CN83XX (0x1b) /**< Internal:
-                                       Reserved. (See USBDRD instead.) */
-#define BDK_PCC_DEV_IDL_E_VRM (0x14) /**< Voltage regulator. */
-#define BDK_PCC_DEV_IDL_E_XCV (0x56) /**< RGMII XCV. */
-#define BDK_PCC_DEV_IDL_E_ZIP_CN9 (0x1a) /**< ZIP. */
-#define BDK_PCC_DEV_IDL_E_ZIP_CN81XX (0x1a) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_ZIP_CN88XX (0x1a) /**< ZIP. */
-#define BDK_PCC_DEV_IDL_E_ZIP_CN83XX (0x1a) /**< ZIP. */
-#define BDK_PCC_DEV_IDL_E_ZIP_VF (0x37) /**< ZIP VF. */
+#define BDK_PCC_DEV_IDL_E_BCH (0x43)
+#define BDK_PCC_DEV_IDL_E_BCH_VF (0x44)
+#define BDK_PCC_DEV_IDL_E_BGX (0x26)
+#define BDK_PCC_DEV_IDL_E_CER (0x61)
+#define BDK_PCC_DEV_IDL_E_CHIP (0)
+#define BDK_PCC_DEV_IDL_E_CHIP_VF (3)
+#define BDK_PCC_DEV_IDL_E_CPT (0x40)
+#define BDK_PCC_DEV_IDL_E_CPT_VF (0x41)
+#define BDK_PCC_DEV_IDL_E_DAP (0x2c)
+#define BDK_PCC_DEV_IDL_E_DDF (0x45)
+#define BDK_PCC_DEV_IDL_E_DDF_VF (0x46)
+#define BDK_PCC_DEV_IDL_E_DFA (0x19)
+#define BDK_PCC_DEV_IDL_E_DPI (0x57)
+#define BDK_PCC_DEV_IDL_E_FPA (0x52)
+#define BDK_PCC_DEV_IDL_E_FPA_VF (0x53)
+#define BDK_PCC_DEV_IDL_E_FUSF (0x32)
+#define BDK_PCC_DEV_IDL_E_GIC (9)
+#define BDK_PCC_DEV_IDL_E_GPIO (0xa)
+#define BDK_PCC_DEV_IDL_E_GSER (0x25)
+#define BDK_PCC_DEV_IDL_E_GTI (0x17)
+#define BDK_PCC_DEV_IDL_E_IOBN (0x27)
+#define BDK_PCC_DEV_IDL_E_KEY (0x16)
+#define BDK_PCC_DEV_IDL_E_L2C (0x21)
+#define BDK_PCC_DEV_IDL_E_L2C_CBC (0x2f)
+#define BDK_PCC_DEV_IDL_E_L2C_MCI (0x30)
+#define BDK_PCC_DEV_IDL_E_L2C_TAD (0x2e)
+#define BDK_PCC_DEV_IDL_E_LBK (0x42)
+#define BDK_PCC_DEV_IDL_E_LMC (0x22)
+#define BDK_PCC_DEV_IDL_E_MIO_BOOT (0x11)
+#define BDK_PCC_DEV_IDL_E_MIO_EMM (0x10)
+#define BDK_PCC_DEV_IDL_E_MIO_FUS (0x31)
+#define BDK_PCC_DEV_IDL_E_MIO_PTP (0xc)
+#define BDK_PCC_DEV_IDL_E_MIO_TWS (0x12)
+#define BDK_PCC_DEV_IDL_E_MIX (0xd)
+#define BDK_PCC_DEV_IDL_E_MPI (0xb)
+#define BDK_PCC_DEV_IDL_E_MRML (1)
+#define BDK_PCC_DEV_IDL_E_NCSI (0x29)
+#define BDK_PCC_DEV_IDL_E_NDF (0x4f)
+#define BDK_PCC_DEV_IDL_E_NIC (0x1e)
+#define BDK_PCC_DEV_IDL_E_NIC_VF (0x34)
+#define BDK_PCC_DEV_IDL_E_NPC (0x60)
+#define BDK_PCC_DEV_IDL_E_OCLA (0x23)
+#define BDK_PCC_DEV_IDL_E_OCX (0x13)
+#define BDK_PCC_DEV_IDL_E_OSM (0x24)
+#define BDK_PCC_DEV_IDL_E_PBUS (0x35)
+#define BDK_PCC_DEV_IDL_E_PCCBR (2)
+#define BDK_PCC_DEV_IDL_E_PCIERC (0x2d)
+#define BDK_PCC_DEV_IDL_E_PCM (0x4e)
+#define BDK_PCC_DEV_IDL_E_PEM (0x20)
+#define BDK_PCC_DEV_IDL_E_PKI (0x47)
+#define BDK_PCC_DEV_IDL_E_PKO (0x48)
+#define BDK_PCC_DEV_IDL_E_PKO_VF (0x49)
+#define BDK_PCC_DEV_IDL_E_RAD (0x1d)
+#define BDK_PCC_DEV_IDL_E_RAD_VF (0x36)
+#define BDK_PCC_DEV_IDL_E_RGX (0x54)
+#define BDK_PCC_DEV_IDL_E_RNM (0x18)
+#define BDK_PCC_DEV_IDL_E_RNM_VF (0x33)
+#define BDK_PCC_DEV_IDL_E_RST (0xe)
+#define BDK_PCC_DEV_IDL_E_SATA (0x1c)
+#define BDK_PCC_DEV_IDL_E_SGP (0x2a)
+#define BDK_PCC_DEV_IDL_E_SLI (0x15)
+#define BDK_PCC_DEV_IDL_E_SLIRE (0x38)
+#define BDK_PCC_DEV_IDL_E_SMI (0x2b)
+#define BDK_PCC_DEV_IDL_E_SMMU (8)
+#define BDK_PCC_DEV_IDL_E_SSO (0x4a)
+#define BDK_PCC_DEV_IDL_E_SSOW (0x4c)
+#define BDK_PCC_DEV_IDL_E_SSOW_VF (0x4d)
+#define BDK_PCC_DEV_IDL_E_SSO_VF (0x4b)
+#define BDK_PCC_DEV_IDL_E_TIM (0x50)
+#define BDK_PCC_DEV_IDL_E_TIM_VF (0x51)
+#define BDK_PCC_DEV_IDL_E_TNS (0x1f)
+#define BDK_PCC_DEV_IDL_E_UAA (0xf)
+#define BDK_PCC_DEV_IDL_E_USBDRD (0x55)
+#define BDK_PCC_DEV_IDL_E_USBH (0x1b)
+#define BDK_PCC_DEV_IDL_E_VRM (0x14)
+#define BDK_PCC_DEV_IDL_E_XCV (0x56)
+#define BDK_PCC_DEV_IDL_E_ZIP (0x1a)
+#define BDK_PCC_DEV_IDL_E_ZIP_VF (0x37)
 
 /**
  * Enumeration pcc_pidr_partnum0_e
@@ -406,23 +295,23 @@
  * assigned CoreSight PIDR part number 0 fields.
  * For example SMMU()_PIDR0[PARTNUM0].
  */
-#define BDK_PCC_PIDR_PARTNUM0_E_CTI (0xd) /**< Cross-trigger interface. */
-#define BDK_PCC_PIDR_PARTNUM0_E_DBG (0xe) /**< AP Debug. */
-#define BDK_PCC_PIDR_PARTNUM0_E_GICD (2) /**< GIC distributor. */
-#define BDK_PCC_PIDR_PARTNUM0_E_GICR (1) /**< GIC redistributor. */
-#define BDK_PCC_PIDR_PARTNUM0_E_GITS (3) /**< GIC ITS. */
-#define BDK_PCC_PIDR_PARTNUM0_E_GTI_BZ (4) /**< GTI base. */
-#define BDK_PCC_PIDR_PARTNUM0_E_GTI_CC (5) /**< GTI counter control. */
-#define BDK_PCC_PIDR_PARTNUM0_E_GTI_CTL (6) /**< GTI control. */
-#define BDK_PCC_PIDR_PARTNUM0_E_GTI_RD (7) /**< GTI counter read. */
-#define BDK_PCC_PIDR_PARTNUM0_E_GTI_WC (8) /**< GTI watchdog control. */
-#define BDK_PCC_PIDR_PARTNUM0_E_GTI_WR (9) /**< GTI watchdog write. */
-#define BDK_PCC_PIDR_PARTNUM0_E_NONE (0) /**< Reserved. */
-#define BDK_PCC_PIDR_PARTNUM0_E_PMU (0xa) /**< Performance monitors. */
-#define BDK_PCC_PIDR_PARTNUM0_E_SMMU (0xb) /**< SMMU. */
-#define BDK_PCC_PIDR_PARTNUM0_E_SYSCTI (0xf) /**< System CTI. */
-#define BDK_PCC_PIDR_PARTNUM0_E_TRC (0x10) /**< Trace. */
-#define BDK_PCC_PIDR_PARTNUM0_E_UAA (0xc) /**< UART. */
+#define BDK_PCC_PIDR_PARTNUM0_E_CTI (0xd)
+#define BDK_PCC_PIDR_PARTNUM0_E_DBG (0xe)
+#define BDK_PCC_PIDR_PARTNUM0_E_GICD (2)
+#define BDK_PCC_PIDR_PARTNUM0_E_GICR (1)
+#define BDK_PCC_PIDR_PARTNUM0_E_GITS (3)
+#define BDK_PCC_PIDR_PARTNUM0_E_GTI_BZ (4)
+#define BDK_PCC_PIDR_PARTNUM0_E_GTI_CC (5)
+#define BDK_PCC_PIDR_PARTNUM0_E_GTI_CTL (6)
+#define BDK_PCC_PIDR_PARTNUM0_E_GTI_RD (7)
+#define BDK_PCC_PIDR_PARTNUM0_E_GTI_WC (8)
+#define BDK_PCC_PIDR_PARTNUM0_E_GTI_WR (9)
+#define BDK_PCC_PIDR_PARTNUM0_E_NONE (0)
+#define BDK_PCC_PIDR_PARTNUM0_E_PMU (0xa)
+#define BDK_PCC_PIDR_PARTNUM0_E_SMMU (0xb)
+#define BDK_PCC_PIDR_PARTNUM0_E_SYSCTI (0xf)
+#define BDK_PCC_PIDR_PARTNUM0_E_TRC (0x10)
+#define BDK_PCC_PIDR_PARTNUM0_E_UAA (0xc)
 
 /**
  * Enumeration pcc_pidr_partnum1_e
@@ -431,10 +320,8 @@
  * Enumerates the values of Cavium-assigned CoreSight PIDR PARTNUM1 fields, for example
  * SMMU()_PIDR1[PARTNUM1].
  */
-#define BDK_PCC_PIDR_PARTNUM1_E_COMP (2) /**< This is a component inside the chip, e.g. a SMMU. *_PIDR0[PARTNUM0] is enumerated by
-                                       PCC_PIDR_PARTNUM0_E. */
-#define BDK_PCC_PIDR_PARTNUM1_E_PROD (1) /**< This component identifies the chip, i.e. is the CoreSight ROM. *_PIDR0[PARTNUM0] is
-                                       enumerated by PCC_PROD_E. */
+#define BDK_PCC_PIDR_PARTNUM1_E_COMP (2)
+#define BDK_PCC_PIDR_PARTNUM1_E_PROD (1)
 
 /**
  * Enumeration pcc_prod_e
@@ -442,29 +329,11 @@
  * PCC Device ID Product Enumeration
  * Enumerates the chip identifier.
  */
-#define BDK_PCC_PROD_E_CN81XX_CN9 (0xa2) /**< Indicates CN81XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
-                                       and other identifier registers. */
-#define BDK_PCC_PROD_E_CN81XX_CN81XX (0xa2) /**< Indicates CN81XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
-                                       and other identifier registers. */
-#define BDK_PCC_PROD_E_CN81XX_CN88XX (0xa2) /**< Internal:
-                                       Indicates CN81XX. Used in AP_MIDR_EL1[PARTNUM], and
-                                       PCCPF_XXX_SUBID[SSID]<15:8>, and other identifier registers. */
-#define BDK_PCC_PROD_E_CN81XX_CN83XX (0xa2) /**< Indicates CN81XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
-                                       and other identifier registers. */
-#define BDK_PCC_PROD_E_CN83XX_CN9 (0xa3) /**< Indicates CN83XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
-                                       and other identifier registers. */
-#define BDK_PCC_PROD_E_CN83XX_CN81XX (0xa3) /**< Indicates CN83XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
-                                       and other identifier registers. */
-#define BDK_PCC_PROD_E_CN83XX_CN88XX (0xa3) /**< Internal:
-                                       Indicates CN83XX. Used in AP_MIDR_EL1[PARTNUM], and
-                                       PCCPF_XXX_SUBID[SSID]<15:8>, and other identifier registers. */
-#define BDK_PCC_PROD_E_CN83XX_CN83XX (0xa3) /**< Indicates CN83XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
-                                       and other identifier registers. */
-#define BDK_PCC_PROD_E_CN88XX (0xa1) /**< Indicates CN88XX. Used in AP_MIDR_EL1[PARTNUM], PCCPF_XXX_SUBID[SSID]<15:8>, and
-                                       other identifier registers. */
-#define BDK_PCC_PROD_E_CN98XX (0xb1) /**< Indicates CN98XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
-                                       and other identifier registers. */
-#define BDK_PCC_PROD_E_GEN (0xa0) /**< Indicates the generic ThunderX family. Used in only PCCPF_XXX_ID[DEVID]<15:8>. */
+#define BDK_PCC_PROD_E_CN81XX (0xa2)
+#define BDK_PCC_PROD_E_CN83XX (0xa3)
+#define BDK_PCC_PROD_E_CN88XX (0xa1)
+#define BDK_PCC_PROD_E_CN98XX (0xb1)
+#define BDK_PCC_PROD_E_GEN (0xa0)
 
 /**
  * Enumeration pcc_vendor_e
@@ -472,7 +341,7 @@
  * PCC Vendor ID Enumeration
  * Enumerates the values of the PCI configuration header vendor ID.
  */
-#define BDK_PCC_VENDOR_E_CAVIUM (0x177d) /**< Cavium's vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
+#define BDK_PCC_VENDOR_E_CAVIUM (0x177d)
 
 /**
  * Structure pcc_dev_con_s

@@ -58,8 +58,8 @@
  * OCLA Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0(a) (0x87e0a8000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4(a) (0x87e0a8f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0(a) (0x87e0a8000000ll + 0x1000000ll * (a))
+#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4(a) (0x87e0a8f00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration ocla_int_vec_e
@@ -67,14 +67,7 @@
  * OCLA MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_OCLA_INT_VEC_E_INTS (0) /**< See interrupt clears OCLA()_STATE_INT[DDRFULL, WMARK, OVERFULL,
-                                       TRIGFULL, CAPTURED, FSM1_INT, FSM0_INT, MCD, TRIG, OVFL],
-                                       interrupt sets OCLA()_STATE_SET[DDRFULL, WMARK, OVERFULL,
-                                       TRIGFULL, CAPTURED, FSM1_INT, FSM0_INT, MCD, TRIG, OVFL],
-                                       enable clears OCLA()_STATE_ENA_W1C[DDRFULL, WMARK, OVERFULL,
-                                       TRIGFULL, CAPTURED, FSM1_INT, FSM0_INT, MCD, TRIG, OVFL],
-                                       and enable sets OCLA()_STATE_ENA_W1S[DDRFULL, WMARK, OVERFULL,
-                                       TRIGFULL, CAPTURED, FSM1_INT, FSM0_INT, MCD, TRIG, OVFL]. */
+#define BDK_OCLA_INT_VEC_E_INTS (0)
 
 /**
  * Structure ocla_cap_ctl_s

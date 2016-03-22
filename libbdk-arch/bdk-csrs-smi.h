@@ -58,7 +58,7 @@
  * SMI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_SMI_BAR_E_SMI_PF_BAR0 (0x87e005000000ll) /**< Base address for standard registers. */
+#define BDK_SMI_BAR_E_SMI_PF_BAR0 (0x87e005000000ll)
 
 /**
  * Register (RSL) smi_#_clk

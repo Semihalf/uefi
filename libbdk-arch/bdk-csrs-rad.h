@@ -58,10 +58,10 @@
  * RAD Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_RAD_BAR_E_RAD_PF_BAR0 (0x870000000000ll) /**< Base address for standard registers. */
-#define BDK_RAD_BAR_E_RAD_PF_BAR4 (0x870000f00000ll) /**< Base address for MSI-X registers. */
-#define BDK_RAD_BAR_E_RAD_VFX_BAR0(a) (0x870020000000ll + 0x100000ll * (a)) /**< Base address for virtual function standard registers. */
-#define BDK_RAD_BAR_E_RAD_VFX_BAR4(a) (0x870030000000ll + 0x100000ll * (a)) /**< Base address for virtual function MSI-X registers. */
+#define BDK_RAD_BAR_E_RAD_PF_BAR0 (0x870000000000ll)
+#define BDK_RAD_BAR_E_RAD_PF_BAR4 (0x870000f00000ll)
+#define BDK_RAD_BAR_E_RAD_VFX_BAR0(a) (0x870020000000ll + 0x100000ll * (a))
+#define BDK_RAD_BAR_E_RAD_VFX_BAR4(a) (0x870030000000ll + 0x100000ll * (a))
 
 /**
  * Enumeration rad_int_vec_e
@@ -69,8 +69,7 @@
  * RAD PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_RAD_INT_VEC_E_INTR (0) /**< See interrupt clears RAD_INT, interrupt sets RAD_INT_W1S, enable clears RAD_INT_ENA_W1C,
-                                       and enable sets RAD_INT_ENA_W1S. */
+#define BDK_RAD_INT_VEC_E_INTR (0)
 
 /**
  * Enumeration rad_pf_int_vec_e
@@ -78,10 +77,7 @@
  * RAD PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_RAD_PF_INT_VEC_E_MBOXX(a) (0 + (a)) /**< See interrupt clears RAD_PF_MBOX_INT(0),
-                                       interrupt sets RAD_PF_MBOX_INT_W1S(0),
-                                       enable clears RAD_PF_MBOX_ENA_W1C(0),
-                                       and enable sets RAD_PF_MBOX_ENA_W1S(0). */
+#define BDK_RAD_PF_INT_VEC_E_MBOXX(a) (0 + (a))
 
 /**
  * Enumeration rad_vf_int_vec_e
@@ -89,10 +85,7 @@
  * RAD VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_RAD_VF_INT_VEC_E_INTR (0) /**< See interrupt clears RAD_VF()_INT,
-                                       interrupt sets RAD_VF()_INT_W1S,
-                                       enable clears RAD_VF()_INT_ENA_W1C,
-                                       and enable sets RAD_VF()_INT_ENA_W1S. */
+#define BDK_RAD_VF_INT_VEC_E_INTR (0)
 
 /**
  * Structure rad_cword_s

@@ -58,8 +58,8 @@
  * OCX Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_OCX_BAR_E_OCX_PF_BAR0 (0x87e011000000ll) /**< Base address for standard registers. */
-#define BDK_OCX_BAR_E_OCX_PF_BAR4 (0x87e011f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_OCX_BAR_E_OCX_PF_BAR0 (0x87e011000000ll)
+#define BDK_OCX_BAR_E_OCX_PF_BAR4 (0x87e011f00000ll)
 
 /**
  * Enumeration ocx_int_vec_e
@@ -67,14 +67,8 @@
  * OCX MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_OCX_INT_VEC_E_COM_INTS (3) /**< See interrupt clears OCX_COM_INT,
-                                       interrupt sets OCX_COM_INT_W1S,
-                                       enable clears OCX_COM_INT_ENA_W1C,
-                                       and enable sets OCX_COM_INT_ENA_W1S. */
-#define BDK_OCX_INT_VEC_E_LNK_INTSX(a) (0 + (a)) /**< See interrupt clears OCX_COM_LINK(0..2)_INT,
-                                       interrupt sets OCX_COM_LINK(0..2)_INT_W1S,
-                                       enable clears OCX_COM_LINK(0..2)_INT_ENA_W1C,
-                                       and enable sets OCX_COM_LINK(0..2)_INT_ENA_W1S. */
+#define BDK_OCX_INT_VEC_E_COM_INTS (3)
+#define BDK_OCX_INT_VEC_E_LNK_INTSX(a) (0 + (a))
 
 /**
  * Register (RSL) ocx_com_bist_status

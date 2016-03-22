@@ -58,8 +58,8 @@
  * RST Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_RST_BAR_E_RST_PF_BAR0 (0x87e006000000ll) /**< Base address for standard registers. */
-#define BDK_RST_BAR_E_RST_PF_BAR4 (0x87e006f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_RST_BAR_E_RST_PF_BAR0 (0x87e006000000ll)
+#define BDK_RST_BAR_E_RST_PF_BAR4 (0x87e006f00000ll)
 
 /**
  * Enumeration rst_boot_fail_e
@@ -68,25 +68,12 @@
  * Enumerates the reasons for boot failure, returned to post-boot code
  * in argument register 0 and blinked on GPIO<11>.
  */
-#define BDK_RST_BOOT_FAIL_E_AUTH (6) /**< Authorization failure.
-                                       In trusted-mode, the code did not authenticate or hash correctly, and fallback to
-                                       non-trusted mode is disabled. */
-#define BDK_RST_BOOT_FAIL_E_DEVICE (3) /**< Device error.
-                                       An error occurred while attempting to read from the flash device. */
-#define BDK_RST_BOOT_FAIL_E_GOOD (0) /**< No failure, successful boot.
-                                       This includes successful fallback from TBL1FW to NBL1FW.
-                                       NBL1FW can read RST_BOOT[TRUSTED_MODE] to determine if trusted is active,
-                                       and therefore fallback occurred. */
-#define BDK_RST_BOOT_FAIL_E_MAGIC (4) /**< Bad magic value.
-                                       ROM_CLIB_S[MAGIC] read from the boot device did not match the expected
-                                       magic value.
-                                       This indicates that the flash device is corrupted, or was not be properly
-                                       read due to an electrical or other configuration error. */
-#define BDK_RST_BOOT_FAIL_E_MCORE (5) /**< Multicore boot.
-                                       In non-trusted mode, the cores did not boot in proper order, due to external software
-                                       releasing core reset at an incorrect time. */
-#define BDK_RST_BOOT_FAIL_E_METH (2) /**< Bad boot method. An unsupported RST_BOOT_METHOD_E value was used,
-                                       or RST_BOOT_METHOD_E::REMOTE was requested when in trusted-mode. */
+#define BDK_RST_BOOT_FAIL_E_AUTH (6)
+#define BDK_RST_BOOT_FAIL_E_DEVICE (3)
+#define BDK_RST_BOOT_FAIL_E_GOOD (0)
+#define BDK_RST_BOOT_FAIL_E_MAGIC (4)
+#define BDK_RST_BOOT_FAIL_E_MCORE (5)
+#define BDK_RST_BOOT_FAIL_E_METH (2)
 
 /**
  * Enumeration rst_boot_method_e
@@ -94,65 +81,16 @@
  * RST Boot-strap Method Enumeration
  * Enumerates GPIO_STRAP<3:0>, which determines the method used to boot the cores.
  */
-#define BDK_RST_BOOT_METHOD_E_CCPI0_CN9 (9) /**< Reserved.
-                                       Internal:
-                                       Load an image that is slaved from another CNXXXX attached to
-                                       CCPI link 0. */
-#define BDK_RST_BOOT_METHOD_E_CCPI0_CN81XX (9) /**< Reserved.
-                                       Internal:
-                                       Load an image that is slaved from another CNXXXX attached to
-                                       CCPI link 0. */
-#define BDK_RST_BOOT_METHOD_E_CCPI0_CN88XX (9) /**< Load an image that is slaved from another CNXXXX attached to CCPI link 0. */
-#define BDK_RST_BOOT_METHOD_E_CCPI0_CN83XX (9) /**< Reserved.
-                                       Internal:
-                                       Load an image that is slaved from another CNXXXX attached to
-                                       CCPI link 0. */
-#define BDK_RST_BOOT_METHOD_E_CCPI1_CN9 (0xa) /**< Reserved.
-                                       Internal:
-                                       Load an image that is slaved from another CNXXXX attached to
-                                       CCPI link 1. */
-#define BDK_RST_BOOT_METHOD_E_CCPI1_CN81XX (0xa) /**< Reserved.
-                                       Internal:
-                                       Load an image that is slaved from another CNXXXX attached to
-                                       CCPI link 1. */
-#define BDK_RST_BOOT_METHOD_E_CCPI1_CN88XX (0xa) /**< Load an image that is slaved from another CNXXXX attached to CCPI link 1. */
-#define BDK_RST_BOOT_METHOD_E_CCPI1_CN83XX (0xa) /**< Reserved.
-                                       Internal:
-                                       Load an image that is slaved from another CNXXXX attached to
-                                       CCPI link 1. */
-#define BDK_RST_BOOT_METHOD_E_CCPI2_CN9 (0xb) /**< Reserved.
-                                       Internal:
-                                       Load an image that is slaved from another CNXXXX attached to
-                                       CCPI link 2. */
-#define BDK_RST_BOOT_METHOD_E_CCPI2_CN81XX (0xb) /**< Reserved.
-                                       Internal:
-                                       Load an image that is slaved from another CNXXXX attached to
-                                       CCPI link 2. */
-#define BDK_RST_BOOT_METHOD_E_CCPI2_CN88XX (0xb) /**< Load an image that is slaved from another CNXXXX attached to CCPI link 2. */
-#define BDK_RST_BOOT_METHOD_E_CCPI2_CN83XX (0xb) /**< Reserved.
-                                       Internal:
-                                       Load an image that is slaved from another CNXXXX attached to
-                                       CCPI link 2. */
-#define BDK_RST_BOOT_METHOD_E_EMMC_LS (3) /**< Load image from eMMC/SD. On failure, eMMC reset before retry. */
-#define BDK_RST_BOOT_METHOD_E_EMMC_SS (2) /**< Load image from eMMC/SD. On failure, no eMMC reset before retry. */
-#define BDK_RST_BOOT_METHOD_E_PCIE0_CN9 (0xc) /**< Load image from PCIe 0. */
-#define BDK_RST_BOOT_METHOD_E_PCIE0_CN81XX (0xc) /**< Load image from PCIe 0. */
-#define BDK_RST_BOOT_METHOD_E_PCIE0_CN88XX (0xc) /**< Reserved.
-                                       Internal:
-                                       For PCIe 0 boot. Trusted boot will be allowed in a CCPI-similar way. */
-#define BDK_RST_BOOT_METHOD_E_PCIE0_CN83XX (0xc) /**< Load image from PCIe 0. */
-#define BDK_RST_BOOT_METHOD_E_PCIE2 (0xd) /**< Load image from PCIe 2. */
-#define BDK_RST_BOOT_METHOD_E_REMOTE (8) /**< Remote boot. Do not load image; leave all the cores in the reset state. External
-                                       software through NC-SI or JTAG will release the cores from reset as
-                                       required.
-                                       
-                                       Remote boot is not allowed in trusted-mode.
-                                       
-                                       Internal:
-                                       In RTL, when REMOTE and not trusted-mode, core 0 will not
-                                       be automatically released from reset. */
-#define BDK_RST_BOOT_METHOD_E_SPI24 (5) /**< Load image from the SPI with 24-bit addressing. */
-#define BDK_RST_BOOT_METHOD_E_SPI32 (6) /**< Load image from the SPI with 32-bit addressing. */
+#define BDK_RST_BOOT_METHOD_E_CCPI0 (9)
+#define BDK_RST_BOOT_METHOD_E_CCPI1 (0xa)
+#define BDK_RST_BOOT_METHOD_E_CCPI2 (0xb)
+#define BDK_RST_BOOT_METHOD_E_EMMC_LS (3)
+#define BDK_RST_BOOT_METHOD_E_EMMC_SS (2)
+#define BDK_RST_BOOT_METHOD_E_PCIE0 (0xc)
+#define BDK_RST_BOOT_METHOD_E_PCIE2 (0xd)
+#define BDK_RST_BOOT_METHOD_E_REMOTE (8)
+#define BDK_RST_BOOT_METHOD_E_SPI24 (5)
+#define BDK_RST_BOOT_METHOD_E_SPI32 (6)
 
 /**
  * Enumeration rst_int_vec_e
@@ -160,8 +98,7 @@
  * RST MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_RST_INT_VEC_E_INTS (0) /**< See interrupt clears RST_INT, interrupt sets RST_INT_W1S, enable clears
-                                       RST_INT_ENA_W1C, and enable sets RST_INT_ENA_W1S. */
+#define BDK_RST_INT_VEC_E_INTS (0)
 
 /**
  * Structure rst_pp_pwr_s

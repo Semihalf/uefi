@@ -58,8 +58,8 @@
  * GTI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_GTI_BAR_E_GTI_PF_BAR0 (0x844000000000ll) /**< Base address for standard registers. */
-#define BDK_GTI_BAR_E_GTI_PF_BAR4 (0x84400f000000ll) /**< Base address for MSI-X registers. */
+#define BDK_GTI_BAR_E_GTI_PF_BAR0 (0x844000000000ll)
+#define BDK_GTI_BAR_E_GTI_PF_BAR4 (0x84400f000000ll)
 
 /**
  * Enumeration gti_int_vec_e
@@ -67,35 +67,18 @@
  * GTI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_GTI_INT_VEC_E_CORE_WDOGX_DEL3T(a) (0xa + (a)) /**< Note that GTI_CWD_WDOG(<a>) sets the DEL3T too.
-                                       See interrupt clears GTI_CWD_DEL3T[CORE<{a}>],
-                                       interrupt sets GTI_CWD_DEL3T_SET[CORE<{a}>],
-                                       enable clears GTI_CWD_DEL3T_ENA_CLR[CORE<{a}>],
-                                       and enable sets GTI_CWD_DEL3T_ENA_SET[CORE<{a}>]. */
-#define BDK_GTI_INT_VEC_E_CORE_WDOGX_INT(a) (0x3a + (a)) /**< Note that GTI_CWD_WDOG(<a>) sets the INT too.
-                                       See interrupt clears GTI_CWD_INT[CORE<{a}>],
-                                       interrupt sets GTI_CWD_INT_SET[CORE<{a}>],
-                                       enable clears GTI_CWD_INT_ENA_CLR[CORE<{a}>],
-                                       and enable sets GTI_CWD_INT_ENA_SET[CORE<{a}>]. */
-#define BDK_GTI_INT_VEC_E_ERROR (8) /**< See interrupt clears GTI_ERR_INT, interrupt sets GTI_ERR_INT_SET,
-                                       enable clears GTI_ERR_INT_ENA_CLR, and enable sets GTI_ERR_INT_ENA_SET. */
-#define BDK_GTI_INT_VEC_E_MAILBOX_RX (7) /**< Timestamp mailbox has been received.
-                                       See interrupt clears GTI_CC_CNTMB_INT[MBRX],
-                                       interrupt sets GTI_CC_CNTMB_INT_SET[MBRX],
-                                       enable clears GTI_CC_CNTMB_INT_ENA_CLR[MBRX],
-                                       and enable sets GTI_CC_CNTMB_INT_ENA_SET[MBRX]. */
-#define BDK_GTI_INT_VEC_E_SECURE_WATCHDOG (4) /**< Secure watchdog (watchdog 0) interrupt. */
-#define BDK_GTI_INT_VEC_E_SECURE_WATCHDOG_CLEAR (5) /**< Level sensitive interrupt clear vector. */
-#define BDK_GTI_INT_VEC_E_SPARE (9) /**< Reserved. */
-#define BDK_GTI_INT_VEC_E_TX_TIMESTAMP (6) /**< Timestamp mailbox has been transmitted.
-                                       See interrupt clears GTI_CC_CNTMB_INT[TXTS],
-                                       interrupt sets GTI_CC_CNTMB_INT_SET[TXTS],
-                                       enable clears GTI_CC_CNTMB_INT_ENA_CLR[TXTS],
-                                       and enable sets GTI_CC_CNTMB_INT_ENA_SET[TXTS]. */
-#define BDK_GTI_INT_VEC_E_WAKE (0) /**< Wakeup interrupt. */
-#define BDK_GTI_INT_VEC_E_WAKE_CLEAR (1) /**< Level sensitive interrupt clear vector. */
-#define BDK_GTI_INT_VEC_E_WATCHDOG (2) /**< Nonsecure watchdog (watchdog 1) interrupt. */
-#define BDK_GTI_INT_VEC_E_WATCHDOG_CLEAR (3) /**< Level sensitive interrupt clear vector. */
+#define BDK_GTI_INT_VEC_E_CORE_WDOGX_DEL3T(a) (0xa + (a))
+#define BDK_GTI_INT_VEC_E_CORE_WDOGX_INT(a) (0x3a + (a))
+#define BDK_GTI_INT_VEC_E_ERROR (8)
+#define BDK_GTI_INT_VEC_E_MAILBOX_RX (7)
+#define BDK_GTI_INT_VEC_E_SECURE_WATCHDOG (4)
+#define BDK_GTI_INT_VEC_E_SECURE_WATCHDOG_CLEAR (5)
+#define BDK_GTI_INT_VEC_E_SPARE (9)
+#define BDK_GTI_INT_VEC_E_TX_TIMESTAMP (6)
+#define BDK_GTI_INT_VEC_E_WAKE (0)
+#define BDK_GTI_INT_VEC_E_WAKE_CLEAR (1)
+#define BDK_GTI_INT_VEC_E_WATCHDOG (2)
+#define BDK_GTI_INT_VEC_E_WATCHDOG_CLEAR (3)
 
 /**
  * Register (NCB32b) gti_bz_cidr0

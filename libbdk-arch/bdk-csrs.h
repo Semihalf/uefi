@@ -63,6 +63,7 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
 #include "bdk-csrs-ccu_pic.h"
 #include "bdk-csrs-ccu_tad.h"
 #include "bdk-csrs-cde.h"
+#include "bdk-csrs-cer.h"
 #include "bdk-csrs-cim.h"
 #include "bdk-csrs-cpt.h"
 #include "bdk-csrs-dab_cti.h"

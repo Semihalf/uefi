@@ -58,14 +58,9 @@
  * ROM Crypt Enumeration
  * Enumerates the values of ROM_CSIB_S[CRYPT].
  */
-#define BDK_ROM_CRYPT_E_BSSK (2) /**< TBL1FW is encrypted with binding secret symmetric key (BSSK), where BSSK =
-                                       AES-D(FUSF_HUK(),
-                                       ROM_CSIB_S[FS0..1]).
-                                       This allows anti-cloning. */
-#define BDK_ROM_CRYPT_E_NONE (0) /**< No encryption of TBL1FW. This is not recommended if ROM_CSIB_S[EXPOSE] is set.
-                                       This method is not allowed if FUSF_CTL[CRYPT_NO_DIS] = 1. */
-#define BDK_ROM_CRYPT_E_SSK (1) /**< TBL1FW is encrypted with SSK.
-                                       This method is not allowed if FUSF_CTL[CRYPT_SSK_DIS] = 1. */
+#define BDK_ROM_CRYPT_E_BSSK (2)
+#define BDK_ROM_CRYPT_E_NONE (0)
+#define BDK_ROM_CRYPT_E_SSK (1)
 
 /**
  * Enumeration rom_xfer_msg_e
@@ -78,29 +73,15 @@
  *   * "Server" refers to the code running on another node which is serving an image
  *     into the client.
  */
-#define BDK_ROM_XFER_MSG_E_BOOT_DONE (0x2002) /**< Client is indicating boot process is complete and no additional messages will be sent by
-                                       the client ROM code.
-                                       Server must respond with SERVER_ACK or SERVER_ERROR. */
-#define BDK_ROM_XFER_MSG_E_BOOT_ERROR (0x2001) /**< Client is indicating boot process has an error and no additional messages will be sent by
-                                       the client ROM code.
-                                       Server must respond with SERVER_ACK or SERVER_ERROR. */
-#define BDK_ROM_XFER_MSG_E_BOOT_READX(a) (0x3000 + (a)) /**< Client is requesting boot data block number {a} from the server.
-                                       Server must respond with SERVER_ERROR, or:
-                                       * Read a 8 KB block corresponding to the specified offset from the flash (or other image).
-                                         If the requested block number exceeds the image or flash size, pad with zeros.
-                                       * IO write the 8 KB block to the client node address range KEY_MEM(0) ..
-                                         KEY_MEM(0)+8KB-1.
-                                         Note reads from this IO address are not supported and will return zeros.
-                                       * IO write 0xDEDE_DEDE_DEDE_DEDE to the client node address KEY_MEM(0) + 8KB.
-                                       * Respond with SERVER_ACK. */
-#define BDK_ROM_XFER_MSG_E_BOOT_START (0x2000) /**< Client is requesting boot sequence to start.
-                                       Server must respond with SERVER_ACK or SERVER_ERROR. */
-#define BDK_ROM_XFER_MSG_E_FAILX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E. */
-#define BDK_ROM_XFER_MSG_E_NONE (0) /**< No message. */
-#define BDK_ROM_XFER_MSG_E_SERVER_ACK (0x1000) /**< Server response indicating the client's request has been performed successfully. */
-#define BDK_ROM_XFER_MSG_E_SERVER_ERROR (0x1001) /**< Server response indicating the client's request had an error and the transfer is aborted.
-                                       The client will respond with BOOT_ERROR. */
-#define BDK_ROM_XFER_MSG_E_SERVER_RETRY (0x1002) /**< Server response indicating it needs more time.  Client shall reset timeout counters. */
+#define BDK_ROM_XFER_MSG_E_BOOT_DONE (0x2002)
+#define BDK_ROM_XFER_MSG_E_BOOT_ERROR (0x2001)
+#define BDK_ROM_XFER_MSG_E_BOOT_READX(a) (0x3000 + (a))
+#define BDK_ROM_XFER_MSG_E_BOOT_START (0x2000)
+#define BDK_ROM_XFER_MSG_E_FAILX(a) (0x4000 + (a))
+#define BDK_ROM_XFER_MSG_E_NONE (0)
+#define BDK_ROM_XFER_MSG_E_SERVER_ACK (0x1000)
+#define BDK_ROM_XFER_MSG_E_SERVER_ERROR (0x1001)
+#define BDK_ROM_XFER_MSG_E_SERVER_RETRY (0x1002)
 
 /**
  * Structure rom_clib_s

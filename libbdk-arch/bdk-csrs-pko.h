@@ -63,14 +63,10 @@
  * of all PKO_SEND_GATHER_S and PKO_SEND_LINK_S subdescriptors that are present prior
  * to this PKO_SEND_AURA_S in the PKO SEND descriptor.
  */
-#define BDK_PKO_AURAALG_E_NOP (0) /**< No operation.
-                                       aura_cnt = No change */
-#define BDK_PKO_AURAALG_E_SUB (3) /**< Subtract.
-                                       aura_cnt = aura_cnt - PKO_SEND_AURA_S[OFFSET]. */
-#define BDK_PKO_AURAALG_E_SUBLEN (7) /**< Subtract length.
-                                       aura_cnt = aura_cnt - PKO_SEND_AURA_S[OFFSET] - PKO_SEND_HDR_S[TOTAL]. */
-#define BDK_PKO_AURAALG_E_SUBMBUF (0xb) /**< Subtract mbuf count.
-                                       aura_cnt = aura_cnt - PKO_SEND_AURA_S[OFFSET] - mbufs_freed. */
+#define BDK_PKO_AURAALG_E_NOP (0)
+#define BDK_PKO_AURAALG_E_SUB (3)
+#define BDK_PKO_AURAALG_E_SUBLEN (7)
+#define BDK_PKO_AURAALG_E_SUBMBUF (0xb)
 
 /**
  * Enumeration pko_bar_e
@@ -78,9 +74,9 @@
  * PKO Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_PKO_BAR_E_PKO_PF_BAR0 (0x854000000000ll) /**< Base address for standard registers. */
-#define BDK_PKO_BAR_E_PKO_PF_BAR4 (0x854300000000ll) /**< Base address for MSI-X registers. */
-#define BDK_PKO_BAR_E_PKO_VFX_BAR0(a) (0x854400000000ll + 0x100000ll * (a)) /**< Base address for standard registers. */
+#define BDK_PKO_BAR_E_PKO_PF_BAR0 (0x854000000000ll)
+#define BDK_PKO_BAR_E_PKO_PF_BAR4 (0x854300000000ll)
+#define BDK_PKO_BAR_E_PKO_VFX_BAR0(a) (0x854400000000ll + 0x100000ll * (a))
 
 /**
  * Enumeration pko_ckl4alg_e
@@ -88,10 +84,10 @@
  * PKO Checksum L4 Algorithm Enumeration
  * Enumerates the different L4 checksum algorithms for PKO_SEND_HDR_S[CKL4].
  */
-#define BDK_PKO_CKL4ALG_E_NONE (0) /**< No checksum. */
-#define BDK_PKO_CKL4ALG_E_SCTP (3) /**< SCTP L4 checksum. */
-#define BDK_PKO_CKL4ALG_E_TCP (2) /**< TCP L4 checksum. */
-#define BDK_PKO_CKL4ALG_E_UDP (1) /**< UDP L4 checksum. */
+#define BDK_PKO_CKL4ALG_E_NONE (0)
+#define BDK_PKO_CKL4ALG_E_SCTP (3)
+#define BDK_PKO_CKL4ALG_E_TCP (2)
+#define BDK_PKO_CKL4ALG_E_UDP (1)
 
 /**
  * Enumeration pko_colorresult_e
@@ -99,10 +95,10 @@
  * PKO Color Result Enumeration
  * Enumerates the different colors of PKO_MEM_RESULT_S[COLOR] and PKO_*_PICK[COLOR].
  */
-#define BDK_PKO_COLORRESULT_E_GREEN (0) /**< Green. */
-#define BDK_PKO_COLORRESULT_E_RED_DROP (3) /**< Red, PKO will drop the packet. */
-#define BDK_PKO_COLORRESULT_E_RED_SEND (2) /**< Red, PKO will send the packet. */
-#define BDK_PKO_COLORRESULT_E_YELLOW (1) /**< Yellow. */
+#define BDK_PKO_COLORRESULT_E_GREEN (0)
+#define BDK_PKO_COLORRESULT_E_RED_DROP (3)
+#define BDK_PKO_COLORRESULT_E_RED_SEND (2)
+#define BDK_PKO_COLORRESULT_E_YELLOW (1)
 
 /**
  * Enumeration pko_cpsenddrop_e
@@ -111,11 +107,11 @@
  * Enumerates the error code for illegally constructed send-packet drops, stored in
  * PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE].
  */
-#define BDK_PKO_CPSENDDROP_E_DROP_EXTHDR_NPOS2 (3) /**< Reserved. */
-#define BDK_PKO_CPSENDDROP_E_DROP_HDR_EXTHDR_ONLY (2) /**< Reserved. */
-#define BDK_PKO_CPSENDDROP_E_DROP_HDR_ONLY (1) /**< Send-packet dropped because software sent a PKO_SEND_HDR_S, without 'no data send' subdescriptors. */
-#define BDK_PKO_CPSENDDROP_E_DROP_SIZE_16 (4) /**< Send-packet dropped because its was size 16. */
-#define BDK_PKO_CPSENDDROP_E_SENDPASS (0) /**< No error. Send-packet was not dropped because of illegal construction. */
+#define BDK_PKO_CPSENDDROP_E_DROP_EXTHDR_NPOS2 (3)
+#define BDK_PKO_CPSENDDROP_E_DROP_HDR_EXTHDR_ONLY (2)
+#define BDK_PKO_CPSENDDROP_E_DROP_HDR_ONLY (1)
+#define BDK_PKO_CPSENDDROP_E_DROP_SIZE_16 (4)
+#define BDK_PKO_CPSENDDROP_E_SENDPASS (0)
 
 /**
  * Enumeration pko_dq_ecc_e
@@ -123,10 +119,10 @@
  * PKO DQ RAM ECC SBE Status Enumeration
  * Enumerates the bits of PKO_DQ_ECC_SBE_W1C.
  */
-#define BDK_PKO_DQ_ECC_E_MSIX (3) /**< MSIX RAM. */
-#define BDK_PKO_DQ_ECC_E_RT0 (2) /**< RT0 RAM. */
-#define BDK_PKO_DQ_ECC_E_RT1 (1) /**< RT1 RAM. */
-#define BDK_PKO_DQ_ECC_E_WT (0) /**< WT RAM. */
+#define BDK_PKO_DQ_ECC_E_MSIX (3)
+#define BDK_PKO_DQ_ECC_E_RT0 (2)
+#define BDK_PKO_DQ_ECC_E_RT1 (1)
+#define BDK_PKO_DQ_ECC_E_WT (0)
 
 /**
  * Enumeration pko_dqop_e
@@ -134,10 +130,10 @@
  * PKO DQ Operation Enumeration
  * Enumerates the different IOBLD operation codes and PKO_QUERY_RTN_S[DQOP] values.
  */
-#define BDK_PKO_DQOP_E_CLOSE (2) /**< Close queue operation. See PKO_QUERY_LD_S and PKO_QUERY_DMA_S. */
-#define BDK_PKO_DQOP_E_OPEN (1) /**< Open queue operation. See PKO_QUERY_LD_S and PKO_QUERY_DMA_S. */
-#define BDK_PKO_DQOP_E_QUERY (3) /**< Query operation. See PKO_QUERY_LD_S and PKO_QUERY_DMA_S. */
-#define BDK_PKO_DQOP_E_SEND (0) /**< Send operation. See PKO_SEND_DMA_S. */
+#define BDK_PKO_DQOP_E_CLOSE (2)
+#define BDK_PKO_DQOP_E_OPEN (1)
+#define BDK_PKO_DQOP_E_QUERY (3)
+#define BDK_PKO_DQOP_E_SEND (0)
 
 /**
  * Enumeration pko_dqstatus_e
@@ -145,33 +141,14 @@
  * PKO Descriptor Status Enumeration
  * Enumerates the different descriptor queue command results. See PKO_QUERY_RTN_S[DQSTATUS].
  */
-#define BDK_PKO_DQSTATUS_E_DQALREADYCREATED (0xc) /**< This is a non-fatal error. PKO could not do the command because the DQ was already
-                                       created. (For example, can't double open a DQ). */
-#define BDK_PKO_DQSTATUS_E_DQBADSTATE (8) /**< PKO could not enqueue the descriptor because the queue was not ready to enqueue
-                                       descriptors.
-                                       
-                                       Internal:
-                                       Not used in hardware, currently. */
-#define BDK_PKO_DQSTATUS_E_DQNOFPABUF (9) /**< PKO could not enqueue the descriptor because FPA could not allocate a free FPA buffer to
-                                       hold the descriptor.
-                                       IMPORTANT: This is a fatal error, and will require a reset. If this
-                                       happens to a queue-open or queue-close command, the PDM internal state could be
-                                       incoherrent. If this status is seen, it is an indication reset is needed. The interrupt
-                                       PKO_FPA_NO_PTRS will be signaled as soon as the FPA returns the condition of
-                                       having no pointers. */
-#define BDK_PKO_DQSTATUS_E_DQNOTCREATED (0xd) /**< This is a non-fatal error. PKO could not do the command because the DQ was not already
-                                       created. (For example, can't close a DQ that is not created). */
-#define BDK_PKO_DQSTATUS_E_DQNOTEMPTY (0xe) /**< This is a non-fatal error. PKO could not do the command because the DQ was not empty. (For
-                                       example, can't close a DQ that is not empty). */
-#define BDK_PKO_DQSTATUS_E_DQSENDPKTDROP (0xf) /**< PKO dropped the send-packet command due to illegal construction; non-fatal. See
-                                       PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. Corresponding interrupts will fire. Reasons for
-                                       failure:
-                                       1. Send-packet contained more than 15 words (including header). 2. Only a header and
-                                       extended header were sent. 3. Extended header was not in position 2. 4. Only a header was
-                                       sent. */
-#define BDK_PKO_DQSTATUS_E_PASS (0) /**< No error. In the case of an PKO_SEND_DMA_S, indicates that PKO successfully enqueued the
-                                       descriptor. */
-#define BDK_PKO_DQSTATUS_E_PDM_NOT_EN (1) /**< PKO could not enqueue the descriptor because PDM is disabled on a memory LD/ST/CRC error. */
+#define BDK_PKO_DQSTATUS_E_DQALREADYCREATED (0xc)
+#define BDK_PKO_DQSTATUS_E_DQBADSTATE (8)
+#define BDK_PKO_DQSTATUS_E_DQNOFPABUF (9)
+#define BDK_PKO_DQSTATUS_E_DQNOTCREATED (0xd)
+#define BDK_PKO_DQSTATUS_E_DQNOTEMPTY (0xe)
+#define BDK_PKO_DQSTATUS_E_DQSENDPKTDROP (0xf)
+#define BDK_PKO_DQSTATUS_E_PASS (0)
+#define BDK_PKO_DQSTATUS_E_PDM_NOT_EN (1)
 
 /**
  * Enumeration pko_l1_ecc_e
@@ -179,19 +156,19 @@
  * PKO L1 RAM ECC SBE Status Enumeration
  * Enumerates the bits of PKO_L1_ECC_SBE_W1C.
  */
-#define BDK_PKO_L1_ECC_E_CXD (0x3e) /**< CXD RAM. */
-#define BDK_PKO_L1_ECC_E_CXS (0x3f) /**< CXS RAM. */
-#define BDK_PKO_L1_ECC_E_NT (0x3a) /**< NT RAM. */
-#define BDK_PKO_L1_ECC_E_PC (0x38) /**< PC RAM. */
-#define BDK_PKO_L1_ECC_E_PT (0x3b) /**< PT RAM. */
-#define BDK_PKO_L1_ECC_E_RT (0x39) /**< RT RAM. */
-#define BDK_PKO_L1_ECC_E_SC (0x2e) /**< SC RAM. */
-#define BDK_PKO_L1_ECC_E_STD0 (0x30) /**< STD0 RAM. */
-#define BDK_PKO_L1_ECC_E_STS0 (0x32) /**< STS0 RAM. */
-#define BDK_PKO_L1_ECC_E_TP0 (0x34) /**< TP0 RAM. */
-#define BDK_PKO_L1_ECC_E_TW0 (0x36) /**< TW0 RAM. */
-#define BDK_PKO_L1_ECC_E_VC0 (0x3c) /**< VC0 RAM. */
-#define BDK_PKO_L1_ECC_E_WT (0x2f) /**< WT RAM. */
+#define BDK_PKO_L1_ECC_E_CXD (0x3e)
+#define BDK_PKO_L1_ECC_E_CXS (0x3f)
+#define BDK_PKO_L1_ECC_E_NT (0x3a)
+#define BDK_PKO_L1_ECC_E_PC (0x38)
+#define BDK_PKO_L1_ECC_E_PT (0x3b)
+#define BDK_PKO_L1_ECC_E_RT (0x39)
+#define BDK_PKO_L1_ECC_E_SC (0x2e)
+#define BDK_PKO_L1_ECC_E_STD0 (0x30)
+#define BDK_PKO_L1_ECC_E_STS0 (0x32)
+#define BDK_PKO_L1_ECC_E_TP0 (0x34)
+#define BDK_PKO_L1_ECC_E_TW0 (0x36)
+#define BDK_PKO_L1_ECC_E_VC0 (0x3c)
+#define BDK_PKO_L1_ECC_E_WT (0x2f)
 
 /**
  * Enumeration pko_l2_ecc_e
@@ -199,15 +176,15 @@
  * PKO L2 RAM ECC SBE Status Enumeration
  * Enumerates the bits of PKO_L2_ECC_SBE_W1C.
  */
-#define BDK_PKO_L2_ECC_E_NT (0x3a) /**< NT RAM. */
-#define BDK_PKO_L2_ECC_E_PT (0x3b) /**< PT RAM. */
-#define BDK_PKO_L2_ECC_E_RT (0x39) /**< RT RAM. */
-#define BDK_PKO_L2_ECC_E_SC (0x2e) /**< SC RAM. */
-#define BDK_PKO_L2_ECC_E_STD0 (0x30) /**< STD0 RAM. */
-#define BDK_PKO_L2_ECC_E_STS0 (0x32) /**< STS0 RAM. */
-#define BDK_PKO_L2_ECC_E_TP0 (0x34) /**< TP0 RAM. */
-#define BDK_PKO_L2_ECC_E_TW0 (0x36) /**< TW0 RAM. */
-#define BDK_PKO_L2_ECC_E_WT (0x2f) /**< WT RAM. */
+#define BDK_PKO_L2_ECC_E_NT (0x3a)
+#define BDK_PKO_L2_ECC_E_PT (0x3b)
+#define BDK_PKO_L2_ECC_E_RT (0x39)
+#define BDK_PKO_L2_ECC_E_SC (0x2e)
+#define BDK_PKO_L2_ECC_E_STD0 (0x30)
+#define BDK_PKO_L2_ECC_E_STS0 (0x32)
+#define BDK_PKO_L2_ECC_E_TP0 (0x34)
+#define BDK_PKO_L2_ECC_E_TW0 (0x36)
+#define BDK_PKO_L2_ECC_E_WT (0x2f)
 
 /**
  * Enumeration pko_l3_ecc_e
@@ -215,15 +192,15 @@
  * PKO L3 RAM ECC SBE Status Enumeration
  * Enumerates the bits of PKO_L3_ECC_SBE_W1C.
  */
-#define BDK_PKO_L3_ECC_E_NT (0x3a) /**< NT RAM. */
-#define BDK_PKO_L3_ECC_E_PT (0x3b) /**< PT RAM. */
-#define BDK_PKO_L3_ECC_E_RT (0x39) /**< RT RAM. */
-#define BDK_PKO_L3_ECC_E_SC (0x2e) /**< SC RAM. */
-#define BDK_PKO_L3_ECC_E_STD0 (0x30) /**< STD0 RAM. */
-#define BDK_PKO_L3_ECC_E_STS0 (0x32) /**< STS0 RAM. */
-#define BDK_PKO_L3_ECC_E_TP0 (0x34) /**< TP0 RAM. */
-#define BDK_PKO_L3_ECC_E_TW0 (0x36) /**< TW0 RAM. */
-#define BDK_PKO_L3_ECC_E_WT (0x2f) /**< WT RAM. */
+#define BDK_PKO_L3_ECC_E_NT (0x3a)
+#define BDK_PKO_L3_ECC_E_PT (0x3b)
+#define BDK_PKO_L3_ECC_E_RT (0x39)
+#define BDK_PKO_L3_ECC_E_SC (0x2e)
+#define BDK_PKO_L3_ECC_E_STD0 (0x30)
+#define BDK_PKO_L3_ECC_E_STS0 (0x32)
+#define BDK_PKO_L3_ECC_E_TP0 (0x34)
+#define BDK_PKO_L3_ECC_E_TW0 (0x36)
+#define BDK_PKO_L3_ECC_E_WT (0x2f)
 
 /**
  * Enumeration pko_lmac_e
@@ -231,9 +208,9 @@
  * PKO LMAC Enumeration
  * Enumerates the values of PKO_LUT index.
  */
-#define BDK_PKO_LMAC_E_BGXX_PORTX(a,b) (2 + 4 * (a) + (b)) /**< BGX {a} port {b} channel {c} LMAC index. */
-#define BDK_PKO_LMAC_E_DPI (1) /**< DPI LMAC index. */
-#define BDK_PKO_LMAC_E_LOOPBACK (0) /**< Loopback pipe LMAC index. */
+#define BDK_PKO_LMAC_E_BGXX_PORTX(a,b) (2 + 4 * (a) + (b))
+#define BDK_PKO_LMAC_E_DPI (1)
+#define BDK_PKO_LMAC_E_LOOPBACK (0)
 
 /**
  * Enumeration pko_memalg_e
@@ -241,34 +218,15 @@
  * PKO Memory Modify Algorithm Enumeration
  * Enumerates the different algorithms for modifying memory; see PKO_SEND_MEM_S[ALG].
  */
-#define BDK_PKO_MEMALG_E_ADD (8) /**< Add.
-                                       mem = mem + PKO_SEND_MEM_S[OFFSET]. */
-#define BDK_PKO_MEMALG_E_ADDLEN (0xa) /**< Add length.
-                                       mem = mem + PKO_SEND_MEM_S[OFFSET] + PKO_SEND_HDR_S[TOTAL]. */
-#define BDK_PKO_MEMALG_E_ADDMBUF (0xc) /**< Add mbufs freed.
-                                       mem = mem + PKO_SEND_MEM_S[OFFSET] + mbufs_freed. mbufs_freed is as defined in
-                                       PKO_AURAALG_E. */
-#define BDK_PKO_MEMALG_E_SET (0) /**< Set.
-                                       mem = PKO_SEND_MEM_S[OFFSET]. */
-#define BDK_PKO_MEMALG_E_SETRSLT (2) /**< Set the memory location to the final resulting color and state of the packet.
-                                       PKO_MEM_RESULT_S indicates the store value. PKO_SEND_MEM_S[DSZ] must be B64.
-                                       mem = PKO_MEM_RESULT_S. */
-#define BDK_PKO_MEMALG_E_SETTSTMP (1) /**< Set the memory location to the timestamp the packet was at the interface. See the PTP
-                                       chapter. When used, PKO_SEND_MEM_S[DSZ] must be B64 and PKO_SEND_HDR_S[TSTMP]
-                                       must be set in the descriptor.
-                                       For non-NULL interfaces:
-                                       mem = MIO_PTP_CLOCK_HI at packet send.
-                                       Else, for NULL interface:
-                                       mem = 0x1. */
-#define BDK_PKO_MEMALG_E_SUB (9) /**< Subtract.
-                                       mem = mem - PKO_SEND_MEM_S[OFFSET].
-                                       Note: IOI bandwidth is optimized if a memory decrement by one is used rather than any
-                                       other memory set/add/sub. */
-#define BDK_PKO_MEMALG_E_SUBLEN (0xb) /**< Subtract length.
-                                       mem = mem - PKO_SEND_MEM_S[OFFSET] - PKO_SEND_HDR_S[TOTAL]. */
-#define BDK_PKO_MEMALG_E_SUBMBUF (0xd) /**< Subtract mbufs freed.
-                                       mem = mem - PKO_SEND_MEM_S[OFFSET] - mbufs_freed. mbufs_freed is as defined in
-                                       PKO_AURAALG_E. */
+#define BDK_PKO_MEMALG_E_ADD (8)
+#define BDK_PKO_MEMALG_E_ADDLEN (0xa)
+#define BDK_PKO_MEMALG_E_ADDMBUF (0xc)
+#define BDK_PKO_MEMALG_E_SET (0)
+#define BDK_PKO_MEMALG_E_SETRSLT (2)
+#define BDK_PKO_MEMALG_E_SETTSTMP (1)
+#define BDK_PKO_MEMALG_E_SUB (9)
+#define BDK_PKO_MEMALG_E_SUBLEN (0xb)
+#define BDK_PKO_MEMALG_E_SUBMBUF (0xd)
 
 /**
  * Enumeration pko_memdsz_e
@@ -276,10 +234,10 @@
  * PKO Memory Data Size Enumeration
  * Enumerates the datum size for modifying memory; see PKO_SEND_MEM_S[DSZ].
  */
-#define BDK_PKO_MEMDSZ_E_B16 (2) /**< 16 bits. PKO_SEND_MEM_S[ALG] must be PKO_MEMALG_E::SET. */
-#define BDK_PKO_MEMDSZ_E_B32 (1) /**< 32 bits. PKO_SEND_MEM_S[ALG] must not be PKO_MEMALG_E::SETTSTMP nor PKO_MEMALG_E::SETRSLT. */
-#define BDK_PKO_MEMDSZ_E_B64 (0) /**< 64 bits. */
-#define BDK_PKO_MEMDSZ_E_B8 (3) /**< 8 bits. PKO_SEND_MEM_S[ALG] must be PKO_MEMALG_E::SET. */
+#define BDK_PKO_MEMDSZ_E_B16 (2)
+#define BDK_PKO_MEMDSZ_E_B32 (1)
+#define BDK_PKO_MEMDSZ_E_B64 (0)
+#define BDK_PKO_MEMDSZ_E_B8 (3)
 
 /**
  * Enumeration pko_pdm_ecc_e
@@ -287,27 +245,27 @@
  * PKO_PDM_ECC_* SRAM Enumeration
  * Enumerates the bits of PKO_PDM_ECC_SBE_W1C.
  */
-#define BDK_PKO_PDM_ECC_E_BUF_FC_CFG (0x26) /**< BUF_FC_CFG RAM. */
-#define BDK_PKO_PDM_ECC_E_BUF_WM (0x27) /**< BUF_WM RAM. */
-#define BDK_PKO_PDM_ECC_E_DRP_HI (0x34) /**< DRP_HI RAM. */
-#define BDK_PKO_PDM_ECC_E_DRP_LO (0x33) /**< DRP_LO RAM. */
-#define BDK_PKO_PDM_ECC_E_DWP_HI (0x32) /**< DWP_HI RAM. */
-#define BDK_PKO_PDM_ECC_E_DWP_LO (0x31) /**< DWP_LO RAM. */
-#define BDK_PKO_PDM_ECC_E_FILLB_D_RSP_HI (0x2c) /**< FILLB_D_RSP_HI RAM. */
-#define BDK_PKO_PDM_ECC_E_FILLB_D_RSP_LO (0x2b) /**< FILLB_D_RSP_LO RAM. */
-#define BDK_PKO_PDM_ECC_E_FILLB_M_RSP_HI (0x2e) /**< FILLB_M_RSP_HI RAM. */
-#define BDK_PKO_PDM_ECC_E_FILLB_M_RSP_LO (0x2d) /**< FILLB_M_RSP_LO RAM. */
-#define BDK_PKO_PDM_ECC_E_FLSHB_CACHE_HI (0x3e) /**< FLSHB_CACHE_HI RAM. */
-#define BDK_PKO_PDM_ECC_E_FLSHB_CACHE_LO (0x3f) /**< FLSHB_CACHE_LO RAM. */
-#define BDK_PKO_PDM_ECC_E_ISRD_ST0 (0x35) /**< ISRD_ST0 RAM. */
-#define BDK_PKO_PDM_ECC_E_ISRM_CA_CM (0x3c) /**< ISRM_CA_CM RAM. */
-#define BDK_PKO_PDM_ECC_E_ISRM_CA_IINST (0x3d) /**< ISRM_CA_IINST RAM. */
-#define BDK_PKO_PDM_ECC_E_ISRM_ST0 (0x39) /**< ISRM_ST0 RAM. */
-#define BDK_PKO_PDM_ECC_E_MINPAD (0x2a) /**< MINPAD RAM. */
-#define BDK_PKO_PDM_ECC_E_MWP_HI (0x30) /**< MWP_HI RAM. */
-#define BDK_PKO_PDM_ECC_E_MWP_HI_SPT (0x29) /**< MWP_HI_SPT RAM. */
-#define BDK_PKO_PDM_ECC_E_MWP_LO (0x2f) /**< MWP_LO RAM. */
-#define BDK_PKO_PDM_ECC_E_MWP_LO_SPT (0x28) /**< MWP_LO_SPT RAM. */
+#define BDK_PKO_PDM_ECC_E_BUF_FC_CFG (0x26)
+#define BDK_PKO_PDM_ECC_E_BUF_WM (0x27)
+#define BDK_PKO_PDM_ECC_E_DRP_HI (0x34)
+#define BDK_PKO_PDM_ECC_E_DRP_LO (0x33)
+#define BDK_PKO_PDM_ECC_E_DWP_HI (0x32)
+#define BDK_PKO_PDM_ECC_E_DWP_LO (0x31)
+#define BDK_PKO_PDM_ECC_E_FILLB_D_RSP_HI (0x2c)
+#define BDK_PKO_PDM_ECC_E_FILLB_D_RSP_LO (0x2b)
+#define BDK_PKO_PDM_ECC_E_FILLB_M_RSP_HI (0x2e)
+#define BDK_PKO_PDM_ECC_E_FILLB_M_RSP_LO (0x2d)
+#define BDK_PKO_PDM_ECC_E_FLSHB_CACHE_HI (0x3e)
+#define BDK_PKO_PDM_ECC_E_FLSHB_CACHE_LO (0x3f)
+#define BDK_PKO_PDM_ECC_E_ISRD_ST0 (0x35)
+#define BDK_PKO_PDM_ECC_E_ISRM_CA_CM (0x3c)
+#define BDK_PKO_PDM_ECC_E_ISRM_CA_IINST (0x3d)
+#define BDK_PKO_PDM_ECC_E_ISRM_ST0 (0x39)
+#define BDK_PKO_PDM_ECC_E_MINPAD (0x2a)
+#define BDK_PKO_PDM_ECC_E_MWP_HI (0x30)
+#define BDK_PKO_PDM_ECC_E_MWP_HI_SPT (0x29)
+#define BDK_PKO_PDM_ECC_E_MWP_LO (0x2f)
+#define BDK_PKO_PDM_ECC_E_MWP_LO_SPT (0x28)
 
 /**
  * Enumeration pko_pdm_ncb_ecc_e
@@ -315,10 +273,28 @@
  * PKO_PDM_NCB_ECC_* SRAM Enumeration
  * Enumerates the bits of PKO_PDM_NCB_ECC_SBE_W1C.
  */
-#define BDK_PKO_PDM_NCB_ECC_E_NCBI_L2_OUT (0x3f) /**< NCBI_L2_OUT RAM. */
-#define BDK_PKO_PDM_NCB_ECC_E_NCBI_PP_OUT (0x3e) /**< NCBI_PP_OUT RAM. */
-#define BDK_PKO_PDM_NCB_ECC_E_NCBO_PDM_OP_FIF (0x3d) /**< NCBO_PDM_OP_FIF RAM. */
-#define BDK_PKO_PDM_NCB_ECC_E_NCBO_SKID_FIF (0x3c) /**< NCBO_SKID_FIF RAM. */
+#define BDK_PKO_PDM_NCB_ECC_E_NCBI_L2_OUT (0x3f)
+#define BDK_PKO_PDM_NCB_ECC_E_NCBI_PP_OUT (0x3e)
+#define BDK_PKO_PDM_NCB_ECC_E_NCBO_PDM_OP_FIF (0x3d)
+#define BDK_PKO_PDM_NCB_ECC_E_NCBO_SKID_FIF (0x3c)
+
+/**
+ * Enumeration pko_pdm_sts_e
+ *
+ * PKO_PDM_STS_* Error Enumeration
+ * Enumerates the bits of PKO_PDM_STS_W1C.
+ */
+#define BDK_PKO_PDM_STS_E_BUF_FC_STDN_ERR (1)
+#define BDK_PKO_PDM_STS_E_CP_SENDPKT_ERR_DROP (3)
+#define BDK_PKO_PDM_STS_E_CP_SENDPKT_ERR_NO_DRP (9)
+#define BDK_PKO_PDM_STS_E_CP_STALLED_THRSHLD_HIT (0x25)
+#define BDK_PKO_PDM_STS_E_DESC_CRC_ERR (0)
+#define BDK_PKO_PDM_STS_E_DRPBUF_DATA_VAL_ERR (0x21)
+#define BDK_PKO_PDM_STS_E_DWPBUF_DATA_VAL_ERR (0x20)
+#define BDK_PKO_PDM_STS_E_FPA_NO_PTRS (0xe)
+#define BDK_PKO_PDM_STS_E_MWPBUF_DATA_VAL_ERR (0x22)
+#define BDK_PKO_PDM_STS_E_QCMD_IOBX_ERR (0x19)
+#define BDK_PKO_PDM_STS_E_SENDPKT_LMTST_ERR (0xf)
 
 /**
  * Enumeration pko_peb_ecc_e
@@ -326,69 +302,44 @@
  * PKO_PEB_ECC_* SRAM Enumeration
  * Enumerates the bits of PKO_PEB_ECC_SBE_W1C.
  */
-#define BDK_PKO_PEB_ECC_E_ADD_WORK_FIFO (0x30) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_add_work_fifo_i */
-#define BDK_PKO_PEB_ECC_E_IOBP0_FIFO_RAM (0x3e) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i */
-#define BDK_PKO_PEB_ECC_E_IOBP1_FIFO_RAM (0x3d) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i */
-#define BDK_PKO_PEB_ECC_E_IOBP1_UID_FIFO_RAM (0x3f) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i */
-#define BDK_PKO_PEB_ECC_E_NXT_LINK_PTR_RAM (0x2c) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_nxt_link_ptr_mem_i */
-#define BDK_PKO_PEB_ECC_E_PDM_PSE_BUF_RAM (0x3b) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i */
-#define BDK_PKO_PEB_ECC_E_PDM_RESP_BUF_RAM (0x3c) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pdm_resp_buf_i */
-#define BDK_PKO_PEB_ECC_E_PD_BANK0_RAM (0x35) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank0_i */
-#define BDK_PKO_PEB_ECC_E_PD_BANK3_RAM (0x38) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank3_i */
-#define BDK_PKO_PEB_ECC_E_PD_VAR_BANK_RAM (0x34) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_var_mem_bank_i */
-#define BDK_PKO_PEB_ECC_E_PEB_ST_INF_RAM (0x39) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_state_info_mem_i */
-#define BDK_PKO_PEB_ECC_E_PKT_MRK_RAM (0x2b) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pkt_mrk_mem_i */
-#define BDK_PKO_PEB_ECC_E_SEND_MEM_FIFO (0x2f) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_fifo_i */
-#define BDK_PKO_PEB_ECC_E_SEND_MEM_STDN_FIFO (0x2e) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_stdn_fifo_i */
-#define BDK_PKO_PEB_ECC_E_SEND_MEM_TS_FIFO (0x2d) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_ts_fifo_i */
-#define BDK_PKO_PEB_ECC_E_STATE_MEM0 (0x29) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank0_i */
-#define BDK_PKO_PEB_ECC_E_STATE_MEM3 (0x26) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank3_i */
-#define BDK_PKO_PEB_ECC_E_TS_ADDWORK_RAM (0x2a) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_ts_addwork_mem_i */
-#define BDK_PKO_PEB_ECC_E_TX_FIFO_CRC_RAM (0x33) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_crc_i */
-#define BDK_PKO_PEB_ECC_E_TX_FIFO_HDR_RAM (0x32) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_hdr_i */
-#define BDK_PKO_PEB_ECC_E_TX_FIFO_PKT_RAM (0x31) /**< Internal:
-                                       Instances:
-                                       pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_pkt_i */
+#define BDK_PKO_PEB_ECC_E_ADD_WORK_FIFO (0x30)
+#define BDK_PKO_PEB_ECC_E_IOBP0_FIFO_RAM (0x3e)
+#define BDK_PKO_PEB_ECC_E_IOBP1_FIFO_RAM (0x3d)
+#define BDK_PKO_PEB_ECC_E_IOBP1_UID_FIFO_RAM (0x3f)
+#define BDK_PKO_PEB_ECC_E_NXT_LINK_PTR_RAM (0x2c)
+#define BDK_PKO_PEB_ECC_E_PDM_PSE_BUF_RAM (0x3b)
+#define BDK_PKO_PEB_ECC_E_PDM_RESP_BUF_RAM (0x3c)
+#define BDK_PKO_PEB_ECC_E_PD_BANK0_RAM (0x35)
+#define BDK_PKO_PEB_ECC_E_PD_BANK3_RAM (0x38)
+#define BDK_PKO_PEB_ECC_E_PD_VAR_BANK_RAM (0x34)
+#define BDK_PKO_PEB_ECC_E_PEB_ST_INF_RAM (0x39)
+#define BDK_PKO_PEB_ECC_E_PKT_MRK_RAM (0x2b)
+#define BDK_PKO_PEB_ECC_E_SEND_MEM_FIFO (0x2f)
+#define BDK_PKO_PEB_ECC_E_SEND_MEM_STDN_FIFO (0x2e)
+#define BDK_PKO_PEB_ECC_E_SEND_MEM_TS_FIFO (0x2d)
+#define BDK_PKO_PEB_ECC_E_STATE_MEM0 (0x29)
+#define BDK_PKO_PEB_ECC_E_STATE_MEM3 (0x26)
+#define BDK_PKO_PEB_ECC_E_TS_ADDWORK_RAM (0x2a)
+#define BDK_PKO_PEB_ECC_E_TX_FIFO_CRC_RAM (0x33)
+#define BDK_PKO_PEB_ECC_E_TX_FIFO_HDR_RAM (0x32)
+#define BDK_PKO_PEB_ECC_E_TX_FIFO_PKT_RAM (0x31)
+
+/**
+ * Enumeration pko_peb_err_int_e
+ *
+ * PKO_PEB_ECC_INT Error Enumeration
+ * Enumerates the bits of PKO_PEB_ERR_W1C.
+ */
+#define BDK_PKO_PEB_ERR_INT_E_PEB_EXT_HDR_DEF (0)
+#define BDK_PKO_PEB_ERR_INT_E_PEB_FCS_SOP (2)
+#define BDK_PKO_PEB_ERR_INT_E_PEB_JUMP_DEF (1)
+#define BDK_PKO_PEB_ERR_INT_E_PEB_MACX_CFG_WR (9)
+#define BDK_PKO_PEB_ERR_INT_E_PEB_MAX_LINK (8)
+#define BDK_PKO_PEB_ERR_INT_E_PEB_PAD (4)
+#define BDK_PKO_PEB_ERR_INT_E_PEB_PSE_FIFO (3)
+#define BDK_PKO_PEB_ERR_INT_E_PEB_SUBD_ADDR (6)
+#define BDK_PKO_PEB_ERR_INT_E_PEB_SUBD_SIZE (7)
+#define BDK_PKO_PEB_ERR_INT_E_PEB_TRUNC (5)
 
 /**
  * Enumeration pko_peb_ncb_ecc_e
@@ -396,7 +347,7 @@
  * PKO_PEB_NCB_ECC_* SRAM Enumeration
  * Enumerates the bits of PKO_PEB_NCB_ECC_W1C.
  */
-#define BDK_PKO_PEB_NCB_ECC_E_NCBI_L2_OUT (0x3f) /**< NCBI_L2_OUT RAM. */
+#define BDK_PKO_PEB_NCB_ECC_E_NCBI_L2_OUT (0x3f)
 
 /**
  * Enumeration pko_pf_int_vec_e
@@ -404,106 +355,31 @@
  * PKO Interrupt Source Enumeration
  * Enumerates the different PKO-generated interrupts.
  */
-#define BDK_PKO_PF_INT_VEC_E_PKO_DQ_ECC_DBE (3) /**< See interrupt clears PKO_DQ_ECC_DBE_W1C,
-                                       interrupt sets PKO_DQ_ECC_DBE_W1S,
-                                       enable clears PKO_DQ_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_DQ_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_DQ_ECC_SBE (2) /**< See interrupt clears PKO_DQ_ECC_SBE_W1C,
-                                       interrupt sets PKO_DQ_ECC_SBE_W1S,
-                                       enable clears PKO_DQ_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_DQ_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_L1_ECC_DBE (0xb) /**< See interrupt clears PKO_L1_ECC_DBE_W1C,
-                                       interrupt sets PKO_L1_ECC_DBE_W1S,
-                                       enable clears PKO_L1_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_L1_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_L1_ECC_SBE (0xa) /**< See interrupt clears PKO_L1_ECC_SBE_W1C,
-                                       interrupt sets PKO_L1_ECC_SBE_W1S,
-                                       enable clears PKO_L1_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_L1_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_L2_ECC_DBE (5) /**< See interrupt clears PKO_L2_ECC_DBE_W1C,
-                                       interrupt sets PKO_L2_ECC_DBE_W1S,
-                                       enable clears PKO_L2_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_L2_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_L2_ECC_SBE (4) /**< See interrupt clears PKO_L2_ECC_SBE_W1C,
-                                       interrupt sets PKO_L2_ECC_SBE_W1S,
-                                       enable clears PKO_L2_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_L2_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_L3_ECC_DBE (7) /**< See interrupt clears PKO_L3_ECC_DBE_W1C,
-                                       interrupt sets PKO_L3_ECC_DBE_W1S,
-                                       enable clears PKO_L3_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_L3_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_L3_ECC_SBE (6) /**< See interrupt clears PKO_L3_ECC_SBE_W1C,
-                                       interrupt sets PKO_L3_ECC_SBE_W1S,
-                                       enable clears PKO_L3_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_L3_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_LUT_ECC_DBE (1) /**< See interrupt clears PKO_LUT_ECC_DBE_W1C,
-                                       interrupt sets PKO_LUT_ECC_DBE_W1S,
-                                       enable clears PKO_LUT_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_LUT_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_LUT_ECC_SBE (0) /**< See interrupt clears PKO_LUT_ECC_SBE_W1C,
-                                       interrupt sets PKO_LUT_ECC_SBE_W1S,
-                                       enable clears PKO_LUT_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_LUT_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_ECC_DBE (9) /**< See interrupt clears PKO_PDM_ECC_DBE_W1C,
-                                       interrupt sets PKO_PDM_ECC_DBE_W1S,
-                                       enable clears PKO_PDM_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_PDM_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_ECC_SBE (8) /**< See interrupt clears PKO_PDM_ECC_SBE_W1C,
-                                       interrupt sets PKO_PDM_ECC_SBE_W1S,
-                                       enable clears PKO_PDM_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_PDM_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_NCB_ECC_DBE (0xf) /**< See interrupt clears PKO_PDM_NCB_ECC_DBE_W1C,
-                                       interrupt sets PKO_PDM_NCB_ECC_DBE_W1S,
-                                       enable clears PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_NCB_ECC_SBE (0xe) /**< See interrupt clears PKO_PDM_NCB_ECC_SBE_W1C,
-                                       interrupt sets PKO_PDM_NCB_ECC_SBE_W1S,
-                                       enable clears PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_NCB_INT (0x15) /**< See interrupt clears PKO_PDM_NCB_INT_W1C,
-                                       interrupt sets PKO_PDM_NCB_INT_W1S,
-                                       enable clears PKO_PDM_NCB_INT_ENA_W1C, and
-                                       enable sets PKO_PDM_NCB_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_STS (0x14) /**< See interrupt clears PKO_PDM_STS_W1C,
-                                       interrupt sets PKO_PDM_STS_W1S,
-                                       enable clears PKO_PDM_STS_INT_ENA_W1C, and
-                                       enable sets PKO_PDM_STS_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_DBE (0x11) /**< See interrupt clears PKO_PEB_ECC_DBE_W1C,
-                                       interrupt sets PKO_PEB_ECC_DBE_W1S,
-                                       enable clears PKO_PEB_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_PEB_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_ERR (0x12) /**< See interrupt clears PKO_PEB_ERR_INT_W1C,
-                                       interrupt sets PKO_PEB_ERR_INT_W1S,
-                                       enable clears PKO_PEB_ERR_INT_ENA_W1C, and
-                                       enable sets PKO_PEB_ERR_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_NCB_ECC_DBE (0x18) /**< See interrupt clears PKO_PEB_NCB_ECC_DBE_W1C,
-                                       interrupt sets PKO_PEB_NCB_ECC_DBE_W1S,
-                                       enable clears PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_NCB_ECC_SBE (0x17) /**< See interrupt clears PKO_PEB_NCB_ECC_SBE_W1C,
-                                       interrupt sets PKO_PEB_NCB_ECC_SBE_W1S,
-                                       enable clears PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_NCB_INT (0x16) /**< See interrupt clears PKO_PEB_NCB_INT_W1C,
-                                       interrupt sets PKO_PEB_NCB_INT_W1S,
-                                       enable clears PKO_PEB_NCB_INT_ENA_W1C, and
-                                       enable sets PKO_PEB_NCB_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_SBE (0x10) /**< See interrupt clears PKO_PEB_ECC_SBE_W1C,
-                                       interrupt sets PKO_PEB_ECC_SBE_W1S,
-                                       enable clears PKO_PEB_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_PEB_ECC_SBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PQ_DRAIN (0x13) /**< See interrupt clears PKO_PQ_DRAIN_W1C,
-                                       interrupt sets PKO_PQ_DRAIN_W1S,
-                                       enable clears PKO_PQ_DRAIN_INT_ENA_W1C, and
-                                       enable sets PKO_PQ_DRAIN_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PQ_ECC_DBE (0xd) /**< See interrupt clears PKO_PQ_ECC_DBE_W1C,
-                                       interrupt sets PKO_PQ_ECC_DBE_W1S,
-                                       enable clears PKO_PQ_ECC_DBE_INT_ENA_W1C, and
-                                       enable sets PKO_PQ_ECC_DBE_INT_ENA_W1S. */
-#define BDK_PKO_PF_INT_VEC_E_PKO_PQ_ECC_SBE (0xc) /**< See interrupt clears PKO_PQ_ECC_SBE_W1C,
-                                       interrupt sets PKO_PQ_ECC_SBE_W1S,
-                                       enable clears PKO_PQ_ECC_SBE_INT_ENA_W1C, and
-                                       enable sets PKO_PQ_ECC_SBE_INT_ENA_W1S. */
+#define BDK_PKO_PF_INT_VEC_E_PKO_DQ_ECC_DBE (3)
+#define BDK_PKO_PF_INT_VEC_E_PKO_DQ_ECC_SBE (2)
+#define BDK_PKO_PF_INT_VEC_E_PKO_L1_ECC_DBE (0xb)
+#define BDK_PKO_PF_INT_VEC_E_PKO_L1_ECC_SBE (0xa)
+#define BDK_PKO_PF_INT_VEC_E_PKO_L2_ECC_DBE (5)
+#define BDK_PKO_PF_INT_VEC_E_PKO_L2_ECC_SBE (4)
+#define BDK_PKO_PF_INT_VEC_E_PKO_L3_ECC_DBE (7)
+#define BDK_PKO_PF_INT_VEC_E_PKO_L3_ECC_SBE (6)
+#define BDK_PKO_PF_INT_VEC_E_PKO_LUT_ECC_DBE (1)
+#define BDK_PKO_PF_INT_VEC_E_PKO_LUT_ECC_SBE (0)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_ECC_DBE (9)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_ECC_SBE (8)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_NCB_ECC_DBE (0xf)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_NCB_ECC_SBE (0xe)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_NCB_INT (0x15)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PDM_STS (0x14)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_DBE (0x11)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_ERR (0x12)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_NCB_ECC_DBE (0x18)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_NCB_ECC_SBE (0x17)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_NCB_INT (0x16)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PEB_SBE (0x10)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PQ_DRAIN (0x13)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PQ_ECC_DBE (0xd)
+#define BDK_PKO_PF_INT_VEC_E_PKO_PQ_ECC_SBE (0xc)
 
 /**
  * Enumeration pko_pq_ecc_e
@@ -511,12 +387,12 @@
  * PKO PQ RAM ECC SBE Status Enumeration
  * Enumerates the bits of PKO_PQ_ECC_SBE_W1C.
  */
-#define BDK_PKO_PQ_ECC_E_CXD (1) /**< CXD RAM. */
-#define BDK_PKO_PQ_ECC_E_CXS (0) /**< CXS RAM. */
-#define BDK_PKO_PQ_ECC_E_ST (4) /**< ST RAM. */
-#define BDK_PKO_PQ_ECC_E_STD (3) /**< STD RAM. */
-#define BDK_PKO_PQ_ECC_E_TP (2) /**< TP RAM. */
-#define BDK_PKO_PQ_ECC_E_WMD (5) /**< WMD RAM. */
+#define BDK_PKO_PQ_ECC_E_CXD (1)
+#define BDK_PKO_PQ_ECC_E_CXS (0)
+#define BDK_PKO_PQ_ECC_E_ST (4)
+#define BDK_PKO_PQ_ECC_E_STD (3)
+#define BDK_PKO_PQ_ECC_E_TP (2)
+#define BDK_PKO_PQ_ECC_E_WMD (5)
 
 /**
  * Enumeration pko_redalg_e
@@ -524,19 +400,10 @@
  * PKO Red Algorithm Enumeration
  * Enumerates the different algorithms of PKO_SEND_HDR_S[SHP_RA].
  */
-#define BDK_PKO_REDALG_E_DISCARD (3) /**< When the shaper is in RED state, discard this packet, same as if
-                                       PKO_*_SHAPE[RED_ALGO] were 3 (DISCARD) in all shapers traversed by this packet. */
-#define BDK_PKO_REDALG_E_SEND (1) /**< When a shaper traversed by this packet is in RED state, send the packet through
-                                       it without stalling or dropping the packet, same as if PKO_*_SHAPE[RED_ALGO]
-                                       were 1 (SEND) in all shapers traversed by the packet. (No shaper traversed by this packet
-                                       can stall or drop this packet.) */
-#define BDK_PKO_REDALG_E_STALL (2) /**< When the shaper is in RED state, stall this packet in the shaper until the shaper
-                                       reaches yellow or green state, same as if PKO_*_SHAPE[RED_ALGO]
-                                       were 2 (STALL) in all shapers traversed by this packet. (No shaper traversed by this
-                                       packet can drop this packet.) */
-#define BDK_PKO_REDALG_E_STD (0) /**< Standard shaper handling. When a shaper traversed by this packet is in RED state,
-                                       this packet will be processed according to the shaper PKO_*_SHAPE[RED_ALGO]
-                                       configuration. */
+#define BDK_PKO_REDALG_E_DISCARD (3)
+#define BDK_PKO_REDALG_E_SEND (1)
+#define BDK_PKO_REDALG_E_STALL (2)
+#define BDK_PKO_REDALG_E_STD (0)
 
 /**
  * Enumeration pko_sendcrcalg_e
@@ -544,12 +411,9 @@
  * PKO Send CRC Algorithm Enumeration
  * Enumerates the CRC algorithm used; see PKO_SEND_CRC_S[ALG].
  */
-#define BDK_PKO_SENDCRCALG_E_CRC32 (0) /**< Ethernet format big-endian CRC-32 (polynomial 0x04C11DB7). The initial value is usually
-                                       0xFFFFFFFF, corrected for any appropriate header fields to be included. */
-#define BDK_PKO_SENDCRCALG_E_CRC32C (1) /**< SCTP/iSCSI format big-endian CRC-32c (polynomial 0x11EDC6F41). The initial value is
-                                       usually 0xFFFFFFFF, corrected for any appropriate header fields to be included. */
-#define BDK_PKO_SENDCRCALG_E_ONES16 (2) /**< 16-bit one's complement checksumming algorithm. Cannot be used in conjuction
-                                       with CKL4. */
+#define BDK_PKO_SENDCRCALG_E_CRC32 (0)
+#define BDK_PKO_SENDCRCALG_E_CRC32C (1)
+#define BDK_PKO_SENDCRCALG_E_ONES16 (2)
 
 /**
  * Enumeration pko_sendsubdc_e
@@ -559,15 +423,15 @@
  * descriptor words excluding PKO_SEND_HDR_S which is determined by its position as the first
  * subdescriptor.
  */
-#define BDK_PKO_SENDSUBDC_E_AURA (0xb) /**< See PKO_SEND_AURA_S. */
-#define BDK_PKO_SENDSUBDC_E_CRC (0xe) /**< See PKO_SEND_CRC_S. */
-#define BDK_PKO_SENDSUBDC_E_FREE (9) /**< See PKO_SEND_FREE_S. */
-#define BDK_PKO_SENDSUBDC_E_GATHER0 (2) /**< See PKO_SEND_GATHER_S. Uses a 3-bit subdescriptor, discarding bit 0. */
-#define BDK_PKO_SENDSUBDC_E_IMM (0xf) /**< See PKO_SEND_IMM_S. */
-#define BDK_PKO_SENDSUBDC_E_JUMP0 (4) /**< See PKO_SEND_JUMP_S. Uses a 3-bit subdescriptor, discarding bit 0. */
-#define BDK_PKO_SENDSUBDC_E_LINK0 (0) /**< See PKO_SEND_LINK_S. Uses a 3-bit subdescriptor, discarding bit 0. */
-#define BDK_PKO_SENDSUBDC_E_MEM (0xc) /**< See PKO_SEND_MEM_S. */
-#define BDK_PKO_SENDSUBDC_E_WORK (0xa) /**< See PKO_SEND_WORK_S. */
+#define BDK_PKO_SENDSUBDC_E_AURA (0xb)
+#define BDK_PKO_SENDSUBDC_E_CRC (0xe)
+#define BDK_PKO_SENDSUBDC_E_FREE (9)
+#define BDK_PKO_SENDSUBDC_E_GATHER (2)
+#define BDK_PKO_SENDSUBDC_E_IMM (0xf)
+#define BDK_PKO_SENDSUBDC_E_JUMP (4)
+#define BDK_PKO_SENDSUBDC_E_LINK (0)
+#define BDK_PKO_SENDSUBDC_E_MEM (0xc)
+#define BDK_PKO_SENDSUBDC_E_WORK (0xa)
 
 /**
  * Structure pko_mem_result_s
@@ -1001,7 +865,7 @@ union bdk_pko_send_gather_s
     struct bdk_pko_send_gather_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send gather. Enumerated by PKO_SENDSUBDC_E::GATHER0. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send gather. Enumerated by PKO_SENDSUBDC_E::GATHER. */
         uint64_t ld_type               : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
                                                                  NIC_SEND_LD_TYPE_E. */
         uint64_t i                     : 1;  /**< [ 57: 57] Invert free. See PKO_SEND_HDR_S[DF,II].
@@ -1129,7 +993,7 @@ union bdk_pko_send_gather_s
                                                                  PKO to an output FIFO between TSO segments. */
         uint64_t ld_type               : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
                                                                  NIC_SEND_LD_TYPE_E. */
-        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send gather. Enumerated by PKO_SENDSUBDC_E::GATHER0. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send gather. Enumerated by PKO_SENDSUBDC_E::GATHER. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t addr                  : 64; /**< [127: 64] ADDR is an IOVA L2/DRAM address of the first byte of packet data in the
@@ -2097,7 +1961,7 @@ union bdk_pko_send_jump_s
     struct bdk_pko_send_jump_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send jump. Enumerated by PKO_SENDSUBDC_E::JUMP0. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send jump. Enumerated by PKO_SENDSUBDC_E::JUMP. */
         uint64_t reserved_54_59        : 6;
         uint64_t f                     : 1;  /**< [ 53: 53] When set, PKO will free the buffer indicated by [ADDR] to FPA after it has read all
                                                                  subdescriptors from it. When clear, PKO will not free the buffer indicated by [ADDR].
@@ -2143,7 +2007,7 @@ union bdk_pko_send_jump_s
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
         uint64_t reserved_54_59        : 6;
-        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send jump. Enumerated by PKO_SENDSUBDC_E::JUMP0. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send jump. Enumerated by PKO_SENDSUBDC_E::JUMP. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t addr                  : 64; /**< [127: 64] The IOVA L2/DRAM address of the first byte of the next subdescriptor. [ADDR]
@@ -2188,7 +2052,7 @@ union bdk_pko_send_link_s
     struct bdk_pko_send_link_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send link. Enumerated by PKO_SENDSUBDC_E::LINK0. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send link. Enumerated by PKO_SENDSUBDC_E::LINK. */
         uint64_t ld_type               : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
                                                                  NIC_SEND_LD_TYPE_E. */
         uint64_t i                     : 1;  /**< [ 57: 57] Invert free. See PKO_SEND_HDR_S[DF,II].
@@ -2322,7 +2186,7 @@ union bdk_pko_send_link_s
                                                                  PKO to an output FIFO between TSO segments. */
         uint64_t ld_type               : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
                                                                  NIC_SEND_LD_TYPE_E. */
-        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send link. Enumerated by PKO_SENDSUBDC_E::LINK0. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send link. Enumerated by PKO_SENDSUBDC_E::LINK. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t addr                  : 64; /**< [127: 64] IOVA L2/DRAM address of the first byte of packet data in the segment. The 8
@@ -2540,8 +2404,6 @@ static inline uint64_t BDK_PKO_CHANNEL_LEVEL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540000800f0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540000800f0ll;
     __bdk_csr_fatal("PKO_CHANNEL_LEVEL", 0, 0, 0, 0, 0);
 }
 
@@ -2588,8 +2450,6 @@ static inline uint64_t BDK_PKO_CONST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000d00010ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000d00010ll;
     __bdk_csr_fatal("PKO_CONST", 0, 0, 0, 0, 0);
 }
 
@@ -2625,8 +2485,6 @@ static inline uint64_t BDK_PKO_CONST1_FUNC(void) __attribute__ ((pure, always_in
 static inline uint64_t BDK_PKO_CONST1_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000d00018ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000d00018ll;
     __bdk_csr_fatal("PKO_CONST1", 0, 0, 0, 0, 0);
 }
@@ -2668,8 +2526,6 @@ static inline uint64_t BDK_PKO_DPFI_ENA_FUNC(void) __attribute__ ((pure, always_
 static inline uint64_t BDK_PKO_DPFI_ENA_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000c00018ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000c00018ll;
     __bdk_csr_fatal("PKO_DPFI_ENA", 0, 0, 0, 0, 0);
 }
@@ -2716,8 +2572,6 @@ static inline uint64_t BDK_PKO_DPFI_FLUSH_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000c00008ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000c00008ll;
     __bdk_csr_fatal("PKO_DPFI_FLUSH", 0, 0, 0, 0, 0);
 }
 
@@ -2758,8 +2612,6 @@ static inline uint64_t BDK_PKO_DPFI_FPA_AURA_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t BDK_PKO_DPFI_FPA_AURA_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000c00010ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000c00010ll;
     __bdk_csr_fatal("PKO_DPFI_FPA_AURA", 0, 0, 0, 0, 0);
 }
@@ -2805,8 +2657,6 @@ static inline uint64_t BDK_PKO_DPFI_GMCTL_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t BDK_PKO_DPFI_GMCTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000c00020ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000c00020ll;
     __bdk_csr_fatal("PKO_DPFI_GMCTL", 0, 0, 0, 0, 0);
 }
@@ -2941,8 +2791,6 @@ static inline uint64_t BDK_PKO_DPFI_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000c00000ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000c00000ll;
     __bdk_csr_fatal("PKO_DPFI_STATUS", 0, 0, 0, 0, 0);
 }
 
@@ -2979,8 +2827,6 @@ static inline uint64_t BDK_PKO_DQX_BYTES(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_DQX_BYTES(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x8540000000d8ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x8540000000d8ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_BYTES", 1, a, 0, 0, 0);
 }
@@ -3077,8 +2923,6 @@ static inline uint64_t BDK_PKO_DQX_CIR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280018ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000280018ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_CIR", 1, a, 0, 0, 0);
 }
 
@@ -3116,8 +2960,6 @@ static inline uint64_t BDK_PKO_DQX_DROPPED_BYTES(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540000000c8ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x8540000000c8ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_DROPPED_BYTES", 1, a, 0, 0, 0);
 }
 
@@ -3154,8 +2996,6 @@ static inline uint64_t BDK_PKO_DQX_DROPPED_PACKETS(unsigned long a) __attribute_
 static inline uint64_t BDK_PKO_DQX_DROPPED_PACKETS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x8540000000c0ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x8540000000c0ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_DROPPED_PACKETS", 1, a, 0, 0, 0);
 }
@@ -3197,8 +3037,6 @@ static inline uint64_t BDK_PKO_DQX_FIFO(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000300078ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000300078ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_FIFO", 1, a, 0, 0, 0);
 }
 
@@ -3235,8 +3073,6 @@ static inline uint64_t BDK_PKO_DQX_PACKETS(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PKO_DQX_PACKETS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x8540000000d0ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x8540000000d0ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_PACKETS", 1, a, 0, 0, 0);
 }
@@ -3368,8 +3204,6 @@ static inline uint64_t BDK_PKO_DQX_PICK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000300070ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000300070ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_PICK", 1, a, 0, 0, 0);
 }
 
@@ -3465,8 +3299,6 @@ static inline uint64_t BDK_PKO_DQX_PIR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280020ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000280020ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_PIR", 1, a, 0, 0, 0);
 }
 
@@ -3509,8 +3341,6 @@ static inline uint64_t BDK_PKO_DQX_POINTERS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280078ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000280078ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_POINTERS", 1, a, 0, 0, 0);
 }
 
@@ -3547,8 +3377,6 @@ static inline uint64_t BDK_PKO_DQX_SCHED_STATE(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PKO_DQX_SCHED_STATE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000280028ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000280028ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_SCHED_STATE", 1, a, 0, 0, 0);
 }
@@ -3617,8 +3445,6 @@ static inline uint64_t BDK_PKO_DQX_SCHEDULE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280008ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000280008ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_SCHEDULE", 1, a, 0, 0, 0);
 }
 
@@ -3678,8 +3504,6 @@ static inline uint64_t BDK_PKO_DQX_SHAPE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280010ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000280010ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_SHAPE", 1, a, 0, 0, 0);
 }
 
@@ -3732,8 +3556,6 @@ static inline uint64_t BDK_PKO_DQX_SHAPE_STATE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280030ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000280030ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_SHAPE_STATE", 1, a, 0, 0, 0);
 }
 
@@ -3771,8 +3593,6 @@ static inline uint64_t BDK_PKO_DQX_TOPOLOGY(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_PKO_DQX_TOPOLOGY(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000300000ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000300000ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_TOPOLOGY", 1, a, 0, 0, 0);
 }
@@ -3812,8 +3632,6 @@ static inline uint64_t BDK_PKO_DQ_CONST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000d00138ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000d00138ll;
     __bdk_csr_fatal("PKO_DQ_CONST", 0, 0, 0, 0, 0);
 }
 
@@ -3848,8 +3666,6 @@ static inline uint64_t BDK_PKO_DQ_DEBUG_FUNC(void) __attribute__ ((pure, always_
 static inline uint64_t BDK_PKO_DQ_DEBUG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000300128ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000300128ll;
     __bdk_csr_fatal("PKO_DQ_DEBUG", 0, 0, 0, 0, 0);
 }
@@ -3887,8 +3703,6 @@ static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540003001b0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540003001b0ll;
     __bdk_csr_fatal("PKO_DQ_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -3925,8 +3739,6 @@ static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540003001b8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540003001b8ll;
     __bdk_csr_fatal("PKO_DQ_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -3961,8 +3773,6 @@ static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540003001a0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540003001a0ll;
     __bdk_csr_fatal("PKO_DQ_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -4000,8 +3810,6 @@ static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540003001a8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540003001a8ll;
     __bdk_csr_fatal("PKO_DQ_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -4037,8 +3845,6 @@ static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000300190ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000300190ll;
     __bdk_csr_fatal("PKO_DQ_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -4076,8 +3882,6 @@ static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000300198ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000300198ll;
     __bdk_csr_fatal("PKO_DQ_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -4112,8 +3916,6 @@ static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000300180ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000300180ll;
     __bdk_csr_fatal("PKO_DQ_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -4150,8 +3952,6 @@ static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000300188ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000300188ll;
     __bdk_csr_fatal("PKO_DQ_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
@@ -4195,8 +3995,6 @@ static inline uint64_t BDK_PKO_ENABLE_FUNC(void) __attribute__ ((pure, always_in
 static inline uint64_t BDK_PKO_ENABLE_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000d00008ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000d00008ll;
     __bdk_csr_fatal("PKO_ENABLE", 0, 0, 0, 0, 0);
 }
@@ -4273,8 +4071,6 @@ static inline uint64_t BDK_PKO_FORMATX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000900800ll + 8ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000900800ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_FORMATX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -4313,8 +4109,6 @@ static inline uint64_t BDK_PKO_L1_CONST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000d00100ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000d00100ll;
     __bdk_csr_fatal("PKO_L1_CONST", 0, 0, 0, 0, 0);
 }
 
@@ -4350,8 +4144,6 @@ static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540000801b0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540000801b0ll;
     __bdk_csr_fatal("PKO_L1_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -4389,8 +4181,6 @@ static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540000801b8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540000801b8ll;
     __bdk_csr_fatal("PKO_L1_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -4425,8 +4215,6 @@ static inline uint64_t BDK_PKO_L1_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_L1_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540000801a0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540000801a0ll;
     __bdk_csr_fatal("PKO_L1_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -4464,8 +4252,6 @@ static inline uint64_t BDK_PKO_L1_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540000801a8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540000801a8ll;
     __bdk_csr_fatal("PKO_L1_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -4501,8 +4287,6 @@ static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000080190ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000080190ll;
     __bdk_csr_fatal("PKO_L1_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -4540,8 +4324,6 @@ static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000080198ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000080198ll;
     __bdk_csr_fatal("PKO_L1_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -4576,8 +4358,6 @@ static inline uint64_t BDK_PKO_L1_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_L1_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000080180ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000080180ll;
     __bdk_csr_fatal("PKO_L1_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -4614,8 +4394,6 @@ static inline uint64_t BDK_PKO_L1_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_L1_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000080188ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000080188ll;
     __bdk_csr_fatal("PKO_L1_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
@@ -4711,8 +4489,6 @@ static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000000018ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000000018ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_CIR", 1, a, 0, 0, 0);
 }
 
@@ -4750,8 +4526,6 @@ static inline uint64_t BDK_PKO_L1_SQX_DROPPED_BYTES(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000000088ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000000088ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_DROPPED_BYTES", 1, a, 0, 0, 0);
 }
 
@@ -4788,8 +4562,6 @@ static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a) __attribu
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x854000000080ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x854000000080ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_DROPPED_PACKETS", 1, a, 0, 0, 0);
 }
@@ -4847,8 +4619,6 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000080058ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000080058ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_GREEN", 1, a, 0, 0, 0);
 }
 
@@ -4885,8 +4655,6 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN_BYTES(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x8540000000b8ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8540000000b8ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_GREEN_BYTES", 1, a, 0, 0, 0);
 }
 
@@ -4922,8 +4690,6 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a) __attribute
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x8540000000b0ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x8540000000b0ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_GREEN_PACKETS", 1, a, 0, 0, 0);
 }
@@ -4990,8 +4756,6 @@ static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x854000000038ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x854000000038ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_LINK", 1, a, 0, 0, 0);
 }
@@ -5123,8 +4887,6 @@ static inline uint64_t BDK_PKO_L1_SQX_PICK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000080070ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000080070ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_PICK", 1, a, 0, 0, 0);
 }
 
@@ -5167,8 +4929,6 @@ static inline uint64_t BDK_PKO_L1_SQX_RED(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000080068ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000080068ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_RED", 1, a, 0, 0, 0);
 }
 
@@ -5206,8 +4966,6 @@ static inline uint64_t BDK_PKO_L1_SQX_RED_BYTES(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000000098ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000000098ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_RED_BYTES", 1, a, 0, 0, 0);
 }
 
@@ -5244,8 +5002,6 @@ static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a) __attribute__
 static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x854000000090ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x854000000090ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_RED_PACKETS", 1, a, 0, 0, 0);
 }
@@ -5292,8 +5048,6 @@ static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x854000000008ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x854000000008ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_SCHEDULE", 1, a, 0, 0, 0);
 }
@@ -5347,8 +5101,6 @@ static inline uint64_t BDK_PKO_L1_SQX_SHAPE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000000010ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000000010ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_SHAPE", 1, a, 0, 0, 0);
 }
 
@@ -5397,8 +5149,6 @@ static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a) __attribute__
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x854000000030ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x854000000030ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_SHAPE_STATE", 1, a, 0, 0, 0);
 }
@@ -5485,8 +5235,6 @@ static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a) __attribute__ ((p
 static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x8540000000e0ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x8540000000e0ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_SW_XOFF", 1, a, 0, 0, 0);
 }
@@ -5632,8 +5380,6 @@ static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000080000ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000080000ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_TOPOLOGY", 1, a, 0, 0, 0);
 }
 
@@ -5674,8 +5420,6 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000080060ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854000080060ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_YELLOW", 1, a, 0, 0, 0);
 }
 
@@ -5712,8 +5456,6 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a) __attribute_
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x8540000000a8ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x8540000000a8ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_YELLOW_BYTES", 1, a, 0, 0, 0);
 }
@@ -5752,8 +5494,6 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x8540000000a0ll + 0x200ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8540000000a0ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_YELLOW_PACKETS", 1, a, 0, 0, 0);
 }
 
@@ -5791,8 +5531,6 @@ static inline uint64_t BDK_PKO_L1_SQA_DEBUG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000080128ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000080128ll;
     __bdk_csr_fatal("PKO_L1_SQA_DEBUG", 0, 0, 0, 0, 0);
 }
 
@@ -5829,8 +5567,6 @@ static inline uint64_t BDK_PKO_L1_SQB_DEBUG_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_PKO_L1_SQB_DEBUG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000080130ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000080130ll;
     __bdk_csr_fatal("PKO_L1_SQB_DEBUG", 0, 0, 0, 0, 0);
 }
@@ -5870,8 +5606,6 @@ static inline uint64_t BDK_PKO_L2_CONST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000d00108ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000d00108ll;
     __bdk_csr_fatal("PKO_L2_CONST", 0, 0, 0, 0, 0);
 }
 
@@ -5907,8 +5641,6 @@ static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540001001b0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540001001b0ll;
     __bdk_csr_fatal("PKO_L2_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -5946,8 +5678,6 @@ static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540001001b8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540001001b8ll;
     __bdk_csr_fatal("PKO_L2_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -5982,8 +5712,6 @@ static inline uint64_t BDK_PKO_L2_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_L2_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540001001a0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540001001a0ll;
     __bdk_csr_fatal("PKO_L2_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -6021,8 +5749,6 @@ static inline uint64_t BDK_PKO_L2_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540001001a8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540001001a8ll;
     __bdk_csr_fatal("PKO_L2_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -6058,8 +5784,6 @@ static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000100190ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000100190ll;
     __bdk_csr_fatal("PKO_L2_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -6097,8 +5821,6 @@ static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000100198ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000100198ll;
     __bdk_csr_fatal("PKO_L2_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -6133,8 +5855,6 @@ static inline uint64_t BDK_PKO_L2_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_L2_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000100180ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000100180ll;
     __bdk_csr_fatal("PKO_L2_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -6171,8 +5891,6 @@ static inline uint64_t BDK_PKO_L2_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_L2_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000100188ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000100188ll;
     __bdk_csr_fatal("PKO_L2_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
@@ -6269,8 +5987,6 @@ static inline uint64_t BDK_PKO_L2_SQX_CIR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080018ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000080018ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_CIR", 1, a, 0, 0, 0);
 }
 
@@ -6328,8 +6044,6 @@ static inline uint64_t BDK_PKO_L2_SQX_GREEN(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_PKO_L2_SQX_GREEN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000100058ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000100058ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_GREEN", 1, a, 0, 0, 0);
 }
@@ -6461,8 +6175,6 @@ static inline uint64_t BDK_PKO_L2_SQX_PICK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100070ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000100070ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_PICK", 1, a, 0, 0, 0);
 }
 
@@ -6558,8 +6270,6 @@ static inline uint64_t BDK_PKO_L2_SQX_PIR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080020ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000080020ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_PIR", 1, a, 0, 0, 0);
 }
 
@@ -6599,8 +6309,6 @@ static inline uint64_t BDK_PKO_L2_SQX_POINTERS(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PKO_L2_SQX_POINTERS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000080078ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000080078ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_POINTERS", 1, a, 0, 0, 0);
 }
@@ -6644,8 +6352,6 @@ static inline uint64_t BDK_PKO_L2_SQX_RED(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100068ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000100068ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_RED", 1, a, 0, 0, 0);
 }
 
@@ -6681,8 +6387,6 @@ static inline uint64_t BDK_PKO_L2_SQX_SCHED_STATE(unsigned long a) __attribute__
 static inline uint64_t BDK_PKO_L2_SQX_SCHED_STATE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000080028ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000080028ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SCHED_STATE", 1, a, 0, 0, 0);
 }
@@ -6749,8 +6453,6 @@ static inline uint64_t BDK_PKO_L2_SQX_SCHEDULE(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PKO_L2_SQX_SCHEDULE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000080008ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000080008ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SCHEDULE", 1, a, 0, 0, 0);
 }
@@ -6866,8 +6568,6 @@ static inline uint64_t BDK_PKO_L2_SQX_SHAPE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080010ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000080010ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SHAPE", 1, a, 0, 0, 0);
 }
 
@@ -6918,8 +6618,6 @@ static inline uint64_t BDK_PKO_L2_SQX_SHAPE_STATE(unsigned long a) __attribute__
 static inline uint64_t BDK_PKO_L2_SQX_SHAPE_STATE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000080030ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000080030ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SHAPE_STATE", 1, a, 0, 0, 0);
 }
@@ -7008,8 +6706,6 @@ static inline uint64_t BDK_PKO_L2_SQX_SW_XOFF(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540000800e0ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x8540000800e0ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SW_XOFF", 1, a, 0, 0, 0);
 }
 
@@ -7064,8 +6760,6 @@ static inline uint64_t BDK_PKO_L2_SQX_TOPOLOGY(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100000ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000100000ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_TOPOLOGY", 1, a, 0, 0, 0);
 }
 
@@ -7108,8 +6802,6 @@ static inline uint64_t BDK_PKO_L2_SQX_YELLOW(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100060ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000100060ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_YELLOW", 1, a, 0, 0, 0);
 }
 
@@ -7147,8 +6839,6 @@ static inline uint64_t BDK_PKO_L2_SQA_DEBUG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000100128ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000100128ll;
     __bdk_csr_fatal("PKO_L2_SQA_DEBUG", 0, 0, 0, 0, 0);
 }
 
@@ -7185,8 +6875,6 @@ static inline uint64_t BDK_PKO_L2_SQB_DEBUG_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_PKO_L2_SQB_DEBUG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000100130ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000100130ll;
     __bdk_csr_fatal("PKO_L2_SQB_DEBUG", 0, 0, 0, 0, 0);
 }
@@ -7226,8 +6914,6 @@ static inline uint64_t BDK_PKO_L3_CONST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000d00110ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000d00110ll;
     __bdk_csr_fatal("PKO_L3_CONST", 0, 0, 0, 0, 0);
 }
 
@@ -7263,8 +6949,6 @@ static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540001801b0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540001801b0ll;
     __bdk_csr_fatal("PKO_L3_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -7302,8 +6986,6 @@ static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540001801b8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540001801b8ll;
     __bdk_csr_fatal("PKO_L3_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -7338,8 +7020,6 @@ static inline uint64_t BDK_PKO_L3_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_L3_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540001801a0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540001801a0ll;
     __bdk_csr_fatal("PKO_L3_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -7377,8 +7057,6 @@ static inline uint64_t BDK_PKO_L3_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540001801a8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540001801a8ll;
     __bdk_csr_fatal("PKO_L3_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -7414,8 +7092,6 @@ static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000180190ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000180190ll;
     __bdk_csr_fatal("PKO_L3_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -7453,8 +7129,6 @@ static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000180198ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000180198ll;
     __bdk_csr_fatal("PKO_L3_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -7489,8 +7163,6 @@ static inline uint64_t BDK_PKO_L3_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_L3_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000180180ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000180180ll;
     __bdk_csr_fatal("PKO_L3_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -7527,8 +7199,6 @@ static inline uint64_t BDK_PKO_L3_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_L3_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000180188ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000180188ll;
     __bdk_csr_fatal("PKO_L3_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
@@ -7597,8 +7267,6 @@ static inline uint64_t BDK_PKO_L3_L2_SQX_CHANNEL(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PKO_L3_L2_SQX_CHANNEL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000080038ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000080038ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_L2_SQX_CHANNEL", 1, a, 0, 0, 0);
 }
@@ -7695,8 +7363,6 @@ static inline uint64_t BDK_PKO_L3_SQX_CIR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100018ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000100018ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_CIR", 1, a, 0, 0, 0);
 }
 
@@ -7744,8 +7410,6 @@ static inline uint64_t BDK_PKO_L3_SQX_GREEN(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_PKO_L3_SQX_GREEN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000180058ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000180058ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_GREEN", 1, a, 0, 0, 0);
 }
@@ -7877,8 +7541,6 @@ static inline uint64_t BDK_PKO_L3_SQX_PICK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000180070ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000180070ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_PICK", 1, a, 0, 0, 0);
 }
 
@@ -7974,8 +7636,6 @@ static inline uint64_t BDK_PKO_L3_SQX_PIR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100020ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000100020ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_PIR", 1, a, 0, 0, 0);
 }
 
@@ -8017,8 +7677,6 @@ static inline uint64_t BDK_PKO_L3_SQX_POINTERS(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PKO_L3_SQX_POINTERS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000100078ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000100078ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_POINTERS", 1, a, 0, 0, 0);
 }
@@ -8062,8 +7720,6 @@ static inline uint64_t BDK_PKO_L3_SQX_RED(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000180068ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000180068ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_RED", 1, a, 0, 0, 0);
 }
 
@@ -8100,8 +7756,6 @@ static inline uint64_t BDK_PKO_L3_SQX_SCHED_STATE(unsigned long a) __attribute__
 static inline uint64_t BDK_PKO_L3_SQX_SCHED_STATE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000100028ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000100028ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SCHED_STATE", 1, a, 0, 0, 0);
 }
@@ -8170,8 +7824,6 @@ static inline uint64_t BDK_PKO_L3_SQX_SCHEDULE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100008ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000100008ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SCHEDULE", 1, a, 0, 0, 0);
 }
 
@@ -8230,8 +7882,6 @@ static inline uint64_t BDK_PKO_L3_SQX_SHAPE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100010ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000100010ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SHAPE", 1, a, 0, 0, 0);
 }
 
@@ -8283,8 +7933,6 @@ static inline uint64_t BDK_PKO_L3_SQX_SHAPE_STATE(unsigned long a) __attribute__
 static inline uint64_t BDK_PKO_L3_SQX_SHAPE_STATE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
-        return 0x854000100030ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x854000100030ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SHAPE_STATE", 1, a, 0, 0, 0);
 }
@@ -8373,8 +8021,6 @@ static inline uint64_t BDK_PKO_L3_SQX_SW_XOFF(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540001000e0ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x8540001000e0ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SW_XOFF", 1, a, 0, 0, 0);
 }
 
@@ -8421,8 +8067,6 @@ static inline uint64_t BDK_PKO_L3_SQX_TOPOLOGY(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000180000ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000180000ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_TOPOLOGY", 1, a, 0, 0, 0);
 }
 
@@ -8463,8 +8107,6 @@ static inline uint64_t BDK_PKO_L3_SQX_YELLOW(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000180060ll + 0x200ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x854000180060ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_YELLOW", 1, a, 0, 0, 0);
 }
 
@@ -8502,8 +8144,6 @@ static inline uint64_t BDK_PKO_L3_SQA_DEBUG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000180128ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000180128ll;
     __bdk_csr_fatal("PKO_L3_SQA_DEBUG", 0, 0, 0, 0, 0);
 }
 
@@ -8540,8 +8180,6 @@ static inline uint64_t BDK_PKO_L3_SQB_DEBUG_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_PKO_L3_SQB_DEBUG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000180130ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000180130ll;
     __bdk_csr_fatal("PKO_L3_SQB_DEBUG", 0, 0, 0, 0, 0);
 }
@@ -8581,8 +8219,6 @@ static inline uint64_t BDK_PKO_L4_CONST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000d00118ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000d00118ll;
     __bdk_csr_fatal("PKO_L4_CONST", 0, 0, 0, 0, 0);
 }
 
@@ -8620,8 +8256,6 @@ static inline uint64_t BDK_PKO_L5_CONST_FUNC(void) __attribute__ ((pure, always_
 static inline uint64_t BDK_PKO_L5_CONST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000d00120ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000d00120ll;
     __bdk_csr_fatal("PKO_L5_CONST", 0, 0, 0, 0, 0);
 }
@@ -8703,8 +8337,6 @@ static inline uint64_t BDK_PKO_LUTX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) || ((a>=512)&&(a<=575)) || ((a>=1024)&&(a<=1151)) || ((a>=2048)&&(a<=2111)) || ((a>=2304)&&(a<=2367)) || ((a>=2560)&&(a<=2623)) || ((a>=2816)&&(a<=2879))))
         return 0x854000b00000ll + 8ll * ((a) & 0xfff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=63) || ((a>=512)&&(a<=575)) || ((a>=1024)&&(a<=1151)) || ((a>=2048)&&(a<=2111)) || ((a>=2304)&&(a<=2367)) || ((a>=2560)&&(a<=2623)) || ((a>=2816)&&(a<=2879))))
-        return 0x854000b00000ll + 8ll * ((a) & 0xfff);
     __bdk_csr_fatal("PKO_LUTX", 1, a, 0, 0, 0);
 }
 
@@ -8741,8 +8373,6 @@ static inline uint64_t BDK_PKO_LUT_BIST_STATUS_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_LUT_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000b08000ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000b08000ll;
     __bdk_csr_fatal("PKO_LUT_BIST_STATUS", 0, 0, 0, 0, 0);
 }
@@ -8782,8 +8412,6 @@ static inline uint64_t BDK_PKO_LUT_ECC_CTL0_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_PKO_LUT_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000bfffd0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000bfffd0ll;
     __bdk_csr_fatal("PKO_LUT_ECC_CTL0", 0, 0, 0, 0, 0);
 }
@@ -8829,8 +8457,6 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000bfff70ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000bfff70ll;
     __bdk_csr_fatal("PKO_LUT_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -8875,8 +8501,6 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000bfff78ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000bfff78ll;
     __bdk_csr_fatal("PKO_LUT_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -8919,8 +8543,6 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000bfff60ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000bfff60ll;
     __bdk_csr_fatal("PKO_LUT_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -8966,8 +8588,6 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000bfff68ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000bfff68ll;
     __bdk_csr_fatal("PKO_LUT_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -9011,8 +8631,6 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ 
 static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000bfff90ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000bfff90ll;
     __bdk_csr_fatal("PKO_LUT_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -9058,8 +8676,6 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000bfff98ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000bfff98ll;
     __bdk_csr_fatal("PKO_LUT_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -9102,8 +8718,6 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000bfff80ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000bfff80ll;
     __bdk_csr_fatal("PKO_LUT_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -9148,8 +8762,6 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000bfff88ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000bfff88ll;
     __bdk_csr_fatal("PKO_LUT_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
@@ -9244,8 +8856,6 @@ static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=18))
         return 0x854000900000ll + 8ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=18))
-        return 0x854000900000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_MACX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -9281,8 +8891,6 @@ static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a) __attribute__ ((p
 static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=18))
-        return 0x854000a80100ll + 8ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=18))
         return 0x854000a80100ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_MCI1_CRED_CNTX", 1, a, 0, 0, 0);
 }
@@ -9322,8 +8930,6 @@ static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=18))
         return 0x854000a80000ll + 8ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=18))
-        return 0x854000a80000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_MCI1_MAX_CREDX", 1, a, 0, 0, 0);
 }
 
@@ -9350,12 +8956,9 @@ typedef union
         uint64_t flshb_cache_hi_ram_bist_status : 1;/**< [ 62: 62](RO) BIST status for FLSHB_CACHE_HI_RAM. */
         uint64_t isrm_ca_iinst_ram_bist_status : 1;/**< [ 61: 61](RO) BIST status for ISRM_CA_IINST_RAM. */
         uint64_t isrm_ca_cm_ram_bist_status : 1;/**< [ 60: 60](RO) BIST status for ISRM_CA_CM_RAM. */
-        uint64_t isrm_st_ram2_bist_status : 1;/**< [ 59: 59](RO) BIST status for ISRM_ST_RAM2. */
-        uint64_t isrm_st_ram1_bist_status : 1;/**< [ 58: 58](RO) BIST status for ISRM_ST_RAM1. */
+        uint64_t reserved_58_59        : 2;
         uint64_t isrm_st_ram0_bist_status : 1;/**< [ 57: 57](RO) BIST status for ISRM_ST_RAM0. */
-        uint64_t isrd_st_ram3_bist_status : 1;/**< [ 56: 56](RO) BIST status for ISRD_ST_RAM3. */
-        uint64_t isrd_st_ram2_bist_status : 1;/**< [ 55: 55](RO) BIST status for ISRD_ST_RAM2. */
-        uint64_t isrd_st_ram1_bist_status : 1;/**< [ 54: 54](RO) BIST status for ISRD_ST_RAM1. */
+        uint64_t reserved_54_56        : 3;
         uint64_t isrd_st_ram0_bist_status : 1;/**< [ 53: 53](RO) BIST status for ISRD_ST_RAM0. */
         uint64_t drp_hi_ram_bist_status : 1; /**< [ 52: 52](RO) BIST status for DRP_HI_RAM. */
         uint64_t drp_lo_ram_bist_status : 1; /**< [ 51: 51](RO) BIST status for DRP_LO_RAM. */
@@ -9399,12 +9002,9 @@ typedef union
         uint64_t drp_lo_ram_bist_status : 1; /**< [ 51: 51](RO) BIST status for DRP_LO_RAM. */
         uint64_t drp_hi_ram_bist_status : 1; /**< [ 52: 52](RO) BIST status for DRP_HI_RAM. */
         uint64_t isrd_st_ram0_bist_status : 1;/**< [ 53: 53](RO) BIST status for ISRD_ST_RAM0. */
-        uint64_t isrd_st_ram1_bist_status : 1;/**< [ 54: 54](RO) BIST status for ISRD_ST_RAM1. */
-        uint64_t isrd_st_ram2_bist_status : 1;/**< [ 55: 55](RO) BIST status for ISRD_ST_RAM2. */
-        uint64_t isrd_st_ram3_bist_status : 1;/**< [ 56: 56](RO) BIST status for ISRD_ST_RAM3. */
+        uint64_t reserved_54_56        : 3;
         uint64_t isrm_st_ram0_bist_status : 1;/**< [ 57: 57](RO) BIST status for ISRM_ST_RAM0. */
-        uint64_t isrm_st_ram1_bist_status : 1;/**< [ 58: 58](RO) BIST status for ISRM_ST_RAM1. */
-        uint64_t isrm_st_ram2_bist_status : 1;/**< [ 59: 59](RO) BIST status for ISRM_ST_RAM2. */
+        uint64_t reserved_58_59        : 2;
         uint64_t isrm_ca_cm_ram_bist_status : 1;/**< [ 60: 60](RO) BIST status for ISRM_CA_CM_RAM. */
         uint64_t isrm_ca_iinst_ram_bist_status : 1;/**< [ 61: 61](RO) BIST status for ISRM_CA_IINST_RAM. */
         uint64_t flshb_cache_hi_ram_bist_status : 1;/**< [ 62: 62](RO) BIST status for FLSHB_CACHE_HI_RAM. */
@@ -9419,8 +9019,6 @@ static inline uint64_t BDK_PKO_PDM_BIST_STATUS_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PDM_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008fff00ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008fff00ll;
     __bdk_csr_fatal("PKO_PDM_BIST_STATUS", 0, 0, 0, 0, 0);
 }
@@ -9535,8 +9133,6 @@ static inline uint64_t BDK_PKO_PDM_CFG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000800000ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000800000ll;
     __bdk_csr_fatal("PKO_PDM_CFG", 0, 0, 0, 0, 0);
 }
 
@@ -9577,8 +9173,6 @@ static inline uint64_t BDK_PKO_PDM_CFG_DBG_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_PKO_PDM_CFG_DBG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800ff8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800ff8ll;
     __bdk_csr_fatal("PKO_PDM_CFG_DBG", 0, 0, 0, 0, 0);
 }
@@ -9630,8 +9224,6 @@ static inline uint64_t BDK_PKO_PDM_CP_DBG_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t BDK_PKO_PDM_CP_DBG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800190ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800190ll;
     __bdk_csr_fatal("PKO_PDM_CP_DBG", 0, 0, 0, 0, 0);
 }
@@ -9703,8 +9295,6 @@ static inline uint64_t BDK_PKO_PDM_DQX_MINPAD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540008f0000ll + 8ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x8540008f0000ll + 8ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_PDM_DQX_MINPAD", 1, a, 0, 0, 0);
 }
 
@@ -9767,8 +9357,6 @@ static inline uint64_t BDK_PKO_PDM_DRPBUF_DBG_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_PDM_DRPBUF_DBG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008000b0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008000b0ll;
     __bdk_csr_fatal("PKO_PDM_DRPBUF_DBG", 0, 0, 0, 0, 0);
 }
@@ -9842,8 +9430,6 @@ static inline uint64_t BDK_PKO_PDM_DWPBUF_DBG_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_PDM_DWPBUF_DBG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008000a8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008000a8ll;
     __bdk_csr_fatal("PKO_PDM_DWPBUF_DBG", 0, 0, 0, 0, 0);
 }
@@ -9942,8 +9528,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540008fffd0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540008fffd0ll;
     __bdk_csr_fatal("PKO_PDM_ECC_CTL0", 0, 0, 0, 0, 0);
 }
 
@@ -10001,8 +9585,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_CTL1_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540008fffd8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540008fffd8ll;
     __bdk_csr_fatal("PKO_PDM_ECC_CTL1", 0, 0, 0, 0, 0);
 }
 
@@ -10038,8 +9620,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ 
 static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008fffb0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008fffb0ll;
     __bdk_csr_fatal("PKO_PDM_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -10077,8 +9657,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540008fffb8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540008fffb8ll;
     __bdk_csr_fatal("PKO_PDM_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -10113,8 +9691,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008fffa0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008fffa0ll;
     __bdk_csr_fatal("PKO_PDM_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -10152,8 +9728,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540008fffa8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540008fffa8ll;
     __bdk_csr_fatal("PKO_PDM_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -10189,8 +9763,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ 
 static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008fff90ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008fff90ll;
     __bdk_csr_fatal("PKO_PDM_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -10228,8 +9800,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540008fff98ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540008fff98ll;
     __bdk_csr_fatal("PKO_PDM_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -10264,8 +9834,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008fff80ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008fff80ll;
     __bdk_csr_fatal("PKO_PDM_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -10302,8 +9870,6 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008fff88ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008fff88ll;
     __bdk_csr_fatal("PKO_PDM_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
@@ -10372,8 +9938,6 @@ static inline uint64_t BDK_PKO_PDM_FILLB_DBG0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540008002a0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540008002a0ll;
     __bdk_csr_fatal("PKO_PDM_FILLB_DBG0", 0, 0, 0, 0, 0);
 }
 
@@ -10441,8 +10005,6 @@ static inline uint64_t BDK_PKO_PDM_FILLB_DBG1_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540008002a8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540008002a8ll;
     __bdk_csr_fatal("PKO_PDM_FILLB_DBG1", 0, 0, 0, 0, 0);
 }
 
@@ -10483,8 +10045,6 @@ static inline uint64_t BDK_PKO_PDM_FILLB_DBG2_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_PDM_FILLB_DBG2_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008002b0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008002b0ll;
     __bdk_csr_fatal("PKO_PDM_FILLB_DBG2", 0, 0, 0, 0, 0);
 }
@@ -10537,8 +10097,6 @@ static inline uint64_t BDK_PKO_PDM_FLSHB_DBG0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540008002b8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540008002b8ll;
     __bdk_csr_fatal("PKO_PDM_FLSHB_DBG0", 0, 0, 0, 0, 0);
 }
 
@@ -10575,8 +10133,6 @@ static inline uint64_t BDK_PKO_PDM_FLSHB_DBG1_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_PDM_FLSHB_DBG1_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008002c0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540008002c0ll;
     __bdk_csr_fatal("PKO_PDM_FLSHB_DBG1", 0, 0, 0, 0, 0);
 }
@@ -10626,8 +10182,6 @@ static inline uint64_t BDK_PKO_PDM_INTF_DBG_RD_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PDM_INTF_DBG_RD_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900f20ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900f20ll;
     __bdk_csr_fatal("PKO_PDM_INTF_DBG_RD", 0, 0, 0, 0, 0);
 }
@@ -10786,8 +10340,6 @@ static inline uint64_t BDK_PKO_PDM_ISRD_DBG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000800090ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000800090ll;
     __bdk_csr_fatal("PKO_PDM_ISRD_DBG", 0, 0, 0, 0, 0);
 }
 
@@ -10836,8 +10388,6 @@ static inline uint64_t BDK_PKO_PDM_ISRD_DBG_DQ_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PDM_ISRD_DBG_DQ_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800290ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800290ll;
     __bdk_csr_fatal("PKO_PDM_ISRD_DBG_DQ", 0, 0, 0, 0, 0);
 }
@@ -10968,8 +10518,6 @@ static inline uint64_t BDK_PKO_PDM_ISRM_DBG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000800098ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000800098ll;
     __bdk_csr_fatal("PKO_PDM_ISRM_DBG", 0, 0, 0, 0, 0);
 }
 
@@ -11014,8 +10562,6 @@ static inline uint64_t BDK_PKO_PDM_ISRM_DBG_DQ_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PDM_ISRM_DBG_DQ_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800298ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800298ll;
     __bdk_csr_fatal("PKO_PDM_ISRM_DBG_DQ", 0, 0, 0, 0, 0);
 }
@@ -11076,8 +10622,6 @@ static inline uint64_t BDK_PKO_PDM_MEM_ADDR_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000800018ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000800018ll;
     __bdk_csr_fatal("PKO_PDM_MEM_ADDR", 0, 0, 0, 0, 0);
 }
 
@@ -11116,8 +10660,6 @@ static inline uint64_t BDK_PKO_PDM_MEM_DATA_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_PKO_PDM_MEM_DATA_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800010ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800010ll;
     __bdk_csr_fatal("PKO_PDM_MEM_DATA", 0, 0, 0, 0, 0);
 }
@@ -11158,8 +10700,6 @@ static inline uint64_t BDK_PKO_PDM_MEM_RW_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000800020ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000800020ll;
     __bdk_csr_fatal("PKO_PDM_MEM_RW_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -11196,8 +10736,6 @@ static inline uint64_t BDK_PKO_PDM_MEM_RW_STS_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_PDM_MEM_RW_STS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800028ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800028ll;
     __bdk_csr_fatal("PKO_PDM_MEM_RW_STS", 0, 0, 0, 0, 0);
 }
@@ -11288,8 +10826,6 @@ static inline uint64_t BDK_PKO_PDM_MWPBUF_DBG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540008000a0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540008000a0ll;
     __bdk_csr_fatal("PKO_PDM_MWPBUF_DBG", 0, 0, 0, 0, 0);
 }
 
@@ -11333,8 +10869,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_BIST_STATUS_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PDM_NCB_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000efff00ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000efff00ll;
     __bdk_csr_fatal("PKO_PDM_NCB_BIST_STATUS", 0, 0, 0, 0, 0);
 }
@@ -11380,8 +10914,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_CFG_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_PKO_PDM_NCB_CFG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854001800050ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854001800050ll;
     __bdk_csr_fatal("PKO_PDM_NCB_CFG", 0, 0, 0, 0, 0);
 }
@@ -11434,8 +10966,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000efffd0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000efffd0ll;
     __bdk_csr_fatal("PKO_PDM_NCB_ECC_CTL0", 0, 0, 0, 0, 0);
 }
 
@@ -11471,8 +11001,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribut
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000efffb0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000efffb0ll;
     __bdk_csr_fatal("PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -11510,8 +11038,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000efffb8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000efffb8ll;
     __bdk_csr_fatal("PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -11546,8 +11072,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000efffa0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000efffa0ll;
     __bdk_csr_fatal("PKO_PDM_NCB_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -11585,8 +11109,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000efffa8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000efffa8ll;
     __bdk_csr_fatal("PKO_PDM_NCB_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -11622,8 +11144,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribut
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000efff90ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000efff90ll;
     __bdk_csr_fatal("PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -11661,8 +11181,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000efff98ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000efff98ll;
     __bdk_csr_fatal("PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -11697,8 +11215,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000efff80ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000efff80ll;
     __bdk_csr_fatal("PKO_PDM_NCB_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -11735,8 +11251,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000efff88ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000efff88ll;
     __bdk_csr_fatal("PKO_PDM_NCB_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
@@ -11780,8 +11294,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000e00020ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000e00020ll;
     __bdk_csr_fatal("PKO_PDM_NCB_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -11823,8 +11335,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000e00028ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000e00028ll;
     __bdk_csr_fatal("PKO_PDM_NCB_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
@@ -11881,8 +11391,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_INT_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000e00010ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000e00010ll;
     __bdk_csr_fatal("PKO_PDM_NCB_INT_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -11925,8 +11433,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000e00018ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000e00018ll;
     __bdk_csr_fatal("PKO_PDM_NCB_INT_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -11953,18 +11459,24 @@ typedef union
         uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) The NCB DST field of the error transaction. */
         uint64_t reserved_3_5          : 3;
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This is one of the errors for FIXME interrupt. This
+                                                                 is a fatal error for PKO. */
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This is one of the errors for FIXME interrupt. This
+                                                                 is a fatal error for PKO. */
         uint64_t crc_err               : 1;  /**< [  0:  0](R/W1C/H) There was a PDM meta-packet/descriptor cacheline CRC error. Data is above in
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This is one of the
+                                                                 errors for FIXME interrupt. This is a fatal error for PKO. */
 #else /* Word 0 - Little Endian */
         uint64_t crc_err               : 1;  /**< [  0:  0](R/W1C/H) There was a PDM meta-packet/descriptor cacheline CRC error. Data is above in
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This is one of the
+                                                                 errors for FIXME interrupt. This is a fatal error for PKO. */
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This is one of the errors for FIXME interrupt. This
+                                                                 is a fatal error for PKO. */
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This is one of the errors for FIXME interrupt. This
+                                                                 is a fatal error for PKO. */
         uint64_t reserved_3_5          : 3;
         uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) The NCB DST field of the error transaction. */
         uint64_t err_tag               : 4;  /**< [ 17: 14](R/W1C/H) The NCB TAG field of the error transaction. */
@@ -11979,8 +11491,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_MEM_FAULT_FUNC(void) __attribute__ ((pure
 static inline uint64_t BDK_PKO_PDM_NCB_MEM_FAULT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854001800058ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854001800058ll;
     __bdk_csr_fatal("PKO_PDM_NCB_MEM_FAULT", 0, 0, 0, 0, 0);
 }
@@ -12031,8 +11541,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000e00008ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000e00008ll;
     __bdk_csr_fatal("PKO_PDM_NCB_TX_ERR_INFO", 0, 0, 0, 0, 0);
 }
 
@@ -12072,8 +11580,6 @@ static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_WORD_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000e00000ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000e00000ll;
     __bdk_csr_fatal("PKO_PDM_NCB_TX_ERR_WORD", 0, 0, 0, 0, 0);
 }
 
@@ -12101,12 +11607,62 @@ typedef union
                                                                  field for the response causing the error. Note that if multiple errors occur, only the
                                                                  first error status is captured here until PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is cleared.
                                                                  Enumerated by PKO_DQSTATUS_E. */
-        uint64_t reserved_25           : 1;
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](RO/H) Status field of the command response on the LMTDMA failure indicated by
-                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors
-                                                                 occur,
-                                                                 only the first error status is captured here until PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] is
+        uint64_t reserved_20_25        : 6;
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
+                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
+                                                                 only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
+                                                                 is
                                                                  cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](RO/H) This field stores the error code for illegally constructed send-packets that did not drop.
+                                                                 Note that if multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 =
+                                                                 SEND_JUMP
+                                                                 not at end of descriptor. */
+        uint64_t reserved_7_9          : 3;
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](RO/H) This field stores the error code for illegally constructed send-packet drops. Note that if
+                                                                 multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
+                                                                 conditions. */
+        uint64_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_3          : 4;
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](RO/H) This field stores the error code for illegally constructed send-packet drops. Note that if
+                                                                 multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
+                                                                 conditions. */
+        uint64_t reserved_7_9          : 3;
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](RO/H) This field stores the error code for illegally constructed send-packets that did not drop.
+                                                                 Note that if multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 =
+                                                                 SEND_JUMP
+                                                                 not at end of descriptor. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
+                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
+                                                                 only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
+                                                                 is
+                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_20_25        : 6;
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](RO/H) When PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is set, this contains the queue command response's
+                                                                 status
+                                                                 field for the response causing the error. Note that if multiple errors occur, only the
+                                                                 first error status is captured here until PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is cleared.
+                                                                 Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pko_pdm_sts_info_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](RO/H) When PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is set, this contains the queue command response's
+                                                                 status
+                                                                 field for the response causing the error. Note that if multiple errors occur, only the
+                                                                 first error status is captured here until PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is cleared.
+                                                                 Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_25           : 1;
+        uint64_t reserved_21_24        : 4;
         uint64_t reserved_20           : 1;
         uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
                                                                  PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
@@ -12144,11 +11700,7 @@ typedef union
                                                                  is
                                                                  cleared. Enumerated by PKO_DQSTATUS_E. */
         uint64_t reserved_20           : 1;
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](RO/H) Status field of the command response on the LMTDMA failure indicated by
-                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors
-                                                                 occur,
-                                                                 only the first error status is captured here until PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_21_24        : 4;
         uint64_t reserved_25           : 1;
         uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](RO/H) When PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is set, this contains the queue command response's
                                                                  status
@@ -12157,8 +11709,7 @@ typedef union
                                                                  Enumerated by PKO_DQSTATUS_E. */
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_pdm_sts_info_s cn; */
+    } cn;
 } bdk_pko_pdm_sts_info_t;
 
 #define BDK_PKO_PDM_STS_INFO BDK_PKO_PDM_STS_INFO_FUNC()
@@ -12166,8 +11717,6 @@ static inline uint64_t BDK_PKO_PDM_STS_INFO_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_PKO_PDM_STS_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800048ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800048ll;
     __bdk_csr_fatal("PKO_PDM_STS_INFO", 0, 0, 0, 0, 0);
 }
@@ -12191,57 +11740,9 @@ typedef union
     struct bdk_pko_pdm_sts_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
-                                                                 Internal:
-                                                                 This register is set to 1 if the PDM stalls the inputs for more than
-                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
-        uint64_t reserved_35_36        : 2;
-        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
-        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
-        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
-        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
-        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
-        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_1_2          : 2;
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
-        uint64_t reserved_1_2          : 2;
-        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
-        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
-        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
-        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
-        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
-        uint64_t reserved_35_36        : 2;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
-                                                                 Internal:
-                                                                 This register is set to 1 if the PDM stalls the inputs for more than
-                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
-        uint64_t reserved_38_63        : 26;
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[INTR]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_sts_int_ena_w1c_s cn; */
@@ -12252,8 +11753,6 @@ static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800038ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800038ll;
     __bdk_csr_fatal("PKO_PDM_STS_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -12277,57 +11776,9 @@ typedef union
     struct bdk_pko_pdm_sts_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
-                                                                 Internal:
-                                                                 This register is set to 1 if the PDM stalls the inputs for more than
-                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
-        uint64_t reserved_35_36        : 2;
-        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
-        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
-        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
-        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
-        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
-        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_1_2          : 2;
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
-        uint64_t reserved_1_2          : 2;
-        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
-        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
-        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
-        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
-        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
-        uint64_t reserved_35_36        : 2;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
-                                                                 Internal:
-                                                                 This register is set to 1 if the PDM stalls the inputs for more than
-                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
-        uint64_t reserved_38_63        : 26;
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[INTR]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_sts_int_ena_w1s_s cn; */
@@ -12338,8 +11789,6 @@ static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800040ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800040ll;
     __bdk_csr_fatal("PKO_PDM_STS_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
@@ -12362,103 +11811,9 @@ typedef union
     struct bdk_pko_pdm_sts_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 This register is set to 1 if the PDM stalls the inputs for more than
-                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
-        uint64_t reserved_35_36        : 2;
-        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Received signal that MWPBUF had data valid error. */
-        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Received signal that DRPBUF had data valid error. */
-        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Received signal that DWPBUF had data valid error. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) When PKO_PDM_STS[QCMD_IOBX_ERR] is set, this contains the queue command response's status
-                                                                 field for the response causing the error. Note that if multiple errors occur, only the
-                                                                 first error status is captured here until PKO_PDM_STS[QCMD_IOBX_ERR] is cleared.
-                                                                 Enumerated by PKO_DQSTATUS_E. */
-        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Queue command IOBDMA/IOBLD error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[QCMD_IOBX_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) This is the status field of the command response on the LMTDMA failure indicated by
-                                                                 PKO_PDM_STS[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors occur,
-                                                                 only the first error status is captured here until PKO_PDM_STS[SENDPKT_LMTDMA_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Send-packet of type LMTDMA error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[SENDPKT_LMTDMA_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) This is the status field of the command response on the LMTST failure indicated by
-                                                                 PKO_PDM_STS[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
-                                                                 only the first error status will be captured here until PKO_PDM_STS[SENDPKT_LMTST_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
-        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Send-packet of type LMTST error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[SENDPKT_LMTST_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) FPA signaled PKO that FPA can not allocate pointers. This is a fatal error. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) This field stores the error code for illegally constructed send-packets that did not drop.
-                                                                 Note that if multiple errors occur, only the first error code is captured here until
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 = SEND_JUMP
-                                                                 not at end of descriptor. */
-        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) PKO/PDM/CP did not drop a send-packet; however, the SEND_JUMP command is not at end of the
-                                                                 descriptor. The error code is captured in PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) This field stores the error code for illegally constructed send-packet drops. Note that if
-                                                                 multiple errors occur, only the first error code is captured here until
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
-                                                                 conditions. */
-        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Dropped a send-packet in PDM/CP due to a rule violation. The error code is captured in
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_1_2          : 2;
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) CRC error occurred in a descriptor. (State may have been corrupted.) */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Interrupt sources enumerated by PKO_PDM_STS_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) CRC error occurred in a descriptor. (State may have been corrupted.) */
-        uint64_t reserved_1_2          : 2;
-        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Dropped a send-packet in PDM/CP due to a rule violation. The error code is captured in
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) This field stores the error code for illegally constructed send-packet drops. Note that if
-                                                                 multiple errors occur, only the first error code is captured here until
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
-                                                                 conditions. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) PKO/PDM/CP did not drop a send-packet; however, the SEND_JUMP command is not at end of the
-                                                                 descriptor. The error code is captured in PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) This field stores the error code for illegally constructed send-packets that did not drop.
-                                                                 Note that if multiple errors occur, only the first error code is captured here until
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 = SEND_JUMP
-                                                                 not at end of descriptor. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) FPA signaled PKO that FPA can not allocate pointers. This is a fatal error. */
-        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Send-packet of type LMTST error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[SENDPKT_LMTST_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) This is the status field of the command response on the LMTST failure indicated by
-                                                                 PKO_PDM_STS[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
-                                                                 only the first error status will be captured here until PKO_PDM_STS[SENDPKT_LMTST_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Send-packet of type LMTDMA error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[SENDPKT_LMTDMA_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) This is the status field of the command response on the LMTDMA failure indicated by
-                                                                 PKO_PDM_STS[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors occur,
-                                                                 only the first error status is captured here until PKO_PDM_STS[SENDPKT_LMTDMA_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
-        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Queue command IOBDMA/IOBLD error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[QCMD_IOBX_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) When PKO_PDM_STS[QCMD_IOBX_ERR] is set, this contains the queue command response's status
-                                                                 field for the response causing the error. Note that if multiple errors occur, only the
-                                                                 first error status is captured here until PKO_PDM_STS[QCMD_IOBX_ERR] is cleared.
-                                                                 Enumerated by PKO_DQSTATUS_E. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Received signal that DWPBUF had data valid error. */
-        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Received signal that DRPBUF had data valid error. */
-        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Received signal that MWPBUF had data valid error. */
-        uint64_t reserved_35_36        : 2;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 This register is set to 1 if the PDM stalls the inputs for more than
-                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
-        uint64_t reserved_38_63        : 26;
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Interrupt sources enumerated by PKO_PDM_STS_E. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_sts_w1c_s cn; */
@@ -12469,8 +11824,6 @@ static inline uint64_t BDK_PKO_PDM_STS_W1C_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_PKO_PDM_STS_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800008ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800008ll;
     __bdk_csr_fatal("PKO_PDM_STS_W1C", 0, 0, 0, 0, 0);
 }
@@ -12494,57 +11847,9 @@ typedef union
     struct bdk_pko_pdm_sts_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
-                                                                 Internal:
-                                                                 This register is set to 1 if the PDM stalls the inputs for more than
-                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
-        uint64_t reserved_35_36        : 2;
-        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
-        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
-        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
-        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
-        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
-        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_1_2          : 2;
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
-        uint64_t reserved_1_2          : 2;
-        uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
-        uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
-        uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
-        uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
-        uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
-        uint64_t reserved_35_36        : 2;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT].
-                                                                 Internal:
-                                                                 This register is set to 1 if the PDM stalls the inputs for more than
-                                                                 PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
-        uint64_t reserved_38_63        : 26;
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[INTR]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_sts_w1s_s cn; */
@@ -12555,8 +11860,6 @@ static inline uint64_t BDK_PKO_PDM_STS_W1S_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_PKO_PDM_STS_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000800030ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000800030ll;
     __bdk_csr_fatal("PKO_PDM_STS_W1S", 0, 0, 0, 0, 0);
 }
@@ -12641,8 +11944,6 @@ static inline uint64_t BDK_PKO_PEB_BIST_STATUS_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PEB_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900d00ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900d00ll;
     __bdk_csr_fatal("PKO_PEB_BIST_STATUS", 0, 0, 0, 0, 0);
 }
@@ -12755,8 +12056,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540009fffd0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540009fffd0ll;
     __bdk_csr_fatal("PKO_PEB_ECC_CTL0", 0, 0, 0, 0, 0);
 }
 
@@ -12806,8 +12105,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_CTL1_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540009fffa8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540009fffa8ll;
     __bdk_csr_fatal("PKO_PEB_ECC_CTL1", 0, 0, 0, 0, 0);
 }
 
@@ -12843,8 +12140,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ 
 static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540009fffc0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540009fffc0ll;
     __bdk_csr_fatal("PKO_PEB_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -12882,8 +12177,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540009fffc8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540009fffc8ll;
     __bdk_csr_fatal("PKO_PEB_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -12893,6 +12186,76 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S_FUNC(void)
 #define device_bar_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S 0
 #define arguments_BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_dbe_sts0
+ *
+ * INTERNAL: Deprecated PKO PEB RAM ECC DBE Status Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_dbe_sts0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_dbe_sts0_s cn; */
+} bdk_pko_peb_ecc_dbe_sts0_t;
+
+#define BDK_PKO_PEB_ECC_DBE_STS0 BDK_PKO_PEB_ECC_DBE_STS0_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_STS0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_STS0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009ffff0ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_DBE_STS0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_DBE_STS0 bdk_pko_peb_ecc_dbe_sts0_t
+#define bustype_BDK_PKO_PEB_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_DBE_STS0 "PKO_PEB_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_PEB_ECC_DBE_STS0 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_DBE_STS0 0
+#define arguments_BDK_PKO_PEB_ECC_DBE_STS0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_dbe_sts_cmb0
+ *
+ * INTERNAL: Deprecated PKO PEB RAM ECC DBE Status Combine Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_dbe_sts_cmb0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_dbe_sts_cmb0_s cn; */
+} bdk_pko_peb_ecc_dbe_sts_cmb0_t;
+
+#define BDK_PKO_PEB_ECC_DBE_STS_CMB0 BDK_PKO_PEB_ECC_DBE_STS_CMB0_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_STS_CMB0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_DBE_STS_CMB0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fffd8ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_DBE_STS_CMB0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_DBE_STS_CMB0 bdk_pko_peb_ecc_dbe_sts_cmb0_t
+#define bustype_BDK_PKO_PEB_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_DBE_STS_CMB0 "PKO_PEB_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_PEB_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_DBE_STS_CMB0 0
+#define arguments_BDK_PKO_PEB_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_ecc_dbe_w1c
@@ -12918,8 +12281,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540009fffb0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540009fffb0ll;
     __bdk_csr_fatal("PKO_PEB_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -12957,8 +12318,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540009fffb8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540009fffb8ll;
     __bdk_csr_fatal("PKO_PEB_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -12994,8 +12353,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ 
 static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540009fff90ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540009fff90ll;
     __bdk_csr_fatal("PKO_PEB_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -13033,8 +12390,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540009fff98ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540009fff98ll;
     __bdk_csr_fatal("PKO_PEB_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -13044,6 +12399,76 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S_FUNC(void)
 #define device_bar_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S 0
 #define arguments_BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_sbe_sts0
+ *
+ * INTERNAL: Deprecated PKO PEB RAM ECC SBE Status Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_sbe_sts0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_sbe_sts0_s cn; */
+} bdk_pko_peb_ecc_sbe_sts0_t;
+
+#define BDK_PKO_PEB_ECC_SBE_STS0 BDK_PKO_PEB_ECC_SBE_STS0_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_STS0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_STS0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009ffff8ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_SBE_STS0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_SBE_STS0 bdk_pko_peb_ecc_sbe_sts0_t
+#define bustype_BDK_PKO_PEB_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_SBE_STS0 "PKO_PEB_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_PEB_ECC_SBE_STS0 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_SBE_STS0 0
+#define arguments_BDK_PKO_PEB_ECC_SBE_STS0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_ecc_sbe_sts_cmb0
+ *
+ * INTERNAL: Deprecated PKO PEB RAM ECC SBE Status Combine Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_ecc_sbe_sts_cmb0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_ecc_sbe_sts_cmb0_s cn; */
+} bdk_pko_peb_ecc_sbe_sts_cmb0_t;
+
+#define BDK_PKO_PEB_ECC_SBE_STS_CMB0 BDK_PKO_PEB_ECC_SBE_STS_CMB0_FUNC()
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_STS_CMB0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_ECC_SBE_STS_CMB0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540009fffe8ll;
+    __bdk_csr_fatal("PKO_PEB_ECC_SBE_STS_CMB0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_ECC_SBE_STS_CMB0 bdk_pko_peb_ecc_sbe_sts_cmb0_t
+#define bustype_BDK_PKO_PEB_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_ECC_SBE_STS_CMB0 "PKO_PEB_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_PEB_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PEB_ECC_SBE_STS_CMB0 0
+#define arguments_BDK_PKO_PEB_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_ecc_sbe_w1c
@@ -13069,8 +12494,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540009fff80ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540009fff80ll;
     __bdk_csr_fatal("PKO_PEB_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -13107,8 +12530,6 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540009fff88ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540009fff88ll;
     __bdk_csr_fatal("PKO_PEB_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
@@ -13149,8 +12570,6 @@ static inline uint64_t BDK_PKO_PEB_ECO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000901000ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000901000ll;
     __bdk_csr_fatal("PKO_PEB_ECO", 0, 0, 0, 0, 0);
 }
 
@@ -13173,29 +12592,9 @@ typedef union
     struct bdk_pko_peb_err_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
-        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
-        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
-        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
-        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
-        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
-        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
-        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
-        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
-        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
-        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
-        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
-        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
-        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
-        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
-        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
-        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
-        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
-        uint64_t reserved_10_63        : 54;
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[INTR]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_err_int_ena_w1c_s cn; */
@@ -13206,8 +12605,6 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c88ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900c88ll;
     __bdk_csr_fatal("PKO_PEB_ERR_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -13231,29 +12628,9 @@ typedef union
     struct bdk_pko_peb_err_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
-        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
-        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
-        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
-        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
-        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
-        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
-        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
-        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
-        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
-        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
-        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
-        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
-        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
-        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
-        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
-        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
-        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
-        uint64_t reserved_10_63        : 54;
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[INTR]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_err_int_ena_w1s_s cn; */
@@ -13264,8 +12641,6 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c90ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900c90ll;
     __bdk_csr_fatal("PKO_PEB_ERR_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
@@ -13288,31 +12663,9 @@ typedef union
     struct bdk_pko_peb_err_int_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1C/H) Asserted when software writes a FIFO number to PKO_MAC()_CFG when that FIFO is
-                                                                 already assigned. */
-        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1C/H) Asserted when 200 LINK segments have been followed. Indicates likelihood of infinite loop. */
-        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1C/H) Asserted when a SEND_LINK/GATHER/IMM/JUMP subD has size=0. */
-        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1C/H) Asserted when the address of a FREE/MEM/LINK/LINK segment/JUMP/GATHER subD is 0x0. */
-        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1C/H) Asserted when a PD has truncated data. */
-        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1C/H) Asserted when a PD has data padded to it (SEND_HDR[TOTAL] < sum(SEND_DATA[size])). */
-        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Asserted when PSE sends PD information for a nonconfigured FIFO. */
-        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Asserted when FCS SOP value greater than packet size detected. */
-        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Asserted when JUMP subdescriptor is not last in a PD. */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Asserted when EXT_HDR is not the second sub-descriptor in a PD. */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Values enumerated by PKO_PEB_ERR_INT_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Asserted when EXT_HDR is not the second sub-descriptor in a PD. */
-        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Asserted when JUMP subdescriptor is not last in a PD. */
-        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Asserted when FCS SOP value greater than packet size detected. */
-        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Asserted when PSE sends PD information for a nonconfigured FIFO. */
-        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1C/H) Asserted when a PD has data padded to it (SEND_HDR[TOTAL] < sum(SEND_DATA[size])). */
-        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1C/H) Asserted when a PD has truncated data. */
-        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1C/H) Asserted when the address of a FREE/MEM/LINK/LINK segment/JUMP/GATHER subD is 0x0. */
-        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1C/H) Asserted when a SEND_LINK/GATHER/IMM/JUMP subD has size=0. */
-        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1C/H) Asserted when 200 LINK segments have been followed. Indicates likelihood of infinite loop. */
-        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1C/H) Asserted when software writes a FIFO number to PKO_MAC()_CFG when that FIFO is
-                                                                 already assigned. */
-        uint64_t reserved_10_63        : 54;
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Values enumerated by PKO_PEB_ERR_INT_E. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_err_int_w1c_s cn; */
@@ -13323,8 +12676,6 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PEB_ERR_INT_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c00ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900c00ll;
     __bdk_csr_fatal("PKO_PEB_ERR_INT_W1C", 0, 0, 0, 0, 0);
 }
@@ -13348,29 +12699,9 @@ typedef union
     struct bdk_pko_peb_err_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
-        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
-        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
-        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
-        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
-        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
-        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
-        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
-        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
-        uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
-        uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
-        uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
-        uint64_t peb_pad_err           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PAD_ERR]. */
-        uint64_t peb_trunc_err         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_TRUNC_ERR]. */
-        uint64_t peb_subd_addr_err     : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_SUBD_ADDR_ERR]. */
-        uint64_t peb_subd_size_err     : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_SUBD_SIZE_ERR]. */
-        uint64_t peb_max_link_err      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_MAX_LINK_ERR]. */
-        uint64_t peb_macx_cfg_wr_err   : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_MACX_CFG_WR_ERR]. */
-        uint64_t reserved_10_63        : 54;
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[INTR]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_err_int_w1s_s cn; */
@@ -13381,8 +12712,6 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PEB_ERR_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c80ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900c80ll;
     __bdk_csr_fatal("PKO_PEB_ERR_INT_W1S", 0, 0, 0, 0, 0);
 }
@@ -13425,8 +12754,6 @@ static inline uint64_t BDK_PKO_PEB_FCS_SOP_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000900c18ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000900c18ll;
     __bdk_csr_fatal("PKO_PEB_FCS_SOP_ERR_INFO", 0, 0, 0, 0, 0);
 }
 
@@ -13468,8 +12795,6 @@ static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000900c10ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000900c10ll;
     __bdk_csr_fatal("PKO_PEB_JUMP_DEF_ERR_INFO", 0, 0, 0, 0, 0);
 }
 
@@ -13508,8 +12833,6 @@ static inline uint64_t BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO_FUNC(void) __attribute__
 static inline uint64_t BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c50ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900c50ll;
     __bdk_csr_fatal("PKO_PEB_MACX_CFG_WR_ERR_INFO", 0, 0, 0, 0, 0);
 }
@@ -13552,8 +12875,6 @@ static inline uint64_t BDK_PKO_PEB_MAX_LINK_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000900c48ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000900c48ll;
     __bdk_csr_fatal("PKO_PEB_MAX_LINK_ERR_INFO", 0, 0, 0, 0, 0);
 }
 
@@ -13592,8 +12913,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854001efff00ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854001efff00ll;
     __bdk_csr_fatal("PKO_PEB_NCB_BIST_STATUS", 0, 0, 0, 0, 0);
 }
 
@@ -13630,8 +12949,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_CFG_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_PKO_PEB_NCB_CFG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900308ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900308ll;
     __bdk_csr_fatal("PKO_PEB_NCB_CFG", 0, 0, 0, 0, 0);
 }
@@ -13672,8 +12989,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854001efffd0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854001efffd0ll;
     __bdk_csr_fatal("PKO_PEB_NCB_ECC_CTL0", 0, 0, 0, 0, 0);
 }
 
@@ -13709,8 +13024,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribut
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854001efffb0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854001efffb0ll;
     __bdk_csr_fatal("PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -13748,8 +13061,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854001efffb8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854001efffb8ll;
     __bdk_csr_fatal("PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -13784,8 +13095,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854001efffa0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854001efffa0ll;
     __bdk_csr_fatal("PKO_PEB_NCB_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -13823,8 +13132,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854001efffa8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854001efffa8ll;
     __bdk_csr_fatal("PKO_PEB_NCB_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -13860,8 +13167,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribut
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854001efff90ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854001efff90ll;
     __bdk_csr_fatal("PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -13899,8 +13204,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854001efff98ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854001efff98ll;
     __bdk_csr_fatal("PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -13935,8 +13238,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854001efff80ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854001efff80ll;
     __bdk_csr_fatal("PKO_PEB_NCB_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -13973,8 +13274,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854001efff88ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854001efff88ll;
     __bdk_csr_fatal("PKO_PEB_NCB_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
@@ -14016,8 +13315,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854001e00020ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854001e00020ll;
     __bdk_csr_fatal("PKO_PEB_NCB_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -14057,8 +13354,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854001e00028ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854001e00028ll;
     __bdk_csr_fatal("PKO_PEB_NCB_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
@@ -14103,8 +13398,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_INT_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854001e00010ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854001e00010ll;
     __bdk_csr_fatal("PKO_PEB_NCB_INT_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -14145,8 +13438,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854001e00018ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854001e00018ll;
     __bdk_csr_fatal("PKO_PEB_NCB_INT_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -14173,16 +13464,20 @@ typedef union
         uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) NCB DST field of the error transaction. */
         uint64_t reserved_3_5          : 3;
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This is one of the errors for FIXME interrupt. This
+                                                                 is a fatal error for PKO. */
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This is one of the errors for FIXME interrupt. This
+                                                                 is a fatal error for PKO. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This is one of the errors for FIXME interrupt. This
+                                                                 is a fatal error for PKO. */
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This is one of the errors for FIXME interrupt. This
+                                                                 is a fatal error for PKO. */
         uint64_t reserved_3_5          : 3;
         uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) NCB DST field of the error transaction. */
         uint64_t err_tag               : 4;  /**< [ 17: 14](R/W1C/H) NCB TAG field of the error transaction. */
@@ -14197,8 +13492,6 @@ static inline uint64_t BDK_PKO_PEB_NCB_MEM_FAULT_FUNC(void) __attribute__ ((pure
 static inline uint64_t BDK_PKO_PEB_NCB_MEM_FAULT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854001800060ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854001800060ll;
     __bdk_csr_fatal("PKO_PEB_NCB_MEM_FAULT", 0, 0, 0, 0, 0);
 }
@@ -14240,8 +13533,6 @@ static inline uint64_t BDK_PKO_PEB_PAD_ERR_INFO_FUNC(void) __attribute__ ((pure,
 static inline uint64_t BDK_PKO_PEB_PAD_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c28ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900c28ll;
     __bdk_csr_fatal("PKO_PEB_PAD_ERR_INFO", 0, 0, 0, 0, 0);
 }
@@ -14286,8 +13577,6 @@ static inline uint64_t BDK_PKO_PEB_PSE_FIFO_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000900c20ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000900c20ll;
     __bdk_csr_fatal("PKO_PEB_PSE_FIFO_ERR_INFO", 0, 0, 0, 0, 0);
 }
 
@@ -14328,8 +13617,6 @@ static inline uint64_t BDK_PKO_PEB_SUBD_ADDR_ERR_INFO_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_PEB_SUBD_ADDR_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c38ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900c38ll;
     __bdk_csr_fatal("PKO_PEB_SUBD_ADDR_ERR_INFO", 0, 0, 0, 0, 0);
 }
@@ -14372,8 +13659,6 @@ static inline uint64_t BDK_PKO_PEB_SUBD_SIZE_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000900c40ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000900c40ll;
     __bdk_csr_fatal("PKO_PEB_SUBD_SIZE_ERR_INFO", 0, 0, 0, 0, 0);
 }
 
@@ -14414,8 +13699,6 @@ static inline uint64_t BDK_PKO_PEB_TRUNC_ERR_INFO_FUNC(void) __attribute__ ((pur
 static inline uint64_t BDK_PKO_PEB_TRUNC_ERR_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c30ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900c30ll;
     __bdk_csr_fatal("PKO_PEB_TRUNC_ERR_INFO", 0, 0, 0, 0, 0);
 }
@@ -14480,8 +13763,6 @@ static inline uint64_t BDK_PKO_PEB_TSO_CFG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000900310ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000900310ll;
     __bdk_csr_fatal("PKO_PEB_TSO_CFG", 0, 0, 0, 0, 0);
 }
 
@@ -14519,8 +13800,6 @@ static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x8543000f0000ll + 8ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x8543000f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("PKO_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -14579,8 +13858,6 @@ static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=24))
         return 0x854300000000ll + 0x10ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=24))
-        return 0x854300000000ll + 0x10ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -14622,8 +13899,6 @@ static inline uint64_t BDK_PKO_PF_MSIX_VECX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=24))
         return 0x854300000008ll + 0x10ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=24))
-        return 0x854300000008ll + 0x10ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -14650,10 +13925,15 @@ typedef union
         uint64_t be                    : 1;  /**< [ 24: 24](R/W) VF big-endian select:
                                                                    0 = Little-endian.
                                                                    1 = Big-endian.
+
+                                                                 When set:
                                                                    * Instructions enqueued with LMTST are big-endian.
                                                                    * Instructions pointed to by PKO_SEND_JUMP_S[ADDR] are big-endian.
-                                                                   * Next address ponters pointed to PKO_SEND_LINK_S[ADDR] are big-endian.
+                                                                   * PKI_BUFLINK_S structures pointed to by PKO_SEND_LINK_S[ADDR] are big-endian.
                                                                    * Buffer depth indications are big-endian.
+
+                                                                 Regardless of this setting:
+                                                                   * CSRs (excluding PKO_VF()_DQ()_OP_SEND()) are always little endian.
                                                                    * Packet data either pointed-to or in PKO_SEND_IMM_S are byte-invariant and endian
                                                                  agnostic. */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing DQ or data returns
@@ -14682,10 +13962,15 @@ typedef union
         uint64_t be                    : 1;  /**< [ 24: 24](R/W) VF big-endian select:
                                                                    0 = Little-endian.
                                                                    1 = Big-endian.
+
+                                                                 When set:
                                                                    * Instructions enqueued with LMTST are big-endian.
                                                                    * Instructions pointed to by PKO_SEND_JUMP_S[ADDR] are big-endian.
-                                                                   * Next address ponters pointed to PKO_SEND_LINK_S[ADDR] are big-endian.
+                                                                   * PKI_BUFLINK_S structures pointed to by PKO_SEND_LINK_S[ADDR] are big-endian.
                                                                    * Buffer depth indications are big-endian.
+
+                                                                 Regardless of this setting:
+                                                                   * CSRs (excluding PKO_VF()_DQ()_OP_SEND()) are always little endian.
                                                                    * Packet data either pointed-to or in PKO_SEND_IMM_S are byte-invariant and endian
                                                                  agnostic. */
         uint64_t reserved_25_63        : 39;
@@ -14698,8 +13983,6 @@ static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x854040001000ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x854040001000ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_PF_VFX_GMCTL", 1, a, 0, 0, 0);
 }
@@ -14743,8 +14026,6 @@ static inline uint64_t BDK_PKO_PF_VFX_GMCTL_PDM_RO(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854040011000ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x854040011000ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_PF_VFX_GMCTL_PDM_RO", 1, a, 0, 0, 0);
 }
 
@@ -14782,8 +14063,6 @@ static inline uint64_t BDK_PKO_PQ_DEBUG_GREEN_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000000058ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000000058ll;
     __bdk_csr_fatal("PKO_PQ_DEBUG_GREEN", 0, 0, 0, 0, 0);
 }
 
@@ -14820,8 +14099,6 @@ static inline uint64_t BDK_PKO_PQ_DEBUG_LINKS_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_PQ_DEBUG_LINKS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000000068ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000000068ll;
     __bdk_csr_fatal("PKO_PQ_DEBUG_LINKS", 0, 0, 0, 0, 0);
 }
@@ -14862,8 +14139,6 @@ static inline uint64_t BDK_PKO_PQ_DEBUG_YELLOW_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000000060ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000000060ll;
     __bdk_csr_fatal("PKO_PQ_DEBUG_YELLOW", 0, 0, 0, 0, 0);
 }
 
@@ -14902,8 +14177,6 @@ static inline uint64_t BDK_PKO_PQ_DRAIN_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000000150ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000000150ll;
     __bdk_csr_fatal("PKO_PQ_DRAIN_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -14941,8 +14214,6 @@ static inline uint64_t BDK_PKO_PQ_DRAIN_INT_ENA_W1S_FUNC(void) __attribute__ ((p
 static inline uint64_t BDK_PKO_PQ_DRAIN_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000000158ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000000158ll;
     __bdk_csr_fatal("PKO_PQ_DRAIN_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
@@ -14985,8 +14256,6 @@ static inline uint64_t BDK_PKO_PQ_DRAIN_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000000140ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000000140ll;
     __bdk_csr_fatal("PKO_PQ_DRAIN_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -15025,8 +14294,6 @@ static inline uint64_t BDK_PKO_PQ_DRAIN_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000000148ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000000148ll;
     __bdk_csr_fatal("PKO_PQ_DRAIN_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -15062,8 +14329,6 @@ static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540000001b0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540000001b0ll;
     __bdk_csr_fatal("PKO_PQ_ECC_DBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -15101,8 +14366,6 @@ static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540000001b8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540000001b8ll;
     __bdk_csr_fatal("PKO_PQ_ECC_DBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -15137,8 +14400,6 @@ static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540000001a0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8540000001a0ll;
     __bdk_csr_fatal("PKO_PQ_ECC_DBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -15176,8 +14437,6 @@ static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540000001a8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540000001a8ll;
     __bdk_csr_fatal("PKO_PQ_ECC_DBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -15213,8 +14472,6 @@ static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ (
 static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000000190ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000000190ll;
     __bdk_csr_fatal("PKO_PQ_ECC_SBE_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -15252,8 +14509,6 @@ static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000000198ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000000198ll;
     __bdk_csr_fatal("PKO_PQ_ECC_SBE_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -15288,8 +14543,6 @@ static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000000180ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000000180ll;
     __bdk_csr_fatal("PKO_PQ_ECC_SBE_W1C", 0, 0, 0, 0, 0);
 }
@@ -15327,8 +14580,6 @@ static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000000188ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000000188ll;
     __bdk_csr_fatal("PKO_PQ_ECC_SBE_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -15363,8 +14614,6 @@ static inline uint64_t BDK_PKO_PQA_DEBUG_FUNC(void) __attribute__ ((pure, always
 static inline uint64_t BDK_PKO_PQA_DEBUG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000000128ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000000128ll;
     __bdk_csr_fatal("PKO_PQA_DEBUG", 0, 0, 0, 0, 0);
 }
@@ -15402,8 +14651,6 @@ static inline uint64_t BDK_PKO_PQB_DEBUG_FUNC(void) __attribute__ ((pure, always
 static inline uint64_t BDK_PKO_PQB_DEBUG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000000130ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000000130ll;
     __bdk_csr_fatal("PKO_PQB_DEBUG", 0, 0, 0, 0, 0);
 }
@@ -15448,8 +14695,6 @@ static inline uint64_t BDK_PKO_PSE_DQ_BIST_STATUS_FUNC(void) __attribute__ ((pur
 static inline uint64_t BDK_PKO_PSE_DQ_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000300138ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000300138ll;
     __bdk_csr_fatal("PKO_PSE_DQ_BIST_STATUS", 0, 0, 0, 0, 0);
 }
@@ -15503,8 +14748,6 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_CTL0_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_PSE_DQ_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000300100ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000300100ll;
     __bdk_csr_fatal("PKO_PSE_DQ_ECC_CTL0", 0, 0, 0, 0, 0);
 }
@@ -15572,8 +14815,6 @@ static inline uint64_t BDK_PKO_PSE_PQ_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000000138ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000000138ll;
     __bdk_csr_fatal("PKO_PSE_PQ_BIST_STATUS", 0, 0, 0, 0, 0);
 }
 
@@ -15635,8 +14876,6 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000000100ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000000100ll;
     __bdk_csr_fatal("PKO_PSE_PQ_ECC_CTL0", 0, 0, 0, 0, 0);
 }
 
@@ -15646,6 +14885,41 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_CTL0_FUNC(void)
 #define device_bar_BDK_PKO_PSE_PQ_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_PQ_ECC_CTL0 0
 #define arguments_BDK_PKO_PSE_PQ_ECC_CTL0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pse_pq_ecc_dbe_sts_cmb0
+ *
+ * INTERNAL: Deprecated PKO PSE PQ RAM ECC DBE Status Combine Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pse_pq_ecc_dbe_sts_cmb0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pse_pq_ecc_dbe_sts_cmb0_s cn; */
+} bdk_pko_pse_pq_ecc_dbe_sts_cmb0_t;
+
+#define BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0_FUNC()
+static inline uint64_t BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000000120ll;
+    __bdk_csr_fatal("PKO_PSE_PQ_ECC_DBE_STS_CMB0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 bdk_pko_pse_pq_ecc_dbe_sts_cmb0_t
+#define bustype_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 "PKO_PSE_PQ_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 0
+#define arguments_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pse_sq1_bist_status
@@ -15762,8 +15036,6 @@ static inline uint64_t BDK_PKO_PSE_SQ1_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000080138ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000080138ll;
     __bdk_csr_fatal("PKO_PSE_SQ1_BIST_STATUS", 0, 0, 0, 0, 0);
 }
 
@@ -15861,8 +15133,6 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000080100ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000080100ll;
     __bdk_csr_fatal("PKO_PSE_SQ1_ECC_CTL0", 0, 0, 0, 0, 0);
 }
 
@@ -15924,8 +15194,6 @@ static inline uint64_t BDK_PKO_PSE_SQ2_BIST_STATUS_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PSE_SQ2_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000100138ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000100138ll;
     __bdk_csr_fatal("PKO_PSE_SQ2_BIST_STATUS", 0, 0, 0, 0, 0);
 }
@@ -16006,8 +15274,6 @@ static inline uint64_t BDK_PKO_PSE_SQ2_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000100100ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000100100ll;
     __bdk_csr_fatal("PKO_PSE_SQ2_ECC_CTL0", 0, 0, 0, 0, 0);
 }
 
@@ -16069,8 +15335,6 @@ static inline uint64_t BDK_PKO_PSE_SQ3_BIST_STATUS_FUNC(void) __attribute__ ((pu
 static inline uint64_t BDK_PKO_PSE_SQ3_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000180138ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000180138ll;
     __bdk_csr_fatal("PKO_PSE_SQ3_BIST_STATUS", 0, 0, 0, 0, 0);
 }
@@ -16151,8 +15415,6 @@ static inline uint64_t BDK_PKO_PSE_SQ3_ECC_CTL0_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x854000180100ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x854000180100ll;
     __bdk_csr_fatal("PKO_PSE_SQ3_ECC_CTL0", 0, 0, 0, 0, 0);
 }
 
@@ -16203,8 +15465,6 @@ static inline uint64_t BDK_PKO_PTFX_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=19))
         return 0x854000900100ll + 8ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=19))
-        return 0x854000900100ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_PTFX_STATUS", 1, a, 0, 0, 0);
 }
 
@@ -16249,8 +15509,6 @@ static inline uint64_t BDK_PKO_PTF_IOBP_CFG_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_PKO_PTF_IOBP_CFG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900300ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000900300ll;
     __bdk_csr_fatal("PKO_PTF_IOBP_CFG", 0, 0, 0, 0, 0);
 }
@@ -16411,8 +15669,6 @@ static inline uint64_t BDK_PKO_PTGFX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
         return 0x854000900200ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
-        return 0x854000900200ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("PKO_PTGFX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -16482,8 +15738,6 @@ static inline uint64_t BDK_PKO_SHAPER_CFG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8540000800f8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8540000800f8ll;
     __bdk_csr_fatal("PKO_SHAPER_CFG", 0, 0, 0, 0, 0);
 }
 
@@ -16520,8 +15774,6 @@ static inline uint64_t BDK_PKO_STATE_UID_IN_USEX_RD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x854000900f00ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x854000900f00ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PKO_STATE_UID_IN_USEX_RD", 1, a, 0, 0, 0);
 }
 
@@ -16543,29 +15795,27 @@ typedef union
     struct bdk_pko_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pko_rdy               : 1;  /**< [ 63: 63](RO/H) PKO ready for configuration. */
-        uint64_t reserved_24_62        : 39;
-        uint64_t c2qlut_rdy            : 1;  /**< [ 23: 23](RO/H) PKO C2Q LUT block ready for configuration. */
-        uint64_t ppfi_rdy              : 1;  /**< [ 22: 22](RO/H) PKO PPFI block ready for configuration. */
-        uint64_t peb_ncb_rdy           : 1;  /**< [ 21: 21](RO/H) PKO IOBP1 block ready for configuration. */
-        uint64_t pdm_ncb_rdy           : 1;  /**< [ 20: 20](RO/H) PKO NCB block ready for configuration. */
-        uint64_t pse_rdy               : 1;  /**< [ 19: 19](RO/H) PKO PSE block ready for configuration. */
-        uint64_t pdm_rdy               : 1;  /**< [ 18: 18](RO/H) PKO PDM block ready for configuration. */
-        uint64_t peb_rdy               : 1;  /**< [ 17: 17](RO/H) PKO PEB block ready for configuration. */
-        uint64_t csi_rdy               : 1;  /**< [ 16: 16](RO/H) PKO CSI block ready for configuration. */
-        uint64_t reserved_0_15         : 16;
+        uint64_t reserved_9_63         : 55;
+        uint64_t pko_rdy               : 1;  /**< [  8:  8](RO/H) PKO ready for configuration. */
+        uint64_t c2qlut_rdy            : 1;  /**< [  7:  7](RO/H) PKO C2Q LUT block ready for configuration. */
+        uint64_t ppfi_rdy              : 1;  /**< [  6:  6](RO/H) PKO PPFI block ready for configuration. */
+        uint64_t peb_ncb_rdy           : 1;  /**< [  5:  5](RO/H) PKO IOBP1 block ready for configuration. */
+        uint64_t pdm_ncb_rdy           : 1;  /**< [  4:  4](RO/H) PKO NCB block ready for configuration. */
+        uint64_t pse_rdy               : 1;  /**< [  3:  3](RO/H) PKO PSE block ready for configuration. */
+        uint64_t pdm_rdy               : 1;  /**< [  2:  2](RO/H) PKO PDM block ready for configuration. */
+        uint64_t peb_rdy               : 1;  /**< [  1:  1](RO/H) PKO PEB block ready for configuration. */
+        uint64_t csi_rdy               : 1;  /**< [  0:  0](RO/H) PKO CSI block ready for configuration. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_15         : 16;
-        uint64_t csi_rdy               : 1;  /**< [ 16: 16](RO/H) PKO CSI block ready for configuration. */
-        uint64_t peb_rdy               : 1;  /**< [ 17: 17](RO/H) PKO PEB block ready for configuration. */
-        uint64_t pdm_rdy               : 1;  /**< [ 18: 18](RO/H) PKO PDM block ready for configuration. */
-        uint64_t pse_rdy               : 1;  /**< [ 19: 19](RO/H) PKO PSE block ready for configuration. */
-        uint64_t pdm_ncb_rdy           : 1;  /**< [ 20: 20](RO/H) PKO NCB block ready for configuration. */
-        uint64_t peb_ncb_rdy           : 1;  /**< [ 21: 21](RO/H) PKO IOBP1 block ready for configuration. */
-        uint64_t ppfi_rdy              : 1;  /**< [ 22: 22](RO/H) PKO PPFI block ready for configuration. */
-        uint64_t c2qlut_rdy            : 1;  /**< [ 23: 23](RO/H) PKO C2Q LUT block ready for configuration. */
-        uint64_t reserved_24_62        : 39;
-        uint64_t pko_rdy               : 1;  /**< [ 63: 63](RO/H) PKO ready for configuration. */
+        uint64_t csi_rdy               : 1;  /**< [  0:  0](RO/H) PKO CSI block ready for configuration. */
+        uint64_t peb_rdy               : 1;  /**< [  1:  1](RO/H) PKO PEB block ready for configuration. */
+        uint64_t pdm_rdy               : 1;  /**< [  2:  2](RO/H) PKO PDM block ready for configuration. */
+        uint64_t pse_rdy               : 1;  /**< [  3:  3](RO/H) PKO PSE block ready for configuration. */
+        uint64_t pdm_ncb_rdy           : 1;  /**< [  4:  4](RO/H) PKO NCB block ready for configuration. */
+        uint64_t peb_ncb_rdy           : 1;  /**< [  5:  5](RO/H) PKO IOBP1 block ready for configuration. */
+        uint64_t ppfi_rdy              : 1;  /**< [  6:  6](RO/H) PKO PPFI block ready for configuration. */
+        uint64_t c2qlut_rdy            : 1;  /**< [  7:  7](RO/H) PKO C2Q LUT block ready for configuration. */
+        uint64_t pko_rdy               : 1;  /**< [  8:  8](RO/H) PKO ready for configuration. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_status_s cn; */
@@ -16576,8 +15826,6 @@ static inline uint64_t BDK_PKO_STATUS_FUNC(void) __attribute__ ((pure, always_in
 static inline uint64_t BDK_PKO_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000d00000ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x854000d00000ll;
     __bdk_csr_fatal("PKO_STATUS", 0, 0, 0, 0, 0);
 }
@@ -16614,8 +15862,6 @@ static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=19))
-        return 0x854000900e00ll + 8ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=19))
         return 0x854000900e00ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_TXFX_PKT_CNT_RD", 1, a, 0, 0, 0);
 }
@@ -16661,8 +15907,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_FC_STATUS(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
         return 0x854400000168ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x854400000168ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
     __bdk_csr_fatal("PKO_VFX_DQX_FC_STATUS", 2, a, b, 0, 0);
 }
 
@@ -16704,8 +15948,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_MP_STATEX(unsigned long a, unsigned long 
 static inline uint64_t BDK_PKO_VFX_DQX_MP_STATEX(unsigned long a, unsigned long b, unsigned long c)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7) && (c<=3)))
-        return 0x85407001fe00ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7) + 8ll * ((c) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7) && (c<=3)))
         return 0x85407001fe00ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7) + 8ll * ((c) & 0x3);
     __bdk_csr_fatal("PKO_VFX_DQX_MP_STATEX", 3, a, b, c, 0);
 }
@@ -16789,8 +16031,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_CLOSE(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
         return 0x854400001200ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x854400001200ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
     __bdk_csr_fatal("PKO_VFX_DQX_OP_CLOSE", 2, a, b, 0, 0);
 }
 
@@ -16873,8 +16113,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_OPEN(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
         return 0x854400001100ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x854400001100ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
     __bdk_csr_fatal("PKO_VFX_DQX_OP_OPEN", 2, a, b, 0, 0);
 }
 
@@ -16956,8 +16194,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_QUERY(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
         return 0x854400001300ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x854400001300ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
     __bdk_csr_fatal("PKO_VFX_DQX_OP_QUERY", 2, a, b, 0, 0);
 }
 
@@ -16975,6 +16211,8 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_QUERY(unsigned long a, unsigned long b
  * A 64-bit, 128-bit or larger atomic store or LMTST is used to this address to
  * initiate a send operation.  All words for a given send command must be written using
  * a single instruction, resulting in up to 16 64-bit words of send descriptor.
+ *
+ * The endinness of the instruction write data is controlled by PKO_PF_VF()_GMCTL[BE].
  *
  * When a PKO_SEND_JUMP_S is not present in the PKO SEND descriptor, the written data
  * must contain exactly one valid PKO SEND descriptor.
@@ -17012,8 +16250,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_SENDX(unsigned long a, unsigned long b
 static inline uint64_t BDK_PKO_VFX_DQX_OP_SENDX(unsigned long a, unsigned long b, unsigned long c)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7) && (c<=15)))
-        return 0x854400001000ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7) + 8ll * ((c) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7) && (c<=15)))
         return 0x854400001000ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7) + 8ll * ((c) & 0xf);
     __bdk_csr_fatal("PKO_VFX_DQX_OP_SENDX", 3, a, b, c, 0);
 }
@@ -17056,8 +16292,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_PD_STATEX(unsigned long a, unsigned long 
 static inline uint64_t BDK_PKO_VFX_DQX_PD_STATEX(unsigned long a, unsigned long b, unsigned long c)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7) && (c<=3)))
-        return 0x85407001ff00ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7) + 8ll * ((c) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7) && (c<=3)))
         return 0x85407001ff00ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7) + 8ll * ((c) & 0x3);
     __bdk_csr_fatal("PKO_VFX_DQX_PD_STATEX", 3, a, b, c, 0);
 }
@@ -17146,8 +16380,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_SW_XOFF(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
         return 0x854400000100ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x854400000100ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
     __bdk_csr_fatal("PKO_VFX_DQX_SW_XOFF", 2, a, b, 0, 0);
 }
 
@@ -17195,8 +16427,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_WM_CNT(unsigned long a, unsigned long b) 
 static inline uint64_t BDK_PKO_VFX_DQX_WM_CNT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
-        return 0x854400000150ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
         return 0x854400000150ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
     __bdk_csr_fatal("PKO_VFX_DQX_WM_CNT", 2, a, b, 0, 0);
 }
@@ -17256,8 +16486,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
         return 0x854400000130ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x854400000130ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
     __bdk_csr_fatal("PKO_VFX_DQX_WM_CTL", 2, a, b, 0, 0);
 }
 
@@ -17295,8 +16523,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL_W1C(unsigned long a, unsigned long
 static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL_W1C(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
-        return 0x854400000148ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
         return 0x854400000148ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
     __bdk_csr_fatal("PKO_VFX_DQX_WM_CTL_W1C", 2, a, b, 0, 0);
 }
@@ -17429,8 +16655,6 @@ static inline uint64_t BDK_PKO_VFX_DQ_FC_CONFIG(unsigned long a) __attribute__ (
 static inline uint64_t BDK_PKO_VFX_DQ_FC_CONFIG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x854400000160ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x854400000160ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_VFX_DQ_FC_CONFIG", 1, a, 0, 0, 0);
 }

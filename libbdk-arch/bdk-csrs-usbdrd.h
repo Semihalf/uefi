@@ -58,9 +58,9 @@
  * UCTL DMA Read Command Enumeration
  * Enumerate NCB inbound command selections for DMA read operations.
  */
-#define BDK_UCTL_DMA_READ_CMD_E_LDI (0) /**< Use LDI (allocate local). */
-#define BDK_UCTL_DMA_READ_CMD_E_LDT (1) /**< Use LDT (no allocate). Default. */
-#define BDK_UCTL_DMA_READ_CMD_E_LDY (2) /**< Use LDY (allocate home). */
+#define BDK_UCTL_DMA_READ_CMD_E_LDI (0)
+#define BDK_UCTL_DMA_READ_CMD_E_LDT (1)
+#define BDK_UCTL_DMA_READ_CMD_E_LDY (2)
 
 /**
  * Enumeration uctl_dma_write_cmd_e
@@ -68,8 +68,8 @@
  * UCTL DMA Write Command Enumeration
  * Enumerate NCB inbound command selections for DMA write operations.
  */
-#define BDK_UCTL_DMA_WRITE_CMD_E_RSTP (1) /**< Use RSTP (allocate home, no fill zero's). */
-#define BDK_UCTL_DMA_WRITE_CMD_E_STP (0) /**< Use STP (allocate local, no fill zero's). Default. */
+#define BDK_UCTL_DMA_WRITE_CMD_E_RSTP (1)
+#define BDK_UCTL_DMA_WRITE_CMD_E_STP (0)
 
 /**
  * Enumeration uctl_ecc_err_source_e
@@ -77,17 +77,17 @@
  * UCTL ECC Error Source Enumeration
  * Enumerate sources of ECC error log information.
  */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_NONE (0) /**< No error logged. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM0_DBE (0xf) /**< UAHC RAM0 double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM0_SBE (7) /**< UAHC RAM0 single-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM1_DBE (0xe) /**< UAHC RAM1 double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM1_SBE (6) /**< UAHC RAM1 single-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM2_DBE (0xd) /**< UAHC RAM2 double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM2_SBE (5) /**< UAHC RAM2 single-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_R_DBE (0xa) /**< UCTL AxiMaster read data asynchronous FIFO double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_R_SBE (2) /**< UCTL AxiMaster read data asynchronous FIFO single-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_W_DBE (9) /**< UCTL AxiMaster write data asynchronous FIFO double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_W_SBE (1) /**< UCTL AxiMaster write data asynchronous FIFO single-bit error. */
+#define BDK_UCTL_ECC_ERR_SOURCE_E_NONE (0)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM0_DBE (0xf)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM0_SBE (7)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM1_DBE (0xe)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM1_SBE (6)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM2_DBE (0xd)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM2_SBE (5)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_R_DBE (0xa)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_R_SBE (2)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_W_DBE (9)
+#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_W_SBE (1)
 
 /**
  * Enumeration uctl_endian_mode_e
@@ -95,15 +95,10 @@
  * UCTL Endian-Mode Enumeration
  * Enumerate endian mode selections.
  */
-#define BDK_UCTL_ENDIAN_MODE_E_BIG (1) /**< Core is in big-endian mode. A-B-C-D-E-F-G-H becomes
-                                       H-G-F-E-D-C-B-A (swap bytes within the 32-bit word, then swap 32-bit words within 64-bit
-                                       doubleword). This is the mode to use with Open-Source xHCI drivers when the core is in
-                                       big-endian mode. */
-#define BDK_UCTL_ENDIAN_MODE_E_LITTLE (0) /**< Core is in little-endian mode. A-B-C-D-E-F-G-H becomes
-                                       A-B-C-D-E-F-G-H. This is the mode to use with Open-Source xHCI drivers when the core is in
-                                       little-endian mode. */
-#define BDK_UCTL_ENDIAN_MODE_E_RSVD2 (2) /**< Reserved. A-B-C-D-E-F-G-H becomes D-C-B-A-H-G-F-E. */
-#define BDK_UCTL_ENDIAN_MODE_E_RSVD3 (3) /**< Reserved. A-B-C-D-E-F-G-H becomes E-F-G-H-A-B-C-D. */
+#define BDK_UCTL_ENDIAN_MODE_E_BIG (1)
+#define BDK_UCTL_ENDIAN_MODE_E_LITTLE (0)
+#define BDK_UCTL_ENDIAN_MODE_E_RSVD2 (2)
+#define BDK_UCTL_ENDIAN_MODE_E_RSVD3 (3)
 
 /**
  * Enumeration uctl_xm_bad_dma_type_e
@@ -111,12 +106,12 @@
  * UCTL XM Bad DMA Type Enumeration
  * Enumerate type of DMA error seen.
  */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_ADDR_OOB (1) /**< AxAddr<64:42> != 0x0. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_LEN_GT_16 (2) /**< AxLen > 0xF. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE (3) /**< AxSize = 0x0 and AxLen != 0x0. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD (4) /**< AxSize = 0x1 and AxLen != 0x0. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD (5) /**< AxSize = 0x2 and AxLen != 0x0. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_NONE (0) /**< No error logged. */
+#define BDK_UCTL_XM_BAD_DMA_TYPE_E_ADDR_OOB (1)
+#define BDK_UCTL_XM_BAD_DMA_TYPE_E_LEN_GT_16 (2)
+#define BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE (3)
+#define BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD (4)
+#define BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD (5)
+#define BDK_UCTL_XM_BAD_DMA_TYPE_E_NONE (0)
 
 /**
  * Enumeration usbdrd_bar_e
@@ -124,8 +119,8 @@
  * USBDRD Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_USBDRD_BAR_E_USBDRDX_PF_BAR0(a) (0x868000000000ll + 0x1000000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_USBDRD_BAR_E_USBDRDX_PF_BAR4(a) (0x868000200000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_USBDRD_BAR_E_USBDRDX_PF_BAR0(a) (0x868000000000ll + 0x1000000000ll * (a))
+#define BDK_USBDRD_BAR_E_USBDRDX_PF_BAR4(a) (0x868000200000ll + 0x1000000000ll * (a))
 
 /**
  * Enumeration usbdrd_int_vec_e
@@ -133,13 +128,10 @@
  * USBDRD MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_USBDRD_INT_VEC_E_UAHC_IMAN_IP (0) /**< See UAHC(0)_IMAN(0)[IP]. */
-#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE (2) /**< See UAHC(0..1)_USBSTS[HSE]. */
-#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_USBDRD_INT_VEC_E_UCTL_INTSTAT (1) /**< See interrupt clears USBDRD(0..1)_UCTL_INTSTAT,
-                                       interrupt sets USBDRD(0..1)_UCTL_INTSTAT_W1S,
-                                       enable clears USBDRD(0..1)_UCTL_INTENA_W1C,
-                                       and enable sets USBDRD(0..1)_UCTL_INTENA_W1S. */
+#define BDK_USBDRD_INT_VEC_E_UAHC_IMAN_IP (0)
+#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE (2)
+#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR (3)
+#define BDK_USBDRD_INT_VEC_E_UCTL_INTSTAT (1)
 
 /**
  * Enumeration usbdrd_uahc_dgcmd_cmdtype_e
@@ -151,100 +143,14 @@
  * Internal:
  * Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.6.1 for details.
  */
-#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_ALL_FIFO_FLUSH (0xa) /**< Flush all FIFOs.
-                                       This command does not use the USBDRD()_UAHC_DGCMDPAR field. */
-#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_RUN_SOC_BUS_LOOPBACK_TEST (0x10) /**< When enabled, executes an SoC bus loopback test, which allows the data flow from transmit
-                                       to receive to be tested without any connection to a PHY.
-                                       
-                                       1. Configure EP0 as a non-stream capable Bulk OUT endpoint with the desired MaxPacketSize.
-                                       
-                                       2. Configure EP1 as a non-stream capable Bulk IN endpoint assigned to Tx-FIFO 0 with the
-                                          desired MaxPacketSize.
-                                       
-                                       3. Issue this command with Parameter[0] set to '1', enabling loopback mode.
-                                       
-                                       4. Issue Start Transfer to EP0.
-                                       
-                                       5. Issue Start Transfer to EP1.
-                                       
-                                       6. The core reads data from the IN buffers and writes it back to the OUT buffers.
-                                          The IN and OUT must have an equal amount of data buffer. The Tx-FIFO 0 default value of
-                                          66 should be changed to 130 for loopback mode.
-                                       
-                                       USBDRD()_UAHC_DGCMDPAR[0] = When 1, enables loopback mode. When 0, disables loopback
-                                       mode. */
-#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SELECTED_FIFO_FLUSH (9) /**< Flush the selected FIFO.
-                                       _ USBDRD()_UAHC_DGCMDPAR[4:0] = FIFO Number.
-                                       _ USBDRD()_UAHC_DGCMDPAR[5]   = 1 for TX FIFO and 0 for RX FIFO. */
-#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_ENDPOINT_NRDY (0xc) /**< Issuing this command will make the core think that the given endpoint is in an NRDY state.
-                                       If there are buffers available in that endpoint, the core will immediately transmit an
-                                       ERDY.
-                                       _ USBDRD()_UAHC_DGCMDPAR[4:0] = Physical Endpoint Number. */
-#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_PERIODIC_PARAMETERS (2) /**< Allows the software to program the periodic parameters.
-                                       USBDRD()_UAHC_DGCMDPAR[9:0] = Software should set this to the same value programmed
-                                       by the host through the Set SEL device request, in microseconds.
-                                       The Set SEL control transfer has 6 bytes of data and contains 4 values; Refer to the USB
-                                       3.0 spec, Section 9.4.12.
-                                       
-                                       <pre>
-                                       Offset Name   Meaning
-                                       ------ -----  --------------------------
-                                       0      U1SEL  Time in s for U1 System Exit Latency
-                                       1      U1PEL  Time in s for U1 Device to Host Exit Latency
-                                       2      U2SEL  Time in s for U2 System Exit Latency
-                                       4      U2PEL  Time in s for U2 Device to Host Exit Latency
-                                       </pre>
-                                       
-                                       If the device is enabled for U1 and U2, then the U2PEL should be programmed. If the device
-                                       is enabled only for U1, then U1PEL should be programmed into this parameter.
-                                       If the value is greater than 125us, then the software must program a value of zero into
-                                       this register. */
-#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_H (5) /**< This command sets bits [63:32] of the external address of the scratchpad buffer
-                                       array used for save/restore to the value in USBDRD()_UAHC_DGCMDPAR.
-                                       If either this command or SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_L is issued while the
-                                       controller is stopped (USBDRD()_UAHC_DCTL[RS]=0), the
-                                       USBDRD()_UAHC_DGCMD[CMDIOC] bit must be set to 0.
-                                       
-                                       The device scratchpad buffer array has the same format as the xHCI scratchpad buffer
-                                       array; it contains an array of 64-bit pointers to data buffers that will be used to
-                                       save the controller's state. */
-#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_L (4) /**< This command sets bits [31:0] of the external address of the scratchpad buffer
-                                       array used for save/restore to the value in USBDRD()_UAHC_DGCMDPAR.
-                                       If either this command or SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_H is issued while the
-                                       controller is stopped (USBDRD()_UAHC_DCTL[RS]=0), the
-                                       USBDRD()_UAHC_DGCMD[CMDIOC] bit must be set to 0.
-                                       
-                                       The device scratchpad buffer array has the same format as the xHCI scratchpad buffer
-                                       array; it contains an array of 64-bit pointers to data buffers that will be used to
-                                       save the controller's state. */
-#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_TRANSMIT_DEVICE_NOTIFICATION (7) /**< This command allows any device notification to be transmitted, using the notification type
-                                       and notification parameters specified in the DGCMDPAR register.
-                                       
-                                       _ USBDRD()_UAHC_DGCMDPAR[3:0]  = Notification type.
-                                       
-                                       _ USBDRD()_UAHC_DGCMDPAR[31:4] = Notification parameters, depends on the
-                                         notification type.
-                                       
-                                       For example, to transmit a function wake, software sets
-                                       USBDRD()_UAHC_DGCMDPAR[3:0] to 1, and USBDRD()_UAHC_DGCMDPAR[10:4] to the
-                                       interface number.
-                                       
-                                       This field relates to the notification type specific field in a device notification
-                                       transaction packet as described in Section 8.5.6 of the USB3 Specification. The
-                                       following bits of the DGCMDPAR register have been put into the corresponding
-                                       DWORD described in Section 8.5.6 of the USB3 Specification:
-                                       
-                                       _ USBDRD()_UAHC_DGCMDPAR[3:0]   into DWORD 1[7:4]  (notification type).
-                                       _ USBDRD()_UAHC_DGCMDPAR[27:4]  into DWORD 1[31:8] (notification type specific).
-                                       + USBDRD()_UAHC_DGCMDPAR[31:28] into DWORD 2[3:0]  (notification type specific).
-                                       
-                                       There is one exception for the bus interval adjustment device notification:
-                                       USBDRD()_UAHC_DGCMDPAR[19:4] represents the bus interval adjustment field;
-                                       however, in the USB3 specification, the bus interval adjustment field is
-                                       actually at 31:16 of DWORD 1.
-                                       
-                                       In the case of host role request, USBDRD()_UAHC_DGCMDPAR[3:0] = 4, and
-                                       USBDRD()_UAHC_DGCMDPAR[5:4] = RSP Phase. */
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_ALL_FIFO_FLUSH (0xa)
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_RUN_SOC_BUS_LOOPBACK_TEST (0x10)
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SELECTED_FIFO_FLUSH (9)
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_ENDPOINT_NRDY (0xc)
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_PERIODIC_PARAMETERS (2)
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_H (5)
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_L (4)
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_TRANSMIT_DEVICE_NOTIFICATION (7)
 
 /**
  * Register (NCB) usbdrd#_msix_pba#

@@ -58,9 +58,9 @@
  * TNS Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_TNS_BAR_E_TNS_PF_BAR0 (0x842000000000ll) /**< Base address for standard registers. */
-#define BDK_TNS_BAR_E_TNS_PF_BAR2 (0x842040000000ll) /**< Base address for standard NB registers. */
-#define BDK_TNS_BAR_E_TNS_PF_BAR4 (0x842000f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_TNS_BAR_E_TNS_PF_BAR0 (0x842000000000ll)
+#define BDK_TNS_BAR_E_TNS_PF_BAR2 (0x842040000000ll)
+#define BDK_TNS_BAR_E_TNS_PF_BAR4 (0x842000f00000ll)
 
 /**
  * Enumeration tns_int_vec_e
@@ -68,18 +68,16 @@
  * TNS MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_TNS_INT_VEC_E_DP_RDMA (1) /**< DP RDMA interrupt detected. */
-#define BDK_TNS_INT_VEC_E_DP_RDMA_NB (3) /**< DP RDMA NB interrupt detected. */
-#define BDK_TNS_INT_VEC_E_DP_TDMA (0) /**< DP TDMA interrupt detected. */
-#define BDK_TNS_INT_VEC_E_DP_TDMA_NB (2) /**< DP TDMA NB interrupt detected. */
-#define BDK_TNS_INT_VEC_E_SDE_HPX(a) (0xa + (a)) /**< SDE high-priority interrupts detected. SDE_HP[0..12] = {PARSER, ISME, LDEA0, LDEB0, LDEA1,
-                                       LDEB1, URW1, URW2A, URW2B, URW3, MRE, CNT, HDBF}. */
-#define BDK_TNS_INT_VEC_E_SDE_LPX(a) (0x17 + (a)) /**< SDE low-priority interrupts detected. SDE_LP[0..12] = {PARSER, ISME, LDEA0, LDEB0, LDEA1,
-                                       LDEB1, URW1, URW2A, URW2B, URW3, MRE, CNT, HDBF} */
-#define BDK_TNS_INT_VEC_E_SE_HPX(a) (4 + (a)) /**< Search high-priority interrupts detected. SE_HP[0..2] = {CTL, AGE, MEM} = {Control, AGE, Memory}. */
-#define BDK_TNS_INT_VEC_E_SE_LPX(a) (7 + (a)) /**< Search low-priority interrupts detected. SE_LP[0..2] = {CTL, AGE, MEM} = {Control, AGE, Memory}. */
-#define BDK_TNS_INT_VEC_E_TXQ_HPX(a) (0x24 + (a)) /**< TxQ high-priority interrupts detected. SE_HP[0..4] = {TBM, TBC, EQ, DQ, QMAP_AQM, CNT}. */
-#define BDK_TNS_INT_VEC_E_TXQ_LPX(a) (0x2a + (a)) /**< TxQ low-priority interrupts detected. SE_LP[0..4] = {TBM, TBC, EQ, DQ, QMAP_AQM, CNT}. */
+#define BDK_TNS_INT_VEC_E_DP_RDMA (1)
+#define BDK_TNS_INT_VEC_E_DP_RDMA_NB (3)
+#define BDK_TNS_INT_VEC_E_DP_TDMA (0)
+#define BDK_TNS_INT_VEC_E_DP_TDMA_NB (2)
+#define BDK_TNS_INT_VEC_E_SDE_HPX(a) (0xa + (a))
+#define BDK_TNS_INT_VEC_E_SDE_LPX(a) (0x17 + (a))
+#define BDK_TNS_INT_VEC_E_SE_HPX(a) (4 + (a))
+#define BDK_TNS_INT_VEC_E_SE_LPX(a) (7 + (a))
+#define BDK_TNS_INT_VEC_E_TXQ_HPX(a) (0x24 + (a))
+#define BDK_TNS_INT_VEC_E_TXQ_LPX(a) (0x2a + (a))
 
 /**
  * Enumeration tns_phys_port_e
@@ -87,17 +85,17 @@
  * TNS Physical Port Enumeration
  * Enumerates the physical port identifier for received and transmitted packets.
  */
-#define BDK_TNS_PHYS_PORT_E_LMAC0 (0) /**< Packet received from or destined to LMAC0. */
-#define BDK_TNS_PHYS_PORT_E_LMAC1 (1) /**< Packet received from or destined to LMAC1. */
-#define BDK_TNS_PHYS_PORT_E_LMAC2 (2) /**< Packet received from or destined to LMAC2. */
-#define BDK_TNS_PHYS_PORT_E_LMAC3 (3) /**< Packet received from or destined to LMAC3. */
-#define BDK_TNS_PHYS_PORT_E_LMAC4 (4) /**< Packet received from or destined to LMAC4. */
-#define BDK_TNS_PHYS_PORT_E_LMAC5 (5) /**< Packet received from or destined to LMAC5. */
-#define BDK_TNS_PHYS_PORT_E_LMAC6 (6) /**< Packet received from or destined to LMAC6. */
-#define BDK_TNS_PHYS_PORT_E_LMAC7 (7) /**< Packet received from or destined to LMAC7. */
-#define BDK_TNS_PHYS_PORT_E_LOOPBACK (0xa) /**< Packet received from or destined to the loopback path. */
-#define BDK_TNS_PHYS_PORT_E_NICI0 (8) /**< Packet received from or destined to NICI0. */
-#define BDK_TNS_PHYS_PORT_E_NICI1 (9) /**< Packet received from or destined to NICI1. */
+#define BDK_TNS_PHYS_PORT_E_LMAC0 (0)
+#define BDK_TNS_PHYS_PORT_E_LMAC1 (1)
+#define BDK_TNS_PHYS_PORT_E_LMAC2 (2)
+#define BDK_TNS_PHYS_PORT_E_LMAC3 (3)
+#define BDK_TNS_PHYS_PORT_E_LMAC4 (4)
+#define BDK_TNS_PHYS_PORT_E_LMAC5 (5)
+#define BDK_TNS_PHYS_PORT_E_LMAC6 (6)
+#define BDK_TNS_PHYS_PORT_E_LMAC7 (7)
+#define BDK_TNS_PHYS_PORT_E_LOOPBACK (0xa)
+#define BDK_TNS_PHYS_PORT_E_NICI0 (8)
+#define BDK_TNS_PHYS_PORT_E_NICI1 (9)
 
 /**
  * Enumeration tns_rdma_hdr_sz_e
@@ -105,13 +103,10 @@
  * TNS RDMA Header Size Enumeration
  * Enumerates the header size selection for received packets.
  */
-#define BDK_TNS_RDMA_HDR_SZ_E_BYTES_128 (1) /**< Strip the first 128 bytes of the packet as the header. */
-#define BDK_TNS_RDMA_HDR_SZ_E_BYTES_192 (2) /**< Strip the first 192 bytes of the packet as the header. */
-#define BDK_TNS_RDMA_HDR_SZ_E_BYTES_256 (3) /**< Strip the first 256 bytes of the packet as the header.
-                                       This option may result in unpredictable behavior as some components
-                                       may not support a 256-byte packet header. */
-#define BDK_TNS_RDMA_HDR_SZ_E_BYTES_64 (0) /**< Strip the first 64 bytes of the packet as the header.
-                                       This option may result in decreased performance of the device. */
+#define BDK_TNS_RDMA_HDR_SZ_E_BYTES_128 (1)
+#define BDK_TNS_RDMA_HDR_SZ_E_BYTES_192 (2)
+#define BDK_TNS_RDMA_HDR_SZ_E_BYTES_256 (3)
+#define BDK_TNS_RDMA_HDR_SZ_E_BYTES_64 (0)
 
 /**
  * Register (NCB) tns_bist_status

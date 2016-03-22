@@ -58,7 +58,7 @@
  * MIO FUS Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_MIO_FUS_BAR_E_MIO_FUS_PF_BAR0 (0x87e003000000ll) /**< Base address for standard registers. */
+#define BDK_MIO_FUS_BAR_E_MIO_FUS_PF_BAR0 (0x87e003000000ll)
 
 /**
  * Enumeration mio_fus_fuse_num_e
@@ -67,247 +67,91 @@
  *
  * Enumerates the fuse numbers.
  */
-#define BDK_MIO_FUS_FUSE_NUM_E_BAR2_SZ_CONF (0x54) /**< Internal:
-                                       MIO_FUS_DAT3[BAR2_SZ_CONF]: When zero, BAR2 size conforms to PCIE spec. */
-#define BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(a) (0x6c + (a)) /**< Internal:
-                                       MIO_FUS_DAT2[BGX_DIS]: BGX(1..0) cripple. */
-#define BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(a) (0x40 + (a)) /**< Internal:
-                                       MIO_FUS_DAT2[CHIP_ID]: Chip and pass identifier. */
-#define BDK_MIO_FUS_FUSE_NUM_E_CMB_RCLK_BYP_SELECT (0x266) /**< Internal:
-                                       MIO_FUS_DAT4[CMB_RCLK_BYP_SELECT]: CMB rclk DLL bypass select. */
-#define BDK_MIO_FUS_FUSE_NUM_E_CMB_RCLK_BYP_SETTINGX(a) (0x25a + (a)) /**< Internal:
-                                       MIO_FUS_DAT4[CMB_RCLK_BYP_SETTING]: CMB rclk DLL bypass setting. */
-#define BDK_MIO_FUS_FUSE_NUM_E_CORE_PLL_MULX(a) (0x7b + (a)) /**< Internal:
-                                       MIO_FUS_DAT3[CORE_PLL_MUL]: Core PLL multiplier. */
-#define BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(a) (0x680 + (a)) /**< Internal:
-                                       Crypto engine disables. */
-#define BDK_MIO_FUS_FUSE_NUM_E_DESX(a) (0x3c0 + (a)) /**< Internal:
-                                       Dormant encryption secret. Cannot be read if fuse 103 is set. */
-#define BDK_MIO_FUS_FUSE_NUM_E_DFA_INFO_CLMX(a) (0x5e + (a)) /**< Internal:
-                                       MIO_FUS_DAT3[DFA_INFO_CLM]: DFA per-cluster cripple. */
-#define BDK_MIO_FUS_FUSE_NUM_E_DFA_INFO_DTEX(a) (0x5b + (a)) /**< Internal:
-                                       MIO_FUS_DAT3[DFA_INFO_DTE]: DFA DTE cripple. */
-#define BDK_MIO_FUS_FUSE_NUM_E_DORM_CRYPTO (0x67) /**< Internal:
-                                       MIO_FUS_DAT2[DORM_CRYPTO]. See NOCRYPTO. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SELECT_CN9 (0x273) /**< Internal:
-                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SELECT]: Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SELECT_CN81XX (0x273) /**< Internal:
-                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SELECT]: Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SELECT_CN88XX (0x273) /**< Internal:
-                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SELECT]: East rclk DLL bypass select. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SELECT_CN83XX (0x273) /**< Internal:
-                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SELECT]: Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SETTINGX_CN9(a) (0x267 + (a)) /**< Internal:
-                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SETTING]: Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SETTINGX_CN81XX(a) (0x267 + (a)) /**< Internal:
-                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SETTING]: Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SETTINGX_CN88XX(a) (0x267 + (a)) /**< Internal:
-                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SETTING]: East rclk DLL bypass setting. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SETTINGX_CN83XX(a) (0x267 + (a)) /**< Internal:
-                                       MIO_FUS_DAT4[EAST_RCLK_BYP_SETTING]: Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EFUS_IGN (0x53) /**< Internal:
-                                       MIO_FUS_DAT3[EFUS_IGN]: Ignore efuses, when blown, all fuses are effectively forced to
-                                       zeros. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_DES (0x6a) /**< Internal:
-                                       Efuse lockdown for DES fuses 576..1023. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_MAN (0x69) /**< Internal:
-                                       MIO_FUS_DAT3[EFUS_LCK_MAN]: Efuse lockdown for manufacturing fuses 256..575. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_PRD (0x68) /**< Internal:
-                                       Efuse lockdown for product fuses 0..255, 1024..1791. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EMA0X(a) (0x80 + (a)) /**< Internal:
-                                       MIO_FUS_DAT3[EMA0]: RAM extra margin adjustment 0. */
-#define BDK_MIO_FUS_FUSE_NUM_E_EMA1X(a) (0x8e + (a)) /**< Internal:
-                                       MIO_FUS_DAT3[EMA1]: RAM extra margin adjustment 1. */
-#define BDK_MIO_FUS_FUSE_NUM_E_GBL_PWR_THROTTLEX(a) (0xaf + (a)) /**< Internal:
-                                       MIO_FUS_DAT2[GBL_PWR_THROTTLE]: Global power throttle control. */
-#define BDK_MIO_FUS_FUSE_NUM_E_GLOBAL_RCLK_BYP_SELECT (0xa0) /**< Internal:
-                                       MIO_FUS_DAT4[GLOBAL_RCLK_BYP_SELECT]: Global rclk DLL bypass select. */
-#define BDK_MIO_FUS_FUSE_NUM_E_GLOBAL_RCLK_BYP_SETTINGX(a) (0x94 + (a)) /**< Internal:
-                                       MIO_FUS_DAT4[GLOBAL_RCLK_BYP_SETTING]: Global rclk DLL bypass setting. */
-#define BDK_MIO_FUS_FUSE_NUM_E_GLOBAL_SCLK_BYP_SELECT (0xe2) /**< Internal:
-                                       Global sclk DLL bypass select. */
-#define BDK_MIO_FUS_FUSE_NUM_E_GLOBAL_SCLK_BYP_SETTINGX(a) (0xd6 + (a)) /**< Internal:
-                                       Global sclk DLL bypass setting. */
-#define BDK_MIO_FUS_FUSE_NUM_E_GSERX(a) (0x400 + (a)) /**< Internal:
-                                       All GSER fuses. */
-#define BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(a) (0x57 + (a)) /**< Internal:
-                                       MIO_FUS_DAT3[L2C_CRIP]: L2C cripple.  See MIO_FUS_DAT3[L2C_CRIP]. */
-#define BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN9 (0x76) /**< Internal:
-                                       Disable upper LMC (LMC1). */
-#define BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN81XX (0x76) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN88XX (0x76) /**< Internal:
-                                       Disable LMC2 and LMC3. */
-#define BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN83XX (0x76) /**< Internal:
-                                       Disable upper LMC (LMC1). */
-#define BDK_MIO_FUS_FUSE_NUM_E_LMC_HALF (0x4b) /**< Internal:
-                                       MIO_FUS_DAT2[LMC_HALF]: Force 32-bit DRAM mode. */
-#define BDK_MIO_FUS_FUSE_NUM_E_MFG0X(a) (0x280 + (a)) /**< Internal:
-                                       Additional manufacturing info (bank 0). */
-#define BDK_MIO_FUS_FUSE_NUM_E_MFG1X(a) (0x2c0 + (a)) /**< Internal:
-                                       Additional manufacturing info (bank 1). */
-#define BDK_MIO_FUS_FUSE_NUM_E_MFG2X(a) (0x600 + (a)) /**< Internal:
-                                       Additional manufacturing info (bank 2). */
-#define BDK_MIO_FUS_FUSE_NUM_E_NOCRYPTO (0x50) /**< Internal:
-                                       MIO_FUS_DAT2[NOCRYPTO]: Fuses 103 and 80 together select;
-                                       _ 103=0,80=0: AES/DES/HASH enabled.
-                                       _ 103=0,80=1: AES/DES/HASH disabled.
-                                       _ 103=1,80=0: Dormant encryption enabled.
-                                       _ 103=1,80=1: Reserved.
-                                       
-                                       Serial bit 11. fuse[80] and !fuse[103] */
-#define BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN9 (0x5a) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN81XX (0x5a) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN88XX (0x5a) /**< Internal:
-                                       MIO_FUS_DAT2[NODFA_CP2]: DFA disable. */
-#define BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN83XX (0x5a) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_NOMUL (0x51) /**< Internal:
-                                       MIO_FUS_DAT2[NOMUL]: Reserved.
-                                       
-                                       Serial bit 10. */
-#define BDK_MIO_FUS_FUSE_NUM_E_NOZIP (0x52) /**< Internal:
-                                       MIO_FUS_DAT3[NOZIP]: ZIP_CTL disable. */
-#define BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN9 (0x6b) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN81XX (0x6b) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN88XX (0x6b) /**< Internal:
-                                       MIO_FUS_DAT2[OCX_DIS]: OCX cripple. */
-#define BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN83XX (0x6b) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PDFX(a) (0x340 + (a)) /**< Internal:
-                                       MIO_FUS_PDF: Product definition field. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(a) (0x72 + (a)) /**< Internal:
-                                       MIO_FUS_DAT2[PEM_DIS]: PEM cripple. See MIO_FUS_DAT2[PEM_DIS]. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PLL_ALT_MATRIX (0x4a) /**< Internal:
-                                       MIO_FUS_DAT3[PLL_ALT_MATRIX]: Select alternate PLL matrix. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PLL_BWADJ_DENOMX(a) (0x48 + (a)) /**< Internal:
-                                       MIO_FUS_DAT3[PLL_BWADJ_DENOM]: Select CLKF denominator for BWADJ value. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PLL_HALF_DIS (0x75) /**< Internal:
-                                       MIO_FUS_DAT3[PLL_HALF_DIS]: PLL disable BIST half-speed. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PNAMEX(a) (0x580 + (a)) /**< Internal:
-                                       MIO_FUS_PNAME(0..1): Product name information. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PNR_PLL_MULX(a) (0x77 + (a)) /**< Internal:
-                                       MIO_FUS_DAT3[PNR_PLL_MUL]: PNR PLL multipler. */
-#define BDK_MIO_FUS_FUSE_NUM_E_POWER_LIMITX(a) (0x64 + (a)) /**< Internal:
-                                       MIO_FUS_DAT2[POWER_LIMIT]: Power limit. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PP_AVAILABLEX(a) (0 + (a)) /**< Internal:
-                                       RST_PP_AVAILABLE: If set, corresponding AP is disabled. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PP_RCLK_BYP_SELECT (0x259) /**< Internal:
-                                       MIO_FUS_DAT4[PP_RCLK_BYP_SELECT]: AP rclk DLL bypass select. */
-#define BDK_MIO_FUS_FUSE_NUM_E_PP_RCLK_BYP_SETTINGX(a) (0x24d + (a)) /**< Internal:
-                                       MIO_FUS_DAT4[PP_RCLK_BYP_SETTING]: AP rclk DLL bypass setting. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RAID_DIS_CN9 (0x66) /**< Internal:
-                                       Note MIO_FUS_DAT2[RAID_EN] is an inversion of this fuse. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RAID_DIS_CN81XX (0x66) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RAID_DIS_CN88XX (0x66) /**< Internal:
-                                       Note MIO_FUS_DAT2[RAID_EN] is an inversion of this fuse. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RAID_DIS_CN83XX (0x66) /**< Internal:
-                                       Note MIO_FUS_DAT2[RAID_EN] is an inversion of this fuse. */
-#define BDK_MIO_FUS_FUSE_NUM_E_REDUNDANTX(a) (0x780 + (a)) /**< Internal:
-                                       Redundant fuses for fuses 0..127.
-                                       Blowing fuse <a> is equivalent to blowing fuse <a>-1920. */
-#define BDK_MIO_FUS_FUSE_NUM_E_REFCLK_CHECK (0xc2) /**< Internal:
-                                       Refclk frequency checker enable.  Set when TrustZone is validated. */
-#define BDK_MIO_FUS_FUSE_NUM_E_REPAIRX_CN9(a) (0x800 + (a)) /**< Internal:
-                                       Unified (ROC/L2C/AP) repair data. Total of 48 by 21-bit repair solutions. */
-#define BDK_MIO_FUS_FUSE_NUM_E_REPAIRX_CN81XX(a) (0x800 + (a)) /**< Internal:
-                                       Unified (ROC/L2C/AP) repair data. Total of 48 by 21-bit repair solutions. */
-#define BDK_MIO_FUS_FUSE_NUM_E_REPAIRX_CN88XX(a) (0x800 + (a)) /**< Internal:
-                                       Unified (ROC/L2C/AP) repair data. Total of 195 by 21-bit repair solutions. */
-#define BDK_MIO_FUS_FUSE_NUM_E_REPAIRX_CN83XX(a) (0x800 + (a)) /**< Internal:
-                                       Unified (ROC/L2C/AP) repair data. Total of 48 by 21-bit repair solutions. */
-#define BDK_MIO_FUS_FUSE_NUM_E_ROC_RCLK_BYP_SELECT (0xae) /**< Internal:
-                                       ROC rclk DLL bypass select. */
-#define BDK_MIO_FUS_FUSE_NUM_E_ROC_RCLK_BYP_SETTINGX(a) (0xa2 + (a)) /**< Internal:
-                                       ROC rclk DLL bypass setting. */
-#define BDK_MIO_FUS_FUSE_NUM_E_ROC_SCLK_BYP_SELECT (0xd5) /**< Internal:
-                                       ROC slk DLL bypass select. */
-#define BDK_MIO_FUS_FUSE_NUM_E_ROC_SCLK_BYP_SETTINGX(a) (0xc9 + (a)) /**< Internal:
-                                       ROC sclk DLL bypass setting. */
-#define BDK_MIO_FUS_FUSE_NUM_E_ROM_INFOX(a) (0x276 + (a)) /**< Internal:
-                                       MIO_FUS_DAT2[ROM_INFO]: On-chip ROM information. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVDX(a) (0xc6 + (a)) /**< Internal:
-                                       Reserved. OCTEON BPHY configuration. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(a) (0x86 + (a)) /**< Internal:
-                                       Reserved. OCTEON HNA cripples. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD1600X(a) (0x640 + (a)) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD1737X(a) (0x6c9 + (a)) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD183X(a) (0xb7 + (a)) /**< Internal:
-                                       Reserved. OCTEON EMA2 - extra margin adjustment 2. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD189X(a) (0xbd + (a)) /**< Internal:
-                                       Reserved. OCTEON EMA3 - extra margin adjustment 3. Note is only 5 bits wide. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD228X(a) (0xe4 + (a)) /**< Internal:
-                                       Reserved. Cached in bank 1. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD3056X(a) (0xbf0 + (a)) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD570X(a) (0x23a + (a)) /**< Internal:
-                                       Reserved. Non-cached. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD628X(a) (0x274 + (a)) /**< Internal:
-                                       Reserved. Cached. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD76X(a) (0x4c + (a)) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD91X(a) (0x5b + (a)) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD94X(a) (0x5e + (a)) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD98 (0x62) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RSVD99 (0x63) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_RUN_PLATFORMX(a) (0xc3 + (a)) /**< Internal:
-                                       MIO_FUS_DAT2[RUN_PLATFORM]: Run platform:
-                                         0x0 = Real hardware.
-                                         0x1 = Emulator.
-                                         0x2 = RTL simulator.
-                                         0x3 = ASIM.
-                                         0x4-0x7 = Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(a) (0x6e + (a)) /**< Internal:
-                                       MIO_FUS_DAT2[SATA_DIS]: SATA cripple. See MIO_FUS_DAT2[SATA_DIS]. */
-#define BDK_MIO_FUS_FUSE_NUM_E_SERIALX(a) (0x380 + (a)) /**< Internal:
-                                       RNM_SERIAL_NUM/chip identifier (wafer/lot id, die x/y). */
-#define BDK_MIO_FUS_FUSE_NUM_E_TAD_RCLK_BYP_SELECT (0x24c) /**< Internal:
-                                       MIO_FUS_DAT4[TAD_RCLK_BYP_SELECT]: TAD rclk DLL bypass select. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TAD_RCLK_BYP_SETTINGX(a) (0x240 + (a)) /**< Internal:
-                                       MIO_FUS_DAT4[TAD_RCLK_BYP_SETTING]: TAD rclk DLL bypass setting. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TGGX(a) (0x300 + (a)) /**< Internal:
-                                       MIO_FUS_TGG: TGG. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TIM_DIS_CN9 (0xe3) /**< Internal:
-                                       TIM cripple. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TIM_DIS_CN81XX (0xe3) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TIM_DIS_CN88XX (0xe3) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TIM_DIS_CN83XX (0xe3) /**< Internal:
-                                       TIM cripple. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN9 (0xa1) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN81XX (0xa1) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN88XX (0xa1) /**< Internal:
-                                       MIO_FUS_DAT3[TNS_CRIPPLE]: TNS cripple. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN83XX (0xa1) /**< Internal:
-                                       Reserved. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TSENSE0X(a) (0x100 + (a)) /**< Internal:
-                                       Temperature sensor 0 tuning. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TSENSE1X(a) (0x680 + (a)) /**< Internal:
-                                       Temperature sensor 1 tuning. */
-#define BDK_MIO_FUS_FUSE_NUM_E_TZ_MODE (0x4f) /**< Internal:
-                                       MIO_FUS_DAT2[TRUSTZONE_EN]: Trusted-mode.
-                                       
-                                       mio__rst_trust_strap or Fuse[79] or FuseF[8] */
-#define BDK_MIO_FUS_FUSE_NUM_E_USE_INT_REFCLK (0x4e) /**< Internal:
-                                       MIO_FUS_DAT3[USE_INT_REFCLK]: Use internal refclk. */
-#define BDK_MIO_FUS_FUSE_NUM_E_VRMX(a) (0x200 + (a)) /**< Internal:
-                                       VRM configuration. */
-#define BDK_MIO_FUS_FUSE_NUM_E_ZIP_INFOX(a) (0x55 + (a)) /**< Internal:
-                                       MIO_FUS_DAT3[ZIP_INFO]: ZIP cripple. */
+#define BDK_MIO_FUS_FUSE_NUM_E_BAR2_SZ_CONF (0x54)
+#define BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(a) (0x6c + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(a) (0x40 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_CMB_RCLK_BYP_SELECT (0x266)
+#define BDK_MIO_FUS_FUSE_NUM_E_CMB_RCLK_BYP_SETTINGX(a) (0x25a + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_CORE_PLL_MULX(a) (0x7b + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(a) (0x680 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_DESX(a) (0x3c0 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_DFA_INFO_CLMX(a) (0x5e + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_DFA_INFO_DTEX(a) (0x5b + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_DORM_CRYPTO (0x67)
+#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SELECT (0x273)
+#define BDK_MIO_FUS_FUSE_NUM_E_EAST_RCLK_BYP_SETTINGX(a) (0x267 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_EFUS_IGN (0x53)
+#define BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_DES (0x6a)
+#define BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_MAN (0x69)
+#define BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_PRD (0x68)
+#define BDK_MIO_FUS_FUSE_NUM_E_EMA0X(a) (0x80 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_EMA1X(a) (0x8e + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_GBL_PWR_THROTTLEX(a) (0xaf + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_GLOBAL_RCLK_BYP_SELECT (0xa0)
+#define BDK_MIO_FUS_FUSE_NUM_E_GLOBAL_RCLK_BYP_SETTINGX(a) (0x94 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_GLOBAL_SCLK_BYP_SELECT (0xe2)
+#define BDK_MIO_FUS_FUSE_NUM_E_GLOBAL_SCLK_BYP_SETTINGX(a) (0xd6 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_GSERX(a) (0x400 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(a) (0x57 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS (0x76)
+#define BDK_MIO_FUS_FUSE_NUM_E_LMC_HALF (0x4b)
+#define BDK_MIO_FUS_FUSE_NUM_E_MFG0X(a) (0x280 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_MFG1X(a) (0x2c0 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_MFG2X(a) (0x600 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_NOCRYPTO (0x50)
+#define BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2 (0x5a)
+#define BDK_MIO_FUS_FUSE_NUM_E_NOMUL (0x51)
+#define BDK_MIO_FUS_FUSE_NUM_E_NOZIP (0x52)
+#define BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS (0x6b)
+#define BDK_MIO_FUS_FUSE_NUM_E_PDFX(a) (0x340 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(a) (0x72 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_PLL_ALT_MATRIX (0x4a)
+#define BDK_MIO_FUS_FUSE_NUM_E_PLL_BWADJ_DENOMX(a) (0x48 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_PLL_HALF_DIS (0x75)
+#define BDK_MIO_FUS_FUSE_NUM_E_PNAMEX(a) (0x580 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_PNR_PLL_MULX(a) (0x77 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_POWER_LIMITX(a) (0x64 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_PP_AVAILABLEX(a) (0 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_PP_RCLK_BYP_SELECT (0x259)
+#define BDK_MIO_FUS_FUSE_NUM_E_PP_RCLK_BYP_SETTINGX(a) (0x24d + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RAID_DIS (0x66)
+#define BDK_MIO_FUS_FUSE_NUM_E_REDUNDANTX(a) (0x780 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_REFCLK_CHECK (0xc2)
+#define BDK_MIO_FUS_FUSE_NUM_E_REPAIRX(a) (0x800 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_ROC_RCLK_BYP_SELECT (0xae)
+#define BDK_MIO_FUS_FUSE_NUM_E_ROC_RCLK_BYP_SETTINGX(a) (0xa2 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_ROC_SCLK_BYP_SELECT (0xd5)
+#define BDK_MIO_FUS_FUSE_NUM_E_ROC_SCLK_BYP_SETTINGX(a) (0xc9 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_ROM_INFOX(a) (0x276 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVDX(a) (0xc6 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(a) (0x86 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD1600X(a) (0x640 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD1737X(a) (0x6c9 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD183X(a) (0xb7 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD189X(a) (0xbd + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD228X(a) (0xe4 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD3056X(a) (0xbf0 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD570X(a) (0x23a + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD628X(a) (0x274 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD76X(a) (0x4c + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD91X(a) (0x5b + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD94X(a) (0x5e + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD98 (0x62)
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD99 (0x63)
+#define BDK_MIO_FUS_FUSE_NUM_E_RUN_PLATFORMX(a) (0xc3 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(a) (0x6e + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_SERIALX(a) (0x380 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_TAD_RCLK_BYP_SELECT (0x24c)
+#define BDK_MIO_FUS_FUSE_NUM_E_TAD_RCLK_BYP_SETTINGX(a) (0x240 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_TGGX(a) (0x300 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_TIM_DIS (0xe3)
+#define BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE (0xa1)
+#define BDK_MIO_FUS_FUSE_NUM_E_TSENSE0X(a) (0x100 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_TSENSE1X(a) (0x680 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_TZ_MODE (0x4f)
+#define BDK_MIO_FUS_FUSE_NUM_E_USE_INT_REFCLK (0x4e)
+#define BDK_MIO_FUS_FUSE_NUM_E_VRMX(a) (0x200 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_ZIP_INFOX(a) (0x55 + (a))
 
 /**
  * Register (RSL) mio_fus_bnk_dat#
@@ -589,7 +433,24 @@ typedef union
                                                                  _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
-        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
+                                                                 <23:22> = Alternate package.
+                                                                 <21:19> = Major revision.
+                                                                 <18:16> = Minor revision.
+
+                                                                 For example:
+                                                                 <pre>
+                                                                  <21:19>  <18:16>  Description
+                                                                  -------  -------  -----------
+                                                                      0x0      0x0  Pass 1.0.
+                                                                      0x0      0x1  Pass 1.1.
+                                                                      0x0      0x2  Pass 1.2.
+                                                                      0x1      0x0  Pass 2.0.
+                                                                      0x1      0x1  Pass 2.1.
+                                                                      0x1      0x2  Pass 2.2.
+                                                                      ...      ...  ...
+                                                                      0x7      0x7  Pass 8.8.
+                                                                 </pre> */
         uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
         uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
                                                                    <13> = BGX0 disable.
@@ -621,7 +482,24 @@ typedef union
                                                                    <13> = BGX0 disable.
                                                                    <14> = BGX1 disable. */
         uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
-        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
+                                                                 <23:22> = Alternate package.
+                                                                 <21:19> = Major revision.
+                                                                 <18:16> = Minor revision.
+
+                                                                 For example:
+                                                                 <pre>
+                                                                  <21:19>  <18:16>  Description
+                                                                  -------  -------  -----------
+                                                                      0x0      0x0  Pass 1.0.
+                                                                      0x0      0x1  Pass 1.1.
+                                                                      0x0      0x2  Pass 1.2.
+                                                                      0x1      0x0  Pass 2.0.
+                                                                      0x1      0x1  Pass 2.1.
+                                                                      0x1      0x2  Pass 2.2.
+                                                                      ...      ...  ...
+                                                                      0x7      0x7  Pass 8.8.
+                                                                 </pre> */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
@@ -708,7 +586,24 @@ typedef union
                                                                  _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
-        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
+                                                                 <23:22> = Alternate package.
+                                                                 <21:19> = Major revision.
+                                                                 <18:16> = Minor revision.
+
+                                                                 For example:
+                                                                 <pre>
+                                                                  <21:19>  <18:16>  Description
+                                                                  -------  -------  -----------
+                                                                      0x0      0x0  Pass 1.0.
+                                                                      0x0      0x1  Pass 1.1.
+                                                                      0x0      0x2  Pass 1.2.
+                                                                      0x1      0x0  Pass 2.0.
+                                                                      0x1      0x1  Pass 2.1.
+                                                                      0x1      0x2  Pass 2.2.
+                                                                      ...      ...  ...
+                                                                      0x7      0x7  Pass 8.8.
+                                                                 </pre> */
         uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
         uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
                                                                    <13> = BGX0 disable.
@@ -740,7 +635,24 @@ typedef union
                                                                    <13> = BGX0 disable.
                                                                    <14> = BGX1 disable. */
         uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
-        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
+                                                                 <23:22> = Alternate package.
+                                                                 <21:19> = Major revision.
+                                                                 <18:16> = Minor revision.
+
+                                                                 For example:
+                                                                 <pre>
+                                                                  <21:19>  <18:16>  Description
+                                                                  -------  -------  -----------
+                                                                      0x0      0x0  Pass 1.0.
+                                                                      0x0      0x1  Pass 1.1.
+                                                                      0x0      0x2  Pass 1.2.
+                                                                      0x1      0x0  Pass 2.0.
+                                                                      0x1      0x1  Pass 2.1.
+                                                                      0x1      0x2  Pass 2.2.
+                                                                      ...      ...  ...
+                                                                      0x7      0x7  Pass 8.8.
+                                                                 </pre> */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
@@ -786,7 +698,164 @@ typedef union
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_mio_fus_dat2_s cn83xx; */
+    struct bdk_mio_fus_dat2_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_59_63        : 5;
+        uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
+                                                                 Provides software a means of determining the platform at run time.
+                                                                 0x0 = Hardware.
+                                                                 0x1 = Emulator.
+                                                                 0x2 = RTL simulator.
+                                                                 0x3 = ASIM.
+                                                                 0x4-0x7 = reserved. */
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+                                                                 N/128 power reduction. Small values have less throttling and higher
+                                                                 performance. 0x0 disables throttling. */
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+                                                                 Internal:
+                                                                 fuse[99]. */
+        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
+        uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
+        uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
+                                                                 Internal:
+                                                                 Tied to 0. */
+        uint64_t raid_en               : 1;  /**< [ 32: 32](RO) Fuse information - RAID enabled. */
+        uint64_t reserved_31           : 1;
+        uint64_t lmc_mode32            : 1;  /**< [ 30: 30](RO) DRAM controller is limited to 32/36 bit wide parts.
+                                                                 Internal:
+                                                                 30 = fuse[75]. */
+        uint64_t reserved_29           : 1;
+        uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
+        uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
+
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
+
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 indicating this behavior.
+
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
+
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
+        uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
+        uint64_t reserved_24           : 1;
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
+                                                                 <23:22> = Alternate package.
+                                                                 <21:19> = Major revision.
+                                                                 <18:16> = Minor revision.
+
+                                                                 For example:
+                                                                 <pre>
+                                                                  <21:19>  <18:16>  Description
+                                                                  -------  -------  -----------
+                                                                      0x0      0x0  Pass 1.0.
+                                                                      0x0      0x1  Pass 1.1.
+                                                                      0x0      0x2  Pass 1.2.
+                                                                      0x1      0x0  Pass 2.0.
+                                                                      0x1      0x1  Pass 2.1.
+                                                                      0x1      0x2  Pass 2.2.
+                                                                      ...      ...  ...
+                                                                      0x7      0x7  Pass 8.8.
+                                                                 </pre> */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
+        uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
+                                                                   <13> = BGX0 disable.
+                                                                   <14> = BGX1 disable. */
+        uint64_t sata_dis              : 4;  /**< [ 12:  9](RO) Fuse information - SATA disable:
+                                                                   <9> = SATA0-1 disable.
+                                                                   <10> = SATA2-3 disable.
+                                                                   <11> = SATA4-5 disable.
+                                                                   <12> = Reserved. */
+        uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM disable:
+                                                                   <6> = PEM0 disable.
+                                                                   <7> = PEM1 disable
+                                                                   <8> = PEM2-3 disable. */
+        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
+        uint64_t reserved_0_4          : 5;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_4          : 5;
+        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
+        uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM disable:
+                                                                   <6> = PEM0 disable.
+                                                                   <7> = PEM1 disable
+                                                                   <8> = PEM2-3 disable. */
+        uint64_t sata_dis              : 4;  /**< [ 12:  9](RO) Fuse information - SATA disable:
+                                                                   <9> = SATA0-1 disable.
+                                                                   <10> = SATA2-3 disable.
+                                                                   <11> = SATA4-5 disable.
+                                                                   <12> = Reserved. */
+        uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
+                                                                   <13> = BGX0 disable.
+                                                                   <14> = BGX1 disable. */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
+                                                                 <23:22> = Alternate package.
+                                                                 <21:19> = Major revision.
+                                                                 <18:16> = Minor revision.
+
+                                                                 For example:
+                                                                 <pre>
+                                                                  <21:19>  <18:16>  Description
+                                                                  -------  -------  -----------
+                                                                      0x0      0x0  Pass 1.0.
+                                                                      0x0      0x1  Pass 1.1.
+                                                                      0x0      0x2  Pass 1.2.
+                                                                      0x1      0x0  Pass 2.0.
+                                                                      0x1      0x1  Pass 2.1.
+                                                                      0x1      0x2  Pass 2.2.
+                                                                      ...      ...  ...
+                                                                      0x7      0x7  Pass 8.8.
+                                                                 </pre> */
+        uint64_t reserved_24           : 1;
+        uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
+
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
+
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 indicating this behavior.
+
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
+
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
+        uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
+        uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
+        uint64_t reserved_29           : 1;
+        uint64_t lmc_mode32            : 1;  /**< [ 30: 30](RO) DRAM controller is limited to 32/36 bit wide parts.
+                                                                 Internal:
+                                                                 30 = fuse[75]. */
+        uint64_t reserved_31           : 1;
+        uint64_t raid_en               : 1;  /**< [ 32: 32](RO) Fuse information - RAID enabled. */
+        uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
+                                                                 Internal:
+                                                                 Tied to 0. */
+        uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
+        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+                                                                 Internal:
+                                                                 fuse[99]. */
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+                                                                 N/128 power reduction. Small values have less throttling and higher
+                                                                 performance. 0x0 disables throttling. */
+        uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
+                                                                 Provides software a means of determining the platform at run time.
+                                                                 0x0 = Hardware.
+                                                                 0x1 = Emulator.
+                                                                 0x2 = RTL simulator.
+                                                                 0x3 = ASIM.
+                                                                 0x4-0x7 = reserved. */
+        uint64_t reserved_59_63        : 5;
+#endif /* Word 0 - End */
+    } cn83xx;
     struct bdk_mio_fus_dat2_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -829,7 +898,24 @@ typedef union
                                                                  _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
-        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
+                                                                 <23:22> = Alternate package.
+                                                                 <21:19> = Major revision.
+                                                                 <18:16> = Minor revision.
+
+                                                                 For example:
+                                                                 <pre>
+                                                                  <21:19>  <18:16>  Description
+                                                                  -------  -------  -----------
+                                                                      0x0      0x0  Pass 1.0.
+                                                                      0x0      0x1  Pass 1.1.
+                                                                      0x0      0x2  Pass 1.2.
+                                                                      0x1      0x0  Pass 2.0.
+                                                                      0x1      0x1  Pass 2.1.
+                                                                      0x1      0x2  Pass 2.2.
+                                                                      ...      ...  ...
+                                                                      0x7      0x7  Pass 8.8.
+                                                                 </pre> */
         uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
         uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
                                                                    <13> = BGX0 disable.
@@ -861,7 +947,24 @@ typedef union
                                                                    <13> = BGX0 disable.
                                                                    <14> = BGX1 disable. */
         uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
-        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
+                                                                 <23:22> = Alternate package.
+                                                                 <21:19> = Major revision.
+                                                                 <18:16> = Minor revision.
+
+                                                                 For example:
+                                                                 <pre>
+                                                                  <21:19>  <18:16>  Description
+                                                                  -------  -------  -----------
+                                                                      0x0      0x0  Pass 1.0.
+                                                                      0x0      0x1  Pass 1.1.
+                                                                      0x0      0x2  Pass 1.2.
+                                                                      0x1      0x0  Pass 2.0.
+                                                                      0x1      0x1  Pass 2.1.
+                                                                      0x1      0x2  Pass 2.2.
+                                                                      ...      ...  ...
+                                                                      0x7      0x7  Pass 8.8.
+                                                                 </pre> */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:

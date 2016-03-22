@@ -58,8 +58,8 @@
  * LBK Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_LBK_BAR_E_LBKX_PF_BAR0(a) (0x87e018000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_LBK_BAR_E_LBKX_PF_BAR4(a) (0x87e018f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_LBK_BAR_E_LBKX_PF_BAR0(a) (0x87e018000000ll + 0x1000000ll * (a))
+#define BDK_LBK_BAR_E_LBKX_PF_BAR4(a) (0x87e018f00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration lbk_connect_e
@@ -67,9 +67,9 @@
  * LBK Source Connection Enumeration
  * Enumerates LBK()_CONST[SRC] and LBK()_CONST[DEST].
  */
-#define BDK_LBK_CONNECT_E_NICX(a) (0 + (a)) /**< This LBK receives traffic from NIC, or transmitts to NIC. */
-#define BDK_LBK_CONNECT_E_PKIX(a) (4 + (a)) /**< This LBK transmits traffic to PKI. */
-#define BDK_LBK_CONNECT_E_PKOX(a) (8 + (a)) /**< This LBK receives traffic from PKO. */
+#define BDK_LBK_CONNECT_E_NICX(a) (0 + (a))
+#define BDK_LBK_CONNECT_E_PKIX(a) (4 + (a))
+#define BDK_LBK_CONNECT_E_PKOX(a) (8 + (a))
 
 /**
  * Enumeration lbk_int_vec_e
@@ -77,8 +77,7 @@
  * LBK MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_LBK_INT_VEC_E_ERR (0) /**< See interrupt clears LBK()_ERR_INT, interrupt sets LBK()_ERR_INT_W1S, enable clears
-                                       LBK()_ERR_INT_ENA_W1C, and enable sets LBK()_ERR_INT_ENA_W1S. */
+#define BDK_LBK_INT_VEC_E_ERR (0)
 
 /**
  * Register (RSL) lbk#_bist_result

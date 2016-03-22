@@ -58,8 +58,8 @@
  * L2C_CBC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR0(a) (0x87e058000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR4(a) (0x87e058f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR0(a) (0x87e058000000ll + 0x1000000ll * (a))
+#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR4(a) (0x87e058f00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration l2c_cbc_int_vec_e
@@ -67,10 +67,7 @@
  * L2C_CBC MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_L2C_CBC_INT_VEC_E_INTS (0) /**< See interrupt clears L2C_CBC()_INT_W1C,
-                                       interrupt sets L2C_CBC()_INT_W1S,
-                                       enable clears L2C_CBC()_INT_ENA_W1C,
-                                       and enable sets L2C_CBC()_INT_ENA_W1S. */
+#define BDK_L2C_CBC_INT_VEC_E_INTS (0)
 
 /**
  * Register (RSL) l2c_cbc#_int_ena_w1c
@@ -167,7 +164,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_CBC(0..3)_INT_W1C[GSYNCTO].
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[GSYNCTO].
                                                                  Internal:
                                                                  The CBC global sync timeout only, so not an OCI timeout. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
@@ -185,7 +182,7 @@ typedef union
         uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[MIBDBE]. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[IORDDISOCI]. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_CBC(0..3)_INT_W1C[GSYNCTO].
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[GSYNCTO].
                                                                  Internal:
                                                                  The CBC global sync timeout only, so not an OCI timeout. */
         uint64_t reserved_9_63         : 55;
@@ -309,7 +306,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_CBC(0..3)_INT_W1C[GSYNCTO].
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[GSYNCTO].
                                                                  Internal:
                                                                  The CBC global sync timeout only, so not an OCI timeout. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
@@ -327,7 +324,7 @@ typedef union
         uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[MIBDBE]. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[IORDDISOCI]. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_CBC(0..3)_INT_W1C[GSYNCTO].
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[GSYNCTO].
                                                                  Internal:
                                                                  The CBC global sync timeout only, so not an OCI timeout. */
         uint64_t reserved_9_63         : 55;
@@ -559,7 +556,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Added in pass 2.0. Reads or sets L2C_CBC(0..3)_INT_W1C[GSYNCTO].
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[GSYNCTO].
                                                                  Internal:
                                                                  The CBC global sync timeout only, so not an OCI timeout. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
@@ -577,7 +574,7 @@ typedef union
         uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[MIBDBE]. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[IORDDISOCI]. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Added in pass 2.0. Reads or sets L2C_CBC(0..3)_INT_W1C[GSYNCTO].
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[GSYNCTO].
                                                                  Internal:
                                                                  The CBC global sync timeout only, so not an OCI timeout. */
         uint64_t reserved_9_63         : 55;

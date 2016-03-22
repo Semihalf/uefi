@@ -58,7 +58,7 @@
  * GSER Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_GSER_BAR_E_GSERX_PF_BAR0(a) (0x87e090000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_GSER_BAR_E_GSERX_PF_BAR0(a) (0x87e090000000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration gser_lmode_e
@@ -66,25 +66,18 @@
  * GSER Lane Mode Enumeration
  * Enumerates the SerDes lane modes. See GSER()_LANE_MODE[LMODE].
  */
-#define BDK_GSER_LMODE_E_R_103125G_REFCLK15625_KR (5) /**< 10.3125 Gbaud at 156.25 MHz reference clock. KR mode. */
-#define BDK_GSER_LMODE_E_R_125G_REFCLK15625_KX (3) /**< 1.25 Gbaud at 156.25 MHz reference clock. KX mode.
-                                       Not supported. */
-#define BDK_GSER_LMODE_E_R_125G_REFCLK15625_SGMII (6) /**< 1.25 Gbaud at 156.25 MHz reference clock. SGMII mode. */
-#define BDK_GSER_LMODE_E_R_25G_REFCLK100 (0) /**< 2.5 Gbaud at 100 MHz reference clock. */
-#define BDK_GSER_LMODE_E_R_25G_REFCLK125 (9) /**< 2.5 Gbaud at 125 MHz reference clock. */
-#define BDK_GSER_LMODE_E_R_3125G_REFCLK15625_XAUI (4) /**< 3.125 Gbaud at 156.25 MHz reference clock. XAUI mode. */
-#define BDK_GSER_LMODE_E_R_5G_REFCLK100 (1) /**< 5 Gbaud at 100 MHz reference clock. */
-#define BDK_GSER_LMODE_E_R_5G_REFCLK125 (0xa) /**< 5 Gbaud at 125 MHz reference clock. */
-#define BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN9 (7) /**< 5 Gbaud at 156.25 MHz reference clock. QSGMII mode.
-                                       Not supported. */
-#define BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN81XX (7) /**< 5 Gbaud at 156.25 MHz reference clock. QSGMII mode. */
-#define BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN88XX (7) /**< 5 Gbaud at 156.25 MHz reference clock. QSGMII mode.
-                                       Not supported. */
-#define BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII_CN83XX (7) /**< 5 Gbaud at 156.25 MHz reference clock. QSGMII mode.
-                                       Not supported. */
-#define BDK_GSER_LMODE_E_R_625G_REFCLK15625_RXAUI (8) /**< 6.25 Gbaud at 156.25 MHz reference clock. RXAUI mode. */
-#define BDK_GSER_LMODE_E_R_8G_REFCLK100 (2) /**< 8 Gbaud at 100 MHz reference clock. */
-#define BDK_GSER_LMODE_E_R_8G_REFCLK125 (0xb) /**< 8 Gbaud at 125 MHz reference clock. */
+#define BDK_GSER_LMODE_E_R_103125G_REFCLK15625_KR (5)
+#define BDK_GSER_LMODE_E_R_125G_REFCLK15625_KX (3)
+#define BDK_GSER_LMODE_E_R_125G_REFCLK15625_SGMII (6)
+#define BDK_GSER_LMODE_E_R_25G_REFCLK100 (0)
+#define BDK_GSER_LMODE_E_R_25G_REFCLK125 (9)
+#define BDK_GSER_LMODE_E_R_3125G_REFCLK15625_XAUI (4)
+#define BDK_GSER_LMODE_E_R_5G_REFCLK100 (1)
+#define BDK_GSER_LMODE_E_R_5G_REFCLK125 (0xa)
+#define BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII (7)
+#define BDK_GSER_LMODE_E_R_625G_REFCLK15625_RXAUI (8)
+#define BDK_GSER_LMODE_E_R_8G_REFCLK100 (2)
+#define BDK_GSER_LMODE_E_R_8G_REFCLK125 (0xb)
 
 /**
  * Enumeration gser_qlm_e
@@ -92,38 +85,20 @@
  * GSER QLM Enumeration
  * Enumerates the GSER to QLM or DLM.
  */
-#define BDK_GSER_QLM_E_GSER0_CN9 (0) /**< GSER0 corresponds to QLM0. */
-#define BDK_GSER_QLM_E_GSER0_CN81XX (0) /**< GSER0 corresponds to DLM0. */
-#define BDK_GSER_QLM_E_GSER0_CN88XX (0) /**< GSER0 corresponds to QLM0. */
-#define BDK_GSER_QLM_E_GSER0_CN83XX (0) /**< GSER0 corresponds to QLM0. */
-#define BDK_GSER_QLM_E_GSER1_CN9 (1) /**< GSER1 corresponds to QLM1. */
-#define BDK_GSER_QLM_E_GSER1_CN81XX (1) /**< GSER1 corresponds to DLM1. */
-#define BDK_GSER_QLM_E_GSER1_CN88XX (1) /**< GSER1 corresponds to QLM1. */
-#define BDK_GSER_QLM_E_GSER1_CN83XX (1) /**< GSER1 corresponds to QLM1. */
-#define BDK_GSER_QLM_E_GSER10 (0xa) /**< GSER10 corresponds to CCPI2. */
-#define BDK_GSER_QLM_E_GSER11 (0xb) /**< GSER11 corresponds to CCPI3. */
-#define BDK_GSER_QLM_E_GSER12 (0xc) /**< GSER12 corresponds to CCPI4. */
-#define BDK_GSER_QLM_E_GSER13 (0xd) /**< GSER13 corresponds to CCPI5. */
-#define BDK_GSER_QLM_E_GSER2_CN9 (2) /**< GSER2 corresponds to QLM2. */
-#define BDK_GSER_QLM_E_GSER2_CN81XX (2) /**< GSER2 corresponds to DLM2. */
-#define BDK_GSER_QLM_E_GSER2_CN88XX (2) /**< GSER2 corresponds to QLM2. */
-#define BDK_GSER_QLM_E_GSER2_CN83XX (2) /**< GSER2 corresponds to QLM2. */
-#define BDK_GSER_QLM_E_GSER3_CN9 (3) /**< GSER3 corresponds to QLM3. */
-#define BDK_GSER_QLM_E_GSER3_CN81XX (3) /**< GSER3 corresponds to DLM3. */
-#define BDK_GSER_QLM_E_GSER3_CN88XX (3) /**< GSER3 corresponds to QLM3. */
-#define BDK_GSER_QLM_E_GSER3_CN83XX (3) /**< GSER3 corresponds to QLM3. */
-#define BDK_GSER_QLM_E_GSER4_CN9 (4) /**< GSER4 corresponds to DLM4. */
-#define BDK_GSER_QLM_E_GSER4_CN88XX (4) /**< GSER4 corresponds to QLM4. */
-#define BDK_GSER_QLM_E_GSER4_CN83XX (4) /**< GSER4 corresponds to DLM4. */
-#define BDK_GSER_QLM_E_GSER5_CN9 (5) /**< GSER5 corresponds to DLM5. */
-#define BDK_GSER_QLM_E_GSER5_CN88XX (5) /**< GSER5 corresponds to QLM5. */
-#define BDK_GSER_QLM_E_GSER5_CN83XX (5) /**< GSER5 corresponds to DLM5. */
-#define BDK_GSER_QLM_E_GSER6_CN9 (6) /**< GSER6 corresponds to DLM6. */
-#define BDK_GSER_QLM_E_GSER6_CN88XX (6) /**< GSER6 corresponds to QLM6. */
-#define BDK_GSER_QLM_E_GSER6_CN83XX (6) /**< GSER6 corresponds to DLM6. */
-#define BDK_GSER_QLM_E_GSER7 (7) /**< GSER7 corresponds to QLM7. */
-#define BDK_GSER_QLM_E_GSER8 (8) /**< GSER8 corresponds to CCPI0. */
-#define BDK_GSER_QLM_E_GSER9 (9) /**< GSER9 corresponds to CCPI1. */
+#define BDK_GSER_QLM_E_GSER0 (0)
+#define BDK_GSER_QLM_E_GSER1 (1)
+#define BDK_GSER_QLM_E_GSER10 (0xa)
+#define BDK_GSER_QLM_E_GSER11 (0xb)
+#define BDK_GSER_QLM_E_GSER12 (0xc)
+#define BDK_GSER_QLM_E_GSER13 (0xd)
+#define BDK_GSER_QLM_E_GSER2 (2)
+#define BDK_GSER_QLM_E_GSER3 (3)
+#define BDK_GSER_QLM_E_GSER4 (4)
+#define BDK_GSER_QLM_E_GSER5 (5)
+#define BDK_GSER_QLM_E_GSER6 (6)
+#define BDK_GSER_QLM_E_GSER7 (7)
+#define BDK_GSER_QLM_E_GSER8 (8)
+#define BDK_GSER_QLM_E_GSER9 (9)
 
 /**
  * Register (RSL) gser#_ana_atest

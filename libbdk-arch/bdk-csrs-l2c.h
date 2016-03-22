@@ -59,19 +59,19 @@
  *
  * Enumerates the different INV command encodings.
  */
-#define BDK_INV_CMD_E_ALLEX (0xc) /**< Broadcast TLB invalidate (ALLEXIS). */
-#define BDK_INV_CMD_E_ASIDE1 (0xd) /**< Broadcast TLB invalidate (ASIDE1IS). */
-#define BDK_INV_CMD_E_GBLSYNC (0xf) /**< Broadcast global sync. */
-#define BDK_INV_CMD_E_IALLU (9) /**< Broadcast icache invalidate (IALLUIS). */
-#define BDK_INV_CMD_E_INV (8) /**< Dcache invalidate by PA. */
-#define BDK_INV_CMD_E_IPAS2E1 (7) /**< Broadcast TLB invalidate by IPA (IPAS2E1IS). */
-#define BDK_INV_CMD_E_IVAU (4) /**< Broadcast icache invalidate by VA (IVAU when page set to IS). */
-#define BDK_INV_CMD_E_NOP (0) /**< No operation. */
-#define BDK_INV_CMD_E_SEV (0xe) /**< Broadcast SEV. */
-#define BDK_INV_CMD_E_VAAE1 (6) /**< Broadcast TLB invalidate by VA (VAAE1IS). */
-#define BDK_INV_CMD_E_VAEX (5) /**< Broadcast TLB invalidate by VA (VAEXIS). */
-#define BDK_INV_CMD_E_VMALLE1 (0xa) /**< Broadcast TLB invalidate (VMALLE1IS). */
-#define BDK_INV_CMD_E_VMALLS12 (0xb) /**< Broadcast TLB invalidate (VMALLS12E1IS). */
+#define BDK_INV_CMD_E_ALLEX (0xc)
+#define BDK_INV_CMD_E_ASIDE1 (0xd)
+#define BDK_INV_CMD_E_GBLSYNC (0xf)
+#define BDK_INV_CMD_E_IALLU (9)
+#define BDK_INV_CMD_E_INV (8)
+#define BDK_INV_CMD_E_IPAS2E1 (7)
+#define BDK_INV_CMD_E_IVAU (4)
+#define BDK_INV_CMD_E_NOP (0)
+#define BDK_INV_CMD_E_SEV (0xe)
+#define BDK_INV_CMD_E_VAAE1 (6)
+#define BDK_INV_CMD_E_VAEX (5)
+#define BDK_INV_CMD_E_VMALLE1 (0xa)
+#define BDK_INV_CMD_E_VMALLS12 (0xb)
 
 /**
  * Enumeration ioc_cmd_e
@@ -80,19 +80,19 @@
  *
  * Enumerates the different IOC command encodings.
  */
-#define BDK_IOC_CMD_E_ADDR (6) /**< Send address only (i.e. store of size 0 quadwords). */
-#define BDK_IOC_CMD_E_IAADD (0xc) /**< Atomic add of size 1-8 bytes. */
-#define BDK_IOC_CMD_E_IACAS (0xa) /**< Atomic compare and swap of size 1-16 bytes. */
-#define BDK_IOC_CMD_E_IACLR (0xd) /**< Atomic clear of size 1-8 bytes. */
-#define BDK_IOC_CMD_E_IASET (0xe) /**< Atomic set of size 1-8 bytes. */
-#define BDK_IOC_CMD_E_IASWP (0xb) /**< Atomic swap of size 1-8 bytes. */
-#define BDK_IOC_CMD_E_IDLE (0) /**< Idle cycle. */
-#define BDK_IOC_CMD_E_LMTST (3) /**< Store of size 1-16 quadwords. */
-#define BDK_IOC_CMD_E_LOAD (2) /**< Load of size 1-16 bytes. */
-#define BDK_IOC_CMD_E_SLILD (8) /**< Load of size 1-8 bytes, initiated by remote SLI. */
-#define BDK_IOC_CMD_E_SLIST (7) /**< Store of size 1-8 bytes, initiated by remote SLI. */
-#define BDK_IOC_CMD_E_STORE (1) /**< Store of size 1-16 bytes. */
-#define BDK_IOC_CMD_E_STOREP (9) /**< Partial store of size 8 bytes. */
+#define BDK_IOC_CMD_E_ADDR (6)
+#define BDK_IOC_CMD_E_IAADD (0xc)
+#define BDK_IOC_CMD_E_IACAS (0xa)
+#define BDK_IOC_CMD_E_IACLR (0xd)
+#define BDK_IOC_CMD_E_IASET (0xe)
+#define BDK_IOC_CMD_E_IASWP (0xb)
+#define BDK_IOC_CMD_E_IDLE (0)
+#define BDK_IOC_CMD_E_LMTST (3)
+#define BDK_IOC_CMD_E_LOAD (2)
+#define BDK_IOC_CMD_E_SLILD (8)
+#define BDK_IOC_CMD_E_SLIST (7)
+#define BDK_IOC_CMD_E_STORE (1)
+#define BDK_IOC_CMD_E_STOREP (9)
 
 /**
  * Enumeration ior_cmd_e
@@ -101,9 +101,9 @@
  *
  * Enumerates the different IOR command encodings.
  */
-#define BDK_IOR_CMD_E_DATA (1) /**< Response data return for IOC LOAD, IACAS, IASWP, IAADD, IACLR, IASET. */
-#define BDK_IOR_CMD_E_IDLE (0) /**< Idle cycle. */
-#define BDK_IOR_CMD_E_SLIRSP (3) /**< Response data return for IOC_SLILD. */
+#define BDK_IOR_CMD_E_DATA (1)
+#define BDK_IOR_CMD_E_IDLE (0)
+#define BDK_IOR_CMD_E_SLIRSP (3)
 
 /**
  * Enumeration l2c_bar_e
@@ -111,7 +111,7 @@
  * L2C Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_L2C_BAR_E_L2C_PF_BAR0 (0x87e080800000ll) /**< Base address for standard registers. */
+#define BDK_L2C_BAR_E_L2C_PF_BAR0 (0x87e080800000ll)
 
 /**
  * Enumeration l2c_dat_errprio_e
@@ -119,13 +119,13 @@
  * L2C Quad Error Priority Enumeration
  * Enumerates the different quad error priorities.
  */
-#define BDK_L2C_DAT_ERRPRIO_E_FBFDBE (4) /**< FBF double-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_FBFSBE (1) /**< FBF single-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_L2DDBE (6) /**< L2D double-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_L2DSBE (3) /**< L2D single-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_NBE (0) /**< No error. */
-#define BDK_L2C_DAT_ERRPRIO_E_SBFDBE (5) /**< SBF double-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_SBFSBE (2) /**< SBF single-bit error. */
+#define BDK_L2C_DAT_ERRPRIO_E_FBFDBE (4)
+#define BDK_L2C_DAT_ERRPRIO_E_FBFSBE (1)
+#define BDK_L2C_DAT_ERRPRIO_E_L2DDBE (6)
+#define BDK_L2C_DAT_ERRPRIO_E_L2DSBE (3)
+#define BDK_L2C_DAT_ERRPRIO_E_NBE (0)
+#define BDK_L2C_DAT_ERRPRIO_E_SBFDBE (5)
+#define BDK_L2C_DAT_ERRPRIO_E_SBFSBE (2)
 
 /**
  * Enumeration l2c_tad_prf_sel_e
@@ -133,106 +133,75 @@
  * L2C TAD Performance Counter Select Enumeration
  * Enumerates the different TAD performance counter selects.
  */
-#define BDK_L2C_TAD_PRF_SEL_E_L2T_HIT (1) /**< L2 tag hit. (deprecated) */
-#define BDK_L2C_TAD_PRF_SEL_E_L2T_MISS (2) /**< L2 tag miss. (deprecated) */
-#define BDK_L2C_TAD_PRF_SEL_E_L2T_NOALLOC (3) /**< L2 tag no-allocate (forced). The command being processed by the L2 missed, and
-                                       there was no way available to be allocated at the cache index, such as due to
-                                       all ways being disabled with the transaction's corresponding L2C_WPAR_PP() or
-                                       L2C_WPAR_IOB(). The L2 processed the command by reading from memory, and if
-                                       required modifying the data and writing it back to memory. (deprecated) */
-#define BDK_L2C_TAD_PRF_SEL_E_L2_OPEN_OCI (0x48) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_L2_RTG_VIC (0x44) /**< L2 RTG victim. */
-#define BDK_L2C_TAD_PRF_SEL_E_L2_VIC (4) /**< L2 dirty victim. (deprecated) */
-#define BDK_L2C_TAD_PRF_SEL_E_LFB_OCC (7) /**< LFB occupancy (each cycle adds number of LFBs valid). */
-#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR (0x4e) /**< LMC writes sent (all kinds). */
-#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_SBLKDTY (0x4f) /**< LMC write cumulative sblkdty bits set. */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP (0x40) /**< Total TAG/RTG successful lookups (all sources, NOT including retried for
-                                       conflicts). */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_ALL (0x44) /**< Total TAG/RTG lookups (all sources, including retried for conflicts). */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_MIB (0x43) /**< Total TAG/RTG successful lookups from MIB. */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_LCL (0x41) /**< Total TAG/RTG successful lookups from XMC/local address. */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_RMT (0x42) /**< Total TAG/RTG successful lookups from XMC/remote address. */
-#define BDK_L2C_TAD_PRF_SEL_E_NONE (0) /**< Nothing (disabled). */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_DAT (0x6d) /**< FLDRS/FLDX that hit TAG E with dmask!=0 (these 2 to measure if worth optimizing
-                                       the HAKD no data case). */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_NODAT (0x6c) /**< FLDRS/FLDX that hit TAG E with dmask=0. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_CYC_HIT (0x69) /**< OCI forwards which hit CCPI open cycle. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_RACE (0x6a) /**< OCI received HAKI/HAKS/HAKV (forward race case). */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_HAKS (0x6b) /**< OCI received HAKS (forward race case transition to shared). */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD (0x6e) /**< OCI RLDD requests received. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_PEMD (0x6f) /**< OCI RLDD requests received that are sent a PEMD response (to gauge the RLDD to
-                                       S/E flag). */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_CNT (0x70) /**< OCI RRQ w/data received count. Note that MREQ byte type requests are
-                                       excluded. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_DMASK (0x71) /**< OCI RRQ w/data received cumulative dmask bits set. Note that MREQ byte type
-                                       requests are excluded. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_CNT (0x72) /**< OCI RSP w/data received count (HAKD/Pxxx/VICD/VICDHI with dmask!=0). Note that
-                                       PATM is excluded from the count. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_DMASK (0x73) /**< OCI RSP (HAKD/Pxxx/VICD/VICDHI) received cumulative dmask bits set. Note that
-                                       PATM is excluded from the count. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_CNT (0x74) /**< OCI RSP VICD/VICDHI with dmask!=0 received count. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_DMASK (0x75) /**< OCI RSP VICD/VICDHI received cumulative dmask bits set. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RTG_WAIT (0x68) /**< OCI must wait for VICx (RTG state does not match request). */
-#define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI (0xa) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI
-                                       cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN9(a) (0x82 + 0x10 * (a)) /**< Quad(0..3) number of banks in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN81XX(a) (0x82 + 0x10 * (a)) /**< Quad(0..3) number of banks in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN88XX(a) (0x82 + 0x10 * (a)) /**< Quad(0..7) number of banks in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN83XX(a) (0x82 + 0x10 * (a)) /**< Quad(0..3) number of banks in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN9(a) (0x80 + 0x10 * (a)) /**< Quad(0..3) index bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN81XX(a) (0x80 + 0x10 * (a)) /**< Quad(0..3) index bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN88XX(a) (0x80 + 0x10 * (a)) /**< Quad(0..7) index bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN83XX(a) (0x80 + 0x10 * (a)) /**< Quad(0..3) index bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN9(a) (0x81 + 0x10 * (a)) /**< Quad(0..3) read data bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN81XX(a) (0x81 + 0x10 * (a)) /**< Quad(0..3) read data bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN88XX(a) (0x81 + 0x10 * (a)) /**< Quad(0..7) read data bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN83XX(a) (0x81 + 0x10 * (a)) /**< Quad(0..3) read data bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN9(a) (0x83 + 0x10 * (a)) /**< Quad(0..3) write data flops in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN81XX(a) (0x83 + 0x10 * (a)) /**< Quad(0..3) write data flops in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN88XX(a) (0x83 + 0x10 * (a)) /**< Quad(0..7) write data flops in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN83XX(a) (0x83 + 0x10 * (a)) /**< Quad(0..3) write data flops in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC (0x5d) /**< Total (allocates RTG - MIB). */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_EVICT (0x76) /**< RTG evict (shared evict). */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HIT (0x5e) /**< TAG hits (allocates RTG - MIB). */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HITWB (0x5f) /**< TAG hits with writeback to LMC (allocates RTG - MIB). */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_VIC (0x77) /**< RTG victim (exclusive evict). */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_HIT (0x41) /**< L2 RTG hit. */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_MISS (0x42) /**< L2 RTG miss. */
-#define BDK_L2C_TAD_PRF_SEL_E_SC_FAIL (5) /**< Store-conditional fail. (deprecated) */
-#define BDK_L2C_TAD_PRF_SEL_E_SC_PASS (6) /**< Store-conditional pass. (deprecated) */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL (0x64) /**< STC/CAS handled on local node count. All local address STC/CAS are handled on
-                                       the local node as are STC/CAS to remote addresses in lock local mode (see
-                                       L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]). In addition, STC/CAS to remote address
-                                       which TAG hit E are also handled on the local node. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_FAIL (0x65) /**< STC/CAS handled on local node fail. See STC_LCL for definition of which STC/CAS
-                                       are handled on the local node. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT (0x62) /**< STC/CAS handled off node count. STC/CAS to remote addresses in lock remote mode
-                                       (see L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]) which TAG miss or TAG hit S are handled
-                                       on the remote (home) node. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_FAIL (0x63) /**< CCPI P2DF responses received. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL (0x60) /**< STC/CAS total count. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_FAIL (0x61) /**< STC/CAS total fail (does not include off node CAS failures). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_HIT (0x48) /**< TAG hit (normally allocates TAG on miss - XMC & MIB). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_CLNVIC (0x59) /**< TAG victim, local address (Exclusive clean victim). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_DTYVIC (0x5a) /**< TAG victim, local address (Exclusive dirty victim). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_EVICT (0x58) /**< TAG evict, local address (any kind). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_MISS (0x49) /**< TAG miss (normally allocates TAG on miss - XMC & MIB). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_NALC (0x4a) /**< TAG noalloc (normally allocates TAG on miss - XMC & MIB). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_EVICT (0x5b) /**< TAG evict, remote address (any kind). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_VIC (0x5c) /**< TAG evict, remote address (Exclusive). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HIT (0x50) /**< RTG hit S/E (allocates TAG on miss - XMC local address). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITE (0x51) /**< RTG hit E (allocates TAG on miss - XMC local address). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITS (0x52) /**< RTG hit S forward sent (allocates TAG on miss - XMC local address). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_MISS (0x53) /**< RTG miss (allocates TAG on miss - XMC local address). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_HIT (0x4b) /**< TAG hit (does not allocate TAG or RTG on miss - XMC & MIB). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HIT (0x54) /**< RTG hit S/E (does not allocate TAG on miss - XMC local address). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITS (0x57) /**< RTG hit S forward sent (does not allocate TAG on miss - XMC local
-                                       address). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_MISS (0x55) /**< RTG miss (does not allocate TAG on miss - XMC local address). */
-#define BDK_L2C_TAD_PRF_SEL_E_WAIT_LFB (8) /**< LFB wait LFB (each cycle adds number of LFBs waiting for other LFBs). */
-#define BDK_L2C_TAD_PRF_SEL_E_WAIT_VAB (9) /**< LFB wait VAB (each cycle adds number of LFBs waiting for VAB). */
+#define BDK_L2C_TAD_PRF_SEL_E_L2T_HIT (1)
+#define BDK_L2C_TAD_PRF_SEL_E_L2T_MISS (2)
+#define BDK_L2C_TAD_PRF_SEL_E_L2T_NOALLOC (3)
+#define BDK_L2C_TAD_PRF_SEL_E_L2_OPEN_OCI (0x48)
+#define BDK_L2C_TAD_PRF_SEL_E_L2_RTG_VIC (0x44)
+#define BDK_L2C_TAD_PRF_SEL_E_L2_VIC (4)
+#define BDK_L2C_TAD_PRF_SEL_E_LFB_OCC (7)
+#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR (0x4e)
+#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_SBLKDTY (0x4f)
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP (0x40)
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_ALL (0x44)
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_MIB (0x43)
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_LCL (0x41)
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_RMT (0x42)
+#define BDK_L2C_TAD_PRF_SEL_E_NONE (0)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_DAT (0x6d)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_NODAT (0x6c)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_CYC_HIT (0x69)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_RACE (0x6a)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_HAKS (0x6b)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD (0x6e)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_PEMD (0x6f)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_CNT (0x70)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_DMASK (0x71)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_CNT (0x72)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_DMASK (0x73)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_CNT (0x74)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_DMASK (0x75)
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RTG_WAIT (0x68)
+#define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI (0xa)
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS(a) (0x82 + 0x10 * (a))
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX(a) (0x80 + 0x10 * (a))
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT(a) (0x81 + 0x10 * (a))
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT(a) (0x83 + 0x10 * (a))
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC (0x5d)
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_EVICT (0x76)
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HIT (0x5e)
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HITWB (0x5f)
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_VIC (0x77)
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_HIT (0x41)
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_MISS (0x42)
+#define BDK_L2C_TAD_PRF_SEL_E_SC_FAIL (5)
+#define BDK_L2C_TAD_PRF_SEL_E_SC_PASS (6)
+#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL (0x64)
+#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_FAIL (0x65)
+#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT (0x62)
+#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_FAIL (0x63)
+#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL (0x60)
+#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_FAIL (0x61)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_HIT (0x48)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_CLNVIC (0x59)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_DTYVIC (0x5a)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_EVICT (0x58)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_MISS (0x49)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_NALC (0x4a)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_EVICT (0x5b)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_VIC (0x5c)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HIT (0x50)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITE (0x51)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITS (0x52)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_MISS (0x53)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_HIT (0x4b)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS (0x4c)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HIT (0x54)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE (0x56)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITS (0x57)
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_MISS (0x55)
+#define BDK_L2C_TAD_PRF_SEL_E_WAIT_LFB (8)
+#define BDK_L2C_TAD_PRF_SEL_E_WAIT_VAB (9)
 
 /**
  * Enumeration l2c_tag_errprio_e
@@ -240,125 +209,124 @@
  * L2C Tag Error Priority Enumeration
  * Enumerates the different TAG error priorities.
  */
-#define BDK_L2C_TAG_ERRPRIO_E_DBE (3) /**< TAG double-bit error. */
-#define BDK_L2C_TAG_ERRPRIO_E_NBE (0) /**< No error. */
-#define BDK_L2C_TAG_ERRPRIO_E_NOWAY (1) /**< TAG NOWAY error. */
-#define BDK_L2C_TAG_ERRPRIO_E_SBE (2) /**< TAG single-bit error. */
+#define BDK_L2C_TAG_ERRPRIO_E_DBE (3)
+#define BDK_L2C_TAG_ERRPRIO_E_NBE (0)
+#define BDK_L2C_TAG_ERRPRIO_E_NOWAY (1)
+#define BDK_L2C_TAG_ERRPRIO_E_SBE (2)
 
 /**
  * Enumeration oci_ireq_cmd_e
  *
  * INTERNAL: OCI IREQ Command Enumeration
  */
-#define BDK_OCI_IREQ_CMD_E_IAADD (0x10) /**< IO atomic add of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IACAS (0x15) /**< IO atomic compare and swap of 8, 16, 32, 64, or 128 bits. */
-#define BDK_OCI_IREQ_CMD_E_IACLR (0x12) /**< IO atomic clear of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IASET (0x13) /**< IO atomic set of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IASWP (0x14) /**< IO atomic swap of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IDLE (0x1f) /**< No operation. */
-#define BDK_OCI_IREQ_CMD_E_IOBADDR (6) /**< Same as LMTST without any data. */
-#define BDK_OCI_IREQ_CMD_E_IOBADDRA (7) /**< Same as IOBADDR, destination node will respond with IOACK. */
-#define BDK_OCI_IREQ_CMD_E_IOBLD (0) /**< IO load request of 8, 16, 32, 64, or 128 bits. */
-#define BDK_OCI_IREQ_CMD_E_IOBST (2) /**< IO store request of 8, 16, 32, 64, or 128 bits. */
-#define BDK_OCI_IREQ_CMD_E_IOBSTA (3) /**< Same as IOBST, destination node will respond with an IOACK. */
-#define BDK_OCI_IREQ_CMD_E_IOBSTP (4) /**< IO partial store request of 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IOBSTPA (5) /**< Same as IOBSTP, destination node will respond with IOACK. */
-#define BDK_OCI_IREQ_CMD_E_LMTST (8) /**< Vector IO store request. */
-#define BDK_OCI_IREQ_CMD_E_LMTSTA (9) /**< Same as LMTST, destination node will respond with IOACK. */
-#define BDK_OCI_IREQ_CMD_E_SLILD (0x1c) /**< SLI-initiated IO load request of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_SLIST (0x1d) /**< SLI-initiated IO store request of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IAADD (0x10)
+#define BDK_OCI_IREQ_CMD_E_IACAS (0x15)
+#define BDK_OCI_IREQ_CMD_E_IACLR (0x12)
+#define BDK_OCI_IREQ_CMD_E_IASET (0x13)
+#define BDK_OCI_IREQ_CMD_E_IASWP (0x14)
+#define BDK_OCI_IREQ_CMD_E_IDLE (0x1f)
+#define BDK_OCI_IREQ_CMD_E_IOBADDR (6)
+#define BDK_OCI_IREQ_CMD_E_IOBADDRA (7)
+#define BDK_OCI_IREQ_CMD_E_IOBLD (0)
+#define BDK_OCI_IREQ_CMD_E_IOBST (2)
+#define BDK_OCI_IREQ_CMD_E_IOBSTA (3)
+#define BDK_OCI_IREQ_CMD_E_IOBSTP (4)
+#define BDK_OCI_IREQ_CMD_E_IOBSTPA (5)
+#define BDK_OCI_IREQ_CMD_E_LMTST (8)
+#define BDK_OCI_IREQ_CMD_E_LMTSTA (9)
+#define BDK_OCI_IREQ_CMD_E_SLILD (0x1c)
+#define BDK_OCI_IREQ_CMD_E_SLIST (0x1d)
 
 /**
  * Enumeration oci_irsp_cmd_e
  *
  * INTERNAL: OCI IRSP Command Enumeration
  */
-#define BDK_OCI_IRSP_CMD_E_IDLE (0x1f) /**< No operation. */
-#define BDK_OCI_IRSP_CMD_E_IOBACK (1) /**< A response indicating that the IO request has passed the point where subsequently-
-                                       generated IO requests will follow the request. */
-#define BDK_OCI_IRSP_CMD_E_IOBRSP (0) /**< IO response to an IOBLD, IASET, IACLR, IAADD, IASWP, or IACAS. */
-#define BDK_OCI_IRSP_CMD_E_SLIRSP (2) /**< Response to a SLILD*. */
+#define BDK_OCI_IRSP_CMD_E_IDLE (0x1f)
+#define BDK_OCI_IRSP_CMD_E_IOBACK (1)
+#define BDK_OCI_IRSP_CMD_E_IOBRSP (0)
+#define BDK_OCI_IRSP_CMD_E_SLIRSP (2)
 
 /**
  * Enumeration oci_mfwd_cmd_e
  *
  * INTERNAL: OCI MFWD Command Enumeration
  */
-#define BDK_OCI_MFWD_CMD_E_FEVX_EH (0xb) /**< Forward for home eviction (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FEVX_OH (0xc) /**< Forward for home eviction (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDRO_E (0) /**< Forward read data - ROWNED_MODE=1 (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDRO_O (1) /**< Forward read data - ROWNED_MODE=1 (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDRS_E (2) /**< Forward read data - ROWNED_MODE=0 (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDRS_EH (4) /**< Forward home read data (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDRS_O (3) /**< Forward read data - ROWNED_MODE=0 (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDRS_OH (5) /**< Forward home read data (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDT_E (6) /**< Forward read through (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDX_E (7) /**< Forward read exclusive (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDX_EH (9) /**< Forward home read exclusive (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDX_O (8) /**< Forward read exclusive (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDX_OH (0xa) /**< Forward home read exclusive (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_IDLE (0x1f) /**< No operation. */
-#define BDK_OCI_MFWD_CMD_E_SINV (0xd) /**< Shared invalidate. */
-#define BDK_OCI_MFWD_CMD_E_SINV_H (0xe) /**< Shared invalidate home is requester. */
+#define BDK_OCI_MFWD_CMD_E_FEVX_EH (0xb)
+#define BDK_OCI_MFWD_CMD_E_FEVX_OH (0xc)
+#define BDK_OCI_MFWD_CMD_E_FLDRO_E (0)
+#define BDK_OCI_MFWD_CMD_E_FLDRO_O (1)
+#define BDK_OCI_MFWD_CMD_E_FLDRS_E (2)
+#define BDK_OCI_MFWD_CMD_E_FLDRS_EH (4)
+#define BDK_OCI_MFWD_CMD_E_FLDRS_O (3)
+#define BDK_OCI_MFWD_CMD_E_FLDRS_OH (5)
+#define BDK_OCI_MFWD_CMD_E_FLDT_E (6)
+#define BDK_OCI_MFWD_CMD_E_FLDX_E (7)
+#define BDK_OCI_MFWD_CMD_E_FLDX_EH (9)
+#define BDK_OCI_MFWD_CMD_E_FLDX_O (8)
+#define BDK_OCI_MFWD_CMD_E_FLDX_OH (0xa)
+#define BDK_OCI_MFWD_CMD_E_IDLE (0x1f)
+#define BDK_OCI_MFWD_CMD_E_SINV (0xd)
+#define BDK_OCI_MFWD_CMD_E_SINV_H (0xe)
 
 /**
  * Enumeration oci_mreq_cmd_e
  *
  * INTERNAL: OCI MREQ Command Enumeration
  */
-#define BDK_OCI_MREQ_CMD_E_GINV (0x14) /**< All forms of broadcast invalidate and SEV. */
-#define BDK_OCI_MREQ_CMD_E_GSYNC (0x18) /**< Global sync broadcast to remote nodes. */
-#define BDK_OCI_MREQ_CMD_E_IDLE (0x1f) /**< No operation. */
-#define BDK_OCI_MREQ_CMD_E_RADD (0xd) /**< Atomic add, 64/32/16/8. */
-#define BDK_OCI_MREQ_CMD_E_RC2D_O (6) /**< Remote change to dirty - line is O. */
-#define BDK_OCI_MREQ_CMD_E_RC2D_S (7) /**< Remote change to dirty - line in S. */
-#define BDK_OCI_MREQ_CMD_E_RCAS (0x13) /**< Atomic compare and swap, 64/32/16/8 line I not allocating. */
-#define BDK_OCI_MREQ_CMD_E_RCAS_O (0x15) /**< Atomic compare and swap, 64/32/16/8 (and the compare has matched but state is O at the requester). */
-#define BDK_OCI_MREQ_CMD_E_RCAS_S (0x16) /**< Atomic compare and swap, 64/32/16/8 (and the compare has matched but state is S at the requester). */
-#define BDK_OCI_MREQ_CMD_E_RCLR (0x12) /**< Atomic clear, 64/32/16/8. */
-#define BDK_OCI_MREQ_CMD_E_RDEC (0xf) /**< Atomic decrement, 64/32/16/8. */
-#define BDK_OCI_MREQ_CMD_E_REOR (0xb) /**< Atomic EOR, 64/32/16/8. */
-#define BDK_OCI_MREQ_CMD_E_RINC (0xe) /**< Atomic increment, 64/32/16/8. */
-#define BDK_OCI_MREQ_CMD_E_RLDD (0) /**< Remote load data. */
-#define BDK_OCI_MREQ_CMD_E_RLDI (1) /**< Remote load instruction. */
-#define BDK_OCI_MREQ_CMD_E_RLDT (2) /**< Remote load immediate. */
-#define BDK_OCI_MREQ_CMD_E_RLDWB (4) /**< Remote load immediate, and do not write back. */
-#define BDK_OCI_MREQ_CMD_E_RLDX (5) /**< Remote load exclusive (intent to modify). */
-#define BDK_OCI_MREQ_CMD_E_RLDY (3) /**< Remote load immediate. Allocate in home node. */
-#define BDK_OCI_MREQ_CMD_E_RSET (0x11) /**< Atomic set, 64/32/16/8. */
-#define BDK_OCI_MREQ_CMD_E_RSMAX (0x1b) /**< Atomic signed max. */
-#define BDK_OCI_MREQ_CMD_E_RSMIN (0x1c) /**< Atomic signed min. */
-#define BDK_OCI_MREQ_CMD_E_RSTC (0x17) /**< Conditional store - line I not allocating. */
-#define BDK_OCI_MREQ_CMD_E_RSTC_O (0x19) /**< Conditional store - line O. */
-#define BDK_OCI_MREQ_CMD_E_RSTC_S (0x1a) /**< Conditional store - line S. */
-#define BDK_OCI_MREQ_CMD_E_RSTP (0xa) /**< Store partial. */
-#define BDK_OCI_MREQ_CMD_E_RSTT (8) /**< Remote store immediate. */
-#define BDK_OCI_MREQ_CMD_E_RSTY (9) /**< Remote store immediate. Allocate in home node. */
-#define BDK_OCI_MREQ_CMD_E_RSWP (0x10) /**< Atomic swap 64/32/16/8. */
-#define BDK_OCI_MREQ_CMD_E_RUMAX (0x1d) /**< Atomic unsigned max. */
-#define BDK_OCI_MREQ_CMD_E_RUMIN (0x1e) /**< Atomic unsigned min. */
+#define BDK_OCI_MREQ_CMD_E_GINV (0x14)
+#define BDK_OCI_MREQ_CMD_E_GSYNC (0x18)
+#define BDK_OCI_MREQ_CMD_E_IDLE (0x1f)
+#define BDK_OCI_MREQ_CMD_E_RADD (0xd)
+#define BDK_OCI_MREQ_CMD_E_RC2D_O (6)
+#define BDK_OCI_MREQ_CMD_E_RC2D_S (7)
+#define BDK_OCI_MREQ_CMD_E_RCAS (0x13)
+#define BDK_OCI_MREQ_CMD_E_RCAS_O (0x15)
+#define BDK_OCI_MREQ_CMD_E_RCAS_S (0x16)
+#define BDK_OCI_MREQ_CMD_E_RCLR (0x12)
+#define BDK_OCI_MREQ_CMD_E_RDEC (0xf)
+#define BDK_OCI_MREQ_CMD_E_REOR (0xb)
+#define BDK_OCI_MREQ_CMD_E_RINC (0xe)
+#define BDK_OCI_MREQ_CMD_E_RLDD (0)
+#define BDK_OCI_MREQ_CMD_E_RLDI (1)
+#define BDK_OCI_MREQ_CMD_E_RLDT (2)
+#define BDK_OCI_MREQ_CMD_E_RLDWB (4)
+#define BDK_OCI_MREQ_CMD_E_RLDX (5)
+#define BDK_OCI_MREQ_CMD_E_RLDY (3)
+#define BDK_OCI_MREQ_CMD_E_RSET (0x11)
+#define BDK_OCI_MREQ_CMD_E_RSMAX (0x1b)
+#define BDK_OCI_MREQ_CMD_E_RSMIN (0x1c)
+#define BDK_OCI_MREQ_CMD_E_RSTC (0x17)
+#define BDK_OCI_MREQ_CMD_E_RSTC_O (0x19)
+#define BDK_OCI_MREQ_CMD_E_RSTC_S (0x1a)
+#define BDK_OCI_MREQ_CMD_E_RSTP (0xa)
+#define BDK_OCI_MREQ_CMD_E_RSTT (8)
+#define BDK_OCI_MREQ_CMD_E_RSTY (9)
+#define BDK_OCI_MREQ_CMD_E_RSWP (0x10)
+#define BDK_OCI_MREQ_CMD_E_RUMAX (0x1d)
+#define BDK_OCI_MREQ_CMD_E_RUMIN (0x1e)
 
 /**
  * Enumeration oci_mrsp_cmd_e
  *
  * INTERNAL: OCI MRSP Command Enumeration
  */
-#define BDK_OCI_MRSP_CMD_E_GSDN (0x18) /**< Global sync broadcast done indication back to requesting node. */
-#define BDK_OCI_MRSP_CMD_E_HAKD (4) /**< To home Ack. */
-#define BDK_OCI_MRSP_CMD_E_HAKI (6) /**< To home Ack - VICx in progress, state is I. */
-#define BDK_OCI_MRSP_CMD_E_HAKN_S (5) /**< To home Ack, state is S. */
-#define BDK_OCI_MRSP_CMD_E_HAKS (7) /**< To home Ack - VICx in progress, state is S. */
-#define BDK_OCI_MRSP_CMD_E_HAKV (8) /**< To home Ack - VICS in progress. */
-#define BDK_OCI_MRSP_CMD_E_IDLE (0x1f) /**< No operation. */
-#define BDK_OCI_MRSP_CMD_E_P2DF (0xd) /**< Response fail. */
-#define BDK_OCI_MRSP_CMD_E_PACK (0xc) /**< Response Ack (wo data). */
-#define BDK_OCI_MRSP_CMD_E_PATM (0xb) /**< Response with data - (atomic requests). */
-#define BDK_OCI_MRSP_CMD_E_PEMD (0xa) /**< Response to request, from "owning node". */
-#define BDK_OCI_MRSP_CMD_E_PSHA (9) /**< Response with data - to S/I. */
-#define BDK_OCI_MRSP_CMD_E_VICC (1) /**< Vic from E or O to S. */
-#define BDK_OCI_MRSP_CMD_E_VICD (0) /**< Vic from E or O to I. */
-#define BDK_OCI_MRSP_CMD_E_VICDHI (3) /**< Home forced VICD. */
-#define BDK_OCI_MRSP_CMD_E_VICS (2) /**< Vic from S to I. */
+#define BDK_OCI_MRSP_CMD_E_GSDN (0x18)
+#define BDK_OCI_MRSP_CMD_E_HAKD (4)
+#define BDK_OCI_MRSP_CMD_E_HAKI (6)
+#define BDK_OCI_MRSP_CMD_E_HAKN_S (5)
+#define BDK_OCI_MRSP_CMD_E_HAKS (7)
+#define BDK_OCI_MRSP_CMD_E_HAKV (8)
+#define BDK_OCI_MRSP_CMD_E_IDLE (0x1f)
+#define BDK_OCI_MRSP_CMD_E_P2DF (0xd)
+#define BDK_OCI_MRSP_CMD_E_PACK (0xc)
+#define BDK_OCI_MRSP_CMD_E_PATM (0xb)
+#define BDK_OCI_MRSP_CMD_E_PEMD (0xa)
+#define BDK_OCI_MRSP_CMD_E_PSHA (9)
+#define BDK_OCI_MRSP_CMD_E_VICC (1)
+#define BDK_OCI_MRSP_CMD_E_VICD (0)
+#define BDK_OCI_MRSP_CMD_E_VICDHI (3)
+#define BDK_OCI_MRSP_CMD_E_VICS (2)
 
 /**
  * Enumeration rsc_cmd_e
@@ -367,14 +335,14 @@
  *
  * Enumerates the different RSC command encodings.
  */
-#define BDK_RSC_CMD_E_FLDN (3) /**< Filling data, last fill. */
-#define BDK_RSC_CMD_E_GSDN (2) /**< Global sync done. */
-#define BDK_RSC_CMD_E_IACK (5) /**< IO store commit. */
-#define BDK_RSC_CMD_E_IFDN (1) /**< Filling data, last fill, must write L1T invalid. */
-#define BDK_RSC_CMD_E_NOP (0) /**< No operation. */
-#define BDK_RSC_CMD_E_SCDN (6) /**< Store conditional pass/commit. */
-#define BDK_RSC_CMD_E_SCFL (7) /**< Store conditional fail/commit. */
-#define BDK_RSC_CMD_E_STDN (4) /**< Store commit. */
+#define BDK_RSC_CMD_E_FLDN (3)
+#define BDK_RSC_CMD_E_GSDN (2)
+#define BDK_RSC_CMD_E_IACK (5)
+#define BDK_RSC_CMD_E_IFDN (1)
+#define BDK_RSC_CMD_E_NOP (0)
+#define BDK_RSC_CMD_E_SCDN (6)
+#define BDK_RSC_CMD_E_SCFL (7)
+#define BDK_RSC_CMD_E_STDN (4)
 
 /**
  * Enumeration xmc_cmd_e
@@ -383,76 +351,75 @@
  *
  * Enumerates the different XMC command encodings.
  */
-#define BDK_XMC_CMD_E_AADD (0x28) /**< Atomic add (load/store varieties). */
-#define BDK_XMC_CMD_E_ACAS (0x26) /**< Atomic compare and swap. */
-#define BDK_XMC_CMD_E_ACLR (0x29) /**< Atomic clear (load/store varieties). */
-#define BDK_XMC_CMD_E_ADEC (0x25) /**< Atomic decrement. */
-#define BDK_XMC_CMD_E_AEOR (0x2a) /**< Atomic EOR (load/store varieties). */
-#define BDK_XMC_CMD_E_AINC (0x24) /**< Atomic increment. */
-#define BDK_XMC_CMD_E_ALLEX (0x3c) /**< Broadcast TLB invalidate (ALLEXIS). */
-#define BDK_XMC_CMD_E_ASET (0x2b) /**< Atomic set (load/store varieties). */
-#define BDK_XMC_CMD_E_ASIDE1 (0x3d) /**< Broadcast TLB invalidate (ASIDE1IS). */
-#define BDK_XMC_CMD_E_ASMAX (0x2c) /**< Atomic signed max (load/store varieties). */
-#define BDK_XMC_CMD_E_ASMIN (0x2d) /**< Atomic signed min (load/store varieties). */
-#define BDK_XMC_CMD_E_ASWP (0x27) /**< Atomic swap. */
-#define BDK_XMC_CMD_E_AUMAX (0x2e) /**< Atomic unsigned max (load/store varieties). */
-#define BDK_XMC_CMD_E_AUMIN (0x2f) /**< Atomic unsigned min (load/store varieties). */
-#define BDK_XMC_CMD_E_DWB (5) /**< Clear dirty bit (no writeback) + RPL2 if found in requester L2. */
-#define BDK_XMC_CMD_E_GBLSYNC (0x3f) /**< Broadcast global sync. */
-#define BDK_XMC_CMD_E_IAADD (0x68) /**< I/O atomic add (load only, LD==1). */
-#define BDK_XMC_CMD_E_IACAS (0x66) /**< I/O atomic compare and swap. */
-#define BDK_XMC_CMD_E_IACLR (0x69) /**< I/O atomic clear (load only, LD==1). */
-#define BDK_XMC_CMD_E_IALLU (0x39) /**< Broadcast icache invalidate (IALLUIS). */
-#define BDK_XMC_CMD_E_IASET (0x6b) /**< I/O atomic set (load only, LD==1). */
-#define BDK_XMC_CMD_E_IASWP (0x67) /**< I/O atomic swap. */
-#define BDK_XMC_CMD_E_INVL2 (0x1c) /**< Invalidate, clear use bit, by address (dirty data is LOST). */
-#define BDK_XMC_CMD_E_IOBADDR (0x43) /**< I/O send address only. */
-#define BDK_XMC_CMD_E_IOBADDRA (0x53) /**< I/O send address only, with commit. */
-#define BDK_XMC_CMD_E_IOBLD (0x40) /**< I/O load (any size, naturally aligned address). */
-#define BDK_XMC_CMD_E_IOBST (0x41) /**< I/O store (any size, naturally aligned address). */
-#define BDK_XMC_CMD_E_IOBSTA (0x51) /**< I/O store (any size, naturally aligned address), with commit. */
-#define BDK_XMC_CMD_E_IOBSTP (0x42) /**< I/O store partial (up to 64-bits based on byte-mask, 64-bit aligned address). */
-#define BDK_XMC_CMD_E_IOBSTPA (0x52) /**< I/O store partial (up to 64-bits based on byte-mask, 64-bit aligned address), with commit. */
-#define BDK_XMC_CMD_E_IPAS2E1 (0x37) /**< Broadcast TLB invalidate by IPA (IPAS2E1IS). */
-#define BDK_XMC_CMD_E_IVAU (0x34) /**< Broadcast icache invalidate by VA (IVAU when page set to IS). */
-#define BDK_XMC_CMD_E_LCKL2 (0x1f) /**< Set lock bit, set use bit, by address. */
-#define BDK_XMC_CMD_E_LDD (8) /**< Allocate in requester L2, attempt to return exclusive but might return shared. */
-#define BDK_XMC_CMD_E_LDDT (0xc) /**< Transient load (LDD, but mark for replacement in L2). */
-#define BDK_XMC_CMD_E_LDE (0xb) /**< Bring exclusive into requester L2, allocate in L1.  Perform all invalidates as if a store
-                                       to minimize future store latency. */
-#define BDK_XMC_CMD_E_LDI (2) /**< Don't allocate L1, allocates L2 at requester. */
-#define BDK_XMC_CMD_E_LDP (7) /**< Partial load (1 RSD tick), don't allocate L1, allocates L2 at requester shared. */
-#define BDK_XMC_CMD_E_LDT (1) /**< Don't allocate L2 or L1 at home or requester. */
-#define BDK_XMC_CMD_E_LDWB (0xd) /**< As LDT, but additional implied DWB if found in home or requester L2. */
-#define BDK_XMC_CMD_E_LDY (6) /**< Allocate in home L2. */
-#define BDK_XMC_CMD_E_LMTST (0x45) /**< I/O multi-quadword store. */
-#define BDK_XMC_CMD_E_LMTSTA (0x55) /**< I/O multi-quadword store, with commit. */
-#define BDK_XMC_CMD_E_LTGL2I (0x19) /**< Read tag at index/way into CSR. */
-#define BDK_XMC_CMD_E_NOP (0) /**< No operation. */
-#define BDK_XMC_CMD_E_PL2 (3) /**< Prefetch into requester L2. */
-#define BDK_XMC_CMD_E_PL2T (0x16) /**< Prefetch into requester L2, transient (mark for replacement in L2). */
-#define BDK_XMC_CMD_E_PS2 (0xa) /**< Prefetch into requester L2, exclusive. */
-#define BDK_XMC_CMD_E_PS2T (0x17) /**< Prefetch into requester L2, exclusive, transient (mark for replacement in L2). */
-#define BDK_XMC_CMD_E_PSL1 (9) /**< Prefetch into L1, bypass L2 (unless L1 is subset L2, then behaves exactly as LDD). */
-#define BDK_XMC_CMD_E_RPL2 (4) /**< Mark for replacement if found in requester L2. */
-#define BDK_XMC_CMD_E_RSTP (0xf) /**< Partial store allocating in home L2. */
-#define BDK_XMC_CMD_E_SEV (0x3e) /**< Broadcast SEV. */
-#define BDK_XMC_CMD_E_STC (0x13) /**< Conditional partial store.  Allocation variable based on CSR. */
-#define BDK_XMC_CMD_E_STF (0x10) /**< Full block store allocating in requester L2, fill zeros. */
-#define BDK_XMC_CMD_E_STFIL1 (0x14) /**< Full block store allocating in requester L2, fill zeros, self-inval L1. */
-#define BDK_XMC_CMD_E_STGL2I (0x1a) /**< Write tag at index/way from CSR. */
-#define BDK_XMC_CMD_E_STP (0x12) /**< Partial store allocating in requester L2. */
-#define BDK_XMC_CMD_E_STT (0x11) /**< Full block store bypass home and remote L2, fill zeros. */
-#define BDK_XMC_CMD_E_STTIL1 (0x15) /**< Full block store bypass home and requester L2, fill zeros, self-inval L1. */
-#define BDK_XMC_CMD_E_STY (0xe) /**< Full block store allocating in home L2, fill zeros. */
-#define BDK_XMC_CMD_E_VAAE1 (0x36) /**< Broadcast TLB invalidate by VA (VAAE1IS). */
-#define BDK_XMC_CMD_E_VAEX (0x35) /**< Broadcast TLB invalidate by VA (VAEXIS). */
-#define BDK_XMC_CMD_E_VMALLE1 (0x3a) /**< Broadcast TLB invalidate (VMALLE1IS). */
-#define BDK_XMC_CMD_E_VMALLS12 (0x3b) /**< Broadcast TLB invalidate (VMALLS12E1IS). */
-#define BDK_XMC_CMD_E_WBIL2 (0x1d) /**< Writeback if dirty, invalidate, clear use bit, by address. */
-#define BDK_XMC_CMD_E_WBIL2I (0x18) /**< Writeback if dirty, invalidate, clear use bit, by index/way. */
-#define BDK_XMC_CMD_E_WBL2 (0x1e) /**< Writeback if dirty, make clean, clear use bit, by address. */
-#define BDK_XMC_CMD_E_WBL2I (0x1b) /**< Writeback if dirty, make clean, clear use bit, by index/way. */
+#define BDK_XMC_CMD_E_AADD (0x28)
+#define BDK_XMC_CMD_E_ACAS (0x26)
+#define BDK_XMC_CMD_E_ACLR (0x29)
+#define BDK_XMC_CMD_E_ADEC (0x25)
+#define BDK_XMC_CMD_E_AEOR (0x2a)
+#define BDK_XMC_CMD_E_AINC (0x24)
+#define BDK_XMC_CMD_E_ALLEX (0x3c)
+#define BDK_XMC_CMD_E_ASET (0x2b)
+#define BDK_XMC_CMD_E_ASIDE1 (0x3d)
+#define BDK_XMC_CMD_E_ASMAX (0x2c)
+#define BDK_XMC_CMD_E_ASMIN (0x2d)
+#define BDK_XMC_CMD_E_ASWP (0x27)
+#define BDK_XMC_CMD_E_AUMAX (0x2e)
+#define BDK_XMC_CMD_E_AUMIN (0x2f)
+#define BDK_XMC_CMD_E_DWB (5)
+#define BDK_XMC_CMD_E_GBLSYNC (0x3f)
+#define BDK_XMC_CMD_E_IAADD (0x68)
+#define BDK_XMC_CMD_E_IACAS (0x66)
+#define BDK_XMC_CMD_E_IACLR (0x69)
+#define BDK_XMC_CMD_E_IALLU (0x39)
+#define BDK_XMC_CMD_E_IASET (0x6b)
+#define BDK_XMC_CMD_E_IASWP (0x67)
+#define BDK_XMC_CMD_E_INVL2 (0x1c)
+#define BDK_XMC_CMD_E_IOBADDR (0x43)
+#define BDK_XMC_CMD_E_IOBADDRA (0x53)
+#define BDK_XMC_CMD_E_IOBLD (0x40)
+#define BDK_XMC_CMD_E_IOBST (0x41)
+#define BDK_XMC_CMD_E_IOBSTA (0x51)
+#define BDK_XMC_CMD_E_IOBSTP (0x42)
+#define BDK_XMC_CMD_E_IOBSTPA (0x52)
+#define BDK_XMC_CMD_E_IPAS2E1 (0x37)
+#define BDK_XMC_CMD_E_IVAU (0x34)
+#define BDK_XMC_CMD_E_LCKL2 (0x1f)
+#define BDK_XMC_CMD_E_LDD (8)
+#define BDK_XMC_CMD_E_LDDT (0xc)
+#define BDK_XMC_CMD_E_LDE (0xb)
+#define BDK_XMC_CMD_E_LDI (2)
+#define BDK_XMC_CMD_E_LDP (7)
+#define BDK_XMC_CMD_E_LDT (1)
+#define BDK_XMC_CMD_E_LDWB (0xd)
+#define BDK_XMC_CMD_E_LDY (6)
+#define BDK_XMC_CMD_E_LMTST (0x45)
+#define BDK_XMC_CMD_E_LMTSTA (0x55)
+#define BDK_XMC_CMD_E_LTGL2I (0x19)
+#define BDK_XMC_CMD_E_NOP (0)
+#define BDK_XMC_CMD_E_PL2 (3)
+#define BDK_XMC_CMD_E_PL2T (0x16)
+#define BDK_XMC_CMD_E_PS2 (0xa)
+#define BDK_XMC_CMD_E_PS2T (0x17)
+#define BDK_XMC_CMD_E_PSL1 (9)
+#define BDK_XMC_CMD_E_RPL2 (4)
+#define BDK_XMC_CMD_E_RSTP (0xf)
+#define BDK_XMC_CMD_E_SEV (0x3e)
+#define BDK_XMC_CMD_E_STC (0x13)
+#define BDK_XMC_CMD_E_STF (0x10)
+#define BDK_XMC_CMD_E_STFIL1 (0x14)
+#define BDK_XMC_CMD_E_STGL2I (0x1a)
+#define BDK_XMC_CMD_E_STP (0x12)
+#define BDK_XMC_CMD_E_STT (0x11)
+#define BDK_XMC_CMD_E_STTIL1 (0x15)
+#define BDK_XMC_CMD_E_STY (0xe)
+#define BDK_XMC_CMD_E_VAAE1 (0x36)
+#define BDK_XMC_CMD_E_VAEX (0x35)
+#define BDK_XMC_CMD_E_VMALLE1 (0x3a)
+#define BDK_XMC_CMD_E_VMALLS12 (0x3b)
+#define BDK_XMC_CMD_E_WBIL2 (0x1d)
+#define BDK_XMC_CMD_E_WBIL2I (0x18)
+#define BDK_XMC_CMD_E_WBL2 (0x1e)
+#define BDK_XMC_CMD_E_WBL2I (0x1b)
 
 /**
  * Register (RSL) l2c_asc_region#_attr

@@ -58,8 +58,8 @@
  * IOBN Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_IOBN_BAR_E_IOBNX_PF_BAR0(a) (0x87e0f0000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_IOBN_BAR_E_IOBNX_PF_BAR4(a) (0x87e0f0f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_IOBN_BAR_E_IOBNX_PF_BAR0(a) (0x87e0f0000000ll + 0x1000000ll * (a))
+#define BDK_IOBN_BAR_E_IOBNX_PF_BAR4(a) (0x87e0f0f00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration iobn_int_vec_e
@@ -67,10 +67,7 @@
  * IOBN MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_IOBN_INT_VEC_E_INTS (0) /**< See interrupt clears IOBN()_INT_SUM,
-                                       interrupt sets IOBN()_INT_SUM_W1S,
-                                       enable clears IOBN()_INT_ENA_W1C,
-                                       and enable sets IOBN()_INT_ENA_W1S. */
+#define BDK_IOBN_INT_VEC_E_INTS (0)
 
 /**
  * Register (RSL) iobn#_bistr_reg
@@ -1379,9 +1376,9 @@ typedef union
     struct bdk_iobnx_int_ena_w1c_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) Added in pass 2.0. Reads or clears enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
         uint64_t reserved_61_62        : 2;
-        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Added in pass 2.0. Reads or clears enable for IOBN(0..1)_INT_SUM[IED0_DBE].
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[IED0_DBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                       gmr_ixofifo_dbe_sclk,
@@ -1413,7 +1410,7 @@ typedef union
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Added in pass 2.0. Reads or clears enable for IOBN(0..1)_INT_SUM[IED0_SBE].
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[IED0_SBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                        gmr_ixofifo_sbe_sclk,
@@ -1445,7 +1442,7 @@ typedef union
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
 #else /* Word 0 - Little Endian */
-        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Added in pass 2.0. Reads or clears enable for IOBN(0..1)_INT_SUM[IED0_SBE].
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[IED0_SBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                        gmr_ixofifo_sbe_sclk,
@@ -1477,7 +1474,7 @@ typedef union
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Added in pass 2.0. Reads or clears enable for IOBN(0..1)_INT_SUM[IED0_DBE].
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[IED0_DBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                       gmr_ixofifo_dbe_sclk,
@@ -1509,7 +1506,7 @@ typedef union
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
         uint64_t reserved_61_62        : 2;
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) Added in pass 2.0. Reads or clears enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_iobnx_int_ena_w1c_t;
@@ -1957,9 +1954,9 @@ typedef union
     struct bdk_iobnx_int_ena_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Added in pass 2.0. Reads or sets enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
         uint64_t reserved_61_62        : 2;
-        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Added in pass 2.0. Reads or sets enable for IOBN(0..1)_INT_SUM[IED0_DBE].
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[IED0_DBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                       gmr_ixofifo_dbe_sclk,
@@ -1991,7 +1988,7 @@ typedef union
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Added in pass 2.0. Reads or sets enable for IOBN(0..1)_INT_SUM[IED0_SBE].
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[IED0_SBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                        gmr_ixofifo_sbe_sclk,
@@ -2023,7 +2020,7 @@ typedef union
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
 #else /* Word 0 - Little Endian */
-        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Added in pass 2.0. Reads or sets enable for IOBN(0..1)_INT_SUM[IED0_SBE].
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[IED0_SBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                        gmr_ixofifo_sbe_sclk,
@@ -2055,7 +2052,7 @@ typedef union
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Added in pass 2.0. Reads or sets enable for IOBN(0..1)_INT_SUM[IED0_DBE].
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[IED0_DBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                       gmr_ixofifo_dbe_sclk,
@@ -2087,7 +2084,7 @@ typedef union
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
         uint64_t reserved_61_62        : 2;
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Added in pass 2.0. Reads or sets enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_iobnx_int_ena_w1s_t;
@@ -3117,9 +3114,9 @@ typedef union
     struct bdk_iobnx_int_sum_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Added in pass 2.0. Reads or sets IOBN(0..1)_INT_SUM[PEM_SIE]. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[PEM_SIE]. */
         uint64_t reserved_61_62        : 2;
-        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Added in pass 2.0. Reads or sets IOBN(0..1)_INT_SUM[IED0_DBE].
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[IED0_DBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                       gmr_ixofifo_dbe_sclk,
@@ -3151,7 +3148,7 @@ typedef union
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Added in pass 2.0. Reads or sets IOBN(0..1)_INT_SUM[IED0_SBE].
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[IED0_SBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                        gmr_ixofifo_sbe_sclk,
@@ -3183,7 +3180,7 @@ typedef union
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
 #else /* Word 0 - Little Endian */
-        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Added in pass 2.0. Reads or sets IOBN(0..1)_INT_SUM[IED0_SBE].
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[IED0_SBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                        gmr_ixofifo_sbe_sclk,
@@ -3215,7 +3212,7 @@ typedef union
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Added in pass 2.0. Reads or sets IOBN(0..1)_INT_SUM[IED0_DBE].
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[IED0_DBE].
                                                                  Internal:
                                                                  iob_mem_data_xmd_sbe_sclk,
                                                                       gmr_ixofifo_dbe_sclk,
@@ -3247,7 +3244,7 @@ typedef union
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
         uint64_t reserved_61_62        : 2;
-        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Added in pass 2.0. Reads or sets IOBN(0..1)_INT_SUM[PEM_SIE]. */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[PEM_SIE]. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_iobnx_int_sum_w1s_t;

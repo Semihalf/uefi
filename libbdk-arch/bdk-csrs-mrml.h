@@ -58,8 +58,8 @@
  * MRML Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_MRML_BAR_E_MRML_PF_BAR0 (0x87e0fc000000ll) /**< Base address for standard registers. */
-#define BDK_MRML_BAR_E_MRML_PF_BAR4 (0x87e0fcf00000ll) /**< Base address for MSI-X registers. */
+#define BDK_MRML_BAR_E_MRML_PF_BAR0 (0x87e0fc000000ll)
+#define BDK_MRML_BAR_E_MRML_PF_BAR4 (0x87e0fcf00000ll)
 
 /**
  * Enumeration mrml_int_vec_e
@@ -67,10 +67,7 @@
  * MRML MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_MRML_INT_VEC_E_INTS (0) /**< See interrupt clears MRML_INT_SUM,
-                                       interrupt sets MRML_INT_SUM_W1S,
-                                       enable clears MRML_INT_ENA_W1C,
-                                       and enable sets MRML_INT_ENA_W1S. */
+#define BDK_MRML_INT_VEC_E_INTS (0)
 
 /**
  * Register (RSL) mrml_int_ena_w1c

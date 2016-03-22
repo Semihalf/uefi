@@ -58,10 +58,10 @@
  * CDE Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_CDE_BAR_E_CDEX_PF_BAR0(a) (0x80c000000000ll + 0x1000000000ll * (a)) /**< Base address for physical function standard registers. */
-#define BDK_CDE_BAR_E_CDEX_PF_BAR4(a) (0x80c010000000ll + 0x1000000000ll * (a)) /**< Base address for physical function MSI-X registers. */
-#define BDK_CDE_BAR_E_CDEX_VFX_BAR0(a,b) (0x80c020000000ll + 0x1000000000ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function standard registers. */
-#define BDK_CDE_BAR_E_CDEX_VFX_BAR4(a,b) (0x80c030000000ll + 0x1000000000ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function MSI-X registers. */
+#define BDK_CDE_BAR_E_CDEX_PF_BAR0(a) (0x80c000000000ll + 0x1000000000ll * (a))
+#define BDK_CDE_BAR_E_CDEX_PF_BAR4(a) (0x80c010000000ll + 0x1000000000ll * (a))
+#define BDK_CDE_BAR_E_CDEX_VFX_BAR0(a,b) (0x80c020000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
+#define BDK_CDE_BAR_E_CDEX_VFX_BAR4(a,b) (0x80c030000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
 
 /**
  * Enumeration cde_pf_int_vec_e
@@ -69,10 +69,7 @@
  * CDE PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_CDE_PF_INT_VEC_E_MBOXX(a) (2 + (a)) /**< See interrupt clears CDE()_PF_MBOX_INT(),
-                                       interrupt sets CDE()_PF_MBOX_INT_W1S(),
-                                       enable clears CDE()_PF_MBOX_ENA_W1C(),
-                                       and enable sets CDE()_PF_MBOX_ENA_W1S(). */
+#define BDK_CDE_PF_INT_VEC_E_MBOXX(a) (2 + (a))
 
 /**
  * Enumeration cde_vf_int_vec_e
@@ -80,14 +77,8 @@
  * CDE VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_CDE_VF_INT_VEC_E_DONE (2) /**< See interrupt clears CDE()_VQ()_DONE_INT_W1C,
-                                       interrupt sets CDE()_VQ()_DONE_INT_W1S,
-                                       enable clears CDE()_VQ()_DONE_ENA_W1C
-                                       and enable sets CDE()_VQ()_DONE_ENA_W1S. */
-#define BDK_CDE_VF_INT_VEC_E_MISC (0) /**< See interrupt clears CDE()_VQ()_MISC_INT,
-                                       interrupt sets CDE()_VQ()_MISC_INT_W1S,
-                                       enable clears CDE()_VQ()_MISC_ENA_W1C
-                                       and enable sets CDE()_VQ()_MISC_ENA_W1S. */
+#define BDK_CDE_VF_INT_VEC_E_DONE (2)
+#define BDK_CDE_VF_INT_VEC_E_MISC (0)
 
 /**
  * Structure cde_inst_s

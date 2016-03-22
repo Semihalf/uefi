@@ -58,8 +58,8 @@
  * ECAM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_ECAM_BAR_E_ECAMX_PF_BAR0(a) (0x87e048000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_ECAM_BAR_E_ECAMX_PF_BAR2(a) (0x848000000000ll + 0x1000000000ll * (a)) /**< Base address for ECAM access space, using ECAM_CFG_ADDR_S structure. */
+#define BDK_ECAM_BAR_E_ECAMX_PF_BAR0(a) (0x87e048000000ll + 0x1000000ll * (a))
+#define BDK_ECAM_BAR_E_ECAMX_PF_BAR2(a) (0x848000000000ll + 0x1000000000ll * (a))
 
 /**
  * Structure ecam_cfg_addr_s

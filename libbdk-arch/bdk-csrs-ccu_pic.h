@@ -58,7 +58,7 @@
  * CCU_PIC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_CCU_PIC_BAR_E_CCUX_PIC_PF_BAR0(a) (0x87e050000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_CCU_PIC_BAR_E_CCUX_PIC_PF_BAR0(a) (0x87e050000000ll + 0x1000000ll * (a))
 
 /**
  * Register (RSL) ccu#_pic_eco

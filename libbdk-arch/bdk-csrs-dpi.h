@@ -58,8 +58,8 @@
  * DPI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_DPI_BAR_E_DPIX_PF_BAR0(a) (0x86e000000000ll + 0x10000000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_DPI_BAR_E_DPIX_PF_BAR4(a) (0x86e001000000ll + 0x10000000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_DPI_BAR_E_DPIX_PF_BAR0(a) (0x86e000000000ll + 0x10000000000ll * (a))
+#define BDK_DPI_BAR_E_DPIX_PF_BAR4(a) (0x86e001000000ll + 0x10000000000ll * (a))
 
 /**
  * Enumeration dpi_cs_e
@@ -67,10 +67,10 @@
  * DPI Completion Status Enumeration
  * Enumerates the completion status return values.
  */
-#define BDK_DPI_CS_E_ERRRSP (3) /**< Error response from read source MAC. */
-#define BDK_DPI_CS_E_NOERR (0) /**< No error detected on instruction. */
-#define BDK_DPI_CS_E_RDRST (1) /**< MAC reset detected on read source MAC. */
-#define BDK_DPI_CS_E_WRRST (2) /**< MAC reset detected on write destination MAC. */
+#define BDK_DPI_CS_E_ERRRSP (3)
+#define BDK_DPI_CS_E_NOERR (0)
+#define BDK_DPI_CS_E_RDRST (1)
+#define BDK_DPI_CS_E_WRRST (2)
 
 /**
  * Enumeration dpi_endianswap_e
@@ -78,10 +78,10 @@
  * SLI/DPI Endian Swap Mode Enumeration
  * Enumerates the endian swap modes that SLI and DPI support.
  */
-#define BDK_DPI_ENDIANSWAP_E_BYTE_SWAP_32B (2) /**< Swap bytes within a 32-bit word. [A-B-C-D-E-F-G-H] -> [D-C-B-A-H-G-F-E] */
-#define BDK_DPI_ENDIANSWAP_E_BYTE_SWAP_64B (1) /**< Swap bytes within a 64-bit word. [A-B-C-D-E-F-G-H] -> [H-G-F-E-D-C-B-A] */
-#define BDK_DPI_ENDIANSWAP_E_LW_SWAP_64B (3) /**< Swap 32-bit words in a 64-bit word. [A-B-C-D-E-F-G-H] -> [E-F-G-H-A-B-C-D] */
-#define BDK_DPI_ENDIANSWAP_E_PASS_THRU (0) /**< No swap. [A-B-C-D-E-F-G-H] -> [A-B-C-D-E-F-G-H] */
+#define BDK_DPI_ENDIANSWAP_E_BYTE_SWAP_32B (2)
+#define BDK_DPI_ENDIANSWAP_E_BYTE_SWAP_64B (1)
+#define BDK_DPI_ENDIANSWAP_E_LW_SWAP_64B (3)
+#define BDK_DPI_ENDIANSWAP_E_PASS_THRU (0)
 
 /**
  * Enumeration dpi_hdr_pt_e
@@ -89,46 +89,10 @@
  * DPI Header Pointer Type Enumeration
  * Enumerates the pointer type in DPI_DMA_INSTR_HDR_S[PT].
  */
-#define BDK_DPI_HDR_PT_E_CNT (3) /**< Increment a CSR Counter after completing the DPI DMA instruction.
-                                       
-                                       DPI_DMA_INSTR_HDR_S[PTR]-1 selects a DPI()_DMA_CC()_CNT[CNT] CSR
-                                       that DPI increments by one on completion with CNT, which can cause
-                                       an interrupt. DPI_DMA_INSTR_HDR_S[PTR]-1 must select an existing
-                                       DPI()_DMA_CC()_CNT[CNT] with CNT. */
-#define BDK_DPI_HDR_PT_E_WQP (2) /**< Work-queue Pointer add after completing the DPI DMA instruction.
-                                       
-                                       DPI_DMA_INSTR_HDR_S[PTR<2:0>] is a DPI_HDR_PT_WQP_E with WQP, selecting
-                                       if/how DPI performs a DPI_CS_E completion status byte write before
-                                       the WQE add. The remaining DPI_DMA_INSTR_HDR_S[PTR] bits are a (64-bit word,
-                                       not byte) work queue entry L2/DRAM pointer for SSO. DPI adds the
-                                       WQE with tag type DPI_DMA_INSTR_HDR_S[TT] into SSO group
-                                       DPI_DMA_INSTR_HDR_S[GROUP] after completing the DPI DMA instruction
-                                       and its completion status byte write (if any). DPI_DMA_INSTR_HDR_S[PTR]
-                                       must be >= 128 with WQP. */
-#define BDK_DPI_HDR_PT_E_ZBW_CA (0) /**< Byte-write with cache allocate after completing the DPI DMA instruction
-                                       (if DPI_DMA_INSTR_HDR_S[PTR] != 0).
-                                       
-                                       DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in L2/DRAM to write. DPI_DMA_INSTR_HDR_S[PTR]
-                                       must be >= 128 or zero with ZBW_CA.
-                                       When DPI_DMA_INSTR_HDR_S[PTR] is zero with ZBW_CA, no zero-byte-write occurs.
-                                       
-                                       When DPI()_DMA_CONTROL[ZBWCSEN] is clear, DPI always writes DPI_CS_E::NOERR
-                                       (i.e. zero) to the selected byte, regardless whether the DPI DMA instruction
-                                       encounters an error or not. When DPI()_DMA_CONTROL[ZBWCSEN] is set, DPI
-                                       writes the appropriate DPI_CS_E status for the instruction to
-                                       the selected byte. */
-#define BDK_DPI_HDR_PT_E_ZBW_NC (1) /**< Byte-write with no cache allocate after completing the DPI DMA instruction
-                                       (if DPI_DMA_INSTR_HDR_S[PTR] != 0).
-                                       
-                                       DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in L2/DRAM to write. DPI_DMA_INSTR_HDR_S[PTR]
-                                       must be >= 128 or zero with ZBW_NC.
-                                       When DPI_DMA_INSTR_HDR_S[PTR] is zero with ZBW_NC, no zero-byte-write occurs.
-                                       
-                                       When DPI()_DMA_CONTROL[ZBWCSEN] is clear, DPI always writes DPI_CS_E::NOERR
-                                       (i.e. zero) to the selected byte, regardless whether the DPI DMA instruction
-                                       encounters an error or not. When DPI()_DMA_CONTROL[ZBWCSEN] is set, DPI
-                                       writes the appropriate DPI_CS_E status for the instruction to the
-                                       selected byte. */
+#define BDK_DPI_HDR_PT_E_CNT (3)
+#define BDK_DPI_HDR_PT_E_WQP (2)
+#define BDK_DPI_HDR_PT_E_ZBW_CA (0)
+#define BDK_DPI_HDR_PT_E_ZBW_NC (1)
 
 /**
  * Enumeration dpi_hdr_pt_wqp_e
@@ -138,22 +102,9 @@
  * The DPI_DMA_INSTR_HDR_S[PTR<2:0>] encoding when DPI_DMA_INSTR_HDR_S[PT] is
  * DPI_HDR_PT_E::WQP.
  */
-#define BDK_DPI_HDR_PT_WQP_E_NOSTATUS (0) /**< No status write. DPI will not write the DPI_CS_E status of the instruction into
-                                       the WQE before submitting the work. */
-#define BDK_DPI_HDR_PT_WQP_E_STATUSCA (1) /**< Status write with cache allocate. If the DPI_CS_E status of the instruction is
-                                       other than DPI_CS_E::NOERR (i.e. zero), then DPI will write the DPI_CS_E
-                                       status of the instruction into the WQE (at offset DPI()_DMA_CONTROL[WQECSOFF],
-                                       with cache allocation on a miss) before submitting the work.
-                                       
-                                       DPI()_DMA_CONTROL[WQECSDIS]!=0 or DPI()_DMA_CONTROL[WQECSMODE]!=0 can give
-                                       other behavior. */
-#define BDK_DPI_HDR_PT_WQP_E_STATUSNC (3) /**< Status write with no cache allocate. If the DPI_CS_E status of the instruction
-                                       is other than DPI_CS_E::NOERR (i.e. zero), then DPI will write the DPI_CS_E
-                                       status of the instruction into the WQE (at offset DPI()_DMA_CONTROL[WQECSOFF],
-                                       preferrably without cache allocation on a miss) before submitting the work.
-                                       
-                                       DPI()_DMA_CONTROL[WQECSDIS]!=0 or DPI()_DMA_CONTROL[WQECSMODE]!=0 can give
-                                       other behavior. */
+#define BDK_DPI_HDR_PT_WQP_E_NOSTATUS (0)
+#define BDK_DPI_HDR_PT_WQP_E_STATUSCA (1)
+#define BDK_DPI_HDR_PT_WQP_E_STATUSNC (3)
 
 /**
  * Enumeration dpi_hdr_xtype_e
@@ -161,16 +112,10 @@
  * DPI Transfer Type Enumeration
  * Enumerates the pointer type in DPI_DMA_INSTR_HDR_S[XTYPE].
  */
-#define BDK_DPI_HDR_XTYPE_E_EXTERNAL_ONLY (3) /**< A DPI DMA transfer from MAC addresses in the first pointers block
-                                       to MAC addresses in the last pointers block. */
-#define BDK_DPI_HDR_XTYPE_E_INBOUND (1) /**< A DPI DMA transfer from MAC addresses in the last pointers block
-                                       to DPI_DMA_LOCAL_PTR_S's in the first pointers block. */
-#define BDK_DPI_HDR_XTYPE_E_INTERNAL_ONLY (2) /**< A DPI DMA transfer from DPI_DMA_LOCAL_PTR_S's in the first pointers
-                                       block to DPI_DMA_LOCAL_PTR_S's in the last pointers block. */
-#define BDK_DPI_HDR_XTYPE_E_OUTBOUND (0) /**< A DPI DMA transfer from DPI_DMA_LOCAL_PTR_S's in the first pointers
-                                       block to MAC addresses in the last pointers block. The
-                                       DPI_DMA_LOCAL_PTR_S[PTR]'s can optionally be freed to FPA,
-                                       and an interrupt can optionally be sent to a remote host. */
+#define BDK_DPI_HDR_XTYPE_E_EXTERNAL_ONLY (3)
+#define BDK_DPI_HDR_XTYPE_E_INBOUND (1)
+#define BDK_DPI_HDR_XTYPE_E_INTERNAL_ONLY (2)
+#define BDK_DPI_HDR_XTYPE_E_OUTBOUND (0)
 
 /**
  * Enumeration dpi_int_vec_e
@@ -178,22 +123,10 @@
  * DPI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DPI_INT_VEC_E_DPI_CCX_INT(a) (0 + (a)) /**< See interrupt clears DPI()_DMA_CC_INT,
-                                       interrupt sets DPI()_DMA_CC_INT_W1S,
-                                       enable clears DPI()_DMA_CC_INT_ENA_W1C,
-                                       and enable sets DPI()_DMA_CC_INT_ENA_W1S. */
-#define BDK_DPI_INT_VEC_E_DPI_DBE_INT (0x42) /**< See interrupt clears DPI()_DBE_INT,
-                                       interrupt sets DPI()_DBE_INT_W1S,
-                                       enable clears DPI()_DBE_INT_ENA_W1C,
-                                       and enable sets DPI()_DBE_INT_ENA_W1S. */
-#define BDK_DPI_INT_VEC_E_DPI_INT_REG (0x40) /**< See interrupt clears DPI()_INT_REG,
-                                       interrupt sets DPI()_INT_REG_W1S,
-                                       enable clears DPI()_INT_ENA_W1C,
-                                       and enable sets DPI()_INT_ENA_W1S. */
-#define BDK_DPI_INT_VEC_E_DPI_SBE_INT (0x41) /**< See interrupt clears DPI()_SBE_INT,
-                                       interrupt sets DPI()_SBE_INT_W1S,
-                                       enable clears DPI()_SBE_INT_ENA_W1C,
-                                       and enable sets DPI()_SBE_INT_ENA_W1S. */
+#define BDK_DPI_INT_VEC_E_DPI_CCX_INT(a) (0 + (a))
+#define BDK_DPI_INT_VEC_E_DPI_DBE_INT (0x42)
+#define BDK_DPI_INT_VEC_E_DPI_INT_REG (0x40)
+#define BDK_DPI_INT_VEC_E_DPI_SBE_INT (0x41)
 
 /**
  * Structure dpi_dma_func_sel_s

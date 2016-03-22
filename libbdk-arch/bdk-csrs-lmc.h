@@ -58,8 +58,8 @@
  * LMC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_LMC_BAR_E_LMCX_PF_BAR0(a) (0x87e088000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_LMC_BAR_E_LMCX_PF_BAR4(a) (0x87e088f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_LMC_BAR_E_LMCX_PF_BAR0(a) (0x87e088000000ll + 0x1000000ll * (a))
+#define BDK_LMC_BAR_E_LMCX_PF_BAR4(a) (0x87e088f00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration lmc_int_vec_e
@@ -67,10 +67,7 @@
  * LMC MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_LMC_INT_VEC_E_INTS (0) /**< See interrupt clears LMC()_INT,
-                                       interrupt sets LMC()_INT_W1S,
-                                       enable clears LMC()_INT_ENA_W1C,
-                                       and enable sets LMC()_INT_ENA_W1S. */
+#define BDK_LMC_INT_VEC_E_INTS (0)
 
 /**
  * Enumeration lmc_seq_sel_e
@@ -78,55 +75,18 @@
  * LMC Sequence Select Enumeration
  * Enumerates the diferent values of LMC()_SEQ_CTL[SEQ_SEL].
  */
-#define BDK_LMC_SEQ_SEL_E_INIT (0) /**< Power-up/initialization sequence.
-                                       LMC()_CONFIG[RANKMASK] selects participating ranks (should be all ranks with attached
-                                       DRAM). DDR*_DIMM*_CKE* signals are activated (if not already active).
-                                       The DRAM registers MR0-MR6 are written in the selected ranks.
-                                       
-                                       If there are two consecutive power-up/init's without
-                                       a DRESET assertion between them, LMC asserts DDR_CKE* as part of
-                                       the first power-up/init, and continues to assert DDR_CKE*
-                                       through the remainder of the first and the second power-up/init.
-                                       
-                                       If DDR_CKE* deactivation and reactivation is needed for
-                                       a second power-up/init, a DRESET assertion is required
-                                       between the first and the second. */
-#define BDK_LMC_SEQ_SEL_E_MPR_RW (9) /**< DRAM's MPR register read or write sequence. */
-#define BDK_LMC_SEQ_SEL_E_MRW (8) /**< Manual mode register write sequence. */
-#define BDK_LMC_SEQ_SEL_E_OFFSET_TRAINING (0xb) /**< Offset training sequence. */
-#define BDK_LMC_SEQ_SEL_E_PPR (0xf) /**< DDR4 post package repair sequence. See LMC()_PPR_CTL for more detail. */
-#define BDK_LMC_SEQ_SEL_E_RCD_INIT (7) /**< RCD initialization sequence.
-                                       LMC()_CONFIG[RANKMASK] selects participating ranks (should be all ranks with attached
-                                       DRAM). In DDR3 mode, RDIMM register control words 0-15 are written to
-                                       LMC()_CONFIG[RANKMASK]-selected RDIMMs when LMC()_CONTROL[RDIMM_ENA] = 1 and
-                                       corresponding LMC()_DIMM_CTL[DIMM*_WMASK] bits are set. (Refer to
-                                       LMC()_DIMM()_PARAMS and LMC()_DIMM_CTL descriptions for more details.) */
-#define BDK_LMC_SEQ_SEL_E_READ_LEVEL (1) /**< Read-leveling sequence.
-                                       LMC()_CONFIG[RANKMASK] selects the rank to be read-leveled. MR3 written in the
-                                       selected rank. */
-#define BDK_LMC_SEQ_SEL_E_RW_TRAINING (0xe) /**< General read and/or write training sequence.
-                                       Internal:
-                                       Configurable to run different modes of Data Buffer training on DDR4 LRDIMM.
-                                       See LMC()_DBTRAIN_CTL for more detail. */
-#define BDK_LMC_SEQ_SEL_E_SREF_ENTRY (2) /**< Self-refresh entry sequence.
-                                       LMC()_CONFIG[INIT_STATUS] selects the participating ranks (should be all ranks with
-                                       attached DRAM). MR1 and MR2 are written in the selected ranks if
-                                       LMC()_CONFIG[SREF_WITH_DLL] = 1. DDR*_DIMM*_CKE* signals de-activated.
-                                       
-                                       Self-refresh entry may also be automatically entered by hardware upon a chip warm or
-                                       soft reset when LMC*_RESET_CTL[DDR3PWARM,DDR3PSOFT] are set. */
-#define BDK_LMC_SEQ_SEL_E_SREF_EXIT (3) /**< Self-refresh exit sequence.
-                                       LMC()_CONFIG[RANKMASK] must be set to indicate participating ranks (should be all
-                                       ranks with attached DRAM). DDR*_DIMM*_CKE* signals activated. MR0, MR1, MR2, and MR3 are
-                                       written in the participating ranks if LMC()_CONFIG[SREF_WITH_DLL] = 1.
-                                       LMC()_CONFIG[INIT_STATUS] is updated for ranks that are selected. */
-#define BDK_LMC_SEQ_SEL_E_VREF_INT (0xa) /**< Internal VREF training sequence.
-                                       This sequence is also used as a deskew training sequence when
-                                       LMC()_EXT_CONFIG[VREFINT_SEQ_DESKEW] is set high. */
-#define BDK_LMC_SEQ_SEL_E_WRITE_LEVEL (6) /**< Write-leveling sequence.
-                                       LMC()_CONFIG[RANKMASK] selects the rank to be write-leveled.
-                                       LMC()_CONFIG[INIT_STATUS] must indicate all ranks with attached DRAM. MR1 and MR2
-                                       written in the LMC()_CONFIG[INIT_STATUS]-selected ranks. */
+#define BDK_LMC_SEQ_SEL_E_INIT (0)
+#define BDK_LMC_SEQ_SEL_E_MPR_RW (9)
+#define BDK_LMC_SEQ_SEL_E_MRW (8)
+#define BDK_LMC_SEQ_SEL_E_OFFSET_TRAINING (0xb)
+#define BDK_LMC_SEQ_SEL_E_PPR (0xf)
+#define BDK_LMC_SEQ_SEL_E_RCD_INIT (7)
+#define BDK_LMC_SEQ_SEL_E_READ_LEVEL (1)
+#define BDK_LMC_SEQ_SEL_E_RW_TRAINING (0xe)
+#define BDK_LMC_SEQ_SEL_E_SREF_ENTRY (2)
+#define BDK_LMC_SEQ_SEL_E_SREF_EXIT (3)
+#define BDK_LMC_SEQ_SEL_E_VREF_INT (0xa)
+#define BDK_LMC_SEQ_SEL_E_WRITE_LEVEL (6)
 
 /**
  * Register (RSL) lmc#_bank_conflict1

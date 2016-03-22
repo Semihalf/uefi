@@ -58,8 +58,8 @@
  * MPI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_MPI_BAR_E_MPI_PF_BAR0 (0x804000000000ll) /**< Base address for standard registers. */
-#define BDK_MPI_BAR_E_MPI_PF_BAR4 (0x804000f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_MPI_BAR_E_MPI_PF_BAR0 (0x804000000000ll)
+#define BDK_MPI_BAR_E_MPI_PF_BAR4 (0x804000f00000ll)
 
 /**
  * Enumeration mpi_int_vec_e
@@ -67,8 +67,7 @@
  * MPI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_MPI_INT_VEC_E_INTS (0) /**< See interrupt clears MPI_STS[MPI_INTR], interrupt sets MPI_STS_W1S[MPI_INTR], enable
-                                       clears MPI_INT_ENA_W1C[MPI_INTR], and enable sets MPI_INT_ENA_W1S[MPI_INTR]. */
+#define BDK_MPI_INT_VEC_E_INTS (0)
 
 /**
  * Register (NCB) mpi_cfg
@@ -151,7 +150,79 @@ typedef union
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mpi_cfg_s cn; */
+    struct bdk_mpi_cfg_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
+        uint64_t clkdiv                : 13; /**< [ 28: 16](R/W) Clock divisor.
+                                                                 SPI_CK = coprocessor clock / (2 * CLKDIV)
+                                                                 CLKDIV = coprocessor clock / (2 * SPI_CK) */
+        uint64_t csena3                : 1;  /**< [ 15: 15](R/W) Must be one. */
+        uint64_t csena2                : 1;  /**< [ 14: 14](R/W) Must be one. */
+        uint64_t csena1                : 1;  /**< [ 13: 13](R/W) Must be one. */
+        uint64_t csena0                : 1;  /**< [ 12: 12](R/W) Must be one. */
+        uint64_t cslate                : 1;  /**< [ 11: 11](R/W) SPI_CSn_L late.
+                                                                 0 = SPI_CSn_L asserts 1/2 SPI_CK cycle before the transaction.
+                                                                 1 = SPI_CSn_L asserts coincident with the transaction. */
+        uint64_t tritx                 : 1;  /**< [ 10: 10](R/W) Tristate TX. Used only when WIREOR = 1
+                                                                 0 = SPI_DO pin is driven when slave is not expected to be driving.
+                                                                 1 = SPI_DO pin is tristated when not transmitting. */
+        uint64_t idleclks              : 2;  /**< [  9:  8](R/W) Idle clocks. When set, guarantees idle SPI_CK cycles between commands. */
+        uint64_t cshi                  : 1;  /**< [  7:  7](R/W) SPI_CSn_L high: 1 = SPI_CSn_L is asserted high, 0 = SPI_CSn_L is asserted low. */
+        uint64_t reserved_5_6          : 2;
+        uint64_t lsbfirst              : 1;  /**< [  4:  4](R/W) Shift LSB first: 0 = shift MSB first, 1 = shift LSB first. */
+        uint64_t wireor                : 1;  /**< [  3:  3](R/W) Wire-OR DO and DI.
+                                                                 0 = SPI_DO and SPI_DI are separate wires (SPI). SPI_DO pin is always driven.
+                                                                 1 = SPI_DO/DI is all from SPI_DO pin (MPI). SPI_DO pin is tristated when not transmitting.
+                                                                 If WIREOR = 1, SPI_DI pin is not used by the MPI/SPI engine. */
+        uint64_t clk_cont              : 1;  /**< [  2:  2](R/W) Clock control.
+                                                                 0 = Clock idles to value given by IDLELO after completion of MPI/SPI transaction.
+                                                                 1 = Clock never idles, requires SPI_CSn_L deassertion/assertion between commands. */
+        uint64_t idlelo                : 1;  /**< [  1:  1](R/W) Clock idle low/clock invert.
+                                                                 0 = SPI_CK idles high, first transition is high-to-low. This mode corresponds to SPI Block
+                                                                 Guide options CPOL = 1, CPHA = 1.
+                                                                 1 = SPI_CK idles low, first transition is low-to-high. This mode corresponds to SPI Block
+                                                                 Guide options CPOL = 0, CPHA = 0. */
+        uint64_t enable                : 1;  /**< [  0:  0](R/W) MPI/SPI enable.
+                                                                 0 = Pins are tristated.
+                                                                 1 = Pins are driven. */
+#else /* Word 0 - Little Endian */
+        uint64_t enable                : 1;  /**< [  0:  0](R/W) MPI/SPI enable.
+                                                                 0 = Pins are tristated.
+                                                                 1 = Pins are driven. */
+        uint64_t idlelo                : 1;  /**< [  1:  1](R/W) Clock idle low/clock invert.
+                                                                 0 = SPI_CK idles high, first transition is high-to-low. This mode corresponds to SPI Block
+                                                                 Guide options CPOL = 1, CPHA = 1.
+                                                                 1 = SPI_CK idles low, first transition is low-to-high. This mode corresponds to SPI Block
+                                                                 Guide options CPOL = 0, CPHA = 0. */
+        uint64_t clk_cont              : 1;  /**< [  2:  2](R/W) Clock control.
+                                                                 0 = Clock idles to value given by IDLELO after completion of MPI/SPI transaction.
+                                                                 1 = Clock never idles, requires SPI_CSn_L deassertion/assertion between commands. */
+        uint64_t wireor                : 1;  /**< [  3:  3](R/W) Wire-OR DO and DI.
+                                                                 0 = SPI_DO and SPI_DI are separate wires (SPI). SPI_DO pin is always driven.
+                                                                 1 = SPI_DO/DI is all from SPI_DO pin (MPI). SPI_DO pin is tristated when not transmitting.
+                                                                 If WIREOR = 1, SPI_DI pin is not used by the MPI/SPI engine. */
+        uint64_t lsbfirst              : 1;  /**< [  4:  4](R/W) Shift LSB first: 0 = shift MSB first, 1 = shift LSB first. */
+        uint64_t reserved_5_6          : 2;
+        uint64_t cshi                  : 1;  /**< [  7:  7](R/W) SPI_CSn_L high: 1 = SPI_CSn_L is asserted high, 0 = SPI_CSn_L is asserted low. */
+        uint64_t idleclks              : 2;  /**< [  9:  8](R/W) Idle clocks. When set, guarantees idle SPI_CK cycles between commands. */
+        uint64_t tritx                 : 1;  /**< [ 10: 10](R/W) Tristate TX. Used only when WIREOR = 1
+                                                                 0 = SPI_DO pin is driven when slave is not expected to be driving.
+                                                                 1 = SPI_DO pin is tristated when not transmitting. */
+        uint64_t cslate                : 1;  /**< [ 11: 11](R/W) SPI_CSn_L late.
+                                                                 0 = SPI_CSn_L asserts 1/2 SPI_CK cycle before the transaction.
+                                                                 1 = SPI_CSn_L asserts coincident with the transaction. */
+        uint64_t csena0                : 1;  /**< [ 12: 12](R/W) Must be one. */
+        uint64_t csena1                : 1;  /**< [ 13: 13](R/W) Must be one. */
+        uint64_t csena2                : 1;  /**< [ 14: 14](R/W) Must be one. */
+        uint64_t csena3                : 1;  /**< [ 15: 15](R/W) Must be one. */
+        uint64_t clkdiv                : 13; /**< [ 28: 16](R/W) Clock divisor.
+                                                                 SPI_CK = coprocessor clock / (2 * CLKDIV)
+                                                                 CLKDIV = coprocessor clock / (2 * SPI_CK) */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_mpi_cfg_s cn9; */
 } bdk_mpi_cfg_t;
 
 #define BDK_MPI_CFG BDK_MPI_CFG_FUNC()

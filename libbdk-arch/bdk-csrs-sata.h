@@ -58,8 +58,8 @@
  * SATA Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_SATA_BAR_E_SATAX_PF_BAR0(a) (0x810000000000ll + 0x1000000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_SATA_BAR_E_SATAX_PF_BAR4(a) (0x810000200000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_SATA_BAR_E_SATAX_PF_BAR0(a) (0x810000000000ll + 0x1000000000ll * (a))
+#define BDK_SATA_BAR_E_SATAX_PF_BAR4(a) (0x810000200000ll + 0x1000000000ll * (a))
 
 /**
  * Enumeration sata_int_vec_e
@@ -67,29 +67,15 @@
  * SATA MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_SATA_INT_VEC_E_UAHC_INTRQ_IP (0) /**< See SATA()_UAHC_GBL_IS[IPS] and SATA()_UAHC_P0_IS. */
-#define BDK_SATA_INT_VEC_E_UAHC_INTRQ_IP_CLEAR (1) /**< Level sensitive interrupt clear vector. */
-#define BDK_SATA_INT_VEC_E_UAHC_PME_REQ_IP (2) /**< See SATA()_UAHC_P0_IS[CPDS] and
-                                       SATA()_UAHC_P0_IS[DMPS] and
-                                       SATA()_UAHC_P0_IS[PCS] and
-                                       SATA()_UAHC_P0_IS[SDBS] and
-                                       SATA()_UAHC_P0_SNTF[PMN]. */
-#define BDK_SATA_INT_VEC_E_UAHC_PME_REQ_IP_CLEAR (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP1 (4) /**< See interrupt clears SATA()_UCTL_INTSTAT, interrupt sets
-                                       SATA()_UCTL_INTSTAT_W1S, enable clears
-                                       SATA()_UCTL_INTENA_W1C, and enable sets SATA()_UCTL_INTENA_W1S. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN9 (1) /**< See interrupt clears SATA()_UCTL_INTSTAT, interrupt sets
-                                       SATA()_UCTL_INTSTAT_W1S, enable clears
-                                       SATA()_UCTL_INTENA_W1C, and enable sets SATA()_UCTL_INTENA_W1S. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN81XX (1) /**< See interrupt clears SATA()_UCTL_INTSTAT, interrupt sets
-                                       SATA()_UCTL_INTSTAT_W1S, enable clears
-                                       SATA()_UCTL_INTENA_W1C, and enable sets SATA()_UCTL_INTENA_W1S. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN83XX (1) /**< See interrupt clears SATA()_UCTL_INTSTAT, interrupt sets
-                                       SATA()_UCTL_INTSTAT_W1S, enable clears
-                                       SATA()_UCTL_INTENA_W1C, and enable sets SATA()_UCTL_INTENA_W1S. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP2 (1) /**< See interrupt clears SATA()_UCTL_INTSTAT, interrupt sets
-                                       SATA()_UCTL_INTSTAT_W1S, enable clears
-                                       SATA()_UCTL_INTENA_W1C, and enable sets SATA()_UCTL_INTENA_W1S. */
+#define BDK_SATA_INT_VEC_E_UAHC_INTRQ_IP (0)
+#define BDK_SATA_INT_VEC_E_UAHC_INTRQ_IP_CLEAR (1)
+#define BDK_SATA_INT_VEC_E_UAHC_PME_REQ_IP (2)
+#define BDK_SATA_INT_VEC_E_UAHC_PME_REQ_IP_CLEAR (3)
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP1 (4)
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN9 (1)
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN81XX (1)
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN83XX (1)
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP2 (1)
 
 /**
  * Enumeration sata_uctl_dma_read_cmd_e
@@ -97,9 +83,9 @@
  * SATA UCTL DMA Read Command Enumeration
  * Enumerates NCB inbound command selections for DMA read operations.
  */
-#define BDK_SATA_UCTL_DMA_READ_CMD_E_LDI (0) /**< Use LDI (allocate). */
-#define BDK_SATA_UCTL_DMA_READ_CMD_E_LDT (1) /**< Use LDT (no allocate). Default. */
-#define BDK_SATA_UCTL_DMA_READ_CMD_E_LDY (2) /**< Use LDY (allocate home). */
+#define BDK_SATA_UCTL_DMA_READ_CMD_E_LDI (0)
+#define BDK_SATA_UCTL_DMA_READ_CMD_E_LDT (1)
+#define BDK_SATA_UCTL_DMA_READ_CMD_E_LDY (2)
 
 /**
  * Enumeration sata_uctl_dma_write_cmd_e
@@ -107,8 +93,8 @@
  * SATA UCTL DMA Write Command Enumeration
  * Enumerate NCB inbound command selections for DMA writes.
  */
-#define BDK_SATA_UCTL_DMA_WRITE_CMD_E_RSTP (1) /**< Use RSTP (allocate home, no fill zero's). */
-#define BDK_SATA_UCTL_DMA_WRITE_CMD_E_STP (0) /**< Use STP (allocate local, no fill zero's). Default. */
+#define BDK_SATA_UCTL_DMA_WRITE_CMD_E_RSTP (1)
+#define BDK_SATA_UCTL_DMA_WRITE_CMD_E_STP (0)
 
 /**
  * Enumeration sata_uctl_ecc_err_source_e
@@ -116,17 +102,17 @@
  * SATA UCTL ECC Error Source Enumeration
  * Enumerate sources of ECC error log information.
  */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_FB_DBE (0xf) /**< UAHC FBS RAM double-bit error. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_FB_SBE (7) /**< UAHC FBS RAM single-bit error. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_NONE (0) /**< No error logged. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_RX_DBE (0xd) /**< UAHC RX asynchronous FIFO double-bit error. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_RX_SBE (5) /**< UAHC RX asynchronous FIFO single-bit error. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_TX_DBE (0xe) /**< UAHC TX asynchronous FIFO double-bit error. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_TX_SBE (6) /**< UAHC TX asynchronous FIFO single-bit error. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_XM_R_DBE (0xa) /**< UCTL AxiMaster read data asynchronous FIFO double-bit error. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_XM_R_SBE (2) /**< UCTL AxiMaster read data asynchronous FIFO single-bit error. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_XM_W_DBE (9) /**< UCTL AxiMaster write data asynchronous FIFO double-bit error. */
-#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_XM_W_SBE (1) /**< UCTL AxiMaster write data asynchronous FIFO single-bit error. */
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_FB_DBE (0xf)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_FB_SBE (7)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_NONE (0)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_RX_DBE (0xd)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_RX_SBE (5)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_TX_DBE (0xe)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_TX_SBE (6)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_XM_R_DBE (0xa)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_XM_R_SBE (2)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_XM_W_DBE (9)
+#define BDK_SATA_UCTL_ECC_ERR_SOURCE_E_XM_W_SBE (1)
 
 /**
  * Enumeration sata_uctl_xm_bad_dma_type_e
@@ -134,13 +120,13 @@
  * SATA UCTL XM Bad DMA Type Enumeration
  * Enumerates the type of DMA error seen.
  */
-#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_ADDR_OOB (1) /**< AxAddr<63:42> != 0x0. */
-#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_LEN_GT_8 (2) /**< AxLen > 0x7. */
-#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE (3) /**< AxSize = 0x0 and AxLen != 0x0. */
-#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD (4) /**< AxSize = 0x1 and AxLen != 0x0. */
-#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_QWORD (6) /**< AxSize = 0x3 and AxLen != 0x0. */
-#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD (5) /**< AxSize = 0x2 and AxLen != 0x0. */
-#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_NONE (0) /**< No error logged. */
+#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_ADDR_OOB (1)
+#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_LEN_GT_8 (2)
+#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE (3)
+#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD (4)
+#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_QWORD (6)
+#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD (5)
+#define BDK_SATA_UCTL_XM_BAD_DMA_TYPE_E_NONE (0)
 
 /**
  * Register (NCB) sata#_msix_pba#

@@ -58,10 +58,9 @@
  * GIC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_GIC_BAR_E_GIC_PF_BAR0 (0x801000000000ll) /**< Base address for GICD registers. The first 64K byte page is for GICD.
-                                       The second 64K byte page is for CCS. */
-#define BDK_GIC_BAR_E_GIC_PF_BAR2 (0x801000020000ll) /**< Base address for GITS registers. */
-#define BDK_GIC_BAR_E_GIC_PF_BAR4 (0x801080000000ll) /**< Base address for GICRx registers. */
+#define BDK_GIC_BAR_E_GIC_PF_BAR0 (0x801000000000ll)
+#define BDK_GIC_BAR_E_GIC_PF_BAR2 (0x801000020000ll)
+#define BDK_GIC_BAR_E_GIC_PF_BAR4 (0x801080000000ll)
 
 /**
  * Enumeration gits_cmd_err_e
@@ -70,20 +69,19 @@
  * The actual 24-bit ITS command SEI is defined as {8'h01,
  * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}.
  */
-#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO (0xe0) /**< Command time out. */
-#define BDK_GITS_CMD_ERR_E_CSEI_COLLECTION_OOR (3) /**< Collection is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_DEVICE_OOR (1) /**< Device ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_ID_OOR (5) /**< ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_ITE_INVALID (0x10) /**< ITE is invalid. */
-#define BDK_GITS_CMD_ERR_E_CSEI_ITTSIZE_OOR (2) /**< ITT SIZE is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_PHYSICALID_OOR (6) /**< Physical ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID (0xe1) /**< SYNC ACK was received when no SYNC command is executed by ITS, and most likely
-                                       the SYNC ACK was received after the SYNC command is timed out. */
-#define BDK_GITS_CMD_ERR_E_CSEI_TA_INVALID (0xfe) /**< Target address is invalid. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_COLLECTION (9) /**< Collection is unmapped. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_DEVICE (4) /**< Device is unmapped. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_INTERRUPT (7) /**< Interrupt is unmapped. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNSUPPORTED_CMD (0xff) /**< Command not supported. */
+#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO (0xe0)
+#define BDK_GITS_CMD_ERR_E_CSEI_COLLECTION_OOR (3)
+#define BDK_GITS_CMD_ERR_E_CSEI_DEVICE_OOR (1)
+#define BDK_GITS_CMD_ERR_E_CSEI_ID_OOR (5)
+#define BDK_GITS_CMD_ERR_E_CSEI_ITE_INVALID (0x10)
+#define BDK_GITS_CMD_ERR_E_CSEI_ITTSIZE_OOR (2)
+#define BDK_GITS_CMD_ERR_E_CSEI_PHYSICALID_OOR (6)
+#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID (0xe1)
+#define BDK_GITS_CMD_ERR_E_CSEI_TA_INVALID (0xfe)
+#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_COLLECTION (9)
+#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_DEVICE (4)
+#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_INTERRUPT (7)
+#define BDK_GITS_CMD_ERR_E_CSEI_UNSUPPORTED_CMD (0xff)
 
 /**
  * Enumeration gits_cmd_type_e
@@ -91,30 +89,19 @@
  * ITS Command Type Enumeration
  * Enumerates the ITS commands.
  */
-#define BDK_GITS_CMD_TYPE_E_CMD_CLEAR (4) /**< This command specifies that the pending state of interrupt ID for the specified device
-                                       must be cleared. */
-#define BDK_GITS_CMD_TYPE_E_CMD_DISCARD (0xf) /**< This command specifies that incoming requests with an identifier of ID will be silently discarded. */
-#define BDK_GITS_CMD_TYPE_E_CMD_INT (3) /**< This command specifies that interrupt ID must be generated for the device. */
-#define BDK_GITS_CMD_TYPE_E_CMD_INV (0xc) /**< This command specifies that the ITS must ensure that the redistributor that currently
-                                       owns interrupt ID for the device must ensure any caching associated with this index is
-                                       consistent with the configuration and pending tables held in memory. */
-#define BDK_GITS_CMD_TYPE_E_CMD_INVALL (0xd) /**< This command specifies that the ITS must ensure any caching associated with the specified
-                                       interrupt collection is consistent with the configuration and pending tables held in
-                                       memory for all re-distributors. */
-#define BDK_GITS_CMD_TYPE_E_CMD_MAPC (9) /**< This command specifies where interrupts belonging to the collection will be forwarded. */
-#define BDK_GITS_CMD_TYPE_E_CMD_MAPD (8) /**< This command describes the interrupt translation table to be used for a specified device. */
-#define BDK_GITS_CMD_TYPE_E_CMD_MAPI (0xb) /**< This command specifies that the interrupt with identifier ID from device is a member of
-                                       the interrupt collection specified by collection. */
-#define BDK_GITS_CMD_TYPE_E_CMD_MAPVI (0xa) /**< This command specifies that the interrupt with identifier ID from device will generate
-                                       physical interrupts with identifier pID which is a member of the interrupt collection
-                                       specified by collection. */
-#define BDK_GITS_CMD_TYPE_E_CMD_MOVALL (0xe) /**< This command specifies that all pending interrupts must be moved from the pending table of
-                                       the re-distributor specified by target address 1 to the pending table of the
-                                       re-distributor specified by target address 2. */
-#define BDK_GITS_CMD_TYPE_E_CMD_MOVI (1) /**< This command specifies that the interrupt with identifier ID from device is now a member
-                                       of the interrupt collection specified by collection. */
-#define BDK_GITS_CMD_TYPE_E_CMD_SYNC (5) /**< This command specifies that all actions for the specified redistributor must be completed. */
-#define BDK_GITS_CMD_TYPE_E_CMD_UDF (0) /**< This is an undefined ITS command (value 0x0). */
+#define BDK_GITS_CMD_TYPE_E_CMD_CLEAR (4)
+#define BDK_GITS_CMD_TYPE_E_CMD_DISCARD (0xf)
+#define BDK_GITS_CMD_TYPE_E_CMD_INT (3)
+#define BDK_GITS_CMD_TYPE_E_CMD_INV (0xc)
+#define BDK_GITS_CMD_TYPE_E_CMD_INVALL (0xd)
+#define BDK_GITS_CMD_TYPE_E_CMD_MAPC (9)
+#define BDK_GITS_CMD_TYPE_E_CMD_MAPD (8)
+#define BDK_GITS_CMD_TYPE_E_CMD_MAPI (0xb)
+#define BDK_GITS_CMD_TYPE_E_CMD_MAPVI (0xa)
+#define BDK_GITS_CMD_TYPE_E_CMD_MOVALL (0xe)
+#define BDK_GITS_CMD_TYPE_E_CMD_MOVI (1)
+#define BDK_GITS_CMD_TYPE_E_CMD_SYNC (5)
+#define BDK_GITS_CMD_TYPE_E_CMD_UDF (0)
 
 /**
  * Structure gits_cmd_clear_s
@@ -1862,7 +1849,31 @@ typedef union
                                                                  In CNXXXX, enumerated by PCC_PROD_E. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicd_iidr_s cn; */
+    struct bdk_gicd_iidr_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
+        uint32_t reserved_20_23        : 4;
+        uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
+                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
+        uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
+                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
+                                                                    0x34C = Cavium. */
+#else /* Word 0 - Little Endian */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
+                                                                    0x34C = Cavium. */
+        uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
+                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
+        uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
+                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
+        uint32_t reserved_20_23        : 4;
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_gicd_iidr_s cn9; */
 } bdk_gicd_iidr_t;
 
 #define BDK_GICD_IIDR BDK_GICD_IIDR_FUNC()
@@ -3542,18 +3553,18 @@ typedef union
                                                                  In CNXXXX, enumerated by PCC_PROD_E. */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 In CNXXXX, the major pass number. */
+                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
-                                                                 In CNXXXX, the minor pass number. */
+                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
                                                                     0x34C = Cavium. */
 #else /* Word 0 - Little Endian */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
                                                                     0x34C = Cavium. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
-                                                                 In CNXXXX, the minor pass number. */
+                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 In CNXXXX, the major pass number. */
+                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t reserved_20_23        : 4;
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
                                                                  In CNXXXX, enumerated by PCC_PROD_E. */
@@ -6268,18 +6279,18 @@ typedef union
                                                                  In CNXXXX, enumerated by PCC_PROD_E. */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 In CNXXXX, the major pass number. */
+                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
-                                                                 In CNXXXX, the minor pass number. */
+                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
                                                                     0x34C = Cavium. */
 #else /* Word 0 - Little Endian */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
                                                                     0x34C = Cavium. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
-                                                                 In CNXXXX, the minor pass number. */
+                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 In CNXXXX, the major pass number. */
+                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t reserved_20_23        : 4;
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
                                                                  In CNXXXX, enumerated by PCC_PROD_E. */

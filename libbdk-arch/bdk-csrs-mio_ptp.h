@@ -58,8 +58,8 @@
  * PTP Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_MIO_PTP_BAR_E_MIO_PTP_PF_BAR0 (0x807000000000ll) /**< Base address for standard registers. */
-#define BDK_MIO_PTP_BAR_E_MIO_PTP_PF_BAR4 (0x807000f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_MIO_PTP_BAR_E_MIO_PTP_PF_BAR0 (0x807000000000ll)
+#define BDK_MIO_PTP_BAR_E_MIO_PTP_PF_BAR4 (0x807000f00000ll)
 
 /**
  * Enumeration mio_ptp_ext_sel_e
@@ -68,14 +68,9 @@
  * Enumerates the different external signal sources for PTP.
  * Note that CCPI reference clocks cannot be selected.
  */
-#define BDK_MIO_PTP_EXT_SEL_E_GPIO (0) /**< Select GPIO pin as the input source. The specific GPIO pin used is selected by
-                                       setting GPIO_BIT_CFG()[PIN_SEL] to GPIO_PIN_SEL_E::PTP_EXT_CLK,
-                                       GPIO_PIN_SEL_E::PTP_TSTMP, or GPIO_PIN_SEL_E::PTP_EVTCNT. */
-#define BDK_MIO_PTP_EXT_SEL_E_GPIOX(a) (0 + (a)) /**< Normal GPIO inputs. */
-#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN9(a) (0x38 + (a)) /**< Select GSER0-GSER6 reference clock as the input source. */
-#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN81XX(a) (0x38 + (a)) /**< Select GSER0-GSER3 reference clock as the input source. */
-#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN88XX(a) (0x38 + (a)) /**< GSER0-7 reference clock. */
-#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN83XX(a) (0x38 + (a)) /**< Select GSER0-GSER6 reference clock as the input source. */
+#define BDK_MIO_PTP_EXT_SEL_E_GPIO (0)
+#define BDK_MIO_PTP_EXT_SEL_E_GPIOX(a) (0 + (a))
+#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX(a) (0x38 + (a))
 
 /**
  * Enumeration mio_ptp_int_vec_e
@@ -83,14 +78,8 @@
  * PTP MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_MIO_PTP_INT_VEC_E_DPLL_INT (1) /**< See interrupt clears MIO_PTP_INT[DPLL_INT],
-                                       interrupt sets MIO_PTP_INT_W1S[DPLL_INT],
-                                       enable clears MIO_PTP_INT_ENA_W1C[DPLL_INT],
-                                       and enable sets MIO_PTP_INT_ENA_W1S[DPLL_INT]. */
-#define BDK_MIO_PTP_INT_VEC_E_EVT_INT (0) /**< See interrupt clears MIO_PTP_INT[EVT_INT],
-                                       interrupt sets MIO_PTP_INT_W1S[EVT_INT],
-                                       enable clears MIO_PTP_INT_ENA_W1C[EVT_INT],
-                                       and enable sets MIO_PTP_INT_ENA_W1S[EVT_INT]. */
+#define BDK_MIO_PTP_INT_VEC_E_DPLL_INT (1)
+#define BDK_MIO_PTP_INT_VEC_E_EVT_INT (0)
 
 /**
  * Register (NCB) mio_ptp_ckout_hi_incr

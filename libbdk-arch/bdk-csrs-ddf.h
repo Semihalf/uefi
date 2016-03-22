@@ -58,10 +58,10 @@
  * DDF Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_DDF_BAR_E_DDFX_PF_BAR0(a) (0x809000000000ll + 0ll * (a)) /**< Base address for physical function standard registers. */
-#define BDK_DDF_BAR_E_DDFX_PF_BAR4(a) (0x809010000000ll + 0ll * (a)) /**< Base address for physical function MSI-X registers. */
-#define BDK_DDF_BAR_E_DDFX_VFX_BAR0(a,b) (0x809020000000ll + 0ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function standard registers. */
-#define BDK_DDF_BAR_E_DDFX_VFX_BAR4(a,b) (0x809030000000ll + 0ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function MSI-X registers. */
+#define BDK_DDF_BAR_E_DDFX_PF_BAR0(a) (0x809000000000ll + 0ll * (a))
+#define BDK_DDF_BAR_E_DDFX_PF_BAR4(a) (0x809010000000ll + 0ll * (a))
+#define BDK_DDF_BAR_E_DDFX_VFX_BAR0(a,b) (0x809020000000ll + 0ll * (a) + 0x100000ll * (b))
+#define BDK_DDF_BAR_E_DDFX_VFX_BAR4(a,b) (0x809030000000ll + 0ll * (a) + 0x100000ll * (b))
 
 /**
  * Enumeration ddf_cacpart_e
@@ -69,10 +69,10 @@
  * DDF Cache Partition Policy Enumeration
  * Enumerates the cache partition policy.
  */
-#define BDK_DDF_CACPART_E_EVEN (1) /**< Dedicate 64 cache lines to filter data and 64 to ganged record data. */
-#define BDK_DDF_CACPART_E_FILTER (2) /**< Dedicate 96 cache lines to filter data and 32 to ganged record data. */
-#define BDK_DDF_CACPART_E_NONE (0) /**< No cache partitioning policy. */
-#define BDK_DDF_CACPART_E_RECORD (3) /**< Dedicate 32 cache lines to filter data and 96 to ganged filter data. */
+#define BDK_DDF_CACPART_E_EVEN (1)
+#define BDK_DDF_CACPART_E_FILTER (2)
+#define BDK_DDF_CACPART_E_NONE (0)
+#define BDK_DDF_CACPART_E_RECORD (3)
 
 /**
  * Enumeration ddf_comp_e
@@ -80,33 +80,24 @@
  * DDF Completion Status Enumeration
  * Enumerates the status values of DDF_RES_FIND_S/DDF_RES_MATCH_S[COMPCODE].
  */
-#define BDK_DDF_COMP_E_FAULT (2) /**< Memory fault was detected reading/writing data related to this instruction.  The
-                                       instruction may have been partially completed, and as such the result and record state is
-                                       now undefined. */
-#define BDK_DDF_COMP_E_FILTER_TOO_BIG (5) /**< Filter is larger than 512B. Violates the rule 2^(2+NESTSZP2+NBUCKP2) <= 512. */
-#define BDK_DDF_COMP_E_FULL (3) /**< Insert operation not completed due to no space (nests all full, and if
-                                       DDF_INST_FIND_S[VICTEN]=1 the victim is full). */
-#define BDK_DDF_COMP_E_GOOD (1) /**< Operation completed without error. */
-#define BDK_DDF_COMP_E_HDR_ALIGN (0x11) /**< Improperly aligned header address; HDR_ADDR % 2^[HDRSZP2+NWAYP2] != 0, min 16B. */
-#define BDK_DDF_COMP_E_HDR_LT_NEST (8) /**< Header is smaller than nest and won't fit all of opaque data and tag. Violates
-                                       the rule VICTEN && ((HDRSZP2 >= NESTSZP2) && NBUCKP2==0) || (HDRSZP2 > NESTSZP2)
-                                       && NBUCKP2 > 0)). */
-#define BDK_DDF_COMP_E_HDR_TOO_BIG (6) /**< Header is larger than 128B. Violates the rule 2^(NWAYP2 + HDRSZP2) <= 128. */
-#define BDK_DDF_COMP_E_ILLEGAL_QWORDS (4) /**< Instruction contained an illegal QWORDS value, must be between 1 and 16. */
-#define BDK_DDF_COMP_E_KEY_GT_HDR (0xa) /**< Key is larger than header, entire tag won't fit. Violates the rule
-                                       VICTEN && (((NBUCKP2<<2) + TAGBITSM1 + 1) <= (HDRSZP2<<3)). */
-#define BDK_DDF_COMP_E_KEY_GT_NEST (9) /**< Key is larger than nest, entire tag won't fit. Violates the rule
-                                       (NBUCKP2 + TAGBITSM1+1) <= (NESTSZP2<<3). */
-#define BDK_DDF_COMP_E_KEY_TOO_SMALL (0xb) /**< Configured data won't fit in key. Violates the rule (NRANKP2 + (2 * NBUCKP2) + TAGBITS) <= 256. */
-#define BDK_DDF_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by
-                                       software to indicate the DDF_RES_FIND_S/DDF_RES_MATCH_S has not yet been
-                                       updated by hardware. */
-#define BDK_DDF_COMP_E_NO_HDR (0xd) /**< No header address; VICTEN && HDR_ADDR == 0. */
-#define BDK_DDF_COMP_E_NO_RANK (0xc) /**< No rank address; RANK_ADDR == 0. */
-#define BDK_DDF_COMP_E_NO_RB (0xe) /**< No record block address; RB_ADDR == 0. */
-#define BDK_DDF_COMP_E_NULL_INSERT (0xf) /**< No key specified for FIND_INSERT; {KEY3,KEY2,KEY1,KEY0} == 0x0. */
-#define BDK_DDF_COMP_E_RANK_ALIGN (0x10) /**< Improperly aligned rank address; RANK_ADDR % (2^(BKTSZP2+NESTP2+2)) !=0, min 16B. */
-#define BDK_DDF_COMP_E_WAY_TOO_BIG (7) /**< WAY exceeds number of ways. Violates the rule WAY < 2^NWAYP2. */
+#define BDK_DDF_COMP_E_FAULT (2)
+#define BDK_DDF_COMP_E_FILTER_TOO_BIG (5)
+#define BDK_DDF_COMP_E_FULL (3)
+#define BDK_DDF_COMP_E_GOOD (1)
+#define BDK_DDF_COMP_E_HDR_ALIGN (0x11)
+#define BDK_DDF_COMP_E_HDR_LT_NEST (8)
+#define BDK_DDF_COMP_E_HDR_TOO_BIG (6)
+#define BDK_DDF_COMP_E_ILLEGAL_QWORDS (4)
+#define BDK_DDF_COMP_E_KEY_GT_HDR (0xa)
+#define BDK_DDF_COMP_E_KEY_GT_NEST (9)
+#define BDK_DDF_COMP_E_KEY_TOO_SMALL (0xb)
+#define BDK_DDF_COMP_E_NOTDONE (0)
+#define BDK_DDF_COMP_E_NO_HDR (0xd)
+#define BDK_DDF_COMP_E_NO_RANK (0xc)
+#define BDK_DDF_COMP_E_NO_RB (0xe)
+#define BDK_DDF_COMP_E_NULL_INSERT (0xf)
+#define BDK_DDF_COMP_E_RANK_ALIGN (0x10)
+#define BDK_DDF_COMP_E_WAY_TOO_BIG (7)
 
 /**
  * Enumeration ddf_op_e
@@ -114,19 +105,19 @@
  * DDF Instruction Operation Enumeration
  * Enumerates the values of DDF_INST_FIND_S[OP]/DDF_INST_MATCH_S[OP].
  */
-#define BDK_DDF_OP_E_FABS_SET (0x18) /**< Filter set data at absolute location. */
-#define BDK_DDF_OP_E_FEMPTY_INS (0x1f) /**< Filter locate empty location and insert. */
-#define BDK_DDF_OP_E_FIND (0x10) /**< Filter find key and return location. */
-#define BDK_DDF_OP_E_FIND_DEL (0x13) /**< Filter find key and if found, delete. */
-#define BDK_DDF_OP_E_FIND_INS (0x12) /**< Filter find key and if not found, insert. */
-#define BDK_DDF_OP_E_FIND_SET (0x11) /**< Filter find key and if found, set data. */
-#define BDK_DDF_OP_E_MATCH (0x20) /**< Record match on key and return location. */
-#define BDK_DDF_OP_E_MATCH_DEL (0x23) /**< Record match on key and if found, delete. */
-#define BDK_DDF_OP_E_MATCH_INS (0x22) /**< Record match on key and if not found, insert. */
-#define BDK_DDF_OP_E_MATCH_SET (0x21) /**< Record match on key and if found, set data. */
-#define BDK_DDF_OP_E_NOP (0) /**< No operation other then optionally a SYNC. */
-#define BDK_DDF_OP_E_RABS_SET (0x28) /**< Record set data at absolute location. */
-#define BDK_DDF_OP_E_REMPTY_INS (0x2f) /**< Record locate empty location and insert. */
+#define BDK_DDF_OP_E_FABS_SET (0x18)
+#define BDK_DDF_OP_E_FEMPTY_INS (0x1f)
+#define BDK_DDF_OP_E_FIND (0x10)
+#define BDK_DDF_OP_E_FIND_DEL (0x13)
+#define BDK_DDF_OP_E_FIND_INS (0x12)
+#define BDK_DDF_OP_E_FIND_SET (0x11)
+#define BDK_DDF_OP_E_MATCH (0x20)
+#define BDK_DDF_OP_E_MATCH_DEL (0x23)
+#define BDK_DDF_OP_E_MATCH_INS (0x22)
+#define BDK_DDF_OP_E_MATCH_SET (0x21)
+#define BDK_DDF_OP_E_NOP (0)
+#define BDK_DDF_OP_E_RABS_SET (0x28)
+#define BDK_DDF_OP_E_REMPTY_INS (0x2f)
 
 /**
  * Enumeration ddf_pf_int_vec_e
@@ -134,14 +125,8 @@
  * DDF PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DDF_PF_INT_VEC_E_ECC0 (0) /**< See interrupt clears DDF()_PF_ECC0_INT,
-                                       interrupt sets DDF()_PF_ECC0_INT_W1S,
-                                       enable clears DDF()_PF_ECC0_ENA_W1C,
-                                       and enable sets DDF()_PF_ECC0_ENA_W1S. */
-#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< See interrupt clears DDF()_PF_MBOX_INT(),
-                                       interrupt sets DDF()_PF_MBOX_INT_W1S(),
-                                       enable clears DDF()_PF_MBOX_ENA_W1C(),
-                                       and enable sets DDF()_PF_MBOX_ENA_W1S(). */
+#define BDK_DDF_PF_INT_VEC_E_ECC0 (0)
+#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (1 + (a))
 
 /**
  * Enumeration ddf_rams_e
@@ -149,27 +134,27 @@
  * DDF RAM Field Enumeration
  * Enumerates the relative bit positions within DDF()_PF_ECC0_CTL[CDIS].
  */
-#define BDK_DDF_RAMS_E_COMP_FIFO (0xf) /**< Bit position for COMP_FIFO. */
-#define BDK_DDF_RAMS_E_CQM_BPTR (3) /**< Bit position for CQM_BPTR. */
-#define BDK_DDF_RAMS_E_CQM_CTLMEM (2) /**< Bit position for CQM_CTLMEM. */
-#define BDK_DDF_RAMS_E_CQM_DONE_CNT (0xd) /**< Bit position for CQM_DONE_CNT. */
-#define BDK_DDF_RAMS_E_CQM_DONE_TIMER (0xe) /**< Bit position for CQM_DONE_TIMER. */
-#define BDK_DDF_RAMS_E_CQM_GMID (4) /**< Bit position for CQM_GMID. */
-#define BDK_DDF_RAMS_E_CQM_INSTFIF0 (5) /**< Bit position for CQM_INSTFIF0. */
-#define BDK_DDF_RAMS_E_CQM_INSTFIF1 (6) /**< Bit position for CQM_INSTFIF1. */
-#define BDK_DDF_RAMS_E_CQM_INSTFIF2 (7) /**< Bit position for CQM_INSTFIF2. */
-#define BDK_DDF_RAMS_E_CQM_INSTFIF3 (8) /**< Bit position for CQM_INSTFIF3. */
-#define BDK_DDF_RAMS_E_CQM_INSTFIF4 (9) /**< Bit position for CQM_INSTFIF4. */
-#define BDK_DDF_RAMS_E_CQM_INSTFIF5 (0xa) /**< Bit position for CQM_INSTFIF5. */
-#define BDK_DDF_RAMS_E_CQM_INSTFIF6 (0xb) /**< Bit position for CQM_INSTFIF6. */
-#define BDK_DDF_RAMS_E_CQM_INSTFIF7 (0xc) /**< Bit position for CQM_INSTFIF7. */
-#define BDK_DDF_RAMS_E_DMEM0 (0x12) /**< Bit position for DMEM0. */
-#define BDK_DDF_RAMS_E_DMEM1 (0x13) /**< Bit position for DMEM1. */
-#define BDK_DDF_RAMS_E_FPA_MEM (0x11) /**< Bit position for FPA_MEM. */
-#define BDK_DDF_RAMS_E_MBOX_MEM (0x10) /**< Bit position for MBOX_MEM. */
-#define BDK_DDF_RAMS_E_MSIX_VMEM (0x14) /**< Bit position for MSIX_VMEM. */
-#define BDK_DDF_RAMS_E_NCBI_DATFIF (0) /**< Bit position for NCBI_DATFIF. */
-#define BDK_DDF_RAMS_E_NCBO_MEM0 (1) /**< Bit position for NCBO_MEM0. */
+#define BDK_DDF_RAMS_E_COMP_FIFO (0xf)
+#define BDK_DDF_RAMS_E_CQM_BPTR (3)
+#define BDK_DDF_RAMS_E_CQM_CTLMEM (2)
+#define BDK_DDF_RAMS_E_CQM_DONE_CNT (0xd)
+#define BDK_DDF_RAMS_E_CQM_DONE_TIMER (0xe)
+#define BDK_DDF_RAMS_E_CQM_GMID (4)
+#define BDK_DDF_RAMS_E_CQM_INSTFIF0 (5)
+#define BDK_DDF_RAMS_E_CQM_INSTFIF1 (6)
+#define BDK_DDF_RAMS_E_CQM_INSTFIF2 (7)
+#define BDK_DDF_RAMS_E_CQM_INSTFIF3 (8)
+#define BDK_DDF_RAMS_E_CQM_INSTFIF4 (9)
+#define BDK_DDF_RAMS_E_CQM_INSTFIF5 (0xa)
+#define BDK_DDF_RAMS_E_CQM_INSTFIF6 (0xb)
+#define BDK_DDF_RAMS_E_CQM_INSTFIF7 (0xc)
+#define BDK_DDF_RAMS_E_DMEM0 (0x12)
+#define BDK_DDF_RAMS_E_DMEM1 (0x13)
+#define BDK_DDF_RAMS_E_FPA_MEM (0x11)
+#define BDK_DDF_RAMS_E_MBOX_MEM (0x10)
+#define BDK_DDF_RAMS_E_MSIX_VMEM (0x14)
+#define BDK_DDF_RAMS_E_NCBI_DATFIF (0)
+#define BDK_DDF_RAMS_E_NCBO_MEM0 (1)
 
 /**
  * Enumeration ddf_res_type_e
@@ -177,9 +162,9 @@
  * DDF Result Type Enumeration
  * Enumerates the values of DDF_RES_MATCH_S[RES_TYPE] and DDF_RES_FIND_S[RES_TYPE].
  */
-#define BDK_DDF_RES_TYPE_E_FIND (1) /**< The structure is a DDF_RES_FIND_S. */
-#define BDK_DDF_RES_TYPE_E_MATCH (2) /**< The structure is a DDF_RES_MATCH_S. */
-#define BDK_DDF_RES_TYPE_E_NOP (0) /**< Reserved. */
+#define BDK_DDF_RES_TYPE_E_FIND (1)
+#define BDK_DDF_RES_TYPE_E_MATCH (2)
+#define BDK_DDF_RES_TYPE_E_NOP (0)
 
 /**
  * Enumeration ddf_vf_int_vec_e
@@ -187,14 +172,8 @@
  * DDF VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DDF_VF_INT_VEC_E_DONE (1) /**< See interrupt clears DDF()_VQ()_DONE_INT_W1C,
-                                       interrupt sets DDF()_VQ()_DONE_INT_W1S,
-                                       enable clears DDF()_VQ()_DONE_ENA_W1C
-                                       and enable sets DDF()_VQ()_DONE_ENA_W1S. */
-#define BDK_DDF_VF_INT_VEC_E_MISC (0) /**< See interrupt clears DDF()_VQ()_MISC_INT,
-                                       interrupt sets DDF()_VQ()_MISC_INT_W1S,
-                                       enable clears DDF()_VQ()_MISC_ENA_W1C
-                                       and enable sets DDF()_VQ()_MISC_ENA_W1S. */
+#define BDK_DDF_VF_INT_VEC_E_DONE (1)
+#define BDK_DDF_VF_INT_VEC_E_MISC (0)
 
 /**
  * Structure ddf_inst_find_s

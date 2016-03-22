@@ -58,8 +58,7 @@
  * VRM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_VRM_BAR_E_VRMX_PF_BAR0(a) (0x87e021000000ll + 0x1000000ll * (a)) /**< Base address for standard registers.  Note the address is not naturally aligned by the
-                                       block number. */
+#define BDK_VRM_BAR_E_VRMX_PF_BAR0(a) (0x87e021000000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration vrm_type_e
@@ -68,10 +67,10 @@
  * Indicates type of device connected to this controller, as loaded into
  * VRM()_MISC_INFO[VRM_TYPE] and VRM()_MISC_INFO[VRM_TYPE2].
  */
-#define BDK_VRM_TYPE_E_ISL6367 (1) /**< ISL6367 VID type. */
-#define BDK_VRM_TYPE_E_PMB_LIN (0) /**< PMBus linear type. */
-#define BDK_VRM_TYPE_E_PMB_VID (2) /**< PMBus VID type. */
-#define BDK_VRM_TYPE_E_PMB_VID_TPS53641 (4) /**< TPS53641 VID type. */
+#define BDK_VRM_TYPE_E_ISL6367 (1)
+#define BDK_VRM_TYPE_E_PMB_LIN (0)
+#define BDK_VRM_TYPE_E_PMB_VID (2)
+#define BDK_VRM_TYPE_E_PMB_VID_TPS53641 (4)
 
 /**
  * Structure vrm_tws_twsi_sw_s

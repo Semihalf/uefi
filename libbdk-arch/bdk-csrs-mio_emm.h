@@ -58,8 +58,8 @@
  * eMMC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0 (0x87e009000000ll) /**< Base address for standard registers. */
-#define BDK_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4 (0x87e009f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0 (0x87e009000000ll)
+#define BDK_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4 (0x87e009f00000ll)
 
 /**
  * Enumeration mio_emm_int_vec_e
@@ -67,33 +67,15 @@
  * eMMC MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_MIO_EMM_INT_VEC_E_DMA_INT_DONE (8) /**< See interrupt clears MIO_EMM_DMA_INT[DONE], interrupt sets MIO_EMM_DMA_INT_W1S[DONE],
-                                       enable clears
-                                       MIO_EMM_DMA_INT_ENA_W1C[DONE], and enable sets MIO_EMM_DMA_INT_ENA_W1S[DONE]. */
-#define BDK_MIO_EMM_INT_VEC_E_DMA_INT_FIFO (7) /**< See interrupt clears MIO_EMM_DMA_INT[FIFO], interrupt sets MIO_EMM_DMA_INT_W1S[FIFO],
-                                       enable clears
-                                       MIO_EMM_DMA_INT_ENA_W1C[FIFO], and enable sets MIO_EMM_DMA_INT_ENA_W1S[FIFO]. */
-#define BDK_MIO_EMM_INT_VEC_E_EMM_BUF_DONE (0) /**< See interrupt clears MIO_EMM_INT[BUF_DONE], interrupt sets MIO_EMM_INT_W1S[BUF_DONE],
-                                       enable clears
-                                       MIO_EMM_INT_ENA_W1C[BUF_DONE], and enable sets MIO_EMM_INT_ENA_W1S[BUF_DONE]. */
-#define BDK_MIO_EMM_INT_VEC_E_EMM_CMD_DONE (1) /**< See interrupt clears MIO_EMM_INT[CMD_DONE], interrupt sets MIO_EMM_INT_W1S[CMD_DONE],
-                                       enable clears
-                                       MIO_EMM_INT_ENA_W1C[CMD_DONE], and enable sets MIO_EMM_INT_ENA_W1S[CMD_DONE]. */
-#define BDK_MIO_EMM_INT_VEC_E_EMM_CMD_ERR (3) /**< See interrupt clears MIO_EMM_INT[CMD_ERR], interrupt sets MIO_EMM_INT_W1S[CMD_ERR], enable
-                                       clears
-                                       MIO_EMM_INT_ENA_W1C[CMD_ERR], and enable sets MIO_EMM_INT_ENA_W1S[CMD_ERR]. */
-#define BDK_MIO_EMM_INT_VEC_E_EMM_DMA_DONE (2) /**< See interrupt clears MIO_EMM_INT[DMA_DONE], interrupt sets MIO_EMM_INT_W1S[DMA_DONE],
-                                       enable clears
-                                       MIO_EMM_INT_ENA_W1C[DMA_DONE], and enable sets MIO_EMM_INT_ENA_W1S[DMA_DONE]. */
-#define BDK_MIO_EMM_INT_VEC_E_EMM_DMA_ERR (4) /**< See interrupt clears MIO_EMM_INT[DMA_ERR], interrupt sets MIO_EMM_INT_W1S[DMA_ERR], enable
-                                       clears
-                                       MIO_EMM_INT_ENA_W1C[DMA_ERR], and enable sets MIO_EMM_INT_ENA_W1S[DMA_ERR]. */
-#define BDK_MIO_EMM_INT_VEC_E_EMM_SWITCH_DONE (5) /**< See interrupt clears MIO_EMM_INT[SWITCH_DONE], interrupt sets
-                                       MIO_EMM_INT_W1S[SWITCH_DONE], enable clears
-                                       MIO_EMM_INT_ENA_W1C[SWITCH_DONE], and enable sets MIO_EMM_INT_ENA_W1S[SWITCH_DONE]. */
-#define BDK_MIO_EMM_INT_VEC_E_EMM_SWITCH_ERR (6) /**< See interrupt clears MIO_EMM_INT[SWITCH_ERR], interrupt sets MIO_EMM_INT_W1S[SWITCH_ERR],
-                                       enable clears
-                                       MIO_EMM_INT_ENA_W1C[SWITCH_ERR], and enable sets MIO_EMM_INT_ENA_W1S[SWITCH_ERR]. */
+#define BDK_MIO_EMM_INT_VEC_E_DMA_INT_DONE (8)
+#define BDK_MIO_EMM_INT_VEC_E_DMA_INT_FIFO (7)
+#define BDK_MIO_EMM_INT_VEC_E_EMM_BUF_DONE (0)
+#define BDK_MIO_EMM_INT_VEC_E_EMM_CMD_DONE (1)
+#define BDK_MIO_EMM_INT_VEC_E_EMM_CMD_ERR (3)
+#define BDK_MIO_EMM_INT_VEC_E_EMM_DMA_DONE (2)
+#define BDK_MIO_EMM_INT_VEC_E_EMM_DMA_ERR (4)
+#define BDK_MIO_EMM_INT_VEC_E_EMM_SWITCH_DONE (5)
+#define BDK_MIO_EMM_INT_VEC_E_EMM_SWITCH_ERR (6)
 
 /**
  * Register (RSL) mio_emm_access_wdog

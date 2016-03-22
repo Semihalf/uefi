@@ -58,8 +58,8 @@
  * XCV Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_XCV_BAR_E_XCVX_PF_BAR0(a) (0x87e0db000000ll + 0ll * (a)) /**< Base address for standard registers. */
-#define BDK_XCV_BAR_E_XCVX_PF_BAR4(a) (0x87e0dbf00000ll + 0ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_XCV_BAR_E_XCVX_PF_BAR0(a) (0x87e0db000000ll + 0ll * (a))
+#define BDK_XCV_BAR_E_XCVX_PF_BAR4(a) (0x87e0dbf00000ll + 0ll * (a))
 
 /**
  * Enumeration xcv_int_vec_e
@@ -67,8 +67,7 @@
  * XCV MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_XCV_INT_VEC_E_INT (0) /**< See interrupt clears XCV()_INT, interrupt sets XCV()_INT_W1S, enable clears
-                                       XCV()_INT_ENA_W1C, and enable sets XCV()_INT_ENA_W1S. */
+#define BDK_XCV_INT_VEC_E_INT (0)
 
 /**
  * Register (RSL) xcv#_batch_crd_ret

@@ -58,8 +58,8 @@
  * RNM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_RNM_BAR_E_RNM_PF_BAR0 (0x87e040000000ll) /**< Base address for standard registers. */
-#define BDK_RNM_BAR_E_RNM_VF_BAR0 (0x840000800000ll) /**< Base address for RNM_RANDOM. */
+#define BDK_RNM_BAR_E_RNM_PF_BAR0 (0x87e040000000ll)
+#define BDK_RNM_BAR_E_RNM_VF_BAR0 (0x840000800000ll)
 
 /**
  * Register (RSL) rnm_bist_status

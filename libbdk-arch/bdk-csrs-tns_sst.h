@@ -58,7 +58,7 @@
  * TNS Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_TNS_SST_BAR_E_TNS_SST_PF_BAR2 (0x842040000000ll) /**< Base address for standard registers. */
+#define BDK_TNS_SST_BAR_E_TNS_SST_PF_BAR2 (0x842040000000ll)
 
 /**
  * Register (NCB) tns_sde_cfg_spare

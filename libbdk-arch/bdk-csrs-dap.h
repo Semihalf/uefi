@@ -58,8 +58,8 @@
  * DAP Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_DAP_BAR_E_DAP_PF_BAR0 (0x87e002000000ll) /**< Base address for standard registers. */
-#define BDK_DAP_BAR_E_DAP_PF_BAR2 (0x87a080000000ll) /**< Base address for core access to the DAB. */
+#define BDK_DAP_BAR_E_DAP_PF_BAR0 (0x87e002000000ll)
+#define BDK_DAP_BAR_E_DAP_PF_BAR2 (0x87a080000000ll)
 
 /**
  * Register (RSL) dap_eco

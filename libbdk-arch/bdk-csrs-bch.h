@@ -58,9 +58,9 @@
  * BCH Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_BCH_BAR_E_BCH_PF_BAR0 (0x871000000000ll) /**< Base address for standard registers. */
-#define BDK_BCH_BAR_E_BCH_PF_BAR4 (0x871000f00000ll) /**< Base address for MSI-X registers. */
-#define BDK_BCH_BAR_E_BCH_VFX_BAR0(a) (0x871001000000ll + 0x100000ll * (a)) /**< Base address for standard registers. */
+#define BDK_BCH_BAR_E_BCH_PF_BAR0 (0x871000000000ll)
+#define BDK_BCH_BAR_E_BCH_PF_BAR4 (0x871000f00000ll)
+#define BDK_BCH_BAR_E_BCH_VFX_BAR0(a) (0x871001000000ll + 0x100000ll * (a))
 
 /**
  * Enumeration bch_int_vec_e
@@ -68,8 +68,7 @@
  * BCH MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_BCH_INT_VEC_E_ERR (0) /**< See interrupt clears BCH_ERR_INT, interrupt sets BCH_ERR_INT_W1S, enable clears
-                                       BCH_ERR_INT_ENA_W1C, and enable sets BCH_ERR_INT_ENA_W1S. */
+#define BDK_BCH_INT_VEC_E_ERR (0)
 
 /**
  * Structure bch_cword_s

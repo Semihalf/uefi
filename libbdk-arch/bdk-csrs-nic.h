@@ -58,10 +58,10 @@
  * NIC Base-Address Register Enumeration
  * Enumerates the base-address registers.
  */
-#define BDK_NIC_BAR_E_NIC_PF_BAR0 (0x843000000000ll) /**< Base address for standard registers. */
-#define BDK_NIC_BAR_E_NIC_PF_BAR4 (0x843060000000ll) /**< Base address for MSI-X registers. */
-#define BDK_NIC_BAR_E_NIC_VFX_BAR0(a) (0x8430a0000000ll + 0x200000ll * (a)) /**< Base address for standard registers. */
-#define BDK_NIC_BAR_E_NIC_VFX_BAR4(a) (0x8430e0000000ll + 0x200000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_NIC_BAR_E_NIC_PF_BAR0 (0x843000000000ll)
+#define BDK_NIC_BAR_E_NIC_PF_BAR4 (0x843060000000ll)
+#define BDK_NIC_BAR_E_NIC_VFX_BAR0(a) (0x8430a0000000ll + 0x200000ll * (a))
+#define BDK_NIC_BAR_E_NIC_VFX_BAR4(a) (0x8430e0000000ll + 0x200000ll * (a))
 
 /**
  * Enumeration nic_chan_e
@@ -73,17 +73,13 @@
  * Internal:
  * P2X/X2P channel enumeration for t81, t83, ...
  */
-#define BDK_NIC_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} LMAC {b} channel {c}. Also used for RGX.
-                                       Internal:
-                                       Used for BGX and RGX. */
-#define BDK_NIC_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} port {b} channel {c}. */
-#define BDK_NIC_CHAN_E_DPI_CHX(a) (0x400 + (a)) /**< DPI/SDP channel {a}. */
-#define BDK_NIC_CHAN_E_LBKX_CHX(a,b) (0 + 0x100 * (a) + (b)) /**< Loopback {a} channel {b}. */
-#define BDK_NIC_CHAN_E_PKO_NULL (0xfff) /**< PKO NULL channel. */
-#define BDK_NIC_CHAN_E_RX(a) (0 + 0x100 * (a)) /**< Reserved.
-                                       Internal:
-                                       R(5) is reserved for NVME. */
-#define BDK_NIC_CHAN_E_TNS_PORTX_CHX(a,b) (0x600 + 0x100 * (a) + (b)) /**< TNS port {a} channel {b}. */
+#define BDK_NIC_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c))
+#define BDK_NIC_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c))
+#define BDK_NIC_CHAN_E_DPI_CHX(a) (0x400 + (a))
+#define BDK_NIC_CHAN_E_LBKX_CHX(a,b) (0 + 0x100 * (a) + (b))
+#define BDK_NIC_CHAN_E_PKO_NULL (0xfff)
+#define BDK_NIC_CHAN_E_RX(a) (0 + 0x100 * (a))
+#define BDK_NIC_CHAN_E_TNS_PORTX_CHX(a,b) (0x600 + 0x100 * (a) + (b))
 
 /**
  * Enumeration nic_chan_idx_e
@@ -92,17 +88,11 @@
  * Enumerates the internal RX/TX channels, and the index of NIC_PF_CHAN()_TX_CFG,
  * NIC_PF_CHAN()_RX_CFG, NIC_PF_CHAN()_SW_XOFF and NIC_PF_CHAN()_CREDIT.
  */
-#define BDK_NIC_CHAN_IDX_E_BGXX_LMACX_CHX(a,b,c) (0 + 0x20 * (a) + 8 * (b) + (c)) /**< BGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_LMAC({b})_CH({c}). */
-#define BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN81XX(a,b) (0x48 + 0x40 * (a) + (b)) /**< Loopback interface {a} channel {b}. Receives from
-                                       NIC_CHAN_E::LBK(NIC_LBK_RX_CONN_E::LBK({a}))_CH({b}) and transmits to
-                                       NIC_CHAN_E::LBK(NIC_LBK_TX_CONN_E::LBK({a}))_CH({b}). */
-#define BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN83XX(a,b) (0x80 + 0x40 * (a) + (b)) /**< Loopback interface {a} channel {b}. Receives from
-                                       NIC_CHAN_E::LBK(NIC_LBK_RX_CONN_E::LBK({a}))_CH({b}) and transmits to
-                                       NIC_CHAN_E::LBK(NIC_LBK_TX_CONN_E::LBK({a}))_CH({b}). */
-#define BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN9(a,b) (0x80 + 0x40 * (a) + (b)) /**< Loopback interface {a} channel {b}. Receives from
-                                       NIC_CHAN_E::LBK(NIC_LBK_RX_CONN_E::LBK({a}))_CH({b}) and transmits to
-                                       NIC_CHAN_E::LBK(NIC_LBK_TX_CONN_E::LBK({a}))_CH({b}). */
-#define BDK_NIC_CHAN_IDX_E_RGXX_LMACX_CHX(a,b,c) (0x40 + 0x20 * (a) + 8 * (b) + (c)) /**< RGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a+2})_LMAC({b})_CH({c}). */
+#define BDK_NIC_CHAN_IDX_E_BGXX_LMACX_CHX(a,b,c) (0 + 0x20 * (a) + 8 * (b) + (c))
+#define BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN81XX(a,b) (0x48 + 0x40 * (a) + (b))
+#define BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN83XX(a,b) (0x80 + 0x40 * (a) + (b))
+#define BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN9(a,b) (0x80 + 0x40 * (a) + (b))
+#define BDK_NIC_CHAN_IDX_E_RGXX_LMACX_CHX(a,b,c) (0x40 + 0x20 * (a) + 8 * (b) + (c))
 
 /**
  * Enumeration nic_cpi_alg_e
@@ -110,36 +100,10 @@
  * NIC CPI Algorithm Enumeration
  * Enumerates the values of NIC_PF_CHAN()_RX_CFG[CPI_ALG].
  */
-#define BDK_NIC_CPI_ALG_E_DIFF_CN9 (3) /**< If Diffsrv is parsed, add its 6 bits into the CPI calculation. */
-#define BDK_NIC_CPI_ALG_E_DIFF_CN81XX (3) /**< If Diffsrv is parsed, add its 6 bits into the CPI calculation. */
-#define BDK_NIC_CPI_ALG_E_DIFF_CN88XX (3) /**< If Diffsrv is parsed, add its 6 bits into the CPI calculation.
-                                       
-                                       Note this method is typically only used for BGX interfaces; TNS should be
-                                       programmed to determine the channel number directly. */
-#define BDK_NIC_CPI_ALG_E_DIFF_CN83XX (3) /**< If Diffsrv is parsed, add its 6 bits into the CPI calculation. */
-#define BDK_NIC_CPI_ALG_E_NONE (0) /**< No QoS field added in CPI calculation. */
-#define BDK_NIC_CPI_ALG_E_VLAN_CN9 (1) /**< If VLAN is parsed, add the first VLAN's 3-bit priority into the CPI calculation. */
-#define BDK_NIC_CPI_ALG_E_VLAN_CN81XX (1) /**< If VLAN is parsed, add the first VLAN's 3-bit priority into the CPI calculation. */
-#define BDK_NIC_CPI_ALG_E_VLAN_CN88XX (1) /**< If VLAN is parsed, add the first VLAN's 3-bit priority into the CPI calculation.
-                                       
-                                       Note this method is typically only used for BGX interfaces; TNS should be
-                                       programmed to determine the channel number directly. */
-#define BDK_NIC_CPI_ALG_E_VLAN_CN83XX (1) /**< If VLAN is parsed, add the first VLAN's 3-bit priority into the CPI calculation. */
-#define BDK_NIC_CPI_ALG_E_VLAN16_CN9 (2) /**< If VLAN is parsed, add 4 bits, where the first VLAN's CFI is bit <3> of the
-                                       addend and first VLAN's priority is <2:0> of the addend, into the CPI
-                                       calculation. */
-#define BDK_NIC_CPI_ALG_E_VLAN16_CN81XX (2) /**< If VLAN is parsed, add 4 bits, where the first VLAN's CFI is bit <3> of the
-                                       addend and first VLAN's priority is <2:0> of the addend, into the CPI
-                                       calculation. */
-#define BDK_NIC_CPI_ALG_E_VLAN16_CN88XX (2) /**< If VLAN is parsed, add 4 bits, where the first VLAN's CFI is bit <3> of the
-                                       addend and first VLAN's priority is <2:0> of the addend, into the CPI
-                                       calculation.
-                                       
-                                       Note this method is typically only used for BGX interfaces; TNS should be
-                                       programmed to determine the channel number directly. */
-#define BDK_NIC_CPI_ALG_E_VLAN16_CN83XX (2) /**< If VLAN is parsed, add 4 bits, where the first VLAN's CFI is bit <3> of the
-                                       addend and first VLAN's priority is <2:0> of the addend, into the CPI
-                                       calculation. */
+#define BDK_NIC_CPI_ALG_E_DIFF (3)
+#define BDK_NIC_CPI_ALG_E_NONE (0)
+#define BDK_NIC_CPI_ALG_E_VLAN (1)
+#define BDK_NIC_CPI_ALG_E_VLAN16 (2)
 
 /**
  * Enumeration nic_cqe_send_status_e
@@ -147,156 +111,24 @@
  * NIC CQE Send Status Enumeration
  * Enumerates send status codes for NIC_CQE_SEND_S[SEND_STATUS].
  */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_DERR_CN88XXP1 (0x8a) /**< Reserved. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_DERR_CN9 (0x8a) /**< Checksum descriptor error. Send descriptor consistency error related to L3/L4/LE/LF
-                                       checksum and/or TSO. For example:
-                                       * NIC_SEND_HDR_S[L3PTR,L4PTR,LEPTR,LFPTR] >= NIC_SEND_HDR_S[TOTAL].
-                                       * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and NIC_SEND_HDR_S[L4PTR] <=
-                                       NIC_SEND_HDR_S[L3PTR]. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_DERR_CN81XX (0x8a) /**< Checksum descriptor error. Send descriptor consistency error related to L3/L4/LE/LF
-                                       checksum and/or TSO. For example:
-                                       * NIC_SEND_HDR_S[L3PTR,L4PTR,LEPTR,LFPTR] >= NIC_SEND_HDR_S[TOTAL].
-                                       * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and NIC_SEND_HDR_S[L4PTR] <=
-                                       NIC_SEND_HDR_S[L3PTR]. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_DERR_CN83XX (0x8a) /**< Checksum descriptor error. Send descriptor consistency error related to L3/L4/LE/LF
-                                       checksum and/or TSO. For example:
-                                       * NIC_SEND_HDR_S[L3PTR,L4PTR,LEPTR,LFPTR] >= NIC_SEND_HDR_S[TOTAL].
-                                       * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and NIC_SEND_HDR_S[L4PTR] <=
-                                       NIC_SEND_HDR_S[L3PTR]. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_DERR_CN88XXP2 (0x8a) /**< Checksum descriptor error. Send descriptor consistency error related to L3/L4/LE/LF
-                                       checksum and/or TSO. For example:
-                                       * NIC_SEND_HDR_S[L3PTR,L4PTR,LEPTR,LFPTR] >= NIC_SEND_HDR_S[TOTAL].
-                                       * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and NIC_SEND_HDR_S[L4PTR] <=
-                                       NIC_SEND_HDR_S[L3PTR]. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_OFLOW_CN88XXP1 (0x89) /**< Checksum overflow. One or more bytes in an L3/CRC checksum region or insert point are
-                                       beyond NIC_SEND_HDR_S[TOTAL]. NIC_SEND_HDR_S[CKL4] is nonzero with packet protocol length
-                                       less than the minimum required to compute the checksum for the defined protocol. UDP
-                                       length exceeds NIC_SEND_HDR_S[TOTAL] or does not meet minimum protocol requirements. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_OFLOW_CN88XXP2 (0x89) /**< Reserved. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_OVERLAP_CN88XXP1 (0x88) /**< Overlap between various L3/L4 checksum regions and/or CRC insert points. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_OVERLAP_CN88XXP2 (0x88) /**< Reserved. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_PERR_CN88XXP1 (0x8b) /**< Reserved. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_PERR_CN9 (0x8b) /**< Checksum packet data error. Packet data error related to L3/L4/LE/LF checksum and/or
-                                       TSO. For example:
-                                       * NIC_SEND_HDR_S[CKL3] = 1 and IPv4 IHL < 5.
-                                       * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and IP version at
-                                       NIC_SEND_HDR_S[L3PTR] is not 4 or 6. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_PERR_CN81XX (0x8b) /**< Checksum packet data error. Packet data error related to L3/L4/LE/LF checksum and/or
-                                       TSO. For example:
-                                       * NIC_SEND_HDR_S[CKL3] = 1 and IPv4 IHL < 5.
-                                       * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and IP version at
-                                       NIC_SEND_HDR_S[L3PTR] is not 4 or 6. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_PERR_CN83XX (0x8b) /**< Checksum packet data error. Packet data error related to L3/L4/LE/LF checksum and/or
-                                       TSO. For example:
-                                       * NIC_SEND_HDR_S[CKL3] = 1 and IPv4 IHL < 5.
-                                       * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and IP version at
-                                       NIC_SEND_HDR_S[L3PTR] is not 4 or 6. */
-#define BDK_NIC_CQE_SEND_STATUS_E_CK_PERR_CN88XXP2 (0x8b) /**< Checksum packet data error. Packet data error related to L3/L4/LE/LF checksum and/or
-                                       TSO. For example:
-                                       * NIC_SEND_HDR_S[CKL3] = 1 and IPv4 IHL < 5.
-                                       * NIC_SEND_HDR_S[CKL4] and/or NIC_SEND_HDR_S[TSO] != 0, and IP version at
-                                       NIC_SEND_HDR_S[L3PTR] is not 4 or 6. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DATA_FAULT (0x84) /**< Memory fault on packet data read for NIC_SEND_GATHER_S. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DATA_SEQUENCE_ERR_CN88XXP1 (0x81) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S or
-                                       NIC_SEND_IMM_S. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DATA_SEQUENCE_ERR_CN88XXP2 (0x81) /**< Reserved. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DESC_FAULT (0x10) /**< Memory fault on send descriptor read. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN88XXP1 (0x8c) /**< Reserved. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN9 (0x8c) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S,
-                                       NIC_SEND_IMM_S or NIC_SEND_MEM_S. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN81XX (0x8c) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S,
-                                       NIC_SEND_IMM_S or NIC_SEND_MEM_S. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN83XX (0x8c) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S,
-                                       NIC_SEND_IMM_S or NIC_SEND_MEM_S. */
-#define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN88XXP2 (0x8c) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S,
-                                       NIC_SEND_IMM_S or NIC_SEND_MEM_S.
-                                       
-                                       Internal:
-                                       Replaces DATA_SEQUENCE_ERR and MEM_SEQUENCE_ERR from pass 1. */
-#define BDK_NIC_CQE_SEND_STATUS_E_GOOD (0) /**< No error. */
-#define BDK_NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR_CN9 (0x11) /**< Send header consistency error. One of the following errors was detected when the send
-                                       descriptor was read for a packet after it was scheduled:
-                                       * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
-                                       i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
-                                       * Inconsistent NIC_SEND_HDR_S[SUBDCNT] values were read on the first pass and second pass
-                                       descriptor reads. */
-#define BDK_NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR_CN81XX (0x11) /**< Send header consistency error. One of the following errors was detected when the send
-                                       descriptor was read for a packet after it was scheduled:
-                                       * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
-                                       i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
-                                       * Inconsistent NIC_SEND_HDR_S[SUBDCNT] values were read on the first pass and second pass
-                                       descriptor reads. */
-#define BDK_NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR_CN88XX (0x11) /**< Send header consistency error. One of the following errors was detected when the send
-                                       descriptor was read for a packet after it was scheduled:
-                                       * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
-                                       i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
-                                       * Inconsistent NIC_SEND_HDR_S[SUBDCNT] values were read on the first pass and second pass
-                                       descriptor reads.
-                                       
-                                       Internal:
-                                       The following condition is checked in t88 pass 1 but not in pass 2:
-                                       * Inconsistent NIC_SEND_HDR_S[TOTAL] values were read on the first pass and second pass
-                                       descriptor reads. */
-#define BDK_NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR_CN83XX (0x11) /**< Send header consistency error. One of the following errors was detected when the send
-                                       descriptor was read for a packet after it was scheduled:
-                                       * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
-                                       i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
-                                       * Inconsistent NIC_SEND_HDR_S[SUBDCNT] values were read on the first pass and second pass
-                                       descriptor reads. */
-#define BDK_NIC_CQE_SEND_STATUS_E_IMM_SIZE_OFLOW (0x80) /**< Send immediate size overflow. NIC_SEND_IMM_S[SIZE] exceeds the remaining send descriptor size. */
-#define BDK_NIC_CQE_SEND_STATUS_E_LOCK_VIOL (0x83) /**< Lockdown violation. Indicates one of the following:
-                                       * Outbound packet data does not match on one or more lockdown bytes in
-                                       NIC_PF_QS()_LOCK().
-                                       * An inserted checksum or CRC byte enabled by NIC_SEND_HDR_S[CKL3], NIC_SEND_HDR_S[CKL4]
-                                       or NIC_SEND_CRC_S overwrites an enabled lockdown byte.
-                                       * The packet is too short for one or more enabled lockdown bytes.
-                                       * The packet is too short for an SQ data insertion byte when
-                                       NIC_PF_QS()_CFG[SQ_INS_ENA] is set. */
-#define BDK_NIC_CQE_SEND_STATUS_E_MAX_SIZE_VIOL_CN88XXP1 (0x13) /**< Reserved. */
-#define BDK_NIC_CQE_SEND_STATUS_E_MAX_SIZE_VIOL_CN9 (0x13) /**< Maximum packet size violation. The send descriptor specified
-                                       a packet larger than the lesser of 9212 bytes or
-                                       NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]; packet was dropped. */
-#define BDK_NIC_CQE_SEND_STATUS_E_MAX_SIZE_VIOL_CN81XX (0x13) /**< Maximum packet size violation. The send descriptor specified
-                                       a packet larger than the lesser of 9212 bytes or
-                                       NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]; packet was dropped. */
-#define BDK_NIC_CQE_SEND_STATUS_E_MAX_SIZE_VIOL_CN83XX (0x13) /**< Maximum packet size violation. The send descriptor specified
-                                       a packet larger than the lesser of 9212 bytes or
-                                       NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]; packet was dropped. */
-#define BDK_NIC_CQE_SEND_STATUS_E_MAX_SIZE_VIOL_CN88XXP2 (0x13) /**< Maximum packet size violation. The send descriptor specified
-                                       a packet larger than the lesser of 9212 bytes or
-                                       NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]; packet was dropped. */
-#define BDK_NIC_CQE_SEND_STATUS_E_MEM_FAULT (0x87) /**< Memory fault on NIC_SEND_MEM_S operation. */
-#define BDK_NIC_CQE_SEND_STATUS_E_MEM_SEQUENCE_ERR_CN88XXP1 (0x82) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_MEM_S. */
-#define BDK_NIC_CQE_SEND_STATUS_E_MEM_SEQUENCE_ERR_CN88XXP2 (0x82) /**< Reserved. */
-#define BDK_NIC_CQE_SEND_STATUS_E_SUBDC_ERR (0x12) /**< Subdescriptor code error. The send descriptor contains one or more invalid subdescriptors
-                                       following NIC_SEND_HDR_S, i.e. an SQE other than immediate data with a
-                                       NIC_SEND_HDR_S[SUBDC] value other than NIC_SEND_SUBDC_E::CRC, NIC_SEND_SUBDC_E::IMM,
-                                       NIC_SEND_SUBDC_E::GATHER or NIC_SEND_SUBDC_E::MEM. */
-#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_CONFLICT_CN9 (0x85) /**< Timestamp conflict. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
-                                       indicate that the timestamp packet was scheduled while another timestamp operation was
-                                       pending on the same Ethernet LMAC. */
-#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_CONFLICT_CN81XX (0x85) /**< Timestamp conflict. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
-                                       indicate that the timestamp packet was scheduled while another timestamp operation was
-                                       pending on the same Ethernet LMAC. */
-#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_CONFLICT_CN88XX (0x85) /**< Timestamp conflict. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
-                                       indicate that the timestamp packet was scheduled while another timestamp operation was
-                                       pending on the same Ethernet port, as specified by
-                                       NIC_QS()_SQ()_CFG[TSTMP_BGX_INTF]. */
-#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_CONFLICT_CN83XX (0x85) /**< Timestamp conflict. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
-                                       indicate that the timestamp packet was scheduled while another timestamp operation was
-                                       pending on the same Ethernet LMAC. */
-#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_TIMEOUT_CN9 (0x86) /**< Timestamp timeout. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
-                                       indicate that the timestamp packet was not transmitted by the targeted Ethernet LMAC
-                                       within the timeout period specified by NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
-#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_TIMEOUT_CN81XX (0x86) /**< Timestamp timeout. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
-                                       indicate that the timestamp packet was not transmitted by the targeted Ethernet LMAC
-                                       within the timeout period specified by NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
-#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_TIMEOUT_CN88XX (0x86) /**< Timestamp timeout. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
-                                       indicate that the timestamp packet was not transmitted by the targeted Ethernet port
-                                       within the timeout period specified by NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
-#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_TIMEOUT_CN83XX (0x86) /**< Timestamp timeout. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
-                                       indicate that the timestamp packet was not transmitted by the targeted Ethernet LMAC
-                                       within the timeout period specified by NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
+#define BDK_NIC_CQE_SEND_STATUS_E_CK_DERR (0x8a)
+#define BDK_NIC_CQE_SEND_STATUS_E_CK_OFLOW (0x89)
+#define BDK_NIC_CQE_SEND_STATUS_E_CK_OVERLAP (0x88)
+#define BDK_NIC_CQE_SEND_STATUS_E_CK_PERR (0x8b)
+#define BDK_NIC_CQE_SEND_STATUS_E_DATA_FAULT (0x84)
+#define BDK_NIC_CQE_SEND_STATUS_E_DATA_SEQUENCE_ERR (0x81)
+#define BDK_NIC_CQE_SEND_STATUS_E_DESC_FAULT (0x10)
+#define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR (0x8c)
+#define BDK_NIC_CQE_SEND_STATUS_E_GOOD (0)
+#define BDK_NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR (0x11)
+#define BDK_NIC_CQE_SEND_STATUS_E_IMM_SIZE_OFLOW (0x80)
+#define BDK_NIC_CQE_SEND_STATUS_E_LOCK_VIOL (0x83)
+#define BDK_NIC_CQE_SEND_STATUS_E_MAX_SIZE_VIOL (0x13)
+#define BDK_NIC_CQE_SEND_STATUS_E_MEM_FAULT (0x87)
+#define BDK_NIC_CQE_SEND_STATUS_E_MEM_SEQUENCE_ERR (0x82)
+#define BDK_NIC_CQE_SEND_STATUS_E_SUBDC_ERR (0x12)
+#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_CONFLICT (0x85)
+#define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_TIMEOUT (0x86)
 
 /**
  * Enumeration nic_cqe_type_e
@@ -304,14 +136,11 @@
  * NIC Completion-Queue Entry Type Enumeration
  * Enumerates CQE types, e.g. see NIC_CQE_SEND_S[CQE_TYPE].
  */
-#define BDK_NIC_CQE_TYPE_E_INVALID (0) /**< Invalid completion entry. Software may clear NIC_CQE_SEND_S[CQE_TYPE] (making it
-                                       NIC_CQE_TYPE_E::INVALID) when adding a free entry to the CQ ring, and hardware will update
-                                       as appropriate. Software then can poll NIC_CQE_SEND_S[CQE_TYPE] for a non-INVALID value at
-                                       the ring tail to detect a valid entry. */
-#define BDK_NIC_CQE_TYPE_E_RX (2) /**< Receive completion. CQE structure is NIC_CQE_RX_S. */
-#define BDK_NIC_CQE_TYPE_E_RX_SPLT (3) /**< Receive split completion. CQE structure is NIC_CQE_RX_S. */
-#define BDK_NIC_CQE_TYPE_E_SEND (8) /**< Send completion. CQE structure is NIC_CQE_SEND_S. */
-#define BDK_NIC_CQE_TYPE_E_SEND_PTP (9) /**< Send IEEE 1588 PTP timestamp completion.CQE structure is NIC_CQE_SEND_S. */
+#define BDK_NIC_CQE_TYPE_E_INVALID (0)
+#define BDK_NIC_CQE_TYPE_E_RX (2)
+#define BDK_NIC_CQE_TYPE_E_RX_SPLT (3)
+#define BDK_NIC_CQE_TYPE_E_SEND (8)
+#define BDK_NIC_CQE_TYPE_E_SEND_PTP (9)
 
 /**
  * Enumeration nic_errlev_e
@@ -319,21 +148,12 @@
  * NIC Error Level Enumeration
  * Enumerates the values of NIC_CQE_RX_S[ERRLEV].
  */
-#define BDK_NIC_ERRLEV_E_L2 (1) /**< Layer 2 error. */
-#define BDK_NIC_ERRLEV_E_L3 (2) /**< Layer 3 error. */
-#define BDK_NIC_ERRLEV_E_L4 (3) /**< Layer 4 error. */
-#define BDK_NIC_ERRLEV_E_LE_CN88XXP1 (4) /**< Reserved. */
-#define BDK_NIC_ERRLEV_E_LE_CN9 (4) /**< Inner layer 3 error. */
-#define BDK_NIC_ERRLEV_E_LE_CN81XX (4) /**< Inner layer 3 error. */
-#define BDK_NIC_ERRLEV_E_LE_CN83XX (4) /**< Inner layer 3 error. */
-#define BDK_NIC_ERRLEV_E_LE_CN88XXP2 (4) /**< Inner Layer 3 error. */
-#define BDK_NIC_ERRLEV_E_LF_CN88XXP1 (5) /**< Reserved. */
-#define BDK_NIC_ERRLEV_E_LF_CN9 (5) /**< Inner layer 4 error. */
-#define BDK_NIC_ERRLEV_E_LF_CN81XX (5) /**< Inner layer 4 error. */
-#define BDK_NIC_ERRLEV_E_LF_CN83XX (5) /**< Inner layer 4 error. */
-#define BDK_NIC_ERRLEV_E_LF_CN88XXP2 (5) /**< Inner Layer 4 error. */
-#define BDK_NIC_ERRLEV_E_RE (0) /**< Receive error or no error. If NIC_CQE_RX_S[ERROP]==0 (NIC_ERROP_E::RE_NONE) then no error.
-                                       Else used for L1 and MAC errors. */
+#define BDK_NIC_ERRLEV_E_L2 (1)
+#define BDK_NIC_ERRLEV_E_L3 (2)
+#define BDK_NIC_ERRLEV_E_L4 (3)
+#define BDK_NIC_ERRLEV_E_LE (4)
+#define BDK_NIC_ERRLEV_E_LF (5)
+#define BDK_NIC_ERRLEV_E_RE (0)
 
 /**
  * Enumeration nic_errop_e
@@ -341,135 +161,39 @@
  * NIC Error Opcode Enumeration
  * Enumerates the values of NIC_CQE_RX_S[ERROP].
  */
-#define BDK_NIC_ERROP_E_IP_CHK (0x42) /**< IPv4 header checksum error: the IPv4 header has a checksum violation. Note that the
-                                       hardware checksum calculation complies with section 5 of RFC 1624. */
-#define BDK_NIC_ERROP_E_IP_HOP (0x45) /**< IP TTL hop: the IPv4 TTL field or the IPv6 hop count field are zero. */
-#define BDK_NIC_ERROP_E_IP_MAL (0x43) /**< IP malformed header: the packet is not long enough to contain the IP header.
-                                       
-                                       IPv4 packet:
-                                       _ received_packet_length - crc < NIC_CQE_RX_S[L3PTR]+IPv4_parsed_header_length
-                                       _ or ipv4_header_length < 5
-                                       _ or ipv4_total_length < 20
-                                       
-                                       IPv6 packet:
-                                       _ received_packet_length - crc < NIC_CQE_RX_S[L3PTR]+IPv6_header(40 bytes) */
-#define BDK_NIC_ERROP_E_IP_MALD (0x44) /**< IP malformed payload: the packet is not long enough to contain the payload bytes indicated
-                                       by the IP header.
-                                       
-                                       IPv4 packet:
-                                       _ received_packet_length - crc <  NIC_CQE_RX_S[L3PTR]+IPv4_total_length
-                                       
-                                       IPv6 packet:
-                                       _ received_packet_length - crc
-                                         < NIC_CQE_RX_S[L3PTR] + IPv6_header(40) + ipv6_payload_lengthIP_ML
-                                       
-                                       Note this check also covers IPv6 extension headers, as extension headers are included in
-                                       the payload length field. */
-#define BDK_NIC_ERROP_E_IP_NOT (0x41) /**< The IP version field is neither 4 nor 6. */
-#define BDK_NIC_ERROP_E_L2_FRAGMENT (0x20) /**< Reserved. */
-#define BDK_NIC_ERROP_E_L2_LENMISM (0x27) /**< Length mismatch error: the packet had a length that did not match the length field in the
-                                       L2 header. The check is only valid for packets with have_snap (see Ethertype Parsing
-                                       Algorithm).
-                                       NIC_PF_PKIND()_CFG[LENERR_EN] enables the check. */
-#define BDK_NIC_ERROP_E_L2_MAL (0x24) /**< L2 header malformed: the packet is not long enough to contain the skipped bytes or L2
-                                       header. */
-#define BDK_NIC_ERROP_E_L2_OVERRUN (0x21) /**< Reserved. */
-#define BDK_NIC_ERROP_E_L2_OVERSIZE_CN9 (0x25) /**< Oversize error. The packet is longer than allowed. A packet was received with
-                                       length - 8_if_PTP_present > NIC_PF_PKIND()_CFG[MAXLEN]
-                                       bytes. */
-#define BDK_NIC_ERROP_E_L2_OVERSIZE_CN81XX (0x25) /**< Oversize error. The packet is longer than allowed. A packet was received with
-                                       length - 8_if_PTP_present > NIC_PF_PKIND()_CFG[MAXLEN]
-                                       bytes. */
-#define BDK_NIC_ERROP_E_L2_OVERSIZE_CN88XX (0x25) /**< Oversize error. The packet is longer than allowed. A packet was received with
-                                       length - 8_if_PTP_present - 8_if_NIC_RX_HDR_present > NIC_PF_PKIND()_CFG[MAXLEN]
-                                       bytes. */
-#define BDK_NIC_ERROP_E_L2_OVERSIZE_CN83XX (0x25) /**< Oversize error. The packet is longer than allowed. A packet was received with
-                                       length - 8_if_PTP_present > NIC_PF_PKIND()_CFG[MAXLEN]
-                                       bytes. */
-#define BDK_NIC_ERROP_E_L2_PCLP (0x28) /**< The parsing engine stopped because it had reached the 255 byte limit. */
-#define BDK_NIC_ERROP_E_L2_PFCS (0x22) /**< Reserved. */
-#define BDK_NIC_ERROP_E_L2_PUNY (0x23) /**< Reserved. */
-#define BDK_NIC_ERROP_E_L2_UNDERSIZE_CN9 (0x26) /**< Undersize error: the packet is shorter than allowed. A packet was received with
-                                       length - 8_if_PTP_present < NIC_PF_PKIND()_CFG[MINLEN]
-                                       bytes. Or, a pause packet was ignored by BGX because it was received with
-                                       length < (BGX()_SMU()_RX_FRM_CHK[FCSERR] ? 64 : 60). */
-#define BDK_NIC_ERROP_E_L2_UNDERSIZE_CN81XX (0x26) /**< Undersize error: the packet is shorter than allowed. A packet was received with
-                                       length - 8_if_PTP_present < NIC_PF_PKIND()_CFG[MINLEN]
-                                       bytes. Or, a pause packet was ignored by BGX because it was received with
-                                       length < (BGX()_SMU()_RX_FRM_CHK[FCSERR] ? 64 : 60). */
-#define BDK_NIC_ERROP_E_L2_UNDERSIZE_CN88XX (0x26) /**< Undersize error: the packet is shorter than allowed. A packet was received with
-                                       length - 8_if_PTP_present - 8_if_NIC_RX_HDR_present < NIC_PF_PKIND()_CFG[MINLEN]
-                                       bytes. Or, a pause packet was ignored by BGX because it was received with
-                                       length < (BGX()_SMU()_RX_FRM_CHK[FCSERR] ? 64 : 60). */
-#define BDK_NIC_ERROP_E_L2_UNDERSIZE_CN83XX (0x26) /**< Undersize error: the packet is shorter than allowed. A packet was received with
-                                       length - 8_if_PTP_present < NIC_PF_PKIND()_CFG[MINLEN]
-                                       bytes. Or, a pause packet was ignored by BGX because it was received with
-                                       length < (BGX()_SMU()_RX_FRM_CHK[FCSERR] ? 64 : 60). */
-#define BDK_NIC_ERROP_E_L3_ICRC (0x46) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE ICRC error. NIC_CQE_RX_S[L3TY]==GRH and the 4-byte ICRC mismatches. */
-#define BDK_NIC_ERROP_E_L3_PCLP (0x47) /**< The parsing engine stopped because it had reached the 255 byte limit. */
-#define BDK_NIC_ERROP_E_L4_CHK (0x62) /**< L4 checksum error:. The L4 TCP/UDP checksum value is bad. For TCP/UDP the hardware
-                                       checksum calculation complies with section 5 of RFC 1624.
-                                       NIC_QS()_RQ_GEN_CFG[CSUM_L4] enables this check. */
-#define BDK_NIC_ERROP_E_L4_MAL (0x61) /**< Malformed L4:
-                                       
-                                       IPv4/TCP:
-                                       _ ipv4_total_length < IP_header(20B+options) + (TCP_data_offset * 4)
-                                       
-                                       IPv6/TCP:
-                                       _ ipv6_payload_length < TCP_data_offset * 4
-                                       
-                                       IPv4/UDP:
-                                       _ ipv4_total_length < IP_header(20B+options) + UDP_header(8B)
-                                       
-                                       IPv6/UDP:
-                                       _ ipv6_payload_length < UDP_header(8B) */
-#define BDK_NIC_ERROP_E_L4_PCLP (0x67) /**< The parsing engine stopped because it had reached the 255 byte limit. */
-#define BDK_NIC_ERROP_E_L4_PORT (0x64) /**< Bad L4 port: The packet is TCP or UDP and the port is 0. */
-#define BDK_NIC_ERROP_E_PREL2_ERR (0x1f) /**< Packet was not long enough to cover all the pre-L2 bytes. */
-#define BDK_NIC_ERROP_E_RBDR_TRUNC (0x70) /**< The packet was truncated due to a lack of RBDR buffers. */
-#define BDK_NIC_ERROP_E_RE_FCS (7) /**< FCS error. The packet had an FCS error detected by BGX. */
-#define BDK_NIC_ERROP_E_RE_JABBER (2) /**< Jabber error. The packet was too large and is truncated by BGX. */
-#define BDK_NIC_ERROP_E_RE_NONE (0) /**< No error. */
-#define BDK_NIC_ERROP_E_RE_PARTIAL (1) /**< Partial error. The packet was partially received. BGX internal buffering/bandwidth was not
-                                       adequate to receive the entire packet. */
-#define BDK_NIC_ERROP_E_RE_RX_CTL (0xb) /**< BGX RX error. The packet had one or more data reception errors in which a control byte was
-                                       detected in the frame. Applicable only to BGX interface ports. */
-#define BDK_NIC_ERROP_E_RE_TERMINATE (9) /**< Terminate error. The packet was terminated with an idle cycle instead of a terminate
-                                       cycle. For BGX interfaces, only applicable in XAUI mode. */
-#define BDK_NIC_ERROP_E_TCP_FLAG (0x65) /**< The packet is TCP and has bad flags. Indicates any of the following conditions:
-                                       
-                                       <pre>
-                                       {URG, ACK, PSH, RST, SYN, FIN}
-                                       0b000001 = (FIN only).
-                                       0b000000 = (0).
-                                       0bxxx1x1 = (RST+FIN+*).
-                                       0b1xxx1x = (URG+SYN+*).
-                                       0bxxx11x = (RST+SYN+*).
-                                       0bxxxx11 = (SYN+FIN+*).
-                                       </pre> */
-#define BDK_NIC_ERROP_E_TCP_OFFSET (0x66) /**< The packet is TCP and the TCP offset field is less than 5. */
-#define BDK_NIC_ERROP_E_TUN_MAL_CN88XXP1 (0x1d) /**< Reserved. */
-#define BDK_NIC_ERROP_E_TUN_MAL_CN9 (0x1d) /**< Tunneling header is malformed. */
-#define BDK_NIC_ERROP_E_TUN_MAL_CN81XX (0x1d) /**< Tunneling header is malformed. */
-#define BDK_NIC_ERROP_E_TUN_MAL_CN83XX (0x1d) /**< Tunneling header is malformed. */
-#define BDK_NIC_ERROP_E_TUN_MAL_CN88XXP2 (0x1d) /**< Tunneling header is malformed. */
-#define BDK_NIC_ERROP_E_TUN_PCLP_CN88XXP1 (0x1e) /**< Reserved. */
-#define BDK_NIC_ERROP_E_TUN_PCLP_CN9 (0x1e) /**< The parsing engine stopped because it had reached the 255 byte limit. */
-#define BDK_NIC_ERROP_E_TUN_PCLP_CN81XX (0x1e) /**< The parsing engine stopped because it had reached the 255 byte limit. */
-#define BDK_NIC_ERROP_E_TUN_PCLP_CN83XX (0x1e) /**< The parsing engine stopped because it had reached the 255 byte limit. */
-#define BDK_NIC_ERROP_E_TUN_PCLP_CN88XXP2 (0x1e) /**< The parsing engine stopped because it had reached the 255 byte limit. */
-#define BDK_NIC_ERROP_E_UDP_LEN (0x63) /**< UDP length error: The UDP length field would make the UDP data longer than what remains in
-                                       the IP packet (as defined by the IP header length field).
-                                       NIC_QS()_RQ_GEN_CFG[LEN_L4] enables this check.
-                                       
-                                       IPv4/UDP:
-                                       _ ipv4_total_length < IP_header_len + UDP_length
-                                       
-                                       IPv6/UDP:
-                                       _ ipv6_payload_length < UDP_length */
+#define BDK_NIC_ERROP_E_IP_CHK (0x42)
+#define BDK_NIC_ERROP_E_IP_HOP (0x45)
+#define BDK_NIC_ERROP_E_IP_MAL (0x43)
+#define BDK_NIC_ERROP_E_IP_MALD (0x44)
+#define BDK_NIC_ERROP_E_IP_NOT (0x41)
+#define BDK_NIC_ERROP_E_L2_FRAGMENT (0x20)
+#define BDK_NIC_ERROP_E_L2_LENMISM (0x27)
+#define BDK_NIC_ERROP_E_L2_MAL (0x24)
+#define BDK_NIC_ERROP_E_L2_OVERRUN (0x21)
+#define BDK_NIC_ERROP_E_L2_OVERSIZE (0x25)
+#define BDK_NIC_ERROP_E_L2_PCLP (0x28)
+#define BDK_NIC_ERROP_E_L2_PFCS (0x22)
+#define BDK_NIC_ERROP_E_L2_PUNY (0x23)
+#define BDK_NIC_ERROP_E_L2_UNDERSIZE (0x26)
+#define BDK_NIC_ERROP_E_L3_ICRC (0x46)
+#define BDK_NIC_ERROP_E_L3_PCLP (0x47)
+#define BDK_NIC_ERROP_E_L4_CHK (0x62)
+#define BDK_NIC_ERROP_E_L4_MAL (0x61)
+#define BDK_NIC_ERROP_E_L4_PCLP (0x67)
+#define BDK_NIC_ERROP_E_L4_PORT (0x64)
+#define BDK_NIC_ERROP_E_PREL2_ERR (0x1f)
+#define BDK_NIC_ERROP_E_RBDR_TRUNC (0x70)
+#define BDK_NIC_ERROP_E_RE_FCS (7)
+#define BDK_NIC_ERROP_E_RE_JABBER (2)
+#define BDK_NIC_ERROP_E_RE_NONE (0)
+#define BDK_NIC_ERROP_E_RE_PARTIAL (1)
+#define BDK_NIC_ERROP_E_RE_RX_CTL (0xb)
+#define BDK_NIC_ERROP_E_RE_TERMINATE (9)
+#define BDK_NIC_ERROP_E_TCP_FLAG (0x65)
+#define BDK_NIC_ERROP_E_TCP_OFFSET (0x66)
+#define BDK_NIC_ERROP_E_TUN_MAL (0x1d)
+#define BDK_NIC_ERROP_E_TUN_PCLP (0x1e)
+#define BDK_NIC_ERROP_E_UDP_LEN (0x63)
 
 /**
  * Enumeration nic_ethertype_e
@@ -477,19 +201,19 @@
  * NIC Ethertypes Enumeration
  * Enumerates the standard Ethertype values.
  */
-#define BDK_NIC_ETHERTYPE_E_ARP (0x806) /**< Address resolution protocol. */
-#define BDK_NIC_ETHERTYPE_E_CNM (0x22e9) /**< Congestion notification message. */
-#define BDK_NIC_ETHERTYPE_E_IP (0x800) /**< IP. */
-#define BDK_NIC_ETHERTYPE_E_IP6 (0x86dd) /**< IPv6. */
-#define BDK_NIC_ETHERTYPE_E_MPLS_8847 (0x8847) /**< MPLS. */
-#define BDK_NIC_ETHERTYPE_E_MPLS_8848 (0x8848) /**< MPLS. */
-#define BDK_NIC_ETHERTYPE_E_REVARP (0x8035) /**< Reverse address resolution protocol. */
-#define BDK_NIC_ETHERTYPE_E_ROCE (0x8915) /**< RDMA over converged Ethernet. */
-#define BDK_NIC_ETHERTYPE_E_VLAN (0x8100) /**< Standard VLAN Ethertype. */
-#define BDK_NIC_ETHERTYPE_E_VLAN_88A8 (0x88a8) /**< Alternative VLAN Ethertype. */
-#define BDK_NIC_ETHERTYPE_E_VLAN_9100 (0x9100) /**< Alternative VLAN Ethertype. */
-#define BDK_NIC_ETHERTYPE_E_VLAN_9200 (0x9200) /**< Alternative VLAN Ethertype. */
-#define BDK_NIC_ETHERTYPE_E_VLAN_9300 (0x9300) /**< Alternative VLAN Ethertype. */
+#define BDK_NIC_ETHERTYPE_E_ARP (0x806)
+#define BDK_NIC_ETHERTYPE_E_CNM (0x22e9)
+#define BDK_NIC_ETHERTYPE_E_IP (0x800)
+#define BDK_NIC_ETHERTYPE_E_IP6 (0x86dd)
+#define BDK_NIC_ETHERTYPE_E_MPLS_8847 (0x8847)
+#define BDK_NIC_ETHERTYPE_E_MPLS_8848 (0x8848)
+#define BDK_NIC_ETHERTYPE_E_REVARP (0x8035)
+#define BDK_NIC_ETHERTYPE_E_ROCE (0x8915)
+#define BDK_NIC_ETHERTYPE_E_VLAN (0x8100)
+#define BDK_NIC_ETHERTYPE_E_VLAN_88A8 (0x88a8)
+#define BDK_NIC_ETHERTYPE_E_VLAN_9100 (0x9100)
+#define BDK_NIC_ETHERTYPE_E_VLAN_9200 (0x9200)
+#define BDK_NIC_ETHERTYPE_E_VLAN_9300 (0x9300)
 
 /**
  * Enumeration nic_etype_alg_e
@@ -497,15 +221,11 @@
  * NIC Ethertype Algorithm Enumeration
  * Enumerates the values of NIC_PF_RX_ETYPE()[ALG].
  */
-#define BDK_NIC_ETYPE_ALG_E_ENDPARSE (2) /**< End parsing. Do not parse any remaining layers of this packet, nor parse any additional Ethertypes. */
-#define BDK_NIC_ETYPE_ALG_E_NONE (0) /**< Ethertype matcher disabled. */
-#define BDK_NIC_ETYPE_ALG_E_SKIP (1) /**< Skip parse over this etype. */
-#define BDK_NIC_ETYPE_ALG_E_VLAN (3) /**< VLAN not-stripped eligible. Ethertype represents a VLAN which will set NIC_CQE_RX_S[VV] or
-                                       NIC_CQE_RX_S[VS]  The corresponding NIC_PF_RX_ETYPE()[ADVANCE] must be 0x2 (4 bytes). */
-#define BDK_NIC_ETYPE_ALG_E_VLAN_STRIP (4) /**< VLAN strip eligible. Ethertype represents a VLAN which will set NIC_CQE_RX_S[VV] or
-                                       NIC_CQE_RX_S[VS], and this Ethertype is eligible for stripping based on the settings of
-                                       NIC_QS()_RQ_GEN_CFG[VLAN_STRIP]. The corresponding NIC_PF_RX_ETYPE()[ADVANCE]
-                                       must be 0x2 (4 bytes). */
+#define BDK_NIC_ETYPE_ALG_E_ENDPARSE (2)
+#define BDK_NIC_ETYPE_ALG_E_NONE (0)
+#define BDK_NIC_ETYPE_ALG_E_SKIP (1)
+#define BDK_NIC_ETYPE_ALG_E_VLAN (3)
+#define BDK_NIC_ETYPE_ALG_E_VLAN_STRIP (4)
 
 /**
  * Enumeration nic_intf_block_e
@@ -515,14 +235,12 @@
  * and enumerates the values of NIC_PF_INTF()_BP_CFG[BP_ID] and NIC_PF_RX_WRR_CFG()[SLOT*].
  * NIC only uses the subset enumerated by NIC_INTF_E.
  */
-#define BDK_NIC_INTF_BLOCK_E_BGXX(a) (8 + (a)) /**< BGX {a}. Also used for RGX. */
-#define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a)) /**< BGX{a} block ID. */
-#define BDK_NIC_INTF_BLOCK_E_DPI (4) /**< DPI/SDP. */
-#define BDK_NIC_INTF_BLOCK_E_LBKX(a) (0 + (a)) /**< Loopback {a}. */
-#define BDK_NIC_INTF_BLOCK_E_RX(a) (0 + (a)) /**< Reserved.
-                                       Internal:
-                                       R(5) is reserved for NVME. */
-#define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a)) /**< TNS port {a} block ID. */
+#define BDK_NIC_INTF_BLOCK_E_BGXX(a) (8 + (a))
+#define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a))
+#define BDK_NIC_INTF_BLOCK_E_DPI (4)
+#define BDK_NIC_INTF_BLOCK_E_LBKX(a) (0 + (a))
+#define BDK_NIC_INTF_BLOCK_E_RX(a) (0 + (a))
+#define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a))
 
 /**
  * Enumeration nic_intf_e
@@ -531,14 +249,11 @@
  * Enumerates the internal interfaces, and indexes of NIC_PF_INTF()_SEND_CFG and
  * NIC_PF_INTF()_BP_CFG.
  */
-#define BDK_NIC_INTF_E_BGXX(a) (0 + (a)) /**< BGX{a}. */
-#define BDK_NIC_INTF_E_LBKX_CN81XX(a) (3 + (a)) /**< Loopback interface {a}. Receives from NIC_LBK_RX_CONN_E::LBK({a}) and transmits to
-                                       NIC_LBK_TX_CONN_E::LBK({a}). */
-#define BDK_NIC_INTF_E_LBKX_CN83XX(a) (4 + (a)) /**< Loopback interface {a}. Receives from NIC_LBK_RX_CONN_E::LBK({a}) and transmits to
-                                       NIC_LBK_TX_CONN_E::LBK({a}). */
-#define BDK_NIC_INTF_E_LBKX_CN9(a) (4 + (a)) /**< Loopback interface {a}. Receives from NIC_LBK_RX_CONN_E::LBK({a}) and transmits to
-                                       NIC_LBK_TX_CONN_E::LBK({a}). */
-#define BDK_NIC_INTF_E_RGXX(a) (2 + (a)) /**< RGX{a}. Corresponds to NIC_INTF_BLOCK_E::BGX({a+2}). */
+#define BDK_NIC_INTF_E_BGXX(a) (0 + (a))
+#define BDK_NIC_INTF_E_LBKX_CN81XX(a) (3 + (a))
+#define BDK_NIC_INTF_E_LBKX_CN83XX(a) (4 + (a))
+#define BDK_NIC_INTF_E_LBKX_CN9(a) (4 + (a))
+#define BDK_NIC_INTF_E_RGXX(a) (2 + (a))
 
 /**
  * Enumeration nic_ipproto_e
@@ -546,18 +261,18 @@
  * NIC IP Protocol Enumeration
  * Enumerates the IPv4 protocol and IPv6 next-header values.
  */
-#define BDK_NIC_IPPROTO_E_AH (0x33) /**< Authentication header. */
-#define BDK_NIC_IPPROTO_E_DEST (0x3c) /**< Destination options. */
-#define BDK_NIC_IPPROTO_E_ESP (0x32) /**< Encapsulating security payload. */
-#define BDK_NIC_IPPROTO_E_FRAG (0x2c) /**< Fragment. */
-#define BDK_NIC_IPPROTO_E_GRE (0x2f) /**< Generic route encapsulation protocol. */
-#define BDK_NIC_IPPROTO_E_HOP_BY_HOP (0) /**< Hop-by-hop options. */
-#define BDK_NIC_IPPROTO_E_IP4 (4) /**< IPv4 in IP. */
-#define BDK_NIC_IPPROTO_E_IP6 (0x29) /**< IPv6 in IP. */
-#define BDK_NIC_IPPROTO_E_IPCOMP (0x6c) /**< IP payload compression protocol. */
-#define BDK_NIC_IPPROTO_E_ROUTING (0x2b) /**< Routing. */
-#define BDK_NIC_IPPROTO_E_TCP (6) /**< TCP. */
-#define BDK_NIC_IPPROTO_E_UDP (0x11) /**< UDP. */
+#define BDK_NIC_IPPROTO_E_AH (0x33)
+#define BDK_NIC_IPPROTO_E_DEST (0x3c)
+#define BDK_NIC_IPPROTO_E_ESP (0x32)
+#define BDK_NIC_IPPROTO_E_FRAG (0x2c)
+#define BDK_NIC_IPPROTO_E_GRE (0x2f)
+#define BDK_NIC_IPPROTO_E_HOP_BY_HOP (0)
+#define BDK_NIC_IPPROTO_E_IP4 (4)
+#define BDK_NIC_IPPROTO_E_IP6 (0x29)
+#define BDK_NIC_IPPROTO_E_IPCOMP (0x6c)
+#define BDK_NIC_IPPROTO_E_ROUTING (0x2b)
+#define BDK_NIC_IPPROTO_E_TCP (6)
+#define BDK_NIC_IPPROTO_E_UDP (0x11)
 
 /**
  * Enumeration nic_l3type_e
@@ -565,33 +280,14 @@
  * NIC Layer 3 Type Enumeration
  * Enumerates the values of NIC_CQE_RX_S[L3TY].
  */
-#define BDK_NIC_L3TYPE_E_ET_STOP (0xd) /**< L2 parser stopped on Ethertype that matched a value in the NIC_PF_RX_ETYPE() which had
-                                       the ALG field set to NIC_ETYPE_ALG_E::ENDPARSE. */
-#define BDK_NIC_L3TYPE_E_GRH (1) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE global routing header. */
-#define BDK_NIC_L3TYPE_E_IP4 (4) /**< IPv4 without options. The IP version field is 4, and the IP HLEN field is 5.
-                                       Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
-                                       applied to test for all of these encodings in parallel. */
-#define BDK_NIC_L3TYPE_E_IP4_OPT (5) /**< IPv4 with options. The IP version field is 4, and the IP HLEN field is not 5. (Note that
-                                       the case where HLEN < 5 is flagged in the IP malformed-header check).
-                                       Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
-                                       applied to test for all of these encodings in parallel. */
-#define BDK_NIC_L3TYPE_E_IP6 (6) /**< IPv6 without options. The IP version field is 6, and IP6_OPT below does not apply.
-                                       Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
-                                       applied to test for all of these encodings in parallel. */
-#define BDK_NIC_L3TYPE_E_IP6_OPT (7) /**< IPv6 with options. The IP version field is 6, and the extension headers matching any of
-                                       the following:
-                                       * 0 (hop-by-hop).
-                                       * 43 (routing).
-                                       * 60 (destination).
-                                       
-                                       Also used when the final extension header is not one listed in NIC_IPPROTO_E.
-                                       Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
-                                       applied to test for all of these encodings in parallel. */
-#define BDK_NIC_L3TYPE_E_NONE (0) /**< No parsing was attempted at this layer. */
-#define BDK_NIC_L3TYPE_E_OTHER (0xe) /**< L2 parser stopped on Ethertype that was not recognized by the hardware parser. */
+#define BDK_NIC_L3TYPE_E_ET_STOP (0xd)
+#define BDK_NIC_L3TYPE_E_GRH (1)
+#define BDK_NIC_L3TYPE_E_IP4 (4)
+#define BDK_NIC_L3TYPE_E_IP4_OPT (5)
+#define BDK_NIC_L3TYPE_E_IP6 (6)
+#define BDK_NIC_L3TYPE_E_IP6_OPT (7)
+#define BDK_NIC_L3TYPE_E_NONE (0)
+#define BDK_NIC_L3TYPE_E_OTHER (0xe)
 
 /**
  * Enumeration nic_l4type_e
@@ -599,79 +295,28 @@
  * NIC Layer 4 Type Enumeration
  * Enumerates the values of NIC_CQE_RX_S[L4TY].
  */
-#define BDK_NIC_L4TYPE_E_BTH_CN88XXP1 (8) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE base transport header. */
-#define BDK_NIC_L4TYPE_E_BTH_CN9 (5) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE base transport header. */
-#define BDK_NIC_L4TYPE_E_BTH_CN81XX (5) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE base transport header. */
-#define BDK_NIC_L4TYPE_E_BTH_CN83XX (5) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE base transport header. */
-#define BDK_NIC_L4TYPE_E_BTH_CN88XXP2 (5) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE base transport header. Modified mapping in pass 2. */
-#define BDK_NIC_L4TYPE_E_GRE (7) /**< GRE. */
-#define BDK_NIC_L4TYPE_E_IPCOMP (3) /**< IP Compressed. Previous layer (L3/IL3) protocol value or IPv6 next header equals 108. */
-#define BDK_NIC_L4TYPE_E_IPFRAG (2) /**< Fragment. Previous layer (L3/IL3) indicated a fragment. */
-#define BDK_NIC_L4TYPE_E_IPSEC_ESP (1) /**< IPSEC (ESP/AH). The IP packet may require IPSEC decryption or tunnel handling:
-                                       
-                                       The packet is IPSEC ESP (i.e. the IPv4 protocol value or the initial IPv6 next header
-                                       equals 50).
-                                       
-                                       The packet is IPSEC AH (i.e. the IPv4 protocol value or the initial IPv6 next header
-                                       equals 51). */
-#define BDK_NIC_L4TYPE_E_NONE (0) /**< No parsing was attempted at this layer. */
-#define BDK_NIC_L4TYPE_E_NVGRE_CN88XXP1 (0xc) /**< Reserved. */
-#define BDK_NIC_L4TYPE_E_NVGRE_CN9 (0xc) /**< NVGRE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_NVGRE_CN81XX (0xc) /**< NVGRE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_NVGRE_CN83XX (0xc) /**< NVGRE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_NVGRE_CN88XXP2 (0xc) /**< NVGRE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_OTHER (0xe) /**< Protocol Field in the L3 Layer did not match any supported by the hardware parser */
-#define BDK_NIC_L4TYPE_E_SCTP (6) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. */
-#define BDK_NIC_L4TYPE_E_TCP (4) /**< TCP. */
-#define BDK_NIC_L4TYPE_E_UDP_CN88XXP1 (5) /**< UDP. */
-#define BDK_NIC_L4TYPE_E_UDP_CN9 (8) /**< UDP. */
-#define BDK_NIC_L4TYPE_E_UDP_CN81XX (8) /**< UDP. */
-#define BDK_NIC_L4TYPE_E_UDP_CN83XX (8) /**< UDP. */
-#define BDK_NIC_L4TYPE_E_UDP_CN88XXP2 (8) /**< UDP. Changed mapping in pass 2. */
-#define BDK_NIC_L4TYPE_E_UDP_BTH_CN88XXP1 (0xb) /**< Reserved. */
-#define BDK_NIC_L4TYPE_E_UDP_BTH_CN9 (0xb) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE v2, which has UDP layer with BTH layer. */
-#define BDK_NIC_L4TYPE_E_UDP_BTH_CN81XX (0xb) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE v2, which has UDP layer with BTH layer. */
-#define BDK_NIC_L4TYPE_E_UDP_BTH_CN83XX (0xb) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE v2, which has UDP layer with BTH layer. */
-#define BDK_NIC_L4TYPE_E_UDP_BTH_CN88XXP2 (0xb) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE v2, which has UDP layer with BTH layer. */
-#define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN88XXP1 (9) /**< Reserved. */
-#define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN9 (9) /**< UDP with GENEVE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN81XX (9) /**< UDP with GENEVE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN83XX (9) /**< UDP with GENEVE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN88XXP2 (9) /**< UDP with GENEVE tunneling layer. */
-#define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN88XXP1 (0xa) /**< Reserved. */
-#define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN9 (0xa) /**< UDP with VXLAN tunneling layer. */
-#define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN81XX (0xa) /**< UDP with VXLAN tunneling layer. */
-#define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN83XX (0xa) /**< UDP with VXLAN tunneling layer. */
-#define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN88XXP2 (0xa) /**< UDP with VXLAN tunneling layer. */
+#define BDK_NIC_L4TYPE_E_BTH_CN88XXP1 (8)
+#define BDK_NIC_L4TYPE_E_BTH_CN9 (5)
+#define BDK_NIC_L4TYPE_E_BTH_CN81XX (5)
+#define BDK_NIC_L4TYPE_E_BTH_CN83XX (5)
+#define BDK_NIC_L4TYPE_E_BTH_CN88XXP2 (5)
+#define BDK_NIC_L4TYPE_E_GRE (7)
+#define BDK_NIC_L4TYPE_E_IPCOMP (3)
+#define BDK_NIC_L4TYPE_E_IPFRAG (2)
+#define BDK_NIC_L4TYPE_E_IPSEC_ESP (1)
+#define BDK_NIC_L4TYPE_E_NONE (0)
+#define BDK_NIC_L4TYPE_E_NVGRE (0xc)
+#define BDK_NIC_L4TYPE_E_OTHER (0xe)
+#define BDK_NIC_L4TYPE_E_SCTP (6)
+#define BDK_NIC_L4TYPE_E_TCP (4)
+#define BDK_NIC_L4TYPE_E_UDP_CN88XXP1 (5)
+#define BDK_NIC_L4TYPE_E_UDP_CN9 (8)
+#define BDK_NIC_L4TYPE_E_UDP_CN81XX (8)
+#define BDK_NIC_L4TYPE_E_UDP_CN83XX (8)
+#define BDK_NIC_L4TYPE_E_UDP_CN88XXP2 (8)
+#define BDK_NIC_L4TYPE_E_UDP_BTH (0xb)
+#define BDK_NIC_L4TYPE_E_UDP_GENEVE (9)
+#define BDK_NIC_L4TYPE_E_UDP_VXLAN (0xa)
 
 /**
  * Enumeration nic_lbk_rx_conn_e
@@ -680,11 +325,9 @@
  * Specifies which LBK block connects to NIC's internal NIC_INTF_E::LBK()
  * receive interface. Values enumerated by NIC_INTF_BLOCK_E::LBK().
  */
-#define BDK_NIC_LBK_RX_CONN_E_LBKX_CN81XX(a) (0 + (a)) /**< NIC's NIC_INTF_E::LBK(0) receive interface connects to LBK 0. */
-#define BDK_NIC_LBK_RX_CONN_E_LBKX_CN83XX(a) (2 + (a)) /**< NIC's NIC_INTF_E::LBK(0) receive interface connects to LBK 2.
-                                       NIC's NIC_INTF_E::LBK(1) receive interface connects to LBK 3. */
-#define BDK_NIC_LBK_RX_CONN_E_LBKX_CN9(a) (2 + (a)) /**< NIC's NIC_INTF_E::LBK(0) receive interface connects to LBK 2.
-                                       NIC's NIC_INTF_E::LBK(1) receive interface connects to LBK 3. */
+#define BDK_NIC_LBK_RX_CONN_E_LBKX_CN81XX(a) (0 + (a))
+#define BDK_NIC_LBK_RX_CONN_E_LBKX_CN83XX(a) (2 + (a))
+#define BDK_NIC_LBK_RX_CONN_E_LBKX_CN9(a) (0 + (a))
 
 /**
  * Enumeration nic_lbk_tx_conn_e
@@ -693,11 +336,9 @@
  * Specifies which LBK block connects to NIC's internal NIC_INTF_E::LBK()
  * transmit interface. Values enumerated by NIC_INTF_BLOCK_E::LBK().
  */
-#define BDK_NIC_LBK_TX_CONN_E_LBKX_CN81XX(a) (0 + (a)) /**< NIC's NIC_INTF_E::LBK(0) transmit interface connects to LBK 0. */
-#define BDK_NIC_LBK_TX_CONN_E_LBKX_CN83XX(a) (1 + 2 * (a)) /**< NIC's NIC_INTF_E::LBK(0) transmit interface connects to LBK 1.
-                                       NIC's NIC_INTF_E::LBK(1) transmit interface connects to LBK 3. */
-#define BDK_NIC_LBK_TX_CONN_E_LBKX_CN9(a) (1 + 2 * (a)) /**< NIC's NIC_INTF_E::LBK(0) transmit interface connects to LBK 1.
-                                       NIC's NIC_INTF_E::LBK(1) transmit interface connects to LBK 3. */
+#define BDK_NIC_LBK_TX_CONN_E_LBKX_CN81XX(a) (0 + (a))
+#define BDK_NIC_LBK_TX_CONN_E_LBKX_CN83XX(a) (1 + 2 * (a))
+#define BDK_NIC_LBK_TX_CONN_E_LBKX_CN9(a) (0 + 2 * (a))
 
 /**
  * Enumeration nic_lmac_e
@@ -706,11 +347,11 @@
  * Enumerates the index of NIC_PF_LMAC()_CFG, NIC_PF_LMAC()_CFG2, NIC_PF_LMAC()_SW_XOFF,
  * NIC_PF_LMAC()_CREDIT, NIC_PF_SW_SYNC_PIPE()_CQ_CNTS and NIC_PF_SW_SYNC_PIPE()_PKT_CNTS.
  */
-#define BDK_NIC_LMAC_E_BGXX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< BGX {a} LMAC {b}. */
-#define BDK_NIC_LMAC_E_LBKX_CN81XX(a) (9 + (a)) /**< Loopback {a}. */
-#define BDK_NIC_LMAC_E_LBKX_CN83XX(a) (0x10 + (a)) /**< Loopback {a}. */
-#define BDK_NIC_LMAC_E_LBKX_CN9(a) (0x10 + (a)) /**< Loopback {a}. */
-#define BDK_NIC_LMAC_E_RGXX_LMACX(a,b) (8 + 4 * (a) + (b)) /**< RGX {a} LMAC {b}. */
+#define BDK_NIC_LMAC_E_BGXX_LMACX(a,b) (0 + 4 * (a) + (b))
+#define BDK_NIC_LMAC_E_LBKX_CN81XX(a) (9 + (a))
+#define BDK_NIC_LMAC_E_LBKX_CN83XX(a) (0x10 + (a))
+#define BDK_NIC_LMAC_E_LBKX_CN9(a) (0x10 + (a))
+#define BDK_NIC_LMAC_E_RGXX_LMACX(a,b) (8 + 4 * (a) + (b))
 
 /**
  * Enumeration nic_pf_int_vec_e
@@ -718,30 +359,15 @@
  * NIC PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_NIC_PF_INT_VEC_E_ECC0_DBE (1) /**< See interrupt clears NIC_PF_ECC0_DBE_INT, interrupt sets NIC_PF_ECC0_DBE_INT_W1S,
-                                       enable clears NIC_PF_ECC0_DBE_ENA_W1C, and enable sets NIC_PF_ECC0_DBE_ENA_W1S. */
-#define BDK_NIC_PF_INT_VEC_E_ECC0_SBE (0) /**< See interrupt clears NIC_PF_ECC0_SBE_INT, interrupt sets NIC_PF_ECC0_SBE_INT_W1S,
-                                       enable clears NIC_PF_ECC0_SBE_ENA_W1C, and enable sets NIC_PF_ECC0_SBE_ENA_W1S. */
-#define BDK_NIC_PF_INT_VEC_E_ECC1_DBE (3) /**< See interrupt clears NIC_PF_ECC1_DBE_INT, interrupt sets NIC_PF_ECC1_DBE_INT_W1S,
-                                       enable clears NIC_PF_ECC1_DBE_ENA_W1C, and enable sets NIC_PF_ECC1_DBE_ENA_W1S. */
-#define BDK_NIC_PF_INT_VEC_E_ECC1_SBE (2) /**< See interrupt clears NIC_PF_ECC1_SBE_INT, interrupt sets NIC_PF_ECC1_SBE_INT_W1S,
-                                       enable clears NIC_PF_ECC1_SBE_ENA_W1C, and enable sets NIC_PF_ECC1_SBE_ENA_W1S. */
-#define BDK_NIC_PF_INT_VEC_E_ECC2_DBE (5) /**< See interrupt clears NIC_PF_ECC2_DBE_INT, interrupt sets NIC_PF_ECC2_DBE_INT_W1S,
-                                       enable clears NIC_PF_ECC2_DBE_ENA_W1C, and enable sets NIC_PF_ECC2_DBE_ENA_W1S. */
-#define BDK_NIC_PF_INT_VEC_E_ECC2_SBE (4) /**< See interrupt clears NIC_PF_ECC2_SBE_INT, interrupt sets NIC_PF_ECC2_SBE_INT_W1S,
-                                       enable clears NIC_PF_ECC2_SBE_ENA_W1C, and enable sets NIC_PF_ECC2_SBE_ENA_W1S. */
-#define BDK_NIC_PF_INT_VEC_E_ECC3_DBE (7) /**< See interrupt clears NIC_PF_ECC3_DBE_INT, interrupt sets NIC_PF_ECC3_DBE_INT_W1S,
-                                       enable clears NIC_PF_ECC3_DBE_ENA_W1C, and enable sets NIC_PF_ECC3_DBE_ENA_W1S. */
-#define BDK_NIC_PF_INT_VEC_E_ECC3_SBE (6) /**< See interrupt clears NIC_PF_ECC3_SBE_INT, interrupt sets NIC_PF_ECC3_SBE_INT_W1S,
-                                       enable clears NIC_PF_ECC3_SBE_ENA_W1C, and enable sets NIC_PF_ECC3_SBE_ENA_W1S. */
-#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN9(a) (8 + (a)) /**< See interrupt clears NIC_PF_MBOX_INT(0), interrupt sets NIC_PF_MBOX_INT_W1S(0),
-                                       enable clears NIC_PF_MBOX_ENA_W1C(0), and enable sets NIC_PF_MBOX_ENA_W1S(0). */
-#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN81XX(a) (8 + (a)) /**< See interrupt clears NIC_PF_MBOX_INT(0), interrupt sets NIC_PF_MBOX_INT_W1S(0),
-                                       enable clears NIC_PF_MBOX_ENA_W1C(0), and enable sets NIC_PF_MBOX_ENA_W1S(0). */
-#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN88XX(a) (8 + (a)) /**< See interrupt clears NIC_PF_MBOX_INT(0..1), interrupt sets NIC_PF_MBOX_INT_W1S(0..1),
-                                       enable clears NIC_PF_MBOX_ENA_W1C(0..1), and enable sets NIC_PF_MBOX_ENA_W1S(0..1). */
-#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN83XX(a) (8 + (a)) /**< See interrupt clears NIC_PF_MBOX_INT(0), interrupt sets NIC_PF_MBOX_INT_W1S(0),
-                                       enable clears NIC_PF_MBOX_ENA_W1C(0), and enable sets NIC_PF_MBOX_ENA_W1S(0). */
+#define BDK_NIC_PF_INT_VEC_E_ECC0_DBE (1)
+#define BDK_NIC_PF_INT_VEC_E_ECC0_SBE (0)
+#define BDK_NIC_PF_INT_VEC_E_ECC1_DBE (3)
+#define BDK_NIC_PF_INT_VEC_E_ECC1_SBE (2)
+#define BDK_NIC_PF_INT_VEC_E_ECC2_DBE (5)
+#define BDK_NIC_PF_INT_VEC_E_ECC2_SBE (4)
+#define BDK_NIC_PF_INT_VEC_E_ECC3_DBE (7)
+#define BDK_NIC_PF_INT_VEC_E_ECC3_SBE (6)
+#define BDK_NIC_PF_INT_VEC_E_MBOXX(a) (8 + (a))
 
 /**
  * Enumeration nic_rss_alg_e
@@ -749,281 +375,20 @@
  * NIC RSS Algorithm Enumeration
  * Enumerates the values of NIC_CQE_RX_S[RSS_ALG].
  */
-#define BDK_NIC_RSS_ALG_E_GRE_IP (6) /**< GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
-                                       and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_GRE_IP_CN88XXP1 (0xc) /**< Reserved. */
-#define BDK_NIC_RSS_ALG_E_INNER_GRE_IP_CN9 (0xc) /**< This RSS was done on the inner layer of a tunneling packet
-                                       GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
-                                       and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_GRE_IP_CN81XX (0xc) /**< This RSS was done on the inner layer of a tunneling packet
-                                       GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
-                                       and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_GRE_IP_CN83XX (0xc) /**< This RSS was done on the inner layer of a tunneling packet
-                                       GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
-                                       and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_GRE_IP_CN88XXP2 (0xc) /**< This RSS was done on the inner layer of a tunneling packet
-                                       GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
-                                       and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_IP_CN88XXP1 (8) /**< Reserved. */
-#define BDK_NIC_RSS_ALG_E_INNER_IP_CN9 (8) /**< RSS was done on the inner layer of a tunneling packet
-                                       IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
-                                       Any extension headers, if present, are not included in the hash. Enabled when if
-                                       NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
-                                       specific encoding (TCP_IP, etc).
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the
-                                       NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_INNER_IP_CN81XX (8) /**< RSS was done on the inner layer of a tunneling packet
-                                       IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
-                                       Any extension headers, if present, are not included in the hash. Enabled when if
-                                       NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
-                                       specific encoding (TCP_IP, etc).
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the
-                                       NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_INNER_IP_CN83XX (8) /**< RSS was done on the inner layer of a tunneling packet
-                                       IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
-                                       Any extension headers, if present, are not included in the hash. Enabled when if
-                                       NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
-                                       specific encoding (TCP_IP, etc).
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the
-                                       NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_INNER_IP_CN88XXP2 (8) /**< RSS was done on the inner layer of a tunneling packet
-                                       IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
-                                       Any extension headers, if present, are not included in the hash. Enabled when if
-                                       NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
-                                       specific encoding (TCP_IP, etc).
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the
-                                       NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN88XXP1 (0xd) /**< Reserved. */
-#define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN9 (0xd) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RSS was done on the inner layer of a tunneling packet
-                                       RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
-                                       destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
-                                       NIC_CQE_RX_S[L4TY]=BTH.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN81XX (0xd) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RSS was done on the inner layer of a tunneling packet
-                                       RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
-                                       destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
-                                       NIC_CQE_RX_S[L4TY]=BTH.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN83XX (0xd) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RSS was done on the inner layer of a tunneling packet
-                                       RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
-                                       destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
-                                       NIC_CQE_RX_S[L4TY]=BTH.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN88XXP2 (0xd) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RSS was done on the inner layer of a tunneling packet
-                                       RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
-                                       destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
-                                       NIC_CQE_RX_S[L4TY]=BTH.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN88XXP1 (0xb) /**< Reserved. */
-#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN9 (0xb) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RSS was done on the inner layer of a tunneling packet
-                                       SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, SCTP source port, and SCTP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
-                                       NIC_CQE_RX_S[L4TY]=SCTP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN81XX (0xb) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RSS was done on the inner layer of a tunneling packet
-                                       SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, SCTP source port, and SCTP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
-                                       NIC_CQE_RX_S[L4TY]=SCTP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN83XX (0xb) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RSS was done on the inner layer of a tunneling packet
-                                       SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, SCTP source port, and SCTP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
-                                       NIC_CQE_RX_S[L4TY]=SCTP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN88XXP2 (0xb) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RSS was done on the inner layer of a tunneling packet
-                                       SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, SCTP source port, and SCTP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
-                                       NIC_CQE_RX_S[L4TY]=SCTP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN88XXP1 (9) /**< Reserved. */
-#define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN9 (9) /**< RSS was done on the inner layer of a tunneling packet
-                                       TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, TCP source port, and TCP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
-                                       determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN81XX (9) /**< RSS was done on the inner layer of a tunneling packet
-                                       TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, TCP source port, and TCP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
-                                       determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN83XX (9) /**< RSS was done on the inner layer of a tunneling packet
-                                       TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, TCP source port, and TCP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
-                                       determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN88XXP2 (9) /**< RSS was done on the inner layer of a tunneling packet
-                                       TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, TCP source port, and TCP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
-                                       determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN88XXP1 (0xa) /**< Reserved. */
-#define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN9 (0xa) /**< RSS was done on the inner layer of a tunneling packet
-                                       UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, UDP source port, and UDP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN81XX (0xa) /**< RSS was done on the inner layer of a tunneling packet
-                                       UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, UDP source port, and UDP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN83XX (0xa) /**< RSS was done on the inner layer of a tunneling packet
-                                       UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, UDP source port, and UDP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN88XXP2 (0xa) /**< RSS was done on the inner layer of a tunneling packet
-                                       UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, UDP source port, and UDP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_IP (2) /**< IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
-                                       Any extension headers, if present, are not included in the hash. Enabled when if
-                                       NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
-                                       specific encoding (TCP_IP, etc).
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the
-                                       NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_NONE (0) /**< No RSS algorithm matched, or RSS is disabled. NIC_CQE_RX_S[RSS_TAG] is zero
-                                       Extracted key format [287:0]=288'h0}. */
-#define BDK_NIC_RSS_ALG_E_PORT (1) /**< Port number. NIC_CQE_RX_S[RSS_TAG] contains a hash of the source port number and if
-                                       NIC_CQE_RX_S[VV] is set, the first VLAN 12-bit ID, and if NIC_CQE_RX_S[VS] is set, the
-                                       second VLAN 12-bit ID. Enabled when if NIC_VNIC()_RSS_CFG[RSS_L2ETC]=1 and cannot use
-                                       a more specific encoding (IP, etc).
-                                       
-                                       <pre>
-                                       Extracted key format [287:0] = {
-                                         80'h0,
-                                         6'h0, vlan1[9:0],
-                                         6'h0, vlan0[9:0],
-                                         4'h0, chan[11:0],
-                                         128'h0, 16'h0, 16'h0}.
-                                       </pre> */
-#define BDK_NIC_RSS_ALG_E_ROCE (7) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
-                                       destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
-                                       NIC_CQE_RX_S[L4TY]=BTH.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_SCTP_IP (5) /**< Reserved.
-                                       Internal:
-                                       Not implemented in RTL. Old definition:
-                                       SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, SCTP source port, and SCTP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
-                                       NIC_CQE_RX_S[L4TY]=SCTP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_TCP_IP (3) /**< TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, TCP source port, and TCP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
-                                       
-                                       Internal:
-                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
-                                       determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_UDP_IP (4) /**< UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination, UDP source port, and UDP destination port. Enabled when
-                                       NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
-                                       
-                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
+#define BDK_NIC_RSS_ALG_E_GRE_IP (6)
+#define BDK_NIC_RSS_ALG_E_INNER_GRE_IP (0xc)
+#define BDK_NIC_RSS_ALG_E_INNER_IP (8)
+#define BDK_NIC_RSS_ALG_E_INNER_ROCE (0xd)
+#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP (0xb)
+#define BDK_NIC_RSS_ALG_E_INNER_TCP_IP (9)
+#define BDK_NIC_RSS_ALG_E_INNER_UDP_IP (0xa)
+#define BDK_NIC_RSS_ALG_E_IP (2)
+#define BDK_NIC_RSS_ALG_E_NONE (0)
+#define BDK_NIC_RSS_ALG_E_PORT (1)
+#define BDK_NIC_RSS_ALG_E_ROCE (7)
+#define BDK_NIC_RSS_ALG_E_SCTP_IP (5)
+#define BDK_NIC_RSS_ALG_E_TCP_IP (3)
+#define BDK_NIC_RSS_ALG_E_UDP_IP (4)
 
 /**
  * Enumeration nic_send_ckl4_e
@@ -1031,9 +396,9 @@
  * NIC Send Checksum L4 Enumeration
  * Enumerates the different L4 checksum algorithms for NIC_SEND_HDR_S[CKL4].
  */
-#define BDK_NIC_SEND_CKL4_E_NONE (0) /**< Disable L4 checksum generation. */
-#define BDK_NIC_SEND_CKL4_E_TCP (2) /**< Generate TCP L4 checksum. */
-#define BDK_NIC_SEND_CKL4_E_UDP (1) /**< Generate UDP L4 checksum. */
+#define BDK_NIC_SEND_CKL4_E_NONE (0)
+#define BDK_NIC_SEND_CKL4_E_TCP (2)
+#define BDK_NIC_SEND_CKL4_E_UDP (1)
 
 /**
  * Enumeration nic_send_crcalg_e
@@ -1041,15 +406,10 @@
  * NIC Send-CRC Algorithm Enumeration
  * Enumerates the CRC algorithm used, see NIC_SEND_CRC_S[ALG].
  */
-#define BDK_NIC_SEND_CRCALG_E_CKSUM (3) /**< One's complement checksum. The 16-bit initial value is used as a checksum seed. Must not
-                                       be used when NIC_SEND_HDR_S[TSO] is set. */
-#define BDK_NIC_SEND_CRCALG_E_CRC32 (0) /**< Ethernet format big-endian CRC-32 (polynomial 0x04C11DB7). The initial value is usually
-                                       0xFFFFFFFF, corrected for any appropriate header fields to be included. */
-#define BDK_NIC_SEND_CRCALG_E_CRC32C (1) /**< SCTP/iSCSI format big-endian CRC-32c (polynomial 0x11EDC6F41). The initial value is
-                                       usually 0xFFFFFFFF, corrected for any appropriate header fields to be included. */
-#define BDK_NIC_SEND_CRCALG_E_ICRC (2) /**< Reserved.
-                                       Internal:
-                                       InfiniBand ICRC for RoCE. Defeatured in t88. */
+#define BDK_NIC_SEND_CRCALG_E_CKSUM (3)
+#define BDK_NIC_SEND_CRCALG_E_CRC32 (0)
+#define BDK_NIC_SEND_CRCALG_E_CRC32C (1)
+#define BDK_NIC_SEND_CRCALG_E_ICRC (2)
 
 /**
  * Enumeration nic_send_ld_type_e
@@ -1058,9 +418,9 @@
  * Enumerates the load transaction types for reading segment bytes specified by
  * NIC_SEND_GATHER_S[LD_TYPE].
  */
-#define BDK_NIC_SEND_LD_TYPE_E_LDD (0) /**< Use LDD transaction for segment bytes; allocates the load data into the L2 cache. */
-#define BDK_NIC_SEND_LD_TYPE_E_LDT (1) /**< Use LDT transaction for segment bytes; does not allocate the load data into the L2 cache. */
-#define BDK_NIC_SEND_LD_TYPE_E_LDWB (2) /**< Use LDWB transaction for segment bytes; does not allocate the load data into the L2 cache. */
+#define BDK_NIC_SEND_LD_TYPE_E_LDD (0)
+#define BDK_NIC_SEND_LD_TYPE_E_LDT (1)
+#define BDK_NIC_SEND_LD_TYPE_E_LDWB (2)
 
 /**
  * Enumeration nic_send_memalg_e
@@ -1068,18 +428,11 @@
  * NIC Send Memory-Modify Algorithm Enumeration
  * Enumerates the algorithms for modifying memory, see NIC_SEND_MEM_S[ALG].
  */
-#define BDK_NIC_SEND_MEMALG_E_ADD (8) /**< Add.
-                                       mem = mem + NIC_SEND_MEM_S[OFFSET]. */
-#define BDK_NIC_SEND_MEMALG_E_ADDLEN (0xa) /**< Add length.
-                                       mem = mem + NIC_SEND_MEM_S[OFFSET] + NIC_SEND_HDR_S[TOTAL]. */
-#define BDK_NIC_SEND_MEMALG_E_SET (0) /**< Set.
-                                       mem = NIC_SEND_MEM_S[OFFSET]. */
-#define BDK_NIC_SEND_MEMALG_E_SUB (9) /**< Subtract.
-                                       mem = mem - NIC_SEND_MEM_S[OFFSET].
-                                       Note: NCB bandwidth is optimized if a memory decrement by one is used rather than any
-                                       other memory set/add/sub. */
-#define BDK_NIC_SEND_MEMALG_E_SUBLEN (0xb) /**< Subtract length.
-                                       mem = mem - NIC_SEND_MEM_S[OFFSET] - NIC_SEND_HDR_S[TOTAL]. */
+#define BDK_NIC_SEND_MEMALG_E_ADD (8)
+#define BDK_NIC_SEND_MEMALG_E_ADDLEN (0xa)
+#define BDK_NIC_SEND_MEMALG_E_SET (0)
+#define BDK_NIC_SEND_MEMALG_E_SUB (9)
+#define BDK_NIC_SEND_MEMALG_E_SUBLEN (0xb)
 
 /**
  * Enumeration nic_send_memdsz_e
@@ -1087,10 +440,10 @@
  * NIC Send Memory-Data Size Enumeration
  * Enumerates the datum size for modifying memory, see NIC_SEND_MEM_S[DSZ].
  */
-#define BDK_NIC_SEND_MEMDSZ_E_B16 (2) /**< 16 bits. NIC_SEND_MEM_S[ALG] must be NIC_SEND_MEMALG_E::SET. */
-#define BDK_NIC_SEND_MEMDSZ_E_B32 (1) /**< 32 bits. */
-#define BDK_NIC_SEND_MEMDSZ_E_B64 (0) /**< 64 bits. */
-#define BDK_NIC_SEND_MEMDSZ_E_B8 (3) /**< 8 bits. NIC_SEND_MEM_S[ALG] must be NIC_SEND_MEMALG_E::SET. */
+#define BDK_NIC_SEND_MEMDSZ_E_B16 (2)
+#define BDK_NIC_SEND_MEMDSZ_E_B32 (1)
+#define BDK_NIC_SEND_MEMDSZ_E_B64 (0)
+#define BDK_NIC_SEND_MEMDSZ_E_B8 (3)
 
 /**
  * Enumeration nic_send_subdc_e
@@ -1098,24 +451,15 @@
  * NIC Send Subdescriptor Operation Enumeration
  * Enumerates the send subdescriptor codes.
  */
-#define BDK_NIC_SEND_SUBDC_E_CRC (2) /**< Send CRC subdescriptor. See NIC_SEND_CRC_S. */
-#define BDK_NIC_SEND_SUBDC_E_EOD (0xf) /**< For internal use only.
-                                       Internal:
-                                       Indicates end of descriptor on internal SQM to SEB
-                                       interface. */
-#define BDK_NIC_SEND_SUBDC_E_GATHER (4) /**< Send gather subdescriptor. See NIC_SEND_GATHER_S. */
-#define BDK_NIC_SEND_SUBDC_E_HDR (1) /**< Send header subdescriptor. See NIC_SEND_HDR_S. */
-#define BDK_NIC_SEND_SUBDC_E_IMM (3) /**< Send immediate subdescriptor. See NIC_SEND_IMM_S. */
-#define BDK_NIC_SEND_SUBDC_E_INVALID (0) /**< Invalid subdescriptor, or not enqueued by software yet. */
-#define BDK_NIC_SEND_SUBDC_E_LOCK (0xd) /**< For internal use only.
-                                       Internal:
-                                       Indicates lockdown subdescriptor on internal SQM to SEB
-                                       interface. Used in pass 1 only. */
-#define BDK_NIC_SEND_SUBDC_E_MEM (5) /**< Send memory subdescriptor. See NIC_SEND_MEM_S. */
-#define BDK_NIC_SEND_SUBDC_E_SOD (0xe) /**< For internal use only.
-                                       Internal:
-                                       Indicates start of descriptor on internal SQM to SEB
-                                       interface. */
+#define BDK_NIC_SEND_SUBDC_E_CRC (2)
+#define BDK_NIC_SEND_SUBDC_E_EOD (0xf)
+#define BDK_NIC_SEND_SUBDC_E_GATHER (4)
+#define BDK_NIC_SEND_SUBDC_E_HDR (1)
+#define BDK_NIC_SEND_SUBDC_E_IMM (3)
+#define BDK_NIC_SEND_SUBDC_E_INVALID (0)
+#define BDK_NIC_SEND_SUBDC_E_LOCK (0xd)
+#define BDK_NIC_SEND_SUBDC_E_MEM (5)
+#define BDK_NIC_SEND_SUBDC_E_SOD (0xe)
 
 /**
  * Enumeration nic_stat_rq_e
@@ -1123,9 +467,8 @@
  * NIC RQ Statistics Enumeration
  * Enumerates the index of NIC_PF_QS()_RQ()_STAT() and NIC_QS()_RQ()_STAT().
  */
-#define BDK_NIC_STAT_RQ_E_OCTS (0) /**< Number of octets successfully received. Includes headers and stripped VLAN bytes, excludes
-                                       FCS bytes. */
-#define BDK_NIC_STAT_RQ_E_PKTS (1) /**< Number of packets successfully received. */
+#define BDK_NIC_STAT_RQ_E_OCTS (0)
+#define BDK_NIC_STAT_RQ_E_PKTS (1)
 
 /**
  * Enumeration nic_stat_sq_e
@@ -1133,9 +476,8 @@
  * NIC SQ Statistics Enumeration
  * Enumerates the index of NIC_PF_QS()_SQ()_STAT() and NIC_QS()_SQ()_STAT().
  */
-#define BDK_NIC_STAT_SQ_E_OCTS (0) /**< Number of octets transmitted out of NIC. Includes frame minimum size pad bytes and
-                                       excludes FCS bytes. */
-#define BDK_NIC_STAT_SQ_E_PKTS (1) /**< Number of packets successfully transmitted. */
+#define BDK_NIC_STAT_SQ_E_OCTS (0)
+#define BDK_NIC_STAT_SQ_E_PKTS (1)
 
 /**
  * Enumeration nic_stat_vnic_rx_e
@@ -1157,27 +499,20 @@
  * RX_H1024TO1518 - Number of non-dropped 1024 to 1518 byte packets.
  * RX_H1519 - Number of non-dropped 1519 byte and above packets.
  */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_BCAST (2) /**< Inbound non-dropped L2 broadcast packets. Does not include multicast packets. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_DRP_BCAST (0xa) /**< Inbound packets with L2 broadcast DMAC that were dropped due to RED or buffer exhaustion. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_DRP_L3BCAST (0xc) /**< Inbound packets with IPv4 L3 broadcast destination address that were dropped due to RED or
-                                       buffer exhaustion. L3 broadcast is when IPv4 destination address is all ones. L3 broadcast
-                                       is not defined for IPv6. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_DRP_L3MCAST (0xd) /**< Inbound packets with IPv4 or IPv6 L3 multicast destination address, or IPv6 L3 multicast
-                                       destination address that were dropped due to RED or buffer exhaustion. L3 multicast is
-                                       when the IPv4 destination address <31:28> = 0xE or the IPv6 MSB of the 128-bit destination
-                                       address is 0xFF. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_DRP_MCAST (0xb) /**< Inbound packets with L2 multicast DMAC that were dropped due to RED or buffer exhaustion. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_FCS (8) /**< Inbound non-dropped packets with an FCS opcode error, excluding fragments or overruns. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_L2ERR (9) /**< Inbound packets with receive errors (WQE[ERRLEV]==RE or L2) not covered by more specific
-                                       length or FCS statistic error registers. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_MCAST (3) /**< Inbound non-dropped L2 multicast packets. Does not include broadcast packets. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_OCTS (0) /**< Inbound non-dropped octets received (good and bad). Includes any timestamps, RX headers
-                                       and excludes FCS. Excludes any MAC control packets, as they are handled internally to BGX. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_ORUN (6) /**< Inbound packets dropped by CQ or RBDR buffer exhaustion. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_ORUN_OCTS (7) /**< Inbound octets dropped by CQ or RBDR buffer exhaustion. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_RED (4) /**< Inbound packets dropped by RED. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_RED_OCTS (5) /**< Inbound octets dropped by RED. */
-#define BDK_NIC_STAT_VNIC_RX_E_RX_UCAST (1) /**< Inbound non-dropped non-L2 broadcast nor multicast packets. */
+#define BDK_NIC_STAT_VNIC_RX_E_RX_BCAST (2)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_DRP_BCAST (0xa)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_DRP_L3BCAST (0xc)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_DRP_L3MCAST (0xd)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_DRP_MCAST (0xb)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_FCS (8)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_L2ERR (9)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_MCAST (3)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_OCTS (0)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_ORUN (6)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_ORUN_OCTS (7)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_RED (4)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_RED_OCTS (5)
+#define BDK_NIC_STAT_VNIC_RX_E_RX_UCAST (1)
 
 /**
  * Enumeration nic_stat_vnic_tx_e
@@ -1185,16 +520,11 @@
  * NIC VNIC Transmit Statistics Enumeration
  * Enumerates the index of NIC_PF_VNIC()_TX_STAT() and NIC_VNIC()_TX_STAT().
  */
-#define BDK_NIC_STAT_VNIC_TX_E_TX_BCAST (2) /**< Outbound non-dropped L2 broadcast packets. Does not include multicast packets. L2
-                                       broadcast is when the packet's destination MAC address field is all ones. */
-#define BDK_NIC_STAT_VNIC_TX_E_TX_DROP (4) /**< Outbound dropped packets. Includes packets dropped due to lockdown violations or
-                                       NIC_SEND_HDR_S[DS] set. */
-#define BDK_NIC_STAT_VNIC_TX_E_TX_MCAST (3) /**< Outbound non-dropped L2 multicast packets. Does not include broadcast packets. L2
-                                       multicast is when the LSB of the first byte of the destination MAC is set, and at least
-                                       one of the remaining bits is a zero. */
-#define BDK_NIC_STAT_VNIC_TX_E_TX_OCTS (0) /**< Outbound non-dropped octets sent (good and bad). Includes any timestamps, RX headers and
-                                       excludes FCS. Excludes any MAC control packets, as they are handled internally to BGX. */
-#define BDK_NIC_STAT_VNIC_TX_E_TX_UCAST (1) /**< Outbound non-dropped non-L2 broadcast nor multicast packets. */
+#define BDK_NIC_STAT_VNIC_TX_E_TX_BCAST (2)
+#define BDK_NIC_STAT_VNIC_TX_E_TX_DROP (4)
+#define BDK_NIC_STAT_VNIC_TX_E_TX_MCAST (3)
+#define BDK_NIC_STAT_VNIC_TX_E_TX_OCTS (0)
+#define BDK_NIC_STAT_VNIC_TX_E_TX_UCAST (1)
 
 /**
  * Enumeration nic_sw_sync_rx_cnts_e
@@ -1203,10 +533,10 @@
  *
  * Enumerates index into NIC_PF_SW_SYNC_RX_CNTS().
  */
-#define BDK_NIC_SW_SYNC_RX_CNTS_E_PIPE0_CQ_CNT (1) /**< Running count of the number of CQ messages generated by REB interface 0. */
-#define BDK_NIC_SW_SYNC_RX_CNTS_E_PIPE0_PKT_CNT (0) /**< Running count of the number of packets that have passed through REB interface 0. */
-#define BDK_NIC_SW_SYNC_RX_CNTS_E_PIPE1_CQ_CNT (3) /**< Running count of the number of CQ messages generated by REB interface 1. */
-#define BDK_NIC_SW_SYNC_RX_CNTS_E_PIPE1_PKT_CNT (2) /**< Running count of the number of packets that have passed through REB interface 1. */
+#define BDK_NIC_SW_SYNC_RX_CNTS_E_PIPE0_CQ_CNT (1)
+#define BDK_NIC_SW_SYNC_RX_CNTS_E_PIPE0_PKT_CNT (0)
+#define BDK_NIC_SW_SYNC_RX_CNTS_E_PIPE1_CQ_CNT (3)
+#define BDK_NIC_SW_SYNC_RX_CNTS_E_PIPE1_PKT_CNT (2)
 
 /**
  * Enumeration nic_tns_credit_size_e
@@ -1214,14 +544,10 @@
  * NIC TNS Credit Size Enumeration
  * Enumerates send channel credit size for a TNS interface that is not bypassed.
  */
-#define BDK_NIC_TNS_CREDIT_SIZE_E_C128_256 (1) /**< Packet's first 128 bytes consume one channel credit, each subsequent 256 bytes consume an
-                                       additional credit. */
-#define BDK_NIC_TNS_CREDIT_SIZE_E_C192_256 (2) /**< Packet's first 192 bytes consume one channel credit, each subsequent 256 bytes consume an
-                                       additional credit. */
-#define BDK_NIC_TNS_CREDIT_SIZE_E_C256_256 (3) /**< Packet's first 256 bytes consume one channel credit, each subsequent 256 bytes consume an
-                                       additional credit. */
-#define BDK_NIC_TNS_CREDIT_SIZE_E_C64_256 (0) /**< Packet's first 64 bytes consume one channel credit, each subsequent 256 bytes consume an
-                                       additional credit. */
+#define BDK_NIC_TNS_CREDIT_SIZE_E_C128_256 (1)
+#define BDK_NIC_TNS_CREDIT_SIZE_E_C192_256 (2)
+#define BDK_NIC_TNS_CREDIT_SIZE_E_C256_256 (3)
+#define BDK_NIC_TNS_CREDIT_SIZE_E_C64_256 (0)
 
 /**
  * Enumeration nic_tx_chan_bypass_e
@@ -1230,7 +556,7 @@
  * Enumerates the index of NIC_PF_CHAN()_TX_CFG, NIC_PF_CHAN()_SW_XOFF and NIC_PF_CHAN()_CREDIT
  * when TNS is bypassed. Also enumerates NIC_PF_TL3()_CHAN[CHAN] values.
  */
-#define BDK_NIC_TX_CHAN_BYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x10 * (b) + (c)) /**< Interface {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_PORT({b})_CH({c}). */
+#define BDK_NIC_TX_CHAN_BYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x10 * (b) + (c))
 
 /**
  * Enumeration nic_tx_chan_nonbypass_e
@@ -1239,8 +565,7 @@
  * Enumerates the index of NIC_PF_CHAN()_TX_CFG, NIC_PF_CHAN()_SW_XOFF and NIC_PF_CHAN()_CREDIT
  * when TNS is not bypassed. Also enumerates NIC_PF_TL3()_CHAN[CHAN] values.
  */
-#define BDK_NIC_TX_CHAN_NONBYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x20 * (b) + (c)) /**< Interface {a} LMAC {b} channel {c}. Corresponds to
-                                       NIC_CHAN_E::TNS_PORT({a})_CH({b}<<5|{c}). */
+#define BDK_NIC_TX_CHAN_NONBYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x20 * (b) + (c))
 
 /**
  * Enumeration nic_tx_lmac_e
@@ -1249,7 +574,7 @@
  * Enumerates the index of NIC_PF_LMAC()_CFG, NIC_PF_LMAC()_CFG2, NIC_PF_LMAC()_SW_XOFF and
  * NIC_PF_LMAC()_CREDIT.
  */
-#define BDK_NIC_TX_LMAC_E_INTFX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< Interface {a} LMAC {b}. */
+#define BDK_NIC_TX_LMAC_E_INTFX_LMACX(a,b) (0 + 4 * (a) + (b))
 
 /**
  * Enumeration nic_vf_int_vec_e
@@ -1257,90 +582,11 @@
  * NIC VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_NIC_VF_INT_VEC_E_CQX_CN9(a) (0 + (a)) /**< See interrupt clears NIC_VF(0..31)_INT[CQ<{a}>],
-                                       interrupt sets NIC_VF(0..31)_INT_W1S[CQ<{a}>],
-                                       enable clears NIC_VF(0..31)_ENA_W1C[CQ<{a}>]
-                                       and enable sets NIC_VF(0..31)_ENA_W1S[CQ<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_CQX_CN81XX(a) (0 + (a)) /**< See interrupt clears NIC_VF(0..7)_INT[CQ<{a}>],
-                                       interrupt sets NIC_VF(0..7)_INT_W1S[CQ<{a}>],
-                                       enable clears NIC_VF(0..7)_ENA_W1C[CQ<{a}>]
-                                       and enable sets NIC_VF(0..7)_ENA_W1S[CQ<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_CQX_CN88XX(a) (0 + (a)) /**< See interrupt clears NIC_VF(0..127)_INT[CQ<{a}>],
-                                       interrupt sets NIC_VF(0..127)_INT_W1S[CQ<{a}>],
-                                       enable clears NIC_VF(0..127)_ENA_W1C[CQ<{a}>]
-                                       and enable sets NIC_VF(0..127)_ENA_W1S[CQ<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_CQX_CN83XX(a) (0 + (a)) /**< See interrupt clears NIC_VF(0..31)_INT[CQ<{a}>],
-                                       interrupt sets NIC_VF(0..31)_INT_W1S[CQ<{a}>],
-                                       enable clears NIC_VF(0..31)_ENA_W1C[CQ<{a}>]
-                                       and enable sets NIC_VF(0..31)_ENA_W1S[CQ<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_MISC_CN9 (0x12) /**< See interrupt clears NIC_VF(0..31)_INT[MBOX], NIC_VF(0..31)_INT[TCP_TIMER],
-                                       NIC_VF(0..31)_INT[VNIC_DROP], interrupt sets NIC_VF(0..31)_INT_W1S[MBOX],
-                                       NIC_VF(0..31)_INT_W1S[TCP_TIMER], NIC_VF(0..31)_INT_W1S[VNIC_DROP], enable clears
-                                       NIC_VF(0..31)_ENA_W1C[MBOX], NIC_VF(0..31)_ENA_W1C[TCP_TIMER],
-                                       NIC_VF(0..31)_ENA_W1C[VNIC_DROP], and enable sets NIC_VF(0..31)_ENA_W1S[MBOX],
-                                       NIC_VF(0..31)_ENA_W1S[TCP_TIMER], NIC_VF(0..31)_ENA_W1S[VNIC_DROP]. */
-#define BDK_NIC_VF_INT_VEC_E_MISC_CN81XX (0x12) /**< See interrupt clears NIC_VF(0..7)_INT[MBOX], NIC_VF(0..7)_INT[TCP_TIMER],
-                                       NIC_VF(0..7)_INT[VNIC_DROP], interrupt sets NIC_VF(0..7)_INT_W1S[MBOX],
-                                       NIC_VF(0..7)_INT_W1S[TCP_TIMER], NIC_VF(0..7)_INT_W1S[VNIC_DROP], enable clears
-                                       NIC_VF(0..7)_ENA_W1C[MBOX], NIC_VF(0..7)_ENA_W1C[TCP_TIMER],
-                                       NIC_VF(0..7)_ENA_W1C[VNIC_DROP], and enable sets NIC_VF(0..7)_ENA_W1S[MBOX],
-                                       NIC_VF(0..7)_ENA_W1S[TCP_TIMER], NIC_VF(0..7)_ENA_W1S[VNIC_DROP]. */
-#define BDK_NIC_VF_INT_VEC_E_MISC_CN88XX (0x12) /**< See interrupt clears NIC_VF(0..127)_INT[MBOX], NIC_VF(0..127)_INT[TCP_TIMER],
-                                       NIC_VF(0..127)_INT[VNIC_DROP], interrupt sets NIC_VF(0..127)_INT_W1S[MBOX],
-                                       NIC_VF(0..127)_INT_W1S[TCP_TIMER], NIC_VF(0..127)_INT_W1S[VNIC_DROP], enable clears
-                                       NIC_VF(0..127)_ENA_W1C[MBOX], NIC_VF(0..127)_ENA_W1C[TCP_TIMER],
-                                       NIC_VF(0..127)_ENA_W1C[VNIC_DROP], and enable sets NIC_VF(0..127)_ENA_W1S[MBOX],
-                                       NIC_VF(0..127)_ENA_W1S[TCP_TIMER], NIC_VF(0..127)_ENA_W1S[VNIC_DROP]. */
-#define BDK_NIC_VF_INT_VEC_E_MISC_CN83XX (0x12) /**< See interrupt clears NIC_VF(0..31)_INT[MBOX], NIC_VF(0..31)_INT[TCP_TIMER],
-                                       NIC_VF(0..31)_INT[VNIC_DROP], interrupt sets NIC_VF(0..31)_INT_W1S[MBOX],
-                                       NIC_VF(0..31)_INT_W1S[TCP_TIMER], NIC_VF(0..31)_INT_W1S[VNIC_DROP], enable clears
-                                       NIC_VF(0..31)_ENA_W1C[MBOX], NIC_VF(0..31)_ENA_W1C[TCP_TIMER],
-                                       NIC_VF(0..31)_ENA_W1C[VNIC_DROP], and enable sets NIC_VF(0..31)_ENA_W1S[MBOX],
-                                       NIC_VF(0..31)_ENA_W1S[TCP_TIMER], NIC_VF(0..31)_ENA_W1S[VNIC_DROP]. */
-#define BDK_NIC_VF_INT_VEC_E_QS_ERR_CN9 (0x13) /**< See interrupt clears NIC_VF(0..31)_INT[QS_ERR], interrupt sets
-                                       NIC_VF(0..31)_INT_W1S[QS_ERR], enable clears NIC_VF(0..31)_ENA_W1C[QS_ERR] and enable
-                                       sets NIC_VF(0..31)_ENA_W1S[QS_ERR]. */
-#define BDK_NIC_VF_INT_VEC_E_QS_ERR_CN81XX (0x13) /**< See interrupt clears NIC_VF(0..7)_INT[QS_ERR], interrupt sets
-                                       NIC_VF(0..7)_INT_W1S[QS_ERR], enable clears NIC_VF(0..7)_ENA_W1C[QS_ERR] and enable
-                                       sets NIC_VF(0..7)_ENA_W1S[QS_ERR]. */
-#define BDK_NIC_VF_INT_VEC_E_QS_ERR_CN88XX (0x13) /**< See interrupt clears NIC_VF(0..127)_INT[QS_ERR], interrupt sets
-                                       NIC_VF(0..127)_INT_W1S[QS_ERR], enable clears NIC_VF(0..127)_ENA_W1C[QS_ERR] and enable
-                                       sets NIC_VF(0..127)_ENA_W1S[QS_ERR]. */
-#define BDK_NIC_VF_INT_VEC_E_QS_ERR_CN83XX (0x13) /**< See interrupt clears NIC_VF(0..31)_INT[QS_ERR], interrupt sets
-                                       NIC_VF(0..31)_INT_W1S[QS_ERR], enable clears NIC_VF(0..31)_ENA_W1C[QS_ERR] and enable
-                                       sets NIC_VF(0..31)_ENA_W1S[QS_ERR]. */
-#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN9(a) (0x10 + (a)) /**< See interrupt clears NIC_VF(0..31)_INT[RBDR<{a}>],
-                                       interrupt sets NIC_VF(0..31)_INT_W1S[RBDR<{a}>],
-                                       enable clears NIC_VF(0..31)_ENA_W1C[RBDR<{a}>]
-                                       and enable sets NIC_VF(0..31)_ENA_W1S[RBDR<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN81XX(a) (0x10 + (a)) /**< See interrupt clears NIC_VF(0..7)_INT[RBDR<{a}>],
-                                       interrupt sets NIC_VF(0..7)_INT_W1S[RBDR<{a}>],
-                                       enable clears NIC_VF(0..7)_ENA_W1C[RBDR<{a}>]
-                                       and enable sets NIC_VF(0..7)_ENA_W1S[RBDR<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN88XX(a) (0x10 + (a)) /**< See interrupt clears NIC_VF(0..127)_INT[RBDR<{a}>],
-                                       interrupt sets NIC_VF(0..127)_INT_W1S[RBDR<{a}>],
-                                       enable clears NIC_VF(0..127)_ENA_W1C[RBDR<{a}>]
-                                       and enable sets NIC_VF(0..127)_ENA_W1S[RBDR<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN83XX(a) (0x10 + (a)) /**< See interrupt clears NIC_VF(0..31)_INT[RBDR<{a}>],
-                                       interrupt sets NIC_VF(0..31)_INT_W1S[RBDR<{a}>],
-                                       enable clears NIC_VF(0..31)_ENA_W1C[RBDR<{a}>]
-                                       and enable sets NIC_VF(0..31)_ENA_W1S[RBDR<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_SQX_CN9(a) (8 + (a)) /**< See interrupt clears NIC_VF(0..31)_INT[SQ<{a}>],
-                                       interrupt sets NIC_VF(0..31)_INT_W1S[SQ<{a}>],
-                                       enable clears NIC_VF(0..31)_ENA_W1C[SQ<{a}>]
-                                       and enable sets NIC_VF(0..31)_ENA_W1S[SQ<a>]. */
-#define BDK_NIC_VF_INT_VEC_E_SQX_CN81XX(a) (8 + (a)) /**< See interrupt clears NIC_VF(0..7)_INT[SQ<{a}>],
-                                       interrupt sets NIC_VF(0..7)_INT_W1S[SQ<{a}>],
-                                       enable clears NIC_VF(0..7)_ENA_W1C[SQ<{a}>]
-                                       and enable sets NIC_VF(0..7)_ENA_W1S[SQ<a>]. */
-#define BDK_NIC_VF_INT_VEC_E_SQX_CN88XX(a) (8 + (a)) /**< See interrupt clears NIC_VF(0..127)_INT[SQ<{a}>],
-                                       interrupt sets NIC_VF(0..127)_INT_W1S[SQ<{a}>],
-                                       enable clears NIC_VF(0..127)_ENA_W1C[SQ<{a}>]
-                                       and enable sets NIC_VF(0..127)_ENA_W1S[SQ<a>]. */
-#define BDK_NIC_VF_INT_VEC_E_SQX_CN83XX(a) (8 + (a)) /**< See interrupt clears NIC_VF(0..31)_INT[SQ<{a}>],
-                                       interrupt sets NIC_VF(0..31)_INT_W1S[SQ<{a}>],
-                                       enable clears NIC_VF(0..31)_ENA_W1C[SQ<{a}>]
-                                       and enable sets NIC_VF(0..31)_ENA_W1S[SQ<a>]. */
+#define BDK_NIC_VF_INT_VEC_E_CQX(a) (0 + (a))
+#define BDK_NIC_VF_INT_VEC_E_MISC (0x12)
+#define BDK_NIC_VF_INT_VEC_E_QS_ERR (0x13)
+#define BDK_NIC_VF_INT_VEC_E_RBDRX(a) (0x10 + (a))
+#define BDK_NIC_VF_INT_VEC_E_SQX(a) (8 + (a))
 
 /**
  * Structure nic_cqe_rx2_s
@@ -1900,6 +1146,18 @@ union bdk_nic_rbdr_entry_s
     struct bdk_nic_rbdr_entry_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 46; /**< [ 52:  7] Starting IOVA of receive data buffer. */
+        uint64_t reserved_0_6          : 7;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_6          : 7;
+        uint64_t addr                  : 46; /**< [ 52:  7] Starting IOVA of receive data buffer. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_rbdr_entry_s_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 42; /**< [ 48:  7] Starting IOVA of receive data buffer. */
         uint64_t reserved_0_6          : 7;
@@ -1908,8 +1166,8 @@ union bdk_nic_rbdr_entry_s
         uint64_t addr                  : 42; /**< [ 48:  7] Starting IOVA of receive data buffer. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_rbdr_entry_s_s cn; */
+    } cn8;
+    /* struct bdk_nic_rbdr_entry_s_s cn9; */
 };
 
 /**
@@ -2112,14 +1370,37 @@ union bdk_nic_send_gather_s
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send gather. Enumerated by NIC_SEND_SUBDC_E::GATHER. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_117_127      : 11;
+        uint64_t addr                  : 53; /**< [116: 64] Address. IOVA of the first byte of packet data in the buffer. */
+#else /* Word 1 - Little Endian */
+        uint64_t addr                  : 53; /**< [116: 64] Address. IOVA of the first byte of packet data in the buffer. */
+        uint64_t reserved_117_127      : 11;
+#endif /* Word 1 - End */
+    } s;
+    struct bdk_nic_send_gather_s_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send gather. Enumerated by NIC_SEND_SUBDC_E::GATHER. */
+        uint64_t ld_type               : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
+                                                                 NIC_SEND_LD_TYPE_E. */
+        uint64_t reserved_16_57        : 42;
+        uint64_t size                  : 16; /**< [ 15:  0] Size of segment, in bytes. [SIZE] must be nonzero, else the subdescriptor is ignored. */
+#else /* Word 0 - Little Endian */
+        uint64_t size                  : 16; /**< [ 15:  0] Size of segment, in bytes. [SIZE] must be nonzero, else the subdescriptor is ignored. */
+        uint64_t reserved_16_57        : 42;
+        uint64_t ld_type               : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
+                                                                 NIC_SEND_LD_TYPE_E. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send gather. Enumerated by NIC_SEND_SUBDC_E::GATHER. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
         uint64_t addr                  : 49; /**< [112: 64] Address. IOVA of the first byte of packet data in the buffer. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 49; /**< [112: 64] Address. IOVA of the first byte of packet data in the buffer. */
         uint64_t reserved_113_127      : 15;
 #endif /* Word 1 - End */
-    } s;
-    /* struct bdk_nic_send_gather_s_s cn; */
+    } cn8;
+    /* struct bdk_nic_send_gather_s_s cn9; */
 };
 
 /**
@@ -2727,14 +2008,59 @@ union bdk_nic_send_mem_s
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Memory. Enumerated by NIC_SEND_SUBDC_E::MEM. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_117_127      : 11;
+        uint64_t addr                  : 53; /**< [116: 64] Address. IOVA to be modified. ADDR must be naturally aligned to the size specified in DSZ. */
+#else /* Word 1 - Little Endian */
+        uint64_t addr                  : 53; /**< [116: 64] Address. IOVA to be modified. ADDR must be naturally aligned to the size specified in DSZ. */
+        uint64_t reserved_117_127      : 11;
+#endif /* Word 1 - End */
+    } s;
+    struct bdk_nic_send_mem_s_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Memory. Enumerated by NIC_SEND_SUBDC_E::MEM. */
+        uint64_t alg                   : 4;  /**< [ 59: 56] Adder algorithm. How to modify the memory location, for example by setting or atomically
+                                                                 incrementing. Enumerated by NIC_SEND_MEMALG_E. */
+        uint64_t dsz                   : 2;  /**< [ 55: 54] Memory data size. The size of the word in memory, enumerated by NIC_SEND_MEMDSZ_E. */
+        uint64_t wmem                  : 1;  /**< [ 53: 53] When NIC_SEND_HDR_S[PNC] is set, wait for memory operation to be committed before posting
+                                                                 to the CQ. When clear, the memory operation may complete after the CQE is added and
+                                                                 potentially after software has begun servicing the CQE. */
+        uint64_t reserved_32_52        : 21;
+        uint64_t offset                : 32; /**< [ 31:  0] Adder offset. Constant value to add or subtract or set. If the count being modified is to
+                                                                 represent the true packet size, then the offset would represent the CRC and pad bytes
+                                                                 appended to the packet.
+
+                                                                 Internal:
+                                                                 Note IOB hardware has a special encoding for atomic
+                                                                 increment/decrement, therefore a change of +/- one is twice as IOB bandwidth efficient as
+                                                                 adding/subtracting other values. */
+#else /* Word 0 - Little Endian */
+        uint64_t offset                : 32; /**< [ 31:  0] Adder offset. Constant value to add or subtract or set. If the count being modified is to
+                                                                 represent the true packet size, then the offset would represent the CRC and pad bytes
+                                                                 appended to the packet.
+
+                                                                 Internal:
+                                                                 Note IOB hardware has a special encoding for atomic
+                                                                 increment/decrement, therefore a change of +/- one is twice as IOB bandwidth efficient as
+                                                                 adding/subtracting other values. */
+        uint64_t reserved_32_52        : 21;
+        uint64_t wmem                  : 1;  /**< [ 53: 53] When NIC_SEND_HDR_S[PNC] is set, wait for memory operation to be committed before posting
+                                                                 to the CQ. When clear, the memory operation may complete after the CQE is added and
+                                                                 potentially after software has begun servicing the CQE. */
+        uint64_t dsz                   : 2;  /**< [ 55: 54] Memory data size. The size of the word in memory, enumerated by NIC_SEND_MEMDSZ_E. */
+        uint64_t alg                   : 4;  /**< [ 59: 56] Adder algorithm. How to modify the memory location, for example by setting or atomically
+                                                                 incrementing. Enumerated by NIC_SEND_MEMALG_E. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Memory. Enumerated by NIC_SEND_SUBDC_E::MEM. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
         uint64_t addr                  : 49; /**< [112: 64] Address. IOVA to be modified. ADDR must be naturally aligned to the size specified in DSZ. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 49; /**< [112: 64] Address. IOVA to be modified. ADDR must be naturally aligned to the size specified in DSZ. */
         uint64_t reserved_113_127      : 15;
 #endif /* Word 1 - End */
-    } s;
-    /* struct bdk_nic_send_mem_s_s cn; */
+    } cn8;
+    /* struct bdk_nic_send_mem_s_s cn9; */
 };
 
 /**
@@ -3197,7 +2523,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a)
         return 0x843000460000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
         return 0x843000460000ll + 8ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=191))
         return 0x843000460000ll + 8ll * ((a) & 0xff);
     __bdk_csr_fatal("NIC_PF_CHANX_CREDIT", 1, a, 0, 0, 0);
 }
@@ -3268,7 +2594,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a)
         return 0x843000480000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
         return 0x843000480000ll + 8ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=191))
         return 0x843000480000ll + 8ll * ((a) & 0xff);
     __bdk_csr_fatal("NIC_PF_CHANX_RX_BP_CFG", 1, a, 0, 0, 0);
 }
@@ -3332,7 +2658,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long a)
         return 0x843000420000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
         return 0x843000420000ll + 8ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=191))
         return 0x843000420000ll + 8ll * ((a) & 0xff);
     __bdk_csr_fatal("NIC_PF_CHANX_RX_CFG", 1, a, 0, 0, 0);
 }
@@ -3379,7 +2705,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long a)
         return 0x843000440000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
         return 0x843000440000ll + 8ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=191))
         return 0x843000440000ll + 8ll * ((a) & 0xff);
     __bdk_csr_fatal("NIC_PF_CHANX_SW_XOFF", 1, a, 0, 0, 0);
 }
@@ -3422,7 +2748,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a)
         return 0x843000400000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
         return 0x843000400000ll + 8ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=191))
         return 0x843000400000ll + 8ll * ((a) & 0xff);
     __bdk_csr_fatal("NIC_PF_CHANX_TX_CFG", 1, a, 0, 0, 0);
 }
@@ -4381,20 +3707,7 @@ typedef union
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn9; */
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn83xx; */
-    struct bdk_nic_pf_ecc0_dbe_ena_w1c_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Added in pass 2.0. Reads or clears enable for NIC_PF_ECC0_DBE_INT[BLK3]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_DBE_INT[BLK2]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_DBE_INT[BLK1]. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_DBE_INT[BLK0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_DBE_INT[BLK0]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_DBE_INT[BLK1]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_DBE_INT[BLK2]. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Added in pass 2.0. Reads or clears enable for NIC_PF_ECC0_DBE_INT[BLK3]. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn88xxp2; */
 } bdk_nic_pf_ecc0_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC0_DBE_ENA_W1C BDK_NIC_PF_ECC0_DBE_ENA_W1C_FUNC()
@@ -4451,20 +3764,7 @@ typedef union
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn9; */
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn83xx; */
-    struct bdk_nic_pf_ecc0_dbe_ena_w1s_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1S/H) Added in pass 2.0. Reads or sets enable for NIC_PF_ECC0_DBE_INT[BLK3]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_DBE_INT[BLK2]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_DBE_INT[BLK1]. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_DBE_INT[BLK0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_DBE_INT[BLK0]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_DBE_INT[BLK1]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_DBE_INT[BLK2]. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1S/H) Added in pass 2.0. Reads or sets enable for NIC_PF_ECC0_DBE_INT[BLK3]. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn88xxp2; */
 } bdk_nic_pf_ecc0_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC0_DBE_ENA_W1S BDK_NIC_PF_ECC0_DBE_ENA_W1S_FUNC()
@@ -4595,20 +3895,7 @@ typedef union
     /* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn9; */
     /* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn83xx; */
-    struct bdk_nic_pf_ecc0_dbe_int_w1s_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1S/H) Added in pass 2.0. Reads or sets NIC_PF_ECC0_DBE_INT[BLK3]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1S/H) Reads or sets NIC_PF_ECC0_DBE_INT[BLK2]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_PF_ECC0_DBE_INT[BLK1]. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_PF_ECC0_DBE_INT[BLK0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_PF_ECC0_DBE_INT[BLK0]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_PF_ECC0_DBE_INT[BLK1]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1S/H) Reads or sets NIC_PF_ECC0_DBE_INT[BLK2]. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1S/H) Added in pass 2.0. Reads or sets NIC_PF_ECC0_DBE_INT[BLK3]. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn88xxp2; */
 } bdk_nic_pf_ecc0_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC0_DBE_INT_W1S BDK_NIC_PF_ECC0_DBE_INT_W1S_FUNC()
@@ -5413,20 +4700,7 @@ typedef union
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn9; */
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn83xx; */
-    struct bdk_nic_pf_ecc0_sbe_ena_w1c_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Added in pass 2.0. Reads or clears enable for NIC_PF_ECC0_SBE_INT[BLK3]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_SBE_INT[BLK2]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_SBE_INT[BLK1]. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_SBE_INT[BLK0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_SBE_INT[BLK0]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_SBE_INT[BLK1]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1C/H) Reads or clears enable for NIC_PF_ECC0_SBE_INT[BLK2]. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Added in pass 2.0. Reads or clears enable for NIC_PF_ECC0_SBE_INT[BLK3]. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn88xxp2; */
 } bdk_nic_pf_ecc0_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC0_SBE_ENA_W1C BDK_NIC_PF_ECC0_SBE_ENA_W1C_FUNC()
@@ -5483,20 +4757,7 @@ typedef union
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn9; */
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn83xx; */
-    struct bdk_nic_pf_ecc0_sbe_ena_w1s_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1S/H) Added in pass 2.0. Reads or sets enable for NIC_PF_ECC0_SBE_INT[BLK3]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_SBE_INT[BLK2]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_SBE_INT[BLK1]. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_SBE_INT[BLK0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_SBE_INT[BLK0]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_SBE_INT[BLK1]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1S/H) Reads or sets enable for NIC_PF_ECC0_SBE_INT[BLK2]. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1S/H) Added in pass 2.0. Reads or sets enable for NIC_PF_ECC0_SBE_INT[BLK3]. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn88xxp2; */
 } bdk_nic_pf_ecc0_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC0_SBE_ENA_W1S BDK_NIC_PF_ECC0_SBE_ENA_W1S_FUNC()
@@ -5627,20 +4888,7 @@ typedef union
     /* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn9; */
     /* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn83xx; */
-    struct bdk_nic_pf_ecc0_sbe_int_w1s_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1S/H) Added in pass 2.0. Reads or sets NIC_PF_ECC0_SBE_INT[BLK3]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1S/H) Reads or sets NIC_PF_ECC0_SBE_INT[BLK2]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_PF_ECC0_SBE_INT[BLK1]. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_PF_ECC0_SBE_INT[BLK0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_PF_ECC0_SBE_INT[BLK0]. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_PF_ECC0_SBE_INT[BLK1]. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W1S/H) Reads or sets NIC_PF_ECC0_SBE_INT[BLK2]. */
-        uint64_t blk3                  : 32; /**< [ 63: 32](R/W1S/H) Added in pass 2.0. Reads or sets NIC_PF_ECC0_SBE_INT[BLK3]. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn88xxp2; */
 } bdk_nic_pf_ecc0_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC0_SBE_INT_W1S BDK_NIC_PF_ECC0_SBE_INT_W1S_FUNC()
@@ -9095,7 +8343,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a)
         return 0x843000005000ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x843000000208ll + 0x100ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=4))
         return 0x843000005000ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("NIC_PF_INTFX_BP_CFG", 1, a, 0, 0, 0);
 }
@@ -9385,7 +8633,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a)
         return 0x843000004000ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x843000000200ll + 0x100ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=4))
         return 0x843000004000ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("NIC_PF_INTFX_SEND_CFG", 1, a, 0, 0, 0);
 }
@@ -9476,7 +8724,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a)
         return 0x843000240000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x843000240000ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=17))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=16))
         return 0x843000240000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("NIC_PF_LMACX_CFG", 1, a, 0, 0, 0);
 }
@@ -9527,7 +8775,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a)
         return 0x843000240100ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x843000240100ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=17))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=16))
         return 0x843000240100ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("NIC_PF_LMACX_CFG2", 1, a, 0, 0, 0);
 }
@@ -9680,7 +8928,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a)
         return 0x843000244000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x843000244000ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=17))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=16))
         return 0x843000244000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("NIC_PF_LMACX_CREDIT", 1, a, 0, 0, 0);
 }
@@ -9723,7 +8971,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long a)
         return 0x843000242000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x843000242000ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=17))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=16))
         return 0x843000242000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("NIC_PF_LMACX_SW_XOFF", 1, a, 0, 0, 0);
 }
@@ -9747,22 +8995,22 @@ typedef union
     struct bdk_nic_pf_mbox_ena_w1cx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for NIC_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for NIC_PF_MBOX_INT(0..1)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for NIC_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for NIC_PF_MBOX_INT(0..1)[MBOX]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_mbox_ena_w1cx_s cn9; */
-    /* struct bdk_nic_pf_mbox_ena_w1cx_s cn81xx; */
-    struct bdk_nic_pf_mbox_ena_w1cx_cn88xx
+    struct bdk_nic_pf_mbox_ena_w1cx_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for NIC_PF_MBOX_INT(0..1)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for NIC_PF_MBOX_INT(0)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for NIC_PF_MBOX_INT(0..1)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for NIC_PF_MBOX_INT(0)[MBOX]. */
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_nic_pf_mbox_ena_w1cx_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_nic_pf_mbox_ena_w1cx_s cn88xx; */
+    /* struct bdk_nic_pf_mbox_ena_w1cx_cn81xx cn83xx; */
 } bdk_nic_pf_mbox_ena_w1cx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1CX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9774,8 +9022,8 @@ static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1CX(unsigned long a)
         return 0x843000000450ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x843000000450ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x843000000450ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x843000000450ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_MBOX_ENA_W1CX", 1, a, 0, 0, 0);
 }
 
@@ -9798,22 +9046,22 @@ typedef union
     struct bdk_nic_pf_mbox_ena_w1sx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for NIC_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for NIC_PF_MBOX_INT(0..1)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for NIC_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for NIC_PF_MBOX_INT(0..1)[MBOX]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_mbox_ena_w1sx_s cn9; */
-    /* struct bdk_nic_pf_mbox_ena_w1sx_s cn81xx; */
-    struct bdk_nic_pf_mbox_ena_w1sx_cn88xx
+    struct bdk_nic_pf_mbox_ena_w1sx_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for NIC_PF_MBOX_INT(0..1)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for NIC_PF_MBOX_INT(0)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for NIC_PF_MBOX_INT(0..1)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for NIC_PF_MBOX_INT(0)[MBOX]. */
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_nic_pf_mbox_ena_w1sx_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_nic_pf_mbox_ena_w1sx_s cn88xx; */
+    /* struct bdk_nic_pf_mbox_ena_w1sx_cn81xx cn83xx; */
 } bdk_nic_pf_mbox_ena_w1sx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9825,8 +9073,8 @@ static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1SX(unsigned long a)
         return 0x843000000470ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x843000000470ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x843000000470ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x843000000470ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_MBOX_ENA_W1SX", 1, a, 0, 0, 0);
 }
 
@@ -9848,13 +9096,13 @@ typedef union
     struct bdk_nic_pf_mbox_intx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, e.g. NIC_PF_MBOX_INT(0)[MBOX<5>] for VF 5.
-                                                                 Each bit is set when the associated NIC_VF()_PF_MBOX(1) register is written.
-                                                                 Bits corresponding to unimplemented VFs (above bit 31) are never set by hardware. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
+                                                                 NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
+                                                                 NIC_VF()_PF_MBOX(1) register is written. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, e.g. NIC_PF_MBOX_INT(0)[MBOX<5>] for VF 5.
-                                                                 Each bit is set when the associated NIC_VF()_PF_MBOX(1) register is written.
-                                                                 Bits corresponding to unimplemented VFs (above bit 31) are never set by hardware. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
+                                                                 NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
+                                                                 NIC_VF()_PF_MBOX(1) register is written. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_mbox_intx_s cn9; */
@@ -9870,19 +9118,19 @@ typedef union
                                                                  Bits corresponding to unimplemented VFs (above bit 7) are never set by hardware. */
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_nic_pf_mbox_intx_cn88xx
+    /* struct bdk_nic_pf_mbox_intx_s cn88xx; */
+    struct bdk_nic_pf_mbox_intx_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
-                                                                 NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF()_PF_MBOX(1) register is written. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, e.g. NIC_PF_MBOX_INT(0)[MBOX<5>] for VF 5.
+                                                                 Each bit is set when the associated NIC_VF()_PF_MBOX(1) register is written.
+                                                                 Bits corresponding to unimplemented VFs (above bit 31) are never set by hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
-                                                                 NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF()_PF_MBOX(1) register is written. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, e.g. NIC_PF_MBOX_INT(0)[MBOX<5>] for VF 5.
+                                                                 Each bit is set when the associated NIC_VF()_PF_MBOX(1) register is written.
+                                                                 Bits corresponding to unimplemented VFs (above bit 31) are never set by hardware. */
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_nic_pf_mbox_intx_s cn83xx; */
+    } cn83xx;
 } bdk_nic_pf_mbox_intx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9894,8 +9142,8 @@ static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long a)
         return 0x843000000410ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x843000000410ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x843000000410ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x843000000410ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_MBOX_INTX", 1, a, 0, 0, 0);
 }
 
@@ -9918,22 +9166,22 @@ typedef union
     struct bdk_nic_pf_mbox_int_w1sx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets NIC_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets NIC_PF_MBOX_INT(0..1)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets NIC_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets NIC_PF_MBOX_INT(0..1)[MBOX]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_mbox_int_w1sx_s cn9; */
-    /* struct bdk_nic_pf_mbox_int_w1sx_s cn81xx; */
-    struct bdk_nic_pf_mbox_int_w1sx_cn88xx
+    struct bdk_nic_pf_mbox_int_w1sx_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets NIC_PF_MBOX_INT(0..1)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets NIC_PF_MBOX_INT(0)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets NIC_PF_MBOX_INT(0..1)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets NIC_PF_MBOX_INT(0)[MBOX]. */
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_nic_pf_mbox_int_w1sx_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_nic_pf_mbox_int_w1sx_s cn88xx; */
+    /* struct bdk_nic_pf_mbox_int_w1sx_cn81xx cn83xx; */
 } bdk_nic_pf_mbox_int_w1sx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9945,8 +9193,8 @@ static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long a)
         return 0x843000000430ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x843000000430ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x843000000430ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x843000000430ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_MBOX_INT_W1SX", 1, a, 0, 0, 0);
 }
 
@@ -10184,8 +9432,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t reserved_29_30        : 2;
-        uint64_t vnic                  : 5;  /**< [ 28: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
+        uint64_t vnic                  : 7;  /**< [ 30: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
                                                                  NIC_VNIC()_RSS_CFG. */
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
                                                                  0x0 = RSS is disabled.
@@ -10202,11 +9449,9 @@ typedef union
                                                                  RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
         uint64_t reserved_16_19        : 4;
         uint64_t reserved_12_15        : 4;
-        uint64_t reserved_10_11        : 2;
-        uint64_t rssi_base             : 10; /**< [  9:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
+        uint64_t rssi_base             : 12; /**< [ 11:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
 #else /* Word 0 - Little Endian */
-        uint64_t rssi_base             : 10; /**< [  9:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
-        uint64_t reserved_10_11        : 2;
+        uint64_t rssi_base             : 12; /**< [ 11:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
         uint64_t reserved_12_15        : 4;
         uint64_t reserved_16_19        : 4;
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
@@ -10222,9 +9467,8 @@ typedef union
                                                                  0x9-0xF = Reserved.
 
                                                                  RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
-        uint64_t vnic                  : 5;  /**< [ 28: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
+        uint64_t vnic                  : 7;  /**< [ 30: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
                                                                  NIC_VNIC()_RSS_CFG. */
-        uint64_t reserved_29_30        : 2;
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn9;
@@ -10276,11 +9520,13 @@ typedef union
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_nic_pf_mpix_cfg_cn88xx
+    /* struct bdk_nic_pf_mpix_cfg_cn9 cn88xx; */
+    struct bdk_nic_pf_mpix_cfg_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t vnic                  : 7;  /**< [ 30: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
+        uint64_t reserved_29_30        : 2;
+        uint64_t vnic                  : 5;  /**< [ 28: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
                                                                  NIC_VNIC()_RSS_CFG. */
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
                                                                  0x0 = RSS is disabled.
@@ -10297,9 +9543,11 @@ typedef union
                                                                  RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
         uint64_t reserved_16_19        : 4;
         uint64_t reserved_12_15        : 4;
-        uint64_t rssi_base             : 12; /**< [ 11:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t rssi_base             : 10; /**< [  9:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
 #else /* Word 0 - Little Endian */
-        uint64_t rssi_base             : 12; /**< [ 11:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
+        uint64_t rssi_base             : 10; /**< [  9:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
+        uint64_t reserved_10_11        : 2;
         uint64_t reserved_12_15        : 4;
         uint64_t reserved_16_19        : 4;
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
@@ -10315,12 +9563,12 @@ typedef union
                                                                  0x9-0xF = Reserved.
 
                                                                  RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
-        uint64_t vnic                  : 7;  /**< [ 30: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
+        uint64_t vnic                  : 5;  /**< [ 28: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
                                                                  NIC_VNIC()_RSS_CFG. */
+        uint64_t reserved_29_30        : 2;
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_nic_pf_mpix_cfg_cn9 cn83xx; */
+    } cn83xx;
 } bdk_nic_pf_mpix_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10396,6 +9644,34 @@ typedef union
     struct bdk_nic_pf_msix_vecx_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 1 = This vector's NIC_PF_MSIX_VEC()_ADDR, NIC_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of NIC_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world.
+
+                                                                 If PCCPF_NIC_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 1 = This vector's NIC_PF_MSIX_VEC()_ADDR, NIC_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of NIC_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world.
+
+                                                                 If PCCPF_NIC_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_pf_msix_vecx_addr_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
@@ -10420,8 +9696,8 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_msix_vecx_addr_s cn; */
+    } cn8;
+    /* struct bdk_nic_pf_msix_vecx_addr_s cn9; */
 } bdk_nic_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10433,7 +9709,7 @@ static inline uint64_t BDK_NIC_PF_MSIX_VECX_ADDR(unsigned long a)
         return 0x843060000000ll + 0x10ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=9))
         return 0x843060000000ll + 0x10ll * ((a) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=8))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
         return 0x843060000000ll + 0x10ll * ((a) & 0xf);
     __bdk_csr_fatal("NIC_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -10480,7 +9756,7 @@ static inline uint64_t BDK_NIC_PF_MSIX_VECX_CTL(unsigned long a)
         return 0x843060000008ll + 0x10ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=9))
         return 0x843060000008ll + 0x10ll * ((a) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=8))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
         return 0x843060000008ll + 0x10ll * ((a) & 0xf);
     __bdk_csr_fatal("NIC_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -10856,84 +10132,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_nic_pf_qsx_cfg_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ena                   : 1;  /**< [ 31: 31](R/W) Enable QS. */
-        uint64_t reserved_27_30        : 4;
-        uint64_t sq_ins_ena            : 1;  /**< [ 26: 26](R/W) SQ data insertion enable. When set, insert NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]
-                                                                 into transmitted packets. */
-        uint64_t sq_ins_pos            : 6;  /**< [ 25: 20](R/W) SQ data insertion position. When [SQ_INS_ENA] is set, the byte number in the transmitted
-                                                                 packet at which to insert the least significant byte of
-                                                                 NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]. Bytes are numbered in little endian form,
-                                                                 with byte 0 the first byte onto the wire. */
-        uint64_t lock_ena              : 1;  /**< [ 19: 19](R/W) Lockdown enable. When set, the NIC_PF_QS()_LOCK() registers can be used to lock
-                                                                 down one of more bytes in packets transmitted by the QS. */
-        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
-        uint64_t send_tstmp_ena        : 1;  /**< [ 17: 17](R/W) Send timestamp enable. When set, the QS is allowed to send packets with NIC_SEND_HDR_S[TSTMP]=1. */
-        uint64_t be                    : 1;  /**< [ 16: 16](R/W) Big-endian mode. Specifies big-endian for data structures in L2C/DRAM that are accessed by
-                                                                 the QS.
-
-                                                                 When set, all data structures are in byte invariant big-endian format (BE8) with the
-                                                                 following ordering within each 64-bit word: <63:56> at byte address 0, <55:48> at address
-                                                                 1, ..., <7:0> at address 0x7.
-
-                                                                 When clear, all data structures are in byte invariant little-endian format (LE8) with the
-                                                                 following ordering within each 64-bit word: <7:0> at byte address 0, <15:8> at address 1,
-                                                                 ..., <63:56> at address 0x7.
-
-                                                                 The affected data structures are:
-                                                                 * Receive buffer descriptor: NIC_RBDR_ENTRY_S.
-                                                                 * All send subdescriptors: NIC_SEND_*_S.
-                                                                 * All CQ entries, i.e. all structures starting with  NIC_CQE_RX_S and NIC_CQE_SEND_S,
-                                                                 excluding any packet data embedded in these structures.
-                                                                 Note that this bit does not affect the byte ordering of packet data, which is treated as a
-                                                                 byte stream transmitted by incrementing byte address. The same byte ordering is also used
-                                                                 for packet data that may be embedded in CQ entries that start with NIC_CQE_RX_S, or
-                                                                 immediate data in or following NIC_SEND_IMM_S. */
-        uint64_t reserved_7_15         : 9;
-        uint64_t reserved_5_6          : 2;
-        uint64_t vnic                  : 5;  /**< [  4:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
-#else /* Word 0 - Little Endian */
-        uint64_t vnic                  : 5;  /**< [  4:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
-        uint64_t reserved_5_6          : 2;
-        uint64_t reserved_7_15         : 9;
-        uint64_t be                    : 1;  /**< [ 16: 16](R/W) Big-endian mode. Specifies big-endian for data structures in L2C/DRAM that are accessed by
-                                                                 the QS.
-
-                                                                 When set, all data structures are in byte invariant big-endian format (BE8) with the
-                                                                 following ordering within each 64-bit word: <63:56> at byte address 0, <55:48> at address
-                                                                 1, ..., <7:0> at address 0x7.
-
-                                                                 When clear, all data structures are in byte invariant little-endian format (LE8) with the
-                                                                 following ordering within each 64-bit word: <7:0> at byte address 0, <15:8> at address 1,
-                                                                 ..., <63:56> at address 0x7.
-
-                                                                 The affected data structures are:
-                                                                 * Receive buffer descriptor: NIC_RBDR_ENTRY_S.
-                                                                 * All send subdescriptors: NIC_SEND_*_S.
-                                                                 * All CQ entries, i.e. all structures starting with  NIC_CQE_RX_S and NIC_CQE_SEND_S,
-                                                                 excluding any packet data embedded in these structures.
-                                                                 Note that this bit does not affect the byte ordering of packet data, which is treated as a
-                                                                 byte stream transmitted by incrementing byte address. The same byte ordering is also used
-                                                                 for packet data that may be embedded in CQ entries that start with NIC_CQE_RX_S, or
-                                                                 immediate data in or following NIC_SEND_IMM_S. */
-        uint64_t send_tstmp_ena        : 1;  /**< [ 17: 17](R/W) Send timestamp enable. When set, the QS is allowed to send packets with NIC_SEND_HDR_S[TSTMP]=1. */
-        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
-        uint64_t lock_ena              : 1;  /**< [ 19: 19](R/W) Lockdown enable. When set, the NIC_PF_QS()_LOCK() registers can be used to lock
-                                                                 down one of more bytes in packets transmitted by the QS. */
-        uint64_t sq_ins_pos            : 6;  /**< [ 25: 20](R/W) SQ data insertion position. When [SQ_INS_ENA] is set, the byte number in the transmitted
-                                                                 packet at which to insert the least significant byte of
-                                                                 NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]. Bytes are numbered in little endian form,
-                                                                 with byte 0 the first byte onto the wire. */
-        uint64_t sq_ins_ena            : 1;  /**< [ 26: 26](R/W) SQ data insertion enable. When set, insert NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]
-                                                                 into transmitted packets. */
-        uint64_t reserved_27_30        : 4;
-        uint64_t ena                   : 1;  /**< [ 31: 31](R/W) Enable QS. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_nic_pf_qsx_cfg_s cn9; */
     struct bdk_nic_pf_qsx_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11013,7 +10212,84 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_qsx_cfg_s cn88xx; */
-    /* struct bdk_nic_pf_qsx_cfg_cn9 cn83xx; */
+    struct bdk_nic_pf_qsx_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ena                   : 1;  /**< [ 31: 31](R/W) Enable QS. */
+        uint64_t reserved_27_30        : 4;
+        uint64_t sq_ins_ena            : 1;  /**< [ 26: 26](R/W) SQ data insertion enable. When set, insert NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]
+                                                                 into transmitted packets. */
+        uint64_t sq_ins_pos            : 6;  /**< [ 25: 20](R/W) SQ data insertion position. When [SQ_INS_ENA] is set, the byte number in the transmitted
+                                                                 packet at which to insert the least significant byte of
+                                                                 NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]. Bytes are numbered in little endian form,
+                                                                 with byte 0 the first byte onto the wire. */
+        uint64_t lock_ena              : 1;  /**< [ 19: 19](R/W) Lockdown enable. When set, the NIC_PF_QS()_LOCK() registers can be used to lock
+                                                                 down one of more bytes in packets transmitted by the QS. */
+        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
+        uint64_t send_tstmp_ena        : 1;  /**< [ 17: 17](R/W) Send timestamp enable. When set, the QS is allowed to send packets with NIC_SEND_HDR_S[TSTMP]=1. */
+        uint64_t be                    : 1;  /**< [ 16: 16](R/W) Big-endian mode. Specifies big-endian for data structures in L2C/DRAM that are accessed by
+                                                                 the QS.
+
+                                                                 When set, all data structures are in byte invariant big-endian format (BE8) with the
+                                                                 following ordering within each 64-bit word: <63:56> at byte address 0, <55:48> at address
+                                                                 1, ..., <7:0> at address 0x7.
+
+                                                                 When clear, all data structures are in byte invariant little-endian format (LE8) with the
+                                                                 following ordering within each 64-bit word: <7:0> at byte address 0, <15:8> at address 1,
+                                                                 ..., <63:56> at address 0x7.
+
+                                                                 The affected data structures are:
+                                                                 * Receive buffer descriptor: NIC_RBDR_ENTRY_S.
+                                                                 * All send subdescriptors: NIC_SEND_*_S.
+                                                                 * All CQ entries, i.e. all structures starting with  NIC_CQE_RX_S and NIC_CQE_SEND_S,
+                                                                 excluding any packet data embedded in these structures.
+                                                                 Note that this bit does not affect the byte ordering of packet data, which is treated as a
+                                                                 byte stream transmitted by incrementing byte address. The same byte ordering is also used
+                                                                 for packet data that may be embedded in CQ entries that start with NIC_CQE_RX_S, or
+                                                                 immediate data in or following NIC_SEND_IMM_S. */
+        uint64_t reserved_7_15         : 9;
+        uint64_t reserved_5_6          : 2;
+        uint64_t vnic                  : 5;  /**< [  4:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
+#else /* Word 0 - Little Endian */
+        uint64_t vnic                  : 5;  /**< [  4:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
+        uint64_t reserved_5_6          : 2;
+        uint64_t reserved_7_15         : 9;
+        uint64_t be                    : 1;  /**< [ 16: 16](R/W) Big-endian mode. Specifies big-endian for data structures in L2C/DRAM that are accessed by
+                                                                 the QS.
+
+                                                                 When set, all data structures are in byte invariant big-endian format (BE8) with the
+                                                                 following ordering within each 64-bit word: <63:56> at byte address 0, <55:48> at address
+                                                                 1, ..., <7:0> at address 0x7.
+
+                                                                 When clear, all data structures are in byte invariant little-endian format (LE8) with the
+                                                                 following ordering within each 64-bit word: <7:0> at byte address 0, <15:8> at address 1,
+                                                                 ..., <63:56> at address 0x7.
+
+                                                                 The affected data structures are:
+                                                                 * Receive buffer descriptor: NIC_RBDR_ENTRY_S.
+                                                                 * All send subdescriptors: NIC_SEND_*_S.
+                                                                 * All CQ entries, i.e. all structures starting with  NIC_CQE_RX_S and NIC_CQE_SEND_S,
+                                                                 excluding any packet data embedded in these structures.
+                                                                 Note that this bit does not affect the byte ordering of packet data, which is treated as a
+                                                                 byte stream transmitted by incrementing byte address. The same byte ordering is also used
+                                                                 for packet data that may be embedded in CQ entries that start with NIC_CQE_RX_S, or
+                                                                 immediate data in or following NIC_SEND_IMM_S. */
+        uint64_t send_tstmp_ena        : 1;  /**< [ 17: 17](R/W) Send timestamp enable. When set, the QS is allowed to send packets with NIC_SEND_HDR_S[TSTMP]=1. */
+        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
+        uint64_t lock_ena              : 1;  /**< [ 19: 19](R/W) Lockdown enable. When set, the NIC_PF_QS()_LOCK() registers can be used to lock
+                                                                 down one of more bytes in packets transmitted by the QS. */
+        uint64_t sq_ins_pos            : 6;  /**< [ 25: 20](R/W) SQ data insertion position. When [SQ_INS_ENA] is set, the byte number in the transmitted
+                                                                 packet at which to insert the least significant byte of
+                                                                 NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]. Bytes are numbered in little endian form,
+                                                                 with byte 0 the first byte onto the wire. */
+        uint64_t sq_ins_ena            : 1;  /**< [ 26: 26](R/W) SQ data insertion enable. When set, insert NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]
+                                                                 into transmitted packets. */
+        uint64_t reserved_27_30        : 4;
+        uint64_t ena                   : 1;  /**< [ 31: 31](R/W) Enable QS. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_qsx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -11025,8 +10301,8 @@ static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a)
         return 0x843020010000ll + 0x200000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=127))
         return 0x843020010000ll + 0x200000ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x843020010000ll + 0x200000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=127))
+        return 0x843020010000ll + 0x200000ll * ((a) & 0x7f);
     __bdk_csr_fatal("NIC_PF_QSX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -11186,8 +10462,8 @@ static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long a, unsigned long b)
         return 0x843020006000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=127) && (b<=23)))
         return 0x843020006000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=23)))
-        return 0x843020006000ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=23)))
+        return 0x843020006000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1f);
     __bdk_csr_fatal("NIC_PF_QSX_LOCKX", 2, a, b, 0, 0);
 }
 
@@ -11275,8 +10551,8 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_BP_CFG(unsigned long a, unsigned long 
         return 0x843020010500ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x843020010500ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x843020010500ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x843020010500ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_PF_QSX_RQX_BP_CFG", 2, a, b, 0, 0);
 }
 
@@ -11338,54 +10614,7 @@ typedef union
                                                                  Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_nic_pf_qsx_rqx_cfg_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 Internal:
-                                                                 Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
-        uint64_t reserved_29_62        : 34;
-        uint64_t strip_pre_l2          : 1;  /**< [ 28: 28](R/W) All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
-        uint64_t caching               : 2;  /**< [ 27: 26](R/W) Select the style of write to the L2C.
-                                                                 0x0 = Writes of RBDR data will not allocate into the L2C.
-                                                                 0x1 = All writes of RBDR data are allocated into the L2C.
-                                                                 0x2 = First aligned cache block is allocated into the L2C. All remaining cache
-                                                                 blocks are not allocated.
-                                                                 0x3 = First two aligned cache blocks are allocated into the L2C. All remaining
-                                                                 cache blocks are not allocated. */
-        uint64_t reserved_24_25        : 2;
-        uint64_t cq_qs                 : 5;  /**< [ 23: 19](R/W) CQ's QS for this RQ. The CQ's QS must be assigned to the same VNIC as the RQ's QS. */
-        uint64_t cq_idx                : 3;  /**< [ 18: 16](R/W) CQ within [CQ_QS] for this RQ. */
-        uint64_t reserved_14_15        : 2;
-        uint64_t rbdr_cont_qs          : 5;  /**< [ 13:  9](R/W) QS portion of RBDR to use for continue buffers. */
-        uint64_t rbdr_cont_idx         : 1;  /**< [  8:  8](R/W) Index within QS of RBDR to use for continue buffers. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t rbdr_strt_qs          : 5;  /**< [  5:  1](R/W) QS portion of RBDR to use used for first buffer. */
-        uint64_t rbdr_strt_idx         : 1;  /**< [  0:  0](R/W) Index within OQ of RBDR to use for first buffer. */
-#else /* Word 0 - Little Endian */
-        uint64_t rbdr_strt_idx         : 1;  /**< [  0:  0](R/W) Index within OQ of RBDR to use for first buffer. */
-        uint64_t rbdr_strt_qs          : 5;  /**< [  5:  1](R/W) QS portion of RBDR to use used for first buffer. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t rbdr_cont_idx         : 1;  /**< [  8:  8](R/W) Index within QS of RBDR to use for continue buffers. */
-        uint64_t rbdr_cont_qs          : 5;  /**< [ 13:  9](R/W) QS portion of RBDR to use for continue buffers. */
-        uint64_t reserved_14_15        : 2;
-        uint64_t cq_idx                : 3;  /**< [ 18: 16](R/W) CQ within [CQ_QS] for this RQ. */
-        uint64_t cq_qs                 : 5;  /**< [ 23: 19](R/W) CQ's QS for this RQ. The CQ's QS must be assigned to the same VNIC as the RQ's QS. */
-        uint64_t reserved_24_25        : 2;
-        uint64_t caching               : 2;  /**< [ 27: 26](R/W) Select the style of write to the L2C.
-                                                                 0x0 = Writes of RBDR data will not allocate into the L2C.
-                                                                 0x1 = All writes of RBDR data are allocated into the L2C.
-                                                                 0x2 = First aligned cache block is allocated into the L2C. All remaining cache
-                                                                 blocks are not allocated.
-                                                                 0x3 = First two aligned cache blocks are allocated into the L2C. All remaining
-                                                                 cache blocks are not allocated. */
-        uint64_t strip_pre_l2          : 1;  /**< [ 28: 28](R/W) All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
-        uint64_t reserved_29_62        : 34;
-        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 Internal:
-                                                                 Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_nic_pf_qsx_rqx_cfg_s cn9; */
     struct bdk_nic_pf_qsx_rqx_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11435,7 +10664,54 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_qsx_rqx_cfg_s cn88xx; */
-    /* struct bdk_nic_pf_qsx_rqx_cfg_cn9 cn83xx; */
+    struct bdk_nic_pf_qsx_rqx_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
+        uint64_t reserved_29_62        : 34;
+        uint64_t strip_pre_l2          : 1;  /**< [ 28: 28](R/W) All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
+        uint64_t caching               : 2;  /**< [ 27: 26](R/W) Select the style of write to the L2C.
+                                                                 0x0 = Writes of RBDR data will not allocate into the L2C.
+                                                                 0x1 = All writes of RBDR data are allocated into the L2C.
+                                                                 0x2 = First aligned cache block is allocated into the L2C. All remaining cache
+                                                                 blocks are not allocated.
+                                                                 0x3 = First two aligned cache blocks are allocated into the L2C. All remaining
+                                                                 cache blocks are not allocated. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t cq_qs                 : 5;  /**< [ 23: 19](R/W) CQ's QS for this RQ. The CQ's QS must be assigned to the same VNIC as the RQ's QS. */
+        uint64_t cq_idx                : 3;  /**< [ 18: 16](R/W) CQ within [CQ_QS] for this RQ. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t rbdr_cont_qs          : 5;  /**< [ 13:  9](R/W) QS portion of RBDR to use for continue buffers. */
+        uint64_t rbdr_cont_idx         : 1;  /**< [  8:  8](R/W) Index within QS of RBDR to use for continue buffers. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t rbdr_strt_qs          : 5;  /**< [  5:  1](R/W) QS portion of RBDR to use used for first buffer. */
+        uint64_t rbdr_strt_idx         : 1;  /**< [  0:  0](R/W) Index within OQ of RBDR to use for first buffer. */
+#else /* Word 0 - Little Endian */
+        uint64_t rbdr_strt_idx         : 1;  /**< [  0:  0](R/W) Index within OQ of RBDR to use for first buffer. */
+        uint64_t rbdr_strt_qs          : 5;  /**< [  5:  1](R/W) QS portion of RBDR to use used for first buffer. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t rbdr_cont_idx         : 1;  /**< [  8:  8](R/W) Index within QS of RBDR to use for continue buffers. */
+        uint64_t rbdr_cont_qs          : 5;  /**< [ 13:  9](R/W) QS portion of RBDR to use for continue buffers. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t cq_idx                : 3;  /**< [ 18: 16](R/W) CQ within [CQ_QS] for this RQ. */
+        uint64_t cq_qs                 : 5;  /**< [ 23: 19](R/W) CQ's QS for this RQ. The CQ's QS must be assigned to the same VNIC as the RQ's QS. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t caching               : 2;  /**< [ 27: 26](R/W) Select the style of write to the L2C.
+                                                                 0x0 = Writes of RBDR data will not allocate into the L2C.
+                                                                 0x1 = All writes of RBDR data are allocated into the L2C.
+                                                                 0x2 = First aligned cache block is allocated into the L2C. All remaining cache
+                                                                 blocks are not allocated.
+                                                                 0x3 = First two aligned cache blocks are allocated into the L2C. All remaining
+                                                                 cache blocks are not allocated. */
+        uint64_t strip_pre_l2          : 1;  /**< [ 28: 28](R/W) All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
+        uint64_t reserved_29_62        : 34;
+        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_qsx_rqx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -11447,8 +10723,8 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_CFG(unsigned long a, unsigned long b)
         return 0x843020010400ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x843020010400ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x843020010400ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x843020010400ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_PF_QSX_RQX_CFG", 2, a, b, 0, 0);
 }
 
@@ -11531,8 +10807,8 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_DROP_CFG(unsigned long a, unsigned lon
         return 0x843020010420ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x843020010420ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x843020010420ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x843020010420ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_PF_QSX_RQX_DROP_CFG", 2, a, b, 0, 0);
 }
 
@@ -11574,8 +10850,8 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_STATX(unsigned long a, unsigned long b
         return 0x843020010600ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7) && (c<=1)))
         return 0x843020010600ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7) && (c<=1)))
-        return 0x843020010600ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7) && (c<=1)))
+        return 0x843020010600ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("NIC_PF_QSX_RQX_STATX", 3, a, b, c, 0);
 }
 
@@ -11604,12 +10880,12 @@ typedef union
                                                                  * [SQ_INS_DATA]<15:8> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]+1 */
         uint64_t reserved_10_31        : 22;
         uint64_t cq_qs                 : 7;  /**< [  9:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
-                                                                 Must be less than 32. */
+                                                                 Must be less than 128. */
         uint64_t cq_idx                : 3;  /**< [  2:  0](R/W) CQ within [CQ_QS] for this SQ. */
 #else /* Word 0 - Little Endian */
         uint64_t cq_idx                : 3;  /**< [  2:  0](R/W) CQ within [CQ_QS] for this SQ. */
         uint64_t cq_qs                 : 7;  /**< [  9:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
-                                                                 Must be less than 32. */
+                                                                 Must be less than 128. */
         uint64_t reserved_10_31        : 22;
         uint64_t sq_ins_data           : 16; /**< [ 47: 32](R/W) SQ insertion data.If NIC_PF_QS()_CFG[SQ_INS_ENA] is set, this is the data inserted
                                                                  in every packet transmitted by the SQ, as follows:
@@ -11618,30 +10894,7 @@ typedef union
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_nic_pf_qsx_sqx_cfg_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t sq_ins_data           : 16; /**< [ 47: 32](R/W) SQ insertion data.If NIC_PF_QS()_CFG[SQ_INS_ENA] is set, this is the data inserted
-                                                                 in every packet transmitted by the SQ, as follows:
-                                                                 * [SQ_INS_DATA]<7:0> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]
-                                                                 * [SQ_INS_DATA]<15:8> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]+1 */
-        uint64_t reserved_8_31         : 24;
-        uint64_t cq_qs                 : 5;  /**< [  7:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
-                                                                 Must be less than 32. */
-        uint64_t cq_idx                : 3;  /**< [  2:  0](R/W) CQ within [CQ_QS] for this SQ. */
-#else /* Word 0 - Little Endian */
-        uint64_t cq_idx                : 3;  /**< [  2:  0](R/W) CQ within [CQ_QS] for this SQ. */
-        uint64_t cq_qs                 : 5;  /**< [  7:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
-                                                                 Must be less than 32. */
-        uint64_t reserved_8_31         : 24;
-        uint64_t sq_ins_data           : 16; /**< [ 47: 32](R/W) SQ insertion data.If NIC_PF_QS()_CFG[SQ_INS_ENA] is set, this is the data inserted
-                                                                 in every packet transmitted by the SQ, as follows:
-                                                                 * [SQ_INS_DATA]<7:0> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]
-                                                                 * [SQ_INS_DATA]<15:8> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]+1 */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_nic_pf_qsx_sqx_cfg_s cn9; */
     struct bdk_nic_pf_qsx_sqx_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11690,7 +10943,30 @@ typedef union
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_qsx_sqx_cfg_cn9 cn83xx; */
+    struct bdk_nic_pf_qsx_sqx_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t sq_ins_data           : 16; /**< [ 47: 32](R/W) SQ insertion data.If NIC_PF_QS()_CFG[SQ_INS_ENA] is set, this is the data inserted
+                                                                 in every packet transmitted by the SQ, as follows:
+                                                                 * [SQ_INS_DATA]<7:0> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]
+                                                                 * [SQ_INS_DATA]<15:8> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]+1 */
+        uint64_t reserved_8_31         : 24;
+        uint64_t cq_qs                 : 5;  /**< [  7:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
+                                                                 Must be less than 32. */
+        uint64_t cq_idx                : 3;  /**< [  2:  0](R/W) CQ within [CQ_QS] for this SQ. */
+#else /* Word 0 - Little Endian */
+        uint64_t cq_idx                : 3;  /**< [  2:  0](R/W) CQ within [CQ_QS] for this SQ. */
+        uint64_t cq_qs                 : 5;  /**< [  7:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
+                                                                 Must be less than 32. */
+        uint64_t reserved_8_31         : 24;
+        uint64_t sq_ins_data           : 16; /**< [ 47: 32](R/W) SQ insertion data.If NIC_PF_QS()_CFG[SQ_INS_ENA] is set, this is the data inserted
+                                                                 in every packet transmitted by the SQ, as follows:
+                                                                 * [SQ_INS_DATA]<7:0> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]
+                                                                 * [SQ_INS_DATA]<15:8> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]+1 */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_qsx_sqx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -11702,8 +10978,8 @@ static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG(unsigned long a, unsigned long b)
         return 0x843020010c00ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x843020010c00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x843020010c00ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x843020010c00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_PF_QSX_SQX_CFG", 2, a, b, 0, 0);
 }
 
@@ -11740,24 +11016,7 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_nic_pf_qsx_sqx_cfg2_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t tl4                   : 8;  /**< [  7:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
-                                                                 NIC_PF_TL4()_CFG[SQ_QS]/NIC_PF_TL4()_CFG[SQ_IDX] must point back to this SQ. As the VF
-                                                                 controls
-                                                                 NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs.
-                                                                 Must be less than 256. */
-#else /* Word 0 - Little Endian */
-        uint64_t tl4                   : 8;  /**< [  7:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
-                                                                 NIC_PF_TL4()_CFG[SQ_QS]/NIC_PF_TL4()_CFG[SQ_IDX] must point back to this SQ. As the VF
-                                                                 controls
-                                                                 NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs.
-                                                                 Must be less than 256. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_nic_pf_qsx_sqx_cfg2_s cn9; */
     struct bdk_nic_pf_qsx_sqx_cfg2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11794,7 +11053,24 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_qsx_sqx_cfg2_cn9 cn83xx; */
+    struct bdk_nic_pf_qsx_sqx_cfg2_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t tl4                   : 8;  /**< [  7:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
+                                                                 NIC_PF_TL4()_CFG[SQ_QS]/NIC_PF_TL4()_CFG[SQ_IDX] must point back to this SQ. As the VF
+                                                                 controls
+                                                                 NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs.
+                                                                 Must be less than 256. */
+#else /* Word 0 - Little Endian */
+        uint64_t tl4                   : 8;  /**< [  7:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
+                                                                 NIC_PF_TL4()_CFG[SQ_QS]/NIC_PF_TL4()_CFG[SQ_IDX] must point back to this SQ. As the VF
+                                                                 controls
+                                                                 NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs.
+                                                                 Must be less than 256. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_qsx_sqx_cfg2_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -11806,8 +11082,8 @@ static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long a, unsigned long b)
         return 0x843020010c08ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x843020010c08ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x843020010c08ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x843020010c08ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_PF_QSX_SQX_CFG2", 2, a, b, 0, 0);
 }
 
@@ -11849,8 +11125,8 @@ static inline uint64_t BDK_NIC_PF_QSX_SQX_STATX(unsigned long a, unsigned long b
         return 0x843020010d00ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7) && (c<=1)))
         return 0x843020010d00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7) && (c<=1)))
-        return 0x843020010d00ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7) && (c<=1)))
+        return 0x843020010d00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("NIC_PF_QSX_SQX_STATX", 3, a, b, c, 0);
 }
 
@@ -12158,20 +11434,7 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_nic_pf_rssix_rq_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t reserved_8_9          : 2;
-        uint64_t rq_qs                 : 5;  /**< [  7:  3](R/W) RQ's QS. */
-        uint64_t rq_idx                : 3;  /**< [  2:  0](R/W) RQ within [RQ_QS]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rq_idx                : 3;  /**< [  2:  0](R/W) RQ within [RQ_QS]. */
-        uint64_t rq_qs                 : 5;  /**< [  7:  3](R/W) RQ's QS. */
-        uint64_t reserved_8_9          : 2;
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_nic_pf_rssix_rq_s cn9; */
     struct bdk_nic_pf_rssix_rq_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -12187,7 +11450,20 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_rssix_rq_s cn88xx; */
-    /* struct bdk_nic_pf_rssix_rq_cn9 cn83xx; */
+    struct bdk_nic_pf_rssix_rq_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t reserved_8_9          : 2;
+        uint64_t rq_qs                 : 5;  /**< [  7:  3](R/W) RQ's QS. */
+        uint64_t rq_idx                : 3;  /**< [  2:  0](R/W) RQ within [RQ_QS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rq_idx                : 3;  /**< [  2:  0](R/W) RQ within [RQ_QS]. */
+        uint64_t rq_qs                 : 5;  /**< [  7:  3](R/W) RQ's QS. */
+        uint64_t reserved_8_9          : 2;
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_rssix_rq_t;
 
 static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long a) __attribute__ ((pure, always_inline));
@@ -12199,8 +11475,8 @@ static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long a)
         return 0x843000220000ll + 8ll * ((a) & 0x3ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4095))
         return 0x843000220000ll + 8ll * ((a) & 0xfff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1023))
-        return 0x843000220000ll + 8ll * ((a) & 0x3ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=4095))
+        return 0x843000220000ll + 8ll * ((a) & 0xfff);
     __bdk_csr_fatal("NIC_PF_RSSIX_RQ", 1, a, 0, 0, 0);
 }
 
@@ -12239,7 +11515,7 @@ static inline uint64_t BDK_NIC_PF_RX_BP_STATEX(unsigned long a)
         return 0x843000000340ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x843000000340ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x843000000340ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("NIC_PF_RX_BP_STATEX", 1, a, 0, 0, 0);
 }
@@ -12283,7 +11559,7 @@ static inline uint64_t BDK_NIC_PF_RX_BPID_STATEX(unsigned long a)
         return 0x843000000240ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x843000000240ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x843000000240ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("NIC_PF_RX_BPID_STATEX", 1, a, 0, 0, 0);
 }
@@ -12382,7 +11658,7 @@ static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_DISX(unsigned long a)
         return 0x843000000800ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x843000000800ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x843000000800ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("NIC_PF_RX_CHAN_BP_DISX", 1, a, 0, 0, 0);
 }
@@ -12426,7 +11702,7 @@ static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_SWX(unsigned long a)
         return 0x843000000840ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x843000000840ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x843000000840ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("NIC_PF_RX_CHAN_BP_SWX", 1, a, 0, 0, 0);
 }
@@ -13382,7 +12658,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a)
         return 0x843000490300ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x843000490280ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=17))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=16))
         return 0x843000490300ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("NIC_PF_SW_SYNC_PIPEX_CQ_CNTS", 1, a, 0, 0, 0);
 }
@@ -13427,7 +12703,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long a)
         return 0x843000490200ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x843000490200ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=17))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=16))
         return 0x843000490200ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("NIC_PF_SW_SYNC_PIPEX_PKT_CNTS", 1, a, 0, 0, 0);
 }
@@ -13835,17 +13111,17 @@ typedef union
     struct bdk_nic_pf_tl3x_chan_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t chan                  : 7;  /**< [  6:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
+        uint64_t reserved_8_63         : 56;
+        uint64_t chan                  : 8;  /**< [  7:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
                                                                  NIC_PF_TL2()_LMAC[LMAC], indexed by the TL2 that pulls from this TL3 as selected by
                                                                  NIC_PF_TL3A()_CFG[TL3A].
                                                                  Must be less than 8 for a BGX LMAC or 64 for LBK. */
 #else /* Word 0 - Little Endian */
-        uint64_t chan                  : 7;  /**< [  6:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
+        uint64_t chan                  : 8;  /**< [  7:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
                                                                  NIC_PF_TL2()_LMAC[LMAC], indexed by the TL2 that pulls from this TL3 as selected by
                                                                  NIC_PF_TL3A()_CFG[TL3A].
                                                                  Must be less than 8 for a BGX LMAC or 64 for LBK. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl3x_chan_s cn9; */
@@ -13893,7 +13169,22 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_tl3x_chan_s cn83xx; */
+    struct bdk_nic_pf_tl3x_chan_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t chan                  : 7;  /**< [  6:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
+                                                                 NIC_PF_TL2()_LMAC[LMAC], indexed by the TL2 that pulls from this TL3 as selected by
+                                                                 NIC_PF_TL3A()_CFG[TL3A].
+                                                                 Must be less than 8 for a BGX LMAC or 64 for LBK. */
+#else /* Word 0 - Little Endian */
+        uint64_t chan                  : 7;  /**< [  6:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
+                                                                 NIC_PF_TL2()_LMAC[LMAC], indexed by the TL2 that pulls from this TL3 as selected by
+                                                                 NIC_PF_TL3A()_CFG[TL3A].
+                                                                 Must be less than 8 for a BGX LMAC or 64 for LBK. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_tl3x_chan_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_CHAN(unsigned long a) __attribute__ ((pure, always_inline));
@@ -14194,7 +13485,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
-        uint64_t sq_qs                 : 7;  /**< [ 33: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 32. */
+        uint64_t sq_qs                 : 7;  /**< [ 33: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 128. */
         uint64_t sq_idx                : 3;  /**< [ 26: 24](R/W) The SQ's index inside the QS which is associated with this TL4. */
         uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The weighted deficit round-robin quantum (24-bit unsigned
                                                                  integer). Specifies the amount of data to transmit in an arbitration round as a multiple
@@ -14206,24 +13497,11 @@ typedef union
                                                                  of 4 bytes. The minimum value is MTU/4 + NIC_PF_LMAC()_CFG[ADJUST] (rounded up) when this
                                                                  transmit limiter is used; this is also the typical value for equal-weight arbitration. */
         uint64_t sq_idx                : 3;  /**< [ 26: 24](R/W) The SQ's index inside the QS which is associated with this TL4. */
-        uint64_t sq_qs                 : 7;  /**< [ 33: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 32. */
+        uint64_t sq_qs                 : 7;  /**< [ 33: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 128. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_nic_pf_tl4x_cfg_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t sq_qs                 : 5;  /**< [ 31: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 32. */
-        uint64_t sq_idx                : 3;  /**< [ 26: 24](R/W) The SQ's index inside the QS which is associated with this TL4. */
-        uint64_t reserved_0_23         : 24;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_23         : 24;
-        uint64_t sq_idx                : 3;  /**< [ 26: 24](R/W) The SQ's index inside the QS which is associated with this TL4. */
-        uint64_t sq_qs                 : 5;  /**< [ 31: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 32. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_nic_pf_tl4x_cfg_s cn9; */
     struct bdk_nic_pf_tl4x_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -14260,7 +13538,20 @@ typedef union
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_tl4x_cfg_cn9 cn83xx; */
+    struct bdk_nic_pf_tl4x_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sq_qs                 : 5;  /**< [ 31: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 32. */
+        uint64_t sq_idx                : 3;  /**< [ 26: 24](R/W) The SQ's index inside the QS which is associated with this TL4. */
+        uint64_t reserved_0_23         : 24;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_23         : 24;
+        uint64_t sq_idx                : 3;  /**< [ 26: 24](R/W) The SQ's index inside the QS which is associated with this TL4. */
+        uint64_t sq_qs                 : 5;  /**< [ 31: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 32. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_tl4x_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL4X_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -14272,8 +13563,8 @@ static inline uint64_t BDK_NIC_PF_TL4X_CFG(unsigned long a)
         return 0x843000800000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1023))
         return 0x843000800000ll + 8ll * ((a) & 0x3ff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x843000800000ll + 8ll * ((a) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1023))
+        return 0x843000800000ll + 8ll * ((a) & 0x3ff);
     __bdk_csr_fatal("NIC_PF_TL4X_CFG", 1, a, 0, 0, 0);
 }
 
@@ -14309,6 +13600,8 @@ static inline uint64_t BDK_NIC_PF_TL4X_SH_STATUS(unsigned long a) __attribute__ 
 static inline uint64_t BDK_NIC_PF_TL4X_SH_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1023))
+        return 0x843000840000ll + 8ll * ((a) & 0x3ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1023))
         return 0x843000840000ll + 8ll * ((a) & 0x3ff);
     __bdk_csr_fatal("NIC_PF_TL4X_SH_STATUS", 1, a, 0, 0, 0);
 }
@@ -14350,8 +13643,8 @@ static inline uint64_t BDK_NIC_PF_TL4X_SW_XOFF(unsigned long a)
         return 0x843000820000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1023))
         return 0x843000820000ll + 8ll * ((a) & 0x3ff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
-        return 0x843000820000ll + 8ll * ((a) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1023))
+        return 0x843000820000ll + 8ll * ((a) & 0x3ff);
     __bdk_csr_fatal("NIC_PF_TL4X_SW_XOFF", 1, a, 0, 0, 0);
 }
 
@@ -14393,6 +13686,8 @@ static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
+        return 0x8430006f0000ll + 8ll * ((a) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x8430006f0000ll + 8ll * ((a) & 0xff);
     __bdk_csr_fatal("NIC_PF_TL4AX_CFG", 1, a, 0, 0, 0);
 }
@@ -14602,8 +13897,6 @@ static inline uint64_t BDK_NIC_PF_TX_LBKX_FIFO_CREDIT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x843000000710ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x843000000710ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_TX_LBKX_FIFO_CREDIT", 1, a, 0, 0, 0);
 }
 
@@ -14613,6 +13906,49 @@ static inline uint64_t BDK_NIC_PF_TX_LBKX_FIFO_CREDIT(unsigned long a)
 #define device_bar_BDK_NIC_PF_TX_LBKX_FIFO_CREDIT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TX_LBKX_FIFO_CREDIT(a) (a)
 #define arguments_BDK_NIC_PF_TX_LBKX_FIFO_CREDIT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) nic_pf_tx_lbk_fifo_credit
+ *
+ * NIC Transmit LBK FIFO Credit Count Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_nic_pf_tx_lbk_fifo_credit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W/H) Number of 128-bit entry LBK FIFO credits. This represents the maximum number of available
+                                                                 credits per LBK interface. It is decremented towards zero as credits are used up. Packets
+                                                                 are not allowed to flow, if the count value is equal to zero and a packet is scheduled to
+                                                                 this interface. Note: This can be programmed to a maximum of 768 entries. */
+#else /* Word 0 - Little Endian */
+        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W/H) Number of 128-bit entry LBK FIFO credits. This represents the maximum number of available
+                                                                 credits per LBK interface. It is decremented towards zero as credits are used up. Packets
+                                                                 are not allowed to flow, if the count value is equal to zero and a packet is scheduled to
+                                                                 this interface. Note: This can be programmed to a maximum of 768 entries. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_tx_lbk_fifo_credit_s cn; */
+} bdk_nic_pf_tx_lbk_fifo_credit_t;
+
+#define BDK_NIC_PF_TX_LBK_FIFO_CREDIT BDK_NIC_PF_TX_LBK_FIFO_CREDIT_FUNC()
+static inline uint64_t BDK_NIC_PF_TX_LBK_FIFO_CREDIT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_TX_LBK_FIFO_CREDIT_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x843000000710ll;
+    __bdk_csr_fatal("NIC_PF_TX_LBK_FIFO_CREDIT", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_NIC_PF_TX_LBK_FIFO_CREDIT bdk_nic_pf_tx_lbk_fifo_credit_t
+#define bustype_BDK_NIC_PF_TX_LBK_FIFO_CREDIT BDK_CSR_TYPE_NCB
+#define basename_BDK_NIC_PF_TX_LBK_FIFO_CREDIT "NIC_PF_TX_LBK_FIFO_CREDIT"
+#define device_bar_BDK_NIC_PF_TX_LBK_FIFO_CREDIT 0x0 /* PF_BAR0 */
+#define busnum_BDK_NIC_PF_TX_LBK_FIFO_CREDIT 0
+#define arguments_BDK_NIC_PF_TX_LBK_FIFO_CREDIT -1,-1,-1,-1
 
 /**
  * Register (NCB) nic_pf_vf#_mbox#
@@ -14652,8 +13988,8 @@ static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long a, unsigned long b)
         return 0x843020002030ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x843020002030ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x843020002030ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x843020002030ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_PF_VFX_MBOXX", 2, a, b, 0, 0);
 }
 
@@ -14695,8 +14031,8 @@ static inline uint64_t BDK_NIC_PF_VNICX_RX_STATX(unsigned long a, unsigned long 
         return 0x843020004100ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=13)))
         return 0x843020004100ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=13)))
-        return 0x843020004100ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=13)))
+        return 0x843020004100ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("NIC_PF_VNICX_RX_STATX", 2, a, b, 0, 0);
 }
 
@@ -14738,8 +14074,8 @@ static inline uint64_t BDK_NIC_PF_VNICX_TX_STATX(unsigned long a, unsigned long 
         return 0x843020004000ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=4)))
         return 0x843020004000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=4)))
-        return 0x843020004000ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=4)))
+        return 0x843020004000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_PF_VNICX_TX_STATX", 2, a, b, 0, 0);
 }
 
@@ -14761,6 +14097,22 @@ typedef union
     struct bdk_nic_qsx_cqx_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t base_addr             : 44; /**< [ 52:  9](R/W) Base IOVA <52:9> of CQ ring in DRAM (VA, IPA or PA depending on SMMU
+                                                                 configuration). Address bits <8:0> are always 0. Writes are ignored when the CQ ring is
+                                                                 enabled, i.e. NIC_QS()_CQ()_CFG[ENA]==1. */
+        uint64_t reserved_0_8          : 9;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_8          : 9;
+        uint64_t base_addr             : 44; /**< [ 52:  9](R/W) Base IOVA <52:9> of CQ ring in DRAM (VA, IPA or PA depending on SMMU
+                                                                 configuration). Address bits <8:0> are always 0. Writes are ignored when the CQ ring is
+                                                                 enabled, i.e. NIC_QS()_CQ()_CFG[ENA]==1. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_qsx_cqx_base_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t base_addr             : 40; /**< [ 48:  9](R/W) Base IOVA <48:9> of CQ ring in DRAM (VA, IPA or PA depending on SMMU
                                                                  configuration). Address bits <8:0> are always 0. Writes are ignored when the CQ ring is
@@ -14773,8 +14125,8 @@ typedef union
                                                                  enabled, i.e. NIC_QS()_CQ()_CFG[ENA]==1. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_qsx_cqx_base_s cn; */
+    } cn8;
+    /* struct bdk_nic_qsx_cqx_base_s cn9; */
 } bdk_nic_qsx_cqx_base_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -14786,8 +14138,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_BASE(unsigned long a, unsigned long b)
         return 0x8430a0010420ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010420ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010420ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010420ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_BASE", 2, a, b, 0, 0);
 }
 
@@ -14983,7 +14335,7 @@ typedef union
                                                                  0x4 = 16K entries.
                                                                  0x5 = 32K entries.
                                                                  0x6 = 64K entries.
-                                                                 0x7 = 256 entries (added in pass 2).
+                                                                 0x7 = 256 entries.
 
                                                                  Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
                                                                  means empty). */
@@ -15022,7 +14374,7 @@ typedef union
                                                                  0x4 = 16K entries.
                                                                  0x5 = 32K entries.
                                                                  0x6 = 64K entries.
-                                                                 0x7 = 256 entries (added in pass 2).
+                                                                 0x7 = 256 entries.
 
                                                                  Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
                                                                  means empty). */
@@ -15049,8 +14401,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_CFG(unsigned long a, unsigned long b)
         return 0x8430a0010400ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010400ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010400ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010400ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_CFG", 2, a, b, 0, 0);
 }
 
@@ -15097,8 +14449,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_CFG2(unsigned long a, unsigned long b)
         return 0x8430a0010408ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010408ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010408ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010408ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_CFG2", 2, a, b, 0, 0);
 }
 
@@ -15143,8 +14495,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_DEBUG(unsigned long a, unsigned long b)
         return 0x8430a0010450ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010450ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010450ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010450ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_DEBUG", 2, a, b, 0, 0);
 }
 
@@ -15189,8 +14541,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_DOOR(unsigned long a, unsigned long b)
         return 0x8430a0010438ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010438ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010438ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010438ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_DOOR", 2, a, b, 0, 0);
 }
 
@@ -15237,8 +14589,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_HEAD(unsigned long a, unsigned long b)
         return 0x8430a0010428ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010428ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010428ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010428ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_HEAD", 2, a, b, 0, 0);
 }
 
@@ -15319,8 +14671,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_STATUS(unsigned long a, unsigned long b)
         return 0x8430a0010440ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010440ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010440ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010440ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_STATUS", 2, a, b, 0, 0);
 }
 
@@ -15389,8 +14741,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_STATUS2(unsigned long a, unsigned long b)
         return 0x8430a0010448ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010448ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010448ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010448ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_STATUS2", 2, a, b, 0, 0);
 }
 
@@ -15439,8 +14791,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_TAIL(unsigned long a, unsigned long b)
         return 0x8430a0010430ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010430ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010430ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010430ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_TAIL", 2, a, b, 0, 0);
 }
 
@@ -15485,8 +14837,8 @@ static inline uint64_t BDK_NIC_QSX_CQX_THRESH(unsigned long a, unsigned long b)
         return 0x8430a0010410ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010410ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010410ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010410ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_CQX_THRESH", 2, a, b, 0, 0);
 }
 
@@ -15508,6 +14860,26 @@ typedef union
     struct bdk_nic_qsx_rbdrx_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t base_addr             : 46; /**< [ 52:  7](R/W) Base IOVA<52:7> of RBDR in DRAM (VA, IPA or PA depending on VNIC
+                                                                 configuration). Address bits <6:0> are always 0. Writes are ignored when the RBDR is
+                                                                 active, i.e.:
+                                                                 _ NIC_QS()_RBDR()_CFG[ENA]==1, or
+                                                                 _ NIC_QS()_RBDR()_HEAD[HEAD_PTR]!=NIC_QS()_RBDR()_TAIL[TAIL_PTR] */
+        uint64_t reserved_0_6          : 7;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_6          : 7;
+        uint64_t base_addr             : 46; /**< [ 52:  7](R/W) Base IOVA<52:7> of RBDR in DRAM (VA, IPA or PA depending on VNIC
+                                                                 configuration). Address bits <6:0> are always 0. Writes are ignored when the RBDR is
+                                                                 active, i.e.:
+                                                                 _ NIC_QS()_RBDR()_CFG[ENA]==1, or
+                                                                 _ NIC_QS()_RBDR()_HEAD[HEAD_PTR]!=NIC_QS()_RBDR()_TAIL[TAIL_PTR] */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_qsx_rbdrx_base_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t base_addr             : 42; /**< [ 48:  7](R/W) Base IOVA<48:7> of RBDR in DRAM (VA, IPA or PA depending on VNIC
                                                                  configuration). Address bits <6:0> are always 0. Writes are ignored when the RBDR is
@@ -15524,8 +14896,8 @@ typedef union
                                                                  _ NIC_QS()_RBDR()_HEAD[HEAD_PTR]!=NIC_QS()_RBDR()_TAIL[TAIL_PTR] */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_qsx_rbdrx_base_s cn; */
+    } cn8;
+    /* struct bdk_nic_qsx_rbdrx_base_s cn9; */
 } bdk_nic_qsx_rbdrx_base_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -15537,8 +14909,8 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long a, unsigned long b)
         return 0x8430a0010c20ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0010c20ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0010c20ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0010c20ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RBDRX_BASE", 2, a, b, 0, 0);
 }
 
@@ -15861,8 +15233,8 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_CFG(unsigned long a, unsigned long b)
         return 0x8430a0010c00ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0010c00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0010c00ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0010c00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RBDRX_CFG", 2, a, b, 0, 0);
 }
 
@@ -15917,8 +15289,8 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_DOOR(unsigned long a, unsigned long b)
         return 0x8430a0010c38ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0010c38ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0010c38ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0010c38ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RBDRX_DOOR", 2, a, b, 0, 0);
 }
 
@@ -15967,8 +15339,8 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_HEAD(unsigned long a, unsigned long b)
         return 0x8430a0010c28ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0010c28ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0010c28ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0010c28ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RBDRX_HEAD", 2, a, b, 0, 0);
 }
 
@@ -16013,8 +15385,8 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(unsigned long a, unsign
         return 0x8430a0010c50ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0010c50ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0010c50ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0010c50ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RBDRX_PREFETCH_STATUS", 2, a, b, 0, 0);
 }
 
@@ -16075,8 +15447,8 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS0(unsigned long a, unsigned long 
         return 0x8430a0010c40ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0010c40ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0010c40ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0010c40ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RBDRX_STATUS0", 2, a, b, 0, 0);
 }
 
@@ -16117,8 +15489,8 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS1(unsigned long a, unsigned long 
         return 0x8430a0010c48ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0010c48ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0010c48ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0010c48ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RBDRX_STATUS1", 2, a, b, 0, 0);
 }
 
@@ -16167,8 +15539,8 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_TAIL(unsigned long a, unsigned long b)
         return 0x8430a0010c30ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0010c30ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0010c30ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0010c30ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RBDRX_TAIL", 2, a, b, 0, 0);
 }
 
@@ -16213,8 +15585,8 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_THRESH(unsigned long a, unsigned long b
         return 0x8430a0010c10ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0010c10ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0010c10ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0010c10ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RBDRX_THRESH", 2, a, b, 0, 0);
 }
 
@@ -16265,8 +15637,8 @@ static inline uint64_t BDK_NIC_QSX_RQX_CFG(unsigned long a, unsigned long b)
         return 0x8430a0010600ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010600ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010600ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010600ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_RQX_CFG", 2, a, b, 0, 0);
 }
 
@@ -16308,8 +15680,8 @@ static inline uint64_t BDK_NIC_QSX_RQX_STATX(unsigned long a, unsigned long b, u
         return 0x8430a0010700ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7) && (c<=1)))
         return 0x8430a0010700ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7) && (c<=1)))
-        return 0x8430a0010700ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7) && (c<=1)))
+        return 0x8430a0010700ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("NIC_QSX_RQX_STATX", 3, a, b, c, 0);
 }
 
@@ -16471,6 +15843,73 @@ typedef union
                                                                  3 = Reserved. */
         uint64_t len_l4                : 1;  /**< [ 24: 24](R/W) Check length of L4. */
         uint64_t len_l3                : 1;  /**< [ 23: 23](R/W) Check length of IPv4/IPv6. */
+        uint64_t dis_apad              : 1;  /**< [ 22: 22](R/W) When this bit is set, the APAD alignment function is disabled. */
+        uint64_t csum_l4               : 1;  /**< [ 21: 21](R/W) Compute checksum on TCP/UDP packets. */
+        uint64_t ip6_udp_opt           : 1;  /**< [ 20: 20](R/W) IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by sending the all-0s
+                                                                 patterns. IPv6 outlaws this and the spec says to always check UDP checksum.
+                                                                 0 = Spec compliant, do not allow optional code.
+                                                                 1 = Treat IPv6 as IPv4; the all-0s pattern will cause a UDP checksum pass. */
+        uint64_t splt_hdr_ena          : 1;  /**< [ 19: 19](R/W) When set, any packet with a valid header stack down to the end of the L4 layer has its
+                                                                 header split into a separate RBDR buffer. */
+        uint64_t cq_hdr_copy           : 1;  /**< [ 18: 18](R/W) If set, the header is copied into the CQE as well as existing in the packet buffer. The
+                                                                 hardware will copy all defined headers. */
+        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Maximum TCP reassembled packet:
+                                                                 0x0 = 64Kbytes.
+                                                                 0x1 = 256Kbytes.
+                                                                 0x2-0x3 = Reserved. */
+        uint64_t cq_pkt_size           : 8;  /**< [ 15:  8](R/W) Packet size in bytes. If a packet is smaller than this
+                                                                 value, the entire packet is sent to the CQ buffer and no RB is used. Maximum number of
+                                                                 bytes is 249, to allow for up to 7 byte alignment pad. */
+        uint64_t later_skip            : 4;  /**< [  7:  4](R/W) Number of eight-byte words that are skipped at the beginning of other than the first RB
+                                                                 for a packet. */
+        uint64_t first_skip            : 4;  /**< [  3:  0](R/W) Number of eight-byte words that are skipped at the beginning of the first RB for a packet. */
+#else /* Word 0 - Little Endian */
+        uint64_t first_skip            : 4;  /**< [  3:  0](R/W) Number of eight-byte words that are skipped at the beginning of the first RB for a packet. */
+        uint64_t later_skip            : 4;  /**< [  7:  4](R/W) Number of eight-byte words that are skipped at the beginning of other than the first RB
+                                                                 for a packet. */
+        uint64_t cq_pkt_size           : 8;  /**< [ 15:  8](R/W) Packet size in bytes. If a packet is smaller than this
+                                                                 value, the entire packet is sent to the CQ buffer and no RB is used. Maximum number of
+                                                                 bytes is 249, to allow for up to 7 byte alignment pad. */
+        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Maximum TCP reassembled packet:
+                                                                 0x0 = 64Kbytes.
+                                                                 0x1 = 256Kbytes.
+                                                                 0x2-0x3 = Reserved. */
+        uint64_t cq_hdr_copy           : 1;  /**< [ 18: 18](R/W) If set, the header is copied into the CQE as well as existing in the packet buffer. The
+                                                                 hardware will copy all defined headers. */
+        uint64_t splt_hdr_ena          : 1;  /**< [ 19: 19](R/W) When set, any packet with a valid header stack down to the end of the L4 layer has its
+                                                                 header split into a separate RBDR buffer. */
+        uint64_t ip6_udp_opt           : 1;  /**< [ 20: 20](R/W) IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by sending the all-0s
+                                                                 patterns. IPv6 outlaws this and the spec says to always check UDP checksum.
+                                                                 0 = Spec compliant, do not allow optional code.
+                                                                 1 = Treat IPv6 as IPv4; the all-0s pattern will cause a UDP checksum pass. */
+        uint64_t csum_l4               : 1;  /**< [ 21: 21](R/W) Compute checksum on TCP/UDP packets. */
+        uint64_t dis_apad              : 1;  /**< [ 22: 22](R/W) When this bit is set, the APAD alignment function is disabled. */
+        uint64_t len_l3                : 1;  /**< [ 23: 23](R/W) Check length of IPv4/IPv6. */
+        uint64_t len_l4                : 1;  /**< [ 24: 24](R/W) Check length of L4. */
+        uint64_t vlan_strip            : 2;  /**< [ 26: 25](R/W) Controls the stripping of any VLAN tags:
+                                                                 0 = No strip.
+                                                                 1 = Strip first VLAN if exists (NIC_CQE_RX_S[VV] set).
+                                                                 2 = Strip second VLAN if exists (NIC_CQE_RX_S[VS] set).
+                                                                 3 = Reserved. */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } cn9;
+    /* struct bdk_nic_qsx_rq_gen_cfg_s cn81xx; */
+    struct bdk_nic_qsx_rq_gen_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t vlan_strip            : 2;  /**< [ 26: 25](R/W) Controls the stripping of any VLAN tags:
+                                                                 0 = No strip.
+                                                                 1 = Strip first VLAN if exists (NIC_CQE_RX_S[VV] set).
+                                                                 2 = Strip second VLAN if exists (NIC_CQE_RX_S[VS] set).
+                                                                 3 = Reserved. */
+        uint64_t len_l4                : 1;  /**< [ 24: 24](R/W) Check length of L4. */
+        uint64_t len_l3                : 1;  /**< [ 23: 23](R/W) Check length of IPv4/IPv6. */
         uint64_t dis_apad              : 1;  /**< [ 22: 22](R/W) When set, APAD alignment function is disabled and NIC_CQE_RX_S[APAD] is always 0x0. */
         uint64_t csum_l4               : 1;  /**< [ 21: 21](R/W) Compute checksum on TCP/UDP packets. */
         uint64_t ip6_udp_opt           : 1;  /**< [ 20: 20](R/W) IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by sending the all-0s
@@ -16525,9 +15964,7 @@ typedef union
                                                                  3 = Reserved. */
         uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_nic_qsx_rq_gen_cfg_s cn81xx; */
-    /* struct bdk_nic_qsx_rq_gen_cfg_cn9 cn83xx; */
+    } cn83xx;
     struct bdk_nic_qsx_rq_gen_cfg_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -16605,8 +16042,8 @@ static inline uint64_t BDK_NIC_QSX_RQ_GEN_CFG(unsigned long a)
         return 0x8430a0010010ll + 0x200000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=127))
         return 0x8430a0010010ll + 0x200000ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8430a0010010ll + 0x200000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=127))
+        return 0x8430a0010010ll + 0x200000ll * ((a) & 0x7f);
     __bdk_csr_fatal("NIC_QSX_RQ_GEN_CFG", 1, a, 0, 0, 0);
 }
 
@@ -16628,6 +16065,22 @@ typedef union
     struct bdk_nic_qsx_sqx_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t base_addr             : 46; /**< [ 52:  7](R/W/H) Base IOVA<52:7> of SQ ring in DRAM (VA, IPA or PA depending on VNIC
+                                                                 configuration). Address bits <6:0> are always 0. Writes are ignored when the SQ ring is
+                                                                 not empty, i.e. NIC_QS()_SQ()_HEAD[HEAD_PTR]!=NIC_QS()_SQ()_TAIL[TAIL_PTR]. */
+        uint64_t reserved_0_6          : 7;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_6          : 7;
+        uint64_t base_addr             : 46; /**< [ 52:  7](R/W/H) Base IOVA<52:7> of SQ ring in DRAM (VA, IPA or PA depending on VNIC
+                                                                 configuration). Address bits <6:0> are always 0. Writes are ignored when the SQ ring is
+                                                                 not empty, i.e. NIC_QS()_SQ()_HEAD[HEAD_PTR]!=NIC_QS()_SQ()_TAIL[TAIL_PTR]. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_qsx_sqx_base_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t base_addr             : 42; /**< [ 48:  7](R/W/H) Base IOVA<48:7> of SQ ring in DRAM (VA, IPA or PA depending on VNIC
                                                                  configuration). Address bits <6:0> are always 0. Writes are ignored when the SQ ring is
@@ -16640,8 +16093,8 @@ typedef union
                                                                  not empty, i.e. NIC_QS()_SQ()_HEAD[HEAD_PTR]!=NIC_QS()_SQ()_TAIL[TAIL_PTR]. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_qsx_sqx_base_s cn; */
+    } cn8;
+    /* struct bdk_nic_qsx_sqx_base_s cn9; */
 } bdk_nic_qsx_sqx_base_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -16653,8 +16106,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long a, unsigned long b)
         return 0x8430a0010820ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010820ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010820ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010820ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_SQX_BASE", 2, a, b, 0, 0);
 }
 
@@ -16949,8 +16402,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_CFG(unsigned long a, unsigned long b)
         return 0x8430a0010800ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010800ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010800ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010800ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_SQX_CFG", 2, a, b, 0, 0);
 }
 
@@ -17001,8 +16454,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_DEBUG(unsigned long a, unsigned long b)
         return 0x8430a0010848ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010848ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010848ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010848ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_SQX_DEBUG", 2, a, b, 0, 0);
 }
 
@@ -17059,8 +16512,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_DOOR(unsigned long a, unsigned long b)
         return 0x8430a0010838ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010838ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010838ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010838ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_SQX_DOOR", 2, a, b, 0, 0);
 }
 
@@ -17109,8 +16562,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_HEAD(unsigned long a, unsigned long b)
         return 0x8430a0010828ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010828ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010828ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010828ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_SQX_HEAD", 2, a, b, 0, 0);
 }
 
@@ -17152,8 +16605,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_STATX(unsigned long a, unsigned long b, u
         return 0x8430a0010900ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7) && (c<=1)))
         return 0x8430a0010900ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7) && (c<=1)))
-        return 0x8430a0010900ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7) && (c<=1)))
+        return 0x8430a0010900ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("NIC_QSX_SQX_STATX", 3, a, b, c, 0);
 }
 
@@ -17436,8 +16889,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_STATUS(unsigned long a, unsigned long b)
         return 0x8430a0010840ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010840ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010840ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010840ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_SQX_STATUS", 2, a, b, 0, 0);
 }
 
@@ -17484,8 +16937,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_TAIL(unsigned long a, unsigned long b)
         return 0x8430a0010830ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010830ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010830ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010830ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_SQX_TAIL", 2, a, b, 0, 0);
 }
 
@@ -17530,8 +16983,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_THRESH(unsigned long a, unsigned long b)
         return 0x8430a0010810ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=7)))
         return 0x8430a0010810ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=7)))
-        return 0x8430a0010810ll + 0x200000ll * ((a) & 0x1f) + 0x40000ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=7)))
+        return 0x8430a0010810ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_QSX_SQX_THRESH", 2, a, b, 0, 0);
 }
 
@@ -17578,8 +17031,8 @@ static inline uint64_t BDK_NIC_VFX_CFG(unsigned long a)
         return 0x8430a0000020ll + 0x200000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=127))
         return 0x8430a0000020ll + 0x200000ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8430a0000020ll + 0x200000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=127))
+        return 0x8430a0000020ll + 0x200000ll * ((a) & 0x7f);
     __bdk_csr_fatal("NIC_VFX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -17603,23 +17056,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[QS_ERR]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[MBOX]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[TCP_TIMER]. */
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[VNIC_DROP]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[QS_ERR]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[MBOX]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[TCP_TIMER]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[VNIC_DROP]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[RBDR]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[SQ]. */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[CQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[RBDR]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[SQ]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[CQ]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[CQ]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[SQ]. */
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[RBDR]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[CQ]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[SQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[RBDR]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[VNIC_DROP]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[TCP_TIMER]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[MBOX]. */
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[QS_ERR]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[VNIC_DROP]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[TCP_TIMER]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[MBOX]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[QS_ERR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
@@ -17648,31 +17101,31 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_nic_vfx_ena_w1c_cn88xx
+    /* struct bdk_nic_vfx_ena_w1c_s cn88xx; */
+    struct bdk_nic_vfx_ena_w1c_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[QS_ERR]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[MBOX]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[TCP_TIMER]. */
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[VNIC_DROP]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[QS_ERR]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[MBOX]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[TCP_TIMER]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[VNIC_DROP]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[RBDR]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[SQ]. */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[CQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[RBDR]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[SQ]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[CQ]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[CQ]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[SQ]. */
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[RBDR]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[CQ]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[SQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[RBDR]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[VNIC_DROP]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[TCP_TIMER]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[MBOX]. */
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for NIC_VF(0..127)_INT[QS_ERR]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[VNIC_DROP]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[TCP_TIMER]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[MBOX]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for NIC_VF(0..31)_INT[QS_ERR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_nic_vfx_ena_w1c_s cn83xx; */
+    } cn83xx;
 } bdk_nic_vfx_ena_w1c_t;
 
 static inline uint64_t BDK_NIC_VFX_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
@@ -17684,8 +17137,8 @@ static inline uint64_t BDK_NIC_VFX_ENA_W1C(unsigned long a)
         return 0x8430a0000240ll + 0x200000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=127))
         return 0x8430a0000240ll + 0x200000ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8430a0000240ll + 0x200000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=127))
+        return 0x8430a0000240ll + 0x200000ll * ((a) & 0x7f);
     __bdk_csr_fatal("NIC_VFX_ENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -17709,23 +17162,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[QS_ERR]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[MBOX]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[TCP_TIMER]. */
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[VNIC_DROP]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[QS_ERR]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[MBOX]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[TCP_TIMER]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[VNIC_DROP]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[RBDR]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[SQ]. */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[CQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[RBDR]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[SQ]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[CQ]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[CQ]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[SQ]. */
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[RBDR]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[CQ]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[SQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[RBDR]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[VNIC_DROP]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[TCP_TIMER]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[MBOX]. */
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[QS_ERR]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[VNIC_DROP]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[TCP_TIMER]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[MBOX]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[QS_ERR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
@@ -17754,31 +17207,31 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_nic_vfx_ena_w1s_cn88xx
+    /* struct bdk_nic_vfx_ena_w1s_s cn88xx; */
+    struct bdk_nic_vfx_ena_w1s_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[QS_ERR]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[MBOX]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[TCP_TIMER]. */
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[VNIC_DROP]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[QS_ERR]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[MBOX]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[TCP_TIMER]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[VNIC_DROP]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[RBDR]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[SQ]. */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[CQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[RBDR]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[SQ]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[CQ]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[CQ]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[SQ]. */
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[RBDR]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[CQ]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[SQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[RBDR]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[VNIC_DROP]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[TCP_TIMER]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[MBOX]. */
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for NIC_VF(0..127)_INT[QS_ERR]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[VNIC_DROP]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[TCP_TIMER]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[MBOX]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for NIC_VF(0..31)_INT[QS_ERR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_nic_vfx_ena_w1s_s cn83xx; */
+    } cn83xx;
 } bdk_nic_vfx_ena_w1s_t;
 
 static inline uint64_t BDK_NIC_VFX_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -17790,8 +17243,8 @@ static inline uint64_t BDK_NIC_VFX_ENA_W1S(unsigned long a)
         return 0x8430a0000260ll + 0x200000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=127))
         return 0x8430a0000260ll + 0x200000ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8430a0000260ll + 0x200000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=127))
+        return 0x8430a0000260ll + 0x200000ll * ((a) & 0x7f);
     __bdk_csr_fatal("NIC_VFX_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -17821,7 +17274,7 @@ typedef union
                                                                  * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
                                                                  NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
                                                                  * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..31)_MBOX(0) register is written. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
         uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
@@ -17901,7 +17354,7 @@ typedef union
         uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..31)_MBOX(0) register is written. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
         uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Queue set error. Set when a CQ, SQ or RBDR in the QS has an error, as follows:
                                                                  * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FULL] bit is set.
                                                                  * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_DISABLE] bit is set.
@@ -18117,7 +17570,108 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_vfx_int_s cn83xx; */
+    struct bdk_nic_vfx_int_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Queue set error. Set when a CQ, SQ or RBDR in the QS has an error, as follows:
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FULL] bit is set.
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_DISABLE] bit is set.
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FAULT] bit is set.
+                                                                 * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
+                                                                 NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
+                                                                 * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..31)_MBOX(0) register is written. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
+                                                                 NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
+                                                                 NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
+                                                                 any packet has been dropped. This is intended for diagnostic use; typical production
+                                                                 software will want this interrupt disabled.
+                                                                 Note the interrupt is posted to the VNIC's base VF, i.e. the VF number that matches the
+                                                                 dropped packet's VNIC number. For example, if NIC_PF_QS(2)_CFG[VNIC] = 1, then a dropped
+                                                                 packet by QS 2 will set NIC_VF(1)_INT[VNIC_DROP]. */
+        uint64_t reserved_18_19        : 2;
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
+                                                                 an interrupt message under any of the following condition for its RBDR:
+                                                                 * NIC_QS()_RBDR()_THRESH is nonzero and
+                                                                 NIC_QS()_RBDR()_STATUS0[QCOUNT] crosses NIC_QS()_RBDR()_THRESH when
+                                                                 hardware advances NIC_QS()_RBDR()_HEAD or NIC_QS()_RBDR()_TAIL.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Send queue interrupt. One bit for each SQ in the QS. Hardware sets each bit and generates
+                                                                 an interrupt message under any of the following conditions for its send queue:
+                                                                 * NIC_QS()_SQ()_THRESH is nonzero and NIC_QS()_SQ()_STATUS[QCOUNT]
+                                                                 crosses NIC_QS()_SQ()_THRESH when hardware advances NIC_QS()_SQ()_HEAD
+                                                                 or NIC_QS()_SQ()_TAIL.
+                                                                 * NIC_QS()_SQ()_STATUS[STOPPED] is set.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
+                                                                 generates an interrupt message under any of the following conditions for its completion
+                                                                 queue:
+                                                                 * NIC_QS()_CQ()_STATUS2[TIMER_EN]=1 and NIC_QS()_CQ()_STATUS2[GLOBAL_TIME] crosses
+                                                                 NIC_QS()_CQ()_STATUS2[INT_TIMER].
+                                                                 * NIC_QS()_CQ()_STATUS[QCOUNT] increases to equal NIC_QS()_CQ()_THRESH when hardware
+                                                                 advances NIC_QS()_CQ()_TAIL.
+                                                                 * NIC_QS()_CQ()_THRESH is nonzero and NIC_QS()_CQ()_STATUS[QCOUNT] >=
+                                                                 NIC_QS()_CQ()_THRESH when software writes a 1 to clear this bit.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+#else /* Word 0 - Little Endian */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
+                                                                 generates an interrupt message under any of the following conditions for its completion
+                                                                 queue:
+                                                                 * NIC_QS()_CQ()_STATUS2[TIMER_EN]=1 and NIC_QS()_CQ()_STATUS2[GLOBAL_TIME] crosses
+                                                                 NIC_QS()_CQ()_STATUS2[INT_TIMER].
+                                                                 * NIC_QS()_CQ()_STATUS[QCOUNT] increases to equal NIC_QS()_CQ()_THRESH when hardware
+                                                                 advances NIC_QS()_CQ()_TAIL.
+                                                                 * NIC_QS()_CQ()_THRESH is nonzero and NIC_QS()_CQ()_STATUS[QCOUNT] >=
+                                                                 NIC_QS()_CQ()_THRESH when software writes a 1 to clear this bit.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Send queue interrupt. One bit for each SQ in the QS. Hardware sets each bit and generates
+                                                                 an interrupt message under any of the following conditions for its send queue:
+                                                                 * NIC_QS()_SQ()_THRESH is nonzero and NIC_QS()_SQ()_STATUS[QCOUNT]
+                                                                 crosses NIC_QS()_SQ()_THRESH when hardware advances NIC_QS()_SQ()_HEAD
+                                                                 or NIC_QS()_SQ()_TAIL.
+                                                                 * NIC_QS()_SQ()_STATUS[STOPPED] is set.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
+                                                                 an interrupt message under any of the following condition for its RBDR:
+                                                                 * NIC_QS()_RBDR()_THRESH is nonzero and
+                                                                 NIC_QS()_RBDR()_STATUS0[QCOUNT] crosses NIC_QS()_RBDR()_THRESH when
+                                                                 hardware advances NIC_QS()_RBDR()_HEAD or NIC_QS()_RBDR()_TAIL.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t reserved_18_19        : 2;
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
+                                                                 any packet has been dropped. This is intended for diagnostic use; typical production
+                                                                 software will want this interrupt disabled.
+                                                                 Note the interrupt is posted to the VNIC's base VF, i.e. the VF number that matches the
+                                                                 dropped packet's VNIC number. For example, if NIC_PF_QS(2)_CFG[VNIC] = 1, then a dropped
+                                                                 packet by QS 2 will set NIC_VF(1)_INT[VNIC_DROP]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
+                                                                 NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
+                                                                 NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..31)_MBOX(0) register is written. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Queue set error. Set when a CQ, SQ or RBDR in the QS has an error, as follows:
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FULL] bit is set.
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_DISABLE] bit is set.
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FAULT] bit is set.
+                                                                 * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
+                                                                 NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
+                                                                 * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_vfx_int_t;
 
 static inline uint64_t BDK_NIC_VFX_INT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -18129,8 +17683,8 @@ static inline uint64_t BDK_NIC_VFX_INT(unsigned long a)
         return 0x8430a0000200ll + 0x200000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=127))
         return 0x8430a0000200ll + 0x200000ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8430a0000200ll + 0x200000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=127))
+        return 0x8430a0000200ll + 0x200000ll * ((a) & 0x7f);
     __bdk_csr_fatal("NIC_VFX_INT", 1, a, 0, 0, 0);
 }
 
@@ -18154,23 +17708,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[QS_ERR]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[MBOX]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[TCP_TIMER]. */
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[VNIC_DROP]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[QS_ERR]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[MBOX]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[TCP_TIMER]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[VNIC_DROP]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[RBDR]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[SQ]. */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[CQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[RBDR]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[SQ]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[CQ]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[CQ]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[SQ]. */
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[RBDR]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[CQ]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[SQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[RBDR]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[VNIC_DROP]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[TCP_TIMER]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[MBOX]. */
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[QS_ERR]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[VNIC_DROP]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[TCP_TIMER]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[MBOX]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[QS_ERR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
@@ -18199,31 +17753,31 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_nic_vfx_int_w1s_cn88xx
+    /* struct bdk_nic_vfx_int_w1s_s cn88xx; */
+    struct bdk_nic_vfx_int_w1s_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[QS_ERR]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[MBOX]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[TCP_TIMER]. */
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[VNIC_DROP]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[QS_ERR]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[MBOX]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[TCP_TIMER]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[VNIC_DROP]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[RBDR]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[SQ]. */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[CQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[RBDR]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[SQ]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[CQ]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[CQ]. */
-        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[SQ]. */
-        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[RBDR]. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[CQ]. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[SQ]. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[RBDR]. */
         uint64_t reserved_18_19        : 2;
-        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[VNIC_DROP]. */
-        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[TCP_TIMER]. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[MBOX]. */
-        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets NIC_VF(0..127)_INT[QS_ERR]. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[VNIC_DROP]. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[TCP_TIMER]. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[MBOX]. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets NIC_VF(0..31)_INT[QS_ERR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_nic_vfx_int_w1s_s cn83xx; */
+    } cn83xx;
 } bdk_nic_vfx_int_w1s_t;
 
 static inline uint64_t BDK_NIC_VFX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -18235,8 +17789,8 @@ static inline uint64_t BDK_NIC_VFX_INT_W1S(unsigned long a)
         return 0x8430a0000220ll + 0x200000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=127))
         return 0x8430a0000220ll + 0x200000ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8430a0000220ll + 0x200000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=127))
+        return 0x8430a0000220ll + 0x200000ll * ((a) & 0x7f);
     __bdk_csr_fatal("NIC_VFX_INT_W1S", 1, a, 0, 0, 0);
 }
 
@@ -18279,8 +17833,8 @@ static inline uint64_t BDK_NIC_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
         return 0x8430e00f0000ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b==0)))
         return 0x8430e00f0000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b==0)))
-        return 0x8430e00f0000ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b==0)))
+        return 0x8430e00f0000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("NIC_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
@@ -18303,6 +17857,24 @@ typedef union
     struct bdk_nic_vfx_msix_vecx_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
+                                                                 PCCPF_NIC_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
+                                                                 PCCPF_NIC_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_vfx_msix_vecx_addr_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
@@ -18317,8 +17889,8 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_vfx_msix_vecx_addr_s cn; */
+    } cn8;
+    /* struct bdk_nic_vfx_msix_vecx_addr_s cn9; */
 } bdk_nic_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -18330,8 +17902,8 @@ static inline uint64_t BDK_NIC_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
         return 0x8430e0000000ll + 0x200000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=19)))
         return 0x8430e0000000ll + 0x200000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=19)))
-        return 0x8430e0000000ll + 0x200000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=19)))
+        return 0x8430e0000000ll + 0x200000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1f);
     __bdk_csr_fatal("NIC_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -18377,8 +17949,8 @@ static inline uint64_t BDK_NIC_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
         return 0x8430e0000008ll + 0x200000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=19)))
         return 0x8430e0000008ll + 0x200000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=19)))
-        return 0x8430e0000008ll + 0x200000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=19)))
+        return 0x8430e0000008ll + 0x200000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1f);
     __bdk_csr_fatal("NIC_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -18427,8 +17999,8 @@ static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long a, unsigned long b)
         return 0x8430a0000130ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=1)))
         return 0x8430a0000130ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=1)))
-        return 0x8430a0000130ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=1)))
+        return 0x8430a0000130ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("NIC_VFX_PF_MBOXX", 2, a, b, 0, 0);
 }
 
@@ -18562,8 +18134,8 @@ static inline uint64_t BDK_NIC_VNICX_RSS_CFG(unsigned long a)
         return 0x8430a00020e0ll + 0x200000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=127))
         return 0x8430a00020e0ll + 0x200000ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8430a00020e0ll + 0x200000ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=127))
+        return 0x8430a00020e0ll + 0x200000ll * ((a) & 0x7f);
     __bdk_csr_fatal("NIC_VNICX_RSS_CFG", 1, a, 0, 0, 0);
 }
 
@@ -18610,8 +18182,8 @@ static inline uint64_t BDK_NIC_VNICX_RSS_KEYX(unsigned long a, unsigned long b)
         return 0x8430a0002200ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=4)))
         return 0x8430a0002200ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=4)))
-        return 0x8430a0002200ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=4)))
+        return 0x8430a0002200ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_VNICX_RSS_KEYX", 2, a, b, 0, 0);
 }
 
@@ -18653,8 +18225,8 @@ static inline uint64_t BDK_NIC_VNICX_RX_STATX(unsigned long a, unsigned long b)
         return 0x8430a0004100ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=13)))
         return 0x8430a0004100ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=13)))
-        return 0x8430a0004100ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=13)))
+        return 0x8430a0004100ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("NIC_VNICX_RX_STATX", 2, a, b, 0, 0);
 }
 
@@ -18696,8 +18268,8 @@ static inline uint64_t BDK_NIC_VNICX_TX_STATX(unsigned long a, unsigned long b)
         return 0x8430a0004000ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=127) && (b<=4)))
         return 0x8430a0004000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=4)))
-        return 0x8430a0004000ll + 0x200000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=127) && (b<=4)))
+        return 0x8430a0004000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_VNICX_TX_STATX", 2, a, b, 0, 0);
 }
 

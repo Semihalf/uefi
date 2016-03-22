@@ -58,8 +58,8 @@
  * USBH Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_USBH_BAR_E_USBHX_PF_BAR0(a) (0x868000000000ll + 0x1000000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_USBH_BAR_E_USBHX_PF_BAR4(a) (0x868000200000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_USBH_BAR_E_USBHX_PF_BAR0(a) (0x868000000000ll + 0x1000000000ll * (a))
+#define BDK_USBH_BAR_E_USBHX_PF_BAR4(a) (0x868000200000ll + 0x1000000000ll * (a))
 
 /**
  * Enumeration usbh_int_vec_e
@@ -67,27 +67,18 @@
  * USBH MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_1 (0) /**< See UAHC()_IMAN()[IP]. */
-#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_0 (2) /**< See UAHC()_IMAN()[IP]. */
-#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP2 (0) /**< See UAHC()_IMAN()[IP]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_1 (2) /**< See UAHC()_USBSTS[HSE]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_0 (0) /**< See UAHC()_USBSTS[HSE]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP2 (2) /**< See UAHC()_USBSTS[HSE]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP1_1 (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP1_0 (1) /**< Level sensitive interrupt clear vector. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP2 (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP1_1 (1) /**< See interrupt clears USBH()_UCTL_INTSTAT,
-                                       interrupt sets USBH()_UCTL_INTSTAT_W1S,
-                                       enable clears USBH()_UCTL_INTENA_W1C,
-                                       and enable sets USBH()_UCTL_INTENA_W1S. */
-#define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP1_0 (3) /**< See interrupt clears USBH()_UCTL_INTSTAT,
-                                       interrupt sets USBH()_UCTL_INTSTAT_W1S,
-                                       enable clears USBH()_UCTL_INTENA_W1C,
-                                       and enable sets USBH()_UCTL_INTENA_W1S. */
-#define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP2 (1) /**< See interrupt clears USBH()_UCTL_INTSTAT,
-                                       interrupt sets USBH()_UCTL_INTSTAT_W1S,
-                                       enable clears USBH()_UCTL_INTENA_W1C,
-                                       and enable sets USBH()_UCTL_INTENA_W1S. */
+#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_1 (0)
+#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_0 (2)
+#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP2 (0)
+#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_1 (2)
+#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_0 (0)
+#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP2 (2)
+#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP1_1 (3)
+#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP1_0 (1)
+#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP2 (3)
+#define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP1_1 (1)
+#define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP1_0 (3)
+#define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP2 (1)
 
 /**
  * Register (NCB) usbh#_msix_pba#

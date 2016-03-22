@@ -58,8 +58,8 @@
  * NCSI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_NCSI_BAR_E_NCSI_PF_BAR0 (0x87e00b000000ll) /**< Base address for standard registers. */
-#define BDK_NCSI_BAR_E_NCSI_PF_BAR4 (0x87e00bf00000ll) /**< Base address for MSI-X registers. */
+#define BDK_NCSI_BAR_E_NCSI_PF_BAR0 (0x87e00b000000ll)
+#define BDK_NCSI_BAR_E_NCSI_PF_BAR4 (0x87e00bf00000ll)
 
 /**
  * Enumeration ncsi_ctl_pkt_type_e
@@ -67,50 +67,33 @@
  * NCSI Control Packet Type Enumeration
  * Enumerates the control packet types. For more information see the NC-SI standard.
  */
-#define BDK_NCSI_CTL_PKT_TYPE_E_AEN_EN (8) /**< AEN enable. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_CLR_INIT (0) /**< Clear initial. State used by the management controller to acknowledge that the network
-                                       controller is in the initial state. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_BCST (0x11) /**< Disable broadcast filtering.
-                                       Not implemented; software should instead use a OEM commands to modify
-                                       BGX()_CMR_RX_STEERING(). */
-#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_CHAN (4) /**< Disable channel. Disables the NC-SI channel and to cause the forwarding of bidirectional
-                                       management controller packets to cease. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_CHAN_NW (7) /**< Disable channel network TX. Disables the channel from transmitting pass-through packets
-                                       onto the network. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_MCST (0x13) /**< Disable global multicast filtering. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_VLAN (0xd) /**< Disable VLAN.
-                                       Not implemented; software should instead use a OEM commands to modify
-                                       BGX()_CMR_RX_STEERING(). */
-#define BDK_NCSI_CTL_PKT_TYPE_E_DSEL_PKG (2) /**< Deselect package. Instructs the controller package to stop transmitting packets through
-                                       NC-SI.
-                                       CNXXXX will tristate NCSI_RXD<1:0>, NCSI_RX_ER and NCSI_CRS_DV. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_EN_BCST (0x10) /**< Enable broadcast filtering.
-                                       Not implemented; software should instead use a OEM commands to modify
-                                       BGX()_CMR_RX_STEERING(). */
-#define BDK_NCSI_CTL_PKT_TYPE_E_EN_CHAN (3) /**< Enable channel. Enables the NC-SI channel and to cause the forwarding of bidirectional
-                                       management controller packets to start. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_EN_CHAN_NW (6) /**< Enable channel network TX. Enables the channel to transmit pass-through packets onto the network. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_EN_MCST (0x12) /**< Enable global multicast filtering. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_EN_VLAN (0xc) /**< Enable VLAN.
-                                       Not implemented; software should instead use a OEM commands to modify
-                                       BGX()_CMR_RX_STEERING(). */
-#define BDK_NCSI_CTL_PKT_TYPE_E_GET_CAP (0x16) /**< Get capabilities. Get optional functions supported by the NC-SI. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_GET_ID (0x15) /**< Get version ID. Get controller-related version information from NCSI_RX_MFG. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_GET_LINK (0xa) /**< Get link. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_GET_NCSI_STAT (0x19) /**< Get NC-SI statistics. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_GET_PAR (0x17) /**< Get parameters. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_GET_PASS_STAT (0x1a) /**< Get NC-SI pass-through statistics. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_GET_PKT_STAT (0x18) /**< Get controller packet statistics. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_OEM (0x50) /**< OEM command. In CNXXXX, allows access to CSRs using NCSI_CSR_OEM_CMD_S. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_RST_CHAN (5) /**< Reset channel. Synchronously puts the network controller back to the initial state. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_SEL_PKG (1) /**< Select package. Selects a controller package to transmit packets through NC-SI.
-                                       CNXXXX will drive NCSI_RXD<1:0>, NCSI_RX_ER and NCSI_CRS_DV. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_SET_FLOW (0x14) /**< Set NC-SI flow control. Configure IEEE 802.3 flow control on the NC-SI. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_SET_LINK (9) /**< Set link. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_SET_MAC (0xe) /**< Set MAC address. Not implemented. */
-#define BDK_NCSI_CTL_PKT_TYPE_E_SET_VLAN (0xb) /**< Set VLAN.
-                                       Not implemented; software should instead use a OEM commands to modify
-                                       BGX()_CMR_RX_STEERING(). */
+#define BDK_NCSI_CTL_PKT_TYPE_E_AEN_EN (8)
+#define BDK_NCSI_CTL_PKT_TYPE_E_CLR_INIT (0)
+#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_BCST (0x11)
+#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_CHAN (4)
+#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_CHAN_NW (7)
+#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_MCST (0x13)
+#define BDK_NCSI_CTL_PKT_TYPE_E_DIS_VLAN (0xd)
+#define BDK_NCSI_CTL_PKT_TYPE_E_DSEL_PKG (2)
+#define BDK_NCSI_CTL_PKT_TYPE_E_EN_BCST (0x10)
+#define BDK_NCSI_CTL_PKT_TYPE_E_EN_CHAN (3)
+#define BDK_NCSI_CTL_PKT_TYPE_E_EN_CHAN_NW (6)
+#define BDK_NCSI_CTL_PKT_TYPE_E_EN_MCST (0x12)
+#define BDK_NCSI_CTL_PKT_TYPE_E_EN_VLAN (0xc)
+#define BDK_NCSI_CTL_PKT_TYPE_E_GET_CAP (0x16)
+#define BDK_NCSI_CTL_PKT_TYPE_E_GET_ID (0x15)
+#define BDK_NCSI_CTL_PKT_TYPE_E_GET_LINK (0xa)
+#define BDK_NCSI_CTL_PKT_TYPE_E_GET_NCSI_STAT (0x19)
+#define BDK_NCSI_CTL_PKT_TYPE_E_GET_PAR (0x17)
+#define BDK_NCSI_CTL_PKT_TYPE_E_GET_PASS_STAT (0x1a)
+#define BDK_NCSI_CTL_PKT_TYPE_E_GET_PKT_STAT (0x18)
+#define BDK_NCSI_CTL_PKT_TYPE_E_OEM (0x50)
+#define BDK_NCSI_CTL_PKT_TYPE_E_RST_CHAN (5)
+#define BDK_NCSI_CTL_PKT_TYPE_E_SEL_PKG (1)
+#define BDK_NCSI_CTL_PKT_TYPE_E_SET_FLOW (0x14)
+#define BDK_NCSI_CTL_PKT_TYPE_E_SET_LINK (9)
+#define BDK_NCSI_CTL_PKT_TYPE_E_SET_MAC (0xe)
+#define BDK_NCSI_CTL_PKT_TYPE_E_SET_VLAN (0xb)
 
 /**
  * Enumeration ncsi_int_vec_e
@@ -118,8 +101,7 @@
  * NCSI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_NCSI_INT_VEC_E_INTS (0) /**< See interrupt clears NCSI_INT, interrupt sets NCSI_INT_W1S, enable clears
-                                       NCSI_INT_ENA_W1C, and enable sets NCSI_INT_ENA_W1S. */
+#define BDK_NCSI_INT_VEC_E_INTS (0)
 
 /**
  * Enumeration ncsi_reason_e
@@ -127,22 +109,22 @@
  * NCSI Reason Code Enumeration
  * Enumerates the NCSI standard reason codes.
  */
-#define BDK_NCSI_REASON_E_CHAN (3) /**< Channel not ready. */
-#define BDK_NCSI_REASON_E_INIT (1) /**< Interface initialization required. */
-#define BDK_NCSI_REASON_E_NONE (0) /**< No error/no reason. */
-#define BDK_NCSI_REASON_E_UNSUP (2) /**< Parameter is invalid, unsupported, or out-of-range. */
+#define BDK_NCSI_REASON_E_CHAN (3)
+#define BDK_NCSI_REASON_E_INIT (1)
+#define BDK_NCSI_REASON_E_NONE (0)
+#define BDK_NCSI_REASON_E_UNSUP (2)
 
 /**
  * Enumeration ncsi_resp_e
  *
  * NCSI Response Code Enumeration
  */
-#define BDK_NCSI_RESP_E_COMPLETED (0) /**< Command completed. */
-#define BDK_NCSI_RESP_E_CSR_READ (0x8000) /**< OEM-specific response to OEM CSR read. */
-#define BDK_NCSI_RESP_E_CSR_WRITE (0x8001) /**< OEM-specific response to OEM CSR write. */
-#define BDK_NCSI_RESP_E_FAILED (1) /**< Command failed. */
-#define BDK_NCSI_RESP_E_UNAVAIL (2) /**< Command unavailable. */
-#define BDK_NCSI_RESP_E_UNSUP (3) /**< Command unsupported. */
+#define BDK_NCSI_RESP_E_COMPLETED (0)
+#define BDK_NCSI_RESP_E_CSR_READ (0x8000)
+#define BDK_NCSI_RESP_E_CSR_WRITE (0x8001)
+#define BDK_NCSI_RESP_E_FAILED (1)
+#define BDK_NCSI_RESP_E_UNAVAIL (2)
+#define BDK_NCSI_RESP_E_UNSUP (3)
 
 /**
  * Register (RSL) ncsi_bist_status
@@ -577,49 +559,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ncsi_int_ena_w1c_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Added in pass 2.0. Reads or clears enable for NCSI_INT[BMC2CPU]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_DBE]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for NCSI_INT[RUNTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for NCSI_INT[IFGERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NCSI_INT[PCTERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for NCSI_INT[NCP_FCSERR]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NCSI_INT[PMAC_FCSERR]. */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NCSI_INT[JABBER]. */
-#else /* Word 0 - Little Endian */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NCSI_INT[JABBER]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NCSI_INT[PMAC_FCSERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for NCSI_INT[NCP_FCSERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NCSI_INT[PCTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for NCSI_INT[IFGERR]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for NCSI_INT[RUNTERR]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_DBE]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Added in pass 2.0. Reads or clears enable for NCSI_INT[BMC2CPU]. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn88xxp2;
-    /* struct bdk_ncsi_int_ena_w1c_s cn88xxp1; */
-    /* struct bdk_ncsi_int_ena_w1c_s cn9; */
-    /* struct bdk_ncsi_int_ena_w1c_s cn83xx; */
+    /* struct bdk_ncsi_int_ena_w1c_s cn; */
 } bdk_ncsi_int_ena_w1c_t;
 
 #define BDK_NCSI_INT_ENA_W1C BDK_NCSI_INT_ENA_W1C_FUNC()
@@ -691,49 +631,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ncsi_int_ena_w1s_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets enable for NCSI_INT[BMC2CPU]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_DBE]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for NCSI_INT[RUNTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for NCSI_INT[IFGERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NCSI_INT[PCTERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for NCSI_INT[NCP_FCSERR]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NCSI_INT[PMAC_FCSERR]. */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NCSI_INT[JABBER]. */
-#else /* Word 0 - Little Endian */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NCSI_INT[JABBER]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NCSI_INT[PMAC_FCSERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for NCSI_INT[NCP_FCSERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NCSI_INT[PCTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for NCSI_INT[IFGERR]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for NCSI_INT[RUNTERR]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_DBE]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets enable for NCSI_INT[BMC2CPU]. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn88xxp2;
-    /* struct bdk_ncsi_int_ena_w1s_s cn88xxp1; */
-    /* struct bdk_ncsi_int_ena_w1s_s cn9; */
-    /* struct bdk_ncsi_int_ena_w1s_s cn83xx; */
+    /* struct bdk_ncsi_int_ena_w1s_s cn; */
 } bdk_ncsi_int_ena_w1s_t;
 
 #define BDK_NCSI_INT_ENA_W1S BDK_NCSI_INT_ENA_W1S_FUNC()
@@ -805,49 +703,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ncsi_int_w1s_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
-#else /* Word 0 - Little Endian */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn88xxp2;
-    /* struct bdk_ncsi_int_w1s_s cn88xxp1; */
-    /* struct bdk_ncsi_int_w1s_s cn9; */
-    /* struct bdk_ncsi_int_w1s_s cn83xx; */
+    /* struct bdk_ncsi_int_w1s_s cn; */
 } bdk_ncsi_int_w1s_t;
 
 #define BDK_NCSI_INT_W1S BDK_NCSI_INT_W1S_FUNC()

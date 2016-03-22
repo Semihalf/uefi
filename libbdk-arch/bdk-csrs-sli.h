@@ -58,23 +58,23 @@
  * SDP Input RAMs Field Enumeration
  * Enumerates the relative bit positions within SDP(0)_ECC_CTL(1)[CDIS].
  */
-#define BDK_SDP_IN_RAMS_E_CNTS (3) /**< CNTS */
-#define BDK_SDP_IN_RAMS_E_DB (4) /**< DB */
-#define BDK_SDP_IN_RAMS_E_DBELL (0xd) /**< DBELL */
-#define BDK_SDP_IN_RAMS_E_DIR (5) /**< DIR */
-#define BDK_SDP_IN_RAMS_E_DMARSP0 (0) /**< DMARSP0 */
-#define BDK_SDP_IN_RAMS_E_DMARSP1 (1) /**< DMARSP1 */
-#define BDK_SDP_IN_RAMS_E_GTHR0 (8) /**< GTHR0 */
-#define BDK_SDP_IN_RAMS_E_GTHR1 (9) /**< GTHR1 */
-#define BDK_SDP_IN_RAMS_E_IHFD0 (6) /**< IHFD0 */
-#define BDK_SDP_IN_RAMS_E_IHFD1 (7) /**< IHFD1 */
-#define BDK_SDP_IN_RAMS_E_IND (0xb) /**< IND */
-#define BDK_SDP_IN_RAMS_E_INFO (0xa) /**< INFO */
-#define BDK_SDP_IN_RAMS_E_LEVELS (0xc) /**< LEVELS */
-#define BDK_SDP_IN_RAMS_E_MBOX (0x10) /**< MBOX */
-#define BDK_SDP_IN_RAMS_E_PERF (2) /**< PERF */
-#define BDK_SDP_IN_RAMS_E_PKTRSP (0xf) /**< PKTRSP */
-#define BDK_SDP_IN_RAMS_E_X2P (0xe) /**< X2P */
+#define BDK_SDP_IN_RAMS_E_CNTS (3)
+#define BDK_SDP_IN_RAMS_E_DB (4)
+#define BDK_SDP_IN_RAMS_E_DBELL (0xd)
+#define BDK_SDP_IN_RAMS_E_DIR (5)
+#define BDK_SDP_IN_RAMS_E_DMARSP0 (0)
+#define BDK_SDP_IN_RAMS_E_DMARSP1 (1)
+#define BDK_SDP_IN_RAMS_E_GTHR0 (8)
+#define BDK_SDP_IN_RAMS_E_GTHR1 (9)
+#define BDK_SDP_IN_RAMS_E_IHFD0 (6)
+#define BDK_SDP_IN_RAMS_E_IHFD1 (7)
+#define BDK_SDP_IN_RAMS_E_IND (0xb)
+#define BDK_SDP_IN_RAMS_E_INFO (0xa)
+#define BDK_SDP_IN_RAMS_E_LEVELS (0xc)
+#define BDK_SDP_IN_RAMS_E_MBOX (0x10)
+#define BDK_SDP_IN_RAMS_E_PERF (2)
+#define BDK_SDP_IN_RAMS_E_PKTRSP (0xf)
+#define BDK_SDP_IN_RAMS_E_X2P (0xe)
 
 /**
  * Enumeration sdp_out_rams_e
@@ -82,25 +82,25 @@
  * SDP Output RAMs Field Enumeration
  * Enumerates the relative bit positions within SDP(0)_ECC_CTL(0)[CDIS].
  */
-#define BDK_SDP_OUT_RAMS_E_BISIZE (0) /**< BISIZE */
-#define BDK_SDP_OUT_RAMS_E_BPF0 (0xd) /**< BPF0 */
-#define BDK_SDP_OUT_RAMS_E_BPF1 (0xe) /**< BPF1 */
-#define BDK_SDP_OUT_RAMS_E_CNTS (2) /**< CNTS */
-#define BDK_SDP_OUT_RAMS_E_DB (4) /**< DB */
-#define BDK_SDP_OUT_RAMS_E_DBELL (3) /**< DBELL */
-#define BDK_SDP_OUT_RAMS_E_DPLF_DIR (6) /**< DPLF_DIR */
-#define BDK_SDP_OUT_RAMS_E_DPLF_IND (9) /**< DPLF_IND */
-#define BDK_SDP_OUT_RAMS_E_IB (7) /**< IB */
-#define BDK_SDP_OUT_RAMS_E_INFO (0xa) /**< INFO */
-#define BDK_SDP_OUT_RAMS_E_IPLF_DIR (5) /**< IPLF_DIR */
-#define BDK_SDP_OUT_RAMS_E_IPLF_IND (8) /**< IPLF_IND */
-#define BDK_SDP_OUT_RAMS_E_LEVELS (0xb) /**< LEVELS */
-#define BDK_SDP_OUT_RAMS_E_MSIX_ADDR (0x11) /**< MSIX_ADDR */
-#define BDK_SDP_OUT_RAMS_E_MSIX_DATA (0x12) /**< MSIX_DATA */
-#define BDK_SDP_OUT_RAMS_E_P2X (0xc) /**< P2X */
-#define BDK_SDP_OUT_RAMS_E_PERF (1) /**< PERF */
-#define BDK_SDP_OUT_RAMS_E_TRACK0 (0xf) /**< TRACK0 */
-#define BDK_SDP_OUT_RAMS_E_TRACK1 (0x10) /**< TRACK1 */
+#define BDK_SDP_OUT_RAMS_E_BISIZE (0)
+#define BDK_SDP_OUT_RAMS_E_BPF0 (0xd)
+#define BDK_SDP_OUT_RAMS_E_BPF1 (0xe)
+#define BDK_SDP_OUT_RAMS_E_CNTS (2)
+#define BDK_SDP_OUT_RAMS_E_DB (4)
+#define BDK_SDP_OUT_RAMS_E_DBELL (3)
+#define BDK_SDP_OUT_RAMS_E_DPLF_DIR (6)
+#define BDK_SDP_OUT_RAMS_E_DPLF_IND (9)
+#define BDK_SDP_OUT_RAMS_E_IB (7)
+#define BDK_SDP_OUT_RAMS_E_INFO (0xa)
+#define BDK_SDP_OUT_RAMS_E_IPLF_DIR (5)
+#define BDK_SDP_OUT_RAMS_E_IPLF_IND (8)
+#define BDK_SDP_OUT_RAMS_E_LEVELS (0xb)
+#define BDK_SDP_OUT_RAMS_E_MSIX_ADDR (0x11)
+#define BDK_SDP_OUT_RAMS_E_MSIX_DATA (0x12)
+#define BDK_SDP_OUT_RAMS_E_P2X (0xc)
+#define BDK_SDP_OUT_RAMS_E_PERF (1)
+#define BDK_SDP_OUT_RAMS_E_TRACK0 (0xf)
+#define BDK_SDP_OUT_RAMS_E_TRACK1 (0x10)
 
 /**
  * Enumeration sdp_rmt_int_vec_e
@@ -108,45 +108,16 @@
  * SDP MSI-X Vector to Remote Host Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_IRERR_RINT (0) /**< Note: These vectors are reserved for EPF2..3.
-                                       See interrupt clears SDP(0)_EPF(0..1)_IRERR_RINT
-                                       interrupt sets SDP(0)_EPF(0..1)_IRERR_RINT_W1S
-                                       enable clears SDP(0)_EPF(0..1)_IRERR_RINT_ENA_W1C
-                                       and enable sets SDP(0)_EPF(0..1)_IRERR_RINT_ENA_W1S */
-#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_MBOX_RINT (2) /**< Note: These vectors are reserved for EPF2..3.
-                                       See interrupt clears SDP(0)_EPF(0..1)_MBOX_RINT
-                                       interrupt sets SDP(0)_EPF(0..1)_MBOX_RINT_W1S
-                                       enable clears SDP(0)_EPF(0..1)_MBOX_RINT_ENA_W1C
-                                       and enable sets SDP(0)_EPF(0..1)_MBOX_RINT_ENA_W1S */
-#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_OEI_RINT (3) /**< See interrupt clears SDP(0)_EPF(0..3)_OEI_RINT
-                                       interrupt sets SDP(0)_EPF(0..3)_OEI_RINT_W1S
-                                       enable clears SDP(0)_EPF(0..3)_OEI_RINT_ENA_W1C
-                                       and enable sets SDP(0)_EPF(0..3)_OEI_RINT_ENA_W1S */
-#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_ORERR_RINT (1) /**< Note: These vectors are reserved for EPF2..3.
-                                       See interrupt clears SDP(0)_EPF(0..1)_ORERR_RINT
-                                       interrupt sets SDP(0)_EPF(0..1)_ORERR_RINT_W1S
-                                       enable clears SDP(0)_EPF(0..1)_ORERR_RINT_ENA_W1C
-                                       and enable sets SDP(0)_EPF(0..1)_ORERR_RINT_ENA_W1S */
-#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_RX_CNTS(a) (0x10 + (a)) /**< CNTS/MBOX ring-based interrupts. */
-#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_RSVDX(a) (8 + (a)) /**< Reserved vectors for future expansion. */
-#define BDK_SDP_RMT_INT_VEC_E_SLI_EPF_DMA_RINT (4) /**< See interrupt clears SLI(0)_EPF(0..3)_DMA_RINT
-                                       interrupt sets SLI(0)_EPF(0..3)_DMA_RINT_W1S
-                                       enable clears SLI(0)_EPF(0..3)_DMA_RINT_ENA_W1C
-                                       and enable sets SLI(0)_EPF(0..3)_DMA_RINT_ENA_W1S */
-#define BDK_SDP_RMT_INT_VEC_E_SLI_EPF_DMA_VF_RINT (7) /**< Note: These vectors are reserved for EPF2..3.
-                                       See interrupt clears SLI(0)_EPF(0..1)_DMA_VF_RINT
-                                       interrupt sets SLI(0)_EPF(0..1)_DMA_VF_RINT_W1S
-                                       enable clears SLI(0)_EPF(0..1)_DMA_VF_RINT_ENA_W1C
-                                       and enable sets SLI(0)_EPF(0..1)_DMA_VF_RINT_ENA_W1S */
-#define BDK_SDP_RMT_INT_VEC_E_SLI_EPF_MISC_RINT (5) /**< See interrupt clears SLI(0)_EPF(0..3)_MISC_RINT
-                                       interrupt sets SLI(0)_EPF(0..3)_MISC_RINT_W1S
-                                       enable clears SLI(0)_EPF(0..3)_MISC_RINT_ENA_W1C
-                                       and enable sets SLI(0)_EPF(0..3)_MISC_RINT_ENA_W1S */
-#define BDK_SDP_RMT_INT_VEC_E_SLI_EPF_PP_VF_RINT (6) /**< Note: These vectors are reserved for EPF2..3.
-                                       See interrupt clears SLI(0)_EPF(0..1)_PP_VF_RINT
-                                       interrupt sets SLI(0)_EPF(0..1)_PP_VF_RINT_W1S
-                                       enable clears SLI(0)_EPF(0..1)_PP_VF_RINT_ENA_W1C
-                                       and enable sets SLI(0)_EPF(0..1)_PP_VF_RINT_ENA_W1S */
+#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_IRERR_RINT (0)
+#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_MBOX_RINT (2)
+#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_OEI_RINT (3)
+#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_ORERR_RINT (1)
+#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_RX_CNTS(a) (0x10 + (a))
+#define BDK_SDP_RMT_INT_VEC_E_SDP_EPF_RSVDX(a) (8 + (a))
+#define BDK_SDP_RMT_INT_VEC_E_SLI_EPF_DMA_RINT (4)
+#define BDK_SDP_RMT_INT_VEC_E_SLI_EPF_DMA_VF_RINT (7)
+#define BDK_SDP_RMT_INT_VEC_E_SLI_EPF_MISC_RINT (5)
+#define BDK_SDP_RMT_INT_VEC_E_SLI_EPF_PP_VF_RINT (6)
 
 /**
  * Enumeration sli_bar_e
@@ -154,11 +125,11 @@
  * SLI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_SLI_BAR_E_SLIX_PF_BAR0(a) (0x874000000000ll + 0x1000000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_SLI_BAR_E_SLIX_PF_BAR4_CN9(a) (0x874c00000000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
-#define BDK_SLI_BAR_E_SLIX_PF_BAR4_CN81XX(a) (0x874010000000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
-#define BDK_SLI_BAR_E_SLIX_PF_BAR4_CN88XX(a) (0x874010000000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
-#define BDK_SLI_BAR_E_SLIX_PF_BAR4_CN83XX(a) (0x874c00000000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_SLI_BAR_E_SLIX_PF_BAR0(a) (0x874000000000ll + 0x1000000000ll * (a))
+#define BDK_SLI_BAR_E_SLIX_PF_BAR4_CN9(a) (0x874c00000000ll + 0x1000000000ll * (a))
+#define BDK_SLI_BAR_E_SLIX_PF_BAR4_CN81XX(a) (0x874010000000ll + 0x1000000000ll * (a))
+#define BDK_SLI_BAR_E_SLIX_PF_BAR4_CN88XX(a) (0x874010000000ll + 0x1000000000ll * (a))
+#define BDK_SLI_BAR_E_SLIX_PF_BAR4_CN83XX(a) (0x874c00000000ll + 0x1000000000ll * (a))
 
 /**
  * Enumeration sli_endianswap_e
@@ -166,10 +137,10 @@
  * SLI/SDP Endian Swap Mode Enumeration
  * Enumerates the endian swap modes that SLI and SDP support.
  */
-#define BDK_SLI_ENDIANSWAP_E_BYTE_SWAP_32B (2) /**< Swap bytes within a 32-bit word. [A-B-C-D-E-F-G-H] -> [D-C-B-A-H-G-F-E] */
-#define BDK_SLI_ENDIANSWAP_E_BYTE_SWAP_64B (1) /**< Swap bytes within a 64-bit word. [A-B-C-D-E-F-G-H] -> [H-G-F-E-D-C-B-A] */
-#define BDK_SLI_ENDIANSWAP_E_LW_SWAP_64B (3) /**< Swap 32-bit words in a 64-bit word. [A-B-C-D-E-F-G-H] -> [E-F-G-H-A-B-C-D] */
-#define BDK_SLI_ENDIANSWAP_E_PASS_THRU (0) /**< No swap. [A-B-C-D-E-F-G-H] -> [A-B-C-D-E-F-G-H] */
+#define BDK_SLI_ENDIANSWAP_E_BYTE_SWAP_32B (2)
+#define BDK_SLI_ENDIANSWAP_E_BYTE_SWAP_64B (1)
+#define BDK_SLI_ENDIANSWAP_E_LW_SWAP_64B (3)
+#define BDK_SLI_ENDIANSWAP_E_PASS_THRU (0)
 
 /**
  * Enumeration sli_int_vec_e
@@ -177,54 +148,16 @@
  * SLI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_SLI_INT_VEC_E_MACX_CN81XX(a) (1 + (a)) /**< See interrupt clears SLI(0)_MAC(0..2)_INT_SUM,
-                                       interrupt sets SLI(0)_MAC(0..2)_INT_SUM_W1S,
-                                       enable clears SLI(0)_MAC(0..2)_INT_ENA_W1C,
-                                       and enable sets SLI(0)_MAC(0..2)_INT_ENA_W1S. */
-#define BDK_SLI_INT_VEC_E_MACX_CN88XX(a) (1 + (a)) /**< See interrupt clears SLI(0..1)_MAC(0..2)_INT_SUM,
-                                       interrupt sets SLI(0..1)_MAC(0..2)_INT_SUM_W1S,
-                                       enable clears SLI(0..1)_MAC(0..2)_INT_ENA_W1C,
-                                       and enable sets SLI(0..1)_MAC(0..2)_INT_ENA_W1S. */
-#define BDK_SLI_INT_VEC_E_MBE_CN81XX (0) /**< See interrupt clears SLI(0)_MBE_INT_SUM,
-                                       interrupt sets SLI(0)_MBE_INT_SUM_W1S,
-                                       enable clears SLI(0)_MBE_INT_ENA_W1C,
-                                       and enable sets SLI(0)_MBE_INT_ENA_W1S. */
-#define BDK_SLI_INT_VEC_E_MBE_CN88XX (0) /**< See interrupt clears SLI(0..1)_MBE_INT_SUM,
-                                       interrupt sets SLI(0..1)_MBE_INT_SUM_W1S,
-                                       enable clears SLI(0..1)_MBE_INT_ENA_W1C,
-                                       and enable sets SLI(0..1)_MBE_INT_ENA_W1S. */
-#define BDK_SLI_INT_VEC_E_SDP_ECCX_LINT(a) (0xe + (a)) /**< See interrupt clears SDP(0)_ECC(0..1)_LINT,
-                                       interrupt sets SDP(0)_ECC(0..1)_LINT_W1S,
-                                       enable clears SDP(0)_ECC(0..1)_LINT_ENA_W1C,
-                                       and enable sets SDP(0)_ECC(0..1)_LINT_ENA_W1S. */
-#define BDK_SLI_INT_VEC_E_SDP_EPFX_FLR_VF_LINT(a) (0 + (a)) /**< See interrupt clears SDP(0)_EPF(0..1)_FLR_VF_LINT,
-                                       interrupt sets SDP(0)_EPF(0..1)_FLR_VF_LINT_W1S,
-                                       enable clears SDP(0)_EPF(0..1)_FLR_VF_LINT_ENA_W1C,
-                                       and enable sets SDP(0)_EPF(0..1)_FLR_VF_LINT_ENA_W1S, */
-#define BDK_SLI_INT_VEC_E_SDP_EPFX_IRERR_LINT(a) (0xa + (a)) /**< See interrupt clears SDP(0)_EPF(0..1)_IRERR_LINT
-                                       interrupt sets SDP(0)_EPF(0..1)_IRERR_LINT_W1S
-                                       enable clears SDP(0)_EPF(0..1)_IRERR_LINT_ENA_W1C
-                                       and enable sets SDP(0)_EPF(0..1)_IRERR_LINT_ENA_W1S */
-#define BDK_SLI_INT_VEC_E_SDP_EPFX_ORERR_LINT(a) (0xc + (a)) /**< See interrupt clears SDP(0)_EPF(0..1)_ORERR_LINT
-                                       interrupt sets SDP(0)_EPF(0..1)_ORERR_LINT_W1S
-                                       enable clears SDP(0)_EPF(0..1)_ORERR_LINT_ENA_W1C
-                                       and enable sets SDP(0)_EPF(0..1)_ORERR_LINT_ENA_W1S */
-#define BDK_SLI_INT_VEC_E_SLI_EPFX_DMA_VF_LINT(a) (8 + (a)) /**< See interrupt clears SLI(0)_EPF(0..1)_DMA_VF_LINT,
-                                       interrupt sets SLI(0)_EPF(0..1)_DMA_VF_LINT_W1S,
-                                       enable clears SLI(0)_EPF(0..1)_DMA_VF_LINT_ENA_W1C,
-                                       and enable sets SLI(0)_EPF(0..1)_DMA_VF_LINT_ENA_W1S, */
-#define BDK_SLI_INT_VEC_E_SLI_EPFX_MISC_LINT(a) (2 + (a)) /**< See interrupt clears SLI(0)_EPF(0..3)_MISC_LINT
-                                       interrupt sets SLI(0)_EPF(0..3)_MISC_LINT_W1S
-                                       enable clears SLI(0)_EPF(0..3)_MISC_LINT_ENA_W1C
-                                       and enable sets SLI(0)_EPF(0..3)_MISC_LINT_ENA_W1S */
-#define BDK_SLI_INT_VEC_E_SLI_EPFX_PP_VF_LINT(a) (6 + (a)) /**< See interrupt clears SLI(0)_EPF(0..1)_PP_VF_LINT,
-                                       interrupt sets SLI(0)_EPF(0..1)_PP_VF_LINT_W1S,
-                                       enable clears SLI(0)_EPF(0..1)_PP_VF_LINT_ENA_W1C,
-                                       and enable sets SLI(0)_EPF(0..1)_PP_VF_LINT_ENA_W1S, */
-#define BDK_SLI_INT_VEC_E_SLI_MBE (0x10) /**< See interrupt clears SLI(0)_MBE_INT_SUM,
-                                       interrupt sets SLI(0)_MBE_INT_SUM_W1S,
-                                       enable clears SLI(0)_MBE_INT_ENA_W1C,
-                                       and enable sets SLI(0)_MBE_INT_ENA_W1S. */
+#define BDK_SLI_INT_VEC_E_MACX(a) (1 + (a))
+#define BDK_SLI_INT_VEC_E_MBE (0)
+#define BDK_SLI_INT_VEC_E_SDP_ECCX_LINT(a) (0xe + (a))
+#define BDK_SLI_INT_VEC_E_SDP_EPFX_FLR_VF_LINT(a) (0 + (a))
+#define BDK_SLI_INT_VEC_E_SDP_EPFX_IRERR_LINT(a) (0xa + (a))
+#define BDK_SLI_INT_VEC_E_SDP_EPFX_ORERR_LINT(a) (0xc + (a))
+#define BDK_SLI_INT_VEC_E_SLI_EPFX_DMA_VF_LINT(a) (8 + (a))
+#define BDK_SLI_INT_VEC_E_SLI_EPFX_MISC_LINT(a) (2 + (a))
+#define BDK_SLI_INT_VEC_E_SLI_EPFX_PP_VF_LINT(a) (6 + (a))
+#define BDK_SLI_INT_VEC_E_SLI_MBE (0x10)
 
 /**
  * Enumeration sli_rams_e
@@ -232,37 +165,37 @@
  * SLI RAM Field Enumeration
  * Enumerates the relative bit positions within SLI()_ECC_CTL[CDIS].
  */
-#define BDK_SLI_RAMS_E_CPL0_FIF (3) /**< CPL0_FIF */
-#define BDK_SLI_RAMS_E_CPL1_FIF (2) /**< CPL1_FIF */
-#define BDK_SLI_RAMS_E_CPL2_FIF (1) /**< CPL2_FIF */
-#define BDK_SLI_RAMS_E_CPL3_FIF (0) /**< CPL3_FIF */
-#define BDK_SLI_RAMS_E_DSI_FIF (0x1e) /**< DSI_FIF */
-#define BDK_SLI_RAMS_E_NOD_FIF (0x1d) /**< NOD_FIF */
-#define BDK_SLI_RAMS_E_P2NP0C_FIF (0xf) /**< P2NP0C_FIF */
-#define BDK_SLI_RAMS_E_P2NP0N_FIF (0xe) /**< P2NP0N_FIF */
-#define BDK_SLI_RAMS_E_P2NP0P_FIF (0xd) /**< P2NP0P_FIF */
-#define BDK_SLI_RAMS_E_P2NP1C_FIF (0xc) /**< P2NP1C_FIF */
-#define BDK_SLI_RAMS_E_P2NP1N_FIF (0xb) /**< P2NP1N_FIF */
-#define BDK_SLI_RAMS_E_P2NP1P_FIF (0xa) /**< P2NP1P_FIF */
-#define BDK_SLI_RAMS_E_P2NP2C_FIF (9) /**< P2NP2C_FIF */
-#define BDK_SLI_RAMS_E_P2NP2N_FIF (8) /**< P2NP2N_FIF */
-#define BDK_SLI_RAMS_E_P2NP2P_FIF (7) /**< P2NP2P_FIF */
-#define BDK_SLI_RAMS_E_P2NP3C_FIF (6) /**< P2NP3C_FIF */
-#define BDK_SLI_RAMS_E_P2NP3N_FIF (5) /**< P2NP3N_FIF */
-#define BDK_SLI_RAMS_E_P2NP3P_FIF (4) /**< P2NP3P_FIF */
-#define BDK_SLI_RAMS_E_REG_FIF (0x1b) /**< REG_FIF */
-#define BDK_SLI_RAMS_E_SNCF0_FIF (0x1c) /**< SNCF0_FIF */
-#define BDK_SLI_RAMS_E_SNCF1_FIF (0x18) /**< SNCF1_FIF */
-#define BDK_SLI_RAMS_E_SNCF2_FIF (0x15) /**< SNCF2_FIF */
-#define BDK_SLI_RAMS_E_SNCF3_FIF (0x12) /**< SNCF3_FIF */
-#define BDK_SLI_RAMS_E_SNDFH0_FIF (0x1a) /**< SNDFH0_FIF */
-#define BDK_SLI_RAMS_E_SNDFH1_FIF (0x17) /**< SNDFH1_FIF */
-#define BDK_SLI_RAMS_E_SNDFH2_FIF (0x14) /**< SNDFH2_FIF */
-#define BDK_SLI_RAMS_E_SNDFH3_FIF (0x11) /**< SNDFH3_FIF */
-#define BDK_SLI_RAMS_E_SNDFL0_FIF (0x19) /**< SNDFL0_FIF */
-#define BDK_SLI_RAMS_E_SNDFL1_FIF (0x16) /**< SNDFL1_FIF */
-#define BDK_SLI_RAMS_E_SNDFL2_FIF (0x13) /**< SNDFL2_FIF */
-#define BDK_SLI_RAMS_E_SNDFL3_FIF (0x10) /**< SNDFL3_FIF */
+#define BDK_SLI_RAMS_E_CPL0_FIF (3)
+#define BDK_SLI_RAMS_E_CPL1_FIF (2)
+#define BDK_SLI_RAMS_E_CPL2_FIF (1)
+#define BDK_SLI_RAMS_E_CPL3_FIF (0)
+#define BDK_SLI_RAMS_E_DSI_FIF (0x1e)
+#define BDK_SLI_RAMS_E_NOD_FIF (0x1d)
+#define BDK_SLI_RAMS_E_P2NP0C_FIF (0xf)
+#define BDK_SLI_RAMS_E_P2NP0N_FIF (0xe)
+#define BDK_SLI_RAMS_E_P2NP0P_FIF (0xd)
+#define BDK_SLI_RAMS_E_P2NP1C_FIF (0xc)
+#define BDK_SLI_RAMS_E_P2NP1N_FIF (0xb)
+#define BDK_SLI_RAMS_E_P2NP1P_FIF (0xa)
+#define BDK_SLI_RAMS_E_P2NP2C_FIF (9)
+#define BDK_SLI_RAMS_E_P2NP2N_FIF (8)
+#define BDK_SLI_RAMS_E_P2NP2P_FIF (7)
+#define BDK_SLI_RAMS_E_P2NP3C_FIF (6)
+#define BDK_SLI_RAMS_E_P2NP3N_FIF (5)
+#define BDK_SLI_RAMS_E_P2NP3P_FIF (4)
+#define BDK_SLI_RAMS_E_REG_FIF (0x1b)
+#define BDK_SLI_RAMS_E_SNCF0_FIF (0x1c)
+#define BDK_SLI_RAMS_E_SNCF1_FIF (0x18)
+#define BDK_SLI_RAMS_E_SNCF2_FIF (0x15)
+#define BDK_SLI_RAMS_E_SNCF3_FIF (0x12)
+#define BDK_SLI_RAMS_E_SNDFH0_FIF (0x1a)
+#define BDK_SLI_RAMS_E_SNDFH1_FIF (0x17)
+#define BDK_SLI_RAMS_E_SNDFH2_FIF (0x14)
+#define BDK_SLI_RAMS_E_SNDFH3_FIF (0x11)
+#define BDK_SLI_RAMS_E_SNDFL0_FIF (0x19)
+#define BDK_SLI_RAMS_E_SNDFL1_FIF (0x16)
+#define BDK_SLI_RAMS_E_SNDFL2_FIF (0x13)
+#define BDK_SLI_RAMS_E_SNDFL3_FIF (0x10)
 
 /**
  * Structure sdp_buf_info_pair_s
@@ -3578,6 +3511,83 @@ typedef union
                                                                  for PCIe. */
         uint64_t imode                 : 1;  /**< [ 23: 23](R/W) When IMODE=1, packet output ring is in info-pointer mode; otherwise the packet output ring
                                                                  is in buffer-pointer-only mode. */
+        uint64_t isize                 : 7;  /**< [ 22: 16](R/W/H) Info bytes size (bytes) for the output port. Legal sizes are 0 to 120. Not used
+                                                                 in buffer-pointer-only mode.  If a value is written that is between 120-127 then
+                                                                 a value of 120 will be forced by hardware. */
+        uint64_t bsize                 : 16; /**< [ 15:  0](R/W/H) Buffer size (bytes) for the output ring.  The minimum size is 128 bytes; if a value
+                                                                 smaller than 128 is written, hardware will force a value of 128. */
+#else /* Word 0 - Little Endian */
+        uint64_t bsize                 : 16; /**< [ 15:  0](R/W/H) Buffer size (bytes) for the output ring.  The minimum size is 128 bytes; if a value
+                                                                 smaller than 128 is written, hardware will force a value of 128. */
+        uint64_t isize                 : 7;  /**< [ 22: 16](R/W/H) Info bytes size (bytes) for the output port. Legal sizes are 0 to 120. Not used
+                                                                 in buffer-pointer-only mode.  If a value is written that is between 120-127 then
+                                                                 a value of 120 will be forced by hardware. */
+        uint64_t imode                 : 1;  /**< [ 23: 23](R/W) When IMODE=1, packet output ring is in info-pointer mode; otherwise the packet output ring
+                                                                 is in buffer-pointer-only mode. */
+        uint64_t ror_p                 : 1;  /**< [ 24: 24](R/W) [ROR_P] is ADDRTYPE<0> for the packet output ring reads that fetch buffer/info pointer
+                                                                 pairs (from SLI_PKT()_SLIST_BADDR[ADDR]+). ADDRTYPE<0> is the relaxed-order attribute
+                                                                 for PCIe. */
+        uint64_t nsr_p                 : 1;  /**< [ 25: 25](R/W) [NSR_P] is ADDRTYPE<1> for the packet output ring reads that fetch buffer/info pointer
+                                                                 pairs (from SLI_PKT()_SLIST_BADDR[ADDR]+). ADDRTYPE<1> is the no-snoop attribute for PCIe. */
+        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) [ES_P] is ES<1:0> for the packet output ring reads that fetch buffer/info pointer pairs
+                                                                 (from SLI_PKT()_SLIST_BADDR[ADDR]+). ES<1:0> is the endian-swap attribute for these
+                                                                 MAC memory space reads. */
+        uint64_t ror_d                 : 1;  /**< [ 28: 28](R/W) [ROR] is ADDRTYPE<0> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<0> is
+                                                                 the relaxed-order attribute for PCIe. */
+        uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR] is ADDRTYPE<1> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<1> is
+                                                                 the no-snoop attribute for PCIe. */
+        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES] is ES<1:0> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES<1:0> is the
+                                                                 endian-swap attribute for these MAC memory space writes. */
+        uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR] is ADDRTYPE<0> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<0> is
+                                                                 the relaxed-order attribute for PCIe. */
+        uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR] is ADDRTYPE<1> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<1> is
+                                                                 the no-snoop attribute for PCIe. */
+        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES<1:0> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES<1:0> is the
+                                                                 endian-swap attribute for these MAC memory space writes. */
+        uint64_t idle                  : 1;  /**< [ 36: 36](RO/H) Asserted when this ring has no packets in-flight. */
+        uint64_t reserved_37_63        : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sdpx_epfx_rx_out_control_s cn8; */
+    struct bdk_sdpx_epfx_rx_out_control_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_37_63        : 27;
+        uint64_t idle                  : 1;  /**< [ 36: 36](RO/H) Asserted when this ring has no packets in-flight. */
+        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES<1:0> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES<1:0> is the
+                                                                 endian-swap attribute for these MAC memory space writes. */
+        uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR] is ADDRTYPE<1> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<1> is
+                                                                 the no-snoop attribute for PCIe. */
+        uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR] is ADDRTYPE<0> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<0> is
+                                                                 the relaxed-order attribute for PCIe. */
+        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES] is ES<1:0> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES<1:0> is the
+                                                                 endian-swap attribute for these MAC memory space writes. */
+        uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR] is ADDRTYPE<1> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<1> is
+                                                                 the no-snoop attribute for PCIe. */
+        uint64_t ror_d                 : 1;  /**< [ 28: 28](R/W) [ROR] is ADDRTYPE<0> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<0> is
+                                                                 the relaxed-order attribute for PCIe. */
+        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) [ES_P] is ES<1:0> for the packet output ring reads that fetch buffer/info pointer pairs
+                                                                 (from SLI_PKT()_SLIST_BADDR[ADDR]+). ES<1:0> is the endian-swap attribute for these
+                                                                 MAC memory space reads. */
+        uint64_t nsr_p                 : 1;  /**< [ 25: 25](R/W) [NSR_P] is ADDRTYPE<1> for the packet output ring reads that fetch buffer/info pointer
+                                                                 pairs (from SLI_PKT()_SLIST_BADDR[ADDR]+). ADDRTYPE<1> is the no-snoop attribute for PCIe. */
+        uint64_t ror_p                 : 1;  /**< [ 24: 24](R/W) [ROR_P] is ADDRTYPE<0> for the packet output ring reads that fetch buffer/info pointer
+                                                                 pairs (from SLI_PKT()_SLIST_BADDR[ADDR]+). ADDRTYPE<0> is the relaxed-order attribute
+                                                                 for PCIe. */
+        uint64_t imode                 : 1;  /**< [ 23: 23](R/W) When IMODE=1, packet output ring is in info-pointer mode; otherwise the packet output ring
+                                                                 is in buffer-pointer-only mode. */
         uint64_t isize                 : 7;  /**< [ 22: 16](R/W) Info bytes size (bytes) for the output port. Legal sizes are 0 to 120. Not used
                                                                  in buffer-pointer-only mode.  If a value is written that is between 120-127 then
                                                                  a value of 120 will be forced by hardware. */
@@ -3620,8 +3630,7 @@ typedef union
         uint64_t idle                  : 1;  /**< [ 36: 36](RO/H) Asserted when this ring has no packets in-flight. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_sdpx_epfx_rx_out_control_s cn; */
+    } cn9;
 } bdk_sdpx_epfx_rx_out_control_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_CONTROL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -3998,6 +4007,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
+        uint64_t rsize                 : 32; /**< [ 31:  0](R/W/H) Ring size (number of SDP_BUF_INFO_PAIR_S's). This value must be 16 or
+                                                                 greater. If a value is written that is less than 16, then hardware
+                                                                 will force a value of 16 to be written. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsize                 : 32; /**< [ 31:  0](R/W/H) Ring size (number of SDP_BUF_INFO_PAIR_S's). This value must be 16 or
+                                                                 greater. If a value is written that is less than 16, then hardware
+                                                                 will force a value of 16 to be written. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sdpx_epfx_rx_out_slist_rsize_s cn8; */
+    struct bdk_sdpx_epfx_rx_out_slist_rsize_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
         uint64_t rsize                 : 32; /**< [ 31:  0](R/W) Ring size (number of SDP_BUF_INFO_PAIR_S's). This value must be 10 or
                                                                  greater. If a value is written that is less than 10, then hardware
                                                                  will force a value of 10 to be written. */
@@ -4007,8 +4031,7 @@ typedef union
                                                                  will force a value of 10 to be written. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_sdpx_epfx_rx_out_slist_rsize_s cn; */
+    } cn9;
 } bdk_sdpx_epfx_rx_out_slist_rsize_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_RSIZE(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -4276,6 +4299,27 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W/H) When set, no MSI-X interrupts are sent to this vector.
+                                                                 This field is reset by hardware in the event of a PF-FLR,
+                                                                 VF-FLR, VF_EN falling edge, or MAC reset. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector.
+                                                                 This field is not affected by PF-FLR, VF-FLR, VF_EN falling
+                                                                 edge or MAC reset. It must be initialized before use. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector.
+                                                                 This field is not affected by PF-FLR, VF-FLR, VF_EN falling
+                                                                 edge or MAC reset. It must be initialized before use. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W/H) When set, no MSI-X interrupts are sent to this vector.
+                                                                 This field is reset by hardware in the event of a PF-FLR,
+                                                                 VF-FLR, VF_EN falling edge, or MAC reset. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sdpx_epfx_rmt_msix_vecx_ctl_s cn8; */
+    struct bdk_sdpx_epfx_rmt_msix_vecx_ctl_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
         uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector.
                                                                  This field is reset by PF-FLR and VF-FLR. */
         uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector.
@@ -4287,8 +4331,7 @@ typedef union
                                                                  This field is reset by PF-FLR and VF-FLR. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_sdpx_epfx_rmt_msix_vecx_ctl_s cn; */
+    } cn9;
 } bdk_sdpx_epfx_rmt_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -7231,7 +7274,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision level. */
+        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint64_t reserved_20_23        : 4;
         uint64_t oci_id                : 4;  /**< [ 19: 16](RO) The CCPI node ID. */
         uint64_t reserved_9_15         : 7;
@@ -7243,7 +7286,7 @@ typedef union
         uint64_t reserved_9_15         : 7;
         uint64_t oci_id                : 4;  /**< [ 19: 16](RO) The CCPI node ID. */
         uint64_t reserved_20_23        : 4;
-        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision level. */
+        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -7279,6 +7322,27 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
+        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See MIO_FUS_DAT2[CHIP_ID]. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t oci_id                : 4;  /**< [ 19: 16](RO/H) The CCPI node ID. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode.  See RST_BOOT[TRUSTED_MODE]. */
+        uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
+#else /* Word 0 - Little Endian */
+        uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
+        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode.  See RST_BOOT[TRUSTED_MODE]. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t oci_id                : 4;  /**< [ 19: 16](RO/H) The CCPI node ID. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See MIO_FUS_DAT2[CHIP_ID]. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_slix_mac_numberx_s cn8; */
+    struct bdk_slix_mac_numberx_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
         uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision level. */
         uint64_t reserved_20_23        : 4;
         uint64_t oci_id                : 4;  /**< [ 19: 16](RO/H) The CCPI node ID. */
@@ -7294,8 +7358,7 @@ typedef union
         uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision level. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_mac_numberx_s cn; */
+    } cn9;
 } bdk_slix_mac_numberx_t;
 
 static inline uint64_t BDK_SLIX_MAC_NUMBERX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

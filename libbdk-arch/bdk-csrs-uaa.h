@@ -58,14 +58,14 @@
  * UART Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN9(a) (0x87e028000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN81XX(a) (0x87e028000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN88XX(a) (0x87e024000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN83XX(a) (0x87e028000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN9(a) (0x87e028f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN81XX(a) (0x87e028f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN88XX(a) (0x87e024f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN83XX(a) (0x87e028f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN9(a) (0x87e028000000ll + 0x1000000ll * (a))
+#define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN81XX(a) (0x87e028000000ll + 0x1000000ll * (a))
+#define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN88XX(a) (0x87e024000000ll + 0x1000000ll * (a))
+#define BDK_UAA_BAR_E_UAAX_PF_BAR0_CN83XX(a) (0x87e028000000ll + 0x1000000ll * (a))
+#define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN9(a) (0x87e028f00000ll + 0x1000000ll * (a))
+#define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN81XX(a) (0x87e028f00000ll + 0x1000000ll * (a))
+#define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN88XX(a) (0x87e024f00000ll + 0x1000000ll * (a))
+#define BDK_UAA_BAR_E_UAAX_PF_BAR4_CN83XX(a) (0x87e028f00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration uaa_int_vec_e
@@ -73,8 +73,8 @@
  * UART MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_UAA_INT_VEC_E_INTS (0) /**< See interrupt clears UAA()_ICR, and enables UAA()_IMSC. */
-#define BDK_UAA_INT_VEC_E_INTS_CLEAR (1) /**< Level sensitive interrupt clear vector. */
+#define BDK_UAA_INT_VEC_E_INTS (0)
+#define BDK_UAA_INT_VEC_E_INTS_CLEAR (1)
 
 /**
  * Register (RSL32b) uaa#_cidr0

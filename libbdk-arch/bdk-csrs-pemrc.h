@@ -58,7 +58,7 @@
  * PEM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_PEMRC_BAR_E_PEMRCX_PF_BAR0(a) (0x87e0c0e00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_PEMRC_BAR_E_PEMRCX_PF_BAR0(a) (0x87e0c0e00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration pemrc_int_vec_e
@@ -66,9 +66,8 @@
  * PEM RC MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_PEMRC_INT_VEC_E_ERROR_AERI (0) /**< See PCIERC()_CFG076. */
-#define BDK_PEMRC_INT_VEC_E_HP_PMEI (1) /**< Hot-plug and power management interrupt. See PCIERC()_CFG034 and
-                                       PCIERC()_CFG036. */
+#define BDK_PEMRC_INT_VEC_E_ERROR_AERI (0)
+#define BDK_PEMRC_INT_VEC_E_HP_PMEI (1)
 
 /**
  * Register (RSL) pemrc#_msix_pba#

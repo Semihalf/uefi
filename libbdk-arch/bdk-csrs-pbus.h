@@ -58,9 +58,9 @@
  * PBUS Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_PBUS_BAR_E_PBUS_PF_BAR0 (0x87e001000000ll) /**< Base address for standard registers. */
-#define BDK_PBUS_BAR_E_PBUS_PF_BAR2 (0x800000000000ll) /**< Base address for PBUS devices. */
-#define BDK_PBUS_BAR_E_PBUS_PF_BAR4 (0x87e001f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_PBUS_BAR_E_PBUS_PF_BAR0 (0x87e001000000ll)
+#define BDK_PBUS_BAR_E_PBUS_PF_BAR2 (0x800000000000ll)
+#define BDK_PBUS_BAR_E_PBUS_PF_BAR4 (0x87e001f00000ll)
 
 /**
  * Enumeration pbus_int_vec_e
@@ -68,18 +68,9 @@
  * PBUS MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_PBUS_INT_VEC_E_ADR_ERR (0) /**< See interrupt clears PBUS_INT[ADR_ERR],
-                                       interrupt sets PBUS_INT_W1S[ADR_ERR],
-                                       enable clears PBUS_INT_ENA_W1C[ADR_ERR],
-                                       and enable sets PBUS_INT_ENA_W1S[ADR_ERR]. */
-#define BDK_PBUS_INT_VEC_E_DMA_DONEX(a) (2 + (a)) /**< See interrupt clears PBUS_INT[DMA_DONE<{a}>],
-                                       interrupt sets PBUS_INT_W1S[DMA_DONE<{a}>],
-                                       enable clears PBUS_INT_ENA_W1C[DMA_DONE<{a}>],
-                                       and enable sets PBUS_INT_ENA_W1S[DMA_DONE<{a}>]. */
-#define BDK_PBUS_INT_VEC_E_WAIT_ERR (1) /**< See interrupt clears PBUS_INT[WAIT_ERR],
-                                       interrupt sets PBUS_INT_W1S[WAIT_ERR],
-                                       enable clears PBUS_INT_ENA_W1C[WAIT_ERR],
-                                       and enable sets PBUS_INT_ENA_W1S[WAIT_ERR]. */
+#define BDK_PBUS_INT_VEC_E_ADR_ERR (0)
+#define BDK_PBUS_INT_VEC_E_DMA_DONEX(a) (2 + (a))
+#define BDK_PBUS_INT_VEC_E_WAIT_ERR (1)
 
 /**
  * Register (RSL) pbus_dma_adr#

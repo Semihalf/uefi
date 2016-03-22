@@ -58,8 +58,8 @@
  * NAND Flash Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_NDF_BAR_E_NDF_PF_BAR0 (0x808000000000ll) /**< Base address for standard registers. */
-#define BDK_NDF_BAR_E_NDF_PF_BAR4 (0x808000f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_NDF_BAR_E_NDF_PF_BAR0 (0x808000000000ll)
+#define BDK_NDF_BAR_E_NDF_PF_BAR4 (0x808000f00000ll)
 
 /**
  * Enumeration ndf_int_vec_e
@@ -67,8 +67,7 @@
  * NAND Flash MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_NDF_INT_VEC_E_INTR (0) /**< See interrupt clears NDF_INT, interrupt sets NDF_INT_W1S, enable clears
-                                       NDF_INT_ENA_W1C, and enable sets NDF_INT_ENA_W1S. */
+#define BDK_NDF_INT_VEC_E_INTR (0)
 
 /**
  * Register (NCB) ndf_bt_pg_info

@@ -58,8 +58,8 @@
  * L2C_MCI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_L2C_MCI_BAR_E_L2C_MCIX_PF_BAR0(a) (0x87e05c000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_L2C_MCI_BAR_E_L2C_MCIX_PF_BAR4(a) (0x87e05cf00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_L2C_MCI_BAR_E_L2C_MCIX_PF_BAR0(a) (0x87e05c000000ll + 0x1000000ll * (a))
+#define BDK_L2C_MCI_BAR_E_L2C_MCIX_PF_BAR4(a) (0x87e05cf00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration l2c_mci_int_vec_e
@@ -67,10 +67,7 @@
  * L2C_MCI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_L2C_MCI_INT_VEC_E_INTS (0) /**< See interrupt clears L2C_MCI()_INT_W1C,
-                                       interrupt sets L2C_MCI()_INT_W1S,
-                                       enable clears L2C_MCI()_INT_ENA_W1C,
-                                       and enable sets L2C_MCI()_INT_ENA_W1S. */
+#define BDK_L2C_MCI_INT_VEC_E_INTS (0)
 
 /**
  * Register (RSL) l2c_mci#_int_ena_w1c

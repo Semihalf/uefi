@@ -58,9 +58,9 @@
  * KEY Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_KEY_BAR_E_KEY_PF_BAR0 (0x87e041000000ll) /**< Base address for standard registers. */
-#define BDK_KEY_BAR_E_KEY_PF_BAR2 (0x841000400000ll) /**< Base address for KEY_MEM register. */
-#define BDK_KEY_BAR_E_KEY_PF_BAR4 (0x87e041f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_KEY_BAR_E_KEY_PF_BAR0 (0x87e041000000ll)
+#define BDK_KEY_BAR_E_KEY_PF_BAR2 (0x841000400000ll)
+#define BDK_KEY_BAR_E_KEY_PF_BAR4 (0x87e041f00000ll)
 
 /**
  * Enumeration key_int_vec_e
@@ -68,8 +68,7 @@
  * KEY MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_KEY_INT_VEC_E_INTS (0) /**< See interrupt clears KEY_INT_SUM, interrupt sets KEY_INT_SUM_W1S, enable clears
-                                       KEY_INT_ENA_W1C, and enable sets KEY_INT_ENA_W1S. */
+#define BDK_KEY_INT_VEC_E_INTS (0)
 
 /**
  * Register (RSL) key_bist_reg

@@ -58,8 +58,8 @@
  * SSO Work Slot Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_SSOW_BAR_E_SSOW_PF_BAR0 (0x861000000000ll) /**< Base address for standard PF registers. */
-#define BDK_SSOW_BAR_E_SSOW_VFX_BAR0(a) (0x861800000000ll + 0x100000ll * (a)) /**< Base address for SR-IOV registers. */
+#define BDK_SSOW_BAR_E_SSOW_PF_BAR0 (0x861000000000ll)
+#define BDK_SSOW_BAR_E_SSOW_VFX_BAR0(a) (0x861800000000ll + 0x100000ll * (a))
 
 /**
  * Structure ssow_clr_nsched_addr_s
@@ -237,8 +237,6 @@ static inline uint64_t BDK_SSOW_VHWSX_GRPMSK_CHGX(unsigned long a, unsigned long
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=3)))
         return 0x861800000080ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=31) && (b<=3)))
-        return 0x861800000080ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("SSOW_VHWSX_GRPMSK_CHGX", 2, a, b, 0, 0);
 }
 
@@ -304,8 +302,6 @@ static inline uint64_t BDK_SSOW_VHWSX_LINKS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800000310ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800000310ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_LINKS", 1, a, 0, 0, 0);
 }
 
@@ -342,8 +338,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_ALLOC_WE(unsigned long a) __attribute__
 static inline uint64_t BDK_SSOW_VHWSX_OP_ALLOC_WE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000410ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x861800000410ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_ALLOC_WE", 1, a, 0, 0, 0);
 }
@@ -384,8 +378,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_CLR_NSCHED(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800010000ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800010000ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_CLR_NSCHED", 1, a, 0, 0, 0);
 }
 
@@ -421,8 +413,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800000860ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800000860ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_DESCHED", 1, a, 0, 0, 0);
 }
 
@@ -457,8 +447,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(unsigned long a) __attrib
 static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000870ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x861800000870ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_DESCHED_NOSCH", 1, a, 0, 0, 0);
 }
@@ -531,8 +519,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800080000ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800080000ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_GET_WORK0", 1, a, 0, 0, 0);
 }
 
@@ -580,8 +566,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800080008ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800080008ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_GET_WORK1", 1, a, 0, 0, 0);
 }
 
@@ -624,8 +608,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(unsigned long a) __attrib
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x8618000008c0ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x8618000008c0ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_SWTAG_DESCHED", 1, a, 0, 0, 0);
 }
@@ -689,8 +671,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800000ca0ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800000ca0ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_SWTAG_FULL0", 1, a, 0, 0, 0);
 }
 
@@ -731,8 +711,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800000ca8ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800000ca8ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_SWTAG_FULL1", 1, a, 0, 0, 0);
 }
 
@@ -771,8 +749,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NORM(unsigned long a) __attribute
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NORM(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000c80ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x861800000c80ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_SWTAG_NORM", 1, a, 0, 0, 0);
 }
@@ -817,8 +793,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x8618000008d0ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x8618000008d0ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_SWTAG_NOSCHED", 1, a, 0, 0, 0);
 }
 
@@ -853,8 +827,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(unsigned long a) __attribut
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000490ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x861800000490ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_SWTAG_UNTAG", 1, a, 0, 0, 0);
 }
@@ -893,8 +865,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_CLR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800000820ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800000820ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_SWTP_CLR", 1, a, 0, 0, 0);
 }
 
@@ -931,8 +901,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_SET(unsigned long a) __attribute__
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_SET(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000c20ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x861800000c20ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_SWTP_SET", 1, a, 0, 0, 0);
 }
@@ -978,8 +946,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800000440ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800000440ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_UPD_WQP_GRP0", 1, a, 0, 0, 0);
 }
 
@@ -1019,8 +985,6 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(unsigned long a) __attribu
 static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000448ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x861800000448ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_UPD_WQP_GRP1", 1, a, 0, 0, 0);
 }
@@ -1085,8 +1049,6 @@ static inline uint64_t BDK_SSOW_VHWSX_PENDTAG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800000340ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800000340ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_PENDTAG", 1, a, 0, 0, 0);
 }
 
@@ -1123,8 +1085,6 @@ static inline uint64_t BDK_SSOW_VHWSX_PENDWQP(unsigned long a) __attribute__ ((p
 static inline uint64_t BDK_SSOW_VHWSX_PENDWQP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000348ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x861800000348ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_PENDWQP", 1, a, 0, 0, 0);
 }
@@ -1169,8 +1129,6 @@ static inline uint64_t BDK_SSOW_VHWSX_SWTP(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_SSOW_VHWSX_SWTP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000400ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x861800000400ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_SWTP", 1, a, 0, 0, 0);
 }
@@ -1243,8 +1201,6 @@ static inline uint64_t BDK_SSOW_VHWSX_TAG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x861800000300ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
-        return 0x861800000300ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_TAG", 1, a, 0, 0, 0);
 }
 
@@ -1281,8 +1237,6 @@ static inline uint64_t BDK_SSOW_VHWSX_WQP(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_SSOW_VHWSX_WQP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000308ll + 0x100000ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=31))
         return 0x861800000308ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_WQP", 1, a, 0, 0, 0);
 }

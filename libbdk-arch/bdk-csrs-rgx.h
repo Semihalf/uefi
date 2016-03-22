@@ -58,8 +58,8 @@
  * RGX Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_RGX_BAR_E_RGXX_PF_BAR0(a) (0x87e0e8000000ll + 0x1000000ll * (a)) /**< Base address for standard registers */
-#define BDK_RGX_BAR_E_RGXX_PF_BAR4(a) (0x87e0e8400000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_RGX_BAR_E_RGXX_PF_BAR0(a) (0x87e0e8000000ll + 0x1000000ll * (a))
+#define BDK_RGX_BAR_E_RGXX_PF_BAR4(a) (0x87e0e8400000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration rgx_int_vec_e
@@ -67,28 +67,11 @@
  * RGX MSI-X Vector Enumeration
  * Enumeration the MSI-X interrupt vectors.
  */
-#define BDK_RGX_INT_VEC_E_CMRX_INT(a) (0 + 4 * (a)) /**< See interrupt clears RGX(0)_CMR(0)_INT,
-                                       interrupt sets RGX(0)_CMR(0)_INT_W1S,
-                                       enable clears RGX(0)_CMR(0)_INT_ENA_W1C,
-                                       and enable sets RGX(0)_CMR(0)_INT_ENA_W1S. */
-#define BDK_RGX_INT_VEC_E_CMR_MEM_INT (0x10) /**< See interrupt clears RGX(0)_CMR_MEM_INT,
-                                       interrupt sets RGX(0)_CMR_MEM_INT_W1S,
-                                       enable clears RGX(0)_CMR_MEM_INT_ENA_W1C,
-                                       and enable sets RGX(0)_CMR_MEM_INT_ENA_W1S. */
-#define BDK_RGX_INT_VEC_E_GMPX_GMI_RX_INT(a) (2 + 4 * (a)) /**< See interrupt clears RGX(0)_GMP_GMI_RX(0)_INT,
-                                       interrupt sets RGX(0)_GMP_GMI_RX(0)_INT_W1S,
-                                       enable clears RGX(0)_GMP_GMI_RX(0)_INT_ENA_W1C,
-                                       and enable sets RGX(0)_GMP_GMI_RX(0)_INT_ENA_W1S. */
-#define BDK_RGX_INT_VEC_E_GMPX_GMI_TX_INT(a) (3 + 4 * (a)) /**< See interrupt clears RGX(0)_GMP_GMI_TX(0)_INT,
-                                       interrupt sets RGX(0)_GMP_GMI_TX(0)_INT_W1S,
-                                       enable clears RGX(0)_GMP_GMI_TX(0)_INT_ENA_W1C,
-                                       and enable sets RGX(0)_GMP_GMI_TX(0)_INT_ENA_W1S. */
-#define BDK_RGX_INT_VEC_E_GMPX_PCS_INT(a) (1 + 4 * (a)) /**< Reserved.
-                                       Internal:
-                                       See interrupt clears RGX(0)_GMP_PCS_INT(0),
-                                       interrupt sets RGX(0)_GMP_PCS_INT(0)_W1S,
-                                       enable clears RGX(0)_GMP_PCS_INT(0)_ENA_W1C,
-                                       and enable sets RGX(0)_GMP_PCS_INT(0)_ENA_W1S. */
+#define BDK_RGX_INT_VEC_E_CMRX_INT(a) (0 + 4 * (a))
+#define BDK_RGX_INT_VEC_E_CMR_MEM_INT (0x10)
+#define BDK_RGX_INT_VEC_E_GMPX_GMI_RX_INT(a) (2 + 4 * (a))
+#define BDK_RGX_INT_VEC_E_GMPX_GMI_TX_INT(a) (3 + 4 * (a))
+#define BDK_RGX_INT_VEC_E_GMPX_PCS_INT(a) (1 + 4 * (a))
 
 /**
  * Enumeration rgx_opcode_e
@@ -97,22 +80,14 @@
  *
  * Enumerates the error opcodes created by RGX and presented to NIC.
  */
-#define BDK_RGX_OPCODE_E_RE_FCS (7) /**< FCS error: The packet was received with an FCS error. */
-#define BDK_RGX_OPCODE_E_RE_FCS_RCV (8) /**< FCS and receive error: The packet was received with an FCS error and included one or more
-                                       control words. */
-#define BDK_RGX_OPCODE_E_RE_JABBER (2) /**< Jabber error: The packet was truncated because its length exceeded
-                                       RGX()_GMP_GMI_RX()_JABBER[CNT] bytes. */
-#define BDK_RGX_OPCODE_E_RE_NONE (0) /**< No error. */
-#define BDK_RGX_OPCODE_E_RE_PARTIAL (1) /**< Partial error: the packet was partially received. Internal buffering/bandwidth was not
-                                       adequate to receive the entire packet. */
-#define BDK_RGX_OPCODE_E_RE_RX_CTL (0xb) /**< Receive error: the packet had one or more data reception errors in which a control word
-                                       was detected in the frame. */
-#define BDK_RGX_OPCODE_E_RE_SKIP (0xc) /**< Skip error: packet was not large enough to accommodate MAC skip data, i.e.
-                                       RGX()_GMP_GMI_RX()_UDD_SKP[LEN] exceeded the received
-                                       packet byte count. */
-#define BDK_RGX_OPCODE_E_RE_TERMINATE (9) /**< Terminate error: the packet was terminated incorrectly. For SGMII or RGMII, the packet had
-                                       a CarrierExtendError before the slot time expired, else the packet was terminated with an
-                                       idle or invalid control word. */
+#define BDK_RGX_OPCODE_E_RE_FCS (7)
+#define BDK_RGX_OPCODE_E_RE_FCS_RCV (8)
+#define BDK_RGX_OPCODE_E_RE_JABBER (2)
+#define BDK_RGX_OPCODE_E_RE_NONE (0)
+#define BDK_RGX_OPCODE_E_RE_PARTIAL (1)
+#define BDK_RGX_OPCODE_E_RE_RX_CTL (0xb)
+#define BDK_RGX_OPCODE_E_RE_SKIP (0xc)
+#define BDK_RGX_OPCODE_E_RE_TERMINATE (9)
 
 /**
  * Register (RSL) rgx#_cmr#_config

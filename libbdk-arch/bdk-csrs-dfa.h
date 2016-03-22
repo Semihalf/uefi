@@ -58,8 +58,8 @@
  * HFA Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_DFA_BAR_E_DFA_PF_BAR0 (0x846000000000ll) /**< Base address for DFA NCB standard registers. */
-#define BDK_DFA_BAR_E_DFA_PF_BAR4 (0x846a00000000ll) /**< Base address for MSI-X registers. */
+#define BDK_DFA_BAR_E_DFA_PF_BAR0 (0x846000000000ll)
+#define BDK_DFA_BAR_E_DFA_PF_BAR4 (0x846a00000000ll)
 
 /**
  * Enumeration dfa_int_vec_e
@@ -67,10 +67,8 @@
  * HFA MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DFA_INT_VEC_E_DONE (1) /**< See interrupt clears DFA_INT_DONE, interrupt sets DFA_INT_DONE_W1S, enable clears
-                                       DFA_INT_DONE_ENA_W1C, and enable sets DFA_INT_DONE_ENA_W1S. */
-#define BDK_DFA_INT_VEC_E_ERR (0) /**< See interrupt clears DFA_INT, interrupt sets DFA_INT_W1S, enable clears
-                                       DFA_INT_ENA_W1C, and enable sets DFA_INT_ENA_W1S. */
+#define BDK_DFA_INT_VEC_E_DONE (1)
+#define BDK_DFA_INT_VEC_E_ERR (0)
 
 /**
  * Structure dfa_cq_s

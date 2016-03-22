@@ -58,8 +58,8 @@
  * L2C_TAD Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR0(a) (0x87e050000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR4(a) (0x87e050f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR0(a) (0x87e050000000ll + 0x1000000ll * (a))
+#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR4(a) (0x87e050f00000ll + 0x1000000ll * (a))
 
 /**
  * Enumeration l2c_tad_int_vec_e
@@ -67,10 +67,7 @@
  * L2C_TAD MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_L2C_TAD_INT_VEC_E_INTS (0) /**< See interrupt clears L2C_TAD()_INT_W1C,
-                                       interrupt sets L2C_TAD()_INT_W1S,
-                                       enable clears L2C_TAD()_INT_ENA_W1C,
-                                       and enable sets L2C_TAD()_INT_ENA_W1S. */
+#define BDK_L2C_TAD_INT_VEC_E_INTS (0)
 
 /**
  * Register (RSL) l2c_tad#_int_ena_w1c
@@ -291,7 +288,7 @@ typedef union
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
         uint64_t reserved_19_31        : 13;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
@@ -325,7 +322,7 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
         uint64_t reserved_19_31        : 13;
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
@@ -576,7 +573,7 @@ typedef union
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
         uint64_t reserved_19_31        : 13;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
@@ -610,7 +607,7 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
         uint64_t reserved_19_31        : 13;
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
@@ -1234,7 +1231,7 @@ typedef union
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
         uint64_t reserved_19_31        : 13;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
@@ -1268,7 +1265,7 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
         uint64_t reserved_19_31        : 13;
         uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
         uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */

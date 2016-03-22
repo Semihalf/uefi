@@ -58,10 +58,10 @@
  * CPT Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_CPT_BAR_E_CPTX_PF_BAR0(a) (0x872000000000ll + 0x1000000000ll * (a)) /**< Base address for physical function standard registers. */
-#define BDK_CPT_BAR_E_CPTX_PF_BAR4(a) (0x872010000000ll + 0x1000000000ll * (a)) /**< Base address for physical function MSI-X registers. */
-#define BDK_CPT_BAR_E_CPTX_VFX_BAR0(a,b) (0x872020000000ll + 0x1000000000ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function standard registers. */
-#define BDK_CPT_BAR_E_CPTX_VFX_BAR4(a,b) (0x872030000000ll + 0x1000000000ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function MSI-X registers. */
+#define BDK_CPT_BAR_E_CPTX_PF_BAR0(a) (0x872000000000ll + 0x1000000000ll * (a))
+#define BDK_CPT_BAR_E_CPTX_PF_BAR4(a) (0x872010000000ll + 0x1000000000ll * (a))
+#define BDK_CPT_BAR_E_CPTX_VFX_BAR0(a,b) (0x872020000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
+#define BDK_CPT_BAR_E_CPTX_VFX_BAR4(a,b) (0x872030000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
 
 /**
  * Enumeration cpt_comp_e
@@ -69,14 +69,10 @@
  * CPT Completion Enumeration
  * Enumerates the values of CPT_RES_S[COMPCODE].
  */
-#define BDK_CPT_COMP_E_FAULT (2) /**< Memory fault was detected reading/writing data related to this instruction. The
-                                       instruction may have been partially completed, and as such the result and record
-                                       state is now undefined. */
-#define BDK_CPT_COMP_E_GOOD (1) /**< Operation completed. */
-#define BDK_CPT_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by
-                                       software to indicate the CPT_RES_S structure has not yet been updated by
-                                       hardware. */
-#define BDK_CPT_COMP_E_SWERR (3) /**< Hardware has detected an illegal instruction and was unable to proceed. */
+#define BDK_CPT_COMP_E_FAULT (2)
+#define BDK_CPT_COMP_E_GOOD (1)
+#define BDK_CPT_COMP_E_NOTDONE (0)
+#define BDK_CPT_COMP_E_SWERR (3)
 
 /**
  * Enumeration cpt_engine_err_type_e
@@ -84,15 +80,13 @@
  * CPT Engine Error Code Enumeration
  * Enumerates the values of CPT_RES_S[COMPCODE].
  */
-#define BDK_CPT_ENGINE_ERR_TYPE_E_BUS (0x20) /**< EPCI aborted.  Fatal */
-#define BDK_CPT_ENGINE_ERR_TYPE_E_GE_CN81XX (8) /**< Microcode generated error. Nonfatal. */
-#define BDK_CPT_ENGINE_ERR_TYPE_E_GE_CN83XX (8) /**< Microcode generated error. Fatal to the engine; engine should be reset. */
-#define BDK_CPT_ENGINE_ERR_TYPE_E_GE_CN9 (8) /**< Microcode generated error. Fatal to the engine; engine should be reset. */
-#define BDK_CPT_ENGINE_ERR_TYPE_E_GI (0x10) /**< Microcode generated interrupt.  Nonfatal. */
-#define BDK_CPT_ENGINE_ERR_TYPE_E_NOERR (0) /**< No reported error. */
-#define BDK_CPT_ENGINE_ERR_TYPE_E_RF (1) /**< Register file double bit error. Fatal to the engine; engine should be reset. */
-#define BDK_CPT_ENGINE_ERR_TYPE_E_UC (2) /**< Microcode fill error. Fatal to the engine; engine should be reset. */
-#define BDK_CPT_ENGINE_ERR_TYPE_E_WD (4) /**< Watchdog timer expired. Fatal to the engine; engine should be reset. */
+#define BDK_CPT_ENGINE_ERR_TYPE_E_BUS (0x20)
+#define BDK_CPT_ENGINE_ERR_TYPE_E_GE (8)
+#define BDK_CPT_ENGINE_ERR_TYPE_E_GI (0x10)
+#define BDK_CPT_ENGINE_ERR_TYPE_E_NOERR (0)
+#define BDK_CPT_ENGINE_ERR_TYPE_E_RF (1)
+#define BDK_CPT_ENGINE_ERR_TYPE_E_UC (2)
+#define BDK_CPT_ENGINE_ERR_TYPE_E_WD (4)
 
 /**
  * Enumeration cpt_eop_e
@@ -100,23 +94,22 @@
  * CPT EOP (EPCI Opcodes) Enumeration
  * Opcodes on the epci bus.
  */
-#define BDK_CPT_EOP_E_ATM_FAA64 (0x3b) /**< Load atomic add 64-bit. Maps to LAADD on CMB. */
-#define BDK_CPT_EOP_E_DMA_RD_LDD (8) /**< Read and cache local. */
-#define BDK_CPT_EOP_E_DMA_RD_LDE (0xb) /**< Read and cache local write intent. */
-#define BDK_CPT_EOP_E_DMA_RD_LDI (2) /**< Read and cache local read-only. */
-#define BDK_CPT_EOP_E_DMA_RD_LDT (1) /**< Read and don't allocate. */
-#define BDK_CPT_EOP_E_DMA_RD_LDWB (0xd) /**< Read and invalidate. */
-#define BDK_CPT_EOP_E_DMA_RD_LDY (6) /**< Read and cache home. */
-#define BDK_CPT_EOP_E_DMA_WR_STP (0x12) /**< Store partial/full on NCB. CPT/IOB chooses between STP or STF based on the
-                                       transaction size. */
-#define BDK_CPT_EOP_E_DMA_WR_STT (0x11) /**< Store and don't allocate a cache location. Maps to STT on NCB. */
-#define BDK_CPT_EOP_E_DMA_WR_STY (0xe) /**< Store and allocate home cache; CPT chooses based on size. Maps to STY/RSTP on NCB. */
-#define BDK_CPT_EOP_E_ERR_REQUEST (0xfb) /**< Report an error. */
-#define BDK_CPT_EOP_E_MEMB (0xfd) /**< Memory barrier.  Returns 0x0 if there are no stores pending, else nonzero. */
-#define BDK_CPT_EOP_E_NEW_WORK_REQ (0xff) /**< Request new work. */
-#define BDK_CPT_EOP_E_RANDOM1_REQ (0x61) /**< Request block of nonzero random bytes. */
-#define BDK_CPT_EOP_E_RANDOM_REQ (0x60) /**< Request block of random bytes. */
-#define BDK_CPT_EOP_E_UCODE_REQ (0xfc) /**< Request microcode cache block. */
+#define BDK_CPT_EOP_E_ATM_FAA64 (0x3b)
+#define BDK_CPT_EOP_E_DMA_RD_LDD (8)
+#define BDK_CPT_EOP_E_DMA_RD_LDE (0xb)
+#define BDK_CPT_EOP_E_DMA_RD_LDI (2)
+#define BDK_CPT_EOP_E_DMA_RD_LDT (1)
+#define BDK_CPT_EOP_E_DMA_RD_LDWB (0xd)
+#define BDK_CPT_EOP_E_DMA_RD_LDY (6)
+#define BDK_CPT_EOP_E_DMA_WR_STP (0x12)
+#define BDK_CPT_EOP_E_DMA_WR_STT (0x11)
+#define BDK_CPT_EOP_E_DMA_WR_STY (0xe)
+#define BDK_CPT_EOP_E_ERR_REQUEST (0xfb)
+#define BDK_CPT_EOP_E_MEMB (0xfd)
+#define BDK_CPT_EOP_E_NEW_WORK_REQ (0xff)
+#define BDK_CPT_EOP_E_RANDOM1_REQ (0x61)
+#define BDK_CPT_EOP_E_RANDOM_REQ (0x60)
+#define BDK_CPT_EOP_E_UCODE_REQ (0xfc)
 
 /**
  * Enumeration cpt_pf_int_vec_e
@@ -124,18 +117,9 @@
  * CPT PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_CPT_PF_INT_VEC_E_ECC0 (0) /**< See interrupt clears CPT()_PF_ECC0_INT,
-                                       interrupt sets CPT()_PF_ECC0_INT_W1S,
-                                       enable clears CPT()_PF_ECC0_ENA_W1C,
-                                       and enable sets CPT()_PF_ECC0_ENA_W1S. */
-#define BDK_CPT_PF_INT_VEC_E_EXEC (1) /**< See interrupt clears CPT()_PF_EXEC_INT,
-                                       interrupt sets CPT()_PF_EXEC_INT_W1S,
-                                       enable clears CPT()_PF_EXEC_ENA_W1C,
-                                       and enable sets CPT()_PF_EXEC_ENA_W1S. */
-#define BDK_CPT_PF_INT_VEC_E_MBOXX(a) (2 + (a)) /**< See interrupt clears CPT()_PF_MBOX_INT(),
-                                       interrupt sets CPT()_PF_MBOX_INT_W1S(),
-                                       enable clears CPT()_PF_MBOX_ENA_W1C(),
-                                       and enable sets CPT()_PF_MBOX_ENA_W1S(). */
+#define BDK_CPT_PF_INT_VEC_E_ECC0 (0)
+#define BDK_CPT_PF_INT_VEC_E_EXEC (1)
+#define BDK_CPT_PF_INT_VEC_E_MBOXX(a) (2 + (a))
 
 /**
  * Enumeration cpt_rams_e
@@ -143,36 +127,36 @@
  * CPT RAM Field Enumeration
  * Enumerates the relative bit positions within CPT()_PF_ECC0_CTL[CDIS].
  */
-#define BDK_CPT_RAMS_E_CDEI_FIFO0 (0x1a) /**< Bit position for CDEI_FIFO0. */
-#define BDK_CPT_RAMS_E_CDEI_FIFO1 (0x1b) /**< Bit position for CDEI_FIFO1. */
-#define BDK_CPT_RAMS_E_CDEI_UCODE (0x12) /**< Bit position for CDEI_UCODE. */
-#define BDK_CPT_RAMS_E_COMP_ARRAY0 (0x13) /**< Bit position for COMP_ARRAY0. */
-#define BDK_CPT_RAMS_E_COMP_ARRAY1 (0x14) /**< Bit position for COMP_ARRAY1. */
-#define BDK_CPT_RAMS_E_COMP_FIFO (0xf) /**< Bit position for COMP_FIFO. */
-#define BDK_CPT_RAMS_E_CQM_BPTR (3) /**< Bit position for CQM_BPTR. */
-#define BDK_CPT_RAMS_E_CQM_CTLMEM (2) /**< Bit position for CQM_CTLMEM. */
-#define BDK_CPT_RAMS_E_CQM_DONE_CNT (0xd) /**< Bit position for CQM_DONE_CNT. */
-#define BDK_CPT_RAMS_E_CQM_DONE_TIMER (0xe) /**< Bit position for CQM_DONE_TIMER. */
-#define BDK_CPT_RAMS_E_CQM_GMID (4) /**< Bit position for CQM_GMID. */
-#define BDK_CPT_RAMS_E_CQM_INSTFIF0 (5) /**< Bit position for CQM_INSTFIF0. */
-#define BDK_CPT_RAMS_E_CQM_INSTFIF1 (6) /**< Bit position for CQM_INSTFIF1. */
-#define BDK_CPT_RAMS_E_CQM_INSTFIF2 (7) /**< Bit position for CQM_INSTFIF2. */
-#define BDK_CPT_RAMS_E_CQM_INSTFIF3 (8) /**< Bit position for CQM_INSTFIF3. */
-#define BDK_CPT_RAMS_E_CQM_INSTFIF4 (9) /**< Bit position for CQM_INSTFIF4. */
-#define BDK_CPT_RAMS_E_CQM_INSTFIF5 (0xa) /**< Bit position for CQM_INSTFIF5. */
-#define BDK_CPT_RAMS_E_CQM_INSTFIF6 (0xb) /**< Bit position for CQM_INSTFIF6. */
-#define BDK_CPT_RAMS_E_CQM_INSTFIF7 (0xc) /**< Bit position for CQM_INSTFIF7. */
-#define BDK_CPT_RAMS_E_CSR_VMEM (0x15) /**< Bit position for CSR_VMEM. */
-#define BDK_CPT_RAMS_E_EPCO_FIFO0 (0x1c) /**< Bit position for EPCO_FIFO0. */
-#define BDK_CPT_RAMS_E_EPCO_FIFO1 (0x1d) /**< Bit position for EPCO_FIFO1. */
-#define BDK_CPT_RAMS_E_FPA_MEM (0x11) /**< Bit position for FPA_MEM. */
-#define BDK_CPT_RAMS_E_MBOX_MEM (0x10) /**< Bit position for MBOX_MEM. */
-#define BDK_CPT_RAMS_E_NCBI_DATFIF (0) /**< Bit position for NCBI_DATFIF. */
-#define BDK_CPT_RAMS_E_NCBO_MEM0 (1) /**< Bit position for NCBO_MEM0. */
-#define BDK_CPT_RAMS_E_RSP_INST (0x17) /**< Bit position for RSP_INST. */
-#define BDK_CPT_RAMS_E_RSP_MAP (0x16) /**< Bit position for RSP_MAP. */
-#define BDK_CPT_RAMS_E_RSP_NCBO (0x18) /**< Bit position for RSP_NCBO. */
-#define BDK_CPT_RAMS_E_RSP_RNM (0x19) /**< Bit position for RSP_RNM. */
+#define BDK_CPT_RAMS_E_CDEI_FIFO0 (0x1a)
+#define BDK_CPT_RAMS_E_CDEI_FIFO1 (0x1b)
+#define BDK_CPT_RAMS_E_CDEI_UCODE (0x12)
+#define BDK_CPT_RAMS_E_COMP_ARRAY0 (0x13)
+#define BDK_CPT_RAMS_E_COMP_ARRAY1 (0x14)
+#define BDK_CPT_RAMS_E_COMP_FIFO (0xf)
+#define BDK_CPT_RAMS_E_CQM_BPTR (3)
+#define BDK_CPT_RAMS_E_CQM_CTLMEM (2)
+#define BDK_CPT_RAMS_E_CQM_DONE_CNT (0xd)
+#define BDK_CPT_RAMS_E_CQM_DONE_TIMER (0xe)
+#define BDK_CPT_RAMS_E_CQM_GMID (4)
+#define BDK_CPT_RAMS_E_CQM_INSTFIF0 (5)
+#define BDK_CPT_RAMS_E_CQM_INSTFIF1 (6)
+#define BDK_CPT_RAMS_E_CQM_INSTFIF2 (7)
+#define BDK_CPT_RAMS_E_CQM_INSTFIF3 (8)
+#define BDK_CPT_RAMS_E_CQM_INSTFIF4 (9)
+#define BDK_CPT_RAMS_E_CQM_INSTFIF5 (0xa)
+#define BDK_CPT_RAMS_E_CQM_INSTFIF6 (0xb)
+#define BDK_CPT_RAMS_E_CQM_INSTFIF7 (0xc)
+#define BDK_CPT_RAMS_E_CSR_VMEM (0x15)
+#define BDK_CPT_RAMS_E_EPCO_FIFO0 (0x1c)
+#define BDK_CPT_RAMS_E_EPCO_FIFO1 (0x1d)
+#define BDK_CPT_RAMS_E_FPA_MEM (0x11)
+#define BDK_CPT_RAMS_E_MBOX_MEM (0x10)
+#define BDK_CPT_RAMS_E_NCBI_DATFIF (0)
+#define BDK_CPT_RAMS_E_NCBO_MEM0 (1)
+#define BDK_CPT_RAMS_E_RSP_INST (0x17)
+#define BDK_CPT_RAMS_E_RSP_MAP (0x16)
+#define BDK_CPT_RAMS_E_RSP_NCBO (0x18)
+#define BDK_CPT_RAMS_E_RSP_RNM (0x19)
 
 /**
  * Enumeration cpt_vf_int_vec_e
@@ -180,14 +164,8 @@
  * CPT VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_CPT_VF_INT_VEC_E_DONE (1) /**< See interrupt clears CPT()_VQ()_DONE_INT_W1C,
-                                       interrupt sets CPT()_VQ()_DONE_INT_W1S,
-                                       enable clears CPT()_VQ()_DONE_ENA_W1C
-                                       and enable sets CPT()_VQ()_DONE_ENA_W1S. */
-#define BDK_CPT_VF_INT_VEC_E_MISC (0) /**< See interrupt clears CPT()_VQ()_MISC_INT,
-                                       interrupt sets CPT()_VQ()_MISC_INT_W1S,
-                                       enable clears CPT()_VQ()_MISC_ENA_W1C
-                                       and enable sets CPT()_VQ()_MISC_ENA_W1S. */
+#define BDK_CPT_VF_INT_VEC_E_DONE (1)
+#define BDK_CPT_VF_INT_VEC_E_MISC (0)
 
 /**
  * Structure cpt_inst_s
@@ -2186,9 +2164,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t uc_err                : 48; /**< [ 47:  0](R/W1C/H) Set if an engine detects a parity error in the microcode. */
+        uint64_t uc_err                : 48; /**< [ 47:  0](R/W1C/H) Microcode cache error detected and corrected by an engine. */
 #else /* Word 0 - Little Endian */
-        uint64_t uc_err                : 48; /**< [ 47:  0](R/W1C/H) Set if an engine detects a parity error in the microcode. */
+        uint64_t uc_err                : 48; /**< [ 47:  0](R/W1C/H) Microcode cache error detected and corrected by an engine. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -2196,14 +2174,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t uc_err                : 16; /**< [ 15:  0](R/W1C/H) Set if an engine detects a parity error in the microcode. */
+        uint64_t uc_err                : 16; /**< [ 15:  0](R/W1C/H) Microcode cache error detected and corrected by an engine. */
 #else /* Word 0 - Little Endian */
-        uint64_t uc_err                : 16; /**< [ 15:  0](R/W1C/H) Set if an engine detects a parity error in the microcode. */
+        uint64_t uc_err                : 16; /**< [ 15:  0](R/W1C/H) Microcode cache error detected and corrected by an engine. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_exec_info1_s cn83xx; */
-    /* struct bdk_cptx_pf_exec_info1_s cn9; */
+    struct bdk_cptx_pf_exec_info1_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t uc_err                : 48; /**< [ 47:  0](R/W1C/H) Set if an engine detects a parity error in the microcode. */
+#else /* Word 0 - Little Endian */
+        uint64_t uc_err                : 48; /**< [ 47:  0](R/W1C/H) Set if an engine detects a parity error in the microcode. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_cptx_pf_exec_info1_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_INFO1(unsigned long a) __attribute__ ((pure, always_inline));

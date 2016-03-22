@@ -58,7 +58,7 @@
  * CCU_MSW Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_CCU_MSW_BAR_E_CCUX_MSW_PF_BAR0(a) (0x87e060000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_CCU_MSW_BAR_E_CCUX_MSW_PF_BAR0(a) (0x87e060000000ll + 0x1000000ll * (a))
 
 /**
  * Register (RSL) ccu#_msw_eco

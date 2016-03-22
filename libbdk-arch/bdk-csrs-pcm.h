@@ -58,8 +58,8 @@
  * PCM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_PCM_BAR_E_PCM_PF_BAR0 (0x806000000000ll) /**< Base address for standard registers. */
-#define BDK_PCM_BAR_E_PCM_PF_BAR4 (0x806000f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_PCM_BAR_E_PCM_PF_BAR0 (0x806000000000ll)
+#define BDK_PCM_BAR_E_PCM_PF_BAR4 (0x806000f00000ll)
 
 /**
  * Enumeration pcm_int_vec_e
@@ -67,10 +67,7 @@
  * PCM MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_PCM_INT_VEC_E_TEX(a) (0 + (a)) /**< See interrupt clears PCM_TE(0..3)_INT_SUM,
-                                       interrupt sets PCM_TE(0..3)_INT_SUM_W1S,
-                                       enable clears PCM_TE(0..3)_INT_ENA_W1C,
-                                       and enable sets PCM_TE(0..3)_INT_ENA_W1S, */
+#define BDK_PCM_INT_VEC_E_TEX(a) (0 + (a))
 
 /**
  * Register (NCB) pcm_clk#_cfg

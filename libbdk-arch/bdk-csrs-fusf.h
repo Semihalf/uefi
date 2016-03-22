@@ -58,7 +58,7 @@
  * Field Fuse Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_FUSF_BAR_E_FUSF_PF_BAR0 (0x87e004000000ll) /**< Base address for standard registers. */
+#define BDK_FUSF_BAR_E_FUSF_PF_BAR0 (0x87e004000000ll)
 
 /**
  * Enumeration fusf_fuse_num_e
@@ -66,29 +66,29 @@
  * Field Fuse Fuse Number Enumeration
  * Enumerates the fuse numbers.
  */
-#define BDK_FUSF_FUSE_NUM_E_CRYPT_NO_DIS (0xe) /**< FUSF_CTL[CRYPT_NO_DIS]: no-crypt disable. */
-#define BDK_FUSF_FUSE_NUM_E_CRYPT_SSK_DIS (0xf) /**< FUSF_CTL[CRYPT_SSK_DIS]: SSK crypt disable. */
-#define BDK_FUSF_FUSE_NUM_E_DIS_HUK (0xd) /**< FUSF_CTL[FJ_DIS_HUK]: Flash-jump HUK secret hide. */
-#define BDK_FUSF_FUSE_NUM_E_EKX(a) (0x500 + (a)) /**< FUSF_EK(): ECC private endorsement key. */
-#define BDK_FUSF_FUSE_NUM_E_FJ_CORE0 (0xc) /**< FUSF_CTL[FJ_CORE0]: Flash-jump core 0 only. */
-#define BDK_FUSF_FUSE_NUM_E_FJ_DIS (9) /**< FUSF_CTL[FJ_DIS]: Flash-jump disable. */
-#define BDK_FUSF_FUSE_NUM_E_FJ_TIMEOUTX(a) (0xa + (a)) /**< FUSF_CTL[FJ_TIMEOUT]: Flash-jump timeout. */
-#define BDK_FUSF_FUSE_NUM_E_FUSF_LCK (0) /**< FUSF_CTL[FUSF_LCK]: Total field fuse lockdown. */
-#define BDK_FUSF_FUSE_NUM_E_HUKX(a) (0x480 + (a)) /**< FUSF_HUK(): Hardware unique key. */
-#define BDK_FUSF_FUSE_NUM_E_ROM_T_CNTX(a) (0x20 + (a)) /**< FUSF_CTL[ROM_T_CNT]: ROM trusted counter. */
-#define BDK_FUSF_FUSE_NUM_E_ROTPKX(a) (0x300 + (a)) /**< FUSF_ROTPK(): Root-of-trust public key. */
-#define BDK_FUSF_FUSE_NUM_E_ROT_LCK (2) /**< FUSF_CTL[ROT_LCK]: Root-of-trust fuse lockdown. */
-#define BDK_FUSF_FUSE_NUM_E_RSVD128X(a) (0x80 + (a)) /**< Reserved. */
-#define BDK_FUSF_FUSE_NUM_E_RSVD16X(a) (0x10 + (a)) /**< Reserved. */
-#define BDK_FUSF_FUSE_NUM_E_RSVD256X(a) (0x100 + (a)) /**< Reserved. */
-#define BDK_FUSF_FUSE_NUM_E_RSVD4X(a) (4 + (a)) /**< Reserved. */
-#define BDK_FUSF_FUSE_NUM_E_RSVD512X(a) (0x200 + (a)) /**< Reserved. */
-#define BDK_FUSF_FUSE_NUM_E_RSVD64X(a) (0x40 + (a)) /**< Reserved. */
-#define BDK_FUSF_FUSE_NUM_E_SSKX(a) (0x400 + (a)) /**< FUSF_SSK(): Secret symmetric key. */
-#define BDK_FUSF_FUSE_NUM_E_SSK_LCK (1) /**< FUSF_CTL[SSK_LCK]: Secret symmetric key fuse lockdown. */
-#define BDK_FUSF_FUSE_NUM_E_SWX(a) (0x600 + (a)) /**< FUSF_SW(): Additional secured space. */
-#define BDK_FUSF_FUSE_NUM_E_SW_LCK (3) /**< FUSF_CTL[SW_LCK]: Software fuse lockdown. */
-#define BDK_FUSF_FUSE_NUM_E_TZ_FORCE2 (8) /**< FUSF_CTL[TZ_FORCE2]: Trustzone force override 2. */
+#define BDK_FUSF_FUSE_NUM_E_CRYPT_NO_DIS (0xe)
+#define BDK_FUSF_FUSE_NUM_E_CRYPT_SSK_DIS (0xf)
+#define BDK_FUSF_FUSE_NUM_E_DIS_HUK (0xd)
+#define BDK_FUSF_FUSE_NUM_E_EKX(a) (0x500 + (a))
+#define BDK_FUSF_FUSE_NUM_E_FJ_CORE0 (0xc)
+#define BDK_FUSF_FUSE_NUM_E_FJ_DIS (9)
+#define BDK_FUSF_FUSE_NUM_E_FJ_TIMEOUTX(a) (0xa + (a))
+#define BDK_FUSF_FUSE_NUM_E_FUSF_LCK (0)
+#define BDK_FUSF_FUSE_NUM_E_HUKX(a) (0x480 + (a))
+#define BDK_FUSF_FUSE_NUM_E_ROM_T_CNTX(a) (0x20 + (a))
+#define BDK_FUSF_FUSE_NUM_E_ROTPKX(a) (0x300 + (a))
+#define BDK_FUSF_FUSE_NUM_E_ROT_LCK (2)
+#define BDK_FUSF_FUSE_NUM_E_RSVD128X(a) (0x80 + (a))
+#define BDK_FUSF_FUSE_NUM_E_RSVD16X(a) (0x10 + (a))
+#define BDK_FUSF_FUSE_NUM_E_RSVD256X(a) (0x100 + (a))
+#define BDK_FUSF_FUSE_NUM_E_RSVD4X(a) (4 + (a))
+#define BDK_FUSF_FUSE_NUM_E_RSVD512X(a) (0x200 + (a))
+#define BDK_FUSF_FUSE_NUM_E_RSVD64X(a) (0x40 + (a))
+#define BDK_FUSF_FUSE_NUM_E_SSKX(a) (0x400 + (a))
+#define BDK_FUSF_FUSE_NUM_E_SSK_LCK (1)
+#define BDK_FUSF_FUSE_NUM_E_SWX(a) (0x600 + (a))
+#define BDK_FUSF_FUSE_NUM_E_SW_LCK (3)
+#define BDK_FUSF_FUSE_NUM_E_TZ_FORCE2 (8)
 
 /**
  * Register (RSL) fusf_bnk_dat#
