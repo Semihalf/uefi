@@ -104,7 +104,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define MVPP2_ERANGE		-3
 #define MVPP2_USEC_PER_SEC	1000000L
 
-#define dma_addr_t		UINTN
+#define dma_addr_t		UINT64
+#define phys_addr_t		UINT64
 
 /* L2 and L3 protocol macros */
 #define MV_IPPR_TCP		0

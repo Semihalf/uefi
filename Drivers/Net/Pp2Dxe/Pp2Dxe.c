@@ -383,6 +383,7 @@ Pp2DxeLateInitialize (
 
   DEBUG((DEBUG_ERROR, "Pp2Dxe: Pp2DxeLateInitialize\n"));
 
+  mvpp2_write(Port->priv, 0xf5060, 1);
   if (!Pp2Context->LateInitialized) {
     Status = Pp2DxeBmStart(&Mvpp2Shared);
     if (EFI_ERROR(Status)) {
@@ -727,6 +728,7 @@ Pp2SnpGetStatus (
   return EFI_SUCCESS;
 }
 
+#define MVPP2_TX_SEND_TIMEOUT		10000
 EFI_STATUS
 EFIAPI
 Pp2SnpTransmit (
@@ -739,7 +741,73 @@ Pp2SnpTransmit (
   IN UINT16                               *Protocol OPTIONAL
   )
 {
-  return EFI_DEVICE_ERROR;
+  PP2DXE_CONTEXT *Pp2Context = INSTANCE_FROM_SNP(This);
+  PP2DXE_PORT *Port = &Pp2Context->Port;
+  struct mvpp2_tx_queue *aggr_txq = Mvpp2Shared->aggr_txqs;
+  struct mvpp2_tx_desc *tx_desc;
+  INTN timeout = 0;
+  INTN tx_done;
+
+  DEBUG((DEBUG_ERROR, "Header size is %x, buffer size is %x\n", HeaderSize, BufferSize));
+
+  tx_desc = mvpp2_txq_next_desc_get(aggr_txq);
+  if (!tx_desc) {
+    DEBUG((DEBUG_ERROR, "No tx descriptor to use\n"));
+    return EFI_OUT_OF_RESOURCES;
+  }
+
+  /* set descriptor fields */
+  tx_desc->command =  MVPP2_TXD_IP_CSUM_DISABLE |
+  MVPP2_TXD_L4_CSUM_NOT | MVPP2_TXD_F_DESC | MVPP2_TXD_L_DESC;
+  tx_desc->data_size = BufferSize;
+
+  tx_desc->packet_offset = (phys_addr_t)Buffer & MVPP2_TX_DESC_ALIGN;
+  DEBUG((DEBUG_ERROR, "Packet offset is %lx, Buffer is %lx\n", tx_desc->packet_offset, Buffer));
+
+#ifndef MVPP2_V1
+  mvpp2x2_txdesc_phys_addr_set(
+    (phys_addr_t)Buffer & ~MVPP2_TX_DESC_ALIGN, tx_desc);
+#else
+  /*
+  mv_pp2x1_txdesc_phys_addr_set(
+    (phys_addr_t)ptr & ~MVPP2TX_DESC_ALIGN, tx_desc);
+    */
+#endif
+  tx_desc->phys_txq = mvpp2_txq_phys(Port->id, 0);
+  DEBUG((DEBUG_ERROR, "phys_txq is %d\n", tx_desc->phys_txq));
+
+  /* iowmb */
+  __asm__ __volatile__ ("" : : : "memory");
+  /* send */
+  mvpp2_aggr_txq_pend_desc_add(Port, 1);
+
+  /* Tx done processing */
+  /* wait for agrregated to physical TXQ transfer */
+  tx_done = mvpp2_aggr_txq_pend_desc_num_get(Mvpp2Shared, 0);
+  DEBUG((DEBUG_ERROR, "0 tx_done is %d\n", tx_done));
+  do {
+    if (timeout++ > MVPP2_TX_SEND_TIMEOUT) {
+      DEBUG((DEBUG_ERROR, "timeout: packet not sent from aggr TXQ\n"));
+    }
+    tx_done = mvpp2_aggr_txq_pend_desc_num_get(Mvpp2Shared, 0);
+    DEBUG((DEBUG_ERROR, "1 tx_done is %d\n", tx_done));
+  } while (tx_done);
+
+  timeout = 0;
+  tx_done = mvpp2_txq_sent_desc_proc(Port, 0);
+  DEBUG((DEBUG_ERROR, "2 tx_done is %d\n", tx_done));
+  /* wait for packet to be transmitted */
+  while (!tx_done) {
+    if (timeout++ > MVPP2_TX_SEND_TIMEOUT) {
+      DEBUG((DEBUG_ERROR, "timeout\n"));
+      return EFI_TIMEOUT;
+    }
+    tx_done = mvpp2_txq_sent_desc_proc(Port, 0);
+//    DEBUG((DEBUG_ERROR, "3 tx_done is %d\n", tx_done));
+  }
+  /* tx_done has increased - hw sent packet */
+
+  return EFI_SUCCESS;
 }
 
 EFI_STATUS
@@ -908,6 +976,7 @@ Pp2DxeInitialise (
     PortIds = PcdGetPtr (PcdPp2PortIds);
     Pp2Context->Port.id = PortIds[Pp2Context->Instance];
     Pp2Context->Port.priv = Mvpp2Shared;
+    Pp2Context->Port.phy_interface = MV_MODE_RGMII;
     Pp2Context->Port.gmac_base = PcdGet64 (PcdPp2GmacBaseAddress) +
       PcdGet32 (PcdPp2GmacObjSize) * Pp2Context->Port.id;
     Pp2Context->Port.xlg_base = PcdGet64 (PcdPp2XlgBaseAddress) +
