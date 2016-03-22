@@ -2,34 +2,6 @@
 
 / {
 cavium,bdk {
-	/* Board model number. This is used to determine the name of the
-	configuration file containing the boards default settings. This
-	parameter is stored in a static board manufacturing area at the
-	top of the boot flash. */
-	//BOARD-MODEL = "unknown";
-
-	/* The board revision level. This parameter is stored in a static
-	board manufacturing area at the top of the boot flash. */
-	//BOARD-REVISION = "unknown";
-
-	/* Unique string used as a serial number. This parameter is stored
-	in a static board manufacturing area at the top of the boot flash. */
-	//BOARD-SERIAL = "unknown";
-
-	/* The first MAC address assigned to the THUNDERX network ports. MAC
-	addresses are in a contiguous block starting at this address and
-	containing BOARD-MAC-ADDRESS-NUM number of addresses. The format
-	of this parameter is 0xXXXXXXXXXXXX, 12 hex digits starting with
-	'0x'.This parameter is stored in a static board manufacturing
-	area at the top of the boot flash. */
-	//BOARD-MAC-ADDRESS = "0x20fb7000000";
-
-	/* The number of MAC addresses assigned to the THUNDERX network
-	ports. See BOARD-MAC-ADDRESS for the actual MAC address numeric
-	value.This parameter is stored in a static board manufacturing
-	area at the top of the boot flash. */
-	//BOARD-MAC-ADDRESS-NUM = "0";
-
 	/* THUNDERX TWSI port connected to the BMC for IPMI traffic.
 	-1 = No connection exists. 0+ is TWSI bus number. */
 	//BMC-TWSI = "-1";
