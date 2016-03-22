@@ -648,7 +648,7 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
             pko_send_gather_s.u[0] = 0;
             pko_send_gather_s.u[1] = 0;
             pko_send_gather_s.s.size = ptr.s.size;
-            pko_send_gather_s.s.subdc = BDK_PKO_SENDSUBDC_E_GATHER0;
+            pko_send_gather_s.s.subdc = BDK_PKO_SENDSUBDC_E_GATHER;
             pko_send_gather_s.s.addr = ptr.s.address;
             bdk_lmt_store(lmstore_words, pko_send_gather_s.u[0]);
             lmstore_words++;

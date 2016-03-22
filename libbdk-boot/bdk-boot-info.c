@@ -19,13 +19,13 @@ void bdk_boot_info_strapping(bdk_node_t node)
 
     switch (boot_method)
     {
-        case BDK_RST_BOOT_METHOD_E_CCPI0_CN88XX:
+        case BDK_RST_BOOT_METHOD_E_CCPI0:
             boot_method_str = "CCPI0";
             break;
-        case BDK_RST_BOOT_METHOD_E_CCPI1_CN88XX:
+        case BDK_RST_BOOT_METHOD_E_CCPI1:
             boot_method_str = "CCPI1";
             break;
-        case BDK_RST_BOOT_METHOD_E_CCPI2_CN88XX:
+        case BDK_RST_BOOT_METHOD_E_CCPI2:
             boot_method_str = "CCPI2";
             break;
         case BDK_RST_BOOT_METHOD_E_EMMC_LS:
@@ -34,7 +34,7 @@ void bdk_boot_info_strapping(bdk_node_t node)
         case BDK_RST_BOOT_METHOD_E_EMMC_SS:
             boot_method_str = "EMMC_SS";
             break;
-        case BDK_RST_BOOT_METHOD_E_PCIE0_CN88XX:
+        case BDK_RST_BOOT_METHOD_E_PCIE0:
             boot_method_str = "PCIE0";
             break;
         case BDK_RST_BOOT_METHOD_E_REMOTE:

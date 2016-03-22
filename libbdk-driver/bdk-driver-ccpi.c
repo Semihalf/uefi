@@ -192,7 +192,7 @@ int bdk_ccpi_test_loopback(void)
 }
 
 bdk_driver_t __bdk_driver_ccpi = {
-    .id = (BDK_PCC_PROD_E_GEN << 24) | BDK_PCC_VENDOR_E_CAVIUM | (BDK_PCC_DEV_IDL_E_OCX_CN88XX << 16),
+    .id = (BDK_PCC_PROD_E_GEN << 24) | BDK_PCC_VENDOR_E_CAVIUM | (BDK_PCC_DEV_IDL_E_OCX << 16),
     .probe = probe,
     .init = init,
 };

@@ -25,18 +25,18 @@ static const model_sku_info_t t88_sku_info[] =
         { /* List of fuses for this SKU */
             BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(0),
             BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
             0 /* End of fuse list marker */
         }
     },
     { 0x03, "CN", 8800, 2601, "ST",
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,
             BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1),
             BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(0),
             BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN88XX,
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
             0 /* End of fuse list marker */
         }
     },
@@ -57,12 +57,12 @@ static const model_sku_info_t t88_sku_info[] =
     },
     { 0x06, "CN", 8800, 2601, "NT",
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,
             BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
-            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,
             0 /* End of fuse list marker */
         }
     },
@@ -71,24 +71,24 @@ static const model_sku_info_t t88_sku_info[] =
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
             BDK_MIO_FUS_FUSE_NUM_E_NOZIP,
-            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN88XX, /* HFA */
+            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2, /* HFA */
             BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* HNA */
             0 /* End of fuse list marker */
         }
     },
     { 0x08, "CN", 8800, 2601, "CP",
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,
             BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
-            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN88XX,
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
             BDK_MIO_FUS_FUSE_NUM_E_NOZIP,
-            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN88XX, /* HFA */
+            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2, /* HFA */
             BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* HNA */
             0 /* End of fuse list marker */
         }
@@ -106,9 +106,9 @@ static const model_sku_info_t t88_sku_info[] =
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
             BDK_MIO_FUS_FUSE_NUM_E_NOZIP,
-            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN88XX, /* HFA */
+            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2, /* HFA */
             BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* HNA */
             0 /* End of fuse list marker */
         }
@@ -123,11 +123,11 @@ static const model_sku_info_t t88_sku_info[] =
         { /* List of fuses for this SKU */
             BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(6), /* Alternate package fuse */
             BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),
-            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2_CN88XX, /* HFA */
+            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2, /* HFA */
             BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* HNA */
-            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS_CN88XX,
-            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS_CN88XX,
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE_CN88XX,
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,
+            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
             0 /* End of fuse list marker */
         }
     },
