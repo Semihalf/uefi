@@ -205,17 +205,6 @@ cavium,bdk {
 	training. */
 	//QLM-TUNING-TX-VBOOST.N%d.QLM%d.LANE%d = "-1";
 
-	/* Deprecated: DRAM configuration name to use for the board. This
-	corresponds to a file in lib-dram/configs/config-*.c. Boards should
-	configure DRAM using the board device tree. This is only present
-	for boards that have not been converted to device tree yet. This
-	option will be removed in the future
-	Parameters:
-	    N#: Parameter can be different for each node. This specifies
-	        which node the value is for. Node must be 0-3. Optional. */
-	//DDR-CONFIG.N%d = "";
-	DDR-CONFIG = "ebb8804";
-
 	/* Speed to use for DRAM in MT/s. Zero means use the factory
 	default. Hardware may adjust this value slightly to improve
 	DRAM stability, so scope measurements may not exactly match

@@ -212,15 +212,6 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "should only be used for QLMs used for BGX and CCPI not using KR\n"
             "training.",
     /* DRAM configuration options */
-    [BDK_CONFIG_DRAM_NODE] =
-            "Deprecated: DRAM configuration name to use for the board. This\n"
-            "corresponds to a file in lib-dram/configs/config-*.c. Boards should\n"
-            "configure DRAM using the board device tree. This is only present\n"
-            "for boards that have not been converted to device tree yet. This\n"
-            "option will be removed in the future\n"
-            "Parameters:\n"
-            "    N#: Parameter can be different for each node. This specifies\n"
-            "        which node the value is for. Node must be 0-3. Optional.",
     [BDK_CONFIG_DDR_SPEED] =
             "Speed grade to use for DRAM in MT/s. Hardware may adjust this value\n"
             "slightly to improve DRAM stability, so scope measurements may not\n"

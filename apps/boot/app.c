@@ -179,14 +179,9 @@ int main(void)
         const void *spd_data = bdk_config_get_blob(&spd_size, BDK_CONFIG_DDR_SPD_DATA, 0 /* DIMM */, 0 /* LMC */, bdk_numa_master());
         if ((spd_data == NULL) || (spd_size == 0))
         {
-            /* Not found, try for a legacy config name */
-            const char *dram_config = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
-            if (dram_config == NULL)
-            {
-                /* No dram config found, jump to the boot menu */
-                is_misconfigured = 1;
-                goto menu;
-            }
+            /* No dram config found, jump to the boot menu */
+            is_misconfigured = 1;
+            goto menu;
         }
 
     }

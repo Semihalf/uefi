@@ -57,7 +57,6 @@ typedef enum
     BDK_CONFIG_QLM_TUNING_TX_VBOOST, /* Parameters: Node, QLM, Lane */
 
     /* DRAM configuration options */
-    BDK_CONFIG_DRAM_NODE,                                           /* Parameters: Node */
     BDK_CONFIG_DDR_SPEED,                                           /* Parameters: Node */
     BDK_CONFIG_DDR_ALT_REFCLK,                                      /* Parameters: Node */
     BDK_CONFIG_DDR_SPD_ADDR,                                        /* Parameters: DIMM, LMC, Node */

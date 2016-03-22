@@ -236,10 +236,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
 
     /* DRAM configuration options */
-    [BDK_CONFIG_DRAM_NODE] = {
-        .format = "DDR-CONFIG.N%d", /* Parameters: Node */
-        .ctype = BDK_CONFIG_TYPE_STR,
-    },
     [BDK_CONFIG_DDR_SPEED] = {
         .format = "DDR-SPEED.N%d", /* Parameters: Node */
         .ctype = BDK_CONFIG_TYPE_INT,

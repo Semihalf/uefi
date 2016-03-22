@@ -69,18 +69,6 @@ extern const char* bdk_dram_get_info_string(int node);
  */
 extern uint64_t bdk_dram_get_top_of_bdk(void);
 
-/**
- * Convert the supplied DRAM config into a device tree. The conversion modifies
- * the current in memory device tree by adding items that would create this DRAM
- * config. This function doesn't check for conflicting entries already in the
- * device tree, so care must be used. Use bdk_config_show() to display the device
- * tree as a DTS the user can cut/paste.
- *
- * @param node   Node the config is for
- * @param cfg    Config to convert
- */
-extern void __bdk_dram_convert_to_dts(bdk_node_t node, const dram_config_t *cfg);
-
 extern int __bdk_dram_get_num_lmc(bdk_node_t node);
 extern int __bdk_dram_is_ddr4(bdk_node_t node, int lmc);
 extern int __bdk_dram_is_rdimm(bdk_node_t node, int lmc);

@@ -2,40 +2,6 @@
 
 BDK_REQUIRE_DEFINE(DRAM_CONFIG);
 
-/* DRAM is configured by matching it against a string name */
-
-#define _CONFIG_FUNC_NAME(n) dram_get_config_ ## n
-#define CONFIG_FUNC_NAME(n) _CONFIG_FUNC_NAME(n)
-
-typedef const dram_config_t* (*config_func_t)();
-
-/* These externs pull in configs defined in other files */
-//extern const dram_config_t* CONFIG_FUNC_NAME(ebb8800)();
-
-/* This table is the list of supported DRAM configs */
-static const config_func_t dram_table[] =
-{
-    //CONFIG_FUNC_NAME(ebb8800),
-    NULL /* Table must end in NULL */
-};
-
-static const dram_config_t *bdk_find_dram_config_by_name(int node, const char *config_name)
-{
-    const config_func_t *table = dram_table;
-    const dram_config_t *config = NULL;
-    while (*table)
-    {
-        const dram_config_t *c = (*table)();
-        if (strcmp(c->name, config_name) == 0)
-        {
-            config = c;
-            break;
-        }
-        table++;
-    }
-    return config;
-}
-
 /**
  * Lookup a DRAM configuration by name and initialize DRAM using it
  *
@@ -51,33 +17,8 @@ int bdk_dram_config(int node, int ddr_clock_override)
     const dram_config_t *config = libdram_config_load(node);
     if (!config)
     {
-        const char *config_name = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
-        if (config_name == NULL)
-        {
-            printf("N%d: No DRAM config specified, skipping DRAM init\n", node);
-            return 0;
-        }
-        config = bdk_find_dram_config_by_name(node, config_name);
-        if (config)
-        {
-            printf("\33[1m"); /* Bold */
-            bdk_warn("\n");
-            bdk_warn("********************************************************\n");
-            bdk_warn("DRAM configuration not found in device tree. Using the\n");
-            bdk_warn("legacy configuration \"%s\".\n", config_name);
-            bdk_warn("A template device tree has been created from the legacy\n");
-            bdk_warn("configuration. Enter diagnostics and display the device\n");
-            bdk_warn("tree by selecting \"Display current configuration\".\n");
-            bdk_warn("********************************************************\n");
-            bdk_warn("\n");
-            printf("\33[0m"); /* Normal */
-            __bdk_dram_convert_to_dts(node, config);
-        }
-        else
-        {
-            bdk_error("DRAM config not found: %s\n", config_name);
-            return -1;
-        }
+        printf("N%d: No DRAM config specified, skipping DRAM init\n", node);
+        return 0;
     }
 
     BDK_TRACE(DRAM, "N%d: Starting DRAM init (config=%p, ddr_clock_override=%d)\n", node, config, ddr_clock_override);
@@ -121,28 +62,6 @@ void bdk_dram_margin(int node)
     libdram_margin(node);
     BDK_TRACE(DRAM, "N%d: Finished DRAM margining.\n", node);
     return;
-}
-
-/**
- * Lookup a DRAM configuration by name and return ddr_clock_hertz field
- *
- * @param node   Node to configure
- * @param config_name
- *               Name of the configuration to use
- *
- * @return DDR Clock hertz, or negative on failure
- */
-int bdk_dram_config_get_hertz_by_name(int node, const char *config_name)
-{
-    const dram_config_t *config = bdk_find_dram_config_by_name(node, config_name);
-
-    if (!config)
-    {
-        bdk_error("DRAM config not found: %s\n", config_name);
-        return -1;
-    }
-
-    return config->ddr_clock_hertz;
 }
 
 /**
