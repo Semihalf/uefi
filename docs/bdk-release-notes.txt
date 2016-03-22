@@ -8,7 +8,8 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.22-rc1 ==
+== thunder-release-v1.22-rc2 ==
+* Added support for CN88XX pass 2.1. Prior releases will crash when entering diagnostics on CN88XX pass 2.1 and higher.
 * Added support for measuring SERDES quality using a vertical eye measurement
 ** New traffic-gen command "margin_rx" for networking related SERDES
 ** SATA menu option "Run margining tool"
@@ -34,6 +35,7 @@ incorporated into each BDK release.
 ** Don't apply QLM tuning to PCIe Gen3 links
 ** Apply workaround for GSER-27882 to CCPI
 ** Improved default tuning for SERDES at 6.25G. RXAUI shows the most improvement
+** Apply PEM config fixes required by errata for gen3 long channel (PEM-26189, PEM-21178)
 * Networking
 ** Various fixes for Cortina PHY update app
 ** Disable TNS support
@@ -41,6 +43,8 @@ incorporated into each BDK release.
 * Support building with GCC5. GCC5 executables will not work on CN88XX pass 1.x as GCC uses compare and swap
 * Preliminary support for CN81XX and CN83XX
 * Device tree files now contain some configuration items that are passed to ATF/UEFI but unused by the BDK
+* Diagnostics now include SGPIO support (SATA LEDs)
+* Chip SKU information is now displayed to the user and passed in the device tree
 
 == thunder-release-v1.21 ==
 * Redo handling of CCPI link init to support CN88XX pass 2.0.
