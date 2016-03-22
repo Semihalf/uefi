@@ -179,6 +179,11 @@ FILE FREEFORM = 4807a6cc-a7e0-46b5-8e68-6ab0c221e950 {
   SECTION UI = "devicetree.dtb"
 }
 
+FILE FREEFORM = 6807a6cc-a7e0-46b5-8e68-6ab0c221e950 {
+  SECTION RAW = OpenPlatformPkg/Platforms/Marvell/Armada7040/Binary/boot.nsh
+  SECTION UI = "boot.nsh"
+}
+
 # PEI phase firmware volume
 [FV.FVMAIN_COMPACT]
 FvAlignment        = 8

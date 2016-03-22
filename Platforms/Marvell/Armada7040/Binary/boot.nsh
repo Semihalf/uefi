@@ -1,0 +1,1 @@
+Linux.efi dtb=devicetree.dtb root=/dev/nfs rw nfsroot=10.2.0.102:/nfsroot/users/mw/br-armv8-le-1/ ip=10.2.2.237:10.2.0.102:10.2.0.254:255.255.0.0:marvell:eth3:off console=ttyS0,115200 earlyprintk=ttyS0,115200 rootwait
