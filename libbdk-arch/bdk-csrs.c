@@ -64927,7 +64927,7 @@ const __bdk_csr_db_map_t __bdk_csr_db[] = {
     {CAVIUM_CN83XX_PASS1_0, __bdk_csr_db_CN83XXP1_0},
     {CAVIUM_CN88XX_PASS1_0, __bdk_csr_db_CN88XXP1_0},
     {CAVIUM_CN88XX_PASS1_1, __bdk_csr_db_CN88XXP1_1},
-    {CAVIUM_CN88XX_PASS2_0, __bdk_csr_db_CN88XXP2_0},
+    {CAVIUM_CN88XX_PASS2_X, __bdk_csr_db_CN88XXP2_0},
     {CAVIUM_CN98XX_PASS1_0, __bdk_csr_db_CN98XXP1_0},
     {0, NULL}
 };
