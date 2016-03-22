@@ -141,8 +141,8 @@ def writeEnum(out, arch, enum):
             r = enumValue["ranges"][chip]
             args = createDefineArgs(r)
             eq = csr_utils.addressToString(enumValue["value"][chip], None, addSuffix=True)
-            descr = formatDescription(enumValue["description"][chip], 40)
-            output = "%s (%s) /**< %s */" % (args, eq, descr)
+            #descr = formatDescription(enumValue["description"][chip], 40)
+            output = "%s (%s)" % (args, eq)
             enum_lines[chip] = full_name, output
         # Consolidate all chips
         if enum_lines:
