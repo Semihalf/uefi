@@ -2872,7 +2872,17 @@ MV_32 mvpp2_txq_pend_desc_num_get(struct mvpp2_port *port,
 	return val & MVPP2_TXQ_PENDING_MASK;
 }
 
-/* Get poMV_32er to next Tx descriptor to be processed (send) by HW */
+/* Get number of occupied aggregated Tx descriptors */
+MV_U32 mvpp2_aggr_txq_pend_desc_num_get(struct mvpp2 *pp2, int cpu)
+{
+	MV_U32 reg_val;
+
+	reg_val = mvpp2_read(pp2, MVPP2_AGGR_TXQ_STATUS_REG(cpu));
+
+	return reg_val & MVPP2_AGGR_TXQ_PENDING_MASK;
+}
+
+/* Get pointer to next Tx descriptor to be processed (send) by HW */
 struct mvpp2_tx_desc *
 mvpp2_txq_next_desc_get(struct mvpp2_tx_queue *txq)
 {

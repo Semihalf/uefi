@@ -1335,10 +1335,16 @@ struct mvpp2_tx_desc {
 	MV_U8  packet_offset;	/* the offset from the buffer beginning	*/
 	MV_U8  phys_txq;		/* destination queue ID			*/
 	MV_U16 data_size;		/* data size of transmitted packet in bytes */
+#ifdef MVPP2_V1
 	MV_U32 buf_phys_addr;	/* physical addr of transmitted buffer	*/
 	MV_U32 buf_cookie;		/* cookie for access to TX buffer in tx path */
 	MV_U32 reserved1[3];	/* hw_cmd (for future use, BM, PON, PNC) */
 	MV_U32 reserved2;		/* reserved (for future use)		*/
+#else
+	MV_U64 rsrvd_hw_cmd1;	/* hw_cmd (BM, PON, PNC) */
+	MV_U64 buf_phys_addr_hw_cmd2;
+	MV_U64 buf_cookie_bm_qset_hw_cmd3;
+#endif
 };
 
 struct mvpp2_rx_desc {
@@ -2124,6 +2130,7 @@ MV_U32 mvpp2_bm_cookie_build(struct mvpp2_rx_desc *rx_desc, MV_32 cpu);
 MV_32 mvpp2_txq_drain_set(struct mvpp2_port *port, MV_32 txq, MV_BOOL en);
 MV_32 mvpp2_txq_pend_desc_num_get(struct mvpp2_port *port,
 				  struct mvpp2_tx_queue *txq);
+MV_U32 mvpp2_aggr_txq_pend_desc_num_get(struct mvpp2 *pp2, int cpu);
 struct mvpp2_tx_desc *
 mvpp2_txq_next_desc_get(struct mvpp2_tx_queue *txq);
 MV_VOID mvpp2_aggr_txq_pend_desc_add(struct mvpp2_port *port, MV_32 pending);
@@ -2320,5 +2327,13 @@ static inline struct mvpp2_tx_queue *mvpp2_get_tx_queue(struct mvpp2_port *port,
 
 	/* XXX - added reference */
 	return &port->txqs[queue];
+}
+ 
+static inline void mvpp2x2_txdesc_phys_addr_set(dma_addr_t phys_addr,
+	struct mvpp2_tx_desc *tx_desc) {
+	UINT64 *buf_phys_addr_p = &tx_desc->buf_phys_addr_hw_cmd2;
+
+	*buf_phys_addr_p &= ~(MVPP22_ADDR_MASK);
+	*buf_phys_addr_p |= phys_addr & MVPP22_ADDR_MASK;
 }
 #endif /* _MVPP_LIB_H_ */
