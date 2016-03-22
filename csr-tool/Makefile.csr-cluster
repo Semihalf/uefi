@@ -71,6 +71,9 @@ checkout:
 .PHONY: update
 update:
 	svn update t81 t83 t88 t98 o70 o73 o75 o78 */dvconf
+	# Remove t83 networking files from t98. These are mistakenly copied
+	# from t98 and will be fixed later
+	rm t98/fpa.csr t98/pki.csr t98/pko.csr t98/sso.csr t98/ssow.csr t98/tim.csr
 
 #
 # Clean
