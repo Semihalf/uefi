@@ -9,7 +9,14 @@ static int last_input;
 static char pending_rx[32];
 static int pending_rx_count = 0;
 
-int console_open_file(const char *filename)
+/**
+ * Add a file to the list of devices that the console polls for input
+ *
+ * @param filename Filename of the device to poll
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_console_open_file(const char *filename)
 {
     int fd = open(filename, O_RDWR, 0);
     if (fd < 0)
@@ -99,9 +106,9 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
                 last_input = i;
                 return bytes;
             }
-            else if ((i>1) && (bytes == 0))
+            else if (bytes < 0)
             {
-                /* Close dead scokets */
+                /* Close dead devices */
                 close(open_files[i]);
                 open_files[i] = 0;
                 if (i == last_input)
