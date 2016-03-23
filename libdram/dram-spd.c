@@ -310,7 +310,7 @@ static uint32_t get_dimm_checksum(bdk_node_t node, const dimm_config_t *dimm_con
 
 static
 void report_common_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int dimm,
-			const char **dimm_types, int ddr_type, char *volt_str)
+			const char **dimm_types, int ddr_type, char *volt_str, int ddr_interface_num)
 {
     int spd_ecc;
     unsigned spd_module_type;
@@ -332,12 +332,14 @@ void report_common_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int u
     }
 
     // FIXME: add output of DIMM rank/width, as in: 2Rx4, 1Rx8, etc
-    printf("DIMM %d: DDR%d %s, %s  %s  %s: %u   %s\n", dimm, ddr_type, dimm_types[spd_module_type],
+    printf("N%d.LMC%d DIMM %d: DDR%d %s, %s  %s  %s: %u   %s\n",
+           node, ddr_interface_num, dimm, ddr_type, dimm_types[spd_module_type],
 	   (spd_ecc ? "ECC" : "non-ECC"), part_number, sn_str, serial_number, volt_str);
 }
 
 static
-void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int dimm)
+void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
+                      int upper_dimm, int dimm, int ddr_interface_num)
 {
     int spd_voltage;
     char *volt_str;
@@ -369,11 +371,13 @@ void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upp
     if (spd_voltage & 4)
         volt_str = "1.2xV";
 
-    report_common_dimm(node, dimm_config, upper_dimm, dimm, dimm_types, DDR3_DRAM, volt_str);
+    report_common_dimm(node, dimm_config, upper_dimm, dimm, dimm_types,
+                       DDR3_DRAM, volt_str, ddr_interface_num);
 }
 
 static
-void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int dimm)
+void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
+                      int upper_dimm, int dimm, int ddr_interface_num)
 {
     int spd_voltage;
     char *volt_str;
@@ -405,10 +409,12 @@ void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upp
     if ((spd_voltage == 0x10) || (spd_voltage & 0x20))
 	volt_str = "TBD2 V";
 
-    report_common_dimm(node, dimm_config, upper_dimm, dimm, dimm_types, DDR4_DRAM, volt_str);
+    report_common_dimm(node, dimm_config, upper_dimm, dimm, dimm_types,
+                       DDR4_DRAM, volt_str, ddr_interface_num);
 }
 
-void report_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int dimm)
+void report_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm,
+                 int dimm, int ddr_interface_num)
 {
         int ddr_type;
 
@@ -416,8 +422,8 @@ void report_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_di
         ddr_type = get_ddr_type(node, dimm_config, upper_dimm);
 
         if (ddr_type == DDR4_DRAM)
-	    report_ddr4_dimm(node, dimm_config, 0, dimm);
+	    report_ddr4_dimm(node, dimm_config, 0, dimm, ddr_interface_num);
         else
-	    report_ddr3_dimm(node, dimm_config, 0, dimm);
+	    report_ddr3_dimm(node, dimm_config, 0, dimm, ddr_interface_num);
 }
 

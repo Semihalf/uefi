@@ -2557,7 +2557,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         /* Check for lower DIMM socket populated */
         if (validate_dimm(node, &dimm_config_table[didx], 0)) {
             if (dram_is_verbose(VBL_NORM))
-                report_dimm(node, &dimm_config_table[didx], 0, dimm_count);
+                report_dimm(node, &dimm_config_table[didx], 0, dimm_count, ddr_interface_num);
             ++dimm_count;
         } else { break; }       /* Finished when there is no lower DIMM */
     }
