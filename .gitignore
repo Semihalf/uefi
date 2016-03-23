@@ -11,6 +11,9 @@
 *.map
 *.swp
 *.orig
+*~
+\#*\#
+.\#*
 tags
 cscope.out
 cscope*
