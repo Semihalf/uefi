@@ -8,7 +8,7 @@ local usb_port = 0
 
 local function usb_init(usb_port)
     local clock_type = 0
-    local status = cavium.c.bdk_usb_intialize(menu.node, usb_port, clock_type)
+    local status = cavium.c.bdk_usb_initialize(menu.node, usb_port, clock_type)
     assert(status == 0, "Failed to initialize the USB port")
 end
 

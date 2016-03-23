@@ -17,7 +17,7 @@ void bdk_boot_usb(void)
                 int usb_polarity = bdk_config_get_int(BDK_CONFIG_USB_PWR_GPIO_POLARITY, n, p);
                 if (-1 != usb_gpio)
                     bdk_gpio_initialize(n, usb_gpio, 1, usb_polarity);
-                bdk_usb_intialize(n, p, 0);
+                bdk_usb_initialize(n, p, 0);
             }
         }
     }

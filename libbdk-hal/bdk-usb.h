@@ -17,6 +17,8 @@ typedef enum
     BDK_USB_TEST_USB2_SE0_NAK,
     BDK_USB_TEST_USB2_PACKET,
     BDK_USB_TEST_USB2_FORCE_ENABLE,
+    BDK_USB_HXCI_INIT, 
+    BDK_USB_HXCI_POLL_STATUS, 
     BDK_USB_TEST_USB2_LAST,
 } bdk_usb_test_t;
 
@@ -37,7 +39,7 @@ typedef enum
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type);
+extern int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type);
 
 /**
  * Put the USB port into a specific testing mode

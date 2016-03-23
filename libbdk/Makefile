@@ -19,6 +19,15 @@ dirs += libfatfs
 dirs += libbdk-bist
 dirs += libbdk-boot
 dirs += libfdt
+dirs += libbdk-hal/usb
+
+usbdir := libbdk-hal/usb
+usbsrc := $(foreach d,$(usbdir),$(BDK_ROOT)/$(d)/*.[cS])
+usbsrc := $(wildcard $(usbsrc))
+usbobjs = $(addsuffix .o, $(basename $(usbsrc)))
+usbdeps = $(addsuffix .d, $(basename $(usbsrc)))
+
+$(usbobjs) $(usbdeps): CPPFLAGS += -I $(BDK_ROOT)/$(usbdir)
 
 #
 # Create a list of all source files
@@ -102,9 +111,9 @@ endif
 # Clean targets
 #
 clean:
-	rm -rf $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o bdk.h.gch
+	@rm -rf $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o bdk.h.gch
 distclean: clean
-	rm -f $(deps)
+	@rm -f $(deps)
 
 $(BDK_ROOT)/libbdk-hal/if/bdk-if.o: CFLAGS+=-O3 -Wno-invalid-pch
 $(BDK_ROOT)/libbdk-lua/trafficgen.o: CFLAGS+=-O3 -Wno-invalid-pch

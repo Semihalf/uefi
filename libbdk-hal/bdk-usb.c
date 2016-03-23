@@ -13,12 +13,12 @@ BDK_REQUIRE_DEFINE(USB);
  *
  * @return Zero on success, negative on failure
  */
-int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
+
+int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
 {
     /* Asim's USB model is broken */
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
         return -1;
-
     int is_usbdrd = !CAVIUM_IS_MODEL(CAVIUM_CN88XX);
     /* Perform the following steps to initiate a cold reset. */
 
@@ -65,6 +65,14 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
             DRD(0..1)_UCTL_CTL[H_CLKDIV_RST] = 0. */
     uint64_t sclk_rate = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
     uint64_t divider = (sclk_rate + 300000000-1) / 300000000;
+    /*
+    ** Rules are:
+    ** - clock must be below 300MHz
+    ** USB3 full-rate requires 150 MHz or better
+    ** USB3 requires 125 MHz
+    ** USB2 full rate requires 90 MHz
+    ** USB2 requires 62.5 MHz
+    */
     if (divider <= 1)
         divider = 0;
     else if (divider <= 2)
@@ -100,6 +108,22 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
             c.s.h_clk_en = 1);
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
             c.s.h_clkdiv_rst = 0);
+        static bool printit[2] = {true,true};
+        if (printit[usb_port]) {
+            uint64_t fr_div;
+            if (divider < 5) fr_div = divider * 2;
+            else fr_div = 8 * (divider - 3);
+            uint64_t freq = (typeof(freq)) (sclk_rate / fr_div);
+            char *token;
+            if (freq < 62500000ULL) token = "???Low";
+            else if (freq < 90000000ULL) token = "USB2";
+            else if (freq < 125000000ULL) token = "USB2 Full";
+            else if (freq < 150000000ULL) token = "USB3";
+            else token = "USB3 Full";
+            printf("Freq %lld - %s\n",
+                   (unsigned long long)freq, token);
+            printit[usb_port] = false;
+        }
     }
 
     /* 6.  Configure the strap signals in USBDRD(0..1)_UCTL_CTL.
@@ -257,6 +281,7 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
             c.s.physoftrst = 1);
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GCTL(usb_port),
             c.s.coresoftreset = 1);
+        bdk_wait_usec(1);
     }
 
     /* 13. Program USBDRD(0..1)_UAHC_GCTL[PRTCAPDIR] to 0x2 for device mode
@@ -268,8 +293,12 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
     }
     else
     {
+#if 0
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GCTL(usb_port),
             c.s.prtcapdir = 1);
+#else 
+        // 1 is reset value
+#endif
     }
 
     /* 14. Wait 10us after step 13. for the PHY to complete its reset. */
@@ -427,6 +456,10 @@ int bdk_usb_test_mode(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode)
             return usb2_test_mode(node, usb_port, 4);
         case BDK_USB_TEST_USB2_FORCE_ENABLE:
             return usb2_test_mode(node, usb_port, 5);
+        case BDK_USB_HXCI_INIT:
+            return bdk_usb_HCInit(node, usb_port);
+        case BDK_USB_HXCI_POLL_STATUS:
+            return bdk_usb_HCPoll(node, usb_port);   
         case BDK_USB_TEST_USB2_LAST:
             break;
     }
@@ -457,6 +490,10 @@ const char* bdk_usb_get_test_mode_string(bdk_usb_test_t test_mode)
             return "USB 2.0 PACKET test";
         case BDK_USB_TEST_USB2_FORCE_ENABLE:
             return "USB 2.0 FORCE_ENABLE test";
+        case BDK_USB_HXCI_INIT:
+            return "USB hxci HC Init";
+    	case BDK_USB_HXCI_POLL_STATUS:
+            return "USB hxci poll root hub status";           
         case BDK_USB_TEST_USB2_LAST:
             break;
     }
