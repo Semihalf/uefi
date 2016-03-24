@@ -68,6 +68,14 @@ Directories:    utils/scripts/elftools/*
 Notes:          This is used by the BDK build scripts, but does not appear in
                 the final THUNDERX binary.
 
+Component:      Python ECDSA
+License:        Public Domain
+License Text:   utils/scripts/ecdsa/LICENSE
+Project URL:    https://github.com/warner/python-ecdsa
+Directories:    utils/scripts/ecdsa/*
+Notes:          This is used by the BDK build scripts for code signing, but
+                does not appear in the final THUNDERX binary.
+
 Component:      XHCI Driver
 License:        BSD
 License Text:   http://opensource.org/licenses/bsd-license.php
