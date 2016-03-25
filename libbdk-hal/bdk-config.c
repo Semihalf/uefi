@@ -1118,6 +1118,35 @@ uint64_t __bdk_config_export_to_mem(void)
 }
 
 /**
+ * Return a pointer to the device tree used for configuration
+ *
+ * @return FDT or NULL on failure
+ */
+void* bdk_config_get_fdt(void)
+{
+    return config_fdt;
+}
+
+/**
+ * Set the device tree used for configuration
+ *
+ * @param fdt    Device tree to use. Memory is assumed to be from malloc() and bdk_config takes
+ *               over ownership on success
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_config_set_fdt(void *fdt)
+{
+    int offset = fdt_path_offset(fdt, "/cavium,bdk"); /* Find our node */
+    if (offset < 0)
+        return -1;
+    free(config_fdt);
+    config_fdt = fdt;
+    config_node = offset;
+    return 0;
+}
+
+/**
  * Some of the default config values can vary based on runtime parameters. This
  * function sets those default parameters. It must be run before anyone calls
  * bdk_config_get_*().

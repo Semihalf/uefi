@@ -3,11 +3,11 @@ include $(BDK_ROOT)/libbdk/bdk.mk
 init.bin: app.bin
 	$(BDK_ROOT)/bin/bdk-update-romfs $@ $^
 
-app: app.o $(BDK_ROOT)/libbdk/libbdk.a
+app: app.o devtree.o $(BDK_ROOT)/libbdk/libbdk.a
 %.o: %.d
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(MAKECMDGOALS),distclean)
--include app.d
+-include app.d devtree.d
 endif
 endif
 

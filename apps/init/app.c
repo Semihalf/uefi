@@ -320,6 +320,13 @@ int main(int argc, const char **argv)
     /* Poke the watchdog */
     bdk_watchdog_poke();
 
+    /* Process the Operating system device tree */
+    extern int devtree_process(void);
+    devtree_process();
+
+    /* Poke the watchdog */
+    bdk_watchdog_poke();
+
     if (MFG_SYSTEM_LEVEL_TEST)
     {
         printf("Manufacturing System Level Test Boot Menu:\n");

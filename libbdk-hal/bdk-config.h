@@ -227,4 +227,21 @@ extern int bdk_config_save(void);
  */
 extern uint64_t __bdk_config_export_to_mem(void);
 
+/**
+ * Return a pointer to the device tree used for configuration
+ *
+ * @return FDT or NULL on failure
+ */
+extern void* bdk_config_get_fdt(void);
+
+/**
+ * Set the device tree used for configuration
+ *
+ * @param fdt    Device tree to use. Memory is assumed to be from malloc() and bdk_config takes
+ *               over ownership on success
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_config_set_fdt(void *fdt);
+
 /** @} */
