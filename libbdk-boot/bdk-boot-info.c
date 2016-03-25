@@ -69,6 +69,16 @@ void bdk_boot_info_strapping(bdk_node_t node)
             node, (ocx_com_node.s.fixed_pin) ? " (Fixed)" : "");
     }
 
+    extern uint64_t __bdk_init_reg_pc; /* The contents of PC when this image started */
+    const char *secure_image = "";
+    if (node == bdk_numa_master())
+    {
+        if (__bdk_init_reg_pc == 0x150000)
+            secure_image = ", Secure Boot";
+        else if (__bdk_init_reg_pc == 0x120000)
+            secure_image = ", Non-secure Boot";
+    }
+
     printf(
         "Chip:  0x%x Pass %d.%d%s\n"
         "SKU:   %s\n"
@@ -77,7 +87,7 @@ void bdk_boot_info_strapping(bdk_node_t node)
         "SCLK:  %lu Mhz\n"
         "Boot:  %s(%d)\n"
         "VRM:   %s\n"
-        "Trust: %s\n",
+        "Trust: %s%s\n",
         gicd_iidr.s.productid, major_pass, minor_pass, package_str,
         bdk_model_get_sku(node),
         bdk_l2c_get_cache_size_bytes(node) >> 10,
@@ -85,7 +95,7 @@ void bdk_boot_info_strapping(bdk_node_t node)
         bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000,
         boot_method_str, boot_method,
         (vrm_disable) ? "Disabled" : "Enabled",
-        (trust_mode) ? "Enabled" : "Disabled");
+        (trust_mode) ? "Enabled" : "Disabled", secure_image);
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {

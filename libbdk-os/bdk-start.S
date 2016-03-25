@@ -114,6 +114,7 @@ __bdk_start:
     /* Relocate ourself if we aren't running at our link address */
     mov     x0, x7              /* x0 = _start location as an absolute */
     adr     x1, _start          /* x1 = _start location based on PC */
+    fmov    d29, x1             /* Store our original PC to pass to C code. Useful for detecting trusted boot */
     cmp     x0, x1              /* See if we're running at the right location */
     b.eq    after_relocate      /* Skip relocate if we're already there */
     ldr     w2, [x1, 4]         /* w2 = Image length we need to copy */
@@ -230,6 +231,7 @@ __bdk_start_cores:
 
     fmov    x1, d30 /* The original X0 is now in X1, info from previous image */
     fmov    x2, d31 /* The original X1 is now in X2, info from previous image */
+    fmov    x3, d29 /* The original PC we were loaded at */
     /* Jump to C code */
     bl      __bdk_init
 1:  b       1b              /* Infinite loop we should never reach */

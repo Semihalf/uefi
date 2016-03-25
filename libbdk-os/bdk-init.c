@@ -8,6 +8,7 @@
 
 uint64_t __bdk_init_reg_x0; /* The contents of X0 when this image started */
 uint64_t __bdk_init_reg_x1; /* The contents of X1 when this image started */
+uint64_t __bdk_init_reg_pc; /* The contents of PC when this image started */
 static int64_t __bdk_alive_coremask[BDK_NUMA_MAX_NODES];
 
 /**
@@ -117,9 +118,11 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
  *                  boot stub, this contains a physical address of a device tree in memory. This
  *                  should be used by all images to identify and configure the board we are running
  *                  on.
+ * @param reg_pc    This is the PC the code started at before relocation. This is useful for
+ *                  the first stage to determine if it from trusted or non-trusted code.
  */
-void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1) __attribute((noreturn));
-void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1)
+void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1, uint64_t reg_pc) __attribute((noreturn));
+void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1, uint64_t reg_pc)
 {
     extern void __bdk_exception_current_el_sync_sp0();
     BDK_MSR(VBAR_EL3, __bdk_exception_current_el_sync_sp0);
@@ -269,6 +272,7 @@ void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1)
     /* Record our input registers for use later */
     __bdk_init_reg_x0 = reg_x0;
     __bdk_init_reg_x1 = reg_x1;
+    __bdk_init_reg_pc = reg_pc;
     bdk_thread_first(__bdk_init_main, 0, NULL, 0);
 }
 

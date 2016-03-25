@@ -77,7 +77,7 @@ wait_for("RCLK:  2500 Mhz")
 wait_for("SCLK:  800 Mhz")
 wait_for("Boot:  SPI24(5)")
 wait_for("VRM:   Enabled")
-wait_for("Trust: Disabled")
+wait_for("Trust: Disabled, Non-secure Boot")
 wait_for("Press 'B' within 10 seconds for boot menu")
 send("b")
 

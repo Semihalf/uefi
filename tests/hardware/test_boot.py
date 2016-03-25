@@ -31,7 +31,7 @@ def wait_for_bootstub_messages(cnx):
         cnx.match("VRM:   Disabled")
     except:
         cnx.match("VRM:   Enabled")
-    cnx.match("Trust: Disabled")
+    cnx.match("Trust: Disabled, Non-secure Boot")
     cnx.match("CCPI:")
     cnx.waitfor("Press 'B' within 10 seconds for boot menu")
     cnx.write("B")
