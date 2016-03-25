@@ -879,10 +879,10 @@ static int  get_wlevel_rank_struct(bdk_lmcx_wlevel_rankx_t *lmc_wlevel_rank,
 #if 0
 // entry = 1 is valid, entry = 0 is invalid
 static int
-validity_matrix[4][4] = {[0] {1,1,1,0},  // valid pairs when cv == 0: 0,0 + 0,1 + 0,2
-			 [1] {0,1,1,1},  // valid pairs when cv == 1: 1,1 + 1,2 + 1,3
-			 [2] {1,0,1,1},  // valid pairs when cv == 2: 2,2 + 2,3 + 2,0
-			 [3] {1,1,0,1}}; // valid pairs when cv == 3: 3,3 + 3,0 + 3,1
+validity_matrix[4][4] = {[0] {1,1,1,0},  // valid pairs when cv == 0: 0,0 + 0,1 + 0,2 == "7"
+			 [1] {0,1,1,1},  // valid pairs when cv == 1: 1,1 + 1,2 + 1,3 == "E"
+			 [2] {1,0,1,1},  // valid pairs when cv == 2: 2,2 + 2,3 + 2,0 == "D"
+			 [3] {1,1,0,1}}; // valid pairs when cv == 3: 3,3 + 3,0 + 3,1 == "B"
 #endif
 static int
 validate_seq(int *wl, int *seq)
@@ -897,7 +897,7 @@ validate_seq(int *wl, int *seq)
 	    return 1;
 #else
 	bitnum = (wl[seq[seqx]] << 2) | wl[seq[seqx+1]];
-	if (!((1 << bitnum) & 0xBDE7)) // magic validity number :-D
+	if (!((1 << bitnum) & 0xBDE7)) // magic validity number (see matrix above)
 	    return 1;
 #endif
 	seqx++;
@@ -907,25 +907,29 @@ validate_seq(int *wl, int *seq)
 
 static int
 Validate_HW_WL_Settings(bdk_node_t node, int ddr_interface_num,
-			bdk_lmcx_wlevel_rankx_t *lmc_wlevel_rank)
+			bdk_lmcx_wlevel_rankx_t *lmc_wlevel_rank,
+                        int ecc_ena)
 {
     int wl[9], byte, errors;
+
     // arrange the sequences so 
-    int useq[] = { 0,1,2,3,8,4,5,6,7,-1 }; // index 0 has byte 0, etc
+    int useq[] = { 0,1,2,3,8,4,5,6,7,-1 }; // index 0 has byte 0, etc, ECC in middle
     int rseq1[] = { 8,3,2,1,0,-1 }; // index 0 is ECC, then go down
     int rseq2[] = { 4,5,6,7,-1 }; // index 0 has byte 4, then go up
+    int useqno[] = { 0,1,2,3,4,5,6,7,-1 }; // index 0 has byte 0, etc, no ECC
+    int rseq1no[] = { 3,2,1,0,-1 }; // index 0 is byte 3, then go down, no ECC
     
     // in the CSR, bytes 0-7 are always data, byte 8 is ECC
-    for (byte = 0; byte < 9; byte++) {
+    for (byte = 0; byte < 8+ecc_ena; byte++) {
 	wl[byte] = (get_wlevel_rank_struct(lmc_wlevel_rank, byte) >> 1) & 3; // preprocess :-)
     }
 
     errors = 0;
     if (__bdk_dram_is_rdimm(node, 0) != 0) { // RDIMM order
-	errors  = validate_seq(wl, rseq1);
+	errors  = validate_seq(wl, (ecc_ena) ? rseq1 : rseq1no);
 	errors += validate_seq(wl, rseq2);
     } else { // UDIMM order
-	errors  = validate_seq(wl, useq);
+	errors  = validate_seq(wl, (ecc_ena) ? useq : useqno);
     }
 
     return errors;
@@ -4937,8 +4941,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	    // restructure the looping so we can keep trying until we get the samples we want
 	    //for (int wloop = 0; wloop < wlevel_loops; wloop++) {
 	    int wloop = 0;
-	    int wloop_retries = 0; // retries for HW-related issues with bitmasks or values
+	    int wloop_retries = 0; // retries per sample for HW-related issues with bitmasks or values
+            int wloop_retries_total = 0;
+            int wloop_retries_exhausted = 0;
 #define WLOOP_RETRIES_DEFAULT 5
+            int wlevel_validity_errors;
+            int wlevel_bitmask_errors_rank = 0;
+            int wlevel_validity_errors_rank = 0;
 
 	    while (wloop < wlevel_loops) {
 
@@ -5043,9 +5052,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    mr_wr_addr |=     1                                             << 17; /* RFU */
 		    ddr4_mrw(node, ddr_interface_num, rankx, mr_wr_addr, ~1, 1); /* MR1 B-side */ // FIXME??
 		}
-#endif
+#endif /* RUN_INIT_SEQ_3 */
+
 		DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), 0); /* Clear write-level delays */
-		wlevel_bitmask_errors = 0; /* Reset error counter */
+		wlevel_bitmask_errors = 0; /* Reset error counters */
+                wlevel_validity_errors = 0;
 
 		for (byte_idx=0; byte_idx<9; ++byte_idx) {
 		    wlevel_bitmask[byte_idx] = 0; /* Reset bitmasks */
@@ -5111,34 +5122,36 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
 #endif
 
-		// before we print, if we had bitmask errors, do a retry...
-		if (wlevel_bitmask_errors != 0) {
-		    if (wloop_retries < WLOOP_RETRIES_DEFAULT) {
-			wloop_retries++;
-			// FIXME: at some point remove this printout
-			ddr_print("N%d.LMC%d.R%d: H/W Write-Leveling had %d Bitmask errors - retrying...\n",
-				  node, ddr_interface_num, rankx, wlevel_bitmask_errors);
-			continue; // this takes us back to the top without counting a sample
-		    } else {
-			ddr_print("N%d.LMC%d.R%d: H/W Write-Leveling Failed: %d Bitmask errors\n",
-				  node, ddr_interface_num, rankx, wlevel_bitmask_errors);
-		    }
-		}
+                // check validity only if no bitmask errors
+                if (wlevel_bitmask_errors == 0) {
+                    wlevel_validity_errors =
+                        Validate_HW_WL_Settings(node, ddr_interface_num,
+                                                &lmc_wlevel_rank, ecc_ena);
+                    wlevel_validity_errors_rank += (wlevel_validity_errors != 0);
+                } else
+                    wlevel_bitmask_errors_rank++;
 
-		// also before we print, validate the HW WL settings we got
-		int wlevel_validity_errors = Validate_HW_WL_Settings(node, ddr_interface_num, &lmc_wlevel_rank);
-		if (wlevel_validity_errors != 0) {
+		// before we print, if we had bitmask or validity errors, do a retry...
+		if ((wlevel_bitmask_errors != 0) || (wlevel_validity_errors != 0)) {
 		    if (wloop_retries < WLOOP_RETRIES_DEFAULT) {
 			wloop_retries++;
-			// FIXME: at some point remove this printout
-			ddr_print("N%d.LMC%d.R%d: H/W Write-Leveling had %d Validity errors - retrying...\n",
-				  node, ddr_interface_num, rankx, wlevel_validity_errors);
+                        wloop_retries_total++;
+			// this printout is per-retry: only when VBL is high enough (DEV?)
+                        // FIXME: do we want to show the bad bitmaps or delays here also?
+			VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: H/W Write-Leveling had %s errors - retrying...\n",
+				  node, ddr_interface_num, rankx,
+                                  (wlevel_bitmask_errors) ? "Bitmask" : "Validity");
 			continue; // this takes us back to the top without counting a sample
-		    } else {
-			ddr_print("N%d.LMC%d.R%d: H/W Write-Leveling Failed: %d Validity errors\n",
-				  node, ddr_interface_num, rankx, wlevel_validity_errors);
+		    } else { // ran out of retries for this sample
+                        // retries exhausted, do not print at normal VBL
+			VB_PRT(VBL_FAE, "N%d.LMC%d.R%d: H/W Write-Leveling issues: %s errors\n",
+				  node, ddr_interface_num, rankx,
+                                  (wlevel_bitmask_errors) ? "Bitmask" : "Validity");
+                        wloop_retries_exhausted++;
 		    }
 		}
+                // no errors or exhausted retries, use this sample
+                wloop_retries = 0; //reset for next sample
 
 		// when only 1 sample or forced, print the bitmasks first and current HW WL
 		if ((wlevel_loops == 1) || ddr_wlevel_printall) {
@@ -5281,6 +5294,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		display_WL_with_final(node, ddr_interface_num, lmc_wlevel_rank, rankx);
 	    } /* if (wlevel_loops > 1) */
 #endif /* HW_WL_MAJORITY */
+            // maybe print an error summary for the rank
+            if ((wlevel_bitmask_errors_rank != 0) || (wlevel_validity_errors_rank != 0)) {
+                VB_PRT(VBL_NORM, "N%d.LMC%d.R%d: H/W Write-Leveling errors - %d bitmask, %d validity, %d retries, %d exhausted\n",
+                       node, ddr_interface_num, rankx,
+                       wlevel_bitmask_errors_rank, wlevel_validity_errors_rank,
+                       wloop_retries_total, wloop_retries_exhausted);
+            }
+
 	} /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
 
 #if RUN_INIT_SEQ_3
@@ -5367,7 +5388,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             /* Rerun write-leveling now that write-deskew is enabled. */
 
             /* Read and write values back in order to update the
-               status field. This insurs that we read the updated
+               status field. This insures that we read the updated
                values after write-leveling has completed. */
             DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
 			   BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx)));
