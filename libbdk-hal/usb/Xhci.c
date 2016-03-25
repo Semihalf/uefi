@@ -1,8 +1,7 @@
 /** @file
+  The XHCI controller driver.
 
-  XHCI transfer scheduling routines.
-
-Copyright (c) 2011 - 2014, Intel Corporation. All rights reserved.<BR>
+Copyright (c) 2011 - 2015, Intel Corporation. All rights reserved.<BR>
 This program and the accompanying materials
 are licensed and made available under the terms and conditions of the BSD License
 which accompanies this distribution.  The full text of the license may be found at
@@ -14,8 +13,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 **/
 
 #include <bdk.h>
-//#include <Protocol/Usb2HostController.h>
-#include "bdk-xhci.h"
+#include "Xhci.h"
 #include <malloc.h> // for memalign
 #include "UsbBus.h"
 #include "UsbDesc.h"
@@ -45,35 +43,53 @@ EFI_USB2_HC_PROTOCOL gXhciUsb2HcTemplate = {
   0x3,
   0x0
 };
-
-
-#define XHCI_OP_TIMEOUT 10000
 /*
- * Reset hxci host controller
- * @param node       Node 
- * @param usb_port   Usb port
- *
- * @return Zero on success, non zero on failure
- */
-int reset_xhc(bdk_node_t node,int usb_port)
+** Helper functions
+*/
+static  EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout) 
 {
-    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),
-                   c.s.r_s = 0;);
-    return BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_USBSTS(usb_port), hch, == ,1, XHCI_OP_TIMEOUT); 
+    BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 1;);
+    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,0, timeout) ?
+        EFI_TIMEOUT : EFI_SUCCESS ;    
 }
 
-int halt_xhc(bdk_node_t node,int usb_port)
+static EFI_STATUS cvmXhcHaltHC(xhci_t* xhc,uint64_t timeout) 
 {
-    return reset_xhc(node, usb_port);
+    BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 0;);
+    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,1, timeout) ? 
+        EFI_TIMEOUT : EFI_SUCCESS ;      
 }
 
-int run_xhc(bdk_node_t node,int usb_port)
-{
-    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),
-                   c.s.r_s = 1;);
-    return BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_USBSTS(usb_port), hch, == ,0, XHCI_OP_TIMEOUT); 
-}
 
+static EFI_STATUS cvmXhcResetHC (
+  IN USB_XHCI_INSTANCE    *Xhc,
+  IN UINT64               Timeout
+  )
+{
+    EFI_STATUS              Status;
+    
+    Status = EFI_SUCCESS;
+    if (!cvmXhcIsHalt(Xhc)) {
+        Status = cvmXhcHaltHC (Xhc, Timeout);
+        
+        if (EFI_ERROR (Status)) {
+            return Status;
+        }
+    }
+#if defined(notdef_cavium)
+  if ((Xhc->DebugCapSupOffset == 0xFFFFFFFF) || ((XhcReadExtCapReg (Xhc, Xhc->DebugCapSupOffset) & 0xFF) != XHC_CAP_USB_DEBUG) ||
+      ((XhcReadExtCapReg (Xhc, Xhc->DebugCapSupOffset + XHC_DC_DCCTRL) & BIT0) == 0)) {
+    XhcSetOpRegBit (Xhc, XHC_USBCMD_OFFSET, XHC_USBCMD_RESET);
+    Status = XhcWaitOpRegBit (Xhc, XHC_USBCMD_OFFSET, XHC_USBCMD_RESET, FALSE, Timeout);
+  }
+#else
+  BDK_CSR_MODIFY(c,Xhc->node,BDK_USBHX_UAHC_USBCMD(Xhc->usb_port),c.s.hcrst=1;);
+  BDK_WMB;
+  return BDK_CSR_WAIT_FOR_FIELD(Xhc->node, BDK_USBHX_UAHC_USBCMD(Xhc->usb_port), hcrst, == , 0, Timeout) ?
+      EFI_TIMEOUT : EFI_SUCCESS;
+#endif    
+
+}
 
 /*
  * Create instance of xhci controller in memory and initialize read-only parameters
@@ -107,35 +123,6 @@ xhci_t* createUsbXHci(bdk_node_t node, int usb_port)
     thisXHC->usb_port = usb_port;
     
     return thisXHC;
-}
-
-int cvmXhcResetHC (
-  IN USB_XHCI_INSTANCE    *Xhc,
-  IN UINT32               Timeout
-  )
-{
-    EFI_STATUS              Status;
-    
-    Status = EFI_SUCCESS;
-    if (!cvmXhcIsHalt(Xhc)) {
-        Status = cvmXhcHaltHC (Xhc, Timeout);
-        
-        if (EFI_ERROR (Status)) {
-            return Status;
-        }
-    }
-#if defined(notdef_cavium)
-  if ((Xhc->DebugCapSupOffset == 0xFFFFFFFF) || ((XhcReadExtCapReg (Xhc, Xhc->DebugCapSupOffset) & 0xFF) != XHC_CAP_USB_DEBUG) ||
-      ((XhcReadExtCapReg (Xhc, Xhc->DebugCapSupOffset + XHC_DC_DCCTRL) & BIT0) == 0)) {
-    XhcSetOpRegBit (Xhc, XHC_USBCMD_OFFSET, XHC_USBCMD_RESET);
-    Status = XhcWaitOpRegBit (Xhc, XHC_USBCMD_OFFSET, XHC_USBCMD_RESET, FALSE, Timeout);
-  }
-#else
-  BDK_CSR_MODIFY(c,Xhc->node,BDK_USBHX_UAHC_USBCMD(Xhc->usb_port),c.s.hcrst=1;);
-  BDK_WMB;
-  return BDK_CSR_WAIT_FOR_FIELD(Xhc->node, BDK_USBHX_UAHC_USBCMD(Xhc->usb_port), hcrst, == , 0, Timeout);
-#endif    
-
 }
 
 const USB_PORT_STATE_MAP mUsbPortStateMap[] = {
@@ -401,7 +388,7 @@ XhcSetRootHubPortFeature (
       Status = cvmXhcRunHC (Xhc, XHC_GENERIC_TIMEOUT);
 
       if (EFI_ERROR (Status)) {
-        DEBUG ((EFI_D_INFO, "XhcSetRootHubPortFeature :failed to start HC - %r\n", Status));
+          DEBUG ((EFI_D_INFO, "XhcSetRootHubPortFeature :failed to start HC - %d\n", (int)Status));
         break;
       }
     }
@@ -440,7 +427,7 @@ XhcSetRootHubPortFeature (
   }
 
 ON_EXIT:
-  DEBUG ((EFI_D_INFO, "XhcSetRootHubPortFeature: status %r\n", Status));
+  DEBUG ((EFI_D_INFO, "XhcSetRootHubPortFeature: status %d\n", (int) Status));
 #if defined(notdef_cavium)
   gBS->RestoreTPL (OldTpl);
 #endif
@@ -558,11 +545,21 @@ XhcReset (
     }
 
     Status = cvmXhcResetHC (Xhc, XHC_RESET_TIMEOUT);
+#if defined(notdef_cavium)
     ASSERT (!(XHC_REG_BIT_IS_SET (Xhc, XHC_USBSTS_OFFSET, XHC_USBSTS_CNR)));
-
     if (EFI_ERROR (Status)) {
       goto ON_EXIT;
     }
+#else
+    { 
+        BDK_CSR_INIT(uahc_usbsts, Xhc->node,BDK_USBHX_UAHC_USBSTS(Xhc->usb_port));
+        if (EFI_ERROR(Status) || (uahc_usbsts.u & (/* XHC_USBSTS_HALT | */   XHC_USBSTS_HSE | XHC_USBSTS_CNR))) {
+            DEBUG((EFI_D_ERROR,"Failed to reset xHC: %d %llx\n", (int) Status, (unsigned long long) uahc_usbsts.u));
+            Status = EFI_DEVICE_ERROR; 
+            goto ON_EXIT;
+        }
+    }
+#endif
     //
     // Clean up the asynchronous transfers, currently only
     // interrupt supports asynchronous operation.
@@ -583,7 +580,7 @@ XhcReset (
   }
 
 ON_EXIT:
-  DEBUG ((EFI_D_INFO, "XhcReset: status %r\n", Status));
+  DEBUG ((EFI_D_INFO, "XhcReset: status %d\n", (int) Status));
   /* gBS->RestoreTPL (OldTpl); */
 
   return Status;
@@ -847,7 +844,7 @@ XhcSetState (
     Status = EFI_INVALID_PARAMETER;
   }
 
-  DEBUG ((EFI_D_INFO, "XhcSetState: status %r\n", Status));
+  DEBUG ((EFI_D_INFO, "XhcSetState: status %d\n", (int) Status));
 #if defined(notdef_cavium)
   gBS->RestoreTPL (OldTpl);
 #endif
@@ -959,7 +956,7 @@ XhcControlTransfer (
   *TransferResult = EFI_USB_ERR_SYSTEM;
   Len             = 0;
 
-  if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */cvmXhcOK(Xhc)) {
+  if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */bdk_unlikely(cvmXhcNotOK(Xhc))) {
     DEBUG ((EFI_D_ERROR, "XhcControlTransfer: HC halted at entrance\n"));
     goto ON_EXIT;
   }
@@ -1252,7 +1249,7 @@ FREE_URB:
 ON_EXIT:
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcControlTransfer: error - %r, transfer - %x\n", Status, *TransferResult));
+      DEBUG ((EFI_D_ERROR, "XhcControlTransfer: error - %d, transfer - %x\n", (int)Status, *TransferResult));
   }
 
   /* gBS->RestoreTPL (OldTpl); */
@@ -1340,7 +1337,7 @@ XhcBulkTransfer (
   *TransferResult = EFI_USB_ERR_SYSTEM;
   Status          = EFI_DEVICE_ERROR;
 
-  if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */ cvmXhcOK(Xhc)) {
+  if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */ bdk_unlikely(cvmXhcNotOK(Xhc))) {
     DEBUG ((EFI_D_ERROR, "XhcBulkTransfer: HC is halted\n"));
     goto ON_EXIT;
   }
@@ -1401,7 +1398,7 @@ XhcBulkTransfer (
 ON_EXIT:
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcBulkTransfer: error - %r, transfer - %x\n", Status, *TransferResult));
+      DEBUG ((EFI_D_ERROR, "XhcBulkTransfer: error - %d, transfer - %x\n", (int)Status, *TransferResult));
   }
   /* gBS->RestoreTPL (OldTpl); */
 
@@ -1506,13 +1503,13 @@ XhcAsyncInterruptTransfer (
     }
 
     Status = XhciDelAsyncIntTransfer (Xhc, DeviceAddress, EndPointAddress);
-    DEBUG ((EFI_D_INFO, "XhcAsyncInterruptTransfer: remove old transfer for addr %d, Status = %r\n", DeviceAddress, Status));
+    DEBUG ((EFI_D_INFO, "XhcAsyncInterruptTransfer: remove old transfer for addr %d, Status = %d\n", DeviceAddress, (int)Status));
     goto ON_EXIT;
   }
 
   Status = EFI_SUCCESS;
 
-  if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */cvmXhcOK(Xhc)) {
+  if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */bdk_unlikely(cvmXhcNotOK(Xhc))) {
     DEBUG ((EFI_D_ERROR, "XhcAsyncInterruptTransfer: HC is halt\n"));
     Status = EFI_DEVICE_ERROR;
     goto ON_EXIT;
@@ -1648,7 +1645,7 @@ XhcSyncInterruptTransfer (
   *TransferResult = EFI_USB_ERR_SYSTEM;
   Status          = EFI_DEVICE_ERROR;
 
-  if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */cvmXhcOK(Xhc)) {
+  if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */bdk_unlikely(cvmXhcNotOK(Xhc))) {
     DEBUG ((EFI_D_ERROR, "EhcSyncInterruptTransfer: HC is halt\n"));
     goto ON_EXIT;
   }
@@ -1704,7 +1701,7 @@ XhcSyncInterruptTransfer (
 
 ON_EXIT:
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcSyncInterruptTransfer: error - %r, transfer - %x\n", Status, *TransferResult));
+      DEBUG ((EFI_D_ERROR, "XhcSyncInterruptTransfer: error - %d, transfer - %x\n", (int)Status, *TransferResult));
   }
   /* gBS->RestoreTPL (OldTpl); */
 

@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 **/
 #include <bdk.h>
-#include "bdk-xhci.h"
+#include "Xhci.h"
 #include <malloc.h> // for memalign
 #include "UsbBus.h"
 #include "UsbDesc.h"
@@ -25,6 +25,30 @@ typedef struct usb_hc_descriptor_s {
     USB_INTERFACE *root_if;
     xhci_t *xhci_priv;
 } usb_hc_descriptor_t;
+/**
+Internal helper routines
+*/
+#define CVM_XHCI_OP_TIMEOUT (1000 * 1000) /* 1000 milliseconds */
+/*
+ * Reset hxci host controller
+ * @param node       Node 
+ * @param usb_port   Usb port
+ *
+ * @return Zero on success, non zero on failure
+ */
+static int reset_xhc(bdk_node_t node,int usb_port)
+{
+    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),
+                   c.s.r_s = 0;);
+    return BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_USBSTS(usb_port), hch, == ,1, CVM_XHCI_OP_TIMEOUT); 
+}
+
+static int run_xhc(bdk_node_t node,int usb_port)
+{
+    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),
+                   c.s.r_s = 1;);
+    return BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_USBSTS(usb_port), hch, == ,0, CVM_XHCI_OP_TIMEOUT); 
+}
 
 static usb_hc_descriptor_t usb_global_data[BDK_NUMA_MAX_NODES][CAVIUM_MAX_USB_INSTANCES];
 int bdk_usb_HCInit(bdk_node_t node, int usb_port) 
@@ -39,7 +63,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     
     }
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBHX_UAHC_USBSTS(usb_port), cnr, ==, 0, 10000)) {
-        bdk_error("USB%d - rimeout waiting for controller ready\n", usb_port);
+        bdk_error("USB%d - timeout waiting for controller ready\n", usb_port);
         return -1;
     }
     int rc = 0;
@@ -121,7 +145,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
                                            &Support64);
            
             RootIf->IsHub      = TRUE;
-            RootIf->HubApi     = /*&mUsbRootHubApi*/ NULL;;
+            RootIf->HubApi     = &mUsbRootHubApi;
             RootIf->HubEp      = NULL;
             RootIf->MaxSpeed   = MaxSpeed;
             RootIf->NumOfPort  = NumOfPort;
@@ -134,170 +158,11 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         usb_global_data[node][usb_port].usb_bus = UsbBus;
         usb_global_data[node][usb_port].root_hub = RootHub; 
     }   
+    CAVIUM_NOTYET("Not yet enumerating at the end of init");
 out:
     if (rc) 
         printf("%s exiting with rc %d\n", __FUNCTION__, rc);
     return rc;
-}
-
-/**
-  Free the resource used by this USB device.
-
-  @param  Device                The USB device to free.
-
-**/
-VOID
-UsbFreeDevice (
-  IN USB_DEVICE           *Device
-  )
-{
-  if (Device->DevDesc != NULL) {
-    UsbFreeDevDesc (Device->DevDesc);
-  }
-
-  /* gBS->FreePool (Device); */
-  free(Device);
-}
-/**
-  Remove the current device configuration.
-
-  @param  Device                The USB device to remove configuration from.
-
-**/
-EFI_STATUS
-UsbRemoveConfig (
-  IN USB_DEVICE           *Device
-  )
-{
-  USB_INTERFACE           *UsbIf;
-  UINTN                   Index;
-  EFI_STATUS              Status;
-  EFI_STATUS              ReturnStatus;
-
-  //
-  // Remove each interface of the device
-  //
-  ReturnStatus = EFI_SUCCESS;
-  for (Index = 0; Index < Device->NumOfInterface; Index++) {    
-    ASSERT (Index < USB_MAX_INTERFACE);
-    UsbIf = Device->Interfaces[Index];
-
-    if (UsbIf == NULL) {
-      continue;
-    }
-#if defined(notdef_cavium)
-    Status = UsbDisconnectDriver (UsbIf);
-    if (!EFI_ERROR (Status)) {
-      UsbFreeInterface (UsbIf);
-      Device->Interfaces[Index] = NULL;
-    } else {
-      ReturnStatus = Status;
-    }
-#else
-    CAVIUM_NOTYET("Not removing Interface\n");
-#endif
-  }
-  Device->ActiveConfig    = NULL;
-  return ReturnStatus;
-}
-
-
-/**
-  Find the child device on the hub's port.
-
-  @param  HubIf                 The hub interface.
-  @param  Port                  The port of the hub this child is connected to.
-
-  @return The device on the hub's port, or NULL if there is none.
-
-**/
-static USB_DEVICE *
-UsbFindChild (
-  IN USB_INTERFACE        *HubIf,
-  IN UINT8                Port
-  )
-{
-  USB_DEVICE              *Device;
-  USB_BUS                 *Bus;
-  UINTN                   Index;
-
-  Bus = HubIf->Device->Bus;
-
-  //
-  // Start checking from device 1, device 0 is the root hub
-  //
-  for (Index = 1; Index < Bus->MaxDevices; Index++) {
-    Device = Bus->Devices[Index];
-
-    if ((Device != NULL) && (Device->ParentAddr == HubIf->Device->Address) &&
-        (Device->ParentPort == Port)) {
-
-      return Device;
-    }
-  }
-
-  return NULL;
-}
-/**
-  Remove the device and all its children from the bus.
-
-  @param  Device                The device to remove.
-
-  @retval EFI_SUCCESS           The device is removed.
-
-**/
-EFI_STATUS
-UsbRemoveDevice (
-  IN USB_DEVICE           *Device
-  )
-{
-  USB_BUS                 *Bus;
-  USB_DEVICE              *Child;
-  EFI_STATUS              Status;
-  EFI_STATUS              ReturnStatus;
-  UINTN                   Index;
-
-  Bus = Device->Bus;
-
-  //
-  // Remove all the devices on its downstream ports. Search from devices[1].
-  // Devices[0] is the root hub.
-  //
-  ReturnStatus = EFI_SUCCESS;
-  for (Index = 1; Index < Bus->MaxDevices; Index++) {
-    Child = Bus->Devices[Index];
-
-    if ((Child == NULL) || (Child->ParentAddr != Device->Address)) {
-      continue;
-    }
-
-    Status = UsbRemoveDevice (Child);
-
-    if (!EFI_ERROR (Status)) {
-      Bus->Devices[Index] = NULL;
-    } else {
-      Bus->Devices[Index]->DisconnectFail = TRUE;
-      ReturnStatus = Status;
-      DEBUG ((EFI_D_INFO, "UsbRemoveDevice: failed to remove child %p at parent %p\n", Child, Device));
-    }
-  }
-
-  if (EFI_ERROR (ReturnStatus)) {
-    return ReturnStatus;
-  }
-
-  Status = UsbRemoveConfig (Device);
-
-  if (!EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_INFO, "UsbRemoveDevice: device %d removed\n", Device->Address));
-
-    ASSERT (Device->Address < Bus->MaxDevices);
-    Bus->Devices[Device->Address] = NULL;
-    UsbFreeDevice (Device);
-  } else {
-    Bus->Devices[Device->Address]->DisconnectFail = TRUE;
-  }
-  return Status;
 }
 
 int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
@@ -315,6 +180,9 @@ int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
                node, usb_port);
         return -1;
     }
+#if 1
+    UsbRootHubEnumeration(0,RootHubIf);
+#else
     unsigned Index;
     for (Index = 0; Index < RootHubIf->NumOfPort; Index++) {
         MT_DEBUG("Polling n:%d usb:%d port %d\n",  node, usb_port,Index);
@@ -411,6 +279,7 @@ int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
             }
         }
     }
+#endif
     return 0;
 }
 

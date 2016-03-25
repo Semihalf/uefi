@@ -25,7 +25,7 @@ typedef struct _USB_DEV_CONTEXT USB_DEV_CONTEXT;
 #include <Protocol/Usb2HostController.h>
 #include "usb2-industry.h" // USB2
 #include "XhciReg.h"
-#include "bdk-xhci-sched.h" // Transfer scheduling routines
+#include "XhciSched.h" // Transfer scheduling routines
 #if ! defined(DEBUG)
 #define DEBUG(x...)
 #endif
@@ -92,31 +92,6 @@ static inline bool bdk_xhc_halted(bdk_node_t node,int usb_port)
     BDK_CSR_INIT(usbsts,node,BDK_USBHX_UAHC_USBSTS(usb_port));
     return 1 == usbsts.s.hch;
 }
-
-/*
- * Reset hxci host controller
- * @param node       Node 
- * @param usb_port   Usb port
- *
- * @return Zero on success, non zero on failure
- */
-int reset_xhc(bdk_node_t node,int usb_port);
-/*
- * Set hxci host controller to run
- * @param node       Node 
- * @param usb_port   Usb port
- *
- * @return Zero on success, non zero on failure
- */
-int run_xhc(bdk_node_t node,int usb_port);
-/*
- * Halt hxci host controller
- * @param node       Node 
- * @param usb_port   Usb port
- *
- * @return Zero on success, non zero on failure
- */
-int halt_xhc(bdk_node_t node,int usb_port);
 
 #define CAVIUM_XHCI_ALIGN 512
 struct _USB_DEV_CONTEXT {
@@ -619,17 +594,19 @@ static inline bool cvmXhcIsSysError(xhci_t* xhc)
     return 1 == usbsts.s.hse;
 }
 
-static inline bool cvmXhcOK(xhci_t* xhc) __attribute__((always_inline));
-static inline bool cvmXhcOK(xhci_t* xhc) {
+static inline bool cvmXhcNotOK(xhci_t* xhc) __attribute__((always_inline));
+static inline bool cvmXhcNotOK(xhci_t* xhc) {
      BDK_CSR_INIT(usbsts,xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port));
-     return 0 == usbsts.s.hch && 0 == usbsts.s.hse;
+     return (usbsts.s.hch|| usbsts.s.hse) != 0;
 }
 
-static inline void cvmXhcWriteDoorBellReg(xhci_t* xhc, const unsigned offset, const uint32_t data) __attribute__((always_inline));
-static inline void cvmXhcWriteDoorBellReg(xhci_t* xhc, const unsigned offset, const uint32_t data)
+static inline void cvmXhcWriteDoorBellReg(xhci_t* xhc, const unsigned slot, const uint32_t data) __attribute__((always_inline));
+static inline void cvmXhcWriteDoorBellReg(xhci_t* xhc, const unsigned slot, const uint32_t data)
 {
-    unsigned db_index = offset >>2;
-    BDK_CSR_WRITE(xhc->node,BDK_USBHX_UAHC_DBX(xhc->usb_port,db_index), data);
+
+    BDK_WMB;
+    BDK_CSR_WRITE(xhc->node,BDK_USBHX_UAHC_DBX(xhc->usb_port,slot), data);
+    BDK_WMB;
 }
 static inline uint32_t  cvmXhcReadDoorBellReg(xhci_t* xhc, const unsigned offset)  __attribute__((always_inline));
 static inline uint32_t  cvmXhcReadDoorBellReg(xhci_t* xhc, const unsigned offset) {
@@ -637,22 +614,27 @@ static inline uint32_t  cvmXhcReadDoorBellReg(xhci_t* xhc, const unsigned offset
     BDK_CSR_INIT(uahc_db,xhc->node,BDK_USBHX_UAHC_DBX(xhc->usb_port,db_index));
     return uahc_db.u;
 }
-
-static inline int cvmXhcRunHC(xhci_t* xhc,unsigned timeout)  __attribute__((always_inline));
-static inline int cvmXhcRunHC(xhci_t* xhc,unsigned timeout) 
+#if 1
+// Moved to bdk-xhci.c , the only consumer
+#else
+static inline EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout)  __attribute__((always_inline));
+static inline EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout) 
 {
     BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 1;);
-    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,0, timeout);       
+    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,0, timeout) ?
+        EFI_TIMEOUT : EFI_SUCCESS ;    
 }
-static inline int cvmXhcHaltHC(xhci_t* xhc,unsigned timeout)  __attribute__((always_inline));
-static inline int cvmXhcHaltHC(xhci_t* xhc,unsigned timeout) 
+static inline EFI_STATUS cvmXhcHaltHC(xhci_t* xhc,uint64_t timeout)  __attribute__((always_inline));
+static inline EFI_STATUS cvmXhcHaltHC(xhci_t* xhc,uint64_t timeout) 
 {
     BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 0;);
-    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,1, timeout);       
+    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,1, timeout) ? 
+        EFI_TIMEOUT : EFI_SUCCESS ;      
 }
 
-int cvmXhcResetHC (
+EFI_STATUS cvmXhcResetHC (
   IN USB_XHCI_INSTANCE    *Xhc,
-  IN UINT32               Timeout
+  IN UINT64               Timeout
       );
+#endif
 #endif

@@ -12,14 +12,9 @@ THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
 WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 **/
-
 #include <bdk.h>
-#include "bdk-xhci.h"
+#include "Xhci.h"
 #include <malloc.h> // for memalign
-
-#if !defined(DEBUG)
-#define DEBUG(x...)
-#endif
 
 
 /**
@@ -170,7 +165,7 @@ XhcCmdTransfer (
 
   Status = EFI_DEVICE_ERROR;
 
-  if (cvmXhcIsHalt (Xhc) || cvmXhcIsSysError (Xhc)) {
+  if (/*XhcIsHalt (Xhc) || XhcIsSysError (Xhc)*/ bdk_unlikely(cvmXhcNotOK(Xhc))) {
     DEBUG ((EFI_D_ERROR, "XhcCmdTransfer: HC is halted\n"));
     goto ON_EXIT;
   }
@@ -261,7 +256,7 @@ XhcCreateUrb (
   Status = XhcCreateTransferTrb (Xhc, Urb);
   ASSERT_EFI_ERROR (Status);
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcCreateUrb: XhcCreateTransferTrb Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcCreateUrb: XhcCreateTransferTrb Failed, Status = %d\n", (int) Status));
     FreePool (Urb);
     Urb = NULL;
   }
@@ -714,7 +709,7 @@ XhcRingDoorBell (
   if (SlotId == 0) {
     cvmXhcWriteDoorBellReg (Xhc, 0, 0);
   } else {
-    cvmXhcWriteDoorBellReg (Xhc, SlotId * sizeof (UINT32), Dci);
+      cvmXhcWriteDoorBellReg (Xhc, SlotId/* * sizeof (UINT32)*/, Dci);
   }
 
   return EFI_SUCCESS;
@@ -763,7 +758,7 @@ XhcCheckUrbResult (
 
   EvtTrb = NULL;
 
-  if (cvmXhcIsHalt (Xhc) || cvmXhcIsSysError (Xhc)) {
+  if (/*XhcIsHalt (Xhc) || cvmXhcIsSysError (Xhc)*/bdk_unlikely(cvmXhcNotOK(Xhc))) {
     Urb->Result |= EFI_USB_ERR_SYSTEM;
     Status       = EFI_DEVICE_ERROR;
     goto EXIT;
@@ -1377,7 +1372,7 @@ XhcDisableSlotCmd (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcDisableSlotCmd: Disable Slot Command Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcDisableSlotCmd: Disable Slot Command Failed, Status = %d\n", (int) Status));
     return Status;
   }
   //
@@ -1493,7 +1488,7 @@ XhcDisableSlotCmd64 (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcDisableSlotCmd: Disable Slot Command Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcDisableSlotCmd: Disable Slot Command Failed, Status = %d\n", (int) Status));
     return Status;
   }
   //
@@ -1602,7 +1597,7 @@ XhcInitializeDeviceSlot (
               (TRB_TEMPLATE **) (UINTN) &EvtTrb
               );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcInitializeDeviceSlot: Enable Slot Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcInitializeDeviceSlot: Enable Slot Failed, Status = %d\n", (int) Status));
     return Status;
   }
   ASSERT (EvtTrb->SlotId <= Xhc->MaxSlotsEn);
@@ -1622,11 +1617,16 @@ XhcInitializeDeviceSlot (
   //
 #if defined(notdef_cavium)
   InputContext = UsbHcAllocateMem (Xhc->MemPool, sizeof (INPUT_CONTEXT));
-#else
-  InputContext = memalign(0x40,sizeof (INPUT_CONTEXT));
-#endif
   ASSERT (InputContext != NULL);
   ASSERT (((UINTN) InputContext & 0x3F) == 0);
+#else
+  InputContext = memalign(0x40,sizeof (INPUT_CONTEXT));
+  if ((NULL == InputContext) ||(((UINTN) InputContext & 0x3F) != 0))  {
+      DEBUG ((EFI_D_ERROR, "Failed to allocate InputContext @%p %lu bytes\n", InputContext, sizeof(*InputContext)));
+      return EFI_OUT_OF_RESOURCES;
+  }
+#endif
+
   ZeroMem (InputContext, sizeof (INPUT_CONTEXT));
 
   Xhc->UsbDevContext[SlotId].InputContext = (VOID *) InputContext;
@@ -1730,11 +1730,16 @@ XhcInitializeDeviceSlot (
   //
 #if defined(notdef_cavium)
   OutputContext = UsbHcAllocateMem (Xhc->MemPool, sizeof (DEVICE_CONTEXT));
-#else
-  OutputContext = memalign(0x40,  sizeof (DEVICE_CONTEXT)); 
-#endif
   ASSERT (OutputContext != NULL);
   ASSERT (((UINTN) OutputContext & 0x3F) == 0);
+#else
+  OutputContext = memalign(0x40,  sizeof (DEVICE_CONTEXT)); 
+  if ((NULL == OutputContext) ||(((UINTN) OutputContext & 0x3F) != 0))  {
+      DEBUG ((EFI_D_ERROR, "Failed to allocate OutputContext @%p %lu bytes\n", OutputContext, sizeof(*OutputContext)));
+      free(InputContext);
+      return EFI_OUT_OF_RESOURCES;
+  } 
+#endif
   ZeroMem (OutputContext, sizeof (DEVICE_CONTEXT));
 
   Xhc->UsbDevContext[SlotId].OutputContext = OutputContext;
@@ -1831,7 +1836,7 @@ XhcInitializeDeviceSlot64 (
               (TRB_TEMPLATE **) (UINTN) &EvtTrb
               );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcInitializeDeviceSlot64: Enable Slot Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcInitializeDeviceSlot64: Enable Slot Failed, Status = %d\n", (int) Status));
     return Status;
   }
   ASSERT (EvtTrb->SlotId <= Xhc->MaxSlotsEn);
@@ -1851,11 +1856,15 @@ XhcInitializeDeviceSlot64 (
   //
 #if defined(notdef_cavium)
   InputContext = UsbHcAllocateMem (Xhc->MemPool, sizeof (INPUT_CONTEXT_64));
-#else
-  InputContext = memalign(0x40,sizeof (INPUT_CONTEXT));
-#endif
   ASSERT (InputContext != NULL);
   ASSERT (((UINTN) InputContext & 0x3F) == 0);
+#else
+  InputContext = memalign(0x40,sizeof (INPUT_CONTEXT_64));
+  if ((NULL == InputContext) ||(((UINTN) InputContext & 0x3F) != 0))  {
+      DEBUG ((EFI_D_ERROR, "XhcCmdTransfer: failed to allocate InputContext @%p %lu bytes\n", InputContext, sizeof(*InputContext)));
+      return EFI_OUT_OF_RESOURCES;
+  }
+#endif
   ZeroMem (InputContext, sizeof (INPUT_CONTEXT_64));
 
   Xhc->UsbDevContext[SlotId].InputContext = (VOID *) InputContext;
@@ -1961,11 +1970,16 @@ XhcInitializeDeviceSlot64 (
   //
 #if defined(notdef_cavium)
   OutputContext = UsbHcAllocateMem (Xhc->MemPool, sizeof (DEVICE_CONTEXT_64));
-#else
-  OutputContext = memalign(0x40, sizeof (DEVICE_CONTEXT_64));
-#endif
   ASSERT (OutputContext != NULL);
   ASSERT (((UINTN) OutputContext & 0x3F) == 0);
+#else
+  OutputContext = ALIGNED_ALLOC(0x40, sizeof (DEVICE_CONTEXT_64));
+  if ((NULL == OutputContext) ||(((UINTN) OutputContext & 0x3F) != 0))  {
+      DEBUG ((EFI_D_ERROR, "Failed to allocate OutputContext @%p %lu bytes\n", OutputContext, sizeof(*OutputContext)));
+      free(InputContext);
+      return EFI_OUT_OF_RESOURCES;
+  }
+#endif
   ZeroMem (OutputContext, sizeof (DEVICE_CONTEXT_64));
 
   Xhc->UsbDevContext[SlotId].OutputContext = OutputContext;
@@ -2013,79 +2027,6 @@ XhcInitializeDeviceSlot64 (
 }
 
 
-
-int
-xhciPollPortStatusChange (
-    xhci_t     *xhc,
-    USB_DEV_ROUTE         ParentRouteChart,
-    unsigned                   Port,
-    EFI_USB_PORT_STATUS   *PortState
-    )
-{
-    if ((PortState->PortChangeStatus & (USB_PORT_STAT_C_CONNECTION | USB_PORT_STAT_C_ENABLE | USB_PORT_STAT_C_OVERCURRENT | USB_PORT_STAT_C_RESET)) == 0) {
-        return 0;
-    }
-
-    EFI_STATUS        Status = EFI_SUCCESS;
-    UINT8             Speed;
-    UINT8             SlotId;
-    USB_DEV_ROUTE     RouteChart;
-
-    if (ParentRouteChart.Dword == 0) {
-        RouteChart.Route.RouteString = 0;
-        RouteChart.Route.RootPortNum = Port + 1;
-        RouteChart.Route.TierNum     = 1;
-    } else {
-        if(Port < 14) {
-            RouteChart.Route.RouteString = ParentRouteChart.Route.RouteString | (Port << (4 * (ParentRouteChart.Route.TierNum - 1)));
-        } else {
-            RouteChart.Route.RouteString = ParentRouteChart.Route.RouteString | (15 << (4 * (ParentRouteChart.Route.TierNum - 1)));
-        }
-        RouteChart.Route.RootPortNum   = ParentRouteChart.Route.RootPortNum;
-        RouteChart.Route.TierNum       = ParentRouteChart.Route.TierNum + 1;
-    }
-    SlotId = XhcRouteStringToSlotId (xhc, RouteChart);
-    MT_DEBUG("%d:%d%d Slot ID = %d\n",
-             xhc->node,xhc->usb_port,Port,SlotId);
-    if (SlotId != 0) {
-    MT_DEBUG("Disabling device slot n:%d u:%d s:%d\n",
-        xhc->node, xhc->usb_port, SlotId);
-    if (xhc->hccparams.s.csz == 0) {
-            Status = XhcDisableSlotCmd (xhc, SlotId);
-        } else {
-            Status = XhcDisableSlotCmd64 (xhc, SlotId);
-        }
-    }    
-   if (((PortState->PortStatus & USB_PORT_STAT_ENABLE) != 0) &&
-      ((PortState->PortStatus & USB_PORT_STAT_CONNECTION) != 0)) {
-    //
-    // Has a device attached, Identify device speed after port is enabled.
-    //
-    Speed = EFI_USB_SPEED_FULL;
-    if ((PortState->PortStatus & USB_PORT_STAT_LOW_SPEED) != 0) {
-      Speed = EFI_USB_SPEED_LOW;
-    } else if ((PortState->PortStatus & USB_PORT_STAT_HIGH_SPEED) != 0) {
-      Speed = EFI_USB_SPEED_HIGH;
-    } else if ((PortState->PortStatus & USB_PORT_STAT_SUPER_SPEED) != 0) {
-      Speed = EFI_USB_SPEED_SUPER;
-    }
-    //
-    // Execute Enable_Slot cmd for attached device, initialize device context and assign device address.
-    //
-    SlotId = XhcRouteStringToSlotId (xhc, RouteChart);
-    if ((SlotId == 0) && ((PortState->PortChangeStatus & USB_PORT_STAT_C_RESET) != 0)) {
-    MT_DEBUG("Initializing device slot n:%d u:%d s:%d speed %d\n",
-        xhc->node, xhc->usb_port, Port, Speed);
-      if (xhc->hccparams.s.csz == 0) {
-        Status = XhcInitializeDeviceSlot (xhc, ParentRouteChart, Port, RouteChart, Speed);
-      } else {
-        Status = XhcInitializeDeviceSlot64 (xhc, ParentRouteChart, Port, RouteChart, Speed);
-      }
-    }
-  } 
-
-  return Status;
-}   
 
 //------------------------------------------------>
 
@@ -2159,7 +2100,7 @@ XhcRecoverHaltedEndpoint (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR(Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint: Reset Endpoint Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint: Reset Endpoint Failed, Status = %d\n", (int) Status));
     goto Done;
   }
 
@@ -2185,7 +2126,7 @@ XhcRecoverHaltedEndpoint (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR(Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint: Set Dequeue Pointer Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint: Set Dequeue Pointer Failed, Status = %d\n", (int) Status));
     goto Done;
   }
 
@@ -2540,7 +2481,69 @@ XhcPollPortStatusChange (
   IN  EFI_USB_PORT_STATUS   *PortState
   )
 {
-    return xhciPollPortStatusChange(Xhc,ParentRouteChart, Port,PortState);
+    if ((PortState->PortChangeStatus & (USB_PORT_STAT_C_CONNECTION | USB_PORT_STAT_C_ENABLE | USB_PORT_STAT_C_OVERCURRENT | USB_PORT_STAT_C_RESET)) == 0) {
+        return 0;
+    }
+
+    EFI_STATUS        Status = EFI_SUCCESS;
+    UINT8             Speed;
+    UINT8             SlotId;
+    USB_DEV_ROUTE     RouteChart;
+
+    if (ParentRouteChart.Dword == 0) {
+        RouteChart.Route.RouteString = 0;
+        RouteChart.Route.RootPortNum = Port + 1;
+        RouteChart.Route.TierNum     = 1;
+    } else {
+        if(Port < 14) {
+            RouteChart.Route.RouteString = ParentRouteChart.Route.RouteString | (Port << (4 * (ParentRouteChart.Route.TierNum - 1)));
+        } else {
+            RouteChart.Route.RouteString = ParentRouteChart.Route.RouteString | (15 << (4 * (ParentRouteChart.Route.TierNum - 1)));
+        }
+        RouteChart.Route.RootPortNum   = ParentRouteChart.Route.RootPortNum;
+        RouteChart.Route.TierNum       = ParentRouteChart.Route.TierNum + 1;
+    }
+    SlotId = XhcRouteStringToSlotId (Xhc, RouteChart);
+//    MT_DEBUG("%s:%d %d:%d%d SlotID = %d\n",
+//             __FUNCTION__,__LINE__,Xhc->node,Xhc->usb_port,Port,SlotId);
+    if (SlotId != 0) {
+    MT_DEBUG("%s:%d Disabling device slot n:%d u:%d s:%d\n",
+             __FUNCTION__, __LINE__, Xhc->node, Xhc->usb_port, SlotId);
+    if (Xhc->hccparams.s.csz == 0) {
+            Status = XhcDisableSlotCmd (Xhc, SlotId);
+        } else {
+            Status = XhcDisableSlotCmd64 (Xhc, SlotId);
+        }
+    }    
+   if (((PortState->PortStatus & USB_PORT_STAT_ENABLE) != 0) &&
+      ((PortState->PortStatus & USB_PORT_STAT_CONNECTION) != 0)) {
+    //
+    // Has a device attached, Identify device speed after port is enabled.
+    //
+    Speed = EFI_USB_SPEED_FULL;
+    if ((PortState->PortStatus & USB_PORT_STAT_LOW_SPEED) != 0) {
+      Speed = EFI_USB_SPEED_LOW;
+    } else if ((PortState->PortStatus & USB_PORT_STAT_HIGH_SPEED) != 0) {
+      Speed = EFI_USB_SPEED_HIGH;
+    } else if ((PortState->PortStatus & USB_PORT_STAT_SUPER_SPEED) != 0) {
+      Speed = EFI_USB_SPEED_SUPER;
+    }
+    //
+    // Execute Enable_Slot cmd for attached device, initialize device context and assign device address.
+    //
+    SlotId = XhcRouteStringToSlotId (Xhc, RouteChart);
+    if ((SlotId == 0) && ((PortState->PortChangeStatus & USB_PORT_STAT_C_RESET) != 0)) {
+    MT_DEBUG("%s:%d Initializing device slot n:%d u:%d s:%d speed %d\n",
+             __FUNCTION__, __LINE__, Xhc->node, Xhc->usb_port, Port, Speed);
+      if (Xhc->hccparams.s.csz == 0) {
+        Status = XhcInitializeDeviceSlot (Xhc, ParentRouteChart, Port, RouteChart, Speed);
+      } else {
+        Status = XhcInitializeDeviceSlot64 (Xhc, ParentRouteChart, Port, RouteChart, Speed);
+      }
+    }
+  } 
+
+  return Status;
 }
 
 
@@ -2983,7 +2986,7 @@ XhcSetConfigCmd (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcSetConfigCmd: Config Endpoint Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcSetConfigCmd: Config Endpoint Failed, Status = %d\n", (int) Status));
   } else {
     Xhc->UsbDevContext[SlotId].ActiveConfiguration = ConfigDesc->ConfigurationValue;
   }
@@ -3072,7 +3075,7 @@ XhcSetConfigCmd64 (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcSetConfigCmd64: Config Endpoint Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcSetConfigCmd64: Config Endpoint Failed, Status = %d\n", (int) Status));
   } else {
     Xhc->UsbDevContext[SlotId].ActiveConfiguration = ConfigDesc->ConfigurationValue;
   }
@@ -3120,7 +3123,7 @@ XhcStopEndpoint (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR(Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcStopEndpoint: Stop Endpoint Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcStopEndpoint: Stop Endpoint Failed, Status = %d\n", (int) Status));
   }
 
   return Status;
@@ -3319,7 +3322,7 @@ XhcSetInterface (
                (TRB_TEMPLATE **) (UINTN) &EvtTrb
                );
     if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "SetInterface: Config Endpoint Failed, Status = %r\n", Status));
+      DEBUG ((EFI_D_ERROR, "SetInterface: Config Endpoint Failed, Status = %d\n", (int) Status));
     } else {
       //
       // Update the active AlternateSetting.
@@ -3524,7 +3527,7 @@ XhcSetInterface64 (
                (TRB_TEMPLATE **) (UINTN) &EvtTrb
                );
     if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "SetInterface64: Config Endpoint Failed, Status = %r\n", Status));
+      DEBUG ((EFI_D_ERROR, "SetInterface64: Config Endpoint Failed, Status = %d\n", (int) Status));
     } else {
       //
       // Update the active AlternateSetting.
@@ -3590,7 +3593,7 @@ XhcEvaluateContext (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcEvaluateContext: Evaluate Context Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcEvaluateContext: Evaluate Context Failed, Status = %d\n", (int) Status));
   }
   return Status;
 }
@@ -3649,7 +3652,7 @@ XhcEvaluateContext64 (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcEvaluateContext64: Evaluate Context Failed, Status = %r\n", Status));
+      DEBUG ((EFI_D_ERROR, "XhcEvaluateContext64: Evaluate Context Failed, Status = %d\n", (int) Status));
   }
   return Status;
 }
@@ -3722,7 +3725,7 @@ XhcConfigHubContext (
               (TRB_TEMPLATE **) (UINTN) &EvtTrb
               );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcConfigHubContext: Config Endpoint Failed, Status = %r\n", Status));
+      DEBUG ((EFI_D_ERROR, "XhcConfigHubContext: Config Endpoint Failed, Status = %d\n", (int)Status));
   }
   return Status;
 }
@@ -3794,7 +3797,7 @@ XhcConfigHubContext64 (
               (TRB_TEMPLATE **) (UINTN) &EvtTrb
               );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcConfigHubContext64: Config Endpoint Failed, Status = %r\n", Status));
+      DEBUG ((EFI_D_ERROR, "XhcConfigHubContext64: Config Endpoint Failed, Status = %d\n", (int)Status));
   }
   return Status;
 }

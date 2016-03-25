@@ -948,7 +948,6 @@ XhcMonitorAsyncRequests (
   IN EFI_EVENT            Event,
   IN VOID                 *Context
   );
-#if 0
 /**
   Monitor the port status change. Enable/Disable device slot if there is a device attached/detached.
 
@@ -969,27 +968,7 @@ XhcPollPortStatusChange (
   IN  UINT8                 Port,
   IN  EFI_USB_PORT_STATUS   *PortState
   );
-#else
-/**
-  Monitor the port status change. Enable/Disable device slot if there is a device attached/detached.
 
-  @param  xhc                   The XHCI Instance.
-  @param  ParentRouteChart      The route string pointed to the parent device if it exists.
-  @param  Port                  The port to be polled.
-  @param  PortState             The port state.
-
-  @retval EFI_SUCCESS           Successfully enable/disable device slot according to port state.
-  @retval Others                Should not appear.
-
-**/
-int
-xhciPollPortStatusChange (
-    USB_XHCI_INSTANCE     *Xhc,
-    USB_DEV_ROUTE         ParentRouteChart,
-    unsigned              Port,
-    EFI_USB_PORT_STATUS   *PortState
-    );
-#endif
 /**
   Evaluate the slot context for hub device through XHCI's Configure_Endpoint cmd.
 
@@ -1431,24 +1410,5 @@ VOID
 XhcFreeSched (
   IN USB_XHCI_INSTANCE    *Xhc
     );
-/**
-  Monitor the port status change. Enable/Disable device slot if there is a device attached/detached.
 
-  @param  Xhc                   The XHCI Instance.
-  @param  ParentRouteChart      The route string pointed to the parent device if it exists.
-  @param  Port                  The port to be polled.
-  @param  PortState             The port state.
-
-  @retval EFI_SUCCESS           Successfully enable/disable device slot according to port state.
-  @retval Others                Should not appear.
-
-**/
-EFI_STATUS
-EFIAPI
-XhcPollPortStatusChange (
-  IN  USB_XHCI_INSTANCE     *Xhc,
-  IN  USB_DEV_ROUTE         ParentRouteChart,
-  IN  UINT8                 Port,
-  IN  EFI_USB_PORT_STATUS   *PortState
-    );
 #endif

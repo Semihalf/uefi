@@ -108,6 +108,7 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
             c.s.h_clk_en = 1);
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
             c.s.h_clkdiv_rst = 0);
+#if 0
         static bool printit[2] = {true,true};
         if (printit[usb_port]) {
             uint64_t fr_div;
@@ -124,6 +125,7 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
                    (unsigned long long)freq, token);
             printit[usb_port] = false;
         }
+#endif
     }
 
     /* 6.  Configure the strap signals in USBDRD(0..1)_UCTL_CTL.

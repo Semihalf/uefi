@@ -263,9 +263,7 @@ struct _USB_BUS {
   EFI_HANDLE                HostHandle;
   EFI_DEVICE_PATH_PROTOCOL  *DevicePath;
   EFI_USB2_HC_PROTOCOL      *Usb2Hc;
-#if defined(notdef_cavium)
   EFI_USB_HC_PROTOCOL       *UsbHc;
-#endif
   //
   // Recorded the max supported usb devices.
   // XHCI can support up to 255 devices.

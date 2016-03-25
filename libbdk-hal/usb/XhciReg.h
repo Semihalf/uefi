@@ -211,26 +211,16 @@ typedef enum {
 // UEFI's port states.
 //
 typedef struct {
-#if defined(notdef_cavium) || 1
   UINT32                  HwState;
   UINT16                  UefiState;
-#else
-    UINT32                  HwIn;
-    UINT16                  Out;  
-#endif
 } USB_PORT_STATE_MAP;
 
 //
 // Structure to map the hardware port states to feature selector for clear port feature request.
 //
 typedef struct {
-#if defined(notdef_cavium) || 1
   UINT32                  HwState;
   UINT16                  Selector;
-#else
-  UINT32                  HwIn;
-  UINT16                  Out;    
-#endif
 } USB_CLEAR_PORT_MAP;
 
 /**
@@ -264,7 +254,7 @@ XhcReadCapReg (
   IN  USB_XHCI_INSTANCE   *Xhc,
   IN  UINT32              Offset
   );
-#if 0
+#if defined(notdef_cavium) /* Hide prototypes for functions we will replace */
 /**
   Read 4-bytes width XHCI Operational register.
 
@@ -295,7 +285,7 @@ XhcWriteOpReg (
   IN UINT32               Offset,
   IN UINT32               Data
   );
-#endif
+#endif /* notdef_cavium */
 /**
   Write the data to the 2-bytes width XHCI operational register.
 
@@ -310,7 +300,7 @@ XhcWriteOpReg16 (
   IN UINT32               Offset,
   IN UINT16               Data
   );
-#if 0
+#if defined(notdef_cavium)
 /**
   Read XHCI runtime register.
 
@@ -498,7 +488,7 @@ XhcReadExtCapReg (
   IN  USB_XHCI_INSTANCE   *Xhc,
   IN  UINT32              Offset
   );
-#if 0
+#if defined(notdef_cavium)
 /**
   Whether the XHCI host controller is halted.
 
@@ -558,7 +548,7 @@ XhcHaltHC (
   IN USB_XHCI_INSTANCE   *Xhc,
   IN UINT32              Timeout
   );
-#if 0
+#if defined(notdef_cavium)
 /**
   Set the XHCI host controller to run.
 

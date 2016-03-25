@@ -15,6 +15,7 @@
 
 #ifndef __USB_XHCI_COMPAT_H__
 #define __USB_XHCI_COMPAT_H__
+#include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include "ProcessorBind.h"
@@ -61,8 +62,46 @@ typedef uint64_t EFI_PHYSICAL_ADDRESS;
 # if !defined(MT_DEBUG)
 #define MT_DEBUG(fmt, args...) printf(fmt , ## args) 
 #endif
+
+#if defined(MT_DO_DEBUG) && (MT_DO_DEBUG)
+#	undef DEBUG
+#	if ! defined(EFI_D_INIT)
+#	define EFI_D_INIT        0x00000001          // Initialization style messages
+#	define EFI_D_WARN        0x00000002          // Warnings
+#	define EFI_D_LOAD        0x00000004          // Load events
+#	define EFI_D_FS          0x00000008          // EFI File system
+#	define EFI_D_POOL        0x00000010          // Alloc & Free's
+#	define EFI_D_PAGE        0x00000020          // Alloc & Free's
+#	define EFI_D_INFO        0x00000040          // Informational debug messages
+#	define EFI_D_VARIABLE    0x00000100          // Variable
+#	define EFI_D_BM          0x00000400          // Boot Manager (BDS)
+#	define EFI_D_BLKIO       0x00001000          // BlkIo Driver
+#	define EFI_D_NET         0x00004000          // SNI Driver
+#	define EFI_D_UNDI        0x00010000          // UNDI Driver
+#	define EFI_D_LOADFILE    0x00020000          // UNDI Driver
+#	define EFI_D_EVENT       0x00080000          // Event messages
+#	define EFI_D_VERBOSE     0x00400000          // Detailed debug messages that may significantly impact boot performance
+#	define EFI_D_ERROR       0x80000000          // Error
+#	endif
+
+#define _DEBUG_INNER(lvl, fmt, ...) \
+    if (lvl & (EFI_D_WARN | EFI_D_ERROR | EFI_D_INFO)) {  \
+    printf("%s:%d@%x " fmt, __FILE__, __LINE__, lvl , ##__VA_ARGS__);\
+    }
+
+
+#define DEBUG(x) do {\
+        _DEBUG_INNER x ;                        \
+    } while(0)
+
+#define ASSERT(x) if (!(x)){ printf("%s:%d assert failed\n", __FUNCTION__, __LINE__);}
+#endif /* defined(MT_DO_DEBUG) && (MT_DO_DEBUG) */
+
+#if ! defined(ASSERT) 
+#define ASSERT(x...) 
+#endif 
 #if ! defined(CAVIUM_NOTYET)
-#define CAVIUM_NOTYET(x...) printf("%s:%d - not yet implemented " #x, __FILE__, __LINE__)
+#define CAVIUM_NOTYET(x...) printf("%s:%d %s - not yet implemented " #x "\n", __FILE__, __LINE__, __FUNCTION__)
 #endif
 #define NOT_CAVIUM(x...)
 
@@ -253,11 +292,12 @@ typedef UINT16                    STRING_REF;
 
 #define EFI_ERROR(A)              RETURN_ERROR(A)
 #define ASSERT_EFI_ERROR(x...)
-#define ASSERT(x...)
 
 #define USB_BIT(a)                  ((UINTN)(1 << (a)))
 #define USB_BIT_IS_SET(Data, Bit)   ((BOOLEAN)(((Data) & (Bit)) == (Bit)))
-
+#if ! defined(CR)
+#define CR(Record, TYPE, Field, Dummy...)  ((TYPE *) ((CHAR8 *) (Record) - (CHAR8 *) &(((TYPE *) 0)->Field)))
+#endif
 /*
  * Useful stuff
  */
@@ -270,6 +310,14 @@ typedef UINT16                    STRING_REF;
 #endif
 #if !defined(ARRAY_SIZE)
 #       define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+#endif
+
+#if !defined(ROUNDUP)
+#define ROUNDUP(x,sz) ((((sz)+(x) -1)/(x)) * (x))
+#endif
+
+#if ! defined(ALIGNED_ALLOC)
+#define ALIGNED_ALLOC(bndry,sz) memalign( bndry, ROUNDUP(bndry, sz))
 #endif
 
 #define CopyMem(to,from,size) do {\
