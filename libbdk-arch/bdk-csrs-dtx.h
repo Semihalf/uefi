@@ -1379,6 +1379,197 @@ static inline uint64_t BDK_DTX_DFA_SELX(unsigned long a)
 #define arguments_BDK_DTX_DFA_SELX(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) dtx_dpi_bcst_rsp
+ *
+ * DTX DPI Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_dpi_bcst_rsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_dpi_bcst_rsp_s cn; */
+} bdk_dtx_dpi_bcst_rsp_t;
+
+#define BDK_DTX_DPI_BCST_RSP BDK_DTX_DPI_BCST_RSP_FUNC()
+static inline uint64_t BDK_DTX_DPI_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_DPI_BCST_RSP_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0feef8080ll;
+    __bdk_csr_fatal("DTX_DPI_BCST_RSP", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_DPI_BCST_RSP bdk_dtx_dpi_bcst_rsp_t
+#define bustype_BDK_DTX_DPI_BCST_RSP BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_DPI_BCST_RSP "DTX_DPI_BCST_RSP"
+#define busnum_BDK_DTX_DPI_BCST_RSP 0
+#define arguments_BDK_DTX_DPI_BCST_RSP -1,-1,-1,-1
+
+/**
+ * Register (RSL) dtx_dpi_ctl
+ *
+ * DTX DPI Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_dpi_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                                                 only. */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                                                 only. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_dpi_ctl_s cn; */
+} bdk_dtx_dpi_ctl_t;
+
+#define BDK_DTX_DPI_CTL BDK_DTX_DPI_CTL_FUNC()
+static inline uint64_t BDK_DTX_DPI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_DPI_CTL_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0feef8060ll;
+    __bdk_csr_fatal("DTX_DPI_CTL", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_DPI_CTL bdk_dtx_dpi_ctl_t
+#define bustype_BDK_DTX_DPI_CTL BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_DPI_CTL "DTX_DPI_CTL"
+#define busnum_BDK_DTX_DPI_CTL 0
+#define arguments_BDK_DTX_DPI_CTL -1,-1,-1,-1
+
+/**
+ * Register (RSL) dtx_dpi_dat#
+ *
+ * DTX DPI Raw Data Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_dpi_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_dpi_datx_s cn; */
+} bdk_dtx_dpi_datx_t;
+
+static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0feef8040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_DPI_DATX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_DPI_DATX(a) bdk_dtx_dpi_datx_t
+#define bustype_BDK_DTX_DPI_DATX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_DPI_DATX(a) "DTX_DPI_DATX"
+#define busnum_BDK_DTX_DPI_DATX(a) (a)
+#define arguments_BDK_DTX_DPI_DATX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_dpi_ena#
+ *
+ * DTX DPI Data Enable Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_dpi_enax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                                                 only one block will drive each bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                                                 only one block will drive each bit. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_dpi_enax_s cn; */
+} bdk_dtx_dpi_enax_t;
+
+static inline uint64_t BDK_DTX_DPI_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_DPI_ENAX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0feef8020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_DPI_ENAX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_DPI_ENAX(a) bdk_dtx_dpi_enax_t
+#define bustype_BDK_DTX_DPI_ENAX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_DPI_ENAX(a) "DTX_DPI_ENAX"
+#define busnum_BDK_DTX_DPI_ENAX(a) (a)
+#define arguments_BDK_DTX_DPI_ENAX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_dpi_sel#
+ *
+ * DTX DPI Select Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_dpi_selx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_dpi_selx_s cn; */
+} bdk_dtx_dpi_selx_t;
+
+static inline uint64_t BDK_DTX_DPI_SELX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_DPI_SELX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0feef8000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_DPI_SELX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_DPI_SELX(a) bdk_dtx_dpi_selx_t
+#define bustype_BDK_DTX_DPI_SELX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_DPI_SELX(a) "DTX_DPI_SELX"
+#define busnum_BDK_DTX_DPI_SELX(a) (a)
+#define arguments_BDK_DTX_DPI_SELX(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) dtx_fpa_bcst_rsp
  *
  * DTX FPA Control Register

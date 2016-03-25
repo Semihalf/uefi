@@ -8527,21 +8527,7 @@ typedef union
                                                                  by PEM()_READS_PC[READS]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pemx_reads_pc_s cn8; */
-    struct bdk_pemx_reads_pc_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reads                 : 64; /**< [ 63:  0](RO/H) Total number of SLI reads from remote memory aggregated across
-                                                                 all non-masked SWI tags.  Software can calculate the average read
-                                                                 latency per read request over SWI by dividing PEM()_LATENCY_PC[LATENCY]
-                                                                 by PEM()_READS_PC[READS]. */
-#else /* Word 0 - Little Endian */
-        uint64_t reads                 : 64; /**< [ 63:  0](RO/H) Total number of SLI reads from remote memory aggregated across
-                                                                 all non-masked SWI tags.  Software can calculate the average read
-                                                                 latency per read request over SWI by dividing PEM()_LATENCY_PC[LATENCY]
-                                                                 by PEM()_READS_PC[READS]. */
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_pemx_reads_pc_s cn; */
 } bdk_pemx_reads_pc_t;
 
 static inline uint64_t BDK_PEMX_READS_PC(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8774,23 +8760,23 @@ typedef union
         uint64_t pem_cpl               : 12; /**< [ 63: 52](R/W) TLP 16 B credits for completion TLPs in the peer. Legal values are 0x42 to 0x104. */
         uint64_t pem_np                : 8;  /**< [ 51: 44](R/W) TLP 16 B credits for nonposted TLPs in the peer. Legal values are 0x4 to 0x20. */
         uint64_t pem_p                 : 12; /**< [ 43: 32](R/W) TLP 16 B credits for posted TLPs in the peer. Legal values are 0x42 to 0x104. */
-        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x84 to 0x200
+        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x41 to 0x104
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x4 to 0x20
+        uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x3 to 0x20
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x84 to 0x200 and this value
+        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x41 to 0x104 and this value
                                                                  is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
                                                                  register for performance reasons. */
 #else /* Word 0 - Little Endian */
-        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x84 to 0x200 and this value
+        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x41 to 0x104 and this value
                                                                  is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
                                                                  register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x4 to 0x20
+        uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x3 to 0x20
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x84 to 0x200
+        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x41 to 0x104
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
         uint64_t pem_p                 : 12; /**< [ 43: 32](R/W) TLP 16 B credits for posted TLPs in the peer. Legal values are 0x42 to 0x104. */
@@ -8824,36 +8810,7 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_pemx_tlp_credits_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pem_cpl               : 12; /**< [ 63: 52](R/W) TLP 16 B credits for completion TLPs in the peer. Legal values are 0x42 to 0x104. */
-        uint64_t pem_np                : 8;  /**< [ 51: 44](R/W) TLP 16 B credits for nonposted TLPs in the peer. Legal values are 0x4 to 0x20. */
-        uint64_t pem_p                 : 12; /**< [ 43: 32](R/W) TLP 16 B credits for posted TLPs in the peer. Legal values are 0x42 to 0x104. */
-        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x41 to 0x104
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x3 to 0x20
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x41 to 0x104 and this value
-                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
-                                                                 register for performance reasons. */
-#else /* Word 0 - Little Endian */
-        uint64_t sli_p                 : 12; /**< [ 11:  0](R/W) TLP 16 B credits for posted TLPs in the SLI. Legal values are 0x41 to 0x104 and this value
-                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
-                                                                 register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 19: 12](R/W) TLP 16 B credits for non-posted TLPs in the SLI. Legal values are 0x3 to 0x20
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_cpl               : 12; /**< [ 31: 20](R/W) TLP 16 B credits for completion TLPs in the SLI. Legal values are 0x41 to 0x104
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
-        uint64_t pem_p                 : 12; /**< [ 43: 32](R/W) TLP 16 B credits for posted TLPs in the peer. Legal values are 0x42 to 0x104. */
-        uint64_t pem_np                : 8;  /**< [ 51: 44](R/W) TLP 16 B credits for nonposted TLPs in the peer. Legal values are 0x4 to 0x20. */
-        uint64_t pem_cpl               : 12; /**< [ 63: 52](R/W) TLP 16 B credits for completion TLPs in the peer. Legal values are 0x42 to 0x104. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pemx_tlp_credits_cn9 cn83xx; */
     struct bdk_pemx_tlp_credits_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

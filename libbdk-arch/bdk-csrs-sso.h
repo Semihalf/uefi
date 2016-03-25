@@ -295,9 +295,11 @@ typedef union
                                                                  buffers will be returned to FPA and will not be cached. */
         uint64_t ocla_bp               : 1;  /**< [  5:  5](R/W) OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure AW pipeline. */
         uint64_t xaq_byp_dis           : 1;  /**< [  4:  4](R/W) Disable bypass path in add-work engine. For diagnostic use only. */
-        uint64_t stt                   : 1;  /**< [  3:  3](R/W) Use STT to bypass L2 allocation for XAQ store operations. */
-        uint64_t ldt                   : 1;  /**< [  2:  2](R/W) Use LDT to bypass L2 allocation for XAQ load operations. */
-        uint64_t ldwb                  : 1;  /**< [  1:  1](R/W) When reading XAQ cache lines, use LDWB transactions to invalidate the cache line. */
+        uint64_t stt                   : 1;  /**< [  3:  3](R/W) Use STT to bypass L2 allocation for XAQ store operations. When this bit is not set it uses STF. */
+        uint64_t ldt                   : 1;  /**< [  2:  2](R/W) Use LDT to bypass L2 allocation for XAQ load operations when [LDWB] is not
+                                                                 set. When [LDT] and [LDWB] are both clear, uses LDD load type. */
+        uint64_t ldwb                  : 1;  /**< [  1:  1](R/W) When reading XAQ cache lines, use LDWB transactions to invalidate the cache
+                                                                 line. When clear, use [LDT] to determine load type. */
         uint64_t rwen                  : 1;  /**< [  0:  0](R/W) Enable XAQ operations. This bit should be set after SSO_XAQ()_HEAD_PTR and
                                                                  SSO_XAQ()_TAIL_PTR have been programmed. If cleared, all cached buffers will be
                                                                  returned from the FPA as soon as possible, and TAQ arbitration is simplified. */
@@ -305,9 +307,11 @@ typedef union
         uint64_t rwen                  : 1;  /**< [  0:  0](R/W) Enable XAQ operations. This bit should be set after SSO_XAQ()_HEAD_PTR and
                                                                  SSO_XAQ()_TAIL_PTR have been programmed. If cleared, all cached buffers will be
                                                                  returned from the FPA as soon as possible, and TAQ arbitration is simplified. */
-        uint64_t ldwb                  : 1;  /**< [  1:  1](R/W) When reading XAQ cache lines, use LDWB transactions to invalidate the cache line. */
-        uint64_t ldt                   : 1;  /**< [  2:  2](R/W) Use LDT to bypass L2 allocation for XAQ load operations. */
-        uint64_t stt                   : 1;  /**< [  3:  3](R/W) Use STT to bypass L2 allocation for XAQ store operations. */
+        uint64_t ldwb                  : 1;  /**< [  1:  1](R/W) When reading XAQ cache lines, use LDWB transactions to invalidate the cache
+                                                                 line. When clear, use [LDT] to determine load type. */
+        uint64_t ldt                   : 1;  /**< [  2:  2](R/W) Use LDT to bypass L2 allocation for XAQ load operations when [LDWB] is not
+                                                                 set. When [LDT] and [LDWB] are both clear, uses LDD load type. */
+        uint64_t stt                   : 1;  /**< [  3:  3](R/W) Use STT to bypass L2 allocation for XAQ store operations. When this bit is not set it uses STF. */
         uint64_t xaq_byp_dis           : 1;  /**< [  4:  4](R/W) Disable bypass path in add-work engine. For diagnostic use only. */
         uint64_t ocla_bp               : 1;  /**< [  5:  5](R/W) OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure AW pipeline. */
         uint64_t xaq_alloc_dis         : 1;  /**< [  6:  6](R/W) Disable FPA alloc requests to fill the SSO page cache. Also all existing cached free

@@ -2181,16 +2181,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_exec_info1_s cn83xx; */
-    struct bdk_cptx_pf_exec_info1_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t uc_err                : 48; /**< [ 47:  0](R/W1C/H) Set if an engine detects a parity error in the microcode. */
-#else /* Word 0 - Little Endian */
-        uint64_t uc_err                : 48; /**< [ 47:  0](R/W1C/H) Set if an engine detects a parity error in the microcode. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_cptx_pf_exec_info1_s cn9; */
 } bdk_cptx_pf_exec_info1_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_INFO1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2979,7 +2970,9 @@ typedef union
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
 
-                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc.
+
+                                                                 Maximum legal value is 64. */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
@@ -2995,7 +2988,9 @@ typedef union
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
 
-                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc.
+
+                                                                 Maximum legal value is 64. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
@@ -3028,7 +3023,34 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_qx_gmctl_s cn83xx; */
-    /* struct bdk_cptx_pf_qx_gmctl_s cn9; */
+    struct bdk_cptx_pf_qx_gmctl_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
+
+                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1.
+
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
+                                                                 buffer free, or to SSO for all submit work operations initiated by this queue.
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+#else /* Word 0 - Little Endian */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
+                                                                 buffer free, or to SSO for all submit work operations initiated by this queue.
+                                                                 Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
+
+                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1.
+
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_cptx_pf_qx_gmctl_t;
 
 static inline uint64_t BDK_CPTX_PF_QX_GMCTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

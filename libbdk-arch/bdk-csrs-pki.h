@@ -2806,7 +2806,7 @@ typedef union
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <60> = Limit the X2P FIFO, ultimately backpressuring X2P bus. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
@@ -2839,7 +2839,7 @@ typedef union
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <60> = Limit the X2P FIFO, ultimately backpressuring X2P bus. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bp_test0_s cn; */
@@ -2949,9 +2949,9 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <63> = Limit the CLS from unloading.
+                                                                 <62> = Limit the CLS from executing.
+                                                                 <61> = Limit the timer expiration.
                                                                  <60> = Limit the schedule from schedule PFE requests. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
@@ -2982,9 +2982,9 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <63> = Limit the CLS from unloading.
+                                                                 <62> = Limit the CLS from executing.
+                                                                 <61> = Limit the timer expiration.
                                                                  <60> = Limit the schedule from schedule PFE requests. */
 #endif /* Word 0 - End */
     } s;
@@ -8651,9 +8651,9 @@ typedef union
     struct bdk_pki_pstata_statx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W) Accumulated sum of latencies of the selected statistic. */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Accumulated sum of latencies of the selected statistic. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W) Accumulated sum of latencies of the selected statistic. */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Accumulated sum of latencies of the selected statistic. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pstata_statx_s cn; */
@@ -8688,9 +8688,9 @@ typedef union
     struct bdk_pki_pstatb_statx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W) Number of packets sampled for the selected statistic. */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Number of packets sampled for the selected statistic. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W) Number of packets sampled for the selected statistic. */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Number of packets sampled for the selected statistic. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pstatb_statx_s cn; */
@@ -8726,13 +8726,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_43_63        : 21;
-        uint64_t ov                    : 1;  /**< [ 42: 42](RO/H) Statistic counter overflowed. */
-        uint64_t max_lat               : 21; /**< [ 41: 21](R/W) Maximum value of statistic. */
-        uint64_t min_lat               : 21; /**< [ 20:  0](R/W) Minimum value of statistic. */
+        uint64_t ov                    : 1;  /**< [ 42: 42](R/W/H) Statistic counter overflowed. */
+        uint64_t max_lat               : 21; /**< [ 41: 21](R/W/H) Maximum value of statistic. */
+        uint64_t min_lat               : 21; /**< [ 20:  0](R/W/H) Minimum value of statistic. */
 #else /* Word 0 - Little Endian */
-        uint64_t min_lat               : 21; /**< [ 20:  0](R/W) Minimum value of statistic. */
-        uint64_t max_lat               : 21; /**< [ 41: 21](R/W) Maximum value of statistic. */
-        uint64_t ov                    : 1;  /**< [ 42: 42](RO/H) Statistic counter overflowed. */
+        uint64_t min_lat               : 21; /**< [ 20:  0](R/W/H) Minimum value of statistic. */
+        uint64_t max_lat               : 21; /**< [ 41: 21](R/W/H) Maximum value of statistic. */
+        uint64_t ov                    : 1;  /**< [ 42: 42](R/W/H) Statistic counter overflowed. */
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;

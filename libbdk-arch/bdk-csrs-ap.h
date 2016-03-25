@@ -4078,183 +4078,279 @@ typedef union
         uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
         uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
         uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
-        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W) Global sync timeout. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
         uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
-        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W) WCU multiple match error. */
+        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
-        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W) MTLB multiple match error. */
-        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W) Barrier timeout force. Bit is cleared when error is forced. */
+        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
+        uint64_t reserved_40           : 1;
         uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
         uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
-        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W) Barrier timeout. */
-        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W) Read buffer timeout force. Bit is cleared when error is forced. */
+        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
+        uint64_t reserved_36           : 1;
         uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
         uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
-        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W) Read buffer timeout. */
-        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W) WCU parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
+        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
         uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
-        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W) WCU corrected parity error. */
-        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
+        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
         uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
         uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
-        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W) Write-buffer double-bit error. */
-        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W) MAF parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
+        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
         uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
-        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W) MAF parity error. */
-        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
+        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
         uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
-        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W) uTLB corrected a parity error. */
-        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
+        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
         uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
-        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W) MTLB corrected a parity error. */
-        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
+        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
         uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
-        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W) Dcache corrected a parity error. */
-        uint64_t l1dway                : 5;  /**< [  7:  3](R/W) Indicates Dcache way. */
-        uint64_t l1dset                : 3;  /**< [  2:  0](R/W) Indicates Dcache set. */
+        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
+        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
+        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
 #else /* Word 0 - Little Endian */
-        uint64_t l1dset                : 3;  /**< [  2:  0](R/W) Indicates Dcache set. */
-        uint64_t l1dway                : 5;  /**< [  7:  3](R/W) Indicates Dcache way. */
-        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W) Dcache corrected a parity error. */
+        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
+        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
+        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
         uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
         uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
-        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W) MTLB corrected a parity error. */
+        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
         uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
         uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
-        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W) uTLB corrected a parity error. */
+        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
         uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
         uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
-        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W) MAF parity error. */
+        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
         uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
         uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
-        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W) MAF parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W) Write-buffer double-bit error. */
+        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
         uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
         uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
-        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W) WCU corrected parity error. */
+        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
         uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
         uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
-        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W) WCU parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W) Read buffer timeout. */
+        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
         uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
         uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
-        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W) Read buffer timeout force. Bit is cleared when error is forced. */
-        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W) Barrier timeout. */
+        uint64_t reserved_36           : 1;
+        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
         uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
         uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
-        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W) Barrier timeout force. Bit is cleared when error is forced. */
-        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W) MTLB multiple match error. */
+        uint64_t reserved_40           : 1;
+        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
-        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W) WCU multiple match error. */
+        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
         uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
-        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W) Global sync timeout. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
         uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
         uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
         uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
+    struct bdk_ap_cvm_errmem_el1_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](RO) Reserved. */
+        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
+        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
+        uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
+        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
+        uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
+        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
+        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W/H) Barrier timeout force. Bit is cleared when error is forced. */
+        uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
+        uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
+        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
+        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W/H) Read buffer timeout force. Bit is cleared when error is forced. */
+        uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
+        uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
+        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
+        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
+        uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
+        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
+        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
+        uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
+        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
+        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
+        uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
+        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
+        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
+        uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
+        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
+        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
+        uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
+        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
+        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
+        uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
+        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
+        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
+        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
+#else /* Word 0 - Little Endian */
+        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
+        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
+        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
+        uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
+        uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
+        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
+        uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
+        uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
+        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
+        uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
+        uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
+        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
+        uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
+        uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
+        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
+        uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
+        uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
+        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
+        uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
+        uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
+        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
+        uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
+        uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
+        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W/H) Read buffer timeout force. Bit is cleared when error is forced. */
+        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
+        uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
+        uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
+        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W/H) Barrier timeout force. Bit is cleared when error is forced. */
+        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
+        uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
+        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
+        uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
+        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
+        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
+        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](RO) Reserved. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } cn88xxp1;
     struct bdk_ap_cvm_errmem_el1_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_49_63        : 15;
+        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
         uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
         uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
-        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W) Global sync timeout. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
         uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
-        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W) WCU multiple match error. */
+        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
-        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W) MTLB multiple match error. */
-        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W) Barrier timeout force. Bit is cleared when error is forced. */
+        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
+        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W/H) Barrier timeout force. Bit is cleared when error is forced. */
         uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
         uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
-        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W) Barrier timeout. */
-        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W) Read buffer timeout force. Bit is cleared when error is forced. */
+        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
+        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W/H) Read buffer timeout force. Bit is cleared when error is forced. */
         uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
         uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
-        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W) Read buffer timeout. */
-        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W) WCU parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
+        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
         uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
-        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W) WCU corrected parity error. */
-        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
+        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
         uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
         uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
-        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W) Write-buffer double-bit error. */
-        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W) MAF parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
+        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
         uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
-        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W) MAF parity error. */
-        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
+        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
         uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
-        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W) uTLB corrected a parity error. */
-        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
+        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
         uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
-        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W) MTLB corrected a parity error. */
-        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
+        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
         uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
         uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
-        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W) Dcache corrected a parity error. */
-        uint64_t l1dway                : 5;  /**< [  7:  3](R/W) Indicates Dcache way. */
-        uint64_t l1dset                : 3;  /**< [  2:  0](R/W) Indicates Dcache set. */
+        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
+        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
+        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
 #else /* Word 0 - Little Endian */
-        uint64_t l1dset                : 3;  /**< [  2:  0](R/W) Indicates Dcache set. */
-        uint64_t l1dway                : 5;  /**< [  7:  3](R/W) Indicates Dcache way. */
-        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W) Dcache corrected a parity error. */
+        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
+        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
+        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
         uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
         uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
-        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W) MTLB corrected a parity error. */
+        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
         uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
         uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
-        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W) uTLB corrected a parity error. */
+        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
         uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
         uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
-        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W) MAF parity error. */
+        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
         uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
         uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
-        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W) MAF parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W) Write-buffer double-bit error. */
+        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
         uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
         uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
-        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W) WCU corrected parity error. */
+        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
         uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
         uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
-        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W) WCU parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W) Read buffer timeout. */
+        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
         uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
         uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
-        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W) Read buffer timeout force. Bit is cleared when error is forced. */
-        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W) Barrier timeout. */
+        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W/H) Read buffer timeout force. Bit is cleared when error is forced. */
+        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
         uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
         uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
-        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W) Barrier timeout force. Bit is cleared when error is forced. */
-        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W) MTLB multiple match error. */
+        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W/H) Barrier timeout force. Bit is cleared when error is forced. */
+        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
-        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W) WCU multiple match error. */
+        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
         uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
-        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W) Global sync timeout. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
         uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
         uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
-        uint64_t reserved_48_63        : 16;
+        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn9;
     struct bdk_ap_cvm_errmem_el1_cn81xx
@@ -4269,11 +4365,11 @@ typedef union
         uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
         uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
-        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W/H) Barrier timeout force. Bit is cleared when error is forced. */
+        uint64_t spare40               : 1;  /**< [ 40: 40](R/W/H) Reserved. */
         uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
         uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
         uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
-        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W/H) Read buffer timeout force. Bit is cleared when error is forced. */
+        uint64_t spare36               : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
         uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
         uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
@@ -4335,11 +4431,11 @@ typedef union
         uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
         uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
         uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
-        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W/H) Read buffer timeout force. Bit is cleared when error is forced. */
+        uint64_t spare36               : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
         uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
         uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
-        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W/H) Barrier timeout force. Bit is cleared when error is forced. */
+        uint64_t spare40               : 1;  /**< [ 40: 40](R/W/H) Reserved. */
         uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
         uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
@@ -4351,7 +4447,6 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_ap_cvm_errmem_el1_cn9 cn88xx; */
     struct bdk_ap_cvm_errmem_el1_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4364,11 +4459,11 @@ typedef union
         uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
         uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
-        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W/H) Barrier timeout force. Bit is cleared when error is forced. */
+        uint64_t spare40               : 1;  /**< [ 40: 40](R/W/H) Reserved. */
         uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
         uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
         uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
-        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W/H) Read buffer timeout force. Bit is cleared when error is forced. */
+        uint64_t spare36               : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
         uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
         uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
@@ -4430,11 +4525,11 @@ typedef union
         uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
         uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
         uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
-        uint64_t rbftoforce            : 1;  /**< [ 36: 36](R/W/H) Read buffer timeout force. Bit is cleared when error is forced. */
+        uint64_t spare36               : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
         uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
         uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
-        uint64_t barriertoforce        : 1;  /**< [ 40: 40](R/W/H) Barrier timeout force. Bit is cleared when error is forced. */
+        uint64_t spare40               : 1;  /**< [ 40: 40](R/W/H) Reserved. */
         uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
         uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
@@ -4446,6 +4541,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn83xx;
+    /* struct bdk_ap_cvm_errmem_el1_cn81xx cn88xxp2; */
 } bdk_ap_cvm_errmem_el1_t;
 
 #define BDK_AP_CVM_ERRMEM_EL1 BDK_AP_CVM_ERRMEM_EL1_FUNC()

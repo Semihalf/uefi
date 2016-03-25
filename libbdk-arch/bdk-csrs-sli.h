@@ -4630,6 +4630,42 @@ typedef union
         uint64_t wvirt                 : 1;  /**< [ 63: 63](R/W) Virtual:
                                                                    0 = [RD_ADDR] is a physical addresses.
                                                                    1 = [RD_ADDR] is a virtual address. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t wvirt                 : 1;  /**< [ 63: 63](R/W) Virtual:
+                                                                   0 = [RD_ADDR] is a physical addresses.
+                                                                   1 = [RD_ADDR] is a virtual address. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_slix_bar3_addr_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wvirt                 : 1;  /**< [ 63: 63](R/W) Virtual:
+                                                                   0 = [RD_ADDR] is a physical addresses.
+                                                                   1 = [RD_ADDR] is a virtual address. */
+        uint64_t reserved_49_62        : 14;
+        uint64_t rd_addr               : 30; /**< [ 48: 19](R/W) Base address for PEM BAR3 transactions that is appended to the 512KB offset.
+                                                                 The reset value is the PEM base address of the EPROM,
+                                                                 PEM()_EROM(). */
+        uint64_t reserved_0_18         : 19;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_18         : 19;
+        uint64_t rd_addr               : 30; /**< [ 48: 19](R/W) Base address for PEM BAR3 transactions that is appended to the 512KB offset.
+                                                                 The reset value is the PEM base address of the EPROM,
+                                                                 PEM()_EROM(). */
+        uint64_t reserved_49_62        : 14;
+        uint64_t wvirt                 : 1;  /**< [ 63: 63](R/W) Virtual:
+                                                                   0 = [RD_ADDR] is a physical addresses.
+                                                                   1 = [RD_ADDR] is a virtual address. */
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_slix_bar3_addr_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wvirt                 : 1;  /**< [ 63: 63](R/W) Virtual:
+                                                                   0 = [RD_ADDR] is a physical addresses.
+                                                                   1 = [RD_ADDR] is a virtual address. */
         uint64_t reserved_49_62        : 14;
         uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) Base address for PEM BAR3 transactions. */
 #else /* Word 0 - Little Endian */
@@ -4639,8 +4675,7 @@ typedef union
                                                                    0 = [RD_ADDR] is a physical addresses.
                                                                    1 = [RD_ADDR] is a virtual address. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_bar3_addr_s cn; */
+    } cn9;
 } bdk_slix_bar3_addr_t;
 
 static inline uint64_t BDK_SLIX_BAR3_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5083,6 +5118,25 @@ typedef union
         uint64_t tim                   : 32; /**< [ 63: 32](R/W) Whenever the SLI_EPF()_DMA_TIM()[TIM] timer exceeds this value,
                                                                  SLI_EPF()_DMA_RINT[DTIME<x>] is set. The SLI_EPF()_DMA_TIM()[TIM] timer
                                                                  increments every SLI clock whenever SLI_EPF()_DMA_CNT()[CNT] != 0, and is cleared
+                                                                 when SLI_EPF()_DMA_CNT()[CNT] is written to a non zero value. */
+        uint64_t cnt                   : 32; /**< [ 31:  0](R/W) Whenever SLI_EPF()_DMA_CNT()[CNT] exceeds this value, SLI_EPF()_DMA_RINT[DCNT<x>]
+                                                                 is set. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 32; /**< [ 31:  0](R/W) Whenever SLI_EPF()_DMA_CNT()[CNT] exceeds this value, SLI_EPF()_DMA_RINT[DCNT<x>]
+                                                                 is set. */
+        uint64_t tim                   : 32; /**< [ 63: 32](R/W) Whenever the SLI_EPF()_DMA_TIM()[TIM] timer exceeds this value,
+                                                                 SLI_EPF()_DMA_RINT[DTIME<x>] is set. The SLI_EPF()_DMA_TIM()[TIM] timer
+                                                                 increments every SLI clock whenever SLI_EPF()_DMA_CNT()[CNT] != 0, and is cleared
+                                                                 when SLI_EPF()_DMA_CNT()[CNT] is written to a non zero value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_slix_epfx_dma_int_levelx_s cn8; */
+    struct bdk_slix_epfx_dma_int_levelx_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tim                   : 32; /**< [ 63: 32](R/W) Whenever the SLI_EPF()_DMA_TIM()[TIM] timer exceeds this value,
+                                                                 SLI_EPF()_DMA_RINT[DTIME<x>] is set. The SLI_EPF()_DMA_TIM()[TIM] timer
+                                                                 increments every SLI clock whenever SLI_EPF()_DMA_CNT()[CNT] != 0, and is cleared
                                                                  when SLI_EPF()_DMA_RINT[DTIME<x>] is written with one. */
         uint64_t cnt                   : 32; /**< [ 31:  0](R/W) Whenever SLI_EPF()_DMA_CNT()[CNT] exceeds this value, SLI_EPF()_DMA_RINT[DCNT<x>]
                                                                  is set. */
@@ -5094,8 +5148,7 @@ typedef union
                                                                  increments every SLI clock whenever SLI_EPF()_DMA_CNT()[CNT] != 0, and is cleared
                                                                  when SLI_EPF()_DMA_RINT[DTIME<x>] is written with one. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_epfx_dma_int_levelx_s cn; */
+    } cn9;
 } bdk_slix_epfx_dma_int_levelx_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_INT_LEVELX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -5131,6 +5184,35 @@ typedef union
         uint64_t dtime                 : 2;  /**< [  5:  4](R/W1C/H) Whenever SLI_EPF()_DMA_CNT()[CNT] is not 0, the SLI_EPF()_DMA_TIM()[TIM]
                                                                  timer increments every SLI clock. [DTIME]<x> is set whenever
                                                                  SLI_EPF()_DMA_TIM()[TIM] > SLI_EPF()_DMA_INT_LEVEL()[TIM].
+                                                                 [DTIME]<x> is cleared when writing a non zero value to SLI_EPF()_DMA_CNT()[CNT]
+                                                                 causing SLI_EPF()_DMA_TIM()[TIM] to clear to 0 and
+                                                                 SLI_EPF()_DMA_TIM()[TIM] to fall below SLI_EPF()_DMA_INT_LEVEL()[TIM]. */
+        uint64_t dcnt                  : 2;  /**< [  3:  2](R/W1C/H) [DCNT]<x> is set whenever SLI_EPF()_DMA_CNT()[CNT] > SLI_EPF()_DMA_INT_LEVEL()[CNT].
+                                                                 [DCNT]<x> is normally cleared by decreasing SLI_EPF()_DMA_CNT()[CNT]. */
+        uint64_t dmafi                 : 2;  /**< [  1:  0](R/W1C/H) DMA set forced interrupts. Set by SLI/DPI after completing a DPI DMA
+                                                                 Instruction with DPI_DMA_INSTR_HDR_S[FI] set. */
+#else /* Word 0 - Little Endian */
+        uint64_t dmafi                 : 2;  /**< [  1:  0](R/W1C/H) DMA set forced interrupts. Set by SLI/DPI after completing a DPI DMA
+                                                                 Instruction with DPI_DMA_INSTR_HDR_S[FI] set. */
+        uint64_t dcnt                  : 2;  /**< [  3:  2](R/W1C/H) [DCNT]<x> is set whenever SLI_EPF()_DMA_CNT()[CNT] > SLI_EPF()_DMA_INT_LEVEL()[CNT].
+                                                                 [DCNT]<x> is normally cleared by decreasing SLI_EPF()_DMA_CNT()[CNT]. */
+        uint64_t dtime                 : 2;  /**< [  5:  4](R/W1C/H) Whenever SLI_EPF()_DMA_CNT()[CNT] is not 0, the SLI_EPF()_DMA_TIM()[TIM]
+                                                                 timer increments every SLI clock. [DTIME]<x> is set whenever
+                                                                 SLI_EPF()_DMA_TIM()[TIM] > SLI_EPF()_DMA_INT_LEVEL()[TIM].
+                                                                 [DTIME]<x> is cleared when writing a non zero value to SLI_EPF()_DMA_CNT()[CNT]
+                                                                 causing SLI_EPF()_DMA_TIM()[TIM] to clear to 0 and
+                                                                 SLI_EPF()_DMA_TIM()[TIM] to fall below SLI_EPF()_DMA_INT_LEVEL()[TIM]. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_slix_epfx_dma_rint_s cn8; */
+    struct bdk_slix_epfx_dma_rint_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t dtime                 : 2;  /**< [  5:  4](R/W1C/H) Whenever SLI_EPF()_DMA_CNT()[CNT] is not 0, the SLI_EPF()_DMA_TIM()[TIM]
+                                                                 timer increments every SLI clock. [DTIME]<x> is set whenever
+                                                                 SLI_EPF()_DMA_TIM()[TIM] > SLI_EPF()_DMA_INT_LEVEL()[TIM].
                                                                  [DTIME]<x> is normally cleared by clearing
                                                                  SLI_EPF()_DMA_CNT()[CNT] (which also clears SLI_EPF()_DMA_TIM()[TIM]). */
         uint64_t dcnt                  : 2;  /**< [  3:  2](R/W1C/H) [DCNT]<x> is set whenever SLI_EPF()_DMA_CNT()[CNT] > SLI_EPF()_DMA_INT_LEVEL()[CNT].
@@ -5149,8 +5231,7 @@ typedef union
                                                                  SLI_EPF()_DMA_CNT()[CNT] (which also clears SLI_EPF()_DMA_TIM()[TIM]). */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_epfx_dma_rint_s cn; */
+    } cn9;
 } bdk_slix_epfx_dma_rint_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_RINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
