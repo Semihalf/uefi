@@ -6018,18 +6018,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				if (rlevel_byte[byte_idx].delay != 0) { /* Don't include delay=0 in the average */
 				    ++rlevel_byte[byte_idx].loop_count;
 				    rlevel_byte[byte_idx].loop_total += rlevel_byte[byte_idx].delay;
-#if RLEVEL_AVG_LOOPS_DEBUG
-				    if (average_loops > 0) {
-					// incr diffs if delay != last
-					rlevel_byte[byte_idx].diffs +=
-					    (rlevel_byte[byte_idx].delay != rlevel_byte[byte_idx].last) ? 1 : 0;
-				    } else {
-					// zero diffs on first loop
-					rlevel_byte[byte_idx].diffs = 0;
-				    }
-				    // always copy delays to lasts
-				    rlevel_byte[byte_idx].last = rlevel_byte[byte_idx].delay;
-#endif
 				}
 			    } /* for (byte_idx = 0; byte_idx < 9; ++byte_idx) */
 #endif /* PICK_BEST_RANK_SCORE_NOT_AVG */
@@ -6072,36 +6060,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #else /* PICK_BEST_RANK_SCORE_NOT_AVG */
 			    display_RL_with_average(node, ddr_interface_num, lmc_rlevel_rank, rankx,
 						    rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
-#if RLEVEL_AVG_LOOPS_DEBUG
-			    /* Display the average delay loop debug info */
-			    if (((ddr_interface_bytemask & 0xff) == 0xff) && ecc_ena) {
-				ddr_print("N%d.LMC%d.R%d: Average of %d, delay diffs             : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
-					  node, ddr_interface_num, rankx, rlevel_avg_loops,
-					  rlevel_byte[4].diffs,
-					  rlevel_byte[8].diffs,
-					  rlevel_byte[7].diffs,
-					  rlevel_byte[6].diffs,
-					  rlevel_byte[5].diffs,
-					  rlevel_byte[3].diffs,
-					  rlevel_byte[2].diffs,
-					  rlevel_byte[1].diffs,
-					  rlevel_byte[0].diffs
-					  );
-			    } else {
-				ddr_print("N%d.LMC%d.R%d: Average of %d, delay diffs             : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
-					  node, ddr_interface_num, rankx, rlevel_avg_loops,
-					  rlevel_byte[8].diffs,
-					  rlevel_byte[7].diffs,
-					  rlevel_byte[6].diffs,
-					  rlevel_byte[5].diffs,
-					  rlevel_byte[4].diffs,
-					  rlevel_byte[3].diffs,
-					  rlevel_byte[2].diffs,
-					  rlevel_byte[1].diffs,
-					  rlevel_byte[0].diffs
-					  );
-			    }
-#endif
 #endif /* PICK_BEST_RANK_SCORE_NOT_AVG */
 
 			} /* if (rlevel_avg_loops > 1) */

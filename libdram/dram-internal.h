@@ -36,16 +36,11 @@
 #define RLEVEL_AVG_LOOPS_DEFAULT 3
 #define PICK_BEST_RANK_SCORE_NOT_AVG 1
 
-#define RLEVEL_AVG_LOOPS_DEBUG   0
 typedef struct {
     int delay;
     int loop_total;
     int loop_count;
     int best;
-#if RLEVEL_AVG_LOOPS_DEBUG
-    int last;
-    int diffs;
-#endif
 } rlevel_byte_data_t;
 
 typedef struct {
