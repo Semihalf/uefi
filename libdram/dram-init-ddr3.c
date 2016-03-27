@@ -1278,6 +1278,56 @@ display_WL_with_final(bdk_node_t node, int ddr_interface_num, bdk_lmcx_wlevel_ra
     do_display_WL(node, ddr_interface_num, lmc_wlevel_rank, rank, WITH_FINAL);
 }
 
+// flag values
+#define WITH_WL_BITMASKS   0
+#define WITH_RL_BITMASKS   1
+static void
+do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int flags)
+{
+    if (flags == WITH_WL_BITMASKS) {
+        int *bitmasks = (int *)bm;
+
+        ddr_print("N%d.LMC%d.R%d: Wlevel Debug Results                  : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
+              node, ddr_interface_num, rank,
+              bitmasks[8],
+              bitmasks[7],
+              bitmasks[6],
+              bitmasks[5],
+              bitmasks[4],
+              bitmasks[3],
+              bitmasks[2],
+              bitmasks[1],
+              bitmasks[0]
+              );
+    } else
+    if (flags == WITH_RL_BITMASKS) {
+        rlevel_bitmask_t *rlevel_bitmask = (rlevel_bitmask_t *)bm;
+        ddr_print("N%d.LMC%d.R%d: Rlevel Debug Test Results  8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
+                  node, ddr_interface_num, rank,
+                  rlevel_bitmask[8].bm,
+                  rlevel_bitmask[7].bm,
+                  rlevel_bitmask[6].bm,
+                  rlevel_bitmask[5].bm,
+                  rlevel_bitmask[4].bm,
+                  rlevel_bitmask[3].bm,
+                  rlevel_bitmask[2].bm,
+                  rlevel_bitmask[1].bm,
+                  rlevel_bitmask[0].bm
+                  );
+    }
+}
+
+static inline void
+display_WL_BM(bdk_node_t node, int ddr_interface_num, int rank, int *bitmasks)
+{
+    do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_WL_BITMASKS);
+}
+
+static inline void
+display_RL_BM(bdk_node_t node, int ddr_interface_num, int rank, rlevel_bitmask_t *bitmasks)
+{
+    do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_RL_BITMASKS);
+}
 
 unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num,
 			       int dll_offset_mode, int byte_offset, int byte)
@@ -5092,18 +5142,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 		// when only 1 sample or forced, print the bitmasks first and current HW WL
 		if ((wlevel_loops == 1) || ddr_wlevel_printall) {
-		    ddr_print("N%d.LMC%d.R%d: Wlevel Debug Results                  : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
-			      node, ddr_interface_num, rankx,
-			      wlevel_bitmask[8],
-			      wlevel_bitmask[7],
-			      wlevel_bitmask[6],
-			      wlevel_bitmask[5],
-			      wlevel_bitmask[4],
-			      wlevel_bitmask[3],
-			      wlevel_bitmask[2],
-			      wlevel_bitmask[1],
-			      wlevel_bitmask[0]
-			      );
+		    display_WL_BM(node, ddr_interface_num, rankx, wlevel_bitmask);
 		    display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
 		}
 
@@ -5345,19 +5384,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     ++wlevel_bitmask_errors;
             } /* for (passx=0; passx<(8+ecc_ena); ++passx) */
 
-            ddr_print("N%d.LMC%d.R%d: Wlevel Debug Results                  : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
-                      node, ddr_interface_num, rankx,
-                      wlevel_bitmask[8],
-                      wlevel_bitmask[7],
-                      wlevel_bitmask[6],
-                      wlevel_bitmask[5],
-                      wlevel_bitmask[4],
-                      wlevel_bitmask[3],
-                      wlevel_bitmask[2],
-                      wlevel_bitmask[1],
-                      wlevel_bitmask[0]
-                      );
+            display_WL_BM(node, ddr_interface_num, rankx, wlevel_bitmask);
             display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
+
         } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
 
     } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) */
@@ -5910,19 +5939,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 				// print here only if we are not really averaging or picking best
 				if (rlevel_avg_loops < 2) {
-				    ddr_print("N%d.LMC%d.R%d: Rlevel Debug Test Results  8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
-					      node, ddr_interface_num, rankx,
-					      rlevel_bitmask[8].bm,
-					      rlevel_bitmask[7].bm,
-					      rlevel_bitmask[6].bm,
-					      rlevel_bitmask[5].bm,
-					      rlevel_bitmask[4].bm,
-					      rlevel_bitmask[3].bm,
-					      rlevel_bitmask[2].bm,
-					      rlevel_bitmask[1].bm,
-					      rlevel_bitmask[0].bm
-					      );
-
+                                    display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask);
 				    display_RL_with_score(node, ddr_interface_num, lmc_rlevel_rank, rankx, rlevel_rank_errors);
 				}
 
