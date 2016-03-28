@@ -621,27 +621,5 @@ static inline uint32_t  cvmXhcReadDoorBellReg(xhci_t* xhc, const unsigned offset
     BDK_CSR_INIT(uahc_db,xhc->node,BDK_USBHX_UAHC_DBX(xhc->usb_port,db_index));
     return uahc_db.u;
 }
-#if 1
-// Moved to bdk-xhci.c , the only consumer
-#else
-static inline EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout)  __attribute__((always_inline));
-static inline EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout) 
-{
-    BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 1;);
-    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,0, timeout) ?
-        EFI_TIMEOUT : EFI_SUCCESS ;    
-}
-static inline EFI_STATUS cvmXhcHaltHC(xhci_t* xhc,uint64_t timeout)  __attribute__((always_inline));
-static inline EFI_STATUS cvmXhcHaltHC(xhci_t* xhc,uint64_t timeout) 
-{
-    BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 0;);
-    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,1, timeout) ? 
-        EFI_TIMEOUT : EFI_SUCCESS ;      
-}
 
-EFI_STATUS cvmXhcResetHC (
-  IN USB_XHCI_INSTANCE    *Xhc,
-  IN UINT64               Timeout
-      );
-#endif
 #endif

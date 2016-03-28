@@ -854,7 +854,6 @@ SearchUsbDPInList (
   }
 
   Found = FALSE;
-
   ListIndex = UsbIoDPList->ForwardLink;
   while (ListIndex != UsbIoDPList){
     ListItem = CR(ListIndex, DEVICE_PATH_LIST_ITEM, Link, DEVICE_PATH_LIST_ITEM_SIGNATURE);
@@ -1420,6 +1419,8 @@ UsbBusRecursivelyConnectWantedUsbIo (
       }
     }
   }
+
+  FreePool (UsbIoBuffer);
 
   return EFI_SUCCESS;
 #else

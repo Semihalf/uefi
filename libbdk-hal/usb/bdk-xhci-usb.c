@@ -36,18 +36,11 @@ Internal helper routines
  *
  * @return Zero on success, non zero on failure
  */
-static int reset_xhc(bdk_node_t node,int usb_port)
+static int halt_xhc(bdk_node_t node,int usb_port)
 {
     BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),
                    c.s.r_s = 0;);
     return BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_USBSTS(usb_port), hch, == ,1, CVM_XHCI_OP_TIMEOUT); 
-}
-
-static int run_xhc(bdk_node_t node,int usb_port)
-{
-    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),
-                   c.s.r_s = 1;);
-    return BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_USBSTS(usb_port), hch, == ,0, CVM_XHCI_OP_TIMEOUT); 
 }
 
 static usb_hc_descriptor_t usb_global_data[BDK_NUMA_MAX_NODES][CAVIUM_MAX_USB_INSTANCES];
@@ -62,25 +55,29 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         return -1;
     
     }
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBHX_UAHC_USBSTS(usb_port), cnr, ==, 0, 10000)) {
-        bdk_error("USB%d - timeout waiting for controller ready\n", usb_port);
-        return -1;
-    }
     int rc = 0;
-    // If host controller is not halted, halt it.
-    if (!bdk_xhc_halted(node,usb_port)) {
-        reset_xhc(node,usb_port);
-    }
-    // Wait for USBSTS.CNR == 0
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBHX_UAHC_USBSTS(usb_port), cnr, ==, 0, 10000)) {
-        bdk_error("USB%d - timeout waiting for controller ready\n", usb_port);
-        rc = -2;
-        goto out;
-    }
     xhci_t *thisHC = usb_global_data[node][usb_port].xhci_priv;
-
-    //-- TODO Free async transfers
     if (thisHC) {
+        // If host controller is not halted, halt it.
+        if (!bdk_xhc_halted(node,usb_port)) {
+            halt_xhc(node,usb_port);
+        }
+        // Reset Host controller
+        BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),c.s.hcrst=1;);
+        rc = BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBHX_UAHC_USBCMD(usb_port), hcrst, == , 0,CVM_XHCI_OP_TIMEOUT);
+        if (rc) {
+            bdk_error("USB%d - timeout waiting for controller reset\n", usb_port);
+            rc = -2 ;
+            goto out;
+        }
+        // Wait for USBSTS.CNR == 0
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBHX_UAHC_USBSTS(usb_port), cnr, ==, 0, 10000)) {
+            bdk_error("USB%d - timeout waiting for controller ready\n", usb_port);
+            rc = -3;
+            goto out;
+        }
+
+        //-- TODO Free async transfers
         printf("freeing memory of previous instance\n");
         xhciFreeSched(thisHC);
 
@@ -102,16 +99,20 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     printf("page size %d\nnode %d port %d\n", thisHC->PageSize,thisHC->node,thisHC->usb_port);
     printf("64 bit capability %d\n",thisHC->hccparams.s.ac64); 
     
-    if (0 == (rc = xhciInitSched(thisHC))) {
-        printf("Setting run bit for node %d usb_port %d\n",
+    if (0 != xhciInitSched(thisHC)) {
+        printf("Failed to initialize Scheduler for node %d usb_port %d\n",
                thisHC->node, thisHC->usb_port
             );
-        run_xhc(thisHC->node,thisHC->usb_port);
-// To do - start root hub status poll
+        rc = -4;
+        goto out;
     }
-     USB_INTERFACE *RootIf = usb_global_data[node][usb_port].root_if;
+    USB_INTERFACE *RootIf = usb_global_data[node][usb_port].root_if;
     USB_BUS *UsbBus = usb_global_data[node][usb_port].usb_bus;
     USB_DEVICE *RootHub = usb_global_data[node][usb_port].root_hub;
+    if (NULL !=  RootIf) { free(RootIf); }
+    if (NULL != UsbBus) { free(UsbBus);}
+    if (NULL != RootHub) { free(RootHub);}
+
     if (NULL == RootIf) {
         RootIf = calloc(1,sizeof(*RootIf));
         UsbBus = calloc(1,sizeof(*UsbBus));
@@ -156,7 +157,10 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
 
         usb_global_data[node][usb_port].root_if = RootIf;
         usb_global_data[node][usb_port].usb_bus = UsbBus;
-        usb_global_data[node][usb_port].root_hub = RootHub; 
+        usb_global_data[node][usb_port].root_hub = RootHub;
+        
+        printf("RootIf@ 0x%p\nUsbBus@ 0x%p\nRootHub@ 0x%p\n",
+               RootIf, UsbBus, RootHub);
     }   
     CAVIUM_NOTYET("Not yet enumerating at the end of init");
 out:
@@ -180,106 +184,8 @@ int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
                node, usb_port);
         return -1;
     }
-#if 1
     UsbRootHubEnumeration(0,RootHubIf);
-#else
-    unsigned Index;
-    for (Index = 0; Index < RootHubIf->NumOfPort; Index++) {
-        MT_DEBUG("Polling n:%d usb:%d port %d\n",  node, usb_port,Index);
-        /* UsbEnumeratePort (RootHubIf, Index); */
-        /* UsbEnumer.c:UsbEnumeratePort with Root api plugged in */
-        {
-            /* Inputs */
-            USB_INTERFACE* HubIf = RootHubIf;
-            UINT8 Port = Index;
-            /* --- */
-            EFI_USB_PORT_STATUS     PortState;
-            /* EFI_STATUS              Status; */
-            USB_DEVICE              *Child;
-            USB_BUS* UsbBus = RootHubIf->Device->Bus;
-            { 
-                UsbBus->Usb2Hc->GetRootHubPortStatus(UsbBus->Usb2Hc, Port, &PortState);
-                if (PortState.PortStatus || PortState.PortChangeStatus) {
-                    MT_DEBUG("N:%d P:%d I:%d PS:%04x PCS:%04x\n", node, usb_port, Port, PortState.PortStatus , PortState.PortChangeStatus);
-                }
-            }
-            if ((PortState.PortChangeStatus & (USB_PORT_STAT_C_CONNECTION | USB_PORT_STAT_C_ENABLE | USB_PORT_STAT_C_OVERCURRENT | USB_PORT_STAT_C_RESET)) == 0) {
-                /* return EFI_SUCCESS; */ continue;
-            }
-            
-            if (USB_BIT_IS_SET (PortState.PortChangeStatus, USB_PORT_STAT_C_OVERCURRENT)) {     
-                
-                if (USB_BIT_IS_SET (PortState.PortStatus, USB_PORT_STAT_OVERCURRENT)) {
-                    //
-                    // Case1:
-                    //   Both OverCurrent and OverCurrentChange set, means over current occurs, 
-                    //   which probably is caused by short circuit. It has to wait system hardware
-                    //   to perform recovery.
-                    //
-                    DEBUG (( EFI_D_ERROR, "UsbEnumeratePort: Critical Over Current\n", Port));
-                    return EFI_DEVICE_ERROR;
-                    
-                } 
-                //
-                // Case2:
-                //   Only OverCurrentChange set, means system has been recoveried from 
-                //   over current. As a result, all ports are nearly power-off, so
-                //   it's necessary to detach and enumerate all ports again. 
-                //
-                DEBUG (( EFI_D_ERROR, "UsbEnumeratePort: 2.0 device Recovery Over Current\n", Port)); 
-            }
-            if (USB_BIT_IS_SET (PortState.PortChangeStatus, USB_PORT_STAT_C_ENABLE)) {  
-                //
-                // Case3:
-                //   1.1 roothub port reg doesn't reflect over-current state, while its counterpart
-                //   on 2.0 roothub does. When over-current has influence on 1.1 device, the port 
-                //   would be disabled, so it's also necessary to detach and enumerate again.
-                //
-                DEBUG (( EFI_D_ERROR, "UsbEnumeratePort: 1.1 device Recovery Over Current\n", Port));
-            }
-            if (USB_BIT_IS_SET (PortState.PortChangeStatus, USB_PORT_STAT_C_CONNECTION)) {
-                //
-                // Case4:
-                //   Device connected or disconnected normally. 
-                //
-                DEBUG ((EFI_D_INFO, "UsbEnumeratePort: Device Connect/Disconnect Normally\n", Port));
-            }
-            Child = UsbFindChild (HubIf, Port);
-            
-            if (Child != NULL) {
-                DEBUG (( EFI_D_INFO, "UsbEnumeratePort: device at port %d removed from root hub %p\n", Port, HubIf));
-                UsbRemoveDevice (Child);
-                MT_DEBUG("Removed device at %p %p : %d\n", HubIf, Child, Port);
-            }
-
-            if (USB_BIT_IS_SET (PortState.PortStatus, USB_PORT_STAT_CONNECTION)) {
-                //
-                // Now, new device connected, enumerate and configure the device 
-                //
-                DEBUG (( EFI_D_INFO, "UsbEnumeratePort: new device connected at port %d\n", Port));
-                 MT_DEBUG("Adding new device at %p : %d\n", HubIf, Port);
-                 //--->               Status = UsbEnumerateNewDev (HubIf, Port);
-                
-            } else {
-                DEBUG (( EFI_D_INFO, "UsbEnumeratePort: device disconnected event on port %d\n", Port));
-            }
-            UsbBus->Usb2Hc->GetRootHubPortStatus(UsbBus->Usb2Hc, Port, &PortState);
-            const USB_CHANGE_FEATURE_MAP  mRootHubFeatureMap[] = {
-                {USB_PORT_STAT_C_CONNECTION,  EfiUsbPortConnectChange},
-                {USB_PORT_STAT_C_ENABLE,      EfiUsbPortEnableChange},
-                {USB_PORT_STAT_C_SUSPEND,     EfiUsbPortSuspendChange},
-                {USB_PORT_STAT_C_OVERCURRENT, EfiUsbPortOverCurrentChange},
-                {USB_PORT_STAT_C_RESET,       EfiUsbPortResetChange},
-            };
-
-            for (unsigned j = 0; j < ARRAY_SIZE( mRootHubFeatureMap);j++) {
-                if (USB_BIT_IS_SET (PortState.PortChangeStatus,mRootHubFeatureMap[j].ChangedBit)) 
-                  UsbBus->Usb2Hc->ClearRootHubPortFeature(UsbBus->Usb2Hc, Port, 
-                                                          (EFI_USB_PORT_FEATURE) mRootHubFeatureMap[j].Feature);
-            }
-        }
-    }
-#endif
+    printf("Returned from  UsbRootHubEnumeration\n");
     return 0;
 }
 

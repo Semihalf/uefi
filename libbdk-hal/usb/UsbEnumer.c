@@ -12,7 +12,7 @@ THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
 WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 **/
-
+#define MT_DO_DEBUG 0
 #include "UsbBus.h"
 
 /**
@@ -70,7 +70,7 @@ UsbFreeInterface (
          NULL
          );
 #else
-  CAVIUM_NOTYET();
+  CAVIUM_NOTYET("UninstallMultipleProtocolInterfaces");
 #endif
   if (UsbIf->DevicePath != NULL) {
     FreePool (UsbIf->DevicePath);
@@ -100,7 +100,6 @@ UsbCreateInterface (
   USB_INTERFACE           *UsbIf;
   USB_INTERFACE           *HubIf;
   EFI_STATUS              Status;
-
 
   UsbIf = AllocateZeroPool (sizeof (USB_INTERFACE));
 
@@ -155,7 +154,7 @@ UsbCreateInterface (
                   );
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbCreateInterface: failed to install UsbIo - %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbCreateInterface: failed to install UsbIo - %d\n", (int) Status));
     goto ON_ERROR;
   }
 #else
@@ -164,9 +163,11 @@ UsbCreateInterface (
   //
   // Open USB Host Controller Protocol by Child
   //
-  Status = UsbOpenHostProtoByChild (Device->Bus, UsbIf->Handle);
 #if defined(notdef_cavium)
+  Status = UsbOpenHostProtoByChild (Device->Bus, UsbIf->Handle);
+
   if (EFI_ERROR (Status)) {
+
     gBS->UninstallMultipleProtocolInterfaces (
            &UsbIf->Handle,
            &gEfiDevicePathProtocolGuid,
@@ -176,7 +177,7 @@ UsbCreateInterface (
            NULL
            );
 
-    DEBUG ((EFI_D_ERROR, "UsbCreateInterface: failed to open host for child - %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbCreateInterface: failed to open host for child - %d\n", (int) Status));
     goto ON_ERROR;
   }
 #else
@@ -307,7 +308,8 @@ UsbConnectDriver (
       gBS->RaiseTPL (OldTpl);
     }
 #else
-      CAVIUM_NOTYET();
+      UsbIf->IsManaged = FALSE;
+      CAVIUM_NOTYET("Ignore if enumerating");
 #endif
   }
 
@@ -452,7 +454,7 @@ UsbSelectConfig (
     Status = UsbConnectDriver (UsbIf);
 
     if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "UsbSelectConfig: failed to connect driver %d, ignored\n", Status));
+      DEBUG ((EFI_D_ERROR, "UsbSelectConfig: failed to connect driver %d, ignored\n", (int) Status));
     }
   }
 
@@ -503,7 +505,7 @@ UsbDisconnectDriver (
       UsbIf->IsManaged = FALSE;
     }
     
-    DEBUG (( EFI_D_INFO, "UsbDisconnectDriver: TPL after disconnect is %d, %d\n", (UINT32)UsbGetCurrentTpl(), Status));
+    DEBUG (( EFI_D_INFO, "UsbDisconnectDriver: TPL after disconnect is %d, %d\n", (UINT32)UsbGetCurrentTpl(), (int) Status));
     ASSERT (UsbGetCurrentTpl () == TPL_CALLBACK);
 
     gBS->RaiseTPL (OldTpl);
@@ -591,9 +593,9 @@ UsbRemoveDevice (
     if ((Child == NULL) || (Child->ParentAddr != Device->Address)) {
       continue;
     }
-
+    MT_DEBUG("Removing  Child %p Address %d\n", Child,  Device->Address);
     Status = UsbRemoveDevice (Child);
-
+   
     if (!EFI_ERROR (Status)) {
       Bus->Devices[Index] = NULL;
     } else {
@@ -704,7 +706,7 @@ UsbEnumerateNewDev (
   Status = HubApi->ResetPort (HubIf, Port);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to reset port %d - %d\n", Port, Status));
+    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to reset port %d - %d\n", Port, (int) Status));
 
     return Status;
   }
@@ -796,7 +798,7 @@ UsbEnumerateNewDev (
   Bus->Devices[Address] = Child;
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to set device address - %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to set device address - %d\n", (int) Status));
     goto ON_ERROR;
   }
 #if defined(notdef_cavium)
@@ -804,7 +806,7 @@ UsbEnumerateNewDev (
 #else
   bdk_wait_usec(USB_SET_DEVICE_ADDRESS_STALL);
 #endif
-  DEBUG ((EFI_D_INFO, "UsbEnumerateNewDev: device is now ADDRESSED at %d\n", Address));
+  DEBUG ((EFI_D_INFO, "UsbEnumerateNewDev: device is now ADDRESSED at %d\n", (int) Address));
 
   //
   // Host sends a Get_Descriptor request to learn the max packet
@@ -813,7 +815,7 @@ UsbEnumerateNewDev (
   Status = UsbGetMaxPacketSize0 (Child);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to get max packet for EP 0 - %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to get max packet for EP 0 - %d\n", (int) Status));
     goto ON_ERROR;
   }
 
@@ -826,7 +828,7 @@ UsbEnumerateNewDev (
   Status = UsbBuildDescTable (Child);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to build descriptor table - %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to build descriptor table - %d\n", (int) Status));
     goto ON_ERROR;
   }
 
@@ -838,11 +840,11 @@ UsbEnumerateNewDev (
   Status = UsbSetConfig (Child, Config);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to set configure %d - %d\n", Config, Status));
+    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to set configure %d - %d\n", Config, (int) Status));
     goto ON_ERROR;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbEnumerateNewDev: device %d is now in CONFIGED state\n", Address));
+  DEBUG (( EFI_D_INFO, "UsbEnumerateNewDev: device %d is now in CONFIGED state\n", (int) Address));
 
   //
   // Host assigns and loads a device driver.
@@ -850,7 +852,7 @@ UsbEnumerateNewDev (
   Status = UsbSelectConfig (Child, Config);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to create interfaces - %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to create interfaces - %d\n", (int) Status));
     goto ON_ERROR;
   }
 
@@ -981,7 +983,7 @@ UsbEnumeratePort (
   Child = UsbFindChild (HubIf, Port);
   
   if (Child != NULL) {
-    DEBUG (( EFI_D_INFO, "UsbEnumeratePort: device at port %d removed from root hub %p\n", Port, HubIf));
+    DEBUG (( EFI_D_INFO, "UsbEnumeratePort: device at port %d being removed from root hub %p\n", Port, HubIf));
     UsbRemoveDevice (Child);
   }
   

@@ -105,8 +105,8 @@ typedef uint64_t EFI_PHYSICAL_ADDRESS;
 #endif
 #define NOT_CAVIUM(x...)
 
-#define AllocateZeroPool(x_size) calloc(1,(x_size))
 #define FreePool(x_ptr) free(x_ptr)
+#define AllocateZeroPool(sz) calloc(1,(sz))
 
 #define  BIT0     0x00000001
 #define  BIT1     0x00000002
@@ -314,10 +314,6 @@ typedef UINT16                    STRING_REF;
 
 #if !defined(ROUNDUP)
 #define ROUNDUP(x,sz) ((((sz)+(x) -1)/(x)) * (x))
-#endif
-
-#if ! defined(ALIGNED_ALLOC)
-#define ALIGNED_ALLOC(bndry,sz) memalign( bndry, ROUNDUP(bndry, sz))
 #endif
 
 #define CopyMem(to,from,size) do {\

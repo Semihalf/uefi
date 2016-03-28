@@ -12,6 +12,7 @@ THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
 WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 **/
+#define MT_DO_DEBUG 0
 #include <bdk.h>
 #include "Xhci.h"
 #include <malloc.h> // for memalign
@@ -1133,7 +1134,7 @@ void xhciFreeSched(xhci_t* xhc)
 {
    
     unsigned MaxScratchPadBufs = xhc->MaxScratchPadBufs;
-    if (MaxScratchPadBufs) {
+    if (MaxScratchPadBufs && xhc->ScratchBuf) {
         for( unsigned Index = 0; Index < MaxScratchPadBufs; Index++) {
             free(
                 bdk_phys_to_ptr(xhc->ScratchBuf[Index])
@@ -1528,7 +1529,7 @@ XhcDisableSlotCmd64 (
 #if defined(notdef_cavium)
     UsbHcFreeMem (Xhc->MemPool, Xhc->UsbDevContext[SlotId].InputContext, sizeof (INPUT_CONTEXT_64));
 #else
-      free( Xhc->UsbDevContext[SlotId].OutputContext);
+      free( Xhc->UsbDevContext[SlotId].InputContext);
 #endif 
   }
 
@@ -1976,7 +1977,7 @@ XhcInitializeDeviceSlot64 (
   ASSERT (OutputContext != NULL);
   ASSERT (((UINTN) OutputContext & 0x3F) == 0);
 #else
-  OutputContext = ALIGNED_ALLOC(0x40, sizeof (DEVICE_CONTEXT_64));
+  OutputContext = memalign(0x40, sizeof (DEVICE_CONTEXT_64));
   if ((NULL == OutputContext) ||(((UINTN) OutputContext & 0x3F) != 0))  {
       DEBUG ((EFI_D_ERROR, "Failed to allocate OutputContext @%p %lu bytes\n", OutputContext, sizeof(*OutputContext)));
       free(InputContext);
@@ -2150,7 +2151,7 @@ XhcDequeueTrbFromEndpoint (
   //
   Status = XhcStopEndpoint(Xhc, SlotId, Dci);
   if (EFI_ERROR(Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcDequeueTrbFromEndpoint: Stop Endpoint Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcDequeueTrbFromEndpoint: Stop Endpoint Failed, Status = %d\n", (int) Status));
     goto Done;
   }
 
@@ -2159,7 +2160,7 @@ XhcDequeueTrbFromEndpoint (
   //
   Status = XhcSetTrDequeuePointer(Xhc, SlotId, Dci, Urb);
   if (EFI_ERROR(Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcDequeueTrbFromEndpoint: Set Transfer Ring Dequeue Pointer Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcDequeueTrbFromEndpoint: Set Transfer Ring Dequeue Pointer Failed, Status = %d\n", (int) Status));
     goto Done;
   }
 
@@ -3019,7 +3020,7 @@ XhcSetConfigCmd (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcSetConfigCmd: Config Endpoint Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcSetConfigCmd: Config Endpoint Failed, Status = %d\n", (int) Status));
   } else {
     Xhc->UsbDevContext[SlotId].ActiveConfiguration = ConfigDesc->ConfigurationValue;
   }
@@ -3109,7 +3110,7 @@ XhcSetConfigCmd64 (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcSetConfigCmd64: Config Endpoint Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcSetConfigCmd64: Config Endpoint Failed, Status = %d\n", (int) Status));
   } else {
     Xhc->UsbDevContext[SlotId].ActiveConfiguration = ConfigDesc->ConfigurationValue;
   }
@@ -3408,7 +3409,7 @@ XhcResetEndpoint (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR(Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcResetEndpoint: Reset Endpoint Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcResetEndpoint: Reset Endpoint Failed, Status = %d\n", (int) Status));
   }
 
   return Status;
@@ -3441,7 +3442,7 @@ XhcSetTrDequeuePointer (
   CMD_SET_TR_DEQ_POINTER      CmdSetTRDeq;
   EFI_PHYSICAL_ADDRESS        PhyAddr;
 
-  DEBUG ((EFI_D_INFO, "XhcSetTrDequeuePointer: Slot = 0x%x, Dci = 0x%x, Urb = 0x%x\n", SlotId, Dci, Urb));
+  DEBUG ((EFI_D_INFO, "XhcSetTrDequeuePointer: Slot = 0x%x, Dci = 0x%x, Urb = %p\n", SlotId, Dci, Urb));
 
   //
   // Send stop endpoint command to transit Endpoint from running to stop state
@@ -3465,7 +3466,7 @@ XhcSetTrDequeuePointer (
              (TRB_TEMPLATE **) (UINTN) &EvtTrb
              );
   if (EFI_ERROR(Status)) {
-    DEBUG ((EFI_D_ERROR, "XhcSetTrDequeuePointer: Set TR Dequeue Pointer Failed, Status = %r\n", Status));
+    DEBUG ((EFI_D_ERROR, "XhcSetTrDequeuePointer: Set TR Dequeue Pointer Failed, Status = %d\n", (int) Status));
   }
 
   return Status;

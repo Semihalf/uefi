@@ -12,7 +12,7 @@ THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
 WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 **/
-
+#define MT_DO_DEBUG 0
 #include "UsbBus.h"
 
 //
@@ -630,7 +630,7 @@ UsbOnHubInterrupt (
                       );
 
     if (EFI_ERROR (Status)) {
-      DEBUG (( EFI_D_ERROR, "UsbOnHubInterrupt: failed to remove async transfer - %d\n", Status));
+      DEBUG (( EFI_D_ERROR, "UsbOnHubInterrupt: failed to remove async transfer - %d\n", (int) Status));
       return Status;
     }
 
@@ -645,7 +645,7 @@ UsbOnHubInterrupt (
                       );
 
     if (EFI_ERROR (Status)) {
-      DEBUG (( EFI_D_ERROR, "UsbOnHubInterrupt: failed to submit new async transfer - %d\n", Status));
+      DEBUG (( EFI_D_ERROR, "UsbOnHubInterrupt: failed to submit new async transfer - %d\n", (int) Status));
     }
 
     return Status;
@@ -729,7 +729,7 @@ UsbHubInit (
   Status = UsbHubReadDesc (HubDev, &HubDesc);
 
   if (EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_ERROR, "UsbHubInit: failed to read HUB descriptor %d\n", Status));
+    DEBUG (( EFI_D_ERROR, "UsbHubInit: failed to read HUB descriptor %d\n", (int) Status));
     return Status;
   }
 
@@ -793,7 +793,7 @@ UsbHubInit (
 #endif
   if (EFI_ERROR (Status)) {
     DEBUG (( EFI_D_ERROR, "UsbHubInit: failed to create signal for hub %d - %d\n",
-                HubDev->Address, Status));
+                HubDev->Address, (int) Status));
 
     return Status;
   }
@@ -818,7 +818,7 @@ UsbHubInit (
 
   if (EFI_ERROR (Status)) {
     DEBUG (( EFI_D_ERROR, "UsbHubInit: failed to queue interrupt transfer for hub %d - %d\n",
-                HubDev->Address, Status));
+                HubDev->Address, (int) Status));
     CAVIUM_NOTYET(
     gBS->CloseEvent (HubIf->HubNotify);
     HubIf->HubNotify = NULL;
@@ -1146,7 +1146,7 @@ UsbRootHubInit (
     gBS->CloseEvent (HubIf->HubNotify);
   }
 #else
-  CAVIUM_NOTYET("root hub release");
+  CAVIUM_NOTYET("root hub Init is done");
 #endif
   return Status;
 }
@@ -1318,7 +1318,7 @@ UsbRootHubResetPort (
   Status  = UsbHcSetRootHubPortFeature (Bus, Port, EfiUsbPortReset);
 
   if (EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_ERROR, "UsbRootHubResetPort: failed to start reset on port %d\n", Port));
+      DEBUG (( EFI_D_ERROR, "UsbRootHubResetPort: failed to start reset on port %d status %d\n", Port, (int) Status));
     return Status;
   }
 

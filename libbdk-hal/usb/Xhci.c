@@ -11,7 +11,7 @@ THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
 WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 **/
-
+#define MT_DO_DEBUG 0
 #include <bdk.h>
 #include "Xhci.h"
 #include <malloc.h> // for memalign
@@ -46,6 +46,10 @@ EFI_USB2_HC_PROTOCOL gXhciUsb2HcTemplate = {
 /*
 ** Helper functions
 */
+static EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout);
+static EFI_STATUS cvmXhcHaltHC(xhci_t* xhc,uint64_t timeout);
+static EFI_STATUS cvmXhcResetHC(USB_XHCI_INSTANCE* xhc,UINT64 timeout); 
+
 static  EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout) 
 {
     BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 1;);
