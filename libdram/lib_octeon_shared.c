@@ -967,9 +967,14 @@ int initialize_ddr_clock(bdk_node_t node,
             ddr_pll_ctl.s.dclk_invert       = 0;
 
             DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(0), ddr_pll_ctl.u);
+            ddr_print("%-45s : 0x%016lx\n", "LMC0: DDR_PLL_CTL", ddr_pll_ctl.u);
 
-            ddr_pll_ctl.s.dclk_invert       ^= 1; /* Toggle dclk_invert from LMC0 */
-            DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(1), ddr_pll_ctl.u);
+            // NOTE: 81xx has only 1 LMC...
+            if (! CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
+                ddr_pll_ctl.s.dclk_invert       ^= 1; /* Toggle dclk_invert from LMC0 */
+                DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(1), ddr_pll_ctl.u);
+                ddr_print("%-45s : 0x%016lx\n", "LMC1: DDR_PLL_CTL", ddr_pll_ctl.u);
+            }
 
 
             /*
@@ -1025,10 +1030,9 @@ int initialize_ddr_clock(bdk_node_t node,
 		uint64_t orig_ddr_hertz = ddr_hertz;
                 static const int _en[] = {1, 2, 3, 4, 5, 6, 7, 8, 10, 12};
                 int override_pll_settings;
+                int new_bwadj;
 
                 error = best_error = ddr_hertz;  /* Init to max error */
-
-                ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(0));
 
                 ddr_print("DDR Reference Hertz = %d\n", ddr_ref_hertz);
 
@@ -1103,23 +1107,32 @@ int initialize_ddr_clock(bdk_node_t node,
                     return(-1);
                 }
 
-                ddr_pll_ctl.s.ddr_ps_en = best_en_idx;
-                ddr_pll_ctl.s.clkf = best_clkf;
-                ddr_pll_ctl.s.clkr = best_clkr;
-                ddr_pll_ctl.s.reset_n = 0;
-
-                ddr_pll_ctl.s.bwadj = (best_clkf + 1) / 10;
-                VB_PRT(VBL_TME, "bwadj: %2d\n", ddr_pll_ctl.s.bwadj);
+                new_bwadj = (best_clkf + 1) / 10;
+                VB_PRT(VBL_TME, "bwadj: %2d\n", new_bwadj);
 
                 if ((s = lookup_env_parameter("ddr_pll_bwadj")) != NULL) {
-                    ddr_pll_ctl.s.bwadj = strtoul(s, NULL, 0);
+                    new_bwadj = strtoul(s, NULL, 0);
+                    VB_PRT(VBL_TME, "bwadj: %2d\n", new_bwadj);
                 }
 
                 for (loop_interface_num = 0; loop_interface_num<2; ++loop_interface_num) {
                     if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
                         continue;
 
+                    // make sure we preserve any settings already there
+                    ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num));
+                    ddr_print("LMC%d: DDR_PLL_CTL                             : 0x%016lx\n",
+                              loop_interface_num, ddr_pll_ctl.u);
+
+                    ddr_pll_ctl.s.ddr_ps_en = best_en_idx;
+                    ddr_pll_ctl.s.clkf = best_clkf;
+                    ddr_pll_ctl.s.clkr = best_clkr;
+                    ddr_pll_ctl.s.reset_n = 0;
+                    ddr_pll_ctl.s.bwadj = new_bwadj;
+
                     DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num), ddr_pll_ctl.u);
+                    ddr_print("LMC%d: DDR_PLL_CTL                             : 0x%016lx\n",
+                              loop_interface_num, ddr_pll_ctl.u);
                 }
             }
 
