@@ -4670,21 +4670,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     /* LMC(0)_EXT_CONFIG */
     {
-        bdk_lmcx_control_t lmc_control;
         bdk_lmcx_ext_config_t ext_config;
-        lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
         ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
         ext_config.s.vrefint_seq_deskew = 0;
         ext_config.s.read_ena_bprch = 1;
         ext_config.s.read_ena_fprch = 1;
         ext_config.s.drive_ena_fprch = 1;
         ext_config.s.drive_ena_bprch = 1;
-
-        // for DDR4 by default, use INVERT_DATA whenever possible;
-        // can only do this if not scrambling, so check that
-        if ((ddr_type == DDR4_DRAM) && (lmc_control.s.scramble_ena == 0)) {
-            ext_config.s.invert_data = 1;
-        }
+        ext_config.s.invert_data = 0; // make sure this is OFF for all current chips
 
         if ((s = lookup_env_parameter("ddr_read_fprch")) != NULL) {
             ext_config.s.read_ena_fprch = strtoul(s, NULL, 0);
