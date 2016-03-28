@@ -1199,6 +1199,30 @@ int __bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int
         return -1;
     }
 
+    if ((tx_gain < -1) || (tx_gain > 7))
+    {
+        bdk_error("N%d.QLM%d: Lane %d: Invalid TX_GAIN(%d). TX_GAIN must be between 0 and 7\n", node, qlm, lane, tx_gain);
+        return -1;
+    }
+
+    if ((tx_vboost < -1) || (tx_vboost > 1))
+    {
+        bdk_error("N%d.QLM%d: Lane %d: Invalid TX_VBOOST(%d).  TX_VBOOST must be 0 or 1.\n", node, qlm, lane, tx_vboost);
+        return -1;
+    }
+
+    if (tx_pre != -1)
+    {
+        if (tx_post == -1)
+            bdk_error("N%d.QLM%d: Lane %d: A TX_PRE(%d) value was provided without providing a TX_POST value.  Both must be provided.\n", node, qlm, lane, tx_pre);
+    }
+
+    if (tx_post != -1)
+    {
+        if (tx_pre == -1)
+            bdk_error("N%d.QLM%d: Lane %d: A TX_POST(%d) value was provided without providing a TX_PRE value.  Both must be provided.\n", node, qlm, lane, tx_post);
+    }
+
     BDK_TRACE(QLM, "N%d.QLM%d: Lane %d: TX_SWING=%d, TX_PRE=%d, TX_POST=%d, TX_GAIN=%d, TX_VBOOST=%d\n",
         node, qlm, lane, tx_swing, tx_pre, tx_post, tx_gain, tx_vboost);
 
@@ -1235,13 +1259,15 @@ int __bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int
             c.s.cfg_tx_vboost_en = tx_vboost);
     /* 3) Program override for the Tx coefficient request */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_0(qlm, lane),
-        c.s.cfg_tx_coeff_req_ovrrd_val = 1;
+	 if (((tx_pre != -1) && (tx_post != -1)) || (tx_swing != -1))
+	     c.s.cfg_tx_coeff_req_ovrrd_val = 1;
         if (tx_vboost != -1)
             c.s.cfg_tx_vboost_en_ovrrd_val = 1;
         );
     /* 4) Enable the Tx coefficient request override enable */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
-        c.s.cfg_tx_coeff_req_ovrrd_en = 1;
+	 if (((tx_pre != -1) && (tx_post != -1)) || (tx_swing != -1))
+	     c.s.cfg_tx_coeff_req_ovrrd_en = 1;
         if (tx_vboost != -1)
             c.s.cfg_tx_vboost_en_ovrrd_en = 1
         );
