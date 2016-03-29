@@ -7,13 +7,16 @@ Table of contents:
  Build.txt
 
 2. Porting guide
+ comphy - PortingGuide/ComPhy.txt
  fdffile - PortingGuide/FdfFile.txt
  i2c - PortingGuide/I2c.txt
+ icu - PortingGuide/IcuLib.txt
  mpp - PortingGuide/Mpp.txt
  pci emulation - PortingGuide/PciEmulation.txt
  ramdisk - PortingGuide/Ramdisk.txt
  spi - PortingGuide/Spi.txt
  spi flash - PortingGuide/SpiFlash.txt
+ utmi - PortingGuide/Utmi.txt
 
 3. Drivers guidelines
  eeprom - Drivers/EepromDriver.txt

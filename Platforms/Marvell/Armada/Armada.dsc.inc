@@ -31,7 +31,9 @@
 #
 [LibraryClasses.common]
   ArmPlatformLib|OpenPlatformPkg/Platforms/Marvell/Armada/Library/Armada7040Lib/Armada7040Lib.inf
+  ComPhyLib|OpenPlatformPkg/Platforms/Marvell/Library/ComPhyLib/ComPhyLib.inf
   MppLib|OpenPlatformPkg/Platforms/Marvell/Library/MppLib/MppLib.inf
+  ParsePcdLib|OpenPlatformPkg/Platforms/Marvell/Library/ParsePcdLib/ParsePcdLib.inf
 
 !if $(TARGET) == RELEASE
   DebugLib|MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
