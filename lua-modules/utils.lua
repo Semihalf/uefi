@@ -2,7 +2,7 @@
 -- Simple utilities for Lua to do common operations.
 --
 -- * Written by Chad Reese
--- * Copyright (C) 2010-2015 Cavium Inc.
+-- * Copyright (C) 2010-2016 Cavium Inc.
 -- * This module is released under the standard Lua MIT license
 --
 

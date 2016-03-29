@@ -8,7 +8,7 @@
 -- one on the target.
 --
 -- * Written by Chad Reese
--- * Copyright (C) 2010-2015 Cavium Inc.
+-- * Copyright (C) 2010-2016 Cavium Inc.
 --
 if rawget(_G, "cavium") then
     return cavium

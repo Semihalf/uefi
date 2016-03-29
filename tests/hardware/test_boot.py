@@ -93,7 +93,7 @@ def wait_for_bdk_boot(cnx):
     cnx.match("Using configuration from previous image")
     cnx.match("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
     cnx.match("THUNDERX Diagnostics")
-    cnx.match("Copyright (C) 2010-2015 Cavium Inc.")
+    cnx.match("Copyright (C) 2010-2016 Cavium Inc.")
     cnx.match("BDK Version:")
     cnx.waitfor("=================================")
     cnx.match("Main Menu")

@@ -2,7 +2,7 @@
 -- Print out a banner
 print("")
 print("THUNDERX Diagnostics")
-print("Copyright (C) 2010-2015 Cavium Inc.")
+print("Copyright (C) 2010-2016 Cavium Inc.")
 print("BDK Version: ".. require("bdk-version"))
 print("")
 
