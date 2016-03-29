@@ -776,7 +776,7 @@ skip_lane:
                     /* No credits, perform a reinit */
                     ocx_com_linkx_ctl.s.reinit = 1;
                     BDK_CSR_WRITE(node, BDK_OCX_COM_LINKX_CTL(link), ocx_com_linkx_ctl.u);
-                    /* Reinit will be cleared teh next time through the loop */
+                    /* Reinit will be cleared the next time through the loop */
                     if (ccpi_trace)
                     {
                         bdk_dbg_uart_str("Re-init link ");

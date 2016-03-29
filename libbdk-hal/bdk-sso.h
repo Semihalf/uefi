@@ -23,7 +23,7 @@ extern int bdk_sso_init(bdk_node_t node);
 extern void bdk_sso_register_handle(bdk_if_handle_t handle);
 
 /**
- * Funtion called as a thread body to continuously read from the SSO and process
+ * Function called as a thread body to continuously read from the SSO and process
  * packets
  *
  * @param arg    Unused

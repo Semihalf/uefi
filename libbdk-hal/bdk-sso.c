@@ -139,7 +139,7 @@ static int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 
 
 /**
- * Funtion called as a thread body to continuously read from the SSO and process
+ * Function called as a thread body to continuously read from the SSO and process
  * packets
  *
  * @param arg    Unused

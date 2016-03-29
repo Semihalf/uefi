@@ -6,7 +6,7 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(SGPIO);
 
-/* To maintain backwards compatability for the old MDIO API we need
+/* To maintain backwards compatibility for the old MDIO API we need
    to lookup the MDIO device on the ECAM bus by ID. This defines
    the ID */
 #define SGPIO_DEVID (0xa000177d | (BDK_PCC_DEV_IDL_E_SGP << 16))
