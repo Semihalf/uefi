@@ -33,7 +33,8 @@ int bdk_pko_global_init(bdk_node_t node)
         return -1;
     }
     global_node_state_t *node_state = global_node_state[node];
-    node_state->pko_free_fifo_mask = 0x0fffffff; /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
+    BDK_CSR_INIT(pko_const, node, BDK_PKO_CONST);
+    node_state->pko_free_fifo_mask = bdk_build_mask((pko_const.s.ptgfs - 1) * 4);
     node_state->pko_depth_address = bdk_ptr_to_phys(node_state->pko_depth);
 
     int num_buffers = 128;
@@ -76,10 +77,13 @@ int bdk_pko_global_init(bdk_node_t node)
 static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
 {
     global_node_state_t *node_state = global_node_state[node];
+
+    BDK_CSR_INIT(pko_const, node, BDK_PKO_CONST);
+    int max_fifo = (pko_const.s.ptgfs-1) * 4; /* Minus one as NULL MAC is an entry */
     /* Start at 0 znd look for a fifo location that has enough
         consecutive space */
     int fifo = 0;
-    while (fifo < 32)
+    while (fifo < max_fifo)
     {
         /* Buid a mask representing what this fifo would use */
         uint64_t mask = bdk_build_mask(size) << fifo;
@@ -94,7 +98,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
         fifo += size;
     }
     /* Check if didn't have space */
-    if (fifo >= 32)
+    if (fifo >= max_fifo)
     {
         bdk_error("pko_allocate_fifo: Tried to allocate too many fifos\n");
         return -1;
