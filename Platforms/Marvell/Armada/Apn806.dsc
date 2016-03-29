@@ -103,3 +103,8 @@
 
   gMarvellTokenSpaceGuid.PcdChip0ComPhyLane3|L"PEX0"
   gMarvellTokenSpaceGuid.PcdChip0ComPhySpeedLane3|5000
+
+  #IcuBase
+  gMarvellTokenSpaceGuid.PcdIcuCpBase|0xF2000000
+  gMarvellTokenSpaceGuid.PcdIcuSpiBase|64
+  gMarvellTokenSpaceGuid.PcdIcuSpiOffset|0
