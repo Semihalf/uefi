@@ -405,6 +405,9 @@ int bdk_pko_enable(bdk_node_t node)
     /* Open all configured descriptor queues */
     for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq+=dq_inc)
     {
+        /* Any write causes an open */
+        BDK_CSR_WRITE(node, BDK_PKO_VFX_DQX_OP_OPEN(dq / 8, dq & 7), 0);
+        /* Read the status of the open */
         BDK_CSR_INIT(pko_open, node, BDK_PKO_VFX_DQX_OP_OPEN(dq / 8, dq & 7));
         if (pko_open.s.dqstatus != BDK_PKO_DQSTATUS_E_PASS)
             bdk_error("PKO open failed with response 0x%lx\n", pko_open.u);
