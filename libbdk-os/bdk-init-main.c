@@ -51,6 +51,15 @@ static void __bdk_init_sysreg(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         cvmmemctl0_el1.s.dmbstallforce = 1;
     BDK_MSR(s3_0_c11_c0_4, cvmmemctl0_el1.u);
+
+    /* Enable LMTST on CN83XX */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    {
+        bdk_ap_cvmmemctl1_el1_t cvmmemctl1_el1;
+        BDK_MRS(s3_0_c11_c0_5, cvmmemctl1_el1.u);
+        cvmmemctl1_el1.s.lmtstena = 1;
+        BDK_MSR(s3_0_c11_c0_5, cvmmemctl1_el1.u);
+    }
 }
 
 /**
