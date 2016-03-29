@@ -1405,6 +1405,8 @@ static inline uint64_t BDK_DTX_DPI_BCST_RSP_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0feef8080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e0feef8080ll;
     __bdk_csr_fatal("DTX_DPI_BCST_RSP", 0, 0, 0, 0, 0);
 }
 
@@ -1451,6 +1453,8 @@ static inline uint64_t BDK_DTX_DPI_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0feef8060ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e0feef8060ll;
     __bdk_csr_fatal("DTX_DPI_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -1487,6 +1491,8 @@ static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0feef8040ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0feef8040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DPI_DATX", 1, a, 0, 0, 0);
 }
@@ -1525,6 +1531,8 @@ static inline uint64_t BDK_DTX_DPI_ENAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0feef8020ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e0feef8020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DPI_ENAX", 1, a, 0, 0, 0);
 }
 
@@ -1559,6 +1567,8 @@ static inline uint64_t BDK_DTX_DPI_SELX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_DPI_SELX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0feef8000ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0feef8000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DPI_SELX", 1, a, 0, 0, 0);
 }

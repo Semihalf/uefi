@@ -10781,13 +10781,13 @@ typedef union
     struct bdk_pki_tag_incx_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t en                    : 64; /**< [ 63:  0](R/W) Include byte in mask-tag algorithm. Each [EN] bit corresponds to 64 consecutive
-                                                                 bytes in the data stream, as controlled by PKI_TAG_INC()_CTL as described in
-                                                                 PKI_WQE_S[TAG]. */
+        uint64_t en                    : 64; /**< [ 63:  0](R/W) Include byte in mask-tag algorithm. Each [EN] bit corresponds to enabling a byte
+                                                                 in the data stream, for 64 consecutive bytes in total. Which array index is used
+                                                                 is controlled by PKI_TAG_INC()_CTL as described in PKI_WQE_S[TAG]. */
 #else /* Word 0 - Little Endian */
-        uint64_t en                    : 64; /**< [ 63:  0](R/W) Include byte in mask-tag algorithm. Each [EN] bit corresponds to 64 consecutive
-                                                                 bytes in the data stream, as controlled by PKI_TAG_INC()_CTL as described in
-                                                                 PKI_WQE_S[TAG]. */
+        uint64_t en                    : 64; /**< [ 63:  0](R/W) Include byte in mask-tag algorithm. Each [EN] bit corresponds to enabling a byte
+                                                                 in the data stream, for 64 consecutive bytes in total. Which array index is used
+                                                                 is controlled by PKI_TAG_INC()_CTL as described in PKI_WQE_S[TAG]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_tag_incx_mask_s cn; */

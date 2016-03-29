@@ -218,11 +218,11 @@ typedef union
                                                                  0x0 = No standard interface. */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field.
-                                                                 0x0 = pass 1.0. */
+                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information. */
 #else /* Word 0 - Little Endian */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field.
-                                                                 0x0 = pass 1.0. */
+                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information. */
         uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR.
                                                                  0x0 = No standard interface. */
         uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR.

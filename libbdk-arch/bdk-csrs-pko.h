@@ -8922,12 +8922,9 @@ typedef union
         uint64_t flshb_cache_hi_ram_bist_status : 1;/**< [ 62: 62](RO) BIST status for FLSHB_CACHE_HI_RAM. */
         uint64_t isrm_ca_iinst_ram_bist_status : 1;/**< [ 61: 61](RO) BIST status for ISRM_CA_IINST_RAM. */
         uint64_t isrm_ca_cm_ram_bist_status : 1;/**< [ 60: 60](RO) BIST status for ISRM_CA_CM_RAM. */
-        uint64_t isrm_st_ram2_bist_status : 1;/**< [ 59: 59](RO) BIST status for ISRM_ST_RAM2. */
-        uint64_t isrm_st_ram1_bist_status : 1;/**< [ 58: 58](RO) BIST status for ISRM_ST_RAM1. */
+        uint64_t reserved_58_59        : 2;
         uint64_t isrm_st_ram0_bist_status : 1;/**< [ 57: 57](RO) BIST status for ISRM_ST_RAM0. */
-        uint64_t isrd_st_ram3_bist_status : 1;/**< [ 56: 56](RO) BIST status for ISRD_ST_RAM3. */
-        uint64_t isrd_st_ram2_bist_status : 1;/**< [ 55: 55](RO) BIST status for ISRD_ST_RAM2. */
-        uint64_t isrd_st_ram1_bist_status : 1;/**< [ 54: 54](RO) BIST status for ISRD_ST_RAM1. */
+        uint64_t reserved_54_56        : 3;
         uint64_t isrd_st_ram0_bist_status : 1;/**< [ 53: 53](RO) BIST status for ISRD_ST_RAM0. */
         uint64_t drp_hi_ram_bist_status : 1; /**< [ 52: 52](RO) BIST status for DRP_HI_RAM. */
         uint64_t drp_lo_ram_bist_status : 1; /**< [ 51: 51](RO) BIST status for DRP_LO_RAM. */
@@ -8971,12 +8968,9 @@ typedef union
         uint64_t drp_lo_ram_bist_status : 1; /**< [ 51: 51](RO) BIST status for DRP_LO_RAM. */
         uint64_t drp_hi_ram_bist_status : 1; /**< [ 52: 52](RO) BIST status for DRP_HI_RAM. */
         uint64_t isrd_st_ram0_bist_status : 1;/**< [ 53: 53](RO) BIST status for ISRD_ST_RAM0. */
-        uint64_t isrd_st_ram1_bist_status : 1;/**< [ 54: 54](RO) BIST status for ISRD_ST_RAM1. */
-        uint64_t isrd_st_ram2_bist_status : 1;/**< [ 55: 55](RO) BIST status for ISRD_ST_RAM2. */
-        uint64_t isrd_st_ram3_bist_status : 1;/**< [ 56: 56](RO) BIST status for ISRD_ST_RAM3. */
+        uint64_t reserved_54_56        : 3;
         uint64_t isrm_st_ram0_bist_status : 1;/**< [ 57: 57](RO) BIST status for ISRM_ST_RAM0. */
-        uint64_t isrm_st_ram1_bist_status : 1;/**< [ 58: 58](RO) BIST status for ISRM_ST_RAM1. */
-        uint64_t isrm_st_ram2_bist_status : 1;/**< [ 59: 59](RO) BIST status for ISRM_ST_RAM2. */
+        uint64_t reserved_58_59        : 2;
         uint64_t isrm_ca_cm_ram_bist_status : 1;/**< [ 60: 60](RO) BIST status for ISRM_CA_CM_RAM. */
         uint64_t isrm_ca_iinst_ram_bist_status : 1;/**< [ 61: 61](RO) BIST status for ISRM_CA_IINST_RAM. */
         uint64_t flshb_cache_hi_ram_bist_status : 1;/**< [ 62: 62](RO) BIST status for FLSHB_CACHE_HI_RAM. */
@@ -11431,18 +11425,24 @@ typedef union
         uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) The NCB DST field of the error transaction. */
         uint64_t reserved_3_5          : 3;
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PDM_NCB_INT_W1C. This
+                                                                 is a fatal error for PKO. */
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PDM_NCB_INT_W1C. This
+                                                                 is a fatal error for PKO. */
         uint64_t crc_err               : 1;  /**< [  0:  0](R/W1C/H) There was a PDM meta-packet/descriptor cacheline CRC error. Data is above in
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This will set
+                                                                 a bit in PKO_PDB_NCB_INT_W1C. This is a fatal error for PKO. */
 #else /* Word 0 - Little Endian */
         uint64_t crc_err               : 1;  /**< [  0:  0](R/W1C/H) There was a PDM meta-packet/descriptor cacheline CRC error. Data is above in
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_DST] and PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This will set
+                                                                 a bit in PKO_PDB_NCB_INT_W1C. This is a fatal error for PKO. */
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PDM_NCB_INT_W1C. This
+                                                                 is a fatal error for PKO. */
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PDM_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PDM_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PDM_NCB_INT_W1C. This
+                                                                 is a fatal error for PKO. */
         uint64_t reserved_3_5          : 3;
         uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) The NCB DST field of the error transaction. */
         uint64_t err_tag               : 4;  /**< [ 17: 14](R/W1C/H) The NCB TAG field of the error transaction. */
@@ -11573,12 +11573,62 @@ typedef union
                                                                  field for the response causing the error. Note that if multiple errors occur, only the
                                                                  first error status is captured here until PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is cleared.
                                                                  Enumerated by PKO_DQSTATUS_E. */
-        uint64_t reserved_25           : 1;
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](RO/H) Status field of the command response on the LMTDMA failure indicated by
-                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors
-                                                                 occur,
-                                                                 only the first error status is captured here until PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] is
+        uint64_t reserved_20_25        : 6;
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
+                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
+                                                                 only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
+                                                                 is
                                                                  cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](RO/H) This field stores the error code for illegally constructed send-packets that did not drop.
+                                                                 Note that if multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 =
+                                                                 SEND_JUMP
+                                                                 not at end of descriptor. */
+        uint64_t reserved_7_9          : 3;
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](RO/H) This field stores the error code for illegally constructed send-packet drops. Note that if
+                                                                 multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
+                                                                 conditions. */
+        uint64_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_3          : 4;
+        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](RO/H) This field stores the error code for illegally constructed send-packet drops. Note that if
+                                                                 multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
+                                                                 conditions. */
+        uint64_t reserved_7_9          : 3;
+        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](RO/H) This field stores the error code for illegally constructed send-packets that did not drop.
+                                                                 Note that if multiple errors occur, only the first error code is captured here until
+                                                                 PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 =
+                                                                 SEND_JUMP
+                                                                 not at end of descriptor. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
+                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
+                                                                 only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
+                                                                 is
+                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_20_25        : 6;
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](RO/H) When PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is set, this contains the queue command response's
+                                                                 status
+                                                                 field for the response causing the error. Note that if multiple errors occur, only the
+                                                                 first error status is captured here until PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is cleared.
+                                                                 Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pko_pdm_sts_info_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](RO/H) When PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is set, this contains the queue command response's
+                                                                 status
+                                                                 field for the response causing the error. Note that if multiple errors occur, only the
+                                                                 first error status is captured here until PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is cleared.
+                                                                 Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_25           : 1;
+        uint64_t reserved_21_24        : 4;
         uint64_t reserved_20           : 1;
         uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
                                                                  PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
@@ -11616,11 +11666,7 @@ typedef union
                                                                  is
                                                                  cleared. Enumerated by PKO_DQSTATUS_E. */
         uint64_t reserved_20           : 1;
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](RO/H) Status field of the command response on the LMTDMA failure indicated by
-                                                                 PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors
-                                                                 occur,
-                                                                 only the first error status is captured here until PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_21_24        : 4;
         uint64_t reserved_25           : 1;
         uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](RO/H) When PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is set, this contains the queue command response's
                                                                  status
@@ -11629,8 +11675,7 @@ typedef union
                                                                  Enumerated by PKO_DQSTATUS_E. */
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_pdm_sts_info_s cn; */
+    } cn;
 } bdk_pko_pdm_sts_info_t;
 
 #define BDK_PKO_PDM_STS_INFO BDK_PKO_PDM_STS_INFO_FUNC()
@@ -13565,16 +13610,20 @@ typedef union
         uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) NCB DST field of the error transaction. */
         uint64_t reserved_3_5          : 3;
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PEB_NCB_INT_W1C. This
+                                                                 is a fatal error for PKO. */
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PEB_NCB_INT_W1C. This
+                                                                 is a fatal error for PKO. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PEB_NCB_INT_W1C. This
+                                                                 is a fatal error for PKO. */
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
-                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. */
+                                                                 PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PEB_NCB_INT_W1C. This
+                                                                 is a fatal error for PKO. */
         uint64_t reserved_3_5          : 3;
         uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) NCB DST field of the error transaction. */
         uint64_t err_tag               : 4;  /**< [ 17: 14](R/W1C/H) NCB TAG field of the error transaction. */

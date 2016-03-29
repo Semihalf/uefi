@@ -238,38 +238,7 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg002_s cn9; */
-    struct bdk_pciercx_cfg002_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field.
-                                                                 0x6 = Bridge. */
-        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field.
-                                                                 0x4 = PCI-to-PCI */
-        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field.
-                                                                 0x0 = No standard interface. */
-        uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field.
-                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information.
-                                                                 0x0 = pass 1.0. */
-#else /* Word 0 - Little Endian */
-        uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field.
-                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information.
-                                                                 0x0 = pass 1.0. */
-        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field.
-                                                                 0x0 = No standard interface. */
-        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field.
-                                                                 0x4 = PCI-to-PCI */
-        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field.
-                                                                 0x6 = Bridge. */
-#endif /* Word 0 - End */
-    } cn81xx;
+    /* struct bdk_pciercx_cfg002_s cn81xx; */
     struct bdk_pciercx_cfg002_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

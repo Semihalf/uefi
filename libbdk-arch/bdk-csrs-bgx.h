@@ -4148,7 +4148,17 @@ typedef union
     struct bdk_bgxx_cmr_global_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
+        uint64_t reserved_12_63        : 52;
+        uint64_t cmr_x2p_pki_reset     : 1;  /**< [ 11: 11](R/W) If the PKI is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
+                                                                 pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC comes out of reset, software should clear this bit. */
         uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
                                                                  Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
                                                                  commanded by the
@@ -4173,16 +4183,7 @@ typedef union
         uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
-        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or PKO block is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by
-                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
-
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC/PKO comes out of reset, software should clear this bit. */
+        uint64_t reserved_2            : 1;
         uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
                                                                  BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
@@ -4196,16 +4197,7 @@ typedef union
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
                                                                  clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
                                                                  BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or PKO block is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by
-                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
-
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC/PKO comes out of reset, software should clear this bit. */
+        uint64_t reserved_2            : 1;
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
@@ -4230,7 +4222,17 @@ typedef union
 
                                                                  When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
                                                                  should traffic be flowing.  This bit will not reset the main RXB fifos. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t cmr_x2p_pki_reset     : 1;  /**< [ 11: 11](R/W) If the PKI is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
+                                                                 pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC comes out of reset, software should clear this bit. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     struct bdk_bgxx_cmr_global_config_cn88xxp1
@@ -4329,7 +4331,114 @@ typedef union
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_bgxx_cmr_global_config_s cn9; */
+    struct bdk_bgxx_cmr_global_config_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t cmr_x2p_pki_reset     : 1;  /**< [ 11: 11](R/W) If the PKI is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
+                                                                 pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC comes out of reset, software should clear this bit. */
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
+                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
+                                                                 commanded by the
+                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
+                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
+                                                                 configure
+                                                                 the rest of the BGX csr for pass through traffic.
+
+                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
+                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
+                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
+                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
+                                                                 to the NCSI interface while performing a X2P partner reset.
+                                                                 0 = Allow traffic to flow through the NCSI block. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
+                                                                 is
+                                                                 also the LMAC_ID that is eligible for steering. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
+                                                                 bytes, the packet will be removed.
+                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
+        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
+        uint64_t cmr_x2p_nic_reset     : 1;  /**< [  2:  2](R/W) If the NIC is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
+                                                                 pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC comes out of reset, software should clear this bit. */
+        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
+                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
+                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
+                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
+                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
+        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
+                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
+                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
+                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
+                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
+        uint64_t cmr_x2p_nic_reset     : 1;  /**< [  2:  2](R/W) If the NIC is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
+                                                                 pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC comes out of reset, software should clear this bit. */
+        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
+        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
+                                                                 bytes, the packet will be removed.
+                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
+                                                                 is
+                                                                 also the LMAC_ID that is eligible for steering. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
+                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
+                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
+                                                                 to the NCSI interface while performing a X2P partner reset.
+                                                                 0 = Allow traffic to flow through the NCSI block. */
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
+                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
+                                                                 commanded by the
+                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
+                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
+                                                                 configure
+                                                                 the rest of the BGX csr for pass through traffic.
+
+                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
+                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
+        uint64_t cmr_x2p_pki_reset     : 1;  /**< [ 11: 11](R/W) If the PKI is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
+                                                                 pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC comes out of reset, software should clear this bit. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn9;
     struct bdk_bgxx_cmr_global_config_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4384,7 +4493,94 @@ typedef union
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_bgxx_cmr_global_config_s cn83xx; */
+    struct bdk_bgxx_cmr_global_config_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
+                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
+                                                                 commanded by the
+                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
+                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
+                                                                 configure
+                                                                 the rest of the BGX csr for pass through traffic.
+
+                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
+                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
+                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
+                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
+                                                                 to the NCSI interface while performing a X2P partner reset.
+                                                                 0 = Allow traffic to flow through the NCSI block. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
+                                                                 is
+                                                                 also the LMAC_ID that is eligible for steering. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
+                                                                 bytes, the packet will be removed.
+                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
+        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or PKO block is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by
+                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC/PKO comes out of reset, software should clear this bit. */
+        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
+                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
+                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
+                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
+                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
+        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
+                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
+                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
+                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
+                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or PKO block is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by
+                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC/PKO comes out of reset, software should clear this bit. */
+        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
+        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
+                                                                 bytes, the packet will be removed.
+                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
+                                                                 is
+                                                                 also the LMAC_ID that is eligible for steering. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
+                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
+                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
+                                                                 to the NCSI interface while performing a X2P partner reset.
+                                                                 0 = Allow traffic to flow through the NCSI block. */
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
+                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
+                                                                 commanded by the
+                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
+                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
+                                                                 configure
+                                                                 the rest of the BGX csr for pass through traffic.
+
+                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
+                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } cn83xx;
     struct bdk_bgxx_cmr_global_config_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

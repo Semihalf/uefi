@@ -4310,7 +4310,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) When set, disables stream validity checking. For diagnostic use only. */
+        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) Bitstream disable.
+                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and subordinate
+                                                                 bus numbers corresponding to that PEM.  This prevents SR-IOV security issues.
+                                                                 Typically clear when in root complex mode.
+                                                                 1 = Do not check inbound stream IDs.  Typically set when in endpoint mode. */
         uint64_t reserved_4_7          : 4;
         uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
                                                                  wait for all previous load operations' FILLs before issuing.
@@ -4348,7 +4352,11 @@ typedef union
                                                                  Atomic transactions (which for PCI are non-posted so not part of normal store
                                                                  ordering) are also considered loads for the purpose of this bit. */
         uint64_t reserved_4_7          : 4;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) When set, disables stream validity checking. For diagnostic use only. */
+        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) Bitstream disable.
+                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and subordinate
+                                                                 bus numbers corresponding to that PEM.  This prevents SR-IOV security issues.
+                                                                 Typically clear when in root complex mode.
+                                                                 1 = Do not check inbound stream IDs.  Typically set when in endpoint mode. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -4399,16 +4407,11 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_iobnx_slitagx_control_s cn9; */
-    /* struct bdk_iobnx_slitagx_control_s cn81xx; */
-    struct bdk_iobnx_slitagx_control_cn83xx
+    struct bdk_iobnx_slitagx_control_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) Bitstream disable.
-                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and subordinate
-                                                                 bus numbers corresponding to that PEM.  This prevents SR-IOV security issues.
-                                                                 Typically clear when in root complex mode.
-                                                                 1 = Do not check inbound stream IDs.  Typically set when in endpoint mode. */
+        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) When set, disables stream validity checking. For diagnostic use only. */
         uint64_t reserved_4_7          : 4;
         uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
                                                                  wait for all previous load operations' FILLs before issuing.
@@ -4446,15 +4449,12 @@ typedef union
                                                                  Atomic transactions (which for PCI are non-posted so not part of normal store
                                                                  ordering) are also considered loads for the purpose of this bit. */
         uint64_t reserved_4_7          : 4;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) Bitstream disable.
-                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and subordinate
-                                                                 bus numbers corresponding to that PEM.  This prevents SR-IOV security issues.
-                                                                 Typically clear when in root complex mode.
-                                                                 1 = Do not check inbound stream IDs.  Typically set when in endpoint mode. */
+        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) When set, disables stream validity checking. For diagnostic use only. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_iobnx_slitagx_control_s cn88xxp2; */
+    } cn81xx;
+    /* struct bdk_iobnx_slitagx_control_s cn83xx; */
+    /* struct bdk_iobnx_slitagx_control_cn81xx cn88xxp2; */
 } bdk_iobnx_slitagx_control_t;
 
 static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

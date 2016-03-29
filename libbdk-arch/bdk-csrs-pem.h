@@ -6808,6 +6808,57 @@ static inline uint64_t BDK_PEMX_ECO(unsigned long a)
 #define arguments_BDK_PEMX_ECO(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) pem#_erom#
+ *
+ * PEM Expansion ROM Registers
+ * This register accesses the external EEPROM.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pemx_eromx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t erom                  : 64; /**< [ 63:  0](R/W/H) PCIe express read transactions to BAR3 (through PCIEEP()_CFG012) will appear as
+                                                                 RSL reads to this register.
+
+                                                                 Although 512 KB is advertised from PCIEEP()_CFG012, only the first 510 KB is
+                                                                 actually accessible, and reads above 510 KB will return ones, writes are NOP.
+
+                                                                 Accessible through PEM2 if EP PEM0 is an RC, otherwise accessible through PEM0.
+                                                                 Access from a PEM that doesn't own the EEPROM will return fault. */
+#else /* Word 0 - Little Endian */
+        uint64_t erom                  : 64; /**< [ 63:  0](R/W/H) PCIe express read transactions to BAR3 (through PCIEEP()_CFG012) will appear as
+                                                                 RSL reads to this register.
+
+                                                                 Although 512 KB is advertised from PCIEEP()_CFG012, only the first 510 KB is
+                                                                 actually accessible, and reads above 510 KB will return ones, writes are NOP.
+
+                                                                 Accessible through PEM2 if EP PEM0 is an RC, otherwise accessible through PEM0.
+                                                                 Access from a PEM that doesn't own the EEPROM will return fault. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pemx_eromx_s cn; */
+} bdk_pemx_eromx_t;
+
+static inline uint64_t BDK_PEMX_EROMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PEMX_EROMX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=65535)))
+        return 0x87e0c0080000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xffff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=65535)))
+        return 0x87e0c0080000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xffff);
+    __bdk_csr_fatal("PEMX_EROMX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_PEMX_EROMX(a,b) bdk_pemx_eromx_t
+#define bustype_BDK_PEMX_EROMX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_PEMX_EROMX(a,b) "PEMX_EROMX"
+#define device_bar_BDK_PEMX_EROMX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_PEMX_EROMX(a,b) (a)
+#define arguments_BDK_PEMX_EROMX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) pem#_flr_glblcnt_ctl
  *
  * PEM FLR Global Count Control Register
