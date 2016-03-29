@@ -275,19 +275,19 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
                     skid_max_cnt = 2;
                     break;
             }
-            lmac = 2 + 4 * handle->interface + port;
+            lmac = 3 + 4 * handle->interface + port;
             compressed_channel_id = BDK_PKI_CHAN_E_BGXX_LMACX_CHX(handle->interface, handle->index, 0 /* channel */);
             break;
         }
         case BDK_IF_PCIE:
-            lmac = 1;
+            lmac = 2;
             fifo_size = 4;
             fcs_ena = 0;
             skid_max_cnt = 2;
             compressed_channel_id = BDK_PKI_CHAN_E_DPI_CHX(handle->index);
             break;
         case BDK_IF_LBK:
-            lmac = 0;
+            lmac = (handle->interface == 2) ? 1 : 0;
             fifo_size = 4;
             fcs_ena = 0;
             skid_max_cnt = 2;
