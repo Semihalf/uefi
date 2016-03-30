@@ -250,19 +250,27 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG554(pcie_port),
         c.s.p23td = 1);
 
-    /* Errata PEM-21178 - Change the CFG[089-092] LxUTP defaults. Should be
-       safe to apply to CN88XX, CN81XX, and CN83XX */
+    /* Errata PEM-21178 - Change the CFG[089-092] LxUTP and LxDTP defaults.
+       Should be safe to apply to CN88XX, CN81XX, and CN83XX */
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG089(pcie_port),
+        c.s.l0dtp = 0x7;
         c.s.l0utp = 0x7;
+        c.s.l1ddtp = 0x7;
         c.s.l1utp = 0x7);
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG090(pcie_port),
+        c.s.l2dtp = 0x7;
         c.s.l2utp = 0x7;
+        c.s.l3dtp = 0x7;
         c.s.l3utp = 0x7);
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG091(pcie_port),
+        c.s.l4dtp = 0x7;
         c.s.l4utp = 0x7;
+        c.s.l5dtp = 0x7;
         c.s.l5utp = 0x7);
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG092(pcie_port),
+        c.s.l6dtp = 0x7;
         c.s.l6utp = 0x7;
+        c.s.l7dtp = 0x7;
         c.s.l7utp = 0x7);
 
     /* (ECAM-27114) PCIERC has incorrect device code */
