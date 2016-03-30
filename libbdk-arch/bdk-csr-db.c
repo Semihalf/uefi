@@ -289,8 +289,8 @@ uint64_t bdk_csr_read_by_name(bdk_node_t node, const char *name)
     return bdk_csr_read(node, db->type, params[0], db->width,
         __bdk_csr_lookup_address(db, params));
 #else
-    extern uint64_t octeon_remote_read_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address);
-    return octeon_remote_read_csr(node, db->type, params[0], db->width,
+    extern uint64_t thunder_remote_read_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address);
+    return thunder_remote_read_csr(node, db->type, params[0], db->width,
         __bdk_csr_lookup_address(db, params));
 #endif
 }
@@ -316,8 +316,8 @@ int bdk_csr_write_by_name(bdk_node_t node, const char *name, uint64_t value)
     bdk_csr_write(node, db->type, params[0], db->width,
         __bdk_csr_lookup_address(db, params), value);
 #else
-    extern void octeon_remote_write_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
-    octeon_remote_write_csr(node, db->type, params[0], db->width,
+    extern void thunder_remote_write_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
+    thunder_remote_write_csr(node, db->type, params[0], db->width,
         __bdk_csr_lookup_address(db, params), value);
 #endif
     return 0;

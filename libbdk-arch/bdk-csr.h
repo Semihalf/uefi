@@ -163,8 +163,8 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
 }
 
 #else
-#define bdk_csr_read octeon_remote_read_csr
-#define bdk_csr_write octeon_remote_write_csr
+#define bdk_csr_read thunder_remote_read_csr
+#define bdk_csr_write thunder_remote_write_csr
 #endif
 
 /**

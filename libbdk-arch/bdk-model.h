@@ -47,8 +47,8 @@ static inline uint64_t cavium_get_model() __attribute__ ((pure, always_inline));
 static inline uint64_t cavium_get_model()
 {
 #ifdef BDK_BUILD_HOST
-    extern uint32_t octeon_remote_get_model(void) __attribute__ ((pure));
-    return octeon_remote_get_model();
+    extern uint32_t thunder_remote_get_model(void) __attribute__ ((pure));
+    return thunder_remote_get_model();
 #else
     uint64_t result;
     asm ("mrs %[rd],MIDR_EL1" : [rd] "=r" (result));
