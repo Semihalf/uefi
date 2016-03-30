@@ -242,7 +242,7 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
     node_state->pko_next_free_descr_queue += PKO_QUEUES_PER_CHANNEL;
 
     int lmac;
-    int fcs_ena;
+    int fcs_ena = 0; /* For thunder, FCS is added at the BGX layer */
     int skid_max_cnt;
     int fifo_size;
     int compressed_channel_id; /* compressed_channel_id comes from the LUT
@@ -259,28 +259,23 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
                 case 0: /* SGMII - 1 lane each */
                 case 5: /* RGMII */
                     fifo_size = 1;
-                    fcs_ena = 1;
                     skid_max_cnt = 0;
                     break;
                 case 3: /* 10GBASE-R - 1 lane each */
                     fifo_size = 1;
-                    fcs_ena = 1;
                     skid_max_cnt = 0;
                     break;
                 case 2: /* Reduced XAUI - 2 lanes each */
                     fifo_size = 2;
                     skid_max_cnt = 1;
-                    fcs_ena = 1;
                     break;
                 case 1: /* 10GBASE-X/XAUI or DXAUI - 4 lanes each */
                     fifo_size = 4;
-                    fcs_ena = 1;
                     skid_max_cnt = 2;
                     break;
                 case 4: /* 40GBASE-R - 4 lanes each */
                 default:
                     fifo_size = 4;
-                    fcs_ena = 1;
                     skid_max_cnt = 2;
                     break;
             }
@@ -291,14 +286,12 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
         case BDK_IF_PCIE:
             lmac = 2;
             fifo_size = 4;
-            fcs_ena = 0;
             skid_max_cnt = 2;
             compressed_channel_id = BDK_PKI_CHAN_E_DPI_CHX(handle->index);
             break;
         case BDK_IF_LBK:
             lmac = (handle->interface == 2) ? 1 : 0;
             fifo_size = 4;
-            fcs_ena = 0;
             skid_max_cnt = 2;
             compressed_channel_id = BDK_PKI_CHAN_E_LBKX_CHX(handle->interface, handle->index);
             break;
