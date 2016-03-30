@@ -63,6 +63,11 @@ int bdk_pko_global_init(bdk_node_t node)
         c.s.y_val = 0x1; /* Set bit 0 */
         c.s.r_mask = 0xd; /* Clear bits 3:2,0 */
         c.s.r_val = 0x2); /* Set bit 1 */
+
+    /* Put FIFOs in reset */
+    for (int i = 0; i < pko_const.s.ptgfs; i++)
+        BDK_CSR_MODIFY(c, node, BDK_PKO_PTGFX_CFG(i), c.s.reset = 1);
+
     return 0;
 }
 
@@ -382,11 +387,9 @@ int bdk_pko_enable(bdk_node_t node)
     global_node_state_t *node_state = global_node_state[node];
 
     /* Take FIFOs out of reset */
-    /* CN83XX: 0-4 for PKO_PTGFX_CFG */
-    int num_ptgfx = 5;
-    for (int i = 0; i < num_ptgfx; i++)
-        BDK_CSR_MODIFY(c, node, BDK_PKO_PTGFX_CFG(i),
-            c.s.reset = 0);
+    BDK_CSR_INIT(pko_const, node, BDK_PKO_CONST);
+    for (int i = 0; i < pko_const.s.ptgfs; i++)
+        BDK_CSR_MODIFY(c, node, BDK_PKO_PTGFX_CFG(i), c.s.reset = 0);
 
     /* Enable the FPA interface */
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
