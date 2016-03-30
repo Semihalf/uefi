@@ -840,7 +840,6 @@ SearchUsbDPInList (
   IN LIST_ENTRY                   *UsbIoDPList
   )
 {
-#if defined(notdef_cavium)
   LIST_ENTRY                  *ListIndex;
   DEVICE_PATH_LIST_ITEM       *ListItem;
   BOOLEAN                     Found;
@@ -864,7 +863,8 @@ SearchUsbDPInList (
 
     UsbDpDevicePathSize  = GetDevicePathSize (UsbDP);
     if (UsbDpDevicePathSize == GetDevicePathSize (ListItem->DevicePath)) {
-      if ((CompareMem (UsbDP, ListItem->DevicePath, UsbDpDevicePathSize)) == 0) {
+        BDK_WMB;
+        if ((/*CompareMem*/memcmp (UsbDP, ListItem->DevicePath, UsbDpDevicePathSize)) == 0) {
         Found = TRUE;
         break;
       }
@@ -873,10 +873,6 @@ SearchUsbDPInList (
   }
 
   return Found;
-#else
-  CAVIUM_NOTYET();
-  return FALSE;
-#endif
 }
 
 /**
@@ -896,7 +892,6 @@ AddUsbDPToList (
   IN LIST_ENTRY                   *UsbIoDPList
   )
 {
-#if defined(notdef_cavium)
   DEVICE_PATH_LIST_ITEM       *ListItem;
 
   //
@@ -919,9 +914,7 @@ AddUsbDPToList (
   ListItem->DevicePath = DuplicateDevicePath (UsbDP);
 
   InsertTailList (UsbIoDPList, &ListItem->Link);
-#else
-  CAVIUM_NOTYET();
-#endif
+
   return EFI_SUCCESS;
 }
 
@@ -1110,7 +1103,6 @@ UsbBusFreeUsbDPList (
   IN LIST_ENTRY          *UsbIoDPList
   )
 {
-#if defined(notdef_cavium)
   LIST_ENTRY                  *ListIndex;
   DEVICE_PATH_LIST_ITEM       *ListItem;
 
@@ -1140,10 +1132,7 @@ UsbBusFreeUsbDPList (
 
   InitializeListHead (UsbIoDPList);
   return EFI_SUCCESS;
-#else
-  CAVIUM_NOTYET();
-  return EFI_UNSUPPORTED;
-#endif
+
 }
 
 /**
@@ -1164,7 +1153,6 @@ UsbBusAddWantedUsbIoDP (
   IN EFI_DEVICE_PATH_PROTOCOL     *RemainingDevicePath
   )
 {
-#if defined(notdef_cavium)
   USB_BUS                       *Bus;
   EFI_STATUS                    Status;
   EFI_DEVICE_PATH_PROTOCOL      *DevicePathPtr;
@@ -1216,9 +1204,7 @@ UsbBusAddWantedUsbIoDP (
   ASSERT (!EFI_ERROR (Status));
   FreePool (DevicePathPtr);
   return EFI_SUCCESS;
-#else
-  return EFI_UNSUPPORTED;
-#endif
+
 }
 
 /**
@@ -1238,7 +1224,6 @@ UsbBusIsWantedUsbIO (
   IN USB_INTERFACE           *UsbIf
   )
 {
-#if defined(notdef_cavium)
   EFI_DEVICE_PATH_PROTOCOL      *DevicePathPtr;
   LIST_ENTRY                    *WantedUsbIoDPListPtr;
   LIST_ENTRY                    *WantedListIndex;
@@ -1285,7 +1270,8 @@ UsbBusIsWantedUsbIO (
     case MSG_USB_DP:
       FirstDevicePathSize = GetDevicePathSize (WantedListItem->DevicePath);
       if (FirstDevicePathSize == GetDevicePathSize (DevicePathPtr)) {
-        if (CompareMem (
+          BDK_WMB;
+          if (/*CompareMem*/memcmp (
               WantedListItem->DevicePath,
               DevicePathPtr,
               GetDevicePathSize (DevicePathPtr)) == 0
@@ -1315,7 +1301,7 @@ UsbBusIsWantedUsbIO (
 
     WantedListIndex =  WantedListIndex->ForwardLink;
   }
-  gBS->FreePool (DevicePathPtr);
+  /*gBS->FreePool (DevicePathPtr); */
 
   //
   // Check whether the new Usb device path is wanted
@@ -1325,10 +1311,6 @@ UsbBusIsWantedUsbIO (
   } else {
     return FALSE;
   }
-#else
-  CAVIUM_NOTYET();
-  return FALSE;
-#endif
 }
 
 /**

@@ -94,14 +94,15 @@ typedef uint64_t EFI_PHYSICAL_ADDRESS;
         _DEBUG_INNER x ;                        \
     } while(0)
 
-#define ASSERT(x) if (!(x)){ printf("%s:%d assert failed\n", __FUNCTION__, __LINE__);}
+#define ASSERT(x) if (!(x)){ printf("%s:%d ASSERT Failed\n", __FUNCTION__, __LINE__);}
 #endif /* defined(MT_DO_DEBUG) && (MT_DO_DEBUG) */
 
 #if ! defined(ASSERT) 
 #define ASSERT(x...) 
+//#define ASSERT(x) if (!(x)){ printf("%s:%d ASSERT Failed\n", __FUNCTION__, __LINE__);}
 #endif 
 #if ! defined(CAVIUM_NOTYET)
-#define CAVIUM_NOTYET(x...) printf("%s:%d %s - not yet implemented " #x "\n", __FILE__, __LINE__, __FUNCTION__)
+#define CAVIUM_NOTYET(x...) printf("%s:%d %s "  #x " not yet there\n", __FILE__, __LINE__, __FUNCTION__)
 #endif
 #define NOT_CAVIUM(x...)
 
@@ -199,9 +200,12 @@ struct _LIST_ENTRY {
   LIST_ENTRY  *BackLink;
 };
 
+BOOLEAN IsListEmpty(IN CONST LIST_ENTRY *List);
+BOOLEAN IsNodeInList (IN CONST LIST_ENTRY *List, IN CONST LIST_ENTRY *Node);
 LIST_ENTRY* InitializeListHead (IN OUT LIST_ENTRY            *List);
 LIST_ENTRY* RemoveEntryList (IN      CONST LIST_ENTRY      *Entry);
 LIST_ENTRY* InsertHeadList (IN OUT  LIST_ENTRY* List, IN OUT  LIST_ENTRY            *Entry);
+LIST_ENTRY* InsertTailList (IN OUT  LIST_ENTRY* List, IN OUT  LIST_ENTRY* Entry);
 #define ENCODE_ERROR(a)              (- (a))
 
 #define ENCODE_WARNING(a)            (a)
@@ -316,11 +320,11 @@ typedef UINT16                    STRING_REF;
 #define ROUNDUP(x,sz) ((((sz)+(x) -1)/(x)) * (x))
 #endif
 
-#define CopyMem(to,from,size) do {\
+#define CopyMem(to,from,size) ({void *p;do {    \
     BDK_BARRIER;                  \
-    memcpy((to),(from),(size));\
+    p=memcpy((to),(from),(size));\
     BDK_BARRIER;\
-    } while(0)
+        } while(0);p;})
 
 #define ZeroMem(at,size) bzero((at),(size));
 /*

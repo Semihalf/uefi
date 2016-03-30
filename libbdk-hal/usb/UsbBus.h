@@ -234,8 +234,11 @@ struct _USB_INTERFACE {
   BOOLEAN                   IsHub;
   USB_HUB_API               *HubApi;
   UINT8                     NumOfPort;
+#if defined(notdef_cavium)
   EFI_EVENT                 HubNotify;
-
+#else
+    void (*HubNotify)(EFI_EVENT, void*);  
+#endif
   //
   // Data used only by normal hub devices
   //

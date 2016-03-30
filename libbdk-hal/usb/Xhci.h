@@ -23,6 +23,7 @@ typedef struct _USB_DEV_CONTEXT USB_DEV_CONTEXT;
 // had to hack some because they repeat definitions verbatim
 //#include "usb-industry.h" // USB3
 #include <Protocol/Usb2HostController.h>
+#include <Protocol/DevicePath.h>
 #include "usb2-industry.h" // USB2
 #include "XhciReg.h"
 #include "XhciSched.h" // Transfer scheduling routines
@@ -53,7 +54,7 @@ typedef struct _USB_DEV_CONTEXT USB_DEV_CONTEXT;
 // XHC async transfer timer interval, set by experience.
 // The unit is 100us, takes 1ms as interval.
 //
-#define XHC_ASYNC_TIMER_INTERVAL     EFI_TIMER_PERIOD_MILLISECONDS(1)
+#define XHC_ASYNC_TIMER_INTERVAL     /*EFI_TIMER_PERIOD_MILLISECONDS(1) */ (2 * 1000) /*cavium*/
 
 #if defined(notdef_cavium)
 //
@@ -84,8 +85,8 @@ typedef struct _USB_DEV_CONTEXT USB_DEV_CONTEXT;
   for (Entry = (ListHead)->ForwardLink, NextEntry = Entry->ForwardLink;\
       Entry != (ListHead); Entry = NextEntry, NextEntry = Entry->ForwardLink)
 
-#define EFI_LIST_CONTAINER(Entry, Type, Field) BASE_CR(Entry, Type, Field)
 #define BASE_CR(Record, TYPE, Field)  ((TYPE *) ((CHAR8 *) (Record) - (CHAR8 *) &(((TYPE *) 0)->Field)))
+#define EFI_LIST_CONTAINER(Entry, Type, Field) BASE_CR(Entry, Type, Field)
 #define XHC_FROM_THIS(a)               BASE_CR(a,USB_XHCI_INSTANCE,Usb2Hc)  /* CR(a, USB_XHCI_INSTANCE, Usb2Hc, XHCI_INSTANCE_SIG)*/
 
 #define XHC_LOW_32BIT(Addr64)          ((UINT32)(((UINTN)(Addr64)) & 0xFFFFFFFFU))
@@ -167,6 +168,7 @@ struct _USB_DEV_CONTEXT {
 
 struct xhci_s {
     EFI_USB2_HC_PROTOCOL      Usb2Hc;
+    EFI_DEVICE_PATH_PROTOCOL  *DevicePath;
  
     // Cmd Transfer Ring
     TRANSFER_RING             CmdRing;

@@ -460,8 +460,12 @@ int bdk_usb_test_mode(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode)
             return usb2_test_mode(node, usb_port, 5);
         case BDK_USB_HXCI_INIT:
             return bdk_usb_HCInit(node, usb_port);
+        case BDK_USB_HXCI_LIST_ADDRESSES:
+            return bdk_usb_HCList(node, usb_port);
         case BDK_USB_HXCI_POLL_STATUS:
             return bdk_usb_HCPoll(node, usb_port);   
+        case BDK_USB_HXCI_SPARE:
+            return bdk_usb_HCSpare(node, usb_port);   
         case BDK_USB_TEST_USB2_LAST:
             break;
     }
@@ -493,9 +497,13 @@ const char* bdk_usb_get_test_mode_string(bdk_usb_test_t test_mode)
         case BDK_USB_TEST_USB2_FORCE_ENABLE:
             return "USB 2.0 FORCE_ENABLE test";
         case BDK_USB_HXCI_INIT:
-            return "USB hxci HC Init";
+            return "Initilize host controller";
+        case BDK_USB_HXCI_LIST_ADDRESSES:
+            return "List Interface Addresses";
     	case BDK_USB_HXCI_POLL_STATUS:
             return "USB hxci poll root hub status";           
+    	case BDK_USB_HXCI_SPARE:
+            return "USB hxci spare debug";           
         case BDK_USB_TEST_USB2_LAST:
             break;
     }

@@ -99,8 +99,9 @@ UsbCreateInterface (
   USB_DEVICE_PATH         UsbNode;
   USB_INTERFACE           *UsbIf;
   USB_INTERFACE           *HubIf;
+#if defined(notdef_cavium)
   EFI_STATUS              Status;
-
+#endif
   UsbIf = AllocateZeroPool (sizeof (USB_INTERFACE));
 
   if (UsbIf == NULL) {
@@ -131,18 +132,16 @@ UsbCreateInterface (
 
   HubIf = Device->ParentIf;
   ASSERT (HubIf != NULL);
-#if defined(notdef_cavium)
+
   UsbIf->DevicePath = AppendDevicePathNode (HubIf->DevicePath, &UsbNode.Header);
 
   if (UsbIf->DevicePath == NULL) {
     DEBUG ((EFI_D_ERROR, "UsbCreateInterface: failed to create device path\n"));
 
-    Status = EFI_OUT_OF_RESOURCES;
+    /* Status = EFI_OUT_OF_RESOURCES; */
     goto ON_ERROR;
   }
-#else
-  CAVIUM_NOTYET(AppendDevicePathNode);
-#endif
+
 #if defined(notdef_cavium)
   Status = gBS->InstallMultipleProtocolInterfaces (
                   &UsbIf->Handle,
@@ -158,7 +157,7 @@ UsbCreateInterface (
     goto ON_ERROR;
   }
 #else
-  CAVIUM_NOTYET();
+  CAVIUM_NOTYET("InstallMultipleProtocolInterfaces: UsbIo");
 #endif
   //
   // Open USB Host Controller Protocol by Child
@@ -181,7 +180,7 @@ UsbCreateInterface (
     goto ON_ERROR;
   }
 #else
-  CAVIUM_NOTYET();
+  CAVIUM_NOTYET("InstallMultipleProtocolInterfaces: UsbOpenHostProtoByChild");
 #endif
   return UsbIf;
 
@@ -280,8 +279,7 @@ UsbConnectDriver (
     Status = mUsbHubApi.Init (UsbIf);
 
   } else {
-#if defined(notdef_cvium)
-      EFI_TPL                 OldTpl;
+      /* EFI_TPL                 OldTpl; */
     //
     // This function is called in both UsbIoControlTransfer and
     // the timer callback in hub enumeration. So, at least it is
@@ -294,23 +292,20 @@ UsbConnectDriver (
     // Only recursively wanted usb child device
     //
     if (UsbBusIsWantedUsbIO (UsbIf->Device->Bus, UsbIf)) {
-      OldTpl            = UsbGetCurrentTpl ();
-      DEBUG ((EFI_D_INFO, "UsbConnectDriver: TPL before connect is %d, %p\n", (UINT32)OldTpl, UsbIf->Handle));
+      /* OldTpl            = UsbGetCurrentTpl (); */
+      /* DEBUG ((EFI_D_INFO, "UsbConnectDriver: TPL before connect is %d, %p\n", (UINT32)OldTpl, UsbIf->Handle)); */
 
-      gBS->RestoreTPL (TPL_CALLBACK);
+      /* gBS->RestoreTPL (TPL_CALLBACK); */
 
-      Status            = gBS->ConnectController (UsbIf->Handle, NULL, NULL, TRUE);
-      UsbIf->IsManaged  = (BOOLEAN)!EFI_ERROR (Status);
+        CAVIUM_NOTYET( Status            = gBS->ConnectController (UsbIf->Handle, NULL, NULL, TRUE); );
+        UsbIf->IsManaged  = (BOOLEAN)!EFI_ERROR (Status);
 
-      DEBUG ((EFI_D_INFO, "UsbConnectDriver: TPL after connect is %d\n", (UINT32)UsbGetCurrentTpl()));
-      ASSERT (UsbGetCurrentTpl () == TPL_CALLBACK);
+      /* DEBUG ((EFI_D_INFO, "UsbConnectDriver: TPL after connect is %d\n", (UINT32)UsbGetCurrentTpl())); */
+      /* ASSERT (UsbGetCurrentTpl () == TPL_CALLBACK); */
 
-      gBS->RaiseTPL (OldTpl);
+      /* gBS->RaiseTPL (OldTpl); */
     }
-#else
-      UsbIf->IsManaged = FALSE;
-      CAVIUM_NOTYET("Ignore if enumerating");
-#endif
+
   }
 
   return Status;
@@ -511,7 +506,7 @@ UsbDisconnectDriver (
     gBS->RaiseTPL (OldTpl);
 #else
     UsbIf->IsManaged = FALSE;
-    CAVIUM_NOTYET("disconnect managed hub");
+    CAVIUM_NOTYET("disconnect controller from managed hub");
 #endif
   }
   
@@ -983,7 +978,7 @@ UsbEnumeratePort (
   Child = UsbFindChild (HubIf, Port);
   
   if (Child != NULL) {
-    DEBUG (( EFI_D_INFO, "UsbEnumeratePort: device at port %d being removed from root hub %p\n", Port, HubIf));
+    DEBUG (( EFI_D_INFO, "UsbEnumeratePort: device at port %d being removed from hub %p\n", Port, HubIf));
     UsbRemoveDevice (Child);
   }
   
@@ -1087,7 +1082,7 @@ UsbRootHubEnumeration (
   for (Index = 0; Index < RootHub->NumOfPort; Index++) {
     Child = UsbFindChild (RootHub, Index);
     if ((Child != NULL) && (Child->DisconnectFail == TRUE)) {
-      DEBUG (( EFI_D_INFO, "UsbEnumeratePort: The device disconnect fails at port %d from root hub %p, try again\n", Index, RootHub));
+        DEBUG (( EFI_D_INFO, "%s: The device disconnect fails at port %d from root hub %p, try again\n", __FUNCTION__, Index, RootHub));
       UsbRemoveDevice (Child);
     }
     MT_DEBUG("Enumerating %p Index %d\n", RootHub, Index);

@@ -1,6 +1,6 @@
 #ifndef __USB_ASSORTED_H__
 #define  __USB_ASSORTED_H__
-
+#include <Protocol/DevicePath.h>
 typedef struct _EFI_DRIVER_BINDING_PROTOCOL  EFI_DRIVER_BINDING_PROTOCOL;
 
 typedef
@@ -139,6 +139,21 @@ struct _EFI_DRIVER_BINDING_PROTOCOL {
           }
 
 //
+// Hardware Device Paths
+//
+//
+// Hardware Device Paths
+//
+#define HARDWARE_DEVICE_PATH      0x01
+
+#define HW_CONTROLLER_DP          0x05
+typedef struct {
+  EFI_DEVICE_PATH_PROTOCOL        Header;
+  UINT32                          Controller;
+} CONTROLLER_DEVICE_PATH;
+
+#define CAVIUM_NODE_PORT_TO_CONTROLLER(n,p) ((UINT32) (((n)<<8) | (p) ))
+//
 // Messaging Device Paths
 //
 #define MESSAGING_DEVICE_PATH     0x03
@@ -234,4 +249,27 @@ typedef struct {
 #define SIGNATURE_64(A, B, C, D, E, F, G, H) \
     (SIGNATURE_32 (A, B, C, D) | ((UINT64) (SIGNATURE_32 (E, F, G, H)) << 32))
 
+
+UINTN
+/* EFIAPI */
+/* Glue */GetDevicePathSize (
+  IN CONST EFI_DEVICE_PATH_PROTOCOL  *DevicePath
+    );
+EFI_DEVICE_PATH_PROTOCOL *
+/*EFIAPI
+  Glue*/DuplicateDevicePath (
+  IN CONST EFI_DEVICE_PATH_PROTOCOL  *DevicePath
+      );
+EFI_DEVICE_PATH_PROTOCOL *
+/*EFIAPI
+  Glue*/AppendDevicePath (
+  IN CONST EFI_DEVICE_PATH_PROTOCOL  *FirstDevicePath,  OPTIONAL
+  IN CONST EFI_DEVICE_PATH_PROTOCOL  *SecondDevicePath  OPTIONAL
+      );
+EFI_DEVICE_PATH_PROTOCOL *
+/*EFIAPI
+  Glue*/AppendDevicePathNode (
+  IN CONST EFI_DEVICE_PATH_PROTOCOL  *DevicePath,     OPTIONAL
+  IN CONST EFI_DEVICE_PATH_PROTOCOL  *DevicePathNode  OPTIONAL
+      );
 #endif

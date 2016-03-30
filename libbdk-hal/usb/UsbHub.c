@@ -668,9 +668,12 @@ UsbOnHubInterrupt (
   }
 
   CopyMem (HubIf->ChangeMap, Data, DataLength);
-  CAVIUM_NOTYET(
+#if defined(notdef_cavium)
   gBS->SignalEvent (HubIf->HubNotify);
-      );
+#else
+  if (HubIf->HubNotify)
+      HubIf->HubNotify(0,HubIf);
+#endif
   return EFI_SUCCESS;
 }
 
@@ -788,15 +791,18 @@ UsbHubInit (
                   HubIf,
                   &HubIf->HubNotify
                   );
-#else
-  CAVIUM_NOTYET("enumeration notify");
-#endif
   if (EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_ERROR, "UsbHubInit: failed to create signal for hub %d - %d\n",
-                HubDev->Address, (int) Status));
-
-    return Status;
+      DEBUG (( EFI_D_ERROR, "UsbHubInit: failed to create signal for hub %d - %d\n",
+               HubDev->Address, (int) Status));
+      return Status;
   }
+#else
+      HubIf->HubNotify = UsbHubEnumeration;
+      BDK_WMB;
+      DEBUG (( EFI_D_INFO, "UsbHubInit: Created Notify Interface for hub %d @%p\n",
+               HubDev->Address, HubIf));
+
+#endif
 
   //
   // Create AsyncInterrupt to query hub port change endpoint
@@ -819,10 +825,12 @@ UsbHubInit (
   if (EFI_ERROR (Status)) {
     DEBUG (( EFI_D_ERROR, "UsbHubInit: failed to queue interrupt transfer for hub %d - %d\n",
                 HubDev->Address, (int) Status));
-    CAVIUM_NOTYET(
+#if defined(notdef_cavium)
     gBS->CloseEvent (HubIf->HubNotify);
+#else
     HubIf->HubNotify = NULL;
-        ) ;
+    BDK_WMB;
+#endif
     return Status;
   }
 
@@ -1069,7 +1077,9 @@ UsbHubRelease (
   HubIf->HubApi     = NULL;
   HubIf->HubEp      = NULL;
   HubIf->HubNotify  = NULL;
-
+#if !defined(notdef_cavium)
+  BDK_WMB;
+#endif
   DEBUG (( EFI_D_INFO, "UsbHubRelease: hub device %d released\n", HubIf->Device->Address));
   return EFI_SUCCESS;
 }
@@ -1123,7 +1133,8 @@ UsbRootHubInit (
                   &HubIf->HubNotify
                   );
 #else
-  CAVIUM_NOTYET("periodic root hub enumeration");
+  HubIf->HubNotify = UsbRootHubEnumeration;
+  BDK_WMB;
 #endif
   if (EFI_ERROR (Status)) {
     return Status;
@@ -1146,7 +1157,7 @@ UsbRootHubInit (
     gBS->CloseEvent (HubIf->HubNotify);
   }
 #else
-  CAVIUM_NOTYET("root hub Init is done");
+  CAVIUM_NOTYET("root hub Init is done, did not trigger enumeration");
 #endif
   return Status;
 }
@@ -1424,7 +1435,8 @@ UsbRootHubRelease (
   gBS->SetTimer (HubIf->HubNotify, TimerCancel, USB_ROOTHUB_POLL_INTERVAL);
   gBS->CloseEvent (HubIf->HubNotify);
 #else
-  CAVIUM_NOTYET();
+  HubIf->HubNotify = NULL;
+  BDK_WMB;
 #endif
   return EFI_SUCCESS;
 }

@@ -832,6 +832,12 @@ XhcCheckUrbResult (
         CheckedUrb->Result  |= EFI_USB_ERR_TIMEOUT;
         CheckedUrb->Finished = TRUE;
         DEBUG ((EFI_D_ERROR, "XhcCheckUrbResult: TRANSACTION_ERROR! Completecode = %x\n",EvtTrb->Completecode));
+#if ! defined(notdef_cavium) 
+        {
+            uint32_t *p = (uint32_t*) EvtTrb;
+            printf("Trb@%p: %08x %08x %08x %08x\n", p, p[0],p[1],p[2],p[3]);
+        }
+#endif
         goto EXIT;
 
       case TRB_COMPLETION_SHORT_PACKET:
@@ -903,9 +909,9 @@ EXIT:
       uahc_erdp.u = PhyAddr;
       uahc_erdp.s.ehb = 1;
       BDK_CSR_WRITE(Xhc->node, BDK_USBHX_UAHC_ERDPX(Xhc->usb_port,0), uahc_erdp.u);
-#endif
   }
-
+#endif
+  
   return Urb->Finished;
 }
 
@@ -2372,6 +2378,7 @@ XhcFlushAsyncIntMap (
 ON_ERROR:
   return EFI_DEVICE_ERROR;
 #else
+  Urb->DataPhy  = (VOID *) bdk_ptr_to_phys(Urb->Data);
   BDK_DSB;
   return EFI_SUCCESS;
 #endif

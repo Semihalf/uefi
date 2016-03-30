@@ -505,8 +505,8 @@ XhcReset (
   /* EFI_TPL            OldTpl; */
 
   Xhc = XHC_FROM_THIS (This);
-#if defined(notdef_cavium)
   if (Xhc->DevicePath != NULL) {
+#if defined(notdef_cavium)
     //
     // Report Status Code to indicate reset happens
     //
@@ -515,10 +515,11 @@ XhcReset (
       (EFI_IO_BUS_USB | EFI_IOB_PC_RESET),
       Xhc->DevicePath
       );
-  }  
 #else
   CAVIUM_NOTYET("Inform IO of reset");
 #endif
+  }  
+
   /* OldTpl = gBS->RaiseTPL (XHC_TPL); */
 
   switch (Attributes) {
@@ -1528,14 +1529,14 @@ XhcAsyncInterruptTransfer (
     }
 
     Status = XhciDelAsyncIntTransfer (Xhc, DeviceAddress, EndPointAddress);
-    DEBUG ((EFI_D_INFO, "XhcAsyncInterruptTransfer: remove old transfer for addr %d, Status = %d\n", DeviceAddress, (int)Status));
+    DEBUG ((EFI_D_INFO, "%s: remove old transfer for addr %d, Status = %d\n", __FUNCTION__, DeviceAddress, (int)Status));
     goto ON_EXIT;
   }
 
   Status = EFI_SUCCESS;
 
   if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */bdk_unlikely(cvmXhcNotOK(Xhc))) {
-    DEBUG ((EFI_D_ERROR, "XhcAsyncInterruptTransfer: HC is halt\n"));
+      DEBUG ((EFI_D_ERROR, "%s: HC is halt\n",__FUNCTION__));
     Status = EFI_DEVICE_ERROR;
     goto ON_EXIT;
   }

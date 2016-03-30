@@ -909,7 +909,6 @@ UsbBusBuildProtocol (
   USB_DEVICE              *RootHub;
   USB_INTERFACE           *RootIf;
   EFI_STATUS              Status;
-  EFI_STATUS              Status2;
 
   UsbBus = AllocateZeroPool (sizeof (USB_BUS));
 
@@ -920,7 +919,7 @@ UsbBusBuildProtocol (
   UsbBus->Signature  = USB_BUS_SIGNATURE;
   UsbBus->HostHandle = Controller;
   UsbBus->MaxDevices = USB_MAX_DEVICES;
-  CAVIUM_NOTYET(
+#if defined(notdef_cavium)
   Status = gBS->OpenProtocol (
                   Controller,
                   &gEfiDevicePathProtocolGuid,
@@ -929,8 +928,7 @@ UsbBusBuildProtocol (
                   Controller,
                   EFI_OPEN_PROTOCOL_BY_DRIVER
                   );
-      );
-#if defined(notdef_cavium)
+  
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to open device path %d\n", Status));
 
@@ -954,6 +952,7 @@ UsbBusBuildProtocol (
                   Controller,
                   EFI_OPEN_PROTOCOL_BY_DRIVER
                   );
+  EFI_STATUS              Status2;
 
   Status2 = gBS->OpenProtocol (
                    Controller,
@@ -971,7 +970,7 @@ UsbBusBuildProtocol (
     goto CLOSE_HC;
   }
 #else
-CAVIUM_NOTYET("Build protocols");
+  CAVIUM_NOTYET("Build protocols Device and Usb2Hc");
 Status = EFI_SUCCESS;
 #endif
   if (!EFI_ERROR (Status)) {
