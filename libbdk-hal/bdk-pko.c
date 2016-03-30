@@ -170,15 +170,25 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
     {
         switch (lmac)
         {
-            case 0: /* LBK */
-                mac_buffering = 4096; /* From HRM 11.14.1 */
+            case BDK_PKO_LMAC_E_LOOPBACK_0:
+            case BDK_PKO_LMAC_E_LOOPBACK_1:
+            {
+                BDK_CSR_INIT(lbkx_const, node, BDK_LBKX_CONST(lmac ? 2 : 0));
+                mac_buffering = lbkx_const.s.buf_size;
                 break;
-            case 1: /* DPI */
-                mac_buffering = 2048; /* From HRM 11.14.1 */
+            }
+            case BDK_PKO_LMAC_E_DPI:
+            {
+                BDK_CSR_INIT(sdpx_const, node, BDK_SDPX_CONST(0));
+                mac_buffering = sdpx_const.s.fifosz;
                 break;
+            }
             default: /* BGX */
-                mac_buffering = size * 8192; /* 8KB, 16KB, or 32KB */
+            {
+                BDK_CSR_INIT(bgxx_const, node, BDK_BGXX_CONST(0));
+                mac_buffering = bgxx_const.s.tx_fifosz * size / 4;
                 break;
+            }
         }
     }
     else
@@ -279,18 +289,18 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
                     skid_max_cnt = 2;
                     break;
             }
-            lmac = 3 + 4 * handle->interface + port;
+            lmac = BDK_PKO_LMAC_E_BGXX_PORTX(handle->interface, port);
             compressed_channel_id = BDK_PKI_CHAN_E_BGXX_LMACX_CHX(handle->interface, handle->index, 0 /* channel */);
             break;
         }
         case BDK_IF_PCIE:
-            lmac = 2;
+            lmac = BDK_PKO_LMAC_E_DPI;
             fifo_size = 4;
             skid_max_cnt = 2;
             compressed_channel_id = BDK_PKI_CHAN_E_DPI_CHX(handle->index);
             break;
         case BDK_IF_LBK:
-            lmac = (handle->interface == 2) ? 1 : 0;
+            lmac = (handle->interface == 2) ? BDK_PKO_LMAC_E_LOOPBACK_1 : BDK_PKO_LMAC_E_LOOPBACK_0;
             fifo_size = 4;
             skid_max_cnt = 2;
             compressed_channel_id = BDK_PKI_CHAN_E_LBKX_CHX(handle->interface, handle->index);
