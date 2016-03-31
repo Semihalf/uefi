@@ -3,12 +3,14 @@
 
 // if enhanced verbosity levels are defined, use them 
 #if defined(VB_PRT)
-#define ddr_print2(format, ...) VB_PRT(VBL_FAE, format, ##__VA_ARGS__)
-#define ddr_print3(format, ...) VB_PRT(VBL_TME, format, ##__VA_ARGS__)
-#define ddr_print4(format, ...) VB_PRT(VBL_DEV, format, ##__VA_ARGS__)
+#define ddr_print2(format, ...) VB_PRT(VBL_FAE,  format, ##__VA_ARGS__)
+#define ddr_print3(format, ...) VB_PRT(VBL_TME,  format, ##__VA_ARGS__)
+#define ddr_print4(format, ...) VB_PRT(VBL_DEV,  format, ##__VA_ARGS__)
+#define ddr_print5(format, ...) VB_PRT(VBL_DEV2, format, ##__VA_ARGS__)
 #else
 #define ddr_print2 ddr_print
 #define ddr_print4 ddr_print
+#define ddr_print5 ddr_print
 #endif
 
 static  int64_t test_dram_byte_threads_done;
@@ -1595,19 +1597,19 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
                     if (errors[rankx] & (1 << byte)) { // yes, an error in the byte lane in this rank
                         off_errors |= (1 << byte);
 
-                        ddr_print4("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: Address 0x%012lx errors 0x%x\n",
+                        ddr_print5("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: Address 0x%012lx errors 0x%x\n",
                                    node, lmc, rankx, bytelane, mode_str,
                                    byte_offset, phys_addr, errors[rankx]);
 
                         if (rank_delay_count[rankx][byte] > 0) { // had started run
-                            ddr_print4("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: stopping a run here\n",
+                            ddr_print5("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: stopping a run here\n",
                                        node, lmc, rankx, bytelane, mode_str, byte_offset);
                             rank_delay_count[rankx][byte] = 0;   // stop now
                         }
                         // FIXME: else had not started run - nothing else to do?
                     } else { // no error in the byte lane
                         if (rank_delay_count[rankx][byte] == 0) { // first success, set run start
-                            ddr_print4("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: starting a run here\n",
+                            ddr_print5("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: starting a run here\n",
                                        node, lmc, rankx, bytelane, mode_str, byte_offset);
                             rank_delay_start[rankx][byte] = byte_offset;
                         }
@@ -1645,13 +1647,13 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
                 rank_end = rank_beg + rank_delay_best_count[rankx][byte] - BYTE_OFFSET_INCR;
                 pat_end = min(pat_end, rank_end);
 
-                ddr_print3("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test:  Rank Window %3d:%3d\n",
+                ddr_print5("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test:  Rank Window %3d:%3d\n",
                            node, lmc, rankx, bytelane, mode_str, rank_beg, rank_end);
 
             } /* for (rankx = 0; rankx < 4; rankx++) */
 
             pat_best_offset[byte] = (pat_end + pat_beg) / 2;
-            ddr_print3("N%d.LMC%d: Bytelane %d DLL %s Offset Test:  Pattern %d Average %3d\n",
+            ddr_print4("N%d.LMC%d: Bytelane %d DLL %s Offset Test:  Pattern %d Average %3d\n",
                        node, lmc, byte, mode_str, pattern, pat_best_offset[byte]);
 
 #if 0
@@ -1679,7 +1681,7 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
         if (bytelane == 0x0A) // print just the offset of all the bytes
             ddr_print("%5d ", new_best_offset[byte]);
         else
-            ddr_print("%5d.%d ", new_best_offset[byte], byte);
+            ddr_print("(byte %d) %5d ", byte, new_best_offset[byte]);
         
 
 #if 1
