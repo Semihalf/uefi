@@ -832,18 +832,13 @@ XhcCheckUrbResult (
         CheckedUrb->Result  |= EFI_USB_ERR_TIMEOUT;
         CheckedUrb->Finished = TRUE;
         DEBUG ((EFI_D_ERROR, "XhcCheckUrbResult: TRANSACTION_ERROR! Completecode = %x\n",EvtTrb->Completecode));
-#if ! defined(notdef_cavium) 
-        {
-            uint32_t *p = (uint32_t*) EvtTrb;
-            printf("Trb@%p: %08x %08x %08x %08x\n", p, p[0],p[1],p[2],p[3]);
-        }
-#endif
         goto EXIT;
 
       case TRB_COMPLETION_SHORT_PACKET:
       case TRB_COMPLETION_SUCCESS:
-        if (EvtTrb->Completecode == TRB_COMPLETION_SHORT_PACKET) {
-          DEBUG ((EFI_D_ERROR, "XhcCheckUrbResult: short packet happens!\n"));
+        /* do not  print short packets for BULK EP since this is a normal situation */
+        if (EvtTrb->Completecode == TRB_COMPLETION_SHORT_PACKET && Urb->Ep.Type != XHC_BULK_TRANSFER) {
+            DEBUG ((EFI_D_ERROR, "XhcCheckUrbResult: short packet happens!\n"));
         }
 
         TRBType = (UINT8) (TRBPtr->Type);

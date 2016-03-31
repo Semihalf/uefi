@@ -15,6 +15,13 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #define MT_DO_DEBUG 0
 #include "UsbBus.h"
 
+/*
+ * it seams XHCI driver cannot handle extra bytes, sent by
+ * some devices correctly in response to control requests so BABBLE_ERROR is generated
+ * For example asking for just 2 bytes of USB_DESC_TYPE_STRING we get the full descriptor in return.
+ * to workaround this we follow Linux driver behavior
+ */
+#define XHCI_BABBLE_WORKAROUND 1
 
 /**
   Free the interface setting descriptor.
@@ -536,7 +543,11 @@ UsbGetMaxPacketSize0 (
   // max packet size for endpoint 0, which is at least 8.
   //
   for (Index = 0; Index < 3; Index++) {
+#if XHCI_BABBLE_WORKAROUND
+    Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_DEVICE, 0, 0, &DevDesc, sizeof(EFI_USB_DEVICE_DESCRIPTOR));
+#else
     Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_DEVICE, 0, 0, &DevDesc, 8);
+#endif
 
     if (!EFI_ERROR (Status)) {
       if ((DevDesc.BcdUSB == 0x0300) && (DevDesc.MaxPacketSize0 == 9)) {
@@ -622,20 +633,11 @@ UsbGetOneString (
   IN     UINT16           LangId
   )
 {
-  EFI_USB_STRING_DESCRIPTOR Desc;
   EFI_STATUS                Status;
   UINT8                     *Buf;
 
-  //
-  // First get two bytes which contains the string length.
-  //
-  Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_STRING, Index, LangId, &Desc, 2);
-
-  if (EFI_ERROR (Status)) {
-    return NULL;
-  }
-
-  Buf = AllocateZeroPool (Desc.Length);
+#if XHCI_BABBLE_WORKAROUND
+  Buf = AllocateZeroPool (0xFF);
 
   if (Buf == NULL) {
     return NULL;
@@ -647,14 +649,44 @@ UsbGetOneString (
              Index,
              LangId,
              Buf,
-             Desc.Length
+             0xFF
              );
 
   if (EFI_ERROR (Status)) {
     FreePool (Buf);
     return NULL;
   }
+#else
+    EFI_USB_STRING_DESCRIPTOR Desc;
+    //
+    // First get two bytes which contains the string length.
+    //
+    Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_STRING, Index, LangId, &Desc, 2);
 
+    if (EFI_ERROR (Status)) {
+      return NULL;
+    }
+
+    Buf = AllocateZeroPool (Desc.Length);
+
+    if (Buf == NULL) {
+      return NULL;
+    }
+
+    Status = UsbCtrlGetDesc (
+               UsbDev,
+               USB_DESC_TYPE_STRING,
+               Index,
+               LangId,
+               Buf,
+               Desc.Length
+               );
+
+    if (EFI_ERROR (Status)) {
+      FreePool (Buf);
+      return NULL;
+    }
+#endif
   return (EFI_USB_STRING_DESCRIPTOR *) Buf;
 }
 
@@ -737,11 +769,16 @@ UsbGetOneConfig (
   EFI_STATUS                Status;
   VOID                      *Buf;
 
+
+#if XHCI_BABBLE_WORKAROUND
+  Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_CONFIG, Index, 0, &Desc, sizeof(EFI_USB_CONFIG_DESCRIPTOR));
+#else
   //
   // First get four bytes which contains the total length
   // for this configuration.
   //
   Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_CONFIG, Index, 0, &Desc, 8);
+#endif
 
   if (EFI_ERROR (Status)) {
     DEBUG (( EFI_D_ERROR, "UsbGetOneConfig: failed to get descript length(%d) %d\n",

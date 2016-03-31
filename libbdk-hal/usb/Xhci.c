@@ -541,7 +541,14 @@ XhcReset (
     // Host Controller must be Halt when Reset it
     //
     if (!cvmXhcIsHalt (Xhc)) {
-      Status = cvmXhcHaltHC (Xhc, XHC_GENERIC_TIMEOUT);
+//      Status = cvmXhcHaltHC (Xhc, XHC_GENERIC_TIMEOUT);
+        /* 
+         * Per XHCI specification section 5.4.1.1 Run/Stop (R/S)
+         * The xHC is forced to halt within 16 ms. of software clearing the R/S bit to ‘0’
+         * Since lower level SW could initialize HC we have to wait at least 16ms to
+         * force HC to halt
+         */
+        Status = cvmXhcHaltHC (Xhc, XHC_1_MILLISECOND * 200);
 
       if (EFI_ERROR (Status)) {
         Status = EFI_DEVICE_ERROR;
