@@ -1,13 +1,43 @@
 #include <bdk.h>
 
+/*
+    Format of a ThunderX SKU
+    CN8890-2000BG2601-AAP-G
+    CN8890-2000BG2601-AAP-PR-Y-G
+    CN XX XX X - XXX BG XXX - XX (- XX) (- X) - G
+    |  |  |  |   |   |  |     |     |      |    ^ RoHS Option, G=RoHS 6/6
+    |  |  |  |   |   |  |     |     |      ^ Product Revision, blank for pass 1, Y=pass 2, W=pass 3
+    |  |  |  |   |   |  |     |     ^ Product Phase, blank=production, PR=Prototype, ES=Engineering Sample
+    |  |  |  |   |   |  |     ^ Marketing Segment Option (SC, SNT, etc)
+    |  |  |  |   |   |  ^ Number of balls on the package
+    |  |  |  |   |   ^ Ball Grid Array
+    |  |  |  |   ^ Frequency in Mhz, 3 or 4 digits (300 - 2000)
+    |  |  |  ^ Optional Customer Code, blank or A-Z
+    |  |  ^ Number of cores, see table below
+    |  ^ Processor family, plus or minus for L2 sizes and such (88, 86, 83, 81, 80)
+    ^ Cavium Prefix, sometimes changed for customer specific parts
+
+    Table of Core to Model encoding
+        >= 48 shows xx90
+        >= 32 shows xx80
+        >= 24 shows xx70
+        >= 20 shows xx65
+        >= 16 shows xx60
+        >= 12 shows xx50
+        >= 8 shows xx40
+        >= 4 shows xx30
+        >= 2 shows xx20
+        = 1 shows xx10
+*/
+
 /* Definition of each SKU table entry for the different dies */
 typedef struct
 {
-    int         fuse_index; /* Index programmed into PNAME fuses to match this entry. Must never change once fused parts ship */
-    const char *prefix;     /* Prefix before model number, usually "CN" */
-    int         model_base; /* Model number with zeros for the last two digits */
-    int         num_balls;  /* Number of balls on package, included in SKU */
-    const char *segment;    /* Market segment SKU is for, 2-3 character string */
+    uint8_t     fuse_index; /* Index programmed into PNAME fuses to match this entry. Must never change once fused parts ship */
+    const char  prefix[4];  /* Prefix before model number, usually "CN". Third letter is customer code shown after the model */
+    uint8_t     model_base; /* First two digits of the model number */
+    uint16_t    num_balls;  /* Number of balls on package, included in SKU */
+    const char  segment[4]; /* Market segment SKU is for, 2-3 character string */
     uint16_t    fuses[16];  /* List of fuses required for operation of this SKU */
 } model_sku_info_t;
 
@@ -16,118 +46,145 @@ typedef struct
 /***************************************************/
 static const model_sku_info_t t88_sku_info[] =
 {
-    { 0x01, "CN", 8800, 2601, "AAP",
+    /* Index zero reserved for no fuses programmed */
+    { 0x01, "CN", 88, 2601, "AAP",
         { /* List of fuses for this SKU */
             0 /* End of fuse list marker */
         }
     },
-    { 0x02, "CN", 8800, 2601, "ST",
+    { 0x02, "CN", 88, 2601, "ST", /* 48 cores */
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(0),
-            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE, /* Disable TNS */
+            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(0), /* Disable PEM0-1 */
+            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(2), /* Disable PEM4-5 */
             0 /* End of fuse list marker */
         }
     },
-    { 0x03, "CN", 8800, 2601, "ST",
+    { 0x03, "CN", 88, 2601, "STT", /* 48 cores */
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,
-            BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1),
-            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(0),
-            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
+            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(0), /* Disable PEM0-1 */
+            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(2), /* Disable PEM4-5 */
             0 /* End of fuse list marker */
         }
     },
-    { 0x04, "CN", 8800, 2601, "STT",
+    { 0x04, "CN", 88, 2601, "STP", /* 48 cores */
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(0),
-            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(2),
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,     /* Disable LMC2-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE, /* Disable TNS */
             0 /* End of fuse list marker */
         }
     },
-    { 0x05, "CN", 8800, 2601, "NT",
+    { 0x05, "CN", 88, 2601, "ST", /* 32 cores */
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE, /* Disable TNS */
+            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(0), /* Disable PEM0-1 */
+            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(2), /* Disable PEM4-5 */
+            BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1), /* Disable BGX1 */
             0 /* End of fuse list marker */
         }
     },
-    { 0x06, "CN", 8800, 2601, "NT",
+    { 0x06, "CN", 88, 2601, "ST", /* 24 cores */
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,
-            BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
-            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,     /* Disable LMC2-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,     /* Disable CCPI */
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE, /* Disable TNS */
+            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(0), /* Disable PEM0-1 */
+            BDK_MIO_FUS_FUSE_NUM_E_PEM_DISX(2), /* Disable PEM4-5 */
+            BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1), /* Disable BGX1 */
             0 /* End of fuse list marker */
         }
     },
-    { 0x07, "CN", 8800, 2601, "CP",
+    { 0x07, "CN", 88, 2601, "NTP", /* 48 cores */
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
-            BDK_MIO_FUS_FUSE_NUM_E_NOZIP,
-            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2, /* HFA */
-            BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* HNA */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),/* Disable SATA0-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(1),/* Disable SATA4-7 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),/* Disable SATA8-11 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),/* Disable SATA12-15 */
             0 /* End of fuse list marker */
         }
     },
-    { 0x08, "CN", 8800, 2601, "CP",
+    { 0x08, "CN", 88, 2601, "NT", /* 48 cores */
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,
-            BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
-            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
-            BDK_MIO_FUS_FUSE_NUM_E_NOZIP,
-            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2, /* HFA */
-            BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* HNA */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),/* Disable SATA0-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),/* Disable SATA8-11 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),/* Disable SATA12-15 */
             0 /* End of fuse list marker */
         }
     },
-    { 0x09, "CN", 8800, 2601, "SNT",
+    { 0x09, "CN", 88, 2601, "NT", /* 32 cores */
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,     /* Disable LMC2-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,     /* Disable CCPI */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),/* Disable SATA0-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),/* Disable SATA8-11 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),/* Disable SATA12-15 */
+            BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1), /* Disable BGX1 */
             0 /* End of fuse list marker */
         }
     },
-    { 0x0a, "CN", 8800, 2601, "SC",
+    { 0x0a, "CN", 88, 2601, "CP", /* 48,32 cores */
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),
-            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
-            BDK_MIO_FUS_FUSE_NUM_E_NOZIP,
-            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2, /* HFA */
-            BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* HNA */
+            BDK_MIO_FUS_FUSE_NUM_E_NOZIP,       /* Disable Compression */
+            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2,   /* Disable HFA */
+            BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* Disable HNA */
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE, /* Disable TNS */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),/* Disable SATA0-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),/* Disable SATA8-11 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),/* Disable SATA12-15 */
             0 /* End of fuse list marker */
         }
     },
-    { 0x10, "CN", 8600, 1676, "AAP",
+    { 0x0b, "CN", 88, 2601, "CP", /* 24 cores */
+        { /* List of fuses for this SKU */
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,     /* Disable LMC2-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_NOZIP,       /* Disable Compression */
+            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2,   /* Disable HFA */
+            BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* Disable HNA */
+            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,     /* Disable CCPI */
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE, /* Disable TNS */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),/* Disable SATA0-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),/* Disable SATA8-11 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),/* Disable SATA12-15 */
+            BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(1), /* Disable BGX1 */
+            0 /* End of fuse list marker */
+        }
+    },
+    { 0x0c, "CN", 88, 2601, "SNT", /* 48,32 cores, Nitrox connects to PEM2x8, QLM4-5 */
+        { /* List of fuses for this SKU */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),/* Disable SATA0-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),/* Disable SATA8-11 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),/* Disable SATA12-15 */
+            0 /* End of fuse list marker */
+        }
+    },
+    { 0x0d, "CN", 88, 2601, "SC", /* 48,32 cores, Nitrox connects to PEM2x8, QLM4-5 */
+        { /* List of fuses for this SKU */
+            BDK_MIO_FUS_FUSE_NUM_E_NOZIP,       /* Disable Compression */
+            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2,   /* Disable HFA */
+            BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* Disable HNA */
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE, /* Disable TNS */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),/* Disable SATA0-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),/* Disable SATA8-11 */
+            BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),/* Disable SATA12-15 */
+            0 /* End of fuse list marker */
+        }
+    },
+    /* Index gap for adding more CN88 variants */
+    { 0x20, "CN", 86, 1676, "AAP", /* No part, match unfused CN86XX */
         { /* List of fuses for this SKU */
             BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(6), /* Alternate package fuse */
             0 /* End of fuse list marker */
         }
     },
-    { 0x10, "CN", 8600, 1676, "SCP",
+    { 0x21, "CN", 86, 1676, "SCP", /* 40-8 cores */
         { /* List of fuses for this SKU */
             BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(6), /* Alternate package fuse */
-            BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),
-            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2, /* HFA */
-            BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* HNA */
-            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,
-            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,
-            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE,
+            BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),/* L2C is half size */
+            BDK_MIO_FUS_FUSE_NUM_E_NODFA_CP2,   /* Disable HFA */
+            BDK_MIO_FUS_FUSE_NUM_E_RSVD134X(0), /* Disable HNA */
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS,     /* Disable LMC2-3 */
+            BDK_MIO_FUS_FUSE_NUM_E_OCX_DIS,     /* Disable CCPI */
+            BDK_MIO_FUS_FUSE_NUM_E_TNS_CRIPPLE, /* Disable TNS */
             0 /* End of fuse list marker */
         }
     },
@@ -139,13 +196,14 @@ static const model_sku_info_t t88_sku_info[] =
 /***************************************************/
 static const model_sku_info_t t83_sku_info[] =
 {
-    // FIXME
-    { 0x01, "CN", 8300, 1676, "SCP",
+    /* Index zero reserved for no fuses programmed */
+    { 0x01, "CN", 83, 1676, "SCP",
         { /* List of fuses for this SKU */
+            // FIXME
             0 /* End of fuse list marker */
         }
     },
-    { 0x02, "CN", 8300, 1676, "CP",
+    { 0x02, "CN", 83, 1676, "CP",
         { /* List of fuses for this SKU */
             BDK_MIO_FUS_FUSE_NUM_E_NOZIP, /* Just a guess, no info yet */
             0 /* End of fuse list marker */
@@ -159,13 +217,14 @@ static const model_sku_info_t t83_sku_info[] =
 /***************************************************/
 static const model_sku_info_t t81_sku_info[] =
 {
-    // FIXME
-    { 0x01, "CN", 8100, 676, "SCP",
+    /* Index zero reserved for no fuses programmed */
+    { 0x01, "CN", 81, 676, "SCP",
         { /* List of fuses for this SKU */
+            // FIXME
             0 /* End of fuse list marker */
         }
     },
-    { 0x02, "CN", 8100, 676, "CP",
+    { 0x02, "CN", 81, 676, "CP",
         { /* List of fuses for this SKU */
             BDK_MIO_FUS_FUSE_NUM_E_NOZIP, /* Just a guess, no info yet */
             0 /* End of fuse list marker */
@@ -277,14 +336,17 @@ const char* bdk_model_get_sku(int node)
     }
 
     /* Use the SKU table to determine the defaults for the SKU parts */
-    const char *prefix  = sku_info[match_index].prefix;
-    int         model   = sku_info[match_index].model_base;
-    int         cores   = bdk_get_num_cores(node);
-    int         rclk    = bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000;
-    const char *bg_str  = "BG"; /* Default not low power */
-    int         balls   = sku_info[match_index].num_balls;
-    const char *segment = sku_info[match_index].segment;
-    const char *suffix  = ""; /* Default for production */
+    const char *prefix          = sku_info[match_index].prefix;
+    int         model           = 100 * sku_info[match_index].model_base;
+    int         cores           = bdk_get_num_cores(node);
+    const char *customer_code   = "";
+    int         rclk_limit      = bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000;
+    const char *bg_str          = "BG"; /* Default Ball Grid array */
+    int         balls           = sku_info[match_index].num_balls; /* Num package balls */
+    const char *segment         = sku_info[match_index].segment; /* Market segment */
+    const char *prod_phase      = ""; /* Default for production */
+    const char *prod_rev        = ""; /* Product revision */
+    const char *rohs_option     = "G"; /* RoHS is always G for current parts */
 
     /* Update the model number with the number of cores. If the number of
        cores is between two model levels, use the lower level. This assumes
@@ -330,11 +392,8 @@ const char* bdk_model_get_sku(int node)
     if (mio_fus_dat3.s.core_pll_mul)
     {
         /* CORE_PLL_MUL covers bits 5:1, so we need to multiple by 2 */
-        rclk = mio_fus_dat3.s.core_pll_mul * 2 * 50;
+        rclk_limit = mio_fus_dat3.s.core_pll_mul * 2 * 50;
     }
-
-    /* Read PNAME fuses, looking for SKU overrides */
-    // FIXME: Implement PNAME reads
 
     /* Read the Pass information from fuses. Note that pass info in
        MIO_FUS_DAT2[CHIP_ID] is encoded as
@@ -343,24 +402,27 @@ const char* bdk_model_get_sku(int node)
             bit[5..3] = Major pass
             bit[2..0] = Minor pass */
     BDK_CSR_INIT(mio_fus_dat2, node, BDK_MIO_FUS_DAT2);
-    const char *pass_str; /* String representing pass */
     int major_pass = ((mio_fus_dat2.s.chip_id >> 3) & 7) + 1;
     switch (major_pass)
     {
         case 2:
-            pass_str = "-Y";
+            prod_rev = "-Y";
             break;
         case 3:
-            pass_str = "-Z";
+            prod_rev = "-W";
             break;
         default:
-            pass_str = "";
+            prod_rev = "";
             break;
     }
 
+    /* Read PNAME fuses, looking for SKU overrides */
+    // FIXME: Implement PNAME reads
+
     /* Build the SKU string */
-    snprintf(chip_sku[node], sizeof(chip_sku[node]), "%s%d-%d%s%d-%s%s%s-G",
-        prefix, model, rclk, bg_str, balls, segment, suffix, pass_str);
+    snprintf(chip_sku[node], sizeof(chip_sku[node]), "%s%d%s-%d%s%d-%s%s%s-%s",
+        prefix, model, customer_code, rclk_limit, bg_str, balls, segment,
+        prod_phase, prod_rev, rohs_option);
 
     return chip_sku[node];
 }
