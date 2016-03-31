@@ -46,6 +46,8 @@ int bdk_pko_global_init(bdk_node_t node)
     const int aura = BDK_FPA_PKO_POOL; /* Use 1:1 mapping aura */
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_FPA_AURA,
         c.s.laura = aura);
+    BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_GMCTL,
+        c.s.gmid = 1);
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
         c.s.enable = 1);
     BDK_CSR_MODIFY(c, node, BDK_PKO_PTF_IOBP_CFG,
@@ -394,10 +396,6 @@ int bdk_pko_enable(bdk_node_t node)
     BDK_CSR_INIT(pko_const, node, BDK_PKO_CONST);
     for (int i = 0; i < pko_const.s.ptgfs; i++)
         BDK_CSR_MODIFY(c, node, BDK_PKO_PTGFX_CFG(i), c.s.reset = 0);
-
-    /* Enable the FPA interface */
-    BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
-        c.s.enable = 1);
 
     /* Wait for PKO to be ready (100us) */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PKO_STATUS, pko_rdy, ==, 1, 100))
