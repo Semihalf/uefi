@@ -46,6 +46,8 @@ static int bdk_libdram_tune_node(int node)
     int do_dllwo = 0; // default to NO
     int do_eccdll = 0; // default to NO
     const char *str;
+    BDK_CSR_INIT(lmc_config, node, BDK_LMCX_CONFIG(0)); // FIXME: probe LMC0
+    do_eccdll = (lmc_config.s.ecc_ena != 0); // change to ON if ECC enabled
 
     // Automatically tune the data byte DLL read offsets
     // always done by default, but allow use of HW-assist
@@ -64,7 +66,7 @@ static int bdk_libdram_tune_node(int node)
     tot_errs = errs;
 
     // disabled by default for now, does not seem to be needed?
-    // Automatically tune the data byte DLL read offsets
+    // Automatically tune the data byte DLL write offsets
     // allow override of default setting
     str = getenv("ddr_tune_write_offsets");
     if (str)
@@ -147,7 +149,7 @@ static int bdk_libdram_maybe_tune_node(int node)
     // FIXME: tune only when the configuration indicates it will help:
     //    DDR type, RDIMM or UDIMM, 1-slot or 2-slot, and speed
     //
-    uint32_t ddr_speed = libdram_get_freq_from_pll(node, 0) / 1000000; // sample LMC0
+    uint32_t ddr_speed = divide_nint(libdram_get_freq_from_pll(node, 0), 1000000); // sample LMC0
     BDK_CSR_INIT(lmc_config, node, BDK_LMCX_CONFIG(0)); // sample LMC0
 
     int is_ddr4  = !!__bdk_dram_is_ddr4(node, 0);
