@@ -97,9 +97,8 @@ IMAGE_END=`$(LIBC_DIR)-objdump -t $^ | grep " _end$$" | sed "s/^00000[0-9]\([0-9
 # Convert an ELF file into a binary
 #
 %.bin: %
-	$(OBJCOPY) $^ -O binary $@.tmp
-	cat $@.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
-	rm $@.tmp
+	$(OBJCOPY) $^ -O binary $@
+	truncate -s $(IMAGE_END) $@
 	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@
 
 
