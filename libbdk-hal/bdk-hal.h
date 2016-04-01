@@ -49,5 +49,6 @@
 #include "bdk-usb.h"
 #include "bdk-access-native.h"
 #include "bdk-tns.h"
+#include "bdk-vrm.h"
 
 #endif

@@ -72,6 +72,7 @@ static void __bdk_error_poll(int arg, void *arg1)
 {
     while (bdk_error_check)
     {
+        bdk_vrm_poll(bdk_numa_local());
         bdk_error_check(bdk_numa_local());
         bdk_wait_usec(100000);
     }
@@ -104,6 +105,9 @@ void __bdk_init_node(bdk_node_t node)
 
     BDK_TRACE(INIT, "N%d: Initialize L2\n", node);
     bdk_l2c_initialize(node);
+
+    BDK_TRACE(INIT, "N%d: Initialize VRM\n", node);
+    bdk_vrm_initialize(node);
 
     if (BDK_IS_REQUIRED(ECAM))
     {

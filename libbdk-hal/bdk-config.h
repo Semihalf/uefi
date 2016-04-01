@@ -122,6 +122,13 @@ typedef enum
     BDK_CONFIG_SGPIO_PIN_SLOAD,     /* Parameters: Node */
     BDK_CONFIG_SGPIO_PIN_SDATAOUT,  /* Parameters: Node, Dataline */
 
+    /* VRM temperature throttling */
+    BDK_CONFIG_VRM_TEMP_TRIP,       /* Parameters: Node */
+    BDK_CONFIG_VRM_TEMP_HIGH,       /* Parameters: Node */
+    BDK_CONFIG_VRM_TEMP_LOW,        /* Parameters: Node */
+    BDK_CONFIG_VRM_THROTTLE_NORMAL, /* Parameters: Node */
+    BDK_CONFIG_VRM_THROTTLE_THERM,  /* Parameters: Node */
+
     __BDK_CONFIG_END
 } bdk_config_t;
 

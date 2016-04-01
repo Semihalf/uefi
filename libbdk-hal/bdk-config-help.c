@@ -914,6 +914,36 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "Output pin number for SGPIO SLOAD signal.",
     [BDK_CONFIG_SGPIO_PIN_SDATAOUT] =
             "Output pin number for SGPIO SDATAOUT[n] signal. n = 0..3.",
+    /* VRM temperature throttling */
+    [BDK_CONFIG_VRM_TEMP_TRIP] =
+            "Temperature where THERMAL_TRIP_N is asserted. When the chip reaches\n"
+            "this temperature THERMAL_TRIP_N will assert, signalling the board\n"
+            "to emergency power off. The default value is the Cavium recommended\n"
+            "maximum temperature of the chip. Values between 0 and 110 degrees\n"
+            "Celsius.",
+    [BDK_CONFIG_VRM_TEMP_HIGH] =
+            "Temperature where maximum throttling is applied to the chip. Chip\n"
+            "performance will be greatly reduced to keep the temperature below\n"
+            "thermal trip (VRM-TEMP-TRIP). The default value is the Cavium\n"
+            "recommended maximum operating temperature of the chip. Values\n"
+            "between 0 and 110 degrees Celsius.",
+    [BDK_CONFIG_VRM_TEMP_LOW] =
+            "Temperature where minimum throttling is applied to the chip. Chip\n"
+            "performance will be maximized at or below this temperature. The\n"
+            "throttling level will be set to VRM-THROTTLE-NORMAL. The default\n"
+            "value is the Cavium recommended operating temperature of the chip.\n"
+            "Values between 0 and 110 degrees Celsius.",
+    [BDK_CONFIG_VRM_THROTTLE_NORMAL] =
+            "Throttle level of the chip when operating normally. Temperatures\n"
+            "at or below VRM-TEMP-LOW will use this throttling level. The default\n"
+            "level (70%), allows good performance while still reducing power under\n"
+            "heavy loads. Value is a percentage between 1 and 100.",
+    [BDK_CONFIG_VRM_THROTTLE_THERM] =
+            "Throttle level of the chip is overheating. Temperatures at or\n"
+            "above VRM-TEMP-HIGH will use this throttling level. The default\n"
+            "level (5%), allows for forward progress while still reducing power.\n"
+            "Value is a percentage between 1 and 100. Setting a value of 100\n"
+            "disables dynamic throttling (not recommended).",
     };
     return help[cfg_item];
 }

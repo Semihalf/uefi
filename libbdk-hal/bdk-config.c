@@ -634,6 +634,43 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = -1,
         .max_value = 50,
     },
+
+    /* VRM temperature throttling */
+    [BDK_CONFIG_VRM_TEMP_TRIP] = {
+        .format = "VRM-TEMP-TRIP.N%d",  /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 110, /* Degrees C */
+        .min_value = 0, /* Degrees C */
+        .max_value = 110, /* Degrees C. Max die temp plus 5 for uncertainty of measurement */
+    },
+    [BDK_CONFIG_VRM_TEMP_HIGH] = {
+        .format = "VRM-TEMP-HIGH.N%d",  /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 96, /* Degrees C */
+        .min_value = 0, /* Degrees C */
+        .max_value = 110, /* Degrees C. Max die temp plus 5 for uncertainty of measurement */
+    },
+    [BDK_CONFIG_VRM_TEMP_LOW] = {
+        .format = "VRM-TEMP-LOW.N%d",  /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 94, /* Degrees C */
+        .min_value = 0, /* Degrees C */
+        .max_value = 110, /* Degrees C. Max die temp plus 5 for uncertainty of measurement */
+    },
+    [BDK_CONFIG_VRM_THROTTLE_NORMAL] = {
+        .format = "VRM-THROTTLE-NORMAL.N%d",  /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 70, /* Percentage */
+        .min_value = 1, /* Percentage */
+        .max_value = 100, /* Percentage */
+    },
+    [BDK_CONFIG_VRM_THROTTLE_THERM] = {
+        .format = "VRM-THROTTLE-THERM.N%d",  /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 5, /* Percentage */
+        .min_value = 1, /* Percentage */
+        .max_value = 100, /* Percentage */
+    },
 };
 
 /**
