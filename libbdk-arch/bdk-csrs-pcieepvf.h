@@ -163,7 +163,71 @@ typedef union
         uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg001_s cn; */
+    struct bdk_pcieepvfx_cfg001_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t reserved_22           : 1;
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO/H) INTx status. Not applicable for SR-IOV.  Hardwired to 0. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](RO) VF read-only zero. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t see                   : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t per                   : 1;  /**< [  6:  6](RAZ) VF RsvdP. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
+                                                                 the request is discarded. A interrupt will be generated setting the
+                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
+                                                                 to SLI/DPI/NQM soon thereafter.
+                                                                 Bus master enable mimics the behavor of SPEM()_FLR_PF()_VF()_STOPREQ. */
+        uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
+        uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
+#else /* Word 0 - Little Endian */
+        uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
+        uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
+                                                                 the request is discarded. A interrupt will be generated setting the
+                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
+                                                                 to SLI/DPI/NQM soon thereafter.
+                                                                 Bus master enable mimics the behavor of SPEM()_FLR_PF()_VF()_STOPREQ. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t per                   : 1;  /**< [  6:  6](RAZ) VF RsvdP. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t see                   : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](RO) VF read-only zero. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO/H) INTx status. Not applicable for SR-IOV.  Hardwired to 0. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t reserved_22           : 1;
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepvfx_cfg001_s cn9; */
 } bdk_pcieepvfx_cfg001_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
@@ -209,7 +273,25 @@ typedef union
         uint32_t bcc                   : 8;  /**< [ 31: 24](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[BCC]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg002_s cn; */
+    struct bdk_pcieepvfx_cfg002_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[BCC]. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[SC]. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[PI]. */
+        uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field.
+                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information. */
+#else /* Word 0 - Little Endian */
+        uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field.
+                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[PI]. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[SC]. */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[BCC]. */
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepvfx_cfg002_s cn9; */
 } bdk_pcieepvfx_cfg002_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a) __attribute__ ((pure, always_inline));
@@ -777,7 +859,41 @@ typedef union
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepvfx_cfg029_cn
+    struct bdk_pcieepvfx_cfg029_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. Set to 1 for SR-IOV core. */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO/H) VF undefined. */
+        uint32_t csplv                 : 8;  /**< [ 25: 18](RO/H) VF undefined. */
+        uint32_t reserved_16_17        : 2;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[RBER]. */
+        uint32_t reserved_14           : 1;
+        uint32_t reserved_13           : 1;
+        uint32_t reserved_12           : 1;
+        uint32_t el1al                 : 3;  /**< [ 11:  9](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[EL1AL]. */
+        uint32_t el0al                 : 3;  /**< [  8:  6](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[EL0AL]. */
+        uint32_t etfs                  : 1;  /**< [  5:  5](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[ETFS]. */
+        uint32_t pfs                   : 2;  /**< [  4:  3](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[PFS]. */
+        uint32_t mpss                  : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[MPSS]. */
+#else /* Word 0 - Little Endian */
+        uint32_t mpss                  : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[MPSS]. */
+        uint32_t pfs                   : 2;  /**< [  4:  3](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[PFS]. */
+        uint32_t etfs                  : 1;  /**< [  5:  5](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[ETFS]. */
+        uint32_t el0al                 : 3;  /**< [  8:  6](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[EL0AL]. */
+        uint32_t el1al                 : 3;  /**< [ 11:  9](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[EL1AL]. */
+        uint32_t reserved_12           : 1;
+        uint32_t reserved_13           : 1;
+        uint32_t reserved_14           : 1;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO) Read-only copy of the associated PF's PCIEEP()_CFG029[RBER]. */
+        uint32_t reserved_16_17        : 2;
+        uint32_t csplv                 : 8;  /**< [ 25: 18](RO/H) VF undefined. */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO/H) VF undefined. */
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. Set to 1 for SR-IOV core. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_pcieepvfx_cfg029_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -810,7 +926,7 @@ typedef union
         uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. Set to 1 for SR-IOV core. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
-    } cn;
+    } cn9;
 } bdk_pcieepvfx_cfg029_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG029(unsigned long a) __attribute__ ((pure, always_inline));
@@ -918,7 +1034,87 @@ typedef union
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg030_s cn; */
+    struct bdk_pcieepvfx_cfg030_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t tp                    : 1;  /**< [ 21: 21](RO/H) Transaction pending. Set to 1 when nonposted requests are not yet completed and set to 0
+                                                                 when they are completed. */
+        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) VF's read-only zeros. */
+        uint32_t ur_d                  : 1;  /**< [ 19: 19](RO/H) Unsupported request detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. [UR_D] occurs when we
+                                                                 receive
+                                                                 something unsupported. Unsupported requests are nonfatal errors, so [UR_D] should cause
+                                                                 [NFE_D]. Receiving a vendor-defined message should cause an unsupported request. */
+        uint32_t fe_d                  : 1;  /**< [ 18: 18](RO/H) Fatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to fatal. Malformed TLPs
+                                                                 generally fit into this category. */
+        uint32_t nfe_d                 : 1;  /**< [ 17: 17](RO/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to nonfatal and does not
+                                                                 meet advisory nonfatal criteria, which most poisoned TLPs should. */
+        uint32_t ce_d                  : 1;  /**< [ 16: 16](RO/H) Correctable error detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. This field is set if we
+                                                                 receive any of the errors in PCIEEPVF()_CFG068, for example a replay-timer timeout.
+                                                                 Also, it can be set if we get any of the errors in PCIEEPVF()_CFG066 that has a severity
+                                                                 set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset when written to one.
+
+                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_WR. It should only ever
+                                                                 be written to one via a direct PCIe access. */
+        uint32_t mrrs                  : 3;  /**< [ 14: 12](RAZ) VF RsvdP. */
+        uint32_t ns_en                 : 1;  /**< [ 11: 11](RAZ) VF RsvdP. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RAZ) VF RsvdP. */
+        uint32_t pf_en                 : 1;  /**< [  9:  9](RAZ) VF RsvdP. */
+        uint32_t etf_en                : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
+        uint32_t mps                   : 3;  /**< [  7:  5](RAZ) VF RsvdP. */
+        uint32_t ro_en                 : 1;  /**< [  4:  4](RAZ) VF RsvdP. */
+        uint32_t ur_en                 : 1;  /**< [  3:  3](RAZ) VF RsvdP. */
+        uint32_t fe_en                 : 1;  /**< [  2:  2](RAZ) VF RsvdP. */
+        uint32_t nfe_en                : 1;  /**< [  1:  1](RAZ) VF RsvdP. */
+        uint32_t ce_en                 : 1;  /**< [  0:  0](RAZ) VF RsvdP. */
+#else /* Word 0 - Little Endian */
+        uint32_t ce_en                 : 1;  /**< [  0:  0](RAZ) VF RsvdP. */
+        uint32_t nfe_en                : 1;  /**< [  1:  1](RAZ) VF RsvdP. */
+        uint32_t fe_en                 : 1;  /**< [  2:  2](RAZ) VF RsvdP. */
+        uint32_t ur_en                 : 1;  /**< [  3:  3](RAZ) VF RsvdP. */
+        uint32_t ro_en                 : 1;  /**< [  4:  4](RAZ) VF RsvdP. */
+        uint32_t mps                   : 3;  /**< [  7:  5](RAZ) VF RsvdP. */
+        uint32_t etf_en                : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
+        uint32_t pf_en                 : 1;  /**< [  9:  9](RAZ) VF RsvdP. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RAZ) VF RsvdP. */
+        uint32_t ns_en                 : 1;  /**< [ 11: 11](RAZ) VF RsvdP. */
+        uint32_t mrrs                  : 3;  /**< [ 14: 12](RAZ) VF RsvdP. */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset when written to one.
+
+                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_WR. It should only ever
+                                                                 be written to one via a direct PCIe access. */
+        uint32_t ce_d                  : 1;  /**< [ 16: 16](RO/H) Correctable error detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. This field is set if we
+                                                                 receive any of the errors in PCIEEPVF()_CFG068, for example a replay-timer timeout.
+                                                                 Also, it can be set if we get any of the errors in PCIEEPVF()_CFG066 that has a severity
+                                                                 set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
+        uint32_t nfe_d                 : 1;  /**< [ 17: 17](RO/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to nonfatal and does not
+                                                                 meet advisory nonfatal criteria, which most poisoned TLPs should. */
+        uint32_t fe_d                  : 1;  /**< [ 18: 18](RO/H) Fatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to fatal. Malformed TLPs
+                                                                 generally fit into this category. */
+        uint32_t ur_d                  : 1;  /**< [ 19: 19](RO/H) Unsupported request detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. [UR_D] occurs when we
+                                                                 receive
+                                                                 something unsupported. Unsupported requests are nonfatal errors, so [UR_D] should cause
+                                                                 [NFE_D]. Receiving a vendor-defined message should cause an unsupported request. */
+        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) VF's read-only zeros. */
+        uint32_t tp                    : 1;  /**< [ 21: 21](RO/H) Transaction pending. Set to 1 when nonposted requests are not yet completed and set to 0
+                                                                 when they are completed. */
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepvfx_cfg030_s cn9; */
 } bdk_pcieepvfx_cfg030_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1036,7 +1232,41 @@ typedef union
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg032_s cn; */
+    struct bdk_pcieepvfx_cfg032_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](RO) Link autonomous bandwidth interrupt enable. This bit is not applicable and is reserved for
+                                                                 endpoints. */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](RO) Link bandwidth management interrupt enable. This bit is not applicable and is reserved for
+                                                                 endpoints. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](RAZ) VF RsvdP. */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
+        uint32_t es                    : 1;  /**< [  7:  7](RAZ) VF RsvdP. */
+        uint32_t ccc                   : 1;  /**< [  6:  6](RAZ) VF RsvdP. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t ld                    : 1;  /**< [  4:  4](RO) Link disable. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t rcb                   : 1;  /**< [  3:  3](RAZ) VF RsvdP. */
+        uint32_t reserved_2            : 1;
+        uint32_t aslpc                 : 2;  /**< [  1:  0](RAZ) VF RsvdP. */
+#else /* Word 0 - Little Endian */
+        uint32_t aslpc                 : 2;  /**< [  1:  0](RAZ) VF RsvdP. */
+        uint32_t reserved_2            : 1;
+        uint32_t rcb                   : 1;  /**< [  3:  3](RAZ) VF RsvdP. */
+        uint32_t ld                    : 1;  /**< [  4:  4](RO) Link disable. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t ccc                   : 1;  /**< [  6:  6](RAZ) VF RsvdP. */
+        uint32_t es                    : 1;  /**< [  7:  7](RAZ) VF RsvdP. */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](RAZ) VF RsvdP. */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](RO) Link bandwidth management interrupt enable. This bit is not applicable and is reserved for
+                                                                 endpoints. */
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](RO) Link autonomous bandwidth interrupt enable. This bit is not applicable and is reserved for
+                                                                 endpoints. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepvfx_cfg032_s cn9; */
 } bdk_pcieepvfx_cfg032_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1126,7 +1356,69 @@ typedef union
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg037_s cn; */
+    struct bdk_pcieepvfx_cfg037_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Read-only copy of the associated PF's PCIEEP()_CFG037[MEETP]. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t reserved_14_17        : 4;
+        uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO/H) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM128S is set as an inherited attribute from the PF. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM64S is set as an inherited attribute from the PF. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO/H) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM64S is set as an inherited attribute from the PF. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RAZ) VF RsvdP. */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO) Completion timeout ranges supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO) Completion timeout ranges supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RAZ) VF RsvdP. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO/H) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM64S is set as an inherited attribute from the PF. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM64S is set as an inherited attribute from the PF. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO/H) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM128S is set as an inherited attribute from the PF. */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t reserved_14_17        : 4;
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Read-only copy of the associated PF's PCIEEP()_CFG037[MEETP]. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepvfx_cfg037_s cn9; */
 } bdk_pcieepvfx_cfg037_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1182,7 +1474,35 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg038_s cn; */
+    struct bdk_pcieepvfx_cfg038_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
+        uint32_t reserved_10_12        : 3;
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RAZ) VF RsvdP. */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
+        uint32_t reserved_7            : 1;
+        uint32_t atom_op               : 1;  /**< [  6:  6](RAZ) VF RsvdP. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported (not supported). */
+        uint32_t ctd                   : 1;  /**< [  4:  4](RAZ) VF RsvdP. */
+        uint32_t ctv                   : 4;  /**< [  3:  0](RAZ) VF RsvdP. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctv                   : 4;  /**< [  3:  0](RAZ) VF RsvdP. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](RAZ) VF RsvdP. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported (not supported). */
+        uint32_t atom_op               : 1;  /**< [  6:  6](RAZ) VF RsvdP. */
+        uint32_t reserved_7            : 1;
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RAZ) VF RsvdP. */
+        uint32_t reserved_10_12        : 3;
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepvfx_cfg038_s cn9; */
 } bdk_pcieepvfx_cfg038_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));

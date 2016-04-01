@@ -1227,20 +1227,18 @@ typedef union
                                                                  Each bit of OCLA()_MAT()_VALUE() and OCLA()_MAT()_MASK() are combined as
                                                                  follows:
 
-                                                                 _ If MASK = 1 and VALUE = 0, matches when data = "0".
-                                                                 _ If MASK = 1 and VALUE = 1, matches when data = "1".
-                                                                 _ If MASK = 0 and VALUE = 0, matches any data.
-                                                                 _ If MASK = 0 and VALUE = 1, matches any data. */
+                                                                 _ If MASK = 1 and VALUE = 0, matches when corresponding bit of data = "0".
+                                                                 _ If MASK = 1 and VALUE = 1, matches when corresponding bit of data = "1".
+                                                                 _ If MASK = 0, matches regardless of corresponding bit of data. */
 #else /* Word 0 - Little Endian */
         uint64_t mask                  : 36; /**< [ 35:  0](R/W) Bitmask of which bits in OCLA()_MAT()_VALUE() are to be compared.
 
                                                                  Each bit of OCLA()_MAT()_VALUE() and OCLA()_MAT()_MASK() are combined as
                                                                  follows:
 
-                                                                 _ If MASK = 1 and VALUE = 0, matches when data = "0".
-                                                                 _ If MASK = 1 and VALUE = 1, matches when data = "1".
-                                                                 _ If MASK = 0 and VALUE = 0, matches any data.
-                                                                 _ If MASK = 0 and VALUE = 1, matches any data. */
+                                                                 _ If MASK = 1 and VALUE = 0, matches when corresponding bit of data = "0".
+                                                                 _ If MASK = 1 and VALUE = 1, matches when corresponding bit of data = "1".
+                                                                 _ If MASK = 0, matches regardless of corresponding bit of data. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
@@ -1591,9 +1589,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Reset. When set, causes a block reset, except RSL. */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When written with one, reset OCLA excluding the RSL interface. Software
+                                                                 must wait at least 1024 coprocessor-clocks after resetting before sending any
+                                                                 other CSR read/write operations into OCLA. */
 #else /* Word 0 - Little Endian */
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Reset. When set, causes a block reset, except RSL. */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When written with one, reset OCLA excluding the RSL interface. Software
+                                                                 must wait at least 1024 coprocessor-clocks after resetting before sending any
+                                                                 other CSR read/write operations into OCLA. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;

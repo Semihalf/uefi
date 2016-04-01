@@ -8461,6 +8461,30 @@ typedef union
     struct bdk_slix_s2m_regx_acc2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_slix_s2m_regx_acc2_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t vf_rsvd               : 9;  /**< [ 15:  7](RO) For expansion of the [VF] field for compatibility with other chips with larger
+                                                                 SLI()_LMAC_CONST1()[VFS]. */
+        uint64_t pvf                   : 7;  /**< [  6:  0](R/W) The PF/VF number.  0x0=PF, 0x1-0x40 is VF number (i.e 0x1=VF1).
+                                                                 Must be less than SLI()_LMAC_CONST1()[VFS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pvf                   : 7;  /**< [  6:  0](R/W) The PF/VF number.  0x0=PF, 0x1-0x40 is VF number (i.e 0x1=VF1).
+                                                                 Must be less than SLI()_LMAC_CONST1()[VFS]. */
+        uint64_t vf_rsvd               : 9;  /**< [ 15:  7](RO) For expansion of the [VF] field for compatibility with other chips with larger
+                                                                 SLI()_LMAC_CONST1()[VFS]. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_slix_s2m_regx_acc2_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t vf_rsvd               : 10; /**< [ 15:  6](RO) For expansion of the [VF] field for compatibility with other chips with larger
                                                                  SLI()_LMAC_CONST1()[VFS]. */
@@ -8473,8 +8497,7 @@ typedef union
                                                                  SLI()_LMAC_CONST1()[VFS]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_s2m_regx_acc2_s cn; */
+    } cn9;
 } bdk_slix_s2m_regx_acc2_t;
 
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

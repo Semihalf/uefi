@@ -6442,7 +6442,45 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmr_rx_lmacs_s cn; */
+    /* struct bdk_bgxx_cmr_rx_lmacs_s cn9; */
+    struct bdk_bgxx_cmr_rx_lmacs_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t lmacs                 : 3;  /**< [  2:  0](R/W) Number of LMACS. Specifies the number of LMACs that can be enabled.
+                                                                 This determines the logical RX buffer size per LMAC and the maximum
+                                                                 LMAC ID that can be used:
+
+                                                                 0x0 = Reserved.
+                                                                 0x1 = BGX()_CONST[TX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
+                                                                 0x2 = BGX()_CONST[TX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
+                                                                 0x3 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 2.
+                                                                 0x4 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
+                                                                 0x5-0x7 = Reserved.
+
+                                                                 Note the maximum LMAC ID is determined by the smaller of
+                                                                 BGX()_CMR_RX_LMACS[LMACS] and BGX()_CMR_TX_LMACS[LMACS]. The two fields
+                                                                 should be set to the same value for normal operation. */
+#else /* Word 0 - Little Endian */
+        uint64_t lmacs                 : 3;  /**< [  2:  0](R/W) Number of LMACS. Specifies the number of LMACs that can be enabled.
+                                                                 This determines the logical RX buffer size per LMAC and the maximum
+                                                                 LMAC ID that can be used:
+
+                                                                 0x0 = Reserved.
+                                                                 0x1 = BGX()_CONST[TX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
+                                                                 0x2 = BGX()_CONST[TX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
+                                                                 0x3 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 2.
+                                                                 0x4 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
+                                                                 0x5-0x7 = Reserved.
+
+                                                                 Note the maximum LMAC ID is determined by the smaller of
+                                                                 BGX()_CMR_RX_LMACS[LMACS] and BGX()_CMR_TX_LMACS[LMACS]. The two fields
+                                                                 should be set to the same value for normal operation. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_bgxx_cmr_rx_lmacs_s cn88xx; */
+    /* struct bdk_bgxx_cmr_rx_lmacs_cn81xx cn83xx; */
 } bdk_bgxx_cmr_rx_lmacs_t;
 
 static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long a) __attribute__ ((pure, always_inline));

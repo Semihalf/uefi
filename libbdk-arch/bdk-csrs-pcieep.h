@@ -1675,7 +1675,99 @@ typedef union
         uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_WR. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepx_cfg031_s cn; */
+    struct bdk_pcieepx_cfg031_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t aspm                  : 1;  /**< [ 22: 22](RO/WRSL) ASPM optionality compliance. */
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO) Link bandwidth notification capability. Set to 0 for endpoint devices. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Data link layer active reporting capable. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO) Surprise down error reporting capable. Set to 0 for endpoint devices. */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO/WRSL) Clock power management. The default value is the value that software specifies during
+                                                                 hardware configuration, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field. */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO/WRSL) L1 exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_WR. */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO/WRSL) L0s exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_WR. */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. The default value is the value that software specifies
+                                                                 during hardware configuration, writable through PEM()_CFG_WR. However, the application
+                                                                 must not change this field. */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
+                                                                 The reset value of this field is determined by the value read from the PEM
+                                                                 csr PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
+
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both [MLW] and [MLS] out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting [MLW] and [MLS] to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL/H) Maximum link speed. The reset value of this field is controlled by the value read from
+                                                                 PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both [MLW] and [MLS] out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting [MLW] and [MLS] to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
+#else /* Word 0 - Little Endian */
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL/H) Maximum link speed. The reset value of this field is controlled by the value read from
+                                                                 PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both [MLW] and [MLS] out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting [MLW] and [MLS] to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
+                                                                 The reset value of this field is determined by the value read from the PEM
+                                                                 csr PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
+
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both [MLW] and [MLS] out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting [MLW] and [MLS] to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. The default value is the value that software specifies
+                                                                 during hardware configuration, writable through PEM()_CFG_WR. However, the application
+                                                                 must not change this field. */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO/WRSL) L0s exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_WR. */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO/WRSL) L1 exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_WR. */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO/WRSL) Clock power management. The default value is the value that software specifies during
+                                                                 hardware configuration, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO) Surprise down error reporting capable. Set to 0 for endpoint devices. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Data link layer active reporting capable. */
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO) Link bandwidth notification capability. Set to 0 for endpoint devices. */
+        uint32_t aspm                  : 1;  /**< [ 22: 22](RO/WRSL) ASPM optionality compliance. */
+        uint32_t reserved_23           : 1;
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_WR. */
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepx_cfg031_s cn9; */
 } bdk_pcieepx_cfg031_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1812,6 +1904,69 @@ typedef union
         uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
                                                                  the application must not change this field. */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
+        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported (not supported). */
+        uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (not applicable for EP). */
+        uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Note that inbound AtomicOps targeting BAR0 are not supported
+                                                                 and are dropped as an unsupported request. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Note that inbound AtomicOps targeting BAR0 are not supported
+                                                                 and are dropped as an unsupported request. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (not applicable for EP). */
+        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported (not supported). */
+        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
+                                                                 the application must not change this field. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO/WRSL) Max end-end TLP prefixes.
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg037_s cn8; */
+    struct bdk_pcieepx_cfg037_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO/WRSL) Max end-end TLP prefixes.
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
+                                                                 the application must not change this field. */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
@@ -1856,8 +2011,7 @@ typedef union
                                                                  0x0 = 4. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg037_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg037_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1886,6 +2040,61 @@ typedef union
 {
     uint32_t u;
     struct bdk_pcieepx_cfg038_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
+        uint32_t reserved_12           : 1;
+        uint32_t tag10b_req_en         : 1;  /**< [ 11: 11](RO) 10-bit tag requestoer enable (not supported). */
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking (not supported). */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s.
+                                                                 0xE = 17 s to 64 s.
+
+                                                                 Values not defined are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s.
+                                                                 0xE = 17 s to 64 s.
+
+                                                                 Values not defined are reserved. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable (not supported). */
+        uint32_t tag10b_req_en         : 1;  /**< [ 11: 11](RO) 10-bit tag requestoer enable (not supported). */
+        uint32_t reserved_12           : 1;
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg038_s cn8; */
+    struct bdk_pcieepx_cfg038_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -1936,8 +2145,7 @@ typedef union
         uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg038_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg038_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2050,6 +2258,145 @@ typedef union
     struct bdk_pcieepx_cfg040_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
+        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C) Link equalization request */
+        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization phase 3 successful */
+        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization phase 2 successful */
+        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization phase 1 successful */
+        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization complete */
+        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
+                                                                 the level of deemphasis. Encodings:
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB.
+
+                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
+        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in polling. Compliance state if
+                                                                 the entry occurred due to the TX compliance receive bit being 1. Encodings:
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to 1, the LTSSM is required to send SKP ordered sets periodically
+                                                                 in between the (modified) compliance patterns.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to 1, the device transmits a modified
+                                                                 compliance pattern if the LTSSM enters polling compliance state. */
+        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
+                                                                 the transmitter pins:
+                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
+                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
+                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for halfswing.
+                                                                 0x4-0x7 = Reserved.
+
+                                                                 This field is reset to 0x0 on entry to the LTSSM polling compliance substate. When
+                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
+                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB. */
+        uint32_t sde                   : 1;  /**< [  6:  6](RO) Selectable deemphasis. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t hasd                  : 1;  /**< [  5:  5](RO/H) Hardware autonomous speed disable. When asserted, the application must disable hardware
+                                                                 from changing the link speed for device-specific reasons other than attempting to correct
+                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
+                                                                 supported common link speed is not blocked by this signal. */
+        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
+                                                                 speed indicated in the target link speed field by setting this bit to 1 in both components
+                                                                 on a link and then initiating a hot reset on the link. */
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
+                                                                 operational speed by restricting the values advertised by the upstream component in its
+                                                                 training sequences:
+
+                                                                 0x1 = 2.5 Gb/s target link speed.
+                                                                 0x2 = 5 Gb/s target link speed.
+                                                                 0x3 = 8 Gb/s target link speed.
+
+                                                                 All other encodings are reserved.
+
+                                                                 If a value is written to this field that does not correspond to a speed included in the
+                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
+                                                                 ports, this field is used to set the target compliance mode speed when software is using
+                                                                 the enter compliance bit to force a link into compliance mode.
+                                                                 The reset value of this field is controlled by the value read from PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+#else /* Word 0 - Little Endian */
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
+                                                                 operational speed by restricting the values advertised by the upstream component in its
+                                                                 training sequences:
+
+                                                                 0x1 = 2.5 Gb/s target link speed.
+                                                                 0x2 = 5 Gb/s target link speed.
+                                                                 0x3 = 8 Gb/s target link speed.
+
+                                                                 All other encodings are reserved.
+
+                                                                 If a value is written to this field that does not correspond to a speed included in the
+                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
+                                                                 ports, this field is used to set the target compliance mode speed when software is using
+                                                                 the enter compliance bit to force a link into compliance mode.
+                                                                 The reset value of this field is controlled by the value read from PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
+                                                                 speed indicated in the target link speed field by setting this bit to 1 in both components
+                                                                 on a link and then initiating a hot reset on the link. */
+        uint32_t hasd                  : 1;  /**< [  5:  5](RO/H) Hardware autonomous speed disable. When asserted, the application must disable hardware
+                                                                 from changing the link speed for device-specific reasons other than attempting to correct
+                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
+                                                                 supported common link speed is not blocked by this signal. */
+        uint32_t sde                   : 1;  /**< [  6:  6](RO) Selectable deemphasis. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
+                                                                 the transmitter pins:
+                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
+                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
+                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for halfswing.
+                                                                 0x4-0x7 = Reserved.
+
+                                                                 This field is reset to 0x0 on entry to the LTSSM polling compliance substate. When
+                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
+                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB. */
+        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to 1, the device transmits a modified
+                                                                 compliance pattern if the LTSSM enters polling compliance state. */
+        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to 1, the LTSSM is required to send SKP ordered sets periodically
+                                                                 in between the (modified) compliance patterns.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in polling. Compliance state if
+                                                                 the entry occurred due to the TX compliance receive bit being 1. Encodings:
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
+                                                                 the level of deemphasis. Encodings:
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB.
+
+                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
+        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization complete */
+        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization phase 1 successful */
+        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization phase 2 successful */
+        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization phase 3 successful */
+        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C) Link equalization request */
+        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg040_s cn8; */
+    struct bdk_pcieepx_cfg040_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_22_31        : 10;
         uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C) Link equalization request */
         uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization phase 3 successful */
@@ -2182,8 +2529,7 @@ typedef union
         uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C) Link equalization request */
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg040_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg040_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG040(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3103,13 +3449,15 @@ typedef union
         uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
         uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
         uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
-        uint32_t reserved_5_11         : 7;
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise link down error status. */
         uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
-        uint32_t reserved_5_11         : 7;
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise link down error status. */
+        uint32_t reserved_6_11         : 6;
         uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
         uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
         uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
@@ -3127,7 +3475,53 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg065_cn
+    struct bdk_pcieepx_cfg065_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t reserved_23           : 1;
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
+        uint32_t reserved_21           : 1;
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise link down error status. */
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise link down error status. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
+        uint32_t reserved_21           : 1;
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_pcieepx_cfg065_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -3170,7 +3564,7 @@ typedef union
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } cn;
+    } cn9;
 } bdk_pcieepx_cfg065_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3216,13 +3610,15 @@ typedef union
         uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
         uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
         uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
-        uint32_t reserved_5_11         : 7;
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask. Set to 0 for endpoint devices. */
         uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
-        uint32_t reserved_5_11         : 7;
+        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask. Set to 0 for endpoint devices. */
+        uint32_t reserved_6_11         : 6;
         uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
         uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
         uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
@@ -3240,7 +3636,53 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg066_cn
+    struct bdk_pcieepx_cfg066_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
+        uint32_t reserved_23           : 1;
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t reserved_21           : 1;
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask. Set to 0 for endpoint devices. */
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask. Set to 0 for endpoint devices. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t reserved_21           : 1;
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_pcieepx_cfg066_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -3283,7 +3725,7 @@ typedef union
         uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } cn;
+    } cn9;
 } bdk_pcieepx_cfg066_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG066(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3330,13 +3772,13 @@ typedef union
         uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
         uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
         uint32_t reserved_6_11         : 6;
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
+        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity. Set to 1 for endpoint devices. */
         uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
+        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity. Set to 1 for endpoint devices. */
         uint32_t reserved_6_11         : 6;
         uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
         uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
@@ -3355,7 +3797,53 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg067_cn
+    struct bdk_pcieepx_cfg067_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t reserved_23           : 1;
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
+        uint32_t reserved_21           : 1;
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity. Set to 1 for endpoint devices. */
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity. Set to 1 for endpoint devices. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t reserved_21           : 1;
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_pcieepx_cfg067_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -3400,7 +3888,7 @@ typedef union
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } cn;
+    } cn9;
 } bdk_pcieepx_cfg067_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG067(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3546,6 +4034,31 @@ typedef union
         uint32_t reserved_12_31        : 20;
         uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present (not supported). */
         uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](RO) Multiple header recording enable (not supported). */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO) Multiple header recording capability (not supported). */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO/H) First error pointer. */
+#else /* Word 0 - Little Endian */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO/H) First error pointer. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO) Multiple header recording capability (not supported). */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](RO) Multiple header recording enable (not supported). */
+        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present (not supported). */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg070_s cn8; */
+    struct bdk_pcieepx_cfg070_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present (not supported). */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](RO) Multiple header recording enable (not supported). */
         uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple header recording capability (not supported). */
         uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
         uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
@@ -3563,8 +4076,7 @@ typedef union
         uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present (not supported). */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg070_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg070_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG070(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5069,14 +5581,26 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
         uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t vsec_id               : 16; /**< [ 15:  0](RO) VSEC ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t vsec_id               : 16; /**< [ 15:  0](RO) VSEC ID. */
+        uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg111_s cn8; */
+    struct bdk_pcieepx_cfg111_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
+        uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
         uint32_t vsec_id               : 16; /**< [ 15:  0](RO) VSED ID. */
 #else /* Word 0 - Little Endian */
         uint32_t vsec_id               : 16; /**< [ 15:  0](RO) VSED ID. */
         uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
         uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg111_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg111_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5479,6 +6003,63 @@ typedef union
                                                                  0x1 = 16bCRC error injection of ACK/NAK DLLP.
                                                                  0x2 = 16bCRC error injection of Update-FC DLLP.
                                                                  0x3 = New TLP's ECRC error injection.
+                                                                 0x4 = TLP's FCRC error injection (128b/130b).
+                                                                 0x5 = Parity error of TSOS (128b/130b).
+                                                                 0x6 = Parity error of SKPOS (128b/130b).
+                                                                 0x7 = Reserved.
+
+                                                                 RX path:
+                                                                 0x8 = LCRC error injection.
+                                                                 0x9 = ECRC error injection.
+                                                                 0xA - 0xF = Reserved. */
+        uint32_t einj0_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIEEP()_CFG116[EINJ0_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIEEP()_CFG121[EINJ0_EN] is set,
+                                                                 errors are inserted until PCIEEP()_CFG121[EINJ0_EN] is cleared. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj0_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIEEP()_CFG116[EINJ0_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIEEP()_CFG121[EINJ0_EN] is set,
+                                                                 errors are inserted until PCIEEP()_CFG121[EINJ0_EN] is cleared. */
+        uint32_t einj0_crc_type        : 4;  /**< [ 11:  8](R/W) Error injection type.  Selects the type of CRC error tp in inserted.
+
+                                                                 TX path:
+                                                                 0x0 = New TLP's LCRC error injestion.
+                                                                 0x1 = 16bCRC error injection of ACK/NAK DLLP.
+                                                                 0x2 = 16bCRC error injection of Update-FC DLLP.
+                                                                 0x3 = New TLP's ECRC error injection.
+                                                                 0x4 = TLP's FCRC error injection (128b/130b).
+                                                                 0x5 = Parity error of TSOS (128b/130b).
+                                                                 0x6 = Parity error of SKPOS (128b/130b).
+                                                                 0x7 = Reserved.
+
+                                                                 RX path:
+                                                                 0x8 = LCRC error injection.
+                                                                 0x9 = ECRC error injection.
+                                                                 0xA - 0xF = Reserved. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg122_s cn8; */
+    struct bdk_pcieepx_cfg122_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t einj0_crc_type        : 4;  /**< [ 11:  8](R/W) Error injection type.  Selects the type of CRC error tp in inserted.
+
+                                                                 TX path:
+                                                                 0x0 = New TLP's LCRC error injestion.
+                                                                 0x1 = 16bCRC error injection of ACK/NAK DLLP.
+                                                                 0x2 = 16bCRC error injection of Update-FC DLLP.
+                                                                 0x3 = New TLP's ECRC error injection.
                                                                  0x4 = New TLP's FCRC error injection (128b/130b).
                                                                  0x5 = Parity error of TSOS (128b/130b).
                                                                  0x6 = Parity error of SKPOS (128b/130b).
@@ -5523,8 +6104,7 @@ typedef union
                                                                  0xA - 0xF = Reserved. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg122_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg122_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG122(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6803,6 +7383,116 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
         uint32_t fr_err_rcvy_dis       : 1;  /**< [ 16: 16](R/W) Framing error recovery disable.
+                                                                 This bit disables a transition to recovery state when a framing
+                                                                 error has occurred. */
+        uint32_t reserved_10_15        : 6;
+        uint32_t dir_polcmp_to_det     : 1;  /**< [  9:  9](R/W) Direct Polling.Compliance to detect.
+                                                                 When this bit is set and the LTSSM is in polling compliance
+                                                                 state, the LTSSM transitions to detect state. */
+        uint32_t dir_recidle_config    : 1;  /**< [  8:  8](R/W) Direct Recovery.Idle to configuration.
+                                                                 When this bit is set and the LTSSM is in recovery idle state,
+                                                                 the LTSSM transitions to configuration state. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t noack_force_lnkdn     : 1;  /**< [  2:  2](R/W) Force link down.
+                                                                 When this bit is set and the core detects REPLY_NUM rolling
+                                                                 over 4 times, the LTSSM transitions to detect state. */
+        uint32_t rcry_req              : 1;  /**< [  1:  1](WO) Recovery request.
+                                                                 When this bit is set in L0 or L0s, the LTSSM starts
+                                                                 transitioning to recovery state. This request does not cause
+                                                                 a speed change or re-equalization.  This bit always reads
+                                                                 a zero. */
+        uint32_t hold_ltssm            : 1;  /**< [  0:  0](R/W) Hold and release LTSSM.
+                                                                 For as long as this is set, the core stays in the current
+                                                                 LTSSM. */
+#else /* Word 0 - Little Endian */
+        uint32_t hold_ltssm            : 1;  /**< [  0:  0](R/W) Hold and release LTSSM.
+                                                                 For as long as this is set, the core stays in the current
+                                                                 LTSSM. */
+        uint32_t rcry_req              : 1;  /**< [  1:  1](WO) Recovery request.
+                                                                 When this bit is set in L0 or L0s, the LTSSM starts
+                                                                 transitioning to recovery state. This request does not cause
+                                                                 a speed change or re-equalization.  This bit always reads
+                                                                 a zero. */
+        uint32_t noack_force_lnkdn     : 1;  /**< [  2:  2](R/W) Force link down.
+                                                                 When this bit is set and the core detects REPLY_NUM rolling
+                                                                 over 4 times, the LTSSM transitions to detect state. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t dir_recidle_config    : 1;  /**< [  8:  8](R/W) Direct Recovery.Idle to configuration.
+                                                                 When this bit is set and the LTSSM is in recovery idle state,
+                                                                 the LTSSM transitions to configuration state. */
+        uint32_t dir_polcmp_to_det     : 1;  /**< [  9:  9](R/W) Direct Polling.Compliance to detect.
+                                                                 When this bit is set and the LTSSM is in polling compliance
+                                                                 state, the LTSSM transitions to detect state. */
+        uint32_t reserved_10_15        : 6;
+        uint32_t fr_err_rcvy_dis       : 1;  /**< [ 16: 16](R/W) Framing error recovery disable.
+                                                                 This bit disables a transition to recovery state when a framing
+                                                                 error has occurred. */
+        uint32_t reserved_17_31        : 15;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pcieepx_cfg150_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_17_31        : 15;
+        uint32_t fr_err_rcvy_dis       : 1;  /**< [ 16: 16](R/W) Framing error recovery disable.
+                                                                 This bit disables a transition to recovery state when a framing
+                                                                 error has occurred. */
+        uint32_t reserved_11_15        : 5;
+        uint32_t dir_lpbslv_to_exit    : 1;  /**< [ 10: 10](R/W) Direct loopback slave to exit.
+                                                                 When set and the LTSSM is in loopback slave active state,
+                                                                 the LTSSM transitions to the loopback slave exit state. */
+        uint32_t dir_polcmp_to_det     : 1;  /**< [  9:  9](R/W) Direct Polling.Compliance to detect.
+                                                                 When this bit is set and the LTSSM is in polling compliance
+                                                                 state, the LTSSM transitions to detect state. */
+        uint32_t dir_recidle_config    : 1;  /**< [  8:  8](R/W) Direct Recovery.Idle to configuration.
+                                                                 When this bit is set and the LTSSM is in recovery idle state,
+                                                                 the LTSSM transitions to configuration state. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t noack_force_lnkdn     : 1;  /**< [  2:  2](R/W) Force link down.
+                                                                 When this bit is set and the core detects REPLY_NUM rolling
+                                                                 over 4 times, the LTSSM transitions to detect state. */
+        uint32_t rcry_req              : 1;  /**< [  1:  1](WO) Recovery request.
+                                                                 When this bit is set in L0 or L0s, the LTSSM starts
+                                                                 transitioning to recovery state. This request does not cause
+                                                                 a speed change or re-equalization.  This bit always reads
+                                                                 a zero. */
+        uint32_t hold_ltssm            : 1;  /**< [  0:  0](R/W) Hold and release LTSSM.
+                                                                 For as long as this is set, the core stays in the current
+                                                                 LTSSM. */
+#else /* Word 0 - Little Endian */
+        uint32_t hold_ltssm            : 1;  /**< [  0:  0](R/W) Hold and release LTSSM.
+                                                                 For as long as this is set, the core stays in the current
+                                                                 LTSSM. */
+        uint32_t rcry_req              : 1;  /**< [  1:  1](WO) Recovery request.
+                                                                 When this bit is set in L0 or L0s, the LTSSM starts
+                                                                 transitioning to recovery state. This request does not cause
+                                                                 a speed change or re-equalization.  This bit always reads
+                                                                 a zero. */
+        uint32_t noack_force_lnkdn     : 1;  /**< [  2:  2](R/W) Force link down.
+                                                                 When this bit is set and the core detects REPLY_NUM rolling
+                                                                 over 4 times, the LTSSM transitions to detect state. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t dir_recidle_config    : 1;  /**< [  8:  8](R/W) Direct Recovery.Idle to configuration.
+                                                                 When this bit is set and the LTSSM is in recovery idle state,
+                                                                 the LTSSM transitions to configuration state. */
+        uint32_t dir_polcmp_to_det     : 1;  /**< [  9:  9](R/W) Direct Polling.Compliance to detect.
+                                                                 When this bit is set and the LTSSM is in polling compliance
+                                                                 state, the LTSSM transitions to detect state. */
+        uint32_t dir_lpbslv_to_exit    : 1;  /**< [ 10: 10](R/W) Direct loopback slave to exit.
+                                                                 When set and the LTSSM is in loopback slave active state,
+                                                                 the LTSSM transitions to the loopback slave exit state. */
+        uint32_t reserved_11_15        : 5;
+        uint32_t fr_err_rcvy_dis       : 1;  /**< [ 16: 16](R/W) Framing error recovery disable.
+                                                                 This bit disables a transition to recovery state when a framing
+                                                                 error has occurred. */
+        uint32_t reserved_17_31        : 15;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_pcieepx_cfg150_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_17_31        : 15;
+        uint32_t fr_err_rcvy_dis       : 1;  /**< [ 16: 16](R/W) Framing error recovery disable.
                                                                  This bit forces a transition to recovery state when a framing
                                                                  error has occurred. */
         uint32_t reserved_11_15        : 5;
@@ -6855,8 +7545,7 @@ typedef union
                                                                  error has occurred. */
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg150_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg150_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG150(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7149,6 +7838,143 @@ typedef union
         uint32_t latched_nfts          : 8;  /**< [ 23: 16](RO/H) Latched N_FTS.
                                                                  Indicates the value of N_FTS in the received TS ordered
                                                                  Sets from the link partner. */
+        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state.
+                                                                 Internal:
+                                                                 0x0 = Idle state.
+                                                                 0x1 = Wait for aux_clk_active.
+                                                                 0x2 = Wait for pclkack.
+                                                                 0x3 = Wait for clkreq.
+                                                                 0x4 = Check clkreq_in_n is de-asserted for t_power_off time.
+                                                                 0x5 = L1 substate, turn off txcommonmode circuits (L1.2 only)
+                                                                      and rx electrical idle detection circuits.
+                                                                 0x6 = Locally/remotely initiated exit, assert pclkreq, wait for pclkack.
+                                                                 0x7 = Wait for pclkack when aborting an attempt to enter L1_N. */
+        uint32_t pme_rsnd_flag         : 1;  /**< [ 12: 12](RO) PME re-send flag.
+                                                                 When the DUT sends a PM_PME message TLP, the DUT
+                                                                 sets PME_Status bit. If host software does not clear
+                                                                 PME_Status bit for 100ms (+50%/-5%), the DUT resends the
+                                                                 PM_PME message. This bit indicates that a PM_PME was
+                                                                 resent. */
+        uint32_t int_pm_sstate         : 4;  /**< [ 11:  8](RO/H) Internal PM state (slave).
+                                                                 Indicates internal state machine of power management
+                                                                 slave controller.
+                                                                 0x00 = S_IDLE.
+                                                                 0x01 = S_RESPOND_NAK.
+                                                                 0x02 = S_BLOCK_TLP.
+                                                                 0x03 = S_WAIT_LAST_TLP_ACK.
+                                                                 0x04 = S_WAIT_EIDLE.
+                                                                 0x08 = S_LINK_ENTR_L1.
+                                                                 0x09 = S_L1.
+                                                                 0x0A = S_L1_EXIT.
+                                                                 0x0B = S_L23RDY.
+                                                                 0x0C = S_LINK_ENTR_L23.
+                                                                 0x0D = S_L23RDY_WAIT4ALIVE.
+                                                                 0x0F = S_L23RDY_WAIT4IDLE.
+                                                                 0x10 = S_WAIT_LAST_PMDLLP.
+                                                                 0x10-0x1F = Reserved. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t int_pm_mstate         : 5;  /**< [  4:  0](RO/H) Internal PM state (master).
+                                                                 Indicates internal state machine of power management
+                                                                 master controller.
+                                                                 0x00 = IDLE.
+                                                                 0x01 = L0.
+                                                                 0x02 = L0S.
+                                                                 0x03 = ENTER_L0S.
+                                                                 0x04 = L0S_EXIT.
+                                                                 0x08 = L1.
+                                                                 0x09 = L1_BLOCK_TLP.
+                                                                 0x0A = L1_WAIT_LAST_TLP_ACK.
+                                                                 0x0B = L1_WAIT_PMDLLP_ACK.
+                                                                 0x0C = L1_LINK_ENTR_L1.
+                                                                 0x0D = L1_EXIT.
+                                                                 0x0F = PREP_4L1.
+                                                                 0x10 = L23_BLOCK_TLP.
+                                                                 0x11 = L23_WAIT_LAST_TLP_ACK.
+                                                                 0x12 = L23_WAIT_PMDLLP_ACK.
+                                                                 0x13 = L23_ENTR_L23.
+                                                                 0x14 = L23RDY.
+                                                                 0x15 = PREP_4L23.
+                                                                 0x16 = L23RDY_WAIT4ALIVE.
+                                                                 0x17 = L0S_BLOCK_TLP.
+                                                                 0x18 = WAIT_LAST_PMDLLP.
+                                                                 0x19 = WAIT_DSTATE_UPDATE.
+                                                                 0x20-0x1F = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t int_pm_mstate         : 5;  /**< [  4:  0](RO/H) Internal PM state (master).
+                                                                 Indicates internal state machine of power management
+                                                                 master controller.
+                                                                 0x00 = IDLE.
+                                                                 0x01 = L0.
+                                                                 0x02 = L0S.
+                                                                 0x03 = ENTER_L0S.
+                                                                 0x04 = L0S_EXIT.
+                                                                 0x08 = L1.
+                                                                 0x09 = L1_BLOCK_TLP.
+                                                                 0x0A = L1_WAIT_LAST_TLP_ACK.
+                                                                 0x0B = L1_WAIT_PMDLLP_ACK.
+                                                                 0x0C = L1_LINK_ENTR_L1.
+                                                                 0x0D = L1_EXIT.
+                                                                 0x0F = PREP_4L1.
+                                                                 0x10 = L23_BLOCK_TLP.
+                                                                 0x11 = L23_WAIT_LAST_TLP_ACK.
+                                                                 0x12 = L23_WAIT_PMDLLP_ACK.
+                                                                 0x13 = L23_ENTR_L23.
+                                                                 0x14 = L23RDY.
+                                                                 0x15 = PREP_4L23.
+                                                                 0x16 = L23RDY_WAIT4ALIVE.
+                                                                 0x17 = L0S_BLOCK_TLP.
+                                                                 0x18 = WAIT_LAST_PMDLLP.
+                                                                 0x19 = WAIT_DSTATE_UPDATE.
+                                                                 0x20-0x1F = Reserved. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t int_pm_sstate         : 4;  /**< [ 11:  8](RO/H) Internal PM state (slave).
+                                                                 Indicates internal state machine of power management
+                                                                 slave controller.
+                                                                 0x00 = S_IDLE.
+                                                                 0x01 = S_RESPOND_NAK.
+                                                                 0x02 = S_BLOCK_TLP.
+                                                                 0x03 = S_WAIT_LAST_TLP_ACK.
+                                                                 0x04 = S_WAIT_EIDLE.
+                                                                 0x08 = S_LINK_ENTR_L1.
+                                                                 0x09 = S_L1.
+                                                                 0x0A = S_L1_EXIT.
+                                                                 0x0B = S_L23RDY.
+                                                                 0x0C = S_LINK_ENTR_L23.
+                                                                 0x0D = S_L23RDY_WAIT4ALIVE.
+                                                                 0x0F = S_L23RDY_WAIT4IDLE.
+                                                                 0x10 = S_WAIT_LAST_PMDLLP.
+                                                                 0x10-0x1F = Reserved. */
+        uint32_t pme_rsnd_flag         : 1;  /**< [ 12: 12](RO) PME re-send flag.
+                                                                 When the DUT sends a PM_PME message TLP, the DUT
+                                                                 sets PME_Status bit. If host software does not clear
+                                                                 PME_Status bit for 100ms (+50%/-5%), the DUT resends the
+                                                                 PM_PME message. This bit indicates that a PM_PME was
+                                                                 resent. */
+        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state.
+                                                                 Internal:
+                                                                 0x0 = Idle state.
+                                                                 0x1 = Wait for aux_clk_active.
+                                                                 0x2 = Wait for pclkack.
+                                                                 0x3 = Wait for clkreq.
+                                                                 0x4 = Check clkreq_in_n is de-asserted for t_power_off time.
+                                                                 0x5 = L1 substate, turn off txcommonmode circuits (L1.2 only)
+                                                                      and rx electrical idle detection circuits.
+                                                                 0x6 = Locally/remotely initiated exit, assert pclkreq, wait for pclkack.
+                                                                 0x7 = Wait for pclkack when aborting an attempt to enter L1_N. */
+        uint32_t latched_nfts          : 8;  /**< [ 23: 16](RO/H) Latched N_FTS.
+                                                                 Indicates the value of N_FTS in the received TS ordered
+                                                                 Sets from the link partner. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg155_s cn8; */
+    struct bdk_pcieepx_cfg155_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t latched_nfts          : 8;  /**< [ 23: 16](RO/H) Latched N_FTS.
+                                                                 Indicates the value of N_FTS in the received TS ordered
+                                                                 Sets from the link partner. */
         uint32_t reserved_13_15        : 3;
         uint32_t pme_rsnd_flag         : 1;  /**< [ 12: 12](RO) PME re-send flag.
                                                                  When the DUT sends a PM_PME message TLP, the DUT
@@ -7251,8 +8077,7 @@ typedef union
                                                                  Sets from the link partner. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg155_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg155_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG155(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7572,6 +8397,119 @@ typedef union
 
                                                                  This field is used for EQ master (DSP in EQ Phase3/USP in
                                                                  EQ Phase2). */
+        uint32_t reserved_10_15        : 6;
+        uint32_t ext_eq_timeout        : 2;  /**< [  9:  8](R/W) Extends EQ Phase2/3 Timeout.
+                                                                 This field is used when the ltssm is in Recovery.EQ2/3.
+                                                                 When this field is set, the value of the EQ2/3 timeout is
+                                                                 extended.
+
+                                                                 EQ Master (DSP in EQ Phase 3/USP in EQ Phaase2)
+                                                                 0x0 = 24ms (default).
+                                                                 0x1 = 48ms
+                                                                 0x2 = 240ms.
+                                                                 0x3 = No timeout.
+
+                                                                 EQ Slave (DSP in EQ Phase 2/USP in EQ Phaase3)
+                                                                 0x0 = 32ms (default).
+                                                                 0x1 = 56ms
+                                                                 0x2 = 248ms.
+                                                                 0x3 = No timeout. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t eq_rate_sel           : 1;  /**< [  4:  4](R/W) EQ status rate select.
+                                                                 Setting this field in conjunction with [EQ_LANE_SEL]
+                                                                 determines the per-lane silicon debug EQ status data
+                                                                 returned by the SD_EQ_CONTROL[2/3] and
+                                                                 SD_EQ_STATUS[1/2/3] viewport registers.
+                                                                 0x0 = 8.0 GT/s Speed.
+                                                                 0x1 = 16.0 GT/s Speed (not supported). */
+        uint32_t eq_lane_sel           : 4;  /**< [  3:  0](R/W) EQ status lane select.
+                                                                 Setting this field in conjunction with [EQ_RATE_SEL]
+                                                                 determines the per-lane silicon debug EQ status data
+                                                                 returned by the SD_EQ_CONTROL[2/3] and
+                                                                 SD_EQ_STATUS[1/2/3] viewport registers.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1.
+                                                                 0x2 = Lane2.
+                                                                 ..
+                                                                 0x7 = Lane7.
+                                                                 0x8-0xF = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_lane_sel           : 4;  /**< [  3:  0](R/W) EQ status lane select.
+                                                                 Setting this field in conjunction with [EQ_RATE_SEL]
+                                                                 determines the per-lane silicon debug EQ status data
+                                                                 returned by the SD_EQ_CONTROL[2/3] and
+                                                                 SD_EQ_STATUS[1/2/3] viewport registers.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1.
+                                                                 0x2 = Lane2.
+                                                                 ..
+                                                                 0x7 = Lane7.
+                                                                 0x8-0xF = Reserved. */
+        uint32_t eq_rate_sel           : 1;  /**< [  4:  4](R/W) EQ status rate select.
+                                                                 Setting this field in conjunction with [EQ_LANE_SEL]
+                                                                 determines the per-lane silicon debug EQ status data
+                                                                 returned by the SD_EQ_CONTROL[2/3] and
+                                                                 SD_EQ_STATUS[1/2/3] viewport registers.
+                                                                 0x0 = 8.0 GT/s Speed.
+                                                                 0x1 = 16.0 GT/s Speed (not supported). */
+        uint32_t reserved_5_7          : 3;
+        uint32_t ext_eq_timeout        : 2;  /**< [  9:  8](R/W) Extends EQ Phase2/3 Timeout.
+                                                                 This field is used when the ltssm is in Recovery.EQ2/3.
+                                                                 When this field is set, the value of the EQ2/3 timeout is
+                                                                 extended.
+
+                                                                 EQ Master (DSP in EQ Phase 3/USP in EQ Phaase2)
+                                                                 0x0 = 24ms (default).
+                                                                 0x1 = 48ms
+                                                                 0x2 = 240ms.
+                                                                 0x3 = No timeout.
+
+                                                                 EQ Slave (DSP in EQ Phase 2/USP in EQ Phaase3)
+                                                                 0x0 = 32ms (default).
+                                                                 0x1 = 56ms
+                                                                 0x2 = 248ms.
+                                                                 0x3 = No timeout. */
+        uint32_t reserved_10_15        : 6;
+        uint32_t eval_interval_time    : 2;  /**< [ 17: 16](R/W) Eval interval time.
+                                                                 Indicates interval time of RxEqEval assertion.
+                                                                 0x0 = 500 ns.
+                                                                 0x1 = 1 us.
+                                                                 0x2 = 2 us.
+                                                                 0x3 = 4 us.
+
+                                                                 This field is used for EQ master (DSP in EQ Phase3/USP in
+                                                                 EQ Phase2). */
+        uint32_t reserved_18_22        : 5;
+        uint32_t fom_target_en         : 1;  /**< [ 23: 23](R/W) FOM target enable.
+                                                                 Enables the FOM_TARGET fields. */
+        uint32_t fom_target            : 8;  /**< [ 31: 24](R/W) FOM target.
+                                                                 Indicates figure of merit target criteria value of EQ
+                                                                 master (DSP in EQ Phase3/USP in EQ Phase2).
+                                                                 This field is only valid when [GEN3_EQ_FB_MODE] is
+                                                                 0x1 (figure of merit). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg161_s cn8; */
+    struct bdk_pcieepx_cfg161_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t fom_target            : 8;  /**< [ 31: 24](R/W) FOM target.
+                                                                 Indicates figure of merit target criteria value of EQ
+                                                                 master (DSP in EQ Phase3/USP in EQ Phase2).
+                                                                 This field is only valid when [GEN3_EQ_FB_MODE] is
+                                                                 0x1 (figure of merit). */
+        uint32_t fom_target_en         : 1;  /**< [ 23: 23](R/W) FOM target enable.
+                                                                 Enables the FOM_TARGET fields. */
+        uint32_t reserved_18_22        : 5;
+        uint32_t eval_interval_time    : 2;  /**< [ 17: 16](R/W) Eval interval time.
+                                                                 Indicates interval time of RxEqEval assertion.
+                                                                 0x0 = 500 ns.
+                                                                 0x1 = 1 us.
+                                                                 0x2 = 2 us.
+                                                                 0x3 = 4 us.
+
+                                                                 This field is used for EQ master (DSP in EQ Phase3/USP in
+                                                                 EQ Phase2). */
         uint32_t reserved_5_15         : 11;
         uint32_t eq_rate_sel           : 1;  /**< [  4:  4](R/W) EQ status rate select.
                                                                  Setting this field in conjunction with [EQ_LANE_SEL]
@@ -7629,8 +8567,7 @@ typedef union
                                                                  This field is only valid when [GEN3_EQ_FB_MODE] is
                                                                  0x1 (figure of merit). */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg161_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg161_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG161(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7839,6 +8776,85 @@ typedef union
                                                                  w/Reject=1b during EQ master phase (DSP in EQ
                                                                  Phase3/USP in EQ Phase2). This bit is automatically cleared
                                                                  when the core starts EQ master phase again. */
+        uint32_t eq_rulec_viol         : 1;  /**< [  6:  6](RO/H) EQ rule C violation.
+                                                                 Indicates that coefficients rule C violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). The coefficients rule C
+                                                                 correspond to the rules c) from section "Rules for
+                                                                 Transmitter Coefficents" in the PCI Express Base Specification.
+                                                                 This bit is automatically cleared when the controller starts
+                                                                 EQ Master phase again. */
+        uint32_t eq_ruleb_viol         : 1;  /**< [  5:  5](RO/H) EQ rule B violation.
+                                                                 Indicates that coefficient rule B violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). */
+        uint32_t eq_rulea_viol         : 1;  /**< [  4:  4](RO/H) EQ rule A violation.
+                                                                 Indicates that coefficient rule A violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). */
+        uint32_t reserved_3            : 1;
+        uint32_t eq_conv_info          : 2;  /**< [  2:  1](RO/H) EQ convergence info.
+                                                                 Indicates equalization convergence information.
+                                                                 0x0 = Equalization is not attempted.
+                                                                 0x1 = Equalization finished successfully.
+                                                                 0x2 = Equalization finished unsuccessfully.
+                                                                 0x3 = Reserved.
+                                                                 This bit is automatically cleared when the core starts EQ
+                                                                 master phase again. */
+        uint32_t eq_sequence           : 1;  /**< [  0:  0](RO) EQ sequence.
+                                                                 Indicates that the core is starting the equalization sequence. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_sequence           : 1;  /**< [  0:  0](RO) EQ sequence.
+                                                                 Indicates that the core is starting the equalization sequence. */
+        uint32_t eq_conv_info          : 2;  /**< [  2:  1](RO/H) EQ convergence info.
+                                                                 Indicates equalization convergence information.
+                                                                 0x0 = Equalization is not attempted.
+                                                                 0x1 = Equalization finished successfully.
+                                                                 0x2 = Equalization finished unsuccessfully.
+                                                                 0x3 = Reserved.
+                                                                 This bit is automatically cleared when the core starts EQ
+                                                                 master phase again. */
+        uint32_t reserved_3            : 1;
+        uint32_t eq_rulea_viol         : 1;  /**< [  4:  4](RO/H) EQ rule A violation.
+                                                                 Indicates that coefficient rule A violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). */
+        uint32_t eq_ruleb_viol         : 1;  /**< [  5:  5](RO/H) EQ rule B violation.
+                                                                 Indicates that coefficient rule B violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). */
+        uint32_t eq_rulec_viol         : 1;  /**< [  6:  6](RO/H) EQ rule C violation.
+                                                                 Indicates that coefficients rule C violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). The coefficients rule C
+                                                                 correspond to the rules c) from section "Rules for
+                                                                 Transmitter Coefficents" in the PCI Express Base Specification.
+                                                                 This bit is automatically cleared when the controller starts
+                                                                 EQ Master phase again. */
+        uint32_t eq_reject_event       : 1;  /**< [  7:  7](RO/H) EQ reject event.
+                                                                 Indicates that the core receives two consecutive TS1 OS
+                                                                 w/Reject=1b during EQ master phase (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2). This bit is automatically cleared
+                                                                 when the core starts EQ master phase again. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg165_s cn8; */
+    struct bdk_pcieepx_cfg165_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t eq_reject_event       : 1;  /**< [  7:  7](RO/H) EQ reject event.
+                                                                 Indicates that the core receives two consecutive TS1 OS
+                                                                 w/Reject=1b during EQ master phase (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2). This bit is automatically cleared
+                                                                 when the core starts EQ master phase again. */
         uint32_t eq_rulec_viol         : 1;  /**< [  6:  6](RO) EQ rule C violation.
                                                                  Indicates that coefficient rule C violation is detected in the
                                                                  values provided by PHY using direction change method
@@ -7899,8 +8915,7 @@ typedef union
                                                                  when the core starts EQ master phase again. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg165_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg165_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG165(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8203,6 +9218,57 @@ typedef union
                                                                  0x0 = ADM RX path.
                                                                  0x1 = Layer 3 RX path.
                                                                  0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine inbound (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion buffer path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t corr_en_cntrs         : 1;  /**< [  4:  4](R/W) Error correction disable for ADM RX path. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all correctable error counters. */
+#else /* Word 0 - Little Endian */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all correctable error counters. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t corr_en_cntrs         : 1;  /**< [  4:  4](R/W) Error correction disable for ADM RX path. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine inbound (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion buffer path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
+                                                                 the region defined by CORR_CNT_SEL_REG) whose contents
+                                                                 can be read from the CFG114 register.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg177_s cn8; */
+    struct bdk_pcieepx_cfg177_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
+                                                                 the region defined by CORR_CNT_SEL_REG) whose contents
+                                                                 can be read from the CFG114 register.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
                                                                  0x3 = DMA read engine (not supported).
                                                                  0x4 = AXI bridge inbound request path (not supported).
                                                                  0x5 = AXI bridge inbound completion composer (not supported).
@@ -8241,8 +9307,7 @@ typedef union
                                                                  can be read from the CFG114 register.  You can
                                                                  cycle this field value from 0 to 255 to access all counters. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg177_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg177_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG177(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8271,6 +9336,47 @@ typedef union
 {
     uint32_t u;
     struct bdk_pcieepx_cfg178_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t corr_count            : 8;  /**< [  7:  0](RO) Current corrected count for the selected counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t corr_count            : 8;  /**< [  7:  0](RO) Current corrected count for the selected counter. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg178_s cn8; */
+    struct bdk_pcieepx_cfg178_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
@@ -8309,8 +9415,7 @@ typedef union
                                                                  0xC - 0xF = Reserved. */
         uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg178_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg178_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG178(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8349,6 +9454,57 @@ typedef union
                                                                  0x0 = ADM RX path.
                                                                  0x1 = Layer 3 RX path.
                                                                  0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t ucorr_en_cntrs        : 1;  /**< [  4:  4](R/W) Error correction disable for ADM RX path. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all uncorrectable error counters. */
+#else /* Word 0 - Little Endian */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all uncorrectable error counters. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ucorr_en_cntrs        : 1;  /**< [  4:  4](R/W) Error correction disable for ADM RX path. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
+                                                                 the region defined by UCORR_CNT_SEL_REG) whose contents
+                                                                 can be read from the CFG114 register.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg179_s cn8; */
+    struct bdk_pcieepx_cfg179_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
+                                                                 the region defined by UCORR_CNT_SEL_REG) whose contents
+                                                                 can be read from the CFG114 register.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
                                                                  0x3 = DMA read engine (not supported).
                                                                  0x4 = AXI bridge inbound request path (not supported).
                                                                  0x5 = AXI bridge inbound completion composer (not supported).
@@ -8387,8 +9543,7 @@ typedef union
                                                                  can be read from the CFG114 register.  You can
                                                                  cycle this field value from 0 to 255 to access all counters. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg179_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg179_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG179(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8417,6 +9572,47 @@ typedef union
 {
     uint32_t u;
     struct bdk_pcieepx_cfg180_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113[CORR_CNT_SEL] register. */
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion buffer path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t ucorr_count           : 8;  /**< [  7:  0](RO) Current uncorrected count for the selected counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t ucorr_count           : 8;  /**< [  7:  0](RO) Current uncorrected count for the selected counter. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion buffer path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113[CORR_CNT_SEL] register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg180_s cn8; */
+    struct bdk_pcieepx_cfg180_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113[CORR_CNT_SEL] register. */
@@ -8455,8 +9651,7 @@ typedef union
                                                                  0xC - 0xF = Reserved. */
         uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in the CFG113[CORR_CNT_SEL] register. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg180_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg180_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG180(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8557,6 +9752,81 @@ typedef union
                                                                  0x0 = ADM RX path.
                                                                  0x1 = Layer 3 RX path.
                                                                  0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t loc_first_corr_err    : 8;  /**< [ 15:  8](RO) Location/ID of the first corrected error within the region defined by
+                                                                 [REG_FIRST_CORR_ERR]. */
+        uint32_t reg_first_corr_err    : 4;  /**< [  7:  4](RO) Region of first corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t reg_first_corr_err    : 4;  /**< [  7:  4](RO) Region of first corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t loc_first_corr_err    : 8;  /**< [ 15:  8](RO) Location/ID of the first corrected error within the region defined by
+                                                                 [REG_FIRST_CORR_ERR]. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t reg_last_corr_err     : 4;  /**< [ 23: 20](RO) Region of last corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t loc_last_corr_err     : 8;  /**< [ 31: 24](RO) Location/ID of the last corrected error within the region defined by
+                                                                 REG_LAST_CORR_ERR. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg182_s cn8; */
+    struct bdk_pcieepx_cfg182_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t loc_last_corr_err     : 8;  /**< [ 31: 24](RO) Location/ID of the last corrected error within the region defined by
+                                                                 REG_LAST_CORR_ERR. */
+        uint32_t reg_last_corr_err     : 4;  /**< [ 23: 20](RO) Region of last corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
                                                                  0x3 = DMA read engine (not supported).
                                                                  0x4 = AXI bridge inbound request path (not supported).
                                                                  0x5 = AXI bridge inbound completion composer (not supported).
@@ -8621,8 +9891,7 @@ typedef union
         uint32_t loc_last_corr_err     : 8;  /**< [ 31: 24](RO) Location/ID of the last corrected error within the region defined by
                                                                  REG_LAST_CORR_ERR. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg182_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg182_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG182(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8651,6 +9920,81 @@ typedef union
 {
     uint32_t u;
     struct bdk_pcieepx_cfg183_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t loc_last_ucorr_err    : 8;  /**< [ 31: 24](RO) Location/ID of the last uncorrected error within the region defined by
+                                                                 REG_LAST_CORR_ERR. */
+        uint32_t reg_last_ucorr_err    : 4;  /**< [ 23: 20](RO) Region of last uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t loc_first_ucorr_err   : 8;  /**< [ 15:  8](RO) Location/ID of the first uncorrected error within the region defined by
+                                                                 [REG_FIRST_CORR_ERR]. */
+        uint32_t reg_first_ucorr_err   : 4;  /**< [  7:  4](RO) Region of first uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t reg_first_ucorr_err   : 4;  /**< [  7:  4](RO) Region of first uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t loc_first_ucorr_err   : 8;  /**< [ 15:  8](RO) Location/ID of the first uncorrected error within the region defined by
+                                                                 [REG_FIRST_CORR_ERR]. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t reg_last_ucorr_err    : 4;  /**< [ 23: 20](RO) Region of last uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t loc_last_ucorr_err    : 8;  /**< [ 31: 24](RO) Location/ID of the last uncorrected error within the region defined by
+                                                                 REG_LAST_CORR_ERR. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg183_s cn8; */
+    struct bdk_pcieepx_cfg183_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t loc_last_ucorr_err    : 8;  /**< [ 31: 24](RO) Location/ID of the last uncorrected error within the region defined by
@@ -8723,8 +10067,7 @@ typedef union
         uint32_t loc_last_ucorr_err    : 8;  /**< [ 31: 24](RO) Location/ID of the last uncorrected error within the region defined by
                                                                  REG_LAST_CORR_ERR. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg183_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg183_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG183(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9268,7 +10611,97 @@ typedef union
                                                                  and status (PCIEEP()_CFG017) register. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepx_cfg450_s cn; */
+    struct bdk_pcieepx_cfg450_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t link_state            : 6;  /**< [ 21: 16](R/W) Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
+                                                                 is set. State encoding:
+                                                                 0x0 = DETECT_QUIET.
+                                                                 0x1 = DETECT_ACT.
+                                                                 0x2 = POLL_ACTIVE.
+                                                                 0x3 = POLL_COMPLIANCE.
+                                                                 0x4 = POLL_CONFIG.
+                                                                 0x5 = PRE_DETECT_QUIET.
+                                                                 0x6 = DETECT_WAIT.
+                                                                 0x7 = CFG_LINKWD_START.
+                                                                 0x8 = CFG_LINKWD_ACEPT.
+                                                                 0x9 = CFG_LANENUM_WAIT.
+                                                                 0xA = CFG_LANENUM_ACEPT.
+                                                                 0xB = CFG_COMPLETE.
+                                                                 0xC = CFG_IDLE.
+                                                                 0xD = RCVRY_LOCK.
+                                                                 0xE = RCVRY_SPEED.
+                                                                 0xF = RCVRY_RCVRCFG.
+                                                                 0x10 = RCVRY_IDLE.
+                                                                 0x11 = L0.
+                                                                 0x12 = L0S.
+                                                                 0x13 = L123_SEND_EIDLE.
+                                                                 0x14 = L1_IDLE.
+                                                                 0x15 = L2_IDLE.
+                                                                 0x16 = L2_WAKE.
+                                                                 0x17 = DISABLED_ENTRY.
+                                                                 0x18 = DISABLED_IDLE.
+                                                                 0x19 = DISABLED.
+                                                                 0x1A = LPBK_ENTRY.
+                                                                 0x1B = LPBK_ACTIVE.
+                                                                 0x1C = LPBK_EXIT.
+                                                                 0x1D = LPBK_EXIT_TIMEOUT.
+                                                                 0x1E = HOT_RESET_ENTRY.
+                                                                 0x1F = HOT_RESET. */
+        uint32_t force_link            : 1;  /**< [ 15: 15](WO/H) Force link. Forces the link to the state specified by [LINK_STATE]. The force link
+                                                                 pulse triggers link renegotiation.
+                                                                 As the force link is a pulse, writing a 1 to it does trigger the forced link state event,
+                                                                 even though reading it always returns a 0. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t forced_ltssm          : 4;  /**< [ 11:  8](R/W) Forced link command. */
+        uint32_t link_num              : 8;  /**< [  7:  0](RO/H) Link number. Not used for endpoint. */
+#else /* Word 0 - Little Endian */
+        uint32_t link_num              : 8;  /**< [  7:  0](RO/H) Link number. Not used for endpoint. */
+        uint32_t forced_ltssm          : 4;  /**< [ 11:  8](R/W) Forced link command. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t force_link            : 1;  /**< [ 15: 15](WO/H) Force link. Forces the link to the state specified by [LINK_STATE]. The force link
+                                                                 pulse triggers link renegotiation.
+                                                                 As the force link is a pulse, writing a 1 to it does trigger the forced link state event,
+                                                                 even though reading it always returns a 0. */
+        uint32_t link_state            : 6;  /**< [ 21: 16](R/W) Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
+                                                                 is set. State encoding:
+                                                                 0x0 = DETECT_QUIET.
+                                                                 0x1 = DETECT_ACT.
+                                                                 0x2 = POLL_ACTIVE.
+                                                                 0x3 = POLL_COMPLIANCE.
+                                                                 0x4 = POLL_CONFIG.
+                                                                 0x5 = PRE_DETECT_QUIET.
+                                                                 0x6 = DETECT_WAIT.
+                                                                 0x7 = CFG_LINKWD_START.
+                                                                 0x8 = CFG_LINKWD_ACEPT.
+                                                                 0x9 = CFG_LANENUM_WAIT.
+                                                                 0xA = CFG_LANENUM_ACEPT.
+                                                                 0xB = CFG_COMPLETE.
+                                                                 0xC = CFG_IDLE.
+                                                                 0xD = RCVRY_LOCK.
+                                                                 0xE = RCVRY_SPEED.
+                                                                 0xF = RCVRY_RCVRCFG.
+                                                                 0x10 = RCVRY_IDLE.
+                                                                 0x11 = L0.
+                                                                 0x12 = L0S.
+                                                                 0x13 = L123_SEND_EIDLE.
+                                                                 0x14 = L1_IDLE.
+                                                                 0x15 = L2_IDLE.
+                                                                 0x16 = L2_WAKE.
+                                                                 0x17 = DISABLED_ENTRY.
+                                                                 0x18 = DISABLED_IDLE.
+                                                                 0x19 = DISABLED.
+                                                                 0x1A = LPBK_ENTRY.
+                                                                 0x1B = LPBK_ACTIVE.
+                                                                 0x1C = LPBK_EXIT.
+                                                                 0x1D = LPBK_EXIT_TIMEOUT.
+                                                                 0x1E = HOT_RESET_ENTRY.
+                                                                 0x1F = HOT_RESET. */
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepx_cfg450_s cn9; */
 } bdk_pcieepx_cfg450_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG450(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9397,7 +10830,12 @@ typedef union
     struct bdk_pcieepx_cfg452_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_22_31        : 10;
+        uint32_t reserved_28_31        : 4;
+        uint32_t xlr_en                : 1;  /**< [ 27: 27](R/W) Transmit lane reversable enable.  Internally reserved field, do not set. */
+        uint32_t ex_synch              : 1;  /**< [ 26: 26](R/W) Extended synch.  Internally reserved field, do not set. */
+        uint32_t clcrc_en              : 1;  /**< [ 25: 25](R/W) Corrupt LCRC enable.  Internally reserved field, do not set. */
+        uint32_t beacon_en             : 1;  /**< [ 24: 24](R/W) Beacon enable.  Internally reserved field, do not set. */
+        uint32_t cle                   : 2;  /**< [ 23: 22](RAZ) Reserved. */
         uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
                                                                  0x1 = x1.
                                                                  0x3 = x2.
@@ -9420,7 +10858,7 @@ typedef union
         uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes. If during
                                                                  an EEPROM load, the first word loaded is 0xFFFFFFFF, the EEPROM load is terminated and
                                                                  this bit is set. */
-        uint32_t reserved_6            : 1;
+        uint32_t ldis                  : 1;  /**< [  6:  6](R/W) Link disable. Internally reserved field, do not set. */
         uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
                                                                  does not transmit InitFC DLLPs and does not establish a link. */
         uint32_t reserved_4            : 1;
@@ -9446,7 +10884,7 @@ typedef union
         uint32_t reserved_4            : 1;
         uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
                                                                  does not transmit InitFC DLLPs and does not establish a link. */
-        uint32_t reserved_6            : 1;
+        uint32_t ldis                  : 1;  /**< [  6:  6](R/W) Link disable. Internally reserved field, do not set. */
         uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes. If during
                                                                  an EEPROM load, the first word loaded is 0xFFFFFFFF, the EEPROM load is terminated and
                                                                  this bit is set. */
@@ -9469,10 +10907,107 @@ typedef union
                                                                  PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
                                                                  x2, and x1 are supported when
                                                                  LME = 0xF, for example. */
-        uint32_t reserved_22_31        : 10;
+        uint32_t cle                   : 2;  /**< [ 23: 22](RAZ) Reserved. */
+        uint32_t beacon_en             : 1;  /**< [ 24: 24](R/W) Beacon enable.  Internally reserved field, do not set. */
+        uint32_t clcrc_en              : 1;  /**< [ 25: 25](R/W) Corrupt LCRC enable.  Internally reserved field, do not set. */
+        uint32_t ex_synch              : 1;  /**< [ 26: 26](R/W) Extended synch.  Internally reserved field, do not set. */
+        uint32_t xlr_en                : 1;  /**< [ 27: 27](R/W) Transmit lane reversable enable.  Internally reserved field, do not set. */
+        uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg452_cn
+    struct bdk_pcieepx_cfg452_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t xlr_en                : 1;  /**< [ 27: 27](R/W) Transmit lane reversable enable.  Internally reserved field, do not set. */
+        uint32_t ex_synch              : 1;  /**< [ 26: 26](R/W) Extended synch.  Internally reserved field, do not set. */
+        uint32_t clcrc_en              : 1;  /**< [ 25: 25](R/W) Corrupt LCRC enable.  Internally reserved field, do not set. */
+        uint32_t beacon_en             : 1;  /**< [ 24: 24](R/W) Beacon enable.  Internally reserved field, do not set. */
+        uint32_t cle                   : 2;  /**< [ 23: 22](RAZ) Reserved. */
+        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
+                                                                 0x1 = x1.
+                                                                 0x3 = x2.
+                                                                 0x7 = x4.
+                                                                 0xF = x8.
+                                                                 0x1F = x16 (not supported).
+                                                                 0x3F = x32 (not supported).
+
+                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
+                                                                 be set less than 0xF to limit the number of lanes that the PCIe will attempt to use. If
+                                                                 the value of 0xF set by the hardware is not desired, this field can be programmed to a
+                                                                 smaller value (i.e. EEPROM). See also PCIEEP()_CFG031[MLW].
+                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
+                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
+                                                                 x2, and x1 are supported when
+                                                                 LME = 0xF, for example. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
+        uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes.
+                                                                 The scaling factor is configured by PCIEEP()_CFG454[FLMSF].
+
+                                                                 If during an EEPROM load, the first word loaded is 0xFFFFFFFF,
+                                                                 the EEPROM load is terminated and this bit is set. */
+        uint32_t ldis                  : 1;  /**< [  6:  6](R/W) Link disable. Internally reserved field, do not set. */
+        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
+                                                                 does not transmit InitFC DLLPs and does not establish a link. */
+        uint32_t reserved_4            : 1;
+        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
+                                                                 port only). */
+        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
+                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
+                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
+                                                                 mode, take the link through a reset sequence. */
+        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
+        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a 1 to this bit, the PCI Express bus transmits
+                                                                 the message contained in the other message register. */
+#else /* Word 0 - Little Endian */
+        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a 1 to this bit, the PCI Express bus transmits
+                                                                 the message contained in the other message register. */
+        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
+        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
+                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
+                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
+                                                                 mode, take the link through a reset sequence. */
+        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
+                                                                 port only). */
+        uint32_t reserved_4            : 1;
+        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
+                                                                 does not transmit InitFC DLLPs and does not establish a link. */
+        uint32_t ldis                  : 1;  /**< [  6:  6](R/W) Link disable. Internally reserved field, do not set. */
+        uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes.
+                                                                 The scaling factor is configured by PCIEEP()_CFG454[FLMSF].
+
+                                                                 If during an EEPROM load, the first word loaded is 0xFFFFFFFF,
+                                                                 the EEPROM load is terminated and this bit is set. */
+        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
+                                                                 0x1 = x1.
+                                                                 0x3 = x2.
+                                                                 0x7 = x4.
+                                                                 0xF = x8.
+                                                                 0x1F = x16 (not supported).
+                                                                 0x3F = x32 (not supported).
+
+                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
+                                                                 be set less than 0xF to limit the number of lanes that the PCIe will attempt to use. If
+                                                                 the value of 0xF set by the hardware is not desired, this field can be programmed to a
+                                                                 smaller value (i.e. EEPROM). See also PCIEEP()_CFG031[MLW].
+                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
+                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
+                                                                 x2, and x1 are supported when
+                                                                 LME = 0xF, for example. */
+        uint32_t cle                   : 2;  /**< [ 23: 22](RAZ) Reserved. */
+        uint32_t beacon_en             : 1;  /**< [ 24: 24](R/W) Beacon enable.  Internally reserved field, do not set. */
+        uint32_t clcrc_en              : 1;  /**< [ 25: 25](R/W) Corrupt LCRC enable.  Internally reserved field, do not set. */
+        uint32_t ex_synch              : 1;  /**< [ 26: 26](R/W) Extended synch.  Internally reserved field, do not set. */
+        uint32_t xlr_en                : 1;  /**< [ 27: 27](R/W) Transmit lane reversable enable.  Internally reserved field, do not set. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_pcieepx_cfg452_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -9553,7 +11088,7 @@ typedef union
         uint32_t reserved_24_27        : 4;
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
-    } cn;
+    } cn9;
 } bdk_pcieepx_cfg452_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG452(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9605,7 +11140,29 @@ typedef union
         uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepx_cfg453_s cn; */
+    struct bdk_pcieepx_cfg453_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
+        uint32_t reserved_26_30        : 5;
+        uint32_t ack_nak               : 1;  /**< [ 25: 25](R/W) Ack/Nak disable. Prevents the PCI Express bus from sending Ack and Nak DLLPs. */
+        uint32_t fcd                   : 1;  /**< [ 24: 24](R/W) Flow control disable. Prevents the PCI Express bus from sending FC DLLPs. */
+        uint32_t ilst                  : 24; /**< [ 23:  0](R/W) Insert lane skew for transmit (not supported for *16). Causes skew between lanes for test
+                                                                 purposes. There are three bits per lane. The value is in units of one symbol time. For
+                                                                 example, the value 0x2 for a lane forces a skew of two symbol times for that lane. The
+                                                                 maximum skew value for any lane is 5 symbol times. */
+#else /* Word 0 - Little Endian */
+        uint32_t ilst                  : 24; /**< [ 23:  0](R/W) Insert lane skew for transmit (not supported for *16). Causes skew between lanes for test
+                                                                 purposes. There are three bits per lane. The value is in units of one symbol time. For
+                                                                 example, the value 0x2 for a lane forces a skew of two symbol times for that lane. The
+                                                                 maximum skew value for any lane is 5 symbol times. */
+        uint32_t fcd                   : 1;  /**< [ 24: 24](R/W) Flow control disable. Prevents the PCI Express bus from sending FC DLLPs. */
+        uint32_t ack_nak               : 1;  /**< [ 25: 25](R/W) Ack/Nak disable. Prevents the PCI Express bus from sending Ack and Nak DLLPs. */
+        uint32_t reserved_26_30        : 5;
+        uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepx_cfg453_s cn9; */
 } bdk_pcieepx_cfg453_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG453(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9636,6 +11193,74 @@ typedef union
     struct bdk_pcieepx_cfg454_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t flmsf                 : 2;  /**< [ 30: 29](R/W) Fast Link Timer Scaling Factor. Sets the scaling factor of
+                                                                 LTSSM timer when PCIEEP()_CFG452[FLM] is set.
+                                                                 0x0 = Scaling factor is 1024 (1ms is 1us).
+                                                                 0x1 = Scaling factor is 256 (1ms is 4us).
+                                                                 0x2 = Scaling factor is 64 (1ms is 16us).
+                                                                 0x3 = Scaling factor is 16 (1ms is 64us). */
+        uint32_t reserved_24_28        : 5;
+        uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
+                                                                 latency timer, in increments of 64 clock cycles. */
+        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
+                                                                 increments of 64 clock cycles. */
+        uint32_t reserved_8_13         : 6;
+        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported. Used for SR-IOV. */
+#else /* Word 0 - Little Endian */
+        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported. Used for SR-IOV. */
+        uint32_t reserved_8_13         : 6;
+        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
+                                                                 increments of 64 clock cycles. */
+        uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
+                                                                 latency timer, in increments of 64 clock cycles. */
+        uint32_t reserved_24_28        : 5;
+        uint32_t flmsf                 : 2;  /**< [ 30: 29](R/W) Fast Link Timer Scaling Factor. Sets the scaling factor of
+                                                                 LTSSM timer when PCIEEP()_CFG452[FLM] is set.
+                                                                 0x0 = Scaling factor is 1024 (1ms is 1us).
+                                                                 0x1 = Scaling factor is 256 (1ms is 4us).
+                                                                 0x2 = Scaling factor is 64 (1ms is 16us).
+                                                                 0x3 = Scaling factor is 16 (1ms is 64us). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pcieepx_cfg454_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t flmsf                 : 2;  /**< [ 30: 29](R/W) Fast Link Timer Scaling Factor. Sets the scaling factor of
+                                                                 LTSSM timer when PCIEEP()_CFG452[FLM] is set.
+                                                                 0x0 = Scaling factor is 1024 (1ms is 1us).
+                                                                 0x1 = Scaling factor is 256 (1ms is 4us).
+                                                                 0x2 = Scaling factor is 64 (1ms is 16us).
+                                                                 0x3 = Scaling factor is 16 (1ms is 64us). */
+        uint32_t updft                 : 5;  /**< [ 28: 24](R/W) Update Frequency Timer.  This is an internally reserved field, do not use. */
+        uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
+                                                                 latency timer, in increments of 64 clock cycles. */
+        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
+                                                                 increments of 64 clock cycles. */
+        uint32_t reserved_8_13         : 6;
+        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported. Used for SR-IOV. */
+#else /* Word 0 - Little Endian */
+        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported. Used for SR-IOV. */
+        uint32_t reserved_8_13         : 6;
+        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
+                                                                 increments of 64 clock cycles. */
+        uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
+                                                                 latency timer, in increments of 64 clock cycles. */
+        uint32_t updft                 : 5;  /**< [ 28: 24](R/W) Update Frequency Timer.  This is an internally reserved field, do not use. */
+        uint32_t flmsf                 : 2;  /**< [ 30: 29](R/W) Fast Link Timer Scaling Factor. Sets the scaling factor of
+                                                                 LTSSM timer when PCIEEP()_CFG452[FLM] is set.
+                                                                 0x0 = Scaling factor is 1024 (1ms is 1us).
+                                                                 0x1 = Scaling factor is 256 (1ms is 4us).
+                                                                 0x2 = Scaling factor is 64 (1ms is 16us).
+                                                                 0x3 = Scaling factor is 16 (1ms is 64us). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_pcieepx_cfg454_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t tmfcwt                : 5;  /**< [ 28: 24](R/W) Used to be 'timer modifier for flow control watchdog timer.' This field is no longer used.
                                                                  and has moved to the queue status register -- PCIEEP()_CFG463. This field remains to
@@ -9658,8 +11283,7 @@ typedef union
                                                                  prevent software from breaking. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg454_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg454_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG454(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9731,7 +11355,63 @@ typedef union
         uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only). */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepx_cfg455_s cn; */
+    struct bdk_pcieepx_cfg455_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only). */
+        uint32_t m_io_filt             : 1;  /**< [ 30: 30](R/W) Mask filtering of received I/O requests (RC mode only). */
+        uint32_t msg_ctrl              : 1;  /**< [ 29: 29](R/W) Message control. The application must not change this field. */
+        uint32_t m_cpl_ecrc_filt       : 1;  /**< [ 28: 28](R/W) Mask ECRC error filtering for completions. */
+        uint32_t m_ecrc_filt           : 1;  /**< [ 27: 27](R/W) Mask ECRC error filtering. */
+        uint32_t m_cpl_len_err         : 1;  /**< [ 26: 26](R/W) Mask length mismatch error for received completions. */
+        uint32_t m_cpl_attr_err        : 1;  /**< [ 25: 25](R/W) Mask attributes mismatch error for received completions. */
+        uint32_t m_cpl_tc_err          : 1;  /**< [ 24: 24](R/W) Mask traffic class mismatch error for received completions. */
+        uint32_t m_cpl_fun_err         : 1;  /**< [ 23: 23](R/W) Mask function mismatch error for received completions. */
+        uint32_t m_cpl_rid_err         : 1;  /**< [ 22: 22](R/W) Mask requester ID mismatch error for received completions. */
+        uint32_t m_cpl_tag_err         : 1;  /**< [ 21: 21](R/W) Mask tag error rules for received completions. */
+        uint32_t m_lk_filt             : 1;  /**< [ 20: 20](R/W) Mask locked request filtering. */
+        uint32_t m_cfg1_filt           : 1;  /**< [ 19: 19](R/W) Mask type 1 configuration request filtering. */
+        uint32_t m_bar_match           : 1;  /**< [ 18: 18](R/W) Mask BAR match filtering. */
+        uint32_t m_pois_filt           : 1;  /**< [ 17: 17](R/W) Mask poisoned TLP filtering. */
+        uint32_t m_fun                 : 1;  /**< [ 16: 16](R/W) Mask function. */
+        uint32_t dfcwt                 : 1;  /**< [ 15: 15](R/W) Disable FC watchdog timer. */
+        uint32_t reserved_11_14        : 4;
+        uint32_t skpiv                 : 11; /**< [ 10:  0](R/W) SKP interval value.  The number of symbol times to wait
+                                                                 between transmitting SKP ordered sets. Note that the
+                                                                 controller actually waits the number of symbol times in this
+                                                                 register plus 1 between transmitting SKP ordered sets.
+
+                                                                 This value is not used at Gen3 speed; the skip interval
+                                                                 is hardcoded to 370 blocks. */
+#else /* Word 0 - Little Endian */
+        uint32_t skpiv                 : 11; /**< [ 10:  0](R/W) SKP interval value.  The number of symbol times to wait
+                                                                 between transmitting SKP ordered sets. Note that the
+                                                                 controller actually waits the number of symbol times in this
+                                                                 register plus 1 between transmitting SKP ordered sets.
+
+                                                                 This value is not used at Gen3 speed; the skip interval
+                                                                 is hardcoded to 370 blocks. */
+        uint32_t reserved_11_14        : 4;
+        uint32_t dfcwt                 : 1;  /**< [ 15: 15](R/W) Disable FC watchdog timer. */
+        uint32_t m_fun                 : 1;  /**< [ 16: 16](R/W) Mask function. */
+        uint32_t m_pois_filt           : 1;  /**< [ 17: 17](R/W) Mask poisoned TLP filtering. */
+        uint32_t m_bar_match           : 1;  /**< [ 18: 18](R/W) Mask BAR match filtering. */
+        uint32_t m_cfg1_filt           : 1;  /**< [ 19: 19](R/W) Mask type 1 configuration request filtering. */
+        uint32_t m_lk_filt             : 1;  /**< [ 20: 20](R/W) Mask locked request filtering. */
+        uint32_t m_cpl_tag_err         : 1;  /**< [ 21: 21](R/W) Mask tag error rules for received completions. */
+        uint32_t m_cpl_rid_err         : 1;  /**< [ 22: 22](R/W) Mask requester ID mismatch error for received completions. */
+        uint32_t m_cpl_fun_err         : 1;  /**< [ 23: 23](R/W) Mask function mismatch error for received completions. */
+        uint32_t m_cpl_tc_err          : 1;  /**< [ 24: 24](R/W) Mask traffic class mismatch error for received completions. */
+        uint32_t m_cpl_attr_err        : 1;  /**< [ 25: 25](R/W) Mask attributes mismatch error for received completions. */
+        uint32_t m_cpl_len_err         : 1;  /**< [ 26: 26](R/W) Mask length mismatch error for received completions. */
+        uint32_t m_ecrc_filt           : 1;  /**< [ 27: 27](R/W) Mask ECRC error filtering. */
+        uint32_t m_cpl_ecrc_filt       : 1;  /**< [ 28: 28](R/W) Mask ECRC error filtering for completions. */
+        uint32_t msg_ctrl              : 1;  /**< [ 29: 29](R/W) Message control. The application must not change this field. */
+        uint32_t m_io_filt             : 1;  /**< [ 30: 30](R/W) Mask filtering of received I/O requests (RC mode only). */
+        uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only). */
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepx_cfg455_s cn9; */
 } bdk_pcieepx_cfg455_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG455(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9762,6 +11442,31 @@ typedef union
     struct bdk_pcieepx_cfg456_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) Mask PRS messages dropped silently. */
+        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Not Supported. */
+        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Not Supported. */
+        uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) Mask LN messages dropped silently. */
+        uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
+        uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) Mask DLLP abort for unexpected CPL. */
+        uint32_t m_vend1_drp           : 1;  /**< [  1:  1](R/W) Mask vendor MSG type 1 dropped silently. */
+        uint32_t m_vend0_drp           : 1;  /**< [  0:  0](R/W) Mask vendor MSG type 0 dropped with UR error reporting. */
+#else /* Word 0 - Little Endian */
+        uint32_t m_vend0_drp           : 1;  /**< [  0:  0](R/W) Mask vendor MSG type 0 dropped with UR error reporting. */
+        uint32_t m_vend1_drp           : 1;  /**< [  1:  1](R/W) Mask vendor MSG type 1 dropped silently. */
+        uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) Mask DLLP abort for unexpected CPL. */
+        uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
+        uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) Mask LN messages dropped silently. */
+        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Not Supported. */
+        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Not Supported. */
+        uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) Mask PRS messages dropped silently. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg456_s cn8; */
+    struct bdk_pcieepx_cfg456_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
         uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
         uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) Mask DLLP abort for unexpected CPL. */
@@ -9774,8 +11479,7 @@ typedef union
         uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg456_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg456_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG456(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10673,6 +12377,59 @@ typedef union
         uint32_t dcbd                  : 1;  /**< [ 18: 18](R/W) Disable balance disable. Disable DC balance feature. */
         uint32_t dtdd                  : 1;  /**< [ 17: 17](R/W) DLLP transmission delay disable. Disable delay transmission of DLLPs before equalization. */
         uint32_t ed                    : 1;  /**< [ 16: 16](R/W) Equalization disable. Disable equalization feature. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t rxeq_rgrdless_rsts    : 1;  /**< [ 13: 13](R/W) The controller as Gen3 EQ master asserts RxEqEval to instruct the
+                                                                 PHY to do Rx adaptation and evaluation.
+                                                                 0x0 = Asserts after 1 us and 2 TS1 received from remote partner.
+                                                                 0x1 = Asserts after 500 ns regardless of TS's recieved or not. */
+        uint32_t rxeq_ph01_en          : 1;  /**< [ 12: 12](R/W) Rx equalization phase 0/phase 1 hold enable. */
+        uint32_t erd                   : 1;  /**< [ 11: 11](R/W) Equalization redo disable. Disable requesting reset of EIEOS count during equalization. */
+        uint32_t ecrd                  : 1;  /**< [ 10: 10](R/W) Equalization EIEOS count reset disable. Disable requesting reset of EIEOS count during
+                                                                 equalization. */
+        uint32_t ep2p3d                : 1;  /**< [  9:  9](R/W) Equalization phase 2 and phase 3 disable. This applies to downstream ports only. */
+        uint32_t dsg3                  : 1;  /**< [  8:  8](R/W) Disable scrambler for Gen3 data rate. The Gen3 scrambler/descrambler within the core needs
+                                                                 to be disabled when the scrambling function is implemented outside of the core (within the
+                                                                 PHY). */
+        uint32_t reserved_1_7          : 7;
+        uint32_t grizdnc               : 1;  /**< [  0:  0](R/W) Gen3 receiver impedance ZRX-DC not compliant. */
+#else /* Word 0 - Little Endian */
+        uint32_t grizdnc               : 1;  /**< [  0:  0](R/W) Gen3 receiver impedance ZRX-DC not compliant. */
+        uint32_t reserved_1_7          : 7;
+        uint32_t dsg3                  : 1;  /**< [  8:  8](R/W) Disable scrambler for Gen3 data rate. The Gen3 scrambler/descrambler within the core needs
+                                                                 to be disabled when the scrambling function is implemented outside of the core (within the
+                                                                 PHY). */
+        uint32_t ep2p3d                : 1;  /**< [  9:  9](R/W) Equalization phase 2 and phase 3 disable. This applies to downstream ports only. */
+        uint32_t ecrd                  : 1;  /**< [ 10: 10](R/W) Equalization EIEOS count reset disable. Disable requesting reset of EIEOS count during
+                                                                 equalization. */
+        uint32_t erd                   : 1;  /**< [ 11: 11](R/W) Equalization redo disable. Disable requesting reset of EIEOS count during equalization. */
+        uint32_t rxeq_ph01_en          : 1;  /**< [ 12: 12](R/W) Rx equalization phase 0/phase 1 hold enable. */
+        uint32_t rxeq_rgrdless_rsts    : 1;  /**< [ 13: 13](R/W) The controller as Gen3 EQ master asserts RxEqEval to instruct the
+                                                                 PHY to do Rx adaptation and evaluation.
+                                                                 0x0 = Asserts after 1 us and 2 TS1 received from remote partner.
+                                                                 0x1 = Asserts after 500 ns regardless of TS's recieved or not. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t ed                    : 1;  /**< [ 16: 16](R/W) Equalization disable. Disable equalization feature. */
+        uint32_t dtdd                  : 1;  /**< [ 17: 17](R/W) DLLP transmission delay disable. Disable delay transmission of DLLPs before equalization. */
+        uint32_t dcbd                  : 1;  /**< [ 18: 18](R/W) Disable balance disable. Disable DC balance feature. */
+        uint32_t reserved_19_22        : 4;
+        uint32_t eiedd                 : 1;  /**< [ 23: 23](R/W) Eq InvalidRequest and RxEqEval Different Time Assertion Disable.  Disable the assertion of
+                                                                 Eq InvalidRequest and RxEqEval at different time. */
+        uint32_t rss                   : 2;  /**< [ 25: 24](RO) Data rate for shadow register.  Hard-wired for Gen3. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg548_s cn8; */
+    struct bdk_pcieepx_cfg548_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t rss                   : 2;  /**< [ 25: 24](RO) Data rate for shadow register.  Hard-wired for Gen3. */
+        uint32_t eiedd                 : 1;  /**< [ 23: 23](R/W) Eq InvalidRequest and RxEqEval Different Time Assertion Disable.  Disable the assertion of
+                                                                 Eq InvalidRequest and RxEqEval at different time. */
+        uint32_t reserved_19_22        : 4;
+        uint32_t dcbd                  : 1;  /**< [ 18: 18](R/W) Disable balance disable. Disable DC balance feature. */
+        uint32_t dtdd                  : 1;  /**< [ 17: 17](R/W) DLLP transmission delay disable. Disable delay transmission of DLLPs before equalization. */
+        uint32_t ed                    : 1;  /**< [ 16: 16](R/W) Equalization disable. Disable equalization feature. */
         uint32_t reserved_13_15        : 3;
         uint32_t rxeq_ph01_en          : 1;  /**< [ 12: 12](R/W) Rx equalization phase 0/phase 1 hold enable. */
         uint32_t erd                   : 1;  /**< [ 11: 11](R/W) Equalization redo disable. Disable requesting reset of EIEOS count during equalization. */
@@ -10705,8 +12462,7 @@ typedef union
         uint32_t rss                   : 2;  /**< [ 25: 24](RO) Data rate for shadow register.  Hard-wired for Gen3. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg548_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg548_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG548(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10933,6 +12689,45 @@ typedef union
     struct bdk_pcieepx_cfg559_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Not Supported. */
+        uint32_t ur_c4_mask_4_trgt1    : 1;  /**< [  2:  2](R/W) This field only applies to request TLPs (with UR filtering status) that are
+                                                                 chosen to forward to the application (when [DEFAULT_TARGET] is set).
+
+                                                                 When set, the core suppresses error logging, error message generation, and CPL
+                                                                 generation (for non-posted requests). */
+        uint32_t def_target            : 1;  /**< [  1:  1](R/W) Default target a received IO or MEM request with UR/CA/CRS
+                                                                 is sent to be the controller.
+                                                                 0x0 = The controller drops all incoming I/O or Mem (after
+                                                                      corresponding error reporting). A completion with
+                                                                      UR status will be generated for non-posted requests.
+                                                                 0x1 = The controller forwards all incoming I/O or MEM
+                                                                      requests with UR/CA/CRS status to your application. */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writeable from the DBI. */
+#else /* Word 0 - Little Endian */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writeable from the DBI. */
+        uint32_t def_target            : 1;  /**< [  1:  1](R/W) Default target a received IO or MEM request with UR/CA/CRS
+                                                                 is sent to be the controller.
+                                                                 0x0 = The controller drops all incoming I/O or Mem (after
+                                                                      corresponding error reporting). A completion with
+                                                                      UR status will be generated for non-posted requests.
+                                                                 0x1 = The controller forwards all incoming I/O or MEM
+                                                                      requests with UR/CA/CRS status to your application. */
+        uint32_t ur_c4_mask_4_trgt1    : 1;  /**< [  2:  2](R/W) This field only applies to request TLPs (with UR filtering status) that are
+                                                                 chosen to forward to the application (when [DEFAULT_TARGET] is set).
+
+                                                                 When set, the core suppresses error logging, error message generation, and CPL
+                                                                 generation (for non-posted requests). */
+        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Not Supported. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg559_s cn8; */
+    struct bdk_pcieepx_cfg559_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
         uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
                                                                  RO bits are writeable from the DBI. */
@@ -10941,8 +12736,7 @@ typedef union
                                                                  RO bits are writeable from the DBI. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg559_s cn; */
+    } cn9;
 } bdk_pcieepx_cfg559_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG559(unsigned long a) __attribute__ ((pure, always_inline));

@@ -640,15 +640,28 @@ union bdk_pko_send_aura_s
  * region.
  * The resulting SCTP checksum would become incorrect in this case.
  *
- * If PKO_SEND_HDR_S[CKL3] is set, the bytes covered or inserted by the CRC must not overlap the
- * IPv4 header bytes (including any options). The IPv4 header bytes (and options) start at byte
- * PKO_SEND_HDR_S[L3PTR] in the packet in this case.
+ * If PKO_SEND_HDR_S[CKLE] is set, the bytes covered or inserted by the CRC must not
+ * overlap the inner IPv4 header bytes (including any options). The IPv4 header bytes
+ * (and options) start at byte PKO_SEND_HDR_S[LEPTR] in the packet in this case.
  *
- * If PKO_SEND_HDR_S[CKL4] is nonzero, the bytes covered or inserted by each individual
- * PKO_SEND_CRC_S CRC must entirely reside within the L4 payload. The L4 (TCP/UDP) header
- * starts at byte PKO_SEND_HDR_S[L4PTR] in the packet in this case, and the L4 payload follows
- * the L4 header. In this case, the PKO will appear to calculate the L4 checksum last, after it
- * has completed all PKO_SEND_CRC_S CRCs.
+ * If PKO_SEND_HDR_S[CKLE] is clear and PKO_SEND_HDR_S[CKL3] is set, the bytes covered
+ * or inserted by the CRC must not overlap the IPv4 header bytes (including any
+ * options). The IPv4 header bytes (and options) start at byte PKO_SEND_HDR_S[L3PTR] in
+ * the packet in this case.
+ *
+ * If PKO_SEND_HDR_S[CKLF] is nonzero, the bytes covered or inserted by each individual
+ * PKO_SEND_CRC_S CRC must entirely reside within the inner L4 payload. The L4
+ * (TCP/UDP) header starts at byte PKO_SEND_HDR_S[LFPTR] in the packet in this case,
+ * and the L4 payload follows the L4 header. In this case, the PKO will appear to
+ * calculate the inner L4 checksum last, after it has completed all PKO_SEND_CRC_S
+ * CRCs.
+ *
+ * If PKO_SEND_HDR_S[CKLF] is zero and PKO_SEND_HDR_S[CKL4] is nonzero, the bytes
+ * covered or inserted by each individual PKO_SEND_CRC_S CRC must entirely reside
+ * within the L4 payload. The L4 (TCP/UDP) header starts at byte PKO_SEND_HDR_S[L4PTR]
+ * in the packet in this case, and the L4 payload follows the L4 header. In this case,
+ * the PKO will appear to calculate the L4 checksum last, after it has completed all
+ * PKO_SEND_CRC_S CRCs.
  *
  * If the packet L2 or L3 header is to be marked, the bytes covered or inserted by the
  * PKO_SEND_CRC_S CRC must not overlap any of the relevant L2/L3 header bytes, including all
@@ -2078,7 +2091,7 @@ union bdk_pko_send_link_s
 
                                                                  When PKO_SEND_HDR_S[TOTAL]-priorbytes is larger than [SIZE], PKO fetches
                                                                  more packet data from the next segment described by the PKI_BUFLINK_S
-                                                                 that must reside in the 8 L2/DRAM bytes prior to [ADDR].
+                                                                 that must reside in the 16 L2/DRAM bytes prior to [ADDR].
 
                                                                  The sum of all PKO_SEND_IMM_S[SIZE], PKO_SEND_GATHER_S[SIZE], and
                                                                  PKO_SEND_LINK_S[SIZE] in the descriptor plus any PKI_BUFLINK_S[SIZE]
@@ -2100,7 +2113,7 @@ union bdk_pko_send_link_s
 
                                                                  When PKO_SEND_HDR_S[TOTAL]-priorbytes is larger than [SIZE], PKO fetches
                                                                  more packet data from the next segment described by the PKI_BUFLINK_S
-                                                                 that must reside in the 8 L2/DRAM bytes prior to [ADDR].
+                                                                 that must reside in the 16 L2/DRAM bytes prior to [ADDR].
 
                                                                  The sum of all PKO_SEND_IMM_S[SIZE], PKO_SEND_GATHER_S[SIZE], and
                                                                  PKO_SEND_LINK_S[SIZE] in the descriptor plus any PKI_BUFLINK_S[SIZE]
@@ -2153,7 +2166,7 @@ union bdk_pko_send_link_s
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send link. Enumerated by PKO_SENDSUBDC_E::LINK. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t addr                  : 64; /**< [127: 64] IOVA L2/DRAM address of the first byte of packet data in the segment. The 8
+        uint64_t addr                  : 64; /**< [127: 64] IOVA L2/DRAM address of the first byte of packet data in the segment. The 16
                                                                  bytes prior to [ADDR] must always be valid readable L2/DRAM locations, and must
                                                                  contain a valid PKI_BUFLINK_S if the packet has more than [SIZE] bytes (i.e. the
                                                                  PKI_BUFLINK_S must be valid if PKO_SEND_HDR_S[TOTAL] minus the sum of all
@@ -2164,7 +2177,7 @@ union bdk_pko_send_link_s
                                                                  structure that [ADDR] points to is big-endian, else little-endian.  The packet
                                                                  data pointed to is byte-invariant and endian settings do not matter. */
 #else /* Word 1 - Little Endian */
-        uint64_t addr                  : 64; /**< [127: 64] IOVA L2/DRAM address of the first byte of packet data in the segment. The 8
+        uint64_t addr                  : 64; /**< [127: 64] IOVA L2/DRAM address of the first byte of packet data in the segment. The 16
                                                                  bytes prior to [ADDR] must always be valid readable L2/DRAM locations, and must
                                                                  contain a valid PKI_BUFLINK_S if the packet has more than [SIZE] bytes (i.e. the
                                                                  PKI_BUFLINK_S must be valid if PKO_SEND_HDR_S[TOTAL] minus the sum of all
@@ -16097,7 +16110,7 @@ typedef union
                                                                    /                    \
                                                                    [KIND] [NCB_QUERY_RSP]  Description of [DEPTH]
                                                                  ------------------------------------------------------------------------------------------
-                                                                      X          1         Buffers. [DEPTH] is PKO_DQ()_WM_BUF_CNT[COUNT],
+                                                                      X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -16119,7 +16132,7 @@ typedef union
                                                                    /                    \
                                                                    [KIND] [NCB_QUERY_RSP]  Description of [DEPTH]
                                                                  ------------------------------------------------------------------------------------------
-                                                                      X          1         Buffers. [DEPTH] is PKO_DQ()_WM_BUF_CNT[COUNT],
+                                                                      X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -16179,7 +16192,7 @@ typedef union
                                                                    /                    \
                                                                    [KIND] [NCB_QUERY_RSP]  Description of [DEPTH]
                                                                  ------------------------------------------------------------------------------------------
-                                                                      X          1         Buffers. [DEPTH] is PKO_DQ()_WM_BUF_CNT[COUNT],
+                                                                      X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -16201,7 +16214,7 @@ typedef union
                                                                    /                    \
                                                                    [KIND] [NCB_QUERY_RSP]  Description of [DEPTH]
                                                                  ------------------------------------------------------------------------------------------
-                                                                      X          1         Buffers. [DEPTH] is PKO_DQ()_WM_BUF_CNT[COUNT],
+                                                                      X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -16260,7 +16273,7 @@ typedef union
                                                                    /                    \
                                                                    [KIND] [NCB_QUERY_RSP]  Description of [DEPTH]
                                                                  ------------------------------------------------------------------------------------------
-                                                                      X          1         Buffers. [DEPTH] is PKO_DQ()_WM_BUF_CNT[COUNT],
+                                                                      X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -16282,7 +16295,7 @@ typedef union
                                                                    /                    \
                                                                    [KIND] [NCB_QUERY_RSP]  Description of [DEPTH]
                                                                  ------------------------------------------------------------------------------------------
-                                                                      X          1         Buffers. [DEPTH] is PKO_DQ()_WM_BUF_CNT[COUNT],
+                                                                      X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
                                                                       0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
@@ -16566,7 +16579,7 @@ typedef union
         uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response.  Specifies what value is returned in the
                                                                  PKO_QUERY_RTN_S[DEPTH] field.  When set to '0', the value held in
                                                                  PKO_DQ()_WM_CNT[COUNT] is returned.  When set to '1' the value held
-                                                                 in PKO_DQ()_WM_BUF_CNT[COUNT] is returned. */
+                                                                 in PKO_VF()_DQ()_FC_STATUS[COUNT] is returned. */
         uint64_t enable                : 1;  /**< [ 50: 50](RAZ) Reserved. */
         uint64_t kind                  : 1;  /**< [ 49: 49](R/W) Selects the contents of PKO_DQ()_WM_CNT[COUNT].
                                                                  If [KIND] is clear, PKO_DQ()_WM_CNT[COUNT] is a byte count for the DQ - the
@@ -16587,7 +16600,7 @@ typedef union
         uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response.  Specifies what value is returned in the
                                                                  PKO_QUERY_RTN_S[DEPTH] field.  When set to '0', the value held in
                                                                  PKO_DQ()_WM_CNT[COUNT] is returned.  When set to '1' the value held
-                                                                 in PKO_DQ()_WM_BUF_CNT[COUNT] is returned. */
+                                                                 in PKO_VF()_DQ()_FC_STATUS[COUNT] is returned. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;

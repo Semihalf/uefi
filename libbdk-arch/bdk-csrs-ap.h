@@ -77,10 +77,8 @@ typedef union
 static inline uint64_t BDK_AP_ACTLR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ACTLR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=3)))
+    if ((a>=1)&&(a<=3))
         return 0x30001000100ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
-        return 0x30001000100ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_ACTLR_ELX", 1, a, 0, 0, 0);
 }
 
@@ -114,10 +112,8 @@ typedef union
 static inline uint64_t BDK_AP_AFSRX_ELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_AFSRX_ELX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=1) && ((b>=1)&&(b<=3))))
+    if ((a<=1) && ((b>=1)&&(b<=3)))
         return 0x30005010000ll + 0x100ll * ((a) & 0x1) + 0ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && ((b>=1)&&(b<=3))))
-        return 0x30005010000ll + 0x100ll * ((a) & 0x1) + 0x200000000ll * ((b) & 0x3);
     __bdk_csr_fatal("AP_AFSRX_ELX", 2, a, b, 0, 0);
 }
 
@@ -218,10 +214,8 @@ typedef union
 static inline uint64_t BDK_AP_AMAIR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_AMAIR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=3)))
+    if ((a>=1)&&(a<=3))
         return 0x3000a030000ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
-        return 0x3000a030000ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_AMAIR_ELX", 1, a, 0, 0, 0);
 }
 
@@ -7641,10 +7635,8 @@ typedef union
 static inline uint64_t BDK_AP_ELR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ELR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=3)))
+    if ((a>=1)&&(a<=3))
         return 0x30004000100ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
-        return 0x30004000100ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_ELR_ELX", 1, a, 0, 0, 0);
 }
 
@@ -7912,10 +7904,8 @@ typedef union
 static inline uint64_t BDK_AP_ESR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ESR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=3)))
+    if ((a>=1)&&(a<=3))
         return 0x30005020000ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
-        return 0x30005020000ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_ESR_ELX", 1, a, 0, 0, 0);
 }
 
@@ -7995,10 +7985,8 @@ typedef union
 static inline uint64_t BDK_AP_FAR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_FAR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=3)))
+    if ((a>=1)&&(a<=3))
         return 0x30006000000ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
-        return 0x30006000000ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_FAR_ELX", 1, a, 0, 0, 0);
 }
 
@@ -14105,10 +14093,8 @@ typedef union
 static inline uint64_t BDK_AP_MAIR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_MAIR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=3)))
+    if ((a>=1)&&(a<=3))
         return 0x3000a020000ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
-        return 0x3000a020000ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_MAIR_ELX", 1, a, 0, 0, 0);
 }
 
@@ -17445,10 +17431,8 @@ typedef union
 static inline uint64_t BDK_AP_RMR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_RMR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=2)))
+    if ((a>=1)&&(a<=2))
         return 0x3000c000200ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=2)))
-        return 0x3000c000200ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_RMR_ELX", 1, a, 0, 0, 0);
 }
 
@@ -17535,10 +17519,8 @@ typedef union
 static inline uint64_t BDK_AP_RVBAR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_RVBAR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=2)))
+    if ((a>=1)&&(a<=2))
         return 0x3000c000100ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=2)))
-        return 0x3000c000100ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_RVBAR_ELX", 1, a, 0, 0, 0);
 }
 
@@ -20116,10 +20098,8 @@ typedef union
 static inline uint64_t BDK_AP_SPSR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_SPSR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=3)))
+    if ((a>=1)&&(a<=3))
         return 0x30004000000ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
-        return 0x30004000000ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_SPSR_ELX", 1, a, 0, 0, 0);
 }
 
@@ -25088,10 +25068,8 @@ typedef union
 static inline uint64_t BDK_AP_VBAR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_VBAR_ELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=1)&&(a<=3)))
+    if ((a>=1)&&(a<=3))
         return 0x3000c000000ll + 0ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
-        return 0x3000c000000ll + 0x200000000ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_VBAR_ELX", 1, a, 0, 0, 0);
 }
 

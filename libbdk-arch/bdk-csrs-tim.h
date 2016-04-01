@@ -1336,13 +1336,13 @@ typedef union
                                                                  [EXPIRE_OFFSET] is unpredictable after TIM_RING()_CTL1[CLK_SRC] changes or
                                                                  TIM_RING()_CTL1[ENA] transitions from 1 to 0, and must be reprogrammed before
                                                                  (re-) setting TIM_RING()_CTL1[ENA]. */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions.
-                                                                 For every 64 entries in a bucket, the interval should be at least 1u. Minimal recommended
-                                                                 value is 1u. */
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions. Minimum value is
+                                                                 256. Minimum time which this interval is recommended to represent is 1 usec, or
+                                                                 1 usec for every 64 entries in the bucket. whichever is greater. */
 #else /* Word 0 - Little Endian */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions.
-                                                                 For every 64 entries in a bucket, the interval should be at least 1u. Minimal recommended
-                                                                 value is 1u. */
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions. Minimum value is
+                                                                 256. Minimum time which this interval is recommended to represent is 1 usec, or
+                                                                 1 usec for every 64 entries in the bucket. whichever is greater. */
         uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_VRING()_REL
                                                                  for the position relative to current time.
 
@@ -1784,25 +1784,13 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's TIM_VF()_MSIX_VEC()_ADDR, TIM_VF()_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of TIM_VF()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCVF_TIM_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCVF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
-                                                                 SECVEC was set. */
+        uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
+                                                                 PCCPF_TIM_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's TIM_VF()_MSIX_VEC()_ADDR, TIM_VF()_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of TIM_VF()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCVF_TIM_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCVF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
-                                                                 SECVEC was set. */
+        uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
+                                                                 PCCPF_TIM_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;

@@ -79,6 +79,8 @@ static inline uint64_t BDK_DTX_BCH_BCST_RSP_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x87e0feb88080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0feb88080ll;
     __bdk_csr_fatal("DTX_BCH_BCST_RSP", 0, 0, 0, 0, 0);
 }
 
@@ -125,6 +127,8 @@ static inline uint64_t BDK_DTX_BCH_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x87e0feb88060ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0feb88060ll;
     __bdk_csr_fatal("DTX_BCH_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -161,6 +165,8 @@ static inline uint64_t BDK_DTX_BCH_DATX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_BCH_DATX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0feb88040ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0feb88040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_BCH_DATX", 1, a, 0, 0, 0);
 }
@@ -199,6 +205,8 @@ static inline uint64_t BDK_DTX_BCH_ENAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x87e0feb88020ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0feb88020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_BCH_ENAX", 1, a, 0, 0, 0);
 }
 
@@ -233,6 +241,8 @@ static inline uint64_t BDK_DTX_BCH_SELX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_BCH_SELX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0feb88000ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0feb88000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_BCH_SELX", 1, a, 0, 0, 0);
 }

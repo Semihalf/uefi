@@ -2876,10 +2876,10 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <63> = Unused.
+                                                                 <62> = Limit data flow start in PLC.
+                                                                 <61> = Limit return of pointers from FPC back to PCE.
+                                                                 <60> = Limit unload flow start in PCE. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
@@ -2909,10 +2909,10 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <63> = Unused.
+                                                                 <62> = Limit data flow start in PLC.
+                                                                 <61> = Limit return of pointers from FPC back to PCE.
+                                                                 <60> = Limit unload flow start in PCE. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bp_test1_s cn; */
@@ -5551,6 +5551,43 @@ static inline uint64_t BDK_PKI_CONST3_FUNC(void)
 #define arguments_BDK_PKI_CONST3 -1,-1,-1,-1
 
 /**
+ * Register (NCB) pki_dbg_crdts
+ *
+ * INTERNAL: PKI Credit Count Debug Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_dbg_crdts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t x2p_crdts             : 6;  /**< [  5:  0](RO/H) PKI available credit counts that are not visible via OCLA debug. */
+#else /* Word 0 - Little Endian */
+        uint64_t x2p_crdts             : 6;  /**< [  5:  0](RO/H) PKI available credit counts that are not visible via OCLA debug. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_dbg_crdts_s cn; */
+} bdk_pki_dbg_crdts_t;
+
+#define BDK_PKI_DBG_CRDTS BDK_PKI_DBG_CRDTS_FUNC()
+static inline uint64_t BDK_PKI_DBG_CRDTS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_DBG_CRDTS_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000fff090ll;
+    __bdk_csr_fatal("PKI_DBG_CRDTS", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_DBG_CRDTS bdk_pki_dbg_crdts_t
+#define bustype_BDK_PKI_DBG_CRDTS BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_DBG_CRDTS "PKI_DBG_CRDTS"
+#define device_bar_BDK_PKI_DBG_CRDTS 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_DBG_CRDTS 0
+#define arguments_BDK_PKI_DBG_CRDTS -1,-1,-1,-1
+
+/**
  * Register (NCB) pki_dstat#_stat0
  *
  * PKI Packets Deep Statistic Registers
@@ -7882,6 +7919,59 @@ static inline uint64_t BDK_PKI_PBE_PCE_FLUSH_DETECT_FUNC(void)
 #define device_bar_BDK_PKI_PBE_PCE_FLUSH_DETECT 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PBE_PCE_FLUSH_DETECT 0
 #define arguments_BDK_PKI_PBE_PCE_FLUSH_DETECT -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_pbe_x2p_bp_inject
+ *
+ * INTERNAL: PKI PBE X2P Backpressure Injection Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pbe_x2p_bp_inject_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) Enable injection mode. For diagnostic use only.
+                                                                 If set, during X2P_BP cycling of backpressure information, the
+                                                                 PKI hardware will override a single channel's backpressure value
+                                                                 with [VALUE] during the X2P_BP transfer cycle defined by [CHANNEL]. */
+        uint64_t reserved_12_62        : 51;
+        uint64_t value                 : 1;  /**< [ 11: 11](R/W) Backpressure value. */
+        uint64_t channel               : 11; /**< [ 10:  0](R/W) [CHANNEL]<10:7> defines the CHAN_ID on the X2P_BP interface
+                                                                 that will be affected by this logic. The remaining bits of
+                                                                 [CHANNEL] define which channel within the targeted device
+                                                                 will have its backpressure value overridden with [VALUE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 11; /**< [ 10:  0](R/W) [CHANNEL]<10:7> defines the CHAN_ID on the X2P_BP interface
+                                                                 that will be affected by this logic. The remaining bits of
+                                                                 [CHANNEL] define which channel within the targeted device
+                                                                 will have its backpressure value overridden with [VALUE]. */
+        uint64_t value                 : 1;  /**< [ 11: 11](R/W) Backpressure value. */
+        uint64_t reserved_12_62        : 51;
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) Enable injection mode. For diagnostic use only.
+                                                                 If set, during X2P_BP cycling of backpressure information, the
+                                                                 PKI hardware will override a single channel's backpressure value
+                                                                 with [VALUE] during the X2P_BP transfer cycle defined by [CHANNEL]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pbe_x2p_bp_inject_s cn; */
+} bdk_pki_pbe_x2p_bp_inject_t;
+
+#define BDK_PKI_PBE_X2P_BP_INJECT BDK_PKI_PBE_X2P_BP_INJECT_FUNC()
+static inline uint64_t BDK_PKI_PBE_X2P_BP_INJECT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PBE_X2P_BP_INJECT_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000000280ll;
+    __bdk_csr_fatal("PKI_PBE_X2P_BP_INJECT", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PBE_X2P_BP_INJECT bdk_pki_pbe_x2p_bp_inject_t
+#define bustype_BDK_PKI_PBE_X2P_BP_INJECT BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PBE_X2P_BP_INJECT "PKI_PBE_X2P_BP_INJECT"
+#define device_bar_BDK_PKI_PBE_X2P_BP_INJECT 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PBE_X2P_BP_INJECT 0
+#define arguments_BDK_PKI_PBE_X2P_BP_INJECT -1,-1,-1,-1
 
 /**
  * Register (NCB) pki_pbe_xfr_inject
@@ -10871,23 +10961,31 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
-        uint64_t sop                   : 1;  /**< [ 33: 33](RAZ) X2P SOP signal. */
-        uint64_t eop                   : 1;  /**< [ 32: 32](RAZ) X2P EOP signal. */
+        uint64_t sop_busy              : 1;  /**< [ 33: 33](R/W/H) X2P SOP signal.
+                                                                 Internal:
+                                                                 X2P SOP signal for inject packet, when written.
+                                                                 On a read, if set, this bit indicates that X2P FIFO is full -
+                                                                 Do not inject new packet. */
+        uint64_t eop                   : 1;  /**< [ 32: 32](WO) X2P EOP signal. */
         uint64_t reserved_28_31        : 4;
-        uint64_t pnum                  : 12; /**< [ 27: 16](RAZ) X2P PNUM signal. */
+        uint64_t pnum                  : 12; /**< [ 27: 16](WO) X2P PNUM signal. */
         uint64_t reserved_14_15        : 2;
-        uint64_t pknd                  : 6;  /**< [ 13:  8](RAZ) X2P PKND signal. */
-        uint64_t perr                  : 4;  /**< [  7:  4](RAZ) X2P packet error signal. */
-        uint64_t bval                  : 4;  /**< [  3:  0](RAZ) X2P BVAL signal. */
+        uint64_t pknd                  : 6;  /**< [ 13:  8](WO) X2P PKND signal. */
+        uint64_t perr                  : 4;  /**< [  7:  4](WO) X2P packet error signal. */
+        uint64_t bval                  : 4;  /**< [  3:  0](WO) X2P BVAL signal. */
 #else /* Word 0 - Little Endian */
-        uint64_t bval                  : 4;  /**< [  3:  0](RAZ) X2P BVAL signal. */
-        uint64_t perr                  : 4;  /**< [  7:  4](RAZ) X2P packet error signal. */
-        uint64_t pknd                  : 6;  /**< [ 13:  8](RAZ) X2P PKND signal. */
+        uint64_t bval                  : 4;  /**< [  3:  0](WO) X2P BVAL signal. */
+        uint64_t perr                  : 4;  /**< [  7:  4](WO) X2P packet error signal. */
+        uint64_t pknd                  : 6;  /**< [ 13:  8](WO) X2P PKND signal. */
         uint64_t reserved_14_15        : 2;
-        uint64_t pnum                  : 12; /**< [ 27: 16](RAZ) X2P PNUM signal. */
+        uint64_t pnum                  : 12; /**< [ 27: 16](WO) X2P PNUM signal. */
         uint64_t reserved_28_31        : 4;
-        uint64_t eop                   : 1;  /**< [ 32: 32](RAZ) X2P EOP signal. */
-        uint64_t sop                   : 1;  /**< [ 33: 33](RAZ) X2P SOP signal. */
+        uint64_t eop                   : 1;  /**< [ 32: 32](WO) X2P EOP signal. */
+        uint64_t sop_busy              : 1;  /**< [ 33: 33](R/W/H) X2P SOP signal.
+                                                                 Internal:
+                                                                 X2P SOP signal for inject packet, when written.
+                                                                 On a read, if set, this bit indicates that X2P FIFO is full -
+                                                                 Do not inject new packet. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
@@ -10921,12 +11019,12 @@ typedef union
     struct bdk_pki_x2p_datx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RAZ) X2P data to insert.
+        uint64_t dat                   : 64; /**< [ 63:  0](WO) X2P data to insert.
                                                                  Internal:
                                                                  DAT0: Maps to the x2p big endian bus x2p.data<63:0>.
                                                                  DAT1: Maps to the x2p big endian bus x2p.data<127:64>. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RAZ) X2P data to insert.
+        uint64_t dat                   : 64; /**< [ 63:  0](WO) X2P data to insert.
                                                                  Internal:
                                                                  DAT0: Maps to the x2p big endian bus x2p.data<63:0>.
                                                                  DAT1: Maps to the x2p big endian bus x2p.data<127:64>. */
