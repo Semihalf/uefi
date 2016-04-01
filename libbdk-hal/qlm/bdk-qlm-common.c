@@ -1044,6 +1044,13 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
                 qlm++;
                 width -= 8;
             }
+            else if ((qlm_mode == BDK_QLM_MODE_PCIE_1X4) && (width > num_lanes))
+            {
+                /* PCIe x4 is a special case as the QLM config function
+                   actually configures both QLMs in one go */
+                qlm++;
+                width -= 4;
+            }
             else if (width >= num_lanes)
                 width -= num_lanes;
             else
