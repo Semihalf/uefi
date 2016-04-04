@@ -23,11 +23,12 @@ static void do_throttle(bdk_node_t node, int percent)
  */
 int bdk_vrm_initialize(bdk_node_t node)
 {
+    const int NUM_VRM = CAVIUM_IS_MODEL(CAVIUM_CN88XX) ? 2 : 1;
     /* Set the temperature for thermal trip */
     int temp_trip = bdk_config_get_int(BDK_CONFIG_VRM_TEMP_TRIP, node);
     if (temp_trip)
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < NUM_VRM; i++)
             BDK_CSR_MODIFY(c, node, BDK_VRMX_TRIP(i),
                 c.s.trip_level = temp_trip);
     }
@@ -50,6 +51,7 @@ int bdk_vrm_initialize(bdk_node_t node)
  */
 int bdk_vrm_poll(bdk_node_t node)
 {
+    const int NUM_VRM = CAVIUM_IS_MODEL(CAVIUM_CN88XX) ? 2 : 1;
     /* VRMX_TS_TEMP_CONV_RESULT[temp_corrected] has the lower two bits as a
        fractional part for better accuracy. FRACTIONAL represents the scale
        factor required to convert Celsius to the temp_corrected format */
@@ -61,7 +63,7 @@ int bdk_vrm_poll(bdk_node_t node)
     {
         /* Determine the max temperature based on all VRMs */
         int current_temp = -100 * FRACTIONAL;
-        for (int vrm = 0; vrm < 2; vrm++)
+        for (int vrm = 0; vrm < NUM_VRM; vrm++)
         {
             BDK_CSR_INIT(vrmx_misc_info, node, BDK_VRMX_MISC_INFO(vrm));
             /* Don't use the temperature result unless it is calibrated with
