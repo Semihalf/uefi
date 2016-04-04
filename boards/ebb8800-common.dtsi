@@ -113,6 +113,11 @@ cavium,bdk {
 	    1 = Diagnostics boot path */
 	//BDK-BOOT-PATH-OPTION = "0";
 
+	/* This is used by the boot apps to determine the next boot stage.
+	    e.g.:
+	      BDK-CONFIG-BOOT-NEXT-STAGE-INIT=/fatfs/cortina-app.bin */
+	//BDK-CONFIG-BOOT-NEXT-STAGE-%s = "";
+
 	/* BDK trace level. This is a bitmask of the enumeration defined in
 	bdk-trace.h. Each bit turns on tracing of a specific BDK
 	component. */
@@ -132,6 +137,21 @@ cavium,bdk {
 	Note EA is not supported on CN88XX pass 1.x, and is always
 	disabled. */
 	//PCIE-ENHANCED-ALLOCATION = "1";
+
+	/* Force CCPI lane reversal. This should be set for boards which
+	reverse the CCPI lanes between nodes. If lane 0 connects to lane
+	23, this option is needed. CN88XX pass 2.0 and higher automatically
+	detect lane reversal, so setting this is optional.
+	    0 = Automatically detect lane reversal, no lane reversal on
+	        CN88XX pass 1.x.
+	    1 = Force lane reversal, required on CN88XX pass 1.0 with CCPI
+	        lanes reversed. */
+	//CCPI-LANE-REVERSE = "0";
+
+	/* Cavium SKU for the chip. This is determined by early code and
+	passed to later software for display. This should not be set in
+	the input device tree, it will be ignored. */
+	//CHIP-SKU.NODE%d = "THUNDERX";
 
 	/* For Cavium evaluation boards, query the MCU for QLM setup
 	information. The MCU supplies a TWSI protocol for THUNDERX to
@@ -205,10 +225,17 @@ cavium,bdk {
 	training. */
 	//QLM-TUNING-TX-VBOOST.N%d.QLM%d.LANE%d = "-1";
 
-	/* Speed to use for DRAM in MT/s. Zero means use the factory
-	default. Hardware may adjust this value slightly to improve
-	DRAM stability, so scope measurements may not exactly match
-	the frequency with MT/s.
+	/* Speed grade to use for DRAM in MT/s. Hardware may adjust this value
+	slightly to improve DRAM stability, so scope measurements may not
+	exactly match the frequency with MT/s. The Cavium supported speed
+	grades are:
+	    666 MT/s
+	    800 MT/s
+	    1066 MT/s
+	    1333 MT/s
+	    1600 MT/s
+	    1866 MT/s
+	    2133 MT/s (DDR4 only)
 	Parameters:
 	    N#: Parameter can be different for each node. This specifies
 	        which node the value is for. Node must be 0-3. Optional. */
@@ -244,10 +271,10 @@ cavium,bdk {
 	control of the USB power and it is always on. */
 	//USB-PWR-GPIO.N%d.PORT%d = "-1";
 
-        /* Specify the polarity of a THUNDERX GPIO used to control power for
-        a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this
-        GPIO low. The default value drives the GPIO high. */
-        //USB-PWR-GPIO-POLARITY.N%d.PORT%d = "1";
+	/* Specify the polarity of a THUNDERX GPIO used to control power for
+	a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this
+	GPIO low. The default value drives the GPIO high. */
+	//USB-PWR-GPIO-POLARITY.N%d.PORT%d = "1";
 
 	/* Number of reading with no errors to signal the start of an
 	eye. The default value should be good for most cases. */
@@ -260,6 +287,60 @@ cavium,bdk {
 	/* Time to settle after each movement in microseconds. The
 	default value should be good for most cases. */
 	//QLM-EYE-SETTLE-TIME = "0x32";
+
+	/* Reference clock in Hz. CN88XX drives data on rising edges of this
+	clock, and the target latches data on the falling edges of this
+	clock. On reset CN88XX tristates SGPIO_SCLK. When not exchanging
+	a bit stream CN88XX keeps SGPIO_SCLK low.
+	  Min: 128 Hz
+	  Max: 100 kHz */
+	//SGPIO-SCLOCK-FREQ.N%d = "0x2710";
+
+	/* Output pin number for SGPIO controller power control. */
+	//SGPIO-PIN-POWER.N%d = "-1";
+
+	/* Output pin number for SGPIO SCLOCK signal. */
+	//SGPIO-PIN-SCLOCK.N%d = "-1";
+
+	/* Output pin number for SGPIO SLOAD signal. */
+	//SGPIO-PIN-SLOAD.N%d = "-1";
+
+	/* Output pin number for SGPIO SDATAOUT[n] signal. n = 0..3. */
+	//SGPIO-PIN-SDATAOUT.N%d.D%d = "-1";
+
+	/* Temperature where THERMAL_TRIP_N is asserted. When the chip reaches
+	this temperature THERMAL_TRIP_N will assert, signalling the board
+	to emergency power off. The default value is the Cavium recommended
+	maximum temperature of the chip. Values between 0 and 110 degrees
+	Celsius. */
+	//VRM-TEMP-TRIP.N%d = "0x6e";
+
+	/* Temperature where maximum throttling is applied to the chip. Chip
+	performance will be greatly reduced to keep the temperature below
+	thermal trip (VRM-TEMP-TRIP). The default value is the Cavium
+	recommended maximum operating temperature of the chip. Values
+	between 0 and 110 degrees Celsius. */
+	//VRM-TEMP-HIGH.N%d = "0x60";
+
+	/* Temperature where minimum throttling is applied to the chip. Chip
+	performance will be maximized at or below this temperature. The
+	throttling level will be set to VRM-THROTTLE-NORMAL. The default
+	value is the Cavium recommended operating temperature of the chip.
+	Values between 0 and 110 degrees Celsius. */
+	//VRM-TEMP-LOW.N%d = "0x5e";
+
+	/* Throttle level of the chip when operating normally. Temperatures
+	at or below VRM-TEMP-LOW will use this throttling level. The default
+	level (70%), allows good performance while still reducing power under
+	heavy loads. Value is a percentage between 1 and 100. */
+	//VRM-THROTTLE-NORMAL.N%d = "0x46";
+
+	/* Throttle level of the chip is overheating. Temperatures at or
+	above VRM-TEMP-HIGH will use this throttling level. The default
+	level (5%), allows for forward progress while still reducing power.
+	Value is a percentage between 1 and 100. Setting a value of 100
+	disables dynamic throttling (not recommended). */
+	//VRM-THROTTLE-THERM.N%d = "5";
 
 	/**********************************************************************
 	 * The entries below are currently not used by the BDK. They are being

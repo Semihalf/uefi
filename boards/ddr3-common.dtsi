@@ -1,9 +1,16 @@
 / {
 cavium,bdk {
-	/* Speed to use for DRAM in MT/s. Zero means use the factory
-	default. Hardware may adjust this value slightly to improve
-	DRAM stability, so scope measurements may not exactly match
-	the frequency with MT/s.
+	/* Speed grade to use for DRAM in MT/s. Hardware may adjust this value
+	slightly to improve DRAM stability, so scope measurements may not
+	exactly match the frequency with MT/s. The Cavium supported speed
+	grades are:
+	    666 MT/s
+	    800 MT/s
+	    1066 MT/s
+	    1333 MT/s
+	    1600 MT/s
+	    1866 MT/s
+	    2133 MT/s (DDR4 only)
 	Parameters:
 	    N#: Parameter can be different for each node. This specifies
 	        which node the value is for. Node must be 0-3. Optional. */
@@ -718,12 +725,19 @@ cavium,bdk {
 	        which node the value is for. Node must be 0-3. Optional. */
 	//DDR-CONFIG-CUSTOM-DLL-READ-OFFSET.BYTE%d.LMC%d.N%d = "0";
 
-	/* Specify the debug logging level during DRAM initialization. Zero
-	disables debug logging. The possible debug levels are:
+	/* Choose the debug logging level used during DRAM initialization.
+	Zero disables debug logging. The possible debug levels are:
 	    0: Off, no logging
-	    1: Logging of initialization at a normal detail level
-	    2: Trace each initialization sequence
-	    3: Trace every DRAM controller register write */
+	    1: Logging of DRAM initialization at a normal detail level
+	    2: Logging of DRAM initialization at FAE detail level
+	    3: Logging of DRAM initialization at TME detail level
+	    4: Logging of DRAM initialization at DEV detail level
+	    5: Logging of DRAM initialization at DEV2 detail level
+	    6: Logging of DRAM initialization at DEV3 detail level
+	    7: Logging of DRAM initialization at DEV4 detail level
+	Add in the following for special trace features.
+	   16: Trace specialized DRAM controller sequences.
+	   32: Trace every DRAM controller register write. */
 	//DDR-VERBOSE = "0";
 
 	/* Run a short DRAM test after DRAM is initialized as quick check
