@@ -56,16 +56,11 @@ typedef uint64_t EFI_PHYSICAL_ADDRESS;
   (((a) < 0) ? (-(a)) : (a))
 #endif
 
-#if ! defined(DEBUG)
-#define DEBUG(x...) 
-#endif
+
 # if !defined(MT_DEBUG)
 #define MT_DEBUG(fmt, args...) printf(fmt , ## args) 
 #endif
-
-#if defined(MT_DO_DEBUG) && (MT_DO_DEBUG)
-#	undef DEBUG
-#	if ! defined(EFI_D_INIT)
+#if ! defined(EFI_D_INIT)
 #	define EFI_D_INIT        0x00000001          // Initialization style messages
 #	define EFI_D_WARN        0x00000002          // Warnings
 #	define EFI_D_LOAD        0x00000004          // Load events
@@ -82,27 +77,26 @@ typedef uint64_t EFI_PHYSICAL_ADDRESS;
 #	define EFI_D_EVENT       0x00080000          // Event messages
 #	define EFI_D_VERBOSE     0x00400000          // Detailed debug messages that may significantly impact boot performance
 #	define EFI_D_ERROR       0x80000000          // Error
-#	endif
+#endif
+
+const char* debuglvl2s(uint32_t lvl);
 
 #define _DEBUG_INNER(lvl, fmt, ...) \
-    if (lvl & (EFI_D_WARN | EFI_D_ERROR | EFI_D_INFO)) {  \
-    printf("%s:%d@%x " fmt, __FILE__, __LINE__, lvl , ##__VA_ARGS__);\
+    if (lvl & (EFI_D_WARN | EFI_D_ERROR)) {  \
+        printf("USB_XHCI: %s:%d %s " fmt, __FILE__, __LINE__, debuglvl2s(lvl) , ##__VA_ARGS__); \
+    } else {                                                            \
+        BDK_TRACE(USB_XHCI,"%s:%d %s " fmt, __FILE__, __LINE__, debuglvl2s(lvl) , ##__VA_ARGS__); \
     }
-
 
 #define DEBUG(x) do {\
         _DEBUG_INNER x ;                        \
     } while(0)
 
-#define ASSERT(x) if (!(x)){ printf("%s:%d ASSERT Failed\n", __FUNCTION__, __LINE__);}
-#endif /* defined(MT_DO_DEBUG) && (MT_DO_DEBUG) */
+#define ASSERT(x) if (!(x)){ printf("\n%s:%d ASSERT Failed\n", __FUNCTION__, __LINE__);}
 
-#if ! defined(ASSERT) 
-#define ASSERT(x...) 
-//#define ASSERT(x) if (!(x)){ printf("%s:%d ASSERT Failed\n", __FUNCTION__, __LINE__);}
-#endif 
+
 #if ! defined(CAVIUM_NOTYET)
-#define CAVIUM_NOTYET(x...) printf("%s:%d %s "  #x " not yet there\n", __FILE__, __LINE__, __FUNCTION__)
+#define CAVIUM_NOTYET(x...) printf("NOTYET: " #x "%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__)
 #endif
 #define NOT_CAVIUM(x...)
 

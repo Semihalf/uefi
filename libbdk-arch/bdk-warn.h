@@ -43,6 +43,7 @@ typedef enum
     BDK_TRACE_ENABLE_DEVICE_SCAN,       /* ECAM based device scanning detail */
     BDK_TRACE_ENABLE_NIC,               /* Virtual NIC */
     BDK_TRACE_ENABLE_FDT_OS,            /* Device tree passed to OS */
+    BDK_TRACE_ENABLE_USB_XHCI,          /* USB XHCI block */
 } bdk_trace_enable_t;
 
 /* See bdk-config.c to change the trace level for before config files are loaded */

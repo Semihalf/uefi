@@ -833,7 +833,7 @@ UsbIoPortReset (
 
   if (EFI_ERROR (Status)) {
     DEBUG (( EFI_D_ERROR, "UsbIoPortReset: failed to reset hub port %d@hub  %d, %d \n",
-                Dev->ParentPort, Dev->ParentAddr, Status));
+                Dev->ParentPort, Dev->ParentAddr, (int) Status));
 
     goto ON_EXIT;
   }
@@ -859,7 +859,7 @@ UsbIoPortReset (
     // It may fail due to device disconnection or other reasons.
     //
     DEBUG (( EFI_D_ERROR, "UsbIoPortReset: failed to set address for device %d - %d\n",
-                Dev->Address, Status));
+                Dev->Address, (int) Status));
 
     goto ON_EXIT;
   }
@@ -875,7 +875,7 @@ UsbIoPortReset (
 
     if (EFI_ERROR (Status)) {
       DEBUG (( EFI_D_ERROR, "UsbIoPortReset: failed to set configure for device %d - %d\n",
-                  Dev->Address, Status));
+                  Dev->Address, (int) Status));
     }
   }
 
@@ -930,7 +930,7 @@ UsbBusBuildProtocol (
                   );
   
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to open device path %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to open device path %d\n", (int) Status));
 
     FreePool (UsbBus);
     return Status;
@@ -964,7 +964,7 @@ UsbBusBuildProtocol (
                    );
 
   if (EFI_ERROR (Status) && EFI_ERROR (Status2)) {
-    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to open USB_HC/USB2_HC %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to open USB_HC/USB2_HC %d\n", (int) Status));
 
     Status = EFI_DEVICE_ERROR;
     goto CLOSE_HC;
@@ -999,7 +999,7 @@ Status = EFI_SUCCESS;
                   );
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to install bus protocol %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to install bus protocol %d\n", (int) Status));
     goto CLOSE_HC;
   }
 #else
@@ -1050,7 +1050,7 @@ Status = EFI_SUCCESS;
   Status                  = mUsbRootHubApi.Init (RootIf);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to init root hub %d\n", Status));
+    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to init root hub %d\n", (int) Status));
     goto FREE_ROOTHUB;
   }
 
@@ -1099,7 +1099,7 @@ CLOSE_HC:
 #endif
   FreePool (UsbBus);
 
-  DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to start bus driver %d\n", Status));
+  DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to start bus driver %d\n", (int) Status));
   return Status;
 }
 

@@ -499,11 +499,11 @@ const char* bdk_usb_get_test_mode_string(bdk_usb_test_t test_mode)
         case BDK_USB_HXCI_INIT:
             return "Initilize host controller";
         case BDK_USB_HXCI_LIST_ADDRESSES:
-            return "List Interface Addresses";
+            return "List USB interfaces";
     	case BDK_USB_HXCI_POLL_STATUS:
             return "USB hxci poll root hub status";           
     	case BDK_USB_HXCI_SPARE:
-            return "USB hxci spare debug";           
+            return "USB xhci spare debug";           
         case BDK_USB_TEST_USB2_LAST:
             break;
     }

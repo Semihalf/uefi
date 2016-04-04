@@ -469,3 +469,19 @@ EFI_DEVICE_PATH_PROTOCOL *
 
   return NewDevicePath;
 }
+
+/*
+** Various value-to-string convertors
+*/
+const char* debuglvl2s(uint32_t lvl)
+{
+    switch (lvl)
+    {
+    default: break;
+    case EFI_D_WARN: return "WARN";
+    case EFI_D_EVENT: return "EVENT";
+    case EFI_D_INFO: return "INFO";
+    case EFI_D_ERROR: return "ERROR";
+    }
+    return "????";
+}

@@ -12,7 +12,6 @@ THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
 WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 **/
-#define MT_DO_DEBUG 0
 #include <bdk.h>
 #include "Xhci.h"
 #include <malloc.h> // for memalign
@@ -835,12 +834,13 @@ XhcCheckUrbResult (
         goto EXIT;
 
       case TRB_COMPLETION_SHORT_PACKET:
-      case TRB_COMPLETION_SUCCESS:
         /* do not  print short packets for BULK EP since this is a normal situation */
-        if (EvtTrb->Completecode == TRB_COMPLETION_SHORT_PACKET && Urb->Ep.Type != XHC_BULK_TRANSFER) {
-            DEBUG ((EFI_D_ERROR, "XhcCheckUrbResult: short packet happens!\n"));
+        if (/* EvtTrb->Completecode == TRB_COMPLETION_SHORT_PACKET &&  */Urb->Ep.Type != XHC_BULK_TRANSFER) {
+            DEBUG ((EFI_D_ERROR, "XhcCheckUrbResult: short packet happens! Type %u\n",
+                    (unsigned) Urb->Ep.Type  ));
         }
-
+        /* Fall through */
+      case TRB_COMPLETION_SUCCESS:
         TRBType = (UINT8) (TRBPtr->Type);
         if ((TRBType == TRB_TYPE_DATA_STAGE) ||
             (TRBType == TRB_TYPE_NORMAL) ||
@@ -905,6 +905,7 @@ EXIT:
       uahc_erdp.s.ehb = 1;
       BDK_CSR_WRITE(Xhc->node, BDK_USBHX_UAHC_ERDPX(Xhc->usb_port,0), uahc_erdp.u);
   }
+  BDK_WMB;
 #endif
   
   return Urb->Finished;
@@ -1164,10 +1165,16 @@ void CreateTransferRing (
 {
     void * buf;
     LINK_TRB              *EndTrb;
-    
+#if defined(notdef_cavium)
+  Buf = UsbHcAllocateMem (Xhc->MemPool, sizeof (TRB_TEMPLATE) * TrbNum);
+  ASSERT (Buf != NULL);
+  ASSERT (((UINTN) Buf & 0x3F) == 0);
+  ZeroMem (Buf, sizeof (TRB_TEMPLATE) * TrbNum);
+#else    
     buf = memalign(BDK_CACHE_LINE_SIZE, sizeof (TRB_TEMPLATE) * TrbNum);
-    if (NULL == buf) return;
+    ASSERT(buf != NULL);
     bzero(buf,sizeof (TRB_TEMPLATE) * TrbNum);
+#endif
     TransferRing->RingSeg0     = buf;
     TransferRing->TrbNumber    = TrbNum;
     TransferRing->RingEnqueue  = (TRB_TEMPLATE *) TransferRing->RingSeg0;
@@ -1207,11 +1214,18 @@ CreateEventRing (
 {
     void *buf;
     EVENT_RING_SEG_TABLE_ENTRY  *ERSTBase;
-    
+#if defined(notdef_cavium)  
+  Size = sizeof (TRB_TEMPLATE) * EVENT_RING_TRB_NUMBER;
+  Buf = UsbHcAllocateMem (Xhc->MemPool, Size);
+  ASSERT (Buf != NULL);
+  ASSERT (((UINTN) Buf & 0x3F) == 0);
+  ZeroMem (Buf, Size);
+#else
     uint64_t size =  sizeof (TRB_TEMPLATE) * EVENT_RING_TRB_NUMBER;
     buf = memalign(BDK_CACHE_LINE_SIZE,size);
-    if (NULL == buf) return;
+    ASSERT (NULL != buf);
     bzero(buf,size);
+#endif
     EventRing->EventRingSeg0    = buf;
     EventRing->TrbNumber        = EVENT_RING_TRB_NUMBER;
     EventRing->EventRingDequeue = (TRB_TEMPLATE *) EventRing->EventRingSeg0;
