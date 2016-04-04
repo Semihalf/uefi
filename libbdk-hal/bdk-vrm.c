@@ -8,8 +8,9 @@
  */
 static void do_throttle(bdk_node_t node, int percent)
 {
+    const int NUM_IOBN = CAVIUM_IS_MODEL(CAVIUM_CN81XX) ? 1 : 2;
     /* Apply the new throttle level */
-    for (int iobn = 0; iobn < 2; iobn++)
+    for (int iobn = 0; iobn < NUM_IOBN; iobn++)
     {
         BDK_CSR_MODIFY(c, node, BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(iobn),
             c.s.pwr_setting = 65535 * percent / 100);
