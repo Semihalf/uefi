@@ -96,6 +96,20 @@ static int qlm_errata_gser_26150(bdk_node_t node, int qlm, int baud_mhz)
         c.s.pcs_sds_pll_vco_amp = 0);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_MISC_CONFIG_1(qlm),
         c.s.pcs_sds_trim_chp_reg = 0x2);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_1(qlm),
+        c.s.cfg_pll_ctrl_en = 1);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_2(qlm),
+        c.s.pcs_sds_pll_counter_resetn = 0);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_0(qlm),
+        c.s.pcs_sds_pll_strt_cal_b = 0);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_2(qlm),
+        c.s.pcs_sds_pll_counter_resetn = 1);
+    wait_usec(10);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_0(qlm),
+        c.s.pcs_sds_pll_strt_cal_b = 1);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_1(qlm),
+        c.s.cfg_pll_ctrl_en = 0);
+    wait_usec(10000);
 
     return 0;
 }
