@@ -79,15 +79,9 @@ uint64_t bdk_mpi_transfer(bdk_node_t node, int chip_select,
 
     BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
     if (mpi_cfg.s.lsbfirst)
-    {
-        for (int i=0; i<tx_count; i++)
-            BDK_CSR_WRITE(node, BDK_MPI_DATX(i), (tx_data >> (i*8)) & 0xff);
-    }
+        BDK_CSR_WRITE(node, BDK_MPI_WIDE_DAT, bdk_cpu_to_le64(tx_data));
     else
-    {
-        for (int i=0; i<tx_count; i++)
-            BDK_CSR_WRITE(node, BDK_MPI_DATX(i), (tx_data >> ((tx_count-i-1)*8)) & 0xff);
-    }
+        BDK_CSR_WRITE(node, BDK_MPI_WIDE_DAT, bdk_cpu_to_be64(tx_data) >> ((8 - tx_count) * 8));
 
     /* Do the operation */
     BDK_CSR_DEFINE(mpi_tx, BDK_MPI_TX);
@@ -105,13 +99,9 @@ uint64_t bdk_mpi_transfer(bdk_node_t node, int chip_select,
         return -1;
     }
 
-    uint64_t result = 0;
     /* Read out the shift data */
-    for (int i=0; i<rx_count; i++)
-    {
-        result <<= 8;
-        result |= BDK_CSR_READ(node, BDK_MPI_DATX(tx_count + i));
-    }
-    return result;
+    uint64_t result = BDK_CSR_READ(node, BDK_MPI_WIDE_DAT) >> (tx_count * 8);
+    result &= bdk_build_mask(rx_count * 8);
+    return bdk_cpu_to_be64(result);
 }
 
