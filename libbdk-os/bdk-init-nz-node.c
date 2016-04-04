@@ -83,7 +83,7 @@ static int qlm_errata_gser_26150(bdk_node_t node, int qlm, int baud_mhz)
 {
     if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
         return 0;
-    if (baud_mhz != 10312)
+    if (baud_mhz < 8000)
         return 0;
 
     /* (GSER-26150) 10 Gb temperature excursions can cause lock failure */
@@ -139,13 +139,13 @@ static int qlm_errata_gser_26150(bdk_node_t node, int qlm, int baud_mhz)
  */
 static int qlm_errata_gser_27140(bdk_node_t node, int qlm, int baud_mhz)
 {
-    if (baud_mhz != 10312)
-        return 0;
-
     /* I. For each GSER QLM: */
     /* Workaround GSER-27140: */
     /* (1) GSER-26150 = Model checks are in the function */
     qlm_errata_gser_26150(node, qlm, baud_mhz);
+    if (baud_mhz != 10312)
+        return 0;
+
     /* (2) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MAX_FINE] = 0xE */
     /* (3) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MIN_FINE] = 0x8 */
     /* (4) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_STEP_FINE] = 0x2 */
