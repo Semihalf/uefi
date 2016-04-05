@@ -1391,3 +1391,41 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
     }
 }
 
+/**
+ * Check if a specific lane is using KR training. This is used by low level GSER
+ * code to remember which QLMs and lanes need to support KR training for BGX. The
+ * hardware doesn't have a bit set aside to record this, so we repurpose the
+ * register GSERX_SCRATCH.
+ *
+ * @param node   Node to check
+ * @param qlm    QLM to check
+ * @param lane   Lane to check
+ *
+ * @return True if this lane uses KR with BGX, false otherwise
+ */
+bool __bdk_qlm_is_lane_kr(bdk_node_t node, int qlm, int lane)
+{
+    uint64_t mask = BDK_CSR_READ(node, BDK_GSERX_SCRATCH(qlm));
+    return 1 & (mask >> lane);
+}
+
+/**
+ * Set if a specific lane is using KR training. This is used by low level GSER
+ * code to remember which QLMs and lanes need to support KR training for BGX. The
+ * hardware doesn't have a bit set aside to record this, so we repurpose the
+ * register GSERX_SCRATCH.
+ *
+ * @param node   Node to set
+ * @param qlm    QLM to set
+ * @param lane   Lane to set
+ * @param is_kr  KR (true) or XFI/XLAUI (false)
+ */
+void __bdk_qlm_set_lane_kr(bdk_node_t node, int qlm, int lane, bool is_kr)
+{
+    uint64_t mask = BDK_CSR_READ(node, BDK_GSERX_SCRATCH(qlm));
+    if (is_kr)
+        mask |= 1 << lane;
+    else
+        mask &= ~(1 << lane);
+    BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(qlm), mask);
+}

@@ -208,4 +208,31 @@ extern void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int b
  */
 extern int __bdk_qlm_eye_capture_cn8xxx(bdk_node_t node, int qlm, int lane, bdk_qlm_eye_t *eye_data);
 
+/**
+ * Check if a specific lane is using KR training. This is used by low level GSER
+ * code to remember which QLMs and lanes need to support KR training for BGX. The
+ * hardware doesn't have a bit set aside to record this, so we repurpose the
+ * register GSERX_SCRATCH.
+ *
+ * @param node   Node to check
+ * @param qlm    QLM to check
+ * @param lane   Lane to check
+ *
+ * @return True if this lane uses KR with BGX, false otherwise
+ */
+extern bool __bdk_qlm_is_lane_kr(bdk_node_t node, int qlm, int lane);
+
+/**
+ * Set if a specific lane is using KR training. This is used by low level GSER
+ * code to remember which QLMs and lanes need to support KR training for BGX. The
+ * hardware doesn't have a bit set aside to record this, so we repurpose the
+ * register GSERX_SCRATCH.
+ *
+ * @param node   Node to set
+ * @param qlm    QLM to set
+ * @param lane   Lane to set
+ * @param is_kr  KR (true) or XFI/XLAUI (false)
+ */
+extern void __bdk_qlm_set_lane_kr(bdk_node_t node, int qlm, int lane, bool is_kr);
+
 #endif /* __BDK_QLM_COMMON_H__ */

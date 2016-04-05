@@ -197,19 +197,19 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                 return BDK_QLM_MODE_DISABLED;
             int bgx_block = qlm;
             BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx_block, 0));
-            BDK_CSR_INIT(txdir_ctrl_1, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm));
+            bool is_kr = __bdk_qlm_is_lane_kr(node, qlm, 0);
             switch (cmrx_config.s.lmac_type)
             {
                 case 0x0: return BDK_QLM_MODE_SGMII_4X1;
                 case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differentiate between XAUI and DXAUI */
                 case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
                 case 0x3:
-                    if (txdir_ctrl_1.s.rx_precorr_chg_dir)
+                    if (is_kr)
                         return BDK_QLM_MODE_10G_KR_4X1;
                     else
                         return BDK_QLM_MODE_XFI_4X1;
                 case 0x4:
-                    if (txdir_ctrl_1.s.rx_precorr_chg_dir)
+                    if (is_kr)
                         return BDK_QLM_MODE_40G_KR4_1X4;
                     else
                         return BDK_QLM_MODE_XLAUI_1X4;
@@ -1129,8 +1129,16 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* Errata (GSER-26636) KR training coefficient update inverted. As of pass 2
        this is the hardware default. It doesn't hurt to write it anyway */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
-        c.s.rx_precorr_chg_dir = kr_mode;
-        c.s.rx_tap1_chg_dir = kr_mode);
+        c.s.rx_precorr_chg_dir = 1;
+        c.s.rx_tap1_chg_dir = 1);
+
+    /* Remember which lanes are using KR over BGX */
+    if (is_bgx)
+    {
+        int num_lanes = bdk_qlm_get_lanes(node, qlm);
+        for (int lane = 0; lane < num_lanes; lane++)
+            __bdk_qlm_set_lane_kr(node, qlm, lane, kr_mode);
+    }
 
     if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
