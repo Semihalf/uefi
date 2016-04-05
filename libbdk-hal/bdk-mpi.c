@@ -100,8 +100,9 @@ uint64_t bdk_mpi_transfer(bdk_node_t node, int chip_select,
     }
 
     /* Read out the shift data */
-    uint64_t result = BDK_CSR_READ(node, BDK_MPI_WIDE_DAT) >> (tx_count * 8);
+    uint64_t result = bdk_cpu_to_be64(BDK_CSR_READ(node, BDK_MPI_WIDE_DAT));
+    result >>= (8 - tx_count - rx_count) * 8;
     result &= bdk_build_mask(rx_count * 8);
-    return bdk_cpu_to_be64(result);
+    return result;
 }
 
