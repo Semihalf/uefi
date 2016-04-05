@@ -255,8 +255,9 @@ static int qlm_errata_gser_25992(bdk_node_t node, int qlm, int baud_mhz)
  * Training may not update PHY Tx Taps. This function is not static
  * so we can share it with BGX KR
  * Applies to:
- *     CN88XX pass 1.x, 2.x
+ *     CN88XX pass 1.x, 2.0, 2.1
  * Fixed in hardware:
+ *     CN88XX pass 2.2 and higher
  *     CN81XX
  *     CN83XX
  *
@@ -633,7 +634,10 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
                         BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), trn_ld.u);
                     }
                     /* Toggle Toggle Tx Coeff Req override to force an update */
-                    __bdk_qlm_errata_gser_27882(node, ccpi_qlm + 8, lane & 3);
+                    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) ||
+                        CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_0) ||
+                        CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_1))
+                        __bdk_qlm_errata_gser_27882(node, ccpi_qlm + 8, lane & 3);
 
                     if (ccpi_trace)
                     {

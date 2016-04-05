@@ -29,6 +29,8 @@ typedef struct
     uint64_t    restart_auto_neg; /* Time we last restarted auto-neg. Ued to make sure we give auto-neg enough time */
 } bgx_priv_t;
 
+static uint64_t kr_lanes[BDK_NUMA_MAX_NODES] = { 0, };
+
 /**
  * Create the private structure needed by BGX
  *
@@ -302,6 +304,47 @@ static int if_num_ports(bdk_node_t node, int interface)
 }
 
 /**
+ * Errata GSER-27882 -GSER 10GBASE-KR Transmit Equalizer
+ * Training may not update PHY Tx Taps. This function is not static
+ * so we can share it with BGX KR
+ * Applies to:
+ *     CN88XX pass 1.x, 2.0, 2.1
+ * Fixed in hardware:
+ *     CN88XX pass 2.2 and higher
+ *     CN81XX
+ *     CN83XX
+ *
+ * @param node   Node to apply errata fix for
+ * @param qlm    QLM to apply errata fix to
+ * @param lane
+ *
+ * @return Zero on success, negative on failure
+ */
+static void kr_monitor_27882(int unused0, void *unused1)
+{
+    bdk_node_t node = bdk_numa_local();
+    BDK_TRACE(BGX, "Node %d: Started KR poll thread for GSER-27882\n", node);
+    /* Loop forever checking polling KR QLM lanes */
+    while (true)
+    {
+        /* Poll every 1ms */
+        bdk_wait_usec(1000);
+        /* Force parameter update on all KR lanes */
+        uint64_t lanes = kr_lanes[node];
+        while (lanes)
+        {
+            /* Get next lane */
+            int lane = __builtin_ffsl(lanes) - 1;
+            /* Force the update */
+            extern int __bdk_qlm_errata_gser_27882(bdk_node_t node, int qlm, int lane);
+            __bdk_qlm_errata_gser_27882(node, lane >> 2, lane & 3);
+            /* Mark this lane as visited */
+            lanes &= ~(1ull << lane);
+        }
+    }
+}
+
+/**
  * Perform initialization of the BGX required before use. This should only be
  * called once for each BGX. Before this is called, the mode of
  * the SERDES must be set by bdk_qlm_set_mode().
@@ -480,6 +523,28 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
        used that expect "Common running disparity". */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(handle->interface, handle->index),
         c.s.intlv_rdisp = 1);
+
+    /* Errata GSER-27882 -GSER 10GBASE-KR Transmit Equalizer
+       Applies to CN88XX pass 1.x, 2.0, and 2.1 */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) ||
+        CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_0) ||
+        CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_1))
+    {
+        /* We need to poll lanes using KR training */
+        if (priv->use_training)
+        {
+            BDK_TRACE(BGX, "%s: Needs KR poll for GSER-27882\n", handle->name);
+            /* Start a thread for polling as soon as one BGX needs it */
+            bool need_thread_start = (kr_lanes[handle->node] == 0);
+            /* Remember which lanes to poll */
+            int lane_mask = bdk_if_get_lane_mask(handle);
+            kr_lanes[handle->node] |= lane_mask << (qlm * 4);
+            /* Start the poll thread if needed */
+            if (need_thread_start &&
+                bdk_thread_create(handle->node, 0, kr_monitor_27882, 0, NULL, 0))
+                bdk_error("%s: Failed to create KR monitor thread\n", handle->name);
+        }
+    }
 
     return 0;
 }
