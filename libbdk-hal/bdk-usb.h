@@ -20,7 +20,7 @@ typedef enum
     BDK_USB_HXCI_INIT, 
     BDK_USB_HXCI_LIST_ADDRESSES, 
     BDK_USB_HXCI_POLL_STATUS, 
-    BDK_USB_HXCI_SPARE,
+    BDK_USB_HXCI_TOGGLE_POLLING,
     BDK_USB_TEST_USB2_LAST,
 } bdk_usb_test_t;
 
@@ -61,6 +61,6 @@ extern int bdk_usb_test_mode(bdk_node_t node, int usb_port, bdk_usb_test_t test_
  *
  * @return String name of test
  */
-extern const char *bdk_usb_get_test_mode_string(bdk_usb_test_t test_mode);
+extern const char *bdk_usb_get_test_mode_string(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode);
 
 /** @} */

@@ -464,8 +464,9 @@ int bdk_usb_test_mode(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode)
             return bdk_usb_HCList(node, usb_port);
         case BDK_USB_HXCI_POLL_STATUS:
             return bdk_usb_HCPoll(node, usb_port);   
-        case BDK_USB_HXCI_SPARE:
-            return bdk_usb_HCSpare(node, usb_port);   
+        case BDK_USB_HXCI_TOGGLE_POLLING:
+            bdk_usb_togglePoll(node, usb_port, 1);   
+            return 0;
         case BDK_USB_TEST_USB2_LAST:
             break;
     }
@@ -480,8 +481,9 @@ int bdk_usb_test_mode(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode)
  *
  * @return String name of test
  */
-const char* bdk_usb_get_test_mode_string(bdk_usb_test_t test_mode)
+const char* bdk_usb_get_test_mode_string(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode)
 {
+    static char pollState[64];
     switch (test_mode)
     {
         case BDK_USB_TEST_USB2_DISABLE:
@@ -502,8 +504,16 @@ const char* bdk_usb_get_test_mode_string(bdk_usb_test_t test_mode)
             return "List USB interfaces";
     	case BDK_USB_HXCI_POLL_STATUS:
             return "USB hxci poll root hub status";           
-    	case BDK_USB_HXCI_SPARE:
-            return "USB xhci spare debug";           
+    	case BDK_USB_HXCI_TOGGLE_POLLING:
+        {
+            int i = bdk_usb_togglePoll(node, usb_port, 0);
+            if (i>=0) {
+                snprintf(pollState,sizeof(pollState),
+                         "Toggle USB Polling (currently %s)", (bdk_usb_togglePoll(node, usb_port, 0) ? "On" : "Off")); 
+            } else 
+                return "Toggle USB Polling (NA)";
+        }
+        return pollState;
         case BDK_USB_TEST_USB2_LAST:
             break;
     }

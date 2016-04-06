@@ -40,19 +40,14 @@ Internal helper routines
  *
  * @return Zero on success, non zero on failure
  */
-#if 0
-static int halt_xhc(bdk_node_t node,int usb_port)
-{
-    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),
-                   c.s.r_s = 0;);
-    return BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_USBSTS(usb_port), hch, == ,1, CVM_XHCI_OP_TIMEOUT); 
-}
-#endif
 static usb_hc_descriptor_t usb_global_data[BDK_NUMA_MAX_NODES][CAVIUM_MAX_USB_INSTANCES];
 
 void async_request_monitor(int unused, void *ctl)
 {
     usb_hc_descriptor_t *p = (usb_hc_descriptor_t*)ctl;
+    int count = 0;
+    p->async_mon_state |= 4;
+    BDK_WMB;
     while(1) 
     {
         bdk_wait_usec(XHC_ASYNC_TIMER_INTERVAL);
@@ -62,9 +57,15 @@ void async_request_monitor(int unused, void *ctl)
             bdk_rlock_unlock(&p->xhci_lock);
             break;
         }
+        count++;
+        if (count == (100 * 1000)/XHC_ASYNC_TIMER_INTERVAL) {
+            UsbRootHubEnumeration(0,(USB_INTERFACE *)p->root_if);
+            count = 0;
+        } 
         XhcMonitorAsyncRequests(0,p->xhci_priv); 
         bdk_rlock_unlock(&p->xhci_lock);
     }
+    p->async_mon_state &= ~(1|4);
     BDK_WMB;
 }
 
@@ -236,33 +237,9 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     int rc = 0;
     xhci_t *thisHC = usb_global_data[node][usb_port].xhci_priv;
     if (thisHC) {
-#if 0
-        // If host controller is not halted, halt it.
-        if (!bdk_xhc_halted(node,usb_port)) {
-            halt_xhc(node,usb_port);
-        }
-        // Reset Host controller
-        BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),c.s.hcrst=1;);
-        rc = BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBHX_UAHC_USBCMD(usb_port), hcrst, == , 0,CVM_XHCI_OP_TIMEOUT);
-        if (rc) {
-            bdk_error("USB%d - timeout waiting for controller reset\n", usb_port);
-            rc = -2 ;
-            goto out;
-        }
-        // Wait for USBSTS.CNR == 0
-        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBHX_UAHC_USBSTS(usb_port), cnr, ==, 0, 10000)) {
-            bdk_error("USB%d - timeout waiting for controller ready\n", usb_port);
-            rc = -3;
-            goto out;
-        }
-
-        //-- TODO Free async transfers
-        printf("freeing memory of previous instance\n");
-        xhciFreeSched(thisHC);
-#else
         printf("Initialization may happen only once\n");
-        return -5;
-#endif
+        rc = -5;
+        goto out;
     } else {
         thisHC = createUsbXHci(node,usb_port);
         if (thisHC == NULL) {
@@ -355,8 +332,6 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         usb_global_data[node][usb_port].root_hub = RootHub;
     }   
     bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], 0);
-
-    printf("\nNot starting periodic enumeration at the end of init, poll root hub manually via menu option\n");
 out:
     if (rc) 
         printf("%s exiting with rc %d\n", __FUNCTION__, rc);
@@ -390,9 +365,10 @@ int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
     return 0;
 }
 
-int bdk_usb_HCSpare(bdk_node_t node, int usb_port) 
+
+int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const int change) 
 {
-    if ((unsigned int) node > BDK_NUMA_MAX_NODES) {
+   if ((unsigned int) node > BDK_NUMA_MAX_NODES) {
         printf("Node must be less then %d vs %d", BDK_NUMA_MAX_NODES, node);
        return -1;
     }
@@ -400,36 +376,38 @@ int bdk_usb_HCSpare(bdk_node_t node, int usb_port)
         printf("USB port must be less then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
         return -1;
     
-    }  
-    usb_hc_descriptor_t *p = &usb_global_data[node][usb_port];
-    if (NULL == p) {
-        printf("\n** node %d usb_port %d have not been initialized\n",
-               node, usb_port);
+    }
+
+    usb_hc_descriptor_t *thisDesc  = &usb_global_data[node][usb_port];
+    if (change == 0) { /* State Inquiry */
+        if (NULL == thisDesc->xhci_priv) return -1;
+        return (thisDesc->async_mon_state & 4 ) ? 1 : 0;
+    }
+
+    if (NULL == thisDesc->xhci_priv) {
+        printf("\n*** Initialize XHCI controller first ***\n");
         return -1;
     }
-    if (bdk_rlock_try_lock(&usb_global_data[node][usb_port].xhci_lock)) {
-        printf("\n N:%d P:%d is locked\n", node, usb_port);
-        return 0;
+    if (!(thisDesc->async_mon_state & 4)) { /* Polling needs to be started */
+        bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], 0);
+        while( !(thisDesc->async_mon_state & 4)) {
+            bdk_thread_yield();
+            bdk_wait_usec(100 * 1000);
+        }
+        printf("\n*** USB-XHCI Polling have started ***\n");
+        return 1;
     }
-
-     USB_BUS *Bus = p->root_if->Device->Bus;
-     USB_DEVICE              *Device;
-     USB_INTERFACE           *UsbIf;
-     for(unsigned ndx=1; ndx < Bus->MaxDevices; ndx++) {
-         Device = Bus->Devices[ndx];
-         if (Device && (Device->ParentAddr == p->root_if->Device->Address)) {
-              for(unsigned n=0; n < Device->NumOfInterface; n++) {
-                    if (NULL == (UsbIf = Device->Interfaces[n])) continue;
-                    if (UsbIf->IsHub) {
-                        printf("Enumerating Hub @ %p\n", UsbIf);
-                        UsbHubEnumeration(0,UsbIf);
-                    }
-              }
-         }  
-     }
-     bdk_rlock_unlock(&usb_global_data[node][usb_port].xhci_lock);
-
+    /* Polling needs to stop */
+    thisDesc->async_mon_state |= 1;
+    BDK_WMB;
+    while( (thisDesc->async_mon_state & 6) != 2) {
+        bdk_thread_yield();
+        bdk_wait_usec(100 * 1000);
+    }
+    printf("\n*** USB-XHCI Polling have stopped ***\n");
     return 0;
+     
+    
 }
    
 

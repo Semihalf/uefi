@@ -28,7 +28,7 @@ repeat
     m:item("init", "Initialize the port", usb_init, usb_port)
     local test = 0
     while true do
-        local name = cavium.c.bdk_usb_get_test_mode_string(test)
+        local name = cavium.c.bdk_usb_get_test_mode_string(menu.node,usb_port,test)
         if name == nil then
             break
         end
