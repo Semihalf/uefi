@@ -1380,7 +1380,32 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmrx_prt_cbfc_ctl_s cn83xx; */
+    struct bdk_bgxx_cmrx_prt_cbfc_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs. (from either DFC or PFC packets or
+                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
+                                                                 backpressured,
+                                                                 simulate physical backpressure by deferring all packets on the transmitter.
+                                                                 (i.e. signal to the mac an assertion of physical backpressure).
+                                                                 If LMAC_TYPE != SGMII/QSGMII, BGX()_SMU()_CBFC_CTL[RX_EN] or
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN]
+                                                                 additionally need to be set. */
+        uint64_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_15         : 16;
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs. (from either DFC or PFC packets or
+                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
+                                                                 backpressured,
+                                                                 simulate physical backpressure by deferring all packets on the transmitter.
+                                                                 (i.e. signal to the mac an assertion of physical backpressure).
+                                                                 If LMAC_TYPE != SGMII/QSGMII, BGX()_SMU()_CBFC_CTL[RX_EN] or
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN]
+                                                                 additionally need to be set. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_prt_cbfc_ctl_t;
 
 static inline uint64_t BDK_BGXX_CMRX_PRT_CBFC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -4148,17 +4173,7 @@ typedef union
     struct bdk_bgxx_cmr_global_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t cmr_x2p_pki_reset     : 1;  /**< [ 11: 11](R/W) If the PKI is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
-                                                                 pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
-
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC comes out of reset, software should clear this bit. */
+        uint64_t reserved_11_63        : 53;
         uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
                                                                  Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
                                                                  commanded by the
@@ -4222,17 +4237,7 @@ typedef union
 
                                                                  When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
                                                                  should traffic be flowing.  This bit will not reset the main RXB fifos. */
-        uint64_t cmr_x2p_pki_reset     : 1;  /**< [ 11: 11](R/W) If the PKI is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
-                                                                 pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
-
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC comes out of reset, software should clear this bit. */
-        uint64_t reserved_12_63        : 52;
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     struct bdk_bgxx_cmr_global_config_cn88xxp1
@@ -4496,7 +4501,17 @@ typedef union
     struct bdk_bgxx_cmr_global_config_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
+        uint64_t reserved_12_63        : 52;
+        uint64_t cmr_x2p1_reset        : 1;  /**< [ 11: 11](R/W) If the master block connected to X2P interface 1 is reset, software also needs
+                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
+                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
+                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
+                                                                 bit first before setting this bit.
+
+                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
+                                                                 master block comes out of reset, software should clear this bit. */
         uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
                                                                  Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
                                                                  commanded by the
@@ -4521,16 +4536,16 @@ typedef union
         uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
-        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or PKO block is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by
-                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the master block connected to X2P interface 0 is reset, software also needs
+                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
+                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
+                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
+                                                                 bit first before setting this bit.
 
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC/PKO comes out of reset, software should clear this bit. */
+                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
+                                                                 master block comes out of reset, software should clear this bit. */
         uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
                                                                  BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
@@ -4544,16 +4559,16 @@ typedef union
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
                                                                  clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
                                                                  BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or PKO block is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by
-                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the master block connected to X2P interface 0 is reset, software also needs
+                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
+                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
+                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
+                                                                 bit first before setting this bit.
 
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC/PKO comes out of reset, software should clear this bit. */
+                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
+                                                                 master block comes out of reset, software should clear this bit. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
@@ -4578,7 +4593,17 @@ typedef union
 
                                                                  When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
                                                                  should traffic be flowing.  This bit will not reset the main RXB fifos. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t cmr_x2p1_reset        : 1;  /**< [ 11: 11](R/W) If the master block connected to X2P interface 1 is reset, software also needs
+                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
+                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
+                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
+                                                                 bit first before setting this bit.
+
+                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
+                                                                 master block comes out of reset, software should clear this bit. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_bgxx_cmr_global_config_cn88xxp2
@@ -6415,10 +6440,10 @@ typedef union
                                                                  LMAC ID that can be used:
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = 64 KB per LMAC, maximum LMAC ID is 0.
-                                                                 0x2 = 32 KB per LMAC, maximum LMAC ID is 1.
-                                                                 0x3 = 16 KB per LMAC, maximum LMAC ID is 2.
-                                                                 0x4 = 16 KB per LMAC, maximum LMAC ID is 3.
+                                                                 0x1 = BGX()_CONST[TX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
+                                                                 0x2 = BGX()_CONST[TX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
+                                                                 0x3 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 2.
+                                                                 0x4 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
                                                                  0x5-0x7 = Reserved.
 
                                                                  Note the maximum LMAC ID is determined by the smaller of
@@ -6430,10 +6455,10 @@ typedef union
                                                                  LMAC ID that can be used:
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = 64 KB per LMAC, maximum LMAC ID is 0.
-                                                                 0x2 = 32 KB per LMAC, maximum LMAC ID is 1.
-                                                                 0x3 = 16 KB per LMAC, maximum LMAC ID is 2.
-                                                                 0x4 = 16 KB per LMAC, maximum LMAC ID is 3.
+                                                                 0x1 = BGX()_CONST[TX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
+                                                                 0x2 = BGX()_CONST[TX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
+                                                                 0x3 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 2.
+                                                                 0x4 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
                                                                  0x5-0x7 = Reserved.
 
                                                                  Note the maximum LMAC ID is determined by the smaller of
@@ -6443,7 +6468,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bgxx_cmr_rx_lmacs_s cn9; */
-    struct bdk_bgxx_cmr_rx_lmacs_cn81xx
+    /* struct bdk_bgxx_cmr_rx_lmacs_s cn81xx; */
+    struct bdk_bgxx_cmr_rx_lmacs_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -6452,10 +6478,10 @@ typedef union
                                                                  LMAC ID that can be used:
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = BGX()_CONST[TX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
-                                                                 0x2 = BGX()_CONST[TX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
-                                                                 0x3 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 2.
-                                                                 0x4 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
+                                                                 0x1 = 64 KB per LMAC, maximum LMAC ID is 0.
+                                                                 0x2 = 32 KB per LMAC, maximum LMAC ID is 1.
+                                                                 0x3 = 16 KB per LMAC, maximum LMAC ID is 2.
+                                                                 0x4 = 16 KB per LMAC, maximum LMAC ID is 3.
                                                                  0x5-0x7 = Reserved.
 
                                                                  Note the maximum LMAC ID is determined by the smaller of
@@ -6467,10 +6493,10 @@ typedef union
                                                                  LMAC ID that can be used:
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = BGX()_CONST[TX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
-                                                                 0x2 = BGX()_CONST[TX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
-                                                                 0x3 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 2.
-                                                                 0x4 = BGX()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
+                                                                 0x1 = 64 KB per LMAC, maximum LMAC ID is 0.
+                                                                 0x2 = 32 KB per LMAC, maximum LMAC ID is 1.
+                                                                 0x3 = 16 KB per LMAC, maximum LMAC ID is 2.
+                                                                 0x4 = 16 KB per LMAC, maximum LMAC ID is 3.
                                                                  0x5-0x7 = Reserved.
 
                                                                  Note the maximum LMAC ID is determined by the smaller of
@@ -6478,9 +6504,8 @@ typedef union
                                                                  should be set to the same value for normal operation. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_bgxx_cmr_rx_lmacs_s cn88xx; */
-    /* struct bdk_bgxx_cmr_rx_lmacs_cn81xx cn83xx; */
+    } cn88xx;
+    /* struct bdk_bgxx_cmr_rx_lmacs_s cn83xx; */
 } bdk_bgxx_cmr_rx_lmacs_t;
 
 static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8727,6 +8752,30 @@ typedef union
     struct bdk_bgxx_gmp_gmi_txx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t link_drain            : 1;  /**< [  3:  3](R/W) Enable dropping of full packets to allow BGX and PKO/NIC to drain their FIFOs. */
+        uint64_t tx_fc_type            : 1;  /**< [  2:  2](R/W) Transmit side flow control type select.
+                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC transmits 802.3 pause frames. */
+        uint64_t xsdef_en              : 1;  /**< [  1:  1](R/W) Enables the excessive-deferral check for statistics and interrupts. SGMII/1000Base-X half-
+                                                                 duplex only. */
+        uint64_t xscol_en              : 1;  /**< [  0:  0](R/W) Enables the excessive-collision check for statistics and interrupts. SGMII/1000Base-X
+                                                                 half-duplex only. */
+#else /* Word 0 - Little Endian */
+        uint64_t xscol_en              : 1;  /**< [  0:  0](R/W) Enables the excessive-collision check for statistics and interrupts. SGMII/1000Base-X
+                                                                 half-duplex only. */
+        uint64_t xsdef_en              : 1;  /**< [  1:  1](R/W) Enables the excessive-deferral check for statistics and interrupts. SGMII/1000Base-X half-
+                                                                 duplex only. */
+        uint64_t tx_fc_type            : 1;  /**< [  2:  2](R/W) Transmit side flow control type select.
+                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC transmits 802.3 pause frames. */
+        uint64_t link_drain            : 1;  /**< [  3:  3](R/W) Enable dropping of full packets to allow BGX and PKO/NIC to drain their FIFOs. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_gmp_gmi_txx_ctl_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
         uint64_t tx_fc_type            : 1;  /**< [  2:  2](R/W) Transmit side flow control type select.
                                                                  0 = GMI MAC transmits ITU G.999.1 pause frames.
@@ -8745,9 +8794,8 @@ typedef union
                                                                  1 = GMI MAC transmits 802.3 pause frames. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_gmp_gmi_txx_ctl_s cn9; */
-    /* struct bdk_bgxx_gmp_gmi_txx_ctl_s cn81xx; */
+    } cn9;
+    /* struct bdk_bgxx_gmp_gmi_txx_ctl_cn9 cn81xx; */
     struct bdk_bgxx_gmp_gmi_txx_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

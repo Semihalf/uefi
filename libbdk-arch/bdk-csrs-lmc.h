@@ -895,7 +895,235 @@ typedef union
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lmcx_comp_ctl2_s cn; */
+    struct bdk_lmcx_comp_ctl2_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_51_63        : 13;
+        uint64_t rclk_char_mode        : 1;  /**< [ 50: 50](R/W) Reserved.
+                                                                 Internal:
+                                                                 Select RCLK characterization mode. */
+        uint64_t ddr__ptune            : 5;  /**< [ 49: 45](RO/H) DDR PCTL from compensation circuit. The encoded value provides debug information for the
+                                                                 compensation impedance on P-pullup. */
+        uint64_t ddr__ntune            : 5;  /**< [ 44: 40](RO/H) DDR NCTL from compensation circuit. The encoded value provides debug information for the
+                                                                 compensation impedance on N-pulldown. */
+        uint64_t ptune_offset          : 4;  /**< [ 39: 36](R/W) Ptune offset value. This is a signed value where the MSB is a sign bit, with zero
+                                                                 indicating addition and one indicating subtraction. */
+        uint64_t ntune_offset          : 4;  /**< [ 35: 32](R/W) Ntune offset value. This is a signed value where the MSB is a sign bit, with zero
+                                                                 indicating addition and one indicating subtraction. */
+        uint64_t m180                  : 1;  /**< [ 31: 31](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Cap impedance at 180 ohm, instead of 240 ohm. */
+        uint64_t byp                   : 1;  /**< [ 30: 30](R/W) Bypass mode. When set, [PTUNE],[NTUNE] are the compensation setting. When clear,
+                                                                 [DDR__PTUNE],[DDR__NTUNE] are the compensation setting. */
+        uint64_t ptune                 : 5;  /**< [ 29: 25](R/W) PCTL impedance control in bypass mode. */
+        uint64_t ntune                 : 5;  /**< [ 24: 20](R/W) NCTL impedance control in bypass mode. */
+        uint64_t rodt_ctl              : 4;  /**< [ 19: 16](R/W) RODT NCTL impedance control bits. This field controls ODT values during a memory read.
+                                                                   0x0 = No ODT.
+                                                                   0x1 = 20 ohm.
+                                                                   0x2 = 30 ohm.
+                                                                   0x3 = 40 ohm.
+                                                                   0x4 = 60 ohm.
+                                                                   0x5 = 120 ohm.
+                                                                   _ else = Reserved.
+
+                                                                 In DDR4 mode:
+                                                                   0x0 = No ODT.
+                                                                   0x1 = 40 ohm.
+                                                                   0x2 = 60 ohm.
+                                                                   0x3 = 80 ohm.
+                                                                   0x4 = 120 ohm.
+                                                                   0x5 = 240 ohm.
+                                                                   0x6 = 34 ohm.
+                                                                   0x7 = 48 ohm.
+                                                                   _ else = Reserved. */
+        uint64_t control_ctl           : 4;  /**< [ 15: 12](R/W) Drive strength control for DDR_DIMMx_CS*_L/DDR_DIMMx_ODT_* /DDR_DIMMx_CKE* drivers.
+
+                                                                 In DDR3 mode:
+                                                                   0x1 = 24 ohm.
+                                                                   0x2 = 26.67 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34.3 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   0x7 = 60 ohm.
+                                                                   _ else = Reserved.
+
+                                                                 In DDR4 mode:
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 26 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   _ else = Reserved. */
+        uint64_t cmd_ctl               : 4;  /**< [ 11:  8](R/W) Drive strength control for DDR_RAS_L_A<16>/DDR_CAS_L_A<15>/DDR_WE_L_A<14>/DDR_A<13:0>/
+                                                                 DDR_A<15>_BG1/DDR_A<14>_BG0/DDR_BA* /DDR_BA2_TEN/DDR_PAR/DDR_RESET_L drivers.
+
+                                                                 In DDR3 mode:
+                                                                   0x1 = 24 ohm.
+                                                                   0x2 = 26.67 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34.3 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   0x7 = 60 ohm.
+                                                                   _ else = Reserved.
+
+                                                                 In DDR4 mode:
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 26 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   _ else = Reserved. */
+        uint64_t ck_ctl                : 4;  /**< [  7:  4](R/W) Drive strength control for DDR_CK_*_P/N drivers.
+
+                                                                 In DDR3 mode:
+                                                                   0x1 = 24 ohm.
+                                                                   0x2 = 26.67 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34.3 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   0x7 = 60 ohm.
+                                                                   _ else = Reserved.
+
+                                                                 In DDR4 mode:
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 26 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   _ else = Reserved." */
+        uint64_t dqx_ctl               : 4;  /**< [  3:  0](R/W) Drive strength control for DDR_DQ* /DDR_CB* /DDR_DQS_*_P/N drivers.
+                                                                   0x1 = 24 ohm.
+                                                                   0x2 = 26.67 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34.3 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   0x7 = 60 ohm.
+                                                                   _ else = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t dqx_ctl               : 4;  /**< [  3:  0](R/W) Drive strength control for DDR_DQ* /DDR_CB* /DDR_DQS_*_P/N drivers.
+                                                                   0x1 = 24 ohm.
+                                                                   0x2 = 26.67 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34.3 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   0x7 = 60 ohm.
+                                                                   _ else = Reserved. */
+        uint64_t ck_ctl                : 4;  /**< [  7:  4](R/W) Drive strength control for DDR_CK_*_P/N drivers.
+
+                                                                 In DDR3 mode:
+                                                                   0x1 = 24 ohm.
+                                                                   0x2 = 26.67 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34.3 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   0x7 = 60 ohm.
+                                                                   _ else = Reserved.
+
+                                                                 In DDR4 mode:
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 26 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   _ else = Reserved." */
+        uint64_t cmd_ctl               : 4;  /**< [ 11:  8](R/W) Drive strength control for DDR_RAS_L_A<16>/DDR_CAS_L_A<15>/DDR_WE_L_A<14>/DDR_A<13:0>/
+                                                                 DDR_A<15>_BG1/DDR_A<14>_BG0/DDR_BA* /DDR_BA2_TEN/DDR_PAR/DDR_RESET_L drivers.
+
+                                                                 In DDR3 mode:
+                                                                   0x1 = 24 ohm.
+                                                                   0x2 = 26.67 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34.3 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   0x7 = 60 ohm.
+                                                                   _ else = Reserved.
+
+                                                                 In DDR4 mode:
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 26 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   _ else = Reserved. */
+        uint64_t control_ctl           : 4;  /**< [ 15: 12](R/W) Drive strength control for DDR_DIMMx_CS*_L/DDR_DIMMx_ODT_* /DDR_DIMMx_CKE* drivers.
+
+                                                                 In DDR3 mode:
+                                                                   0x1 = 24 ohm.
+                                                                   0x2 = 26.67 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34.3 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   0x7 = 60 ohm.
+                                                                   _ else = Reserved.
+
+                                                                 In DDR4 mode:
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 26 ohm.
+                                                                   0x3 = 30 ohm.
+                                                                   0x4 = 34 ohm.
+                                                                   0x5 = 40 ohm.
+                                                                   0x6 = 48 ohm.
+                                                                   _ else = Reserved. */
+        uint64_t rodt_ctl              : 4;  /**< [ 19: 16](R/W) RODT NCTL impedance control bits. This field controls ODT values during a memory read.
+                                                                   0x0 = No ODT.
+                                                                   0x1 = 20 ohm.
+                                                                   0x2 = 30 ohm.
+                                                                   0x3 = 40 ohm.
+                                                                   0x4 = 60 ohm.
+                                                                   0x5 = 120 ohm.
+                                                                   _ else = Reserved.
+
+                                                                 In DDR4 mode:
+                                                                   0x0 = No ODT.
+                                                                   0x1 = 40 ohm.
+                                                                   0x2 = 60 ohm.
+                                                                   0x3 = 80 ohm.
+                                                                   0x4 = 120 ohm.
+                                                                   0x5 = 240 ohm.
+                                                                   0x6 = 34 ohm.
+                                                                   0x7 = 48 ohm.
+                                                                   _ else = Reserved. */
+        uint64_t ntune                 : 5;  /**< [ 24: 20](R/W) NCTL impedance control in bypass mode. */
+        uint64_t ptune                 : 5;  /**< [ 29: 25](R/W) PCTL impedance control in bypass mode. */
+        uint64_t byp                   : 1;  /**< [ 30: 30](R/W) Bypass mode. When set, [PTUNE],[NTUNE] are the compensation setting. When clear,
+                                                                 [DDR__PTUNE],[DDR__NTUNE] are the compensation setting. */
+        uint64_t m180                  : 1;  /**< [ 31: 31](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Cap impedance at 180 ohm, instead of 240 ohm. */
+        uint64_t ntune_offset          : 4;  /**< [ 35: 32](R/W) Ntune offset value. This is a signed value where the MSB is a sign bit, with zero
+                                                                 indicating addition and one indicating subtraction. */
+        uint64_t ptune_offset          : 4;  /**< [ 39: 36](R/W) Ptune offset value. This is a signed value where the MSB is a sign bit, with zero
+                                                                 indicating addition and one indicating subtraction. */
+        uint64_t ddr__ntune            : 5;  /**< [ 44: 40](RO/H) DDR NCTL from compensation circuit. The encoded value provides debug information for the
+                                                                 compensation impedance on N-pulldown. */
+        uint64_t ddr__ptune            : 5;  /**< [ 49: 45](RO/H) DDR PCTL from compensation circuit. The encoded value provides debug information for the
+                                                                 compensation impedance on P-pullup. */
+        uint64_t rclk_char_mode        : 1;  /**< [ 50: 50](R/W) Reserved.
+                                                                 Internal:
+                                                                 Select RCLK characterization mode. */
+        uint64_t reserved_51_63        : 13;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_lmcx_comp_ctl2_s cn9; */
 } bdk_lmcx_comp_ctl2_t;
 
 static inline uint64_t BDK_LMCX_COMP_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4038,7 +4266,11 @@ typedef union
 
                                                                  Only valid when LMC()_EXT_CONFIG2[SREF_AUTO_ENABLE] is set. */
         uint64_t sref_auto_enable      : 1;  /**< [ 21: 21](R/W) Enable automatic self-refresh mode.
-                                                                 This field should only be set after initialization. */
+                                                                 This field should only be set after initialization.
+                                                                 When set, software must not issue self refesh enter commands (LMC_SEQ_SEL_E::SREF_ENTRY).
+
+                                                                 Internal:
+                                                                 The SREF_ENTRY requirement can be removed in 98xx when bug28110 is closed. */
         uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.
                                                                  Internal:
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
@@ -4173,7 +4405,11 @@ typedef union
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R1]. */
         uint64_t sref_auto_enable      : 1;  /**< [ 21: 21](R/W) Enable automatic self-refresh mode.
-                                                                 This field should only be set after initialization. */
+                                                                 This field should only be set after initialization.
+                                                                 When set, software must not issue self refesh enter commands (LMC_SEQ_SEL_E::SREF_ENTRY).
+
+                                                                 Internal:
+                                                                 The SREF_ENTRY requirement can be removed in 98xx when bug28110 is closed. */
         uint64_t sref_auto_idle_thres  : 5;  /**< [ 26: 22](R/W) Self-refresh idle threshold.
                                                                  Enter self-refresh mode after the memory controller has been idle for
                                                                  2^(SREF_AUTO_IDLE_THRES-1) * TREFI.
@@ -7678,7 +7914,8 @@ typedef union
     struct bdk_lmcx_phy_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_61_63        : 3;
+        uint64_t reserved_62_63        : 2;
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](RO) Reserved. */
         uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
                                                                  Internal:
                                                                  When set, LMC prevents PHY from loading the deskew shift
@@ -8008,13 +8245,15 @@ typedef union
                                                                  by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
                                                                  whether or not to load the shift register with PHY's internal settings before
                                                                  the shifting process. */
-        uint64_t reserved_61_63        : 3;
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](RO) Reserved. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
     struct bdk_lmcx_phy_ctl_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_61_63        : 3;
+        uint64_t reserved_62_63        : 2;
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](RO) Reserved. */
         uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](RO) Reserved. */
         uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](RO) Reserved. */
         uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](RO) Reserved. */
@@ -8274,14 +8513,351 @@ typedef union
         uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](RO) Reserved. */
         uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](RO) Reserved. */
         uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](RO) Reserved. */
-        uint64_t reserved_61_63        : 3;
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](RO) Reserved. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_lmcx_phy_ctl_s cn9; */
+    struct bdk_lmcx_phy_ctl_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set, LMC prevents PHY from loading the deskew shift
+                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
+                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
+                                                                 whether or not to load the shift register with PHY's internal settings before
+                                                                 the shifting process. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high, PHY selects all of the preloaded data
+                                                                 when configuring the read deskew settings. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
+                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
+                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
+                                                                 ECC,3,2,1,0.
+                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
+                                                                 DQ has 10-bits deskew setting. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
+                                                                 backed out through odd DQ at the same rate.
+                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
+                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
+                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
+                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM data mask feature by having LMC driving a constant value on
+                                                                 the
+                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
+                                                                 and drives a constant 1 in DDR4.
+                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
+                                                                 on
+                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
+        uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 0x0 = C1 is not routed to any output pin.
+                                                                 0x1 = C1 is routed to CS3.
+                                                                 0x2 = C1 is routed to A17 address pin.
+                                                                 0x3 = C1 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
+                                                                 Internal:
+                                                                 0x0 = C0 is not routed to any output pin.
+                                                                 0x1 = C0 is routed to CS2.
+                                                                 0x2 = C0 is routed to TEN output pin.
+                                                                 0x3 = C0 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
+                                                                 clear to value of 0. */
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
+                                                                 operation is started, then set to 1 when operation is complete. */
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
+                                                                 LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
+                                                                 to 0. Write to 1 will also clear the complete bit. */
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
+                                                                 0x0 = Deskew read clock toggles every 4 DCLKs.
+                                                                 0x1 = Deskew read clock toggles every 8 DCLKs.
+                                                                 0x2 = Deskew read clock toggles every 12 DCLKs.
+                                                                 0x3 = Deskew read clock toggles every 16 DCLKs. */
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
+                                                                 DDR PHY. */
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
+                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug.
+                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN83XX needs to be set to this value. */
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
+                                                                 byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
+                                                                 0x0 = DQ0.
+                                                                 0x1 = DQ1.
+                                                                 0x2 = DQ2.
+                                                                 0x3 = DQ3.
+                                                                 0x4 = DAC.
+                                                                 0x5 = DBI.
+                                                                 0x6 = DQ4.
+                                                                 0x7 = DQ5.
+                                                                 0x8 = DQ6.
+                                                                 0x9 = DQ7. */
+        uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
+        uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+                                                                 when loopback is enabled. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
+        uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
+                                                                 training sequence is in the idle state. */
+        uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
+        uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
+        uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
+                                                                 This bit MUST not be set when LMC initialization is in progress. Internal VREF and
+                                                                 Deskew training requires normal operation on the dqx/s read_enable signals. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 bits
+                                                                 are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
+                                                                 LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
+                                                                 can be loop-backed out through DQS1 of the same byte. For DQ, when
+                                                                 LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
+                                                                 flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
+                                                                 loop-backed out after being flop'd by incoming DQS. */
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
+                                                                 LMC()_PHY_CTL[LOOPBACK] mentioned above. */
+        uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
+                                                                 avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
+                                                                 mode is asserted, CNXXXX will configure output drivers to be weak drivers (60 ohm output
+                                                                 impedance) at the first CK cycle, and change drivers to the designated drive strengths
+                                                                 specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
+#else /* Word 0 - Little Endian */
+        uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
+                                                                 avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
+                                                                 mode is asserted, CNXXXX will configure output drivers to be weak drivers (60 ohm output
+                                                                 impedance) at the first CK cycle, and change drivers to the designated drive strengths
+                                                                 specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
+                                                                 LMC()_PHY_CTL[LOOPBACK] mentioned above. */
+        uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 bits
+                                                                 are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
+                                                                 LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
+                                                                 can be loop-backed out through DQS1 of the same byte. For DQ, when
+                                                                 LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
+                                                                 flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
+                                                                 loop-backed out after being flop'd by incoming DQS. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
+                                                                 This bit MUST not be set when LMC initialization is in progress. Internal VREF and
+                                                                 Deskew training requires normal operation on the dqx/s read_enable signals. */
+        uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
+        uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
+        uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
+        uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
+                                                                 training sequence is in the idle state. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+                                                                 when loopback is enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
+        uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
+        uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
+                                                                 0x0 = DQ0.
+                                                                 0x1 = DQ1.
+                                                                 0x2 = DQ2.
+                                                                 0x3 = DQ3.
+                                                                 0x4 = DAC.
+                                                                 0x5 = DBI.
+                                                                 0x6 = DQ4.
+                                                                 0x7 = DQ5.
+                                                                 0x8 = DQ6.
+                                                                 0x9 = DQ7. */
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
+                                                                 byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
+                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug.
+                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN83XX needs to be set to this value. */
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
+                                                                 DDR PHY. */
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
+                                                                 0x0 = Deskew read clock toggles every 4 DCLKs.
+                                                                 0x1 = Deskew read clock toggles every 8 DCLKs.
+                                                                 0x2 = Deskew read clock toggles every 12 DCLKs.
+                                                                 0x3 = Deskew read clock toggles every 16 DCLKs. */
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
+                                                                 to 0. Write to 1 will also clear the complete bit. */
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
+                                                                 LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
+                                                                 operation is started, then set to 1 when operation is complete. */
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
+                                                                 clear to value of 0. */
+        uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
+                                                                 Internal:
+                                                                 0x0 = C0 is not routed to any output pin.
+                                                                 0x1 = C0 is routed to CS2.
+                                                                 0x2 = C0 is routed to TEN output pin.
+                                                                 0x3 = C0 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 0x0 = C1 is not routed to any output pin.
+                                                                 0x1 = C1 is routed to CS3.
+                                                                 0x2 = C1 is routed to A17 address pin.
+                                                                 0x3 = C1 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM data mask feature by having LMC driving a constant value on
+                                                                 the
+                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
+                                                                 and drives a constant 1 in DDR4.
+                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
+                                                                 on
+                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
+                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
+                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
+                                                                 backed out through odd DQ at the same rate.
+                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
+                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
+                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
+                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
+                                                                 ECC,3,2,1,0.
+                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
+                                                                 DQ has 10-bits deskew setting. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high, PHY selects all of the preloaded data
+                                                                 when configuring the read deskew settings. */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set, LMC prevents PHY from loading the deskew shift
+                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
+                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
+                                                                 whether or not to load the shift register with PHY's internal settings before
+                                                                 the shifting process. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } cn9;
     struct bdk_lmcx_phy_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_61_63        : 3;
+        uint64_t reserved_62_63        : 2;
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](RO) Reserved. */
         uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
                                                                  Internal:
                                                                  When set, LMC prevents PHY from loading the deskew shift
@@ -8611,14 +9187,363 @@ typedef union
                                                                  by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
                                                                  whether or not to load the shift register with PHY's internal settings before
                                                                  the shifting process. */
-        uint64_t reserved_61_63        : 3;
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](RO) Reserved. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_lmcx_phy_ctl_s cn83xx; */
+    struct bdk_lmcx_phy_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](R/W) When set, the PHY attempts to lock all DQ/DBI bit deskew settings once alignment is
+                                                                 achieved.
+
+                                                                 When clear, LMC disengages the PHY bit deskew lock control mechanism. This
+                                                                 causes the PHY to continously perform and/or adjust the read deskew training on
+                                                                 all DQ/DBI bits during any read operations. */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set, LMC prevents PHY from loading the deskew shift
+                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
+                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
+                                                                 whether or not to load the shift register with PHY's internal settings before
+                                                                 the shifting process. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high, PHY selects all of the preloaded data
+                                                                 when configuring the read deskew settings. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
+                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
+                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
+                                                                 ECC,3,2,1,0.
+                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
+                                                                 DQ has 10-bits deskew setting. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
+                                                                 backed out through odd DQ at the same rate.
+                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
+                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
+                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
+                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM data mask feature by having LMC driving a constant value on
+                                                                 the
+                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
+                                                                 and drives a constant 1 in DDR4.
+                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
+                                                                 on
+                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
+        uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 0x0 = C1 is not routed to any output pin.
+                                                                 0x1 = C1 is routed to CS3.
+                                                                 0x2 = C1 is routed to A17 address pin.
+                                                                 0x3 = C1 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
+                                                                 Internal:
+                                                                 0x0 = C0 is not routed to any output pin.
+                                                                 0x1 = C0 is routed to CS2.
+                                                                 0x2 = C0 is routed to TEN output pin.
+                                                                 0x3 = C0 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
+                                                                 clear to value of 0. */
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
+                                                                 operation is started, then set to 1 when operation is complete. */
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
+                                                                 LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
+                                                                 to 0. Write to 1 will also clear the complete bit. */
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
+                                                                 0x0 = Deskew read clock toggles every 4 DCLKs.
+                                                                 0x1 = Deskew read clock toggles every 8 DCLKs.
+                                                                 0x2 = Deskew read clock toggles every 12 DCLKs.
+                                                                 0x3 = Deskew read clock toggles every 16 DCLKs. */
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
+                                                                 DDR PHY. */
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
+                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug.
+                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN83XX needs to be set to this value. */
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
+                                                                 byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
+                                                                 0x0 = DQ0.
+                                                                 0x1 = DQ1.
+                                                                 0x2 = DQ2.
+                                                                 0x3 = DQ3.
+                                                                 0x4 = DAC.
+                                                                 0x5 = DBI.
+                                                                 0x6 = DQ4.
+                                                                 0x7 = DQ5.
+                                                                 0x8 = DQ6.
+                                                                 0x9 = DQ7. */
+        uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
+        uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+                                                                 when loopback is enabled. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
+        uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
+                                                                 training sequence is in the idle state. */
+        uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
+        uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
+        uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
+                                                                 This bit MUST not be set when LMC initialization is in progress. Internal VREF and
+                                                                 Deskew training requires normal operation on the dqx/s read_enable signals. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 bits
+                                                                 are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
+                                                                 LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
+                                                                 can be loop-backed out through DQS1 of the same byte. For DQ, when
+                                                                 LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
+                                                                 flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
+                                                                 loop-backed out after being flop'd by incoming DQS. */
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
+                                                                 LMC()_PHY_CTL[LOOPBACK] mentioned above. */
+        uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
+                                                                 avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
+                                                                 mode is asserted, CNXXXX will configure output drivers to be weak drivers (60 ohm output
+                                                                 impedance) at the first CK cycle, and change drivers to the designated drive strengths
+                                                                 specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
+#else /* Word 0 - Little Endian */
+        uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
+                                                                 avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
+                                                                 mode is asserted, CNXXXX will configure output drivers to be weak drivers (60 ohm output
+                                                                 impedance) at the first CK cycle, and change drivers to the designated drive strengths
+                                                                 specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
+                                                                 LMC()_PHY_CTL[LOOPBACK] mentioned above. */
+        uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 bits
+                                                                 are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
+                                                                 LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
+                                                                 can be loop-backed out through DQS1 of the same byte. For DQ, when
+                                                                 LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
+                                                                 flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
+                                                                 loop-backed out after being flop'd by incoming DQS. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
+                                                                 This bit MUST not be set when LMC initialization is in progress. Internal VREF and
+                                                                 Deskew training requires normal operation on the dqx/s read_enable signals. */
+        uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
+        uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
+        uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
+        uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
+                                                                 training sequence is in the idle state. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+                                                                 when loopback is enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
+        uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
+        uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
+                                                                 0x0 = DQ0.
+                                                                 0x1 = DQ1.
+                                                                 0x2 = DQ2.
+                                                                 0x3 = DQ3.
+                                                                 0x4 = DAC.
+                                                                 0x5 = DBI.
+                                                                 0x6 = DQ4.
+                                                                 0x7 = DQ5.
+                                                                 0x8 = DQ6.
+                                                                 0x9 = DQ7. */
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
+                                                                 byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
+                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug.
+                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN83XX needs to be set to this value. */
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
+                                                                 DDR PHY. */
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
+                                                                 0x0 = Deskew read clock toggles every 4 DCLKs.
+                                                                 0x1 = Deskew read clock toggles every 8 DCLKs.
+                                                                 0x2 = Deskew read clock toggles every 12 DCLKs.
+                                                                 0x3 = Deskew read clock toggles every 16 DCLKs. */
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
+                                                                 to 0. Write to 1 will also clear the complete bit. */
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
+                                                                 LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
+                                                                 operation is started, then set to 1 when operation is complete. */
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
+                                                                 clear to value of 0. */
+        uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
+                                                                 Internal:
+                                                                 0x0 = C0 is not routed to any output pin.
+                                                                 0x1 = C0 is routed to CS2.
+                                                                 0x2 = C0 is routed to TEN output pin.
+                                                                 0x3 = C0 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 0x0 = C1 is not routed to any output pin.
+                                                                 0x1 = C1 is routed to CS3.
+                                                                 0x2 = C1 is routed to A17 address pin.
+                                                                 0x3 = C1 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM data mask feature by having LMC driving a constant value on
+                                                                 the
+                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
+                                                                 and drives a constant 1 in DDR4.
+                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
+                                                                 on
+                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
+                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
+                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
+                                                                 backed out through odd DQ at the same rate.
+                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
+                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
+                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
+                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
+                                                                 ECC,3,2,1,0.
+                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
+                                                                 DQ has 10-bits deskew setting. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high, PHY selects all of the preloaded data
+                                                                 when configuring the read deskew settings. */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set, LMC prevents PHY from loading the deskew shift
+                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
+                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
+                                                                 whether or not to load the shift register with PHY's internal settings before
+                                                                 the shifting process. */
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](R/W) When set, the PHY attempts to lock all DQ/DBI bit deskew settings once alignment is
+                                                                 achieved.
+
+                                                                 When clear, LMC disengages the PHY bit deskew lock control mechanism. This
+                                                                 causes the PHY to continously perform and/or adjust the read deskew training on
+                                                                 all DQ/DBI bits during any read operations. */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } cn83xx;
     struct bdk_lmcx_phy_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_61_63        : 3;
+        uint64_t reserved_62_63        : 2;
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](RO) Reserved. */
         uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
                                                                  Internal:
                                                                  When set, LMC prevents PHY from loading the deskew shift
@@ -8948,7 +9873,8 @@ typedef union
                                                                  by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
                                                                  whether or not to load the shift register with PHY's internal settings before
                                                                  the shifting process. */
-        uint64_t reserved_61_63        : 3;
+        uint64_t phy_dsk_lock_en       : 1;  /**< [ 61: 61](RO) Reserved. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_lmcx_phy_ctl_t;

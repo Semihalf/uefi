@@ -638,10 +638,12 @@ typedef union
                                                                  This bit is pulsed on each conversion, and as such software may not be able to observe the
                                                                  cycle in which [TEMP_VALID] is set. */
         uint64_t temp_corrected        : 11; /**< [ 10:  0](RO/H) Corrected temperature read out from the temp sensor module, in degrees C with
-                                                                 two bits of fraction. Unpredictable unless [TEMP_VALID] is set. */
+                                                                 two bits of fraction. Twos-complement if negative temperature. Unpredictable
+                                                                 unless [TEMP_VALID] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t temp_corrected        : 11; /**< [ 10:  0](RO/H) Corrected temperature read out from the temp sensor module, in degrees C with
-                                                                 two bits of fraction. Unpredictable unless [TEMP_VALID] is set. */
+                                                                 two bits of fraction. Twos-complement if negative temperature. Unpredictable
+                                                                 unless [TEMP_VALID] is set. */
         uint64_t temp_valid            : 1;  /**< [ 11: 11](RO/H) When set [TEMP_CORRECTED] is valid.
                                                                  This bit is pulsed on each conversion, and as such software may not be able to observe the
                                                                  cycle in which [TEMP_VALID] is set. */

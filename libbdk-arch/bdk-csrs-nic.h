@@ -2830,14 +2830,26 @@ typedef union
     struct bdk_nic_pf_const1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t mcam_entries          : 12; /**< [ 23: 12](RO) Number of MCAM entries. For backward compatability, a value of 0 represents 192. */
+        uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
+#else /* Word 0 - Little Endian */
+        uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
+        uint64_t mcam_entries          : 12; /**< [ 23: 12](RO) Number of MCAM entries. For backward compatability, a value of 0 represents 192. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_const1_s cn8; */
+    struct bdk_nic_pf_const1_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
         uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
 #else /* Word 0 - Little Endian */
         uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_const1_s cn; */
+    } cn9;
 } bdk_nic_pf_const1_t;
 
 #define BDK_NIC_PF_CONST1 BDK_NIC_PF_CONST1_FUNC()

@@ -498,7 +498,53 @@ typedef union
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_iobnx_chip_glb_pwr_throttle_s cn; */
+    struct bdk_iobnx_chip_glb_pwr_throttle_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t pwr_bw                : 2;  /**< [ 33: 32](R/W) Configures the reaction time of the closed-loop feedback control system for the
+                                                                 AVG_CHIP_POWER power approximation. Higher numbers decrease bandwidth, reducing response
+                                                                 time, which could lead to greater tracking error, but reduce ringing. */
+        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Reserved. */
+        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Reserved. */
+        uint64_t pwr_setting           : 16; /**< [ 15:  0](R/W) A power limiter for the chip. A limiter of the power consumption of the
+                                                                 chip. This power limiting is implemented by a closed-loop feedback control
+                                                                 system for the AVG_CHIP_POWER power approximation. The direct output of the
+                                                                 [PWR_SETTING] feedback control system is the CURRENT_POWER_SETTING value. The
+                                                                 power consumed by the chip (estimated currently by the AVG_CHIP_POWER value) is
+                                                                 an indirect output of the PWR_SETTING feedback control system. [PWR_SETTING] is
+                                                                 not used by the hardware when [PWR_MIN] equals [PWR_MAX]. [PWR_MIN] and
+                                                                 [PWR_MAX] threshold requirements always supersede [PWR_SETTING] limits. (For
+                                                                 maximum [PWR_SETTING] feedback control freedom, set [PWR_MIN]=0 and
+                                                                 [PWR_MAX]=0xff.)
+
+                                                                 [PWR_SETTING] equal to 0 forces the chip to consume near minimum
+                                                                 power. Increasing [PWR_SETTING] value from 0 to 0xFFFF increases the power that
+                                                                 the chip is allowed to consume linearly (roughly) from minimum to maximum. */
+#else /* Word 0 - Little Endian */
+        uint64_t pwr_setting           : 16; /**< [ 15:  0](R/W) A power limiter for the chip. A limiter of the power consumption of the
+                                                                 chip. This power limiting is implemented by a closed-loop feedback control
+                                                                 system for the AVG_CHIP_POWER power approximation. The direct output of the
+                                                                 [PWR_SETTING] feedback control system is the CURRENT_POWER_SETTING value. The
+                                                                 power consumed by the chip (estimated currently by the AVG_CHIP_POWER value) is
+                                                                 an indirect output of the PWR_SETTING feedback control system. [PWR_SETTING] is
+                                                                 not used by the hardware when [PWR_MIN] equals [PWR_MAX]. [PWR_MIN] and
+                                                                 [PWR_MAX] threshold requirements always supersede [PWR_SETTING] limits. (For
+                                                                 maximum [PWR_SETTING] feedback control freedom, set [PWR_MIN]=0 and
+                                                                 [PWR_MAX]=0xff.)
+
+                                                                 [PWR_SETTING] equal to 0 forces the chip to consume near minimum
+                                                                 power. Increasing [PWR_SETTING] value from 0 to 0xFFFF increases the power that
+                                                                 the chip is allowed to consume linearly (roughly) from minimum to maximum. */
+        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Reserved. */
+        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Reserved. */
+        uint64_t pwr_bw                : 2;  /**< [ 33: 32](R/W) Configures the reaction time of the closed-loop feedback control system for the
+                                                                 AVG_CHIP_POWER power approximation. Higher numbers decrease bandwidth, reducing response
+                                                                 time, which could lead to greater tracking error, but reduce ringing. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_iobnx_chip_glb_pwr_throttle_s cn9; */
 } bdk_iobnx_chip_glb_pwr_throttle_t;
 
 static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a) __attribute__ ((pure, always_inline));

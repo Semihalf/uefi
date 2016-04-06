@@ -392,6 +392,56 @@ typedef union
     struct bdk_ncsi_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t rx_rmii_underfl       : 1;  /**< [ 16: 16](R/W1C/H) Underflow of RX RMII FIFO.  FIFO drained on a non-packet boundary. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
+                                                                 FCSERR indication takes precedence over JABBER error. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
+                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
+                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
+                                                                 bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
+                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
+                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
+                                                                 bytes. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
+                                                                 FCSERR indication takes precedence over JABBER error. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. */
+        uint64_t rx_rmii_underfl       : 1;  /**< [ 16: 16](R/W1C/H) Underflow of RX RMII FIFO.  FIFO drained on a non-packet boundary. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ncsi_int_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
@@ -436,8 +486,7 @@ typedef union
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_int_s cn88xxp2; */
+    } cn88xxp2;
     struct bdk_ncsi_int_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -486,7 +535,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ncsi_int_s cn9; */
+    /* struct bdk_ncsi_int_cn88xxp2 cn9; */
     /* struct bdk_ncsi_int_s cn83xx; */
 } bdk_ncsi_int_t;
 
@@ -522,6 +571,48 @@ typedef union
     struct bdk_ncsi_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t rx_rmii_underfl       : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RMII_UNDERFL]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NCSI_INT[BMC2CPU]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_DBE]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for NCSI_INT[RUNTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for NCSI_INT[IFGERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NCSI_INT[PCTERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for NCSI_INT[NCP_FCSERR]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NCSI_INT[PMAC_FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NCSI_INT[JABBER]. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NCSI_INT[JABBER]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NCSI_INT[PMAC_FCSERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for NCSI_INT[NCP_FCSERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NCSI_INT[PCTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for NCSI_INT[IFGERR]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for NCSI_INT[RUNTERR]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_DBE]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NCSI_INT[BMC2CPU]. */
+        uint64_t rx_rmii_underfl       : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RMII_UNDERFL]. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ncsi_int_ena_w1c_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NCSI_INT[BMC2CPU]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_OVERFL]. */
@@ -558,8 +649,9 @@ typedef union
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_int_ena_w1c_s cn; */
+    } cn9;
+    /* struct bdk_ncsi_int_ena_w1c_cn9 cn88xx; */
+    /* struct bdk_ncsi_int_ena_w1c_s cn83xx; */
 } bdk_ncsi_int_ena_w1c_t;
 
 #define BDK_NCSI_INT_ENA_W1C BDK_NCSI_INT_ENA_W1C_FUNC()
@@ -594,6 +686,48 @@ typedef union
     struct bdk_ncsi_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t rx_rmii_underfl       : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RMII_UNDERFL]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NCSI_INT[BMC2CPU]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_DBE]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for NCSI_INT[RUNTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for NCSI_INT[IFGERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NCSI_INT[PCTERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for NCSI_INT[NCP_FCSERR]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NCSI_INT[PMAC_FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NCSI_INT[JABBER]. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NCSI_INT[JABBER]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NCSI_INT[PMAC_FCSERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for NCSI_INT[NCP_FCSERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NCSI_INT[PCTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for NCSI_INT[IFGERR]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for NCSI_INT[RUNTERR]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_DBE]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NCSI_INT[BMC2CPU]. */
+        uint64_t rx_rmii_underfl       : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RMII_UNDERFL]. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ncsi_int_ena_w1s_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NCSI_INT[BMC2CPU]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_OVERFL]. */
@@ -630,8 +764,9 @@ typedef union
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_int_ena_w1s_s cn; */
+    } cn9;
+    /* struct bdk_ncsi_int_ena_w1s_cn9 cn88xx; */
+    /* struct bdk_ncsi_int_ena_w1s_s cn83xx; */
 } bdk_ncsi_int_ena_w1s_t;
 
 #define BDK_NCSI_INT_ENA_W1S BDK_NCSI_INT_ENA_W1S_FUNC()
@@ -664,6 +799,48 @@ typedef union
 {
     uint64_t u;
     struct bdk_ncsi_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t rx_rmii_underfl       : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NCSI_INT[RX_RMII_UNDERFL]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
+        uint64_t rx_rmii_underfl       : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NCSI_INT[RX_RMII_UNDERFL]. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ncsi_int_w1s_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -702,8 +879,9 @@ typedef union
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_int_w1s_s cn; */
+    } cn9;
+    /* struct bdk_ncsi_int_w1s_cn9 cn88xx; */
+    /* struct bdk_ncsi_int_w1s_s cn83xx; */
 } bdk_ncsi_int_w1s_t;
 
 #define BDK_NCSI_INT_W1S BDK_NCSI_INT_W1S_FUNC()

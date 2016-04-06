@@ -2449,7 +2449,49 @@ typedef union
                                                                  1 = Causes access to CPACR or AP_CPACR_EL1 to be trapped. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_cptr_el2_cn
+    struct bdk_ap_cptr_el2_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tcpac                 : 1;  /**< [ 31: 31](R/W) This causes a direct access to CPACR or AP_CPACR_EL1 from EL1 to
+                                                                     trap to EL2.
+                                                                 0 = Does not cause access to CPACR or AP_CPACR_EL1 to be trapped.
+                                                                 1 = Causes access to CPACR or AP_CPACR_EL1 to be trapped. */
+        uint32_t reserved_29_30        : 2;
+        uint32_t reserved_28           : 1;
+        uint32_t reserved_20_27        : 8;
+        uint32_t reserved_14_19        : 6;
+        uint32_t rsvd_12_13            : 2;  /**< [ 13: 12](RO) Reserved 1. */
+        uint32_t reserved_11           : 1;
+        uint32_t tfp                   : 1;  /**< [ 10: 10](R/W) This causes instructions that access the registers associated
+                                                                     with Floating Point and Advanced SIMD execution to trap to EL2
+                                                                     when executed from EL0, EL1, or EL2, unless trapped to EL1.
+
+                                                                 0 = Does not cause any instruction to be trapped.
+                                                                 1 = Causes any instructions that use the registers associated with
+                                                                     Floating Point and Advanced SIMD execution to be trapped. */
+        uint32_t rsvd_0_9              : 10; /**< [  9:  0](RO) Reserved 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t rsvd_0_9              : 10; /**< [  9:  0](RO) Reserved 1. */
+        uint32_t tfp                   : 1;  /**< [ 10: 10](R/W) This causes instructions that access the registers associated
+                                                                     with Floating Point and Advanced SIMD execution to trap to EL2
+                                                                     when executed from EL0, EL1, or EL2, unless trapped to EL1.
+
+                                                                 0 = Does not cause any instruction to be trapped.
+                                                                 1 = Causes any instructions that use the registers associated with
+                                                                     Floating Point and Advanced SIMD execution to be trapped. */
+        uint32_t reserved_11           : 1;
+        uint32_t rsvd_12_13            : 2;  /**< [ 13: 12](RO) Reserved 1. */
+        uint32_t reserved_14_19        : 6;
+        uint32_t reserved_20_27        : 8;
+        uint32_t reserved_28           : 1;
+        uint32_t reserved_29_30        : 2;
+        uint32_t tcpac                 : 1;  /**< [ 31: 31](R/W) This causes a direct access to CPACR or AP_CPACR_EL1 from EL1 to
+                                                                     trap to EL2.
+                                                                 0 = Does not cause access to CPACR or AP_CPACR_EL1 to be trapped.
+                                                                 1 = Causes access to CPACR or AP_CPACR_EL1 to be trapped. */
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_ap_cptr_el2_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t tcpac                 : 1;  /**< [ 31: 31](R/W) This causes a direct access to CPACR or AP_CPACR_EL1 from EL1 to
@@ -2488,7 +2530,7 @@ typedef union
                                                                  0 = Does not cause access to CPACR or AP_CPACR_EL1 to be trapped.
                                                                  1 = Causes access to CPACR or AP_CPACR_EL1 to be trapped. */
 #endif /* Word 0 - End */
-    } cn;
+    } cn9;
 } bdk_ap_cptr_el2_t;
 
 #define BDK_AP_CPTR_EL2 BDK_AP_CPTR_EL2_FUNC()
@@ -5250,7 +5292,11 @@ typedef union
     struct bdk_ap_cvmctl_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_44_63        : 20;
+        uint64_t dpref_delta           : 1;  /**< [ 43: 43](R/W) Enable hardware dstream delta prefetcher. */
+        uint64_t dpref_next_line       : 1;  /**< [ 42: 42](R/W) Enable hardware next line dstream prefetcher. */
+        uint64_t dpref_stride2         : 1;  /**< [ 41: 41](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
+        uint64_t dpref_bp_dis          : 1;  /**< [ 40: 40](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
@@ -5308,7 +5354,11 @@ typedef union
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t dpref_bp_dis          : 1;  /**< [ 40: 40](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
+        uint64_t dpref_stride2         : 1;  /**< [ 41: 41](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
+        uint64_t dpref_next_line       : 1;  /**< [ 42: 42](R/W) Enable hardware next line dstream prefetcher. */
+        uint64_t dpref_delta           : 1;  /**< [ 43: 43](R/W) Enable hardware dstream delta prefetcher. */
+        uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
     struct bdk_ap_cvmctl_el1_cn88xxp1
@@ -5375,10 +5425,73 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ap_cvmctl_el1_s cn9; */
+    struct bdk_ap_cvmctl_el1_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
+                                                                 the fill operation. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+#else /* Word 0 - Little Endian */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t reserved_10_15        : 6;
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
+                                                                 the fill operation. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } cn9;
     /* struct bdk_ap_cvmctl_el1_s cn81xx; */
     /* struct bdk_ap_cvmctl_el1_s cn83xx; */
-    /* struct bdk_ap_cvmctl_el1_s cn88xxp2; */
+    /* struct bdk_ap_cvmctl_el1_cn9 cn88xxp2; */
 } bdk_ap_cvmctl_el1_t;
 
 #define BDK_AP_CVMCTL_EL1 BDK_AP_CVMCTL_EL1_FUNC()
@@ -12476,7 +12589,89 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ap_id_aa64dfr0_el1_s cn; */
+    /* struct bdk_ap_id_aa64dfr0_el1_s cn9; */
+    struct bdk_ap_id_aa64dfr0_el1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ctx_cmps              : 4;  /**< [ 31: 28](RO) Number of breakpoints that are context-aware, minus 1. These
+                                                                     are the highest numbered breakpoints.
+
+                                                                 In CNXXXX all breakpoints are context-aware. */
+        uint64_t reserved_24_27        : 4;
+        uint64_t wrps                  : 4;  /**< [ 23: 20](RO) Number of watchpoints, minus 1. The value of 0b0000 is reserved.
+
+                                                                 In CNXXXX 4 watchpoints. */
+        uint64_t reserved_16_19        : 4;
+        uint64_t brps                  : 4;  /**< [ 15: 12](RO) Number of breakpoints, minus 1. The value of 0b0000 is reserved.
+
+                                                                 In CNXXXX 6 breakpoints. */
+        uint64_t pmuver                : 4;  /**< [ 11:  8](RO) Performance Monitors extension version. Indicates whether
+                                                                     system register interface to Performance Monitors extension is
+                                                                     implemented.
+                                                                 All other values are reserved.
+                                                                 0x0 = Performance Monitors extension system registers not
+                                                                     implemented.
+                                                                 0x1 = Performance Monitors extension system registers implemented,
+                                                                     PMUv3.
+                                                                 0x4 = v8.1: Performance Monitors extension system registers
+                                                                     implemented, PMUv3 with 16bit evtCount.
+                                                                 0xF =  implementation defined form of performance monitors
+                                                                     supported, PMUv3 not supported. */
+        uint64_t tracever              : 4;  /**< [  7:  4](RO) Trace extension. Indicates whether system register interface to the trace
+                                                                 extension is implemented.
+                                                                 All other values are reserved.
+                                                                 0x0 = Trace extension system registers not implemented.
+                                                                 0x1 = Trace extension system registers implemented. */
+        uint64_t debugver              : 4;  /**< [  3:  0](RO) Debug architecture version. Indicates presence of ARMv8 debug
+                                                                     architecture.
+                                                                 All other values are reserved.
+                                                                 0x6 = ARMv8 debug architecture.
+                                                                 0x7 = ARMv8.1 debug architecture.
+
+                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x7, else 0x6. */
+#else /* Word 0 - Little Endian */
+        uint64_t debugver              : 4;  /**< [  3:  0](RO) Debug architecture version. Indicates presence of ARMv8 debug
+                                                                     architecture.
+                                                                 All other values are reserved.
+                                                                 0x6 = ARMv8 debug architecture.
+                                                                 0x7 = ARMv8.1 debug architecture.
+
+                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x7, else 0x6. */
+        uint64_t tracever              : 4;  /**< [  7:  4](RO) Trace extension. Indicates whether system register interface to the trace
+                                                                 extension is implemented.
+                                                                 All other values are reserved.
+                                                                 0x0 = Trace extension system registers not implemented.
+                                                                 0x1 = Trace extension system registers implemented. */
+        uint64_t pmuver                : 4;  /**< [ 11:  8](RO) Performance Monitors extension version. Indicates whether
+                                                                     system register interface to Performance Monitors extension is
+                                                                     implemented.
+                                                                 All other values are reserved.
+                                                                 0x0 = Performance Monitors extension system registers not
+                                                                     implemented.
+                                                                 0x1 = Performance Monitors extension system registers implemented,
+                                                                     PMUv3.
+                                                                 0x4 = v8.1: Performance Monitors extension system registers
+                                                                     implemented, PMUv3 with 16bit evtCount.
+                                                                 0xF =  implementation defined form of performance monitors
+                                                                     supported, PMUv3 not supported. */
+        uint64_t brps                  : 4;  /**< [ 15: 12](RO) Number of breakpoints, minus 1. The value of 0b0000 is reserved.
+
+                                                                 In CNXXXX 6 breakpoints. */
+        uint64_t reserved_16_19        : 4;
+        uint64_t wrps                  : 4;  /**< [ 23: 20](RO) Number of watchpoints, minus 1. The value of 0b0000 is reserved.
+
+                                                                 In CNXXXX 4 watchpoints. */
+        uint64_t reserved_24_27        : 4;
+        uint64_t ctx_cmps              : 4;  /**< [ 31: 28](RO) Number of breakpoints that are context-aware, minus 1. These
+                                                                     are the highest numbered breakpoints.
+
+                                                                 In CNXXXX all breakpoints are context-aware. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_ap_id_aa64dfr0_el1_s cn88xx; */
+    /* struct bdk_ap_id_aa64dfr0_el1_s cn83xx; */
 } bdk_ap_id_aa64dfr0_el1_t;
 
 #define BDK_AP_ID_AA64DFR0_EL1 BDK_AP_ID_AA64DFR0_EL1_FUNC()
@@ -14945,7 +15140,14 @@ typedef union
 
                                                                  When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
                                                                      RW. */
-        uint32_t reserved_16_20        : 5;
+        uint32_t reserved_20           : 1;
+        uint32_t sc2                   : 1;  /**< [ 19: 19](R/W) Used for save/restore of EDSCR[SC2].
+
+                                                                 When AP_OSLSR_EL1[OSLK] = 0 (the OS lock is unlocked), this bit is
+                                                                 read-only. Software must treat it as unknown and use an SBZP policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] = 1 (the OS lock is locked), this bit is R/W. */
+        uint32_t reserved_16_18        : 3;
         uint32_t mde                   : 1;  /**< [ 15: 15](R/W) Monitor debug events. Enable Breakpoint, Watchpoint, and
                                                                      Vector catch debug exceptions.
                                                                  0 = Breakpoint, Watchpoint, and Vector catch debug exceptions
@@ -15033,7 +15235,14 @@ typedef union
                                                                      disabled.
                                                                  1 = Breakpoint, Watchpoint, and Vector catch debug exceptions
                                                                      enabled. */
-        uint32_t reserved_16_20        : 5;
+        uint32_t reserved_16_18        : 3;
+        uint32_t sc2                   : 1;  /**< [ 19: 19](R/W) Used for save/restore of EDSCR[SC2].
+
+                                                                 When AP_OSLSR_EL1[OSLK] = 0 (the OS lock is unlocked), this bit is
+                                                                 read-only. Software must treat it as unknown and use an SBZP policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] = 1 (the OS lock is locked), this bit is R/W. */
+        uint32_t reserved_20           : 1;
         uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Used for save/restore of EDSCR[TDA].
                                                                  When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
                                                                      is RO. Software must treat it as UNKNOWN and use an SBZP
@@ -15079,7 +15288,191 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_mdscr_el1_cn
+    struct bdk_ap_mdscr_el1_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t rxfull                : 1;  /**< [ 30: 30](R/W) Used for save/restore of EDSCR[RXfull].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO, and software must treat it as UNK/SBZP.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t txfull                : 1;  /**< [ 29: 29](R/W) Used for save/restore of EDSCR[TXfull].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO, and software must treat it as UNK/SBZP.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t reserved_28           : 1;
+        uint32_t rxo                   : 1;  /**< [ 27: 27](R/W) Used for save/restore of EDSCR[RXO].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t txu                   : 1;  /**< [ 26: 26](R/W) Used for save/restore of EDSCR[TXU].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t reserved_24_25        : 2;
+        uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Used for save/restore of EDSCR[INTdis].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this field
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this field
+                                                                     is RW. */
+        uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Used for save/restore of EDSCR[TDA].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t reserved_20           : 1;
+        uint32_t reserved_19           : 1;
+        uint32_t reserved_16_18        : 3;
+        uint32_t mde                   : 1;  /**< [ 15: 15](R/W) Monitor debug events. Enable Breakpoint, Watchpoint, and
+                                                                     Vector catch debug exceptions.
+                                                                 0 = Breakpoint, Watchpoint, and Vector catch debug exceptions
+                                                                     disabled.
+                                                                 1 = Breakpoint, Watchpoint, and Vector catch debug exceptions
+                                                                     enabled. */
+        uint32_t hde                   : 1;  /**< [ 14: 14](R/W) Used for save/restore of EDSCR[HDE].
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t kde                   : 1;  /**< [ 13: 13](R/W) Local (kernel) debug enable. If EL{d} is using
+                                                                     AArch64, enable Software debug events within EL{d}.
+
+                                                                 RES0 if EL{d} is using AArch32.
+                                                                 0 = Software debug events, other than Software breakpoint
+                                                                     instructions, disabled within EL{d}.
+                                                                 1 = Software debug events enabled within EL{d}. */
+        uint32_t tdcc                  : 1;  /**< [ 12: 12](R/W) Trap Debug Communications Channel access. When set, any EL0
+                                                                     access to the following registers is trapped to EL1:
+
+                                                                 AArch32: DBGDIDR, DBGDRAR, DBGDSAR, DBGDSCRint, DBGDTRTXint,
+                                                                     DBGDTRRXint.
+
+                                                                 AArch64: AP_MDCCSR_EL0, AP_DBGDTR_EL0, AP_DBGDTRTX_EL0, AP_DBGDTRRX_EL0. */
+        uint32_t reserved_7_11         : 5;
+        uint32_t err                   : 1;  /**< [  6:  6](R/W) Used for save/restore of EDSCR[ERR].
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t reserved_1_5          : 5;
+        uint32_t ss                    : 1;  /**< [  0:  0](R/W) Software step control bit. If EL{d} is using AArch64,
+                                                                     enable Software step.
+                                                                 RES0 if EL{d} is using AArch32.
+                                                                 0 = Software step disabled
+                                                                 1 = Software step enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t ss                    : 1;  /**< [  0:  0](R/W) Software step control bit. If EL{d} is using AArch64,
+                                                                     enable Software step.
+                                                                 RES0 if EL{d} is using AArch32.
+                                                                 0 = Software step disabled
+                                                                 1 = Software step enabled. */
+        uint32_t reserved_1_5          : 5;
+        uint32_t err                   : 1;  /**< [  6:  6](R/W) Used for save/restore of EDSCR[ERR].
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t reserved_7_11         : 5;
+        uint32_t tdcc                  : 1;  /**< [ 12: 12](R/W) Trap Debug Communications Channel access. When set, any EL0
+                                                                     access to the following registers is trapped to EL1:
+
+                                                                 AArch32: DBGDIDR, DBGDRAR, DBGDSAR, DBGDSCRint, DBGDTRTXint,
+                                                                     DBGDTRRXint.
+
+                                                                 AArch64: AP_MDCCSR_EL0, AP_DBGDTR_EL0, AP_DBGDTRTX_EL0, AP_DBGDTRRX_EL0. */
+        uint32_t kde                   : 1;  /**< [ 13: 13](R/W) Local (kernel) debug enable. If EL{d} is using
+                                                                     AArch64, enable Software debug events within EL{d}.
+
+                                                                 RES0 if EL{d} is using AArch32.
+                                                                 0 = Software debug events, other than Software breakpoint
+                                                                     instructions, disabled within EL{d}.
+                                                                 1 = Software debug events enabled within EL{d}. */
+        uint32_t hde                   : 1;  /**< [ 14: 14](R/W) Used for save/restore of EDSCR[HDE].
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t mde                   : 1;  /**< [ 15: 15](R/W) Monitor debug events. Enable Breakpoint, Watchpoint, and
+                                                                     Vector catch debug exceptions.
+                                                                 0 = Breakpoint, Watchpoint, and Vector catch debug exceptions
+                                                                     disabled.
+                                                                 1 = Breakpoint, Watchpoint, and Vector catch debug exceptions
+                                                                     enabled. */
+        uint32_t reserved_16_18        : 3;
+        uint32_t reserved_19           : 1;
+        uint32_t reserved_20           : 1;
+        uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Used for save/restore of EDSCR[TDA].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Used for save/restore of EDSCR[INTdis].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this field
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this field
+                                                                     is RW. */
+        uint32_t reserved_24_25        : 2;
+        uint32_t txu                   : 1;  /**< [ 26: 26](R/W) Used for save/restore of EDSCR[TXU].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t rxo                   : 1;  /**< [ 27: 27](R/W) Used for save/restore of EDSCR[RXO].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
+                                                                     policy for writes.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t reserved_28           : 1;
+        uint32_t txfull                : 1;  /**< [ 29: 29](R/W) Used for save/restore of EDSCR[TXfull].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO, and software must treat it as UNK/SBZP.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t rxfull                : 1;  /**< [ 30: 30](R/W) Used for save/restore of EDSCR[RXfull].
+                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
+                                                                     is RO, and software must treat it as UNK/SBZP.
+
+                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
+                                                                     RW. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+    struct bdk_ap_mdscr_el1_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
@@ -15260,7 +15653,10 @@ typedef union
                                                                      RW. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } cn;
+    } cn9;
+    /* struct bdk_ap_mdscr_el1_s cn81xx; */
+    /* struct bdk_ap_mdscr_el1_s cn83xx; */
+    /* struct bdk_ap_mdscr_el1_s cn88xxp2; */
 } bdk_ap_mdscr_el1_t;
 
 #define BDK_AP_MDSCR_EL1 BDK_AP_MDSCR_EL1_FUNC()

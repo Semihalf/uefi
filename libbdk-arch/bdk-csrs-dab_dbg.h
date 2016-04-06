@@ -185,7 +185,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fb8ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fb8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGAUTHSTATUS_EL1", 1, a, 0, 0, 0);
 }
@@ -459,7 +461,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b)
 {
-    if ((a<=47) && (b<=5))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
+        return 0x87a008000408ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
         return 0x87a008000408ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGBCRX_EL1", 2, a, b, 0, 0);
 }
@@ -493,7 +497,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long a, unsigned long b)
 {
-    if ((a<=47) && (b<=5))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
+        return 0x87a008000404ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
         return 0x87a008000404ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGBVRX_EL1_HI", 2, a, b, 0, 0);
 }
@@ -527,7 +533,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b)
 {
-    if ((a<=47) && (b<=5))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
+        return 0x87a008000400ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
         return 0x87a008000400ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGBVRX_EL1_LO", 2, a, b, 0, 0);
 }
@@ -574,7 +582,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fa4ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fa4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGCLAIMCLR_EL1", 1, a, 0, 0, 0);
 }
@@ -618,7 +628,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fa0ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fa0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGCLAIMSET_EL1", 1, a, 0, 0, 0);
 }
@@ -659,7 +671,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000080ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000080ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGDTRRX_EL0", 1, a, 0, 0, 0);
 }
@@ -704,7 +718,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a00800008cll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a00800008cll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGDTRTX_EL0", 1, a, 0, 0, 0);
 }
@@ -928,7 +944,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b)
 {
-    if ((a<=47) && (b<=5))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
+        return 0x87a008000808ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
         return 0x87a008000808ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGWCRX_EL1", 2, a, b, 0, 0);
 }
@@ -962,7 +980,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b)
 {
-    if ((a<=47) && (b<=5))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
+        return 0x87a008000804ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
         return 0x87a008000804ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGWVRX_EL1_HI", 2, a, b, 0, 0);
 }
@@ -996,7 +1016,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b)
 {
-    if ((a<=47) && (b<=5))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
+        return 0x87a008000800ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
         return 0x87a008000800ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGWVRX_EL1_LO", 2, a, b, 0, 0);
 }
@@ -1032,7 +1054,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000ff0ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000ff0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDR0", 1, a, 0, 0, 0);
 }
@@ -1070,7 +1094,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000ff4ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000ff4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDR1", 1, a, 0, 0, 0);
 }
@@ -1106,7 +1132,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000ff8ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000ff8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDR2", 1, a, 0, 0, 0);
 }
@@ -1142,7 +1170,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000ffcll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000ffcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDR3", 1, a, 0, 0, 0);
 }
@@ -1185,7 +1215,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a0080000a4ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a0080000a4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDSR", 1, a, 0, 0, 0);
 }
@@ -1229,7 +1261,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fa8ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fa8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVAFF0", 1, a, 0, 0, 0);
 }
@@ -1265,7 +1299,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000facll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000facll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVAFF1", 1, a, 0, 0, 0);
 }
@@ -1370,7 +1406,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fbcll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fbcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVARCH", 1, a, 0, 0, 0);
 }
@@ -1438,7 +1476,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fc8ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fc8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVID", 1, a, 0, 0, 0);
 }
@@ -1494,7 +1534,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fc4ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fc4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVID1", 1, a, 0, 0, 0);
 }
@@ -1532,7 +1574,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fc0ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fc0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVID2", 1, a, 0, 0, 0);
 }
@@ -1571,7 +1615,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fccll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fccll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVTYPE", 1, a, 0, 0, 0);
 }
@@ -1650,7 +1696,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDFR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000d28ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000d28ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDFR", 1, a, 0, 0, 0);
 }
@@ -1720,7 +1768,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDECCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDECCR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000098ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000098ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDECCR", 1, a, 0, 0, 0);
 }
@@ -1776,7 +1826,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDECR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDECR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000024ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000024ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDECR", 1, a, 0, 0, 0);
 }
@@ -1843,7 +1895,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDESR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDESR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000020ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000020ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDESR", 1, a, 0, 0, 0);
 }
@@ -1890,7 +1944,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000f00ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000f00ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDITCTRL", 1, a, 0, 0, 0);
 }
@@ -1931,7 +1987,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDITR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDITR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000084ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000084ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDITR", 1, a, 0, 0, 0);
 }
@@ -1972,7 +2030,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDLAR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fb0ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fb0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDLAR", 1, a, 0, 0, 0);
 }
@@ -2043,7 +2103,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDLSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDLSR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fb4ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fb4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDLSR", 1, a, 0, 0, 0);
 }
@@ -2077,7 +2139,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a0080000acll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a0080000acll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPCSR_HI", 1, a, 0, 0, 0);
 }
@@ -2114,7 +2178,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a0080000a0ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a0080000a0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPCSR_LO", 1, a, 0, 0, 0);
 }
@@ -2213,7 +2279,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPFR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000d20ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000d20ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPFR", 1, a, 0, 0, 0);
 }
@@ -2249,7 +2317,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fe0ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fe0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR0", 1, a, 0, 0, 0);
 }
@@ -2287,7 +2357,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fe4ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fe4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR1", 1, a, 0, 0, 0);
 }
@@ -2327,7 +2399,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fe8ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fe8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR2", 1, a, 0, 0, 0);
 }
@@ -2367,7 +2441,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fecll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fecll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR3", 1, a, 0, 0, 0);
 }
@@ -2409,7 +2485,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fd0ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fd0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR4", 1, a, 0, 0, 0);
 }
@@ -2443,7 +2521,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fd4ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fd4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR5", 1, a, 0, 0, 0);
 }
@@ -2477,7 +2557,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fd8ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fd8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR6", 1, a, 0, 0, 0);
 }
@@ -2511,7 +2593,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000fdcll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000fdcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR7", 1, a, 0, 0, 0);
 }
@@ -2604,7 +2688,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000310ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000310ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPRCR", 1, a, 0, 0, 0);
 }
@@ -3027,7 +3113,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000314ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000314ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPRSR", 1, a, 0, 0, 0);
 }
@@ -3086,7 +3174,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDRCR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000090ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000090ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDRCR", 1, a, 0, 0, 0);
 }
@@ -3159,6 +3249,302 @@ typedef union
 
                                                                  0 = Normal access mode.
                                                                  1 = Memory access mode. */
+        uint32_t sc2                   : 1;  /**< [ 19: 19](R/W) Sample CONTEXTIDR_EL2.
+
+                                                                 0 = Sample VTTBR_EL2[VMID].
+                                                                 1 = Sample CONTEXTIDR_EL2. */
+        uint32_t nsec                  : 1;  /**< [ 18: 18](RO) Nonsecure status (NS). When in debug state, gives the
+                                                                     current security state.
+                                                                 In nondebug state, this bit is UNKNOWN.
+
+                                                                 0 = Secure state, IsSecure() == TRUE.
+                                                                 1 = Nonsecure state, IsSecure() == FALSE. */
+        uint32_t reserved_17           : 1;
+        uint32_t sdd                   : 1;  /**< [ 16: 16](RO) Secure debug disabled.
+
+                                                                 On entry to debug state:
+                                                                    If entering in secure state, SDD is set to 0.
+                                                                    If entering in nonsecure state, SDD is set to the inverse of
+                                                                     ExternalSecureInvasiveDebugEnabled().
+
+                                                                 In debug state, the value of the SDD bit does not change, even
+                                                                     if ExternalSecureInvasiveDebugEnabled() changes.
+
+                                                                 In non-debug state:
+                                                                    SDD returns the inverse of
+                                                                     ExternalSecureInvasiveDebugEnabled(). If the authentication
+                                                                     signals that control ExternalSecureInvasiveDebugEnabled()
+                                                                     change, a context synchronization operation is required to
+                                                                     guarantee their effect.
+
+                                                                    This bit is unaffected by the security state of the
+                                                                     processor.
+
+                                                                 If EL3 is not implemented and the implementation is non
+                                                                     secure, this bit is reserved. */
+        uint32_t reserved_15           : 1;
+        uint32_t hde                   : 1;  /**< [ 14: 14](R/W) Halting debug mode enable.
+
+                                                                 0 = Halting debug mode disabled.
+                                                                 1 = Halting debug mode enabled. */
+        uint32_t rw                    : 4;  /**< [ 13: 10](RO) Exception level register-width status. Read-only. In debug
+                                                                     state, each bit gives the current register width status of
+                                                                     each EL:
+                                                                 However:
+                                                                  If not at EL0: RW[0] == RW[1].
+                                                                  If EL2 is not implemented in the current security state:
+                                                                     RW[2] == RW[1].
+                                                                  If EL3 is not implemented: RW[3] == RW[2].
+                                                                 In Non-debug state, this field is RAO.
+                                                                 <1111>      All exception levels are AArch64 state.
+                                                                 <1110>      EL0 is AArch32 state. All other exception levels are AArch64
+                                                                     state.
+                                                                 <1100>      EL0 and EL1 are AArch32 state. All other exception levels are
+                                                                     AArch64 state. Never seen if EL2 is not implemented in the
+                                                                     current security state.
+                                                                 <1000>      EL0, EL1, and, if implemented in the current security state,
+                                                                     EL2 are AArch32 state. All other exception levels are AArch64
+                                                                     state.
+                                                                 <0000>      All exception levels are set to AArch32 state (32-bit
+                                                                     configuration).
+
+                                                                 In CNXXXX, this field is always <1111>..  All other values will be ignored. */
+        uint32_t el                    : 2;  /**< [  9:  8](RO) Exception level.  In debug state, this gives the
+                                                                     current EL of the processor.
+                                                                 In nondebug state, this field reads as zero. */
+        uint32_t aa                    : 1;  /**< [  7:  7](RO) System error interrupt (asynchronous abort) pending.
+                                                                     In debug state, indicates whether a SError interrupt is
+                                                                     pending:
+                                                                  If AP_HCR_EL2.{AMO, TGE} = {1, 0} and in nonsecure EL0 or EL1,
+                                                                     a virtual SError interrupt.
+                                                                  Otherwise, a physical SError interrupt.
+                                                                 A debugger can read EDSCR to check whether a SError interrupt
+                                                                     is pending without having to execute further instructions. A
+                                                                     pending SError might indicate data from target memory is
+                                                                     corrupted.
+                                                                  UNKNOWN in nondebug state.
+                                                                 <0> No SError interrupt pending.
+                                                                 <1> SError interrupt pending. */
+        uint32_t errflg                : 1;  /**< [  6:  6](RO) Cumulative error flag. It is set to 1
+                                                                     following exceptions in debug state and on any signaled
+                                                                     overrun or underrun on the DTR or EDITR. */
+        uint32_t status                : 6;  /**< [  5:  0](RO) Debug status flags.
+                                                                 The possible values of this field are:
+                                                                 All other values of STATUS are reserved.
+                                                                 <000010>    Processor is in Non-debug state.
+                                                                 <000001>    Processor is restarting (exiting Debug state).
+                                                                 <000111>    Breakpoint.
+                                                                 <010011>    External debug request.
+                                                                 <011011>    Halting step, normal.
+                                                                 <011111>    Halting step, exclusive.
+                                                                 <100011>    OS unlock catch.
+                                                                 <100111>    Reset catch.
+                                                                 <101011>    Watchpoint.
+                                                                 <101111>    HLT instruction.
+                                                                 <110011>    Software access to debug register.
+                                                                 <110111>    Exception catch.
+                                                                 <111011>    Halting step, no syndrome. */
+#else /* Word 0 - Little Endian */
+        uint32_t status                : 6;  /**< [  5:  0](RO) Debug status flags.
+                                                                 The possible values of this field are:
+                                                                 All other values of STATUS are reserved.
+                                                                 <000010>    Processor is in Non-debug state.
+                                                                 <000001>    Processor is restarting (exiting Debug state).
+                                                                 <000111>    Breakpoint.
+                                                                 <010011>    External debug request.
+                                                                 <011011>    Halting step, normal.
+                                                                 <011111>    Halting step, exclusive.
+                                                                 <100011>    OS unlock catch.
+                                                                 <100111>    Reset catch.
+                                                                 <101011>    Watchpoint.
+                                                                 <101111>    HLT instruction.
+                                                                 <110011>    Software access to debug register.
+                                                                 <110111>    Exception catch.
+                                                                 <111011>    Halting step, no syndrome. */
+        uint32_t errflg                : 1;  /**< [  6:  6](RO) Cumulative error flag. It is set to 1
+                                                                     following exceptions in debug state and on any signaled
+                                                                     overrun or underrun on the DTR or EDITR. */
+        uint32_t aa                    : 1;  /**< [  7:  7](RO) System error interrupt (asynchronous abort) pending.
+                                                                     In debug state, indicates whether a SError interrupt is
+                                                                     pending:
+                                                                  If AP_HCR_EL2.{AMO, TGE} = {1, 0} and in nonsecure EL0 or EL1,
+                                                                     a virtual SError interrupt.
+                                                                  Otherwise, a physical SError interrupt.
+                                                                 A debugger can read EDSCR to check whether a SError interrupt
+                                                                     is pending without having to execute further instructions. A
+                                                                     pending SError might indicate data from target memory is
+                                                                     corrupted.
+                                                                  UNKNOWN in nondebug state.
+                                                                 <0> No SError interrupt pending.
+                                                                 <1> SError interrupt pending. */
+        uint32_t el                    : 2;  /**< [  9:  8](RO) Exception level.  In debug state, this gives the
+                                                                     current EL of the processor.
+                                                                 In nondebug state, this field reads as zero. */
+        uint32_t rw                    : 4;  /**< [ 13: 10](RO) Exception level register-width status. Read-only. In debug
+                                                                     state, each bit gives the current register width status of
+                                                                     each EL:
+                                                                 However:
+                                                                  If not at EL0: RW[0] == RW[1].
+                                                                  If EL2 is not implemented in the current security state:
+                                                                     RW[2] == RW[1].
+                                                                  If EL3 is not implemented: RW[3] == RW[2].
+                                                                 In Non-debug state, this field is RAO.
+                                                                 <1111>      All exception levels are AArch64 state.
+                                                                 <1110>      EL0 is AArch32 state. All other exception levels are AArch64
+                                                                     state.
+                                                                 <1100>      EL0 and EL1 are AArch32 state. All other exception levels are
+                                                                     AArch64 state. Never seen if EL2 is not implemented in the
+                                                                     current security state.
+                                                                 <1000>      EL0, EL1, and, if implemented in the current security state,
+                                                                     EL2 are AArch32 state. All other exception levels are AArch64
+                                                                     state.
+                                                                 <0000>      All exception levels are set to AArch32 state (32-bit
+                                                                     configuration).
+
+                                                                 In CNXXXX, this field is always <1111>..  All other values will be ignored. */
+        uint32_t hde                   : 1;  /**< [ 14: 14](R/W) Halting debug mode enable.
+
+                                                                 0 = Halting debug mode disabled.
+                                                                 1 = Halting debug mode enabled. */
+        uint32_t reserved_15           : 1;
+        uint32_t sdd                   : 1;  /**< [ 16: 16](RO) Secure debug disabled.
+
+                                                                 On entry to debug state:
+                                                                    If entering in secure state, SDD is set to 0.
+                                                                    If entering in nonsecure state, SDD is set to the inverse of
+                                                                     ExternalSecureInvasiveDebugEnabled().
+
+                                                                 In debug state, the value of the SDD bit does not change, even
+                                                                     if ExternalSecureInvasiveDebugEnabled() changes.
+
+                                                                 In non-debug state:
+                                                                    SDD returns the inverse of
+                                                                     ExternalSecureInvasiveDebugEnabled(). If the authentication
+                                                                     signals that control ExternalSecureInvasiveDebugEnabled()
+                                                                     change, a context synchronization operation is required to
+                                                                     guarantee their effect.
+
+                                                                    This bit is unaffected by the security state of the
+                                                                     processor.
+
+                                                                 If EL3 is not implemented and the implementation is non
+                                                                     secure, this bit is reserved. */
+        uint32_t reserved_17           : 1;
+        uint32_t nsec                  : 1;  /**< [ 18: 18](RO) Nonsecure status (NS). When in debug state, gives the
+                                                                     current security state.
+                                                                 In nondebug state, this bit is UNKNOWN.
+
+                                                                 0 = Secure state, IsSecure() == TRUE.
+                                                                 1 = Nonsecure state, IsSecure() == FALSE. */
+        uint32_t sc2                   : 1;  /**< [ 19: 19](R/W) Sample CONTEXTIDR_EL2.
+
+                                                                 0 = Sample VTTBR_EL2[VMID].
+                                                                 1 = Sample CONTEXTIDR_EL2. */
+        uint32_t ma                    : 1;  /**< [ 20: 20](R/W) Memory-access mode. Controls use of memory-access mode for
+                                                                     accessing EDITR and the DCC. This bit is ignored if in non
+                                                                     debug state and set to 0 on entry to debug state.
+                                                                 Possible values of this field are:
+
+                                                                 0 = Normal access mode.
+                                                                 1 = Memory access mode. */
+        uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Trap debug registers accesses unless OSLSR_EL1.OSLCK = 1 or halting is prohibited.
+                                                                 Affected registers are the DBG()_DBGBVR()_EL1_LO, DBG()_DBGBVR()_EL1_HI,
+                                                                 DBG()_DBGBCR()_EL1, DBG()_DBGWVR()_EL1_LO, DBG()_DBGWVR()_EL1_HI, and DBG()_DBGWCR()_EL1. */
+        uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Interrupt disable. Disables taking interrupts (including
+                                                                     virtual interrupts and system error interrupts) in nondebug
+                                                                     state.
+
+                                                                 The value of this field does not affect whether an interrupt is a
+                                                                     WFI wake-up event, but can mask an interrupt as a WFE wake-up
+                                                                     event.
+                                                                 If EL3 and EL2 are not implemented, INTDIS<0> is RO and reads
+                                                                     the same value as INTDIS<1>, meaning only the values0b000b11.
+                                                                 If external-invasive debug is disabled, the value of this
+                                                                     field is ignored.
+                                                                 If external-invasive debug is enabled, the possible values of
+                                                                     this field are:
+                                                                 0x0 = Do not disable interrupts.
+                                                                 0x1 = Disable interrupts targeting nonsecure EL1.
+                                                                 0x2 = Disable interrupts targeting only nonsecure EL1 and nonsecure EL2. If external
+                                                                 secure invasive debug is enabled, also
+                                                                     disable interrupts targeting Secure EL1.
+                                                                 0x3 = Disable interrupts targeting only nonsecure EL1 and non
+                                                                     secure EL2. If external secure invasive debug is enabled, also
+                                                                     disable all other interrupts. */
+        uint32_t ite                   : 1;  /**< [ 24: 24](RO) ITR empty.
+                                                                 If the processor is not in the debug state, this bit is UNKNOWN.
+                                                                     It is always valid in the debug state.  When set to 1, the ITR is empty. */
+        uint32_t pipeadv               : 1;  /**< [ 25: 25](RO) Pipeline advance. This bit is set to 1 every time the processor
+                                                                     pipeline retires one or more instructions. Cleared to 0 by a
+                                                                     write to DBG()_EDRCR[CSPA].
+
+                                                                 The architecture does not define precisely when this bit is
+                                                                     set to 1. It requires only that this happen periodically in
+                                                                     nondebug state to indicate that software execution is
+                                                                     progressing. */
+        uint32_t txu                   : 1;  /**< [ 26: 26](RO) Indicates DTRTX underrun. */
+        uint32_t rxo                   : 1;  /**< [ 27: 27](RO) Indicates DTRRX overrun. */
+        uint32_t ito                   : 1;  /**< [ 28: 28](RO) EDITR overrun.
+                                                                 If the processor is not in the debug state, this bit is UNKNOWN.
+                                                                     ITO is set to 0 on entry to debug state. */
+        uint32_t txfull                : 1;  /**< [ 29: 29](RO) DTRTX is full. */
+        uint32_t rxfull                : 1;  /**< [ 30: 30](RO) DTRRX is full. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_dbgx_edscr_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t rxfull                : 1;  /**< [ 30: 30](RO) DTRRX is full. */
+        uint32_t txfull                : 1;  /**< [ 29: 29](RO) DTRTX is full. */
+        uint32_t ito                   : 1;  /**< [ 28: 28](RO) EDITR overrun.
+                                                                 If the processor is not in the debug state, this bit is UNKNOWN.
+                                                                     ITO is set to 0 on entry to debug state. */
+        uint32_t rxo                   : 1;  /**< [ 27: 27](RO) Indicates DTRRX overrun. */
+        uint32_t txu                   : 1;  /**< [ 26: 26](RO) Indicates DTRTX underrun. */
+        uint32_t pipeadv               : 1;  /**< [ 25: 25](RO) Pipeline advance. This bit is set to 1 every time the processor
+                                                                     pipeline retires one or more instructions. Cleared to 0 by a
+                                                                     write to DBG()_EDRCR[CSPA].
+
+                                                                 The architecture does not define precisely when this bit is
+                                                                     set to 1. It requires only that this happen periodically in
+                                                                     nondebug state to indicate that software execution is
+                                                                     progressing. */
+        uint32_t ite                   : 1;  /**< [ 24: 24](RO) ITR empty.
+                                                                 If the processor is not in the debug state, this bit is UNKNOWN.
+                                                                     It is always valid in the debug state.  When set to 1, the ITR is empty. */
+        uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Interrupt disable. Disables taking interrupts (including
+                                                                     virtual interrupts and system error interrupts) in nondebug
+                                                                     state.
+
+                                                                 The value of this field does not affect whether an interrupt is a
+                                                                     WFI wake-up event, but can mask an interrupt as a WFE wake-up
+                                                                     event.
+                                                                 If EL3 and EL2 are not implemented, INTDIS<0> is RO and reads
+                                                                     the same value as INTDIS<1>, meaning only the values0b000b11.
+                                                                 If external-invasive debug is disabled, the value of this
+                                                                     field is ignored.
+                                                                 If external-invasive debug is enabled, the possible values of
+                                                                     this field are:
+                                                                 0x0 = Do not disable interrupts.
+                                                                 0x1 = Disable interrupts targeting nonsecure EL1.
+                                                                 0x2 = Disable interrupts targeting only nonsecure EL1 and nonsecure EL2. If external
+                                                                 secure invasive debug is enabled, also
+                                                                     disable interrupts targeting Secure EL1.
+                                                                 0x3 = Disable interrupts targeting only nonsecure EL1 and non
+                                                                     secure EL2. If external secure invasive debug is enabled, also
+                                                                     disable all other interrupts. */
+        uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Trap debug registers accesses unless OSLSR_EL1.OSLCK = 1 or halting is prohibited.
+                                                                 Affected registers are the DBG()_DBGBVR()_EL1_LO, DBG()_DBGBVR()_EL1_HI,
+                                                                 DBG()_DBGBCR()_EL1, DBG()_DBGWVR()_EL1_LO, DBG()_DBGWVR()_EL1_HI, and DBG()_DBGWCR()_EL1. */
+        uint32_t ma                    : 1;  /**< [ 20: 20](R/W) Memory-access mode. Controls use of memory-access mode for
+                                                                     accessing EDITR and the DCC. This bit is ignored if in non
+                                                                     debug state and set to 0 on entry to debug state.
+                                                                 Possible values of this field are:
+
+                                                                 0 = Normal access mode.
+                                                                 1 = Memory access mode. */
         uint32_t reserved_19           : 1;
         uint32_t nsec                  : 1;  /**< [ 18: 18](RO) Nonsecure status (NS). When in debug state, gives the
                                                                      current security state.
@@ -3395,14 +3781,19 @@ typedef union
         uint32_t rxfull                : 1;  /**< [ 30: 30](RO) DTRRX is full. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dbgx_edscr_s cn; */
+    } cn88xxp1;
+    /* struct bdk_dbgx_edscr_cn88xxp1 cn9; */
+    /* struct bdk_dbgx_edscr_s cn81xx; */
+    /* struct bdk_dbgx_edscr_s cn83xx; */
+    /* struct bdk_dbgx_edscr_s cn88xxp2; */
 } bdk_dbgx_edscr_t;
 
 static inline uint64_t BDK_DBGX_EDSCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDSCR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000088ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000088ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDSCR", 1, a, 0, 0, 0);
 }
@@ -3423,6 +3814,84 @@ typedef union
 {
     uint32_t u;
     struct bdk_dbgx_edvidsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
+                                                                     associated with the most recent EDPCSR sample. */
+        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
+                                                                     0, this bit is 0. */
+        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
+                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
+                                                                     EDPCSR was read, this bit is 0. */
+        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
+                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
+                                                                    value of EDPCSR[63:32] is 0x0. */
+        uint32_t reserved_16_27        : 12;
+        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2.VMID associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR.NS == 0 or EDVIDSR.E2 ==
+                                                                     1, this field is 0x0. */
+#else /* Word 0 - Little Endian */
+        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2.VMID associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR.NS == 0 or EDVIDSR.E2 ==
+                                                                     1, this field is 0x0. */
+        uint32_t reserved_16_27        : 12;
+        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
+                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
+                                                                    value of EDPCSR[63:32] is 0x0. */
+        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
+                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
+                                                                     EDPCSR was read, this bit is 0. */
+        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
+                                                                     0, this bit is 0. */
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
+                                                                     associated with the most recent EDPCSR sample. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_dbgx_edvidsr_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
+                                                                     associated with the most recent EDPCSR sample. */
+        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
+                                                                     0, this bit is 0. */
+        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
+                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
+                                                                     EDPCSR was read, this bit is 0. */
+        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
+                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
+                                                                    value of EDPCSR[63:32] is 0x0. */
+        uint32_t reserved_16_27        : 12;
+        uint32_t reserved_8_15         : 8;
+        uint32_t vmid                  : 8;  /**< [  7:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
+                                                                     1, this field is 0x0. */
+#else /* Word 0 - Little Endian */
+        uint32_t vmid                  : 8;  /**< [  7:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
+                                                                     1, this field is 0x0. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t reserved_16_27        : 12;
+        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
+                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
+                                                                    value of EDPCSR[63:32] is 0x0. */
+        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
+                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
+                                                                     EDPCSR was read, this bit is 0. */
+        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
+                                                                     0, this bit is 0. */
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
+                                                                     associated with the most recent EDPCSR sample. */
+#endif /* Word 0 - End */
+    } cn88xxp1;
+    struct bdk_dbgx_edvidsr_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
@@ -3459,14 +3928,57 @@ typedef union
         uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
                                                                      associated with the most recent EDPCSR sample. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dbgx_edvidsr_s cn; */
+    } cn9;
+    struct bdk_dbgx_edvidsr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
+                                                                     associated with the most recent EDPCSR sample. */
+        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
+                                                                     0, this bit is 0. */
+        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
+                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
+                                                                     EDPCSR was read, this bit is 0. */
+        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
+                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
+                                                                    value of EDPCSR[63:32] is 0x0. */
+        uint32_t reserved_16_27        : 12;
+        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
+                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
+                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
+                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
+                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
+        uint32_t reserved_16_27        : 12;
+        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
+                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
+                                                                    value of EDPCSR[63:32] is 0x0. */
+        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
+                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
+                                                                     EDPCSR was read, this bit is 0. */
+        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
+                                                                     0, this bit is 0. */
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
+                                                                     associated with the most recent EDPCSR sample. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_dbgx_edvidsr_cn81xx cn83xx; */
+    /* struct bdk_dbgx_edvidsr_cn81xx cn88xxp2; */
 } bdk_dbgx_edvidsr_t;
 
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a0080000a8ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a0080000a8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDVIDSR", 1, a, 0, 0, 0);
 }
@@ -3502,7 +4014,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000034ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000034ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDWAR_HI", 1, a, 0, 0, 0);
 }
@@ -3540,7 +4054,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000030ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000030ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDWAR_LO", 1, a, 0, 0, 0);
 }
@@ -3651,7 +4167,9 @@ typedef union
 static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000d00ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000d00ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_MIDR_EL1", 1, a, 0, 0, 0);
 }
@@ -3689,7 +4207,9 @@ typedef union
 static inline uint64_t BDK_DBGX_OSLAR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_OSLAR_EL1(unsigned long a)
 {
-    if (a<=47)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
+        return 0x87a008000300ll + 0x80000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
         return 0x87a008000300ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_OSLAR_EL1", 1, a, 0, 0, 0);
 }

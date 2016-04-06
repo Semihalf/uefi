@@ -1448,7 +1448,7 @@ union bdk_pki_wqe_s
                                                                  [SH] = PKI_BEWQ_S[SH] | PKI_STYLE()_WQ2<21>
 
                                                                  Microcode is capable of setting this field, but does not at present. */
-        uint64_t pf4                   : 1;  /**< [148:148] Opaque to PKI HW. Software may wish to use this bit to indicate a particular
+        uint64_t pf4                   : 1;  /**< [148:148] Opaque to PKI hardware. Software may wish to use this bit to indicate a particular
                                                                  protocol.
 
                                                                  PKI sets [PF4] to indicate that a PCAM entry set flag 4, otherwise clear unless
@@ -1459,7 +1459,7 @@ union bdk_pki_wqe_s
 
                                                                  Internal:
                                                                  [PF4] = PKI_BEWQ_S[PF4] | PKI_STYLE()_WQ2<20> */
-        uint64_t pf3                   : 1;  /**< [147:147] Opaque to PKI HW. Software may wish to use this bit to indicate a particular
+        uint64_t pf3                   : 1;  /**< [147:147] Opaque to PKI hardware. Software may wish to use this bit to indicate a particular
                                                                  protocol.
 
                                                                  PKI sets [PF3] to indicate that a PCAM entry set flag 3, otherwise clear unless
@@ -1470,7 +1470,7 @@ union bdk_pki_wqe_s
 
                                                                  Internal:
                                                                  [PF3] = PKI_BEWQ_S[PF3] | PKI_STYLE()_WQ2<19> */
-        uint64_t pf2                   : 1;  /**< [146:146] Opaque to PKI HW. Software may wish to use this bit to indicate a particular
+        uint64_t pf2                   : 1;  /**< [146:146] Opaque to PKI hardware. Software may wish to use this bit to indicate a particular
                                                                  protocol.
 
                                                                  PKI sets [PF2] to indicate that a PCAM entry set flag 2, otherwise clear unless
@@ -1481,7 +1481,7 @@ union bdk_pki_wqe_s
 
                                                                  Internal:
                                                                  [PF2] = PKI_BEWQ_S[PF2] | PKI_STYLE()_WQ2<18> */
-        uint64_t pf1                   : 1;  /**< [145:145] Opaque to PKI HW. Software may wish to use this bit to indicate a particular
+        uint64_t pf1                   : 1;  /**< [145:145] Opaque to PKI hardware. Software may wish to use this bit to indicate a particular
                                                                  protocol.
 
                                                                  PKI sets [PF1] to indicate that a PCAM entry set flag 1, otherwise clear unless
@@ -1659,7 +1659,7 @@ union bdk_pki_wqe_s
 
                                                                  Internal:
                                                                  [L3FR] = PKI_BEWQ_S[L3FR] | PKI_STYLE()_WQ2<16> */
-        uint64_t pf1                   : 1;  /**< [145:145] Opaque to PKI HW. Software may wish to use this bit to indicate a particular
+        uint64_t pf1                   : 1;  /**< [145:145] Opaque to PKI hardware. Software may wish to use this bit to indicate a particular
                                                                  protocol.
 
                                                                  PKI sets [PF1] to indicate that a PCAM entry set flag 1, otherwise clear unless
@@ -1670,7 +1670,7 @@ union bdk_pki_wqe_s
 
                                                                  Internal:
                                                                  [PF1] = PKI_BEWQ_S[PF1] | PKI_STYLE()_WQ2<17> */
-        uint64_t pf2                   : 1;  /**< [146:146] Opaque to PKI HW. Software may wish to use this bit to indicate a particular
+        uint64_t pf2                   : 1;  /**< [146:146] Opaque to PKI hardware. Software may wish to use this bit to indicate a particular
                                                                  protocol.
 
                                                                  PKI sets [PF2] to indicate that a PCAM entry set flag 2, otherwise clear unless
@@ -1681,7 +1681,7 @@ union bdk_pki_wqe_s
 
                                                                  Internal:
                                                                  [PF2] = PKI_BEWQ_S[PF2] | PKI_STYLE()_WQ2<18> */
-        uint64_t pf3                   : 1;  /**< [147:147] Opaque to PKI HW. Software may wish to use this bit to indicate a particular
+        uint64_t pf3                   : 1;  /**< [147:147] Opaque to PKI hardware. Software may wish to use this bit to indicate a particular
                                                                  protocol.
 
                                                                  PKI sets [PF3] to indicate that a PCAM entry set flag 3, otherwise clear unless
@@ -1692,7 +1692,7 @@ union bdk_pki_wqe_s
 
                                                                  Internal:
                                                                  [PF3] = PKI_BEWQ_S[PF3] | PKI_STYLE()_WQ2<19> */
-        uint64_t pf4                   : 1;  /**< [148:148] Opaque to PKI HW. Software may wish to use this bit to indicate a particular
+        uint64_t pf4                   : 1;  /**< [148:148] Opaque to PKI hardware. Software may wish to use this bit to indicate a particular
                                                                  protocol.
 
                                                                  PKI sets [PF4] to indicate that a PCAM entry set flag 4, otherwise clear unless
@@ -3661,7 +3661,7 @@ static inline uint64_t BDK_PKI_CLX_INT_W1S(unsigned long a)
  * Register (NCB) pki_cl#_pcam#_action#
  *
  * PKI PCAM Entry Action Registers
- * This register configures the result side of the PCAM. PKI HW is opaque as to the use
+ * This register configures the result side of the PCAM. PKI hardware is opaque as to the use
  * of the 32 bits of CAM result.
  *
  * For each legal j and k, PKI_CL(i)_PCAM(j)_ACTION(k) must be configured identically for i=0..1.
@@ -3816,7 +3816,7 @@ static inline uint64_t BDK_PKI_CLX_PCAMX_ACTIONX(unsigned long a, unsigned long 
  * Register (NCB) pki_cl#_pcam#_match#
  *
  * PKI PCAM Entry Data Match Registers
- * This register configures the match side of the PCAM. PKI HW is opaque as to the use
+ * This register configures the match side of the PCAM. PKI hardware is opaque as to the use
  * of the 32 bits of CAM data.
  *
  * For each legal j and k, PKI_CL(i)_PCAM(j)_MATCH(k) must be configured identically for i=0..1.
@@ -3872,7 +3872,7 @@ static inline uint64_t BDK_PKI_CLX_PCAMX_MATCHX(unsigned long a, unsigned long b
  * Register (NCB) pki_cl#_pcam#_term#
  *
  * PKI PCAM Entry Term Match Registers
- * This register configures the match side of the PCAM. PKI HW is opaque as to the use
+ * This register configures the match side of the PCAM. PKI hardware is opaque as to the use
  * of the 16 bits of CAM data; the split between TERM and STYLE is defined by the
  * parse engine.
  *
