@@ -370,7 +370,16 @@ UsbParseConfigDesc (
   // Make allowances for devices that return extra data at the 
   // end of their config descriptors
   //
-  while (Len >= sizeof (EFI_USB_INTERFACE_DESCRIPTOR)) {
+#if !defined(notdef_cavium)
+  int ifCount = NumIf; /* Euphemeral errors are reported for hard drives, 
+                          we need to stop parsing once all the interfaces are seen. 
+                          Can not base on descriptor length alone */
+#endif
+  while (Len >= sizeof (EFI_USB_INTERFACE_DESCRIPTOR) 
+#if !defined(notdef_cavium)
+         && ifCount 
+#endif
+      ) {
     Setting = UsbParseInterfaceDesc (DescBuf, Len, &Consumed);
 
     if (Setting == NULL) {
@@ -383,7 +392,9 @@ UsbParseConfigDesc (
       UsbFreeInterfaceDesc (Setting);
       goto ON_ERROR;
     }
-
+#if !defined(notdef_cavium)
+    ifCount--;
+#endif
     //
     // Insert the descriptor to the corresponding set.
     //
