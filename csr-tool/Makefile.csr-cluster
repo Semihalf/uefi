@@ -7,6 +7,7 @@ CSR3_ARGS=--yaml-stdout # Write to stdout
 CSR3_ARGS+=--yaml-expand-inherits # Simplify field inherits
 CSR3_ARGS+=--yaml-strip-chippass # Remove chip pass lines since we're making a file per chip
 CSR3_ARGS+=--input *.csr # Remove chip pass lines since we're making a file per chip
+CSR3_ARGS+=--doc-replace # Use document names, not raw rtl names
 CSR3=csr3 $(CSR3_ARGS) --yaml-pass
 
 .DEFAULT: help
