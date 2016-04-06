@@ -1230,6 +1230,7 @@ CreateEventRing (
     EventRing->TrbNumber        = EVENT_RING_TRB_NUMBER;
     EventRing->EventRingDequeue = (TRB_TEMPLATE *) EventRing->EventRingSeg0;
     EventRing->EventRingEnqueue = (TRB_TEMPLATE *) EventRing->EventRingSeg0;
+    BDK_WMB;
     uint64_t  DequeuePhy = bdk_ptr_to_phys(buf);
     //
     // Software maintains an Event Ring Consumer Cycle State (CCS) bit, initializing it to '1'
