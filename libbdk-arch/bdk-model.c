@@ -38,7 +38,7 @@ typedef struct
     uint8_t     model_base; /* First two digits of the model number */
     uint16_t    num_balls;  /* Number of balls on package, included in SKU */
     const char  segment[4]; /* Market segment SKU is for, 2-3 character string */
-    uint16_t    fuses[16];  /* List of fuses required for operation of this SKU */
+    uint16_t    fuses[32];  /* List of fuses required for operation of this SKU */
 } model_sku_info_t;
 
 /***************************************************/
@@ -220,13 +220,92 @@ static const model_sku_info_t t81_sku_info[] =
     /* Index zero reserved for no fuses programmed */
     { 0x01, "CN", 81, 676, "SCP",
         { /* List of fuses for this SKU */
-            // FIXME
+            /* No fuses */
             0 /* End of fuse list marker */
         }
     },
     { 0x02, "CN", 81, 676, "CP",
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_NOZIP, /* Just a guess, no info yet */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(0), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(1), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(2), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(3), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(4), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(5), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(6), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(7), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(8), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(9), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(10), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(11), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(12), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(13), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(14), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(15), /* Nitrox */
+            0 /* End of fuse list marker */
+        }
+    },
+    { 0x03, "CN", 80, 676, "SCP",
+        { /* List of fuses for this SKU */
+            BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(7),     /* Alternate package fuse 2? */
+            BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),    /* L2C is half size */
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_HALF,        /* LMC is half width */
+            0 /* End of fuse list marker */
+        }
+    },
+    { 0x04, "CN", 80, 676, "CP",
+        { /* List of fuses for this SKU */
+            BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(7),     /* Alternate package fuse 2? */
+            BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),    /* L2C is half size */
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_HALF,        /* LMC is half width */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(0), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(1), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(2), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(3), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(4), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(5), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(6), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(7), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(8), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(9), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(10), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(11), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(12), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(13), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(14), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(15), /* Nitrox */
+            0 /* End of fuse list marker */
+        }
+    },
+    { 0x05, "CN", 80, 555, "SCP",
+        { /* List of fuses for this SKU */
+            BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(6),     /* Alternate package fuse */
+            BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),    /* L2C is half size */
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_HALF,        /* LMC is half width */
+            0 /* End of fuse list marker */
+        }
+    },
+    { 0x06, "CN", 80, 555, "CP",
+        { /* List of fuses for this SKU */
+            BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(6),     /* Alternate package fuse */
+            BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),    /* L2C is half size */
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_HALF,        /* LMC is half width */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(0), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(1), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(2), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(3), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(4), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(5), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(6), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(7), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(8), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(9), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(10), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(11), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(12), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(13), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(14), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(15), /* Nitrox */
             0 /* End of fuse list marker */
         }
     },
