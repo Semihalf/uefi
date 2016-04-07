@@ -59,8 +59,8 @@ int bdk_vrm_poll(bdk_node_t node)
     const int FRACTIONAL = 4;
 
     /* Check if temperature based throttling is configured */
-    const int THROTTLE_THERM = bdk_config_get_int(BDK_CONFIG_VRM_THROTTLE_THERM, node) * FRACTIONAL;
-    if (THROTTLE_THERM < 100 * FRACTIONAL)
+    const int THROTTLE_THERM = bdk_config_get_int(BDK_CONFIG_VRM_THROTTLE_THERM, node);
+    if (THROTTLE_THERM < 100)
     {
         /* Determine the max temperature based on all VRMs */
         int current_temp = -100 * FRACTIONAL;
@@ -72,13 +72,10 @@ int bdk_vrm_poll(bdk_node_t node)
             if (vrmx_misc_info.s.ts_fuse_sts)
             {
                 BDK_CSR_INIT(conv_result, node, BDK_VRMX_TS_TEMP_CONV_RESULT(vrm));
-                if (conv_result.s.temp_valid)
-                {
-                    /* temp_corrected is 11 bit two's complement */
-                    int temp = bdk_extracts(conv_result.s.temp_corrected, 0, 11);
-                    if (temp > current_temp)
-                        current_temp = temp;
-                }
+                /* temp_corrected is 11 bit two's complement */
+                int temp = bdk_extracts(conv_result.s.temp_corrected, 0, 11);
+                if (temp > current_temp)
+                    current_temp = temp;
             }
         }
 
