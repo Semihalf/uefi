@@ -966,12 +966,24 @@ int initialize_ddr_clock(bdk_node_t node,
             ddr_pll_ctl.s.phy_dcok          = 0;
             ddr_pll_ctl.s.dclk_invert       = 0;
 
+            // allow override of LMC0 desired setting for DCLK_INVERT
+            if ((s = lookup_env_parameter("ddr0_set_dclk_invert")) != NULL) {
+                ddr_pll_ctl.s.dclk_invert = !!strtoul(s, NULL, 0);
+                ddr_print("LMC0: override DDR_PLL_CTL[dclk_invert] to %d\n",
+                          ddr_pll_ctl.s.dclk_invert);
+            }
+            
             DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(0), ddr_pll_ctl.u);
             ddr_print("%-45s : 0x%016lx\n", "LMC0: DDR_PLL_CTL", ddr_pll_ctl.u);
 
             // NOTE: 81xx has only 1 LMC...
             if (! CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
-                ddr_pll_ctl.s.dclk_invert       ^= 1; /* Toggle dclk_invert from LMC0 */
+                ddr_pll_ctl.s.dclk_invert       ^= 1; /* DEFAULT: Toggle dclk_invert from LMC0 */
+                if ((s = lookup_env_parameter("ddr1_set_dclk_invert")) != NULL) { // override?
+                    ddr_pll_ctl.s.dclk_invert = !!strtoul(s, NULL, 0);
+                    ddr_print("LMC1: override DDR_PLL_CTL[dclk_invert] to %d\n",
+                              ddr_pll_ctl.s.dclk_invert);
+                }
                 DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(1), ddr_pll_ctl.u);
                 ddr_print("%-45s : 0x%016lx\n", "LMC1: DDR_PLL_CTL", ddr_pll_ctl.u);
             }
