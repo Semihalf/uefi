@@ -4,8 +4,8 @@
 static void __bdk_output(const char *prefix, const char *format, va_list args)
 {
 #ifndef BDK_BUILD_HOST
-static bdk_spinlock_t lock;
-    bdk_spinlock_lock(&lock);
+    static bdk_rlock_t rlock = {0,0};
+    bdk_rlock_lock(&rlock);
 #endif
     if (prefix)
     {
@@ -19,7 +19,7 @@ static bdk_spinlock_t lock;
         fflush(stdout);
     }
 #ifndef BDK_BUILD_HOST
-    bdk_spinlock_unlock(&lock);
+    bdk_rlock_unlock(&rlock);
 #endif
 }
 
