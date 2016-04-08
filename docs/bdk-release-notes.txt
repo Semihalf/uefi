@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.22-rc2 ==
+== thunder-release-v1.22-rc3 ==
 * Added support for CN88XX pass 2.1. Prior releases will crash when entering diagnostics on CN88XX pass 2.1 and higher.
 * Added support for measuring SERDES quality using a vertical eye measurement
 ** New traffic-gen command "margin_rx" for networking related SERDES
@@ -20,7 +20,6 @@ incorporated into each BDK release.
 ** Automated power burn transient load. On for 1 second, off for 1 second
 ** Power burn controlled separately for each node
 ** Power burn functionality moved into a new "Power Burn options" menu
-* Fixed memory transactions in the PCIe menu
 * DDR
 ** Improvements to diagnostic output, bit deskew training, VREF processing
 ** Enable data inversion for power efficiency
@@ -32,19 +31,33 @@ incorporated into each BDK release.
 * SERDES
 ** Have RX equalization check that a lane has CDR lock before trying equalization
 ** BGX: Don't allow lane up to continue until RX equalization succeeds on all lanes
-** Don't apply QLM tuning to PCIe Gen3 links
 ** Apply workaround for GSER-27882 to CCPI
 ** Improved default tuning for SERDES at 6.25G. RXAUI shows the most improvement
 ** Apply PEM config fixes required by errata for gen3 long channel (PEM-26189, PEM-21178)
+** Update GSER-26150 workaround for CCPI
+** Apply GSER-26150 to 8G and higher, not just 10G
+** Implement workaround for GSER-27882 in BGX
+** Change how KR training is tracked for BGX interfaces. Direction hints should always be correct now.
 * Networking
 ** Various fixes for Cortina PHY update app
 ** Disable TNS support
 ** Rewrite NIC allocation to use one VF per interface, not port* USB: Add new config option to specify the polarity of the usb gpio
-* Support building with GCC5. GCC5 executables will not work on CN88XX pass 1.x as GCC uses compare and swap
-* Preliminary support for CN81XX and CN83XX
-* Device tree files now contain some configuration items that are passed to ATF/UEFI but unused by the BDK
-* Diagnostics now include SGPIO support (SATA LEDs)
-* Chip SKU information is now displayed to the user and passed in the device tree
+** Change SERDES lane tuning to not override values when defaults are used
+* PCIe
+** Update PEM-21178 workaround as soem fields weren't covered
+** Don't apply QLM tuning to PCIe Gen3 links
+** Fixed memory transactions in the PCIe menu
+* Misc
+** Support building with GCC5. GCC5 executables will not work on CN88XX pass 1.x as GCC uses compare and swap
+** Preliminary support for CN81XX and CN83XX
+** Device tree files now contain some configuration items that are passed to ATF/UEFI but unused by the BDK
+** Diagnostics now include SGPIO support (SATA LEDs)
+** Chip SKU information is now displayed to the user and passed in the device tree
+** Boot messages report secure or non-secure boot
+** Dynamic device tree fixup for Linux. The BDK will now load an extra device tree for the operating system use. See documentation for details on BDK configuration.
+** Add support for dynamic thermal monitoring
+** Improve the performance of the MPI/SPI transfers
+** Use recursive lock for console output instead of spinlock. Fixes potential hangs with many output threads on one core.
 
 == thunder-release-v1.21 ==
 * Redo handling of CCPI link init to support CN88XX pass 2.0.
