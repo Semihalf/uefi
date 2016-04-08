@@ -11951,13 +11951,13 @@ typedef union
         uint64_t reserved_56_59        : 4;
         uint64_t pri                   : 8;  /**< [ 55: 48](R/W) Interrupt priority. */
         uint64_t reserved_42_47        : 6;
-        uint64_t physical_id           : 10; /**< [ 41: 32](R/W) When HW is zero, bit 41 indicates whether this interrupt triggers an EOI maintenance
-                                                                 interrupt and bits 40..32 are RES0. */
+        uint64_t physical_id           : 10; /**< [ 41: 32](R/W) When [HW] is zero, bit 41 indicates whether this interrupt triggers an EOI
+                                                                 maintenance interrupt and bits 40..32 are RES0. */
         uint64_t virtual_id            : 32; /**< [ 31:  0](R/W) Virtual interrupt ID. */
 #else /* Word 0 - Little Endian */
         uint64_t virtual_id            : 32; /**< [ 31:  0](R/W) Virtual interrupt ID. */
-        uint64_t physical_id           : 10; /**< [ 41: 32](R/W) When HW is zero, bit 41 indicates whether this interrupt triggers an EOI maintenance
-                                                                 interrupt and bits 40..32 are RES0. */
+        uint64_t physical_id           : 10; /**< [ 41: 32](R/W) When [HW] is zero, bit 41 indicates whether this interrupt triggers an EOI
+                                                                 maintenance interrupt and bits 40..32 are RES0. */
         uint64_t reserved_42_47        : 6;
         uint64_t pri                   : 8;  /**< [ 55: 48](R/W) Interrupt priority. */
         uint64_t reserved_56_59        : 4;

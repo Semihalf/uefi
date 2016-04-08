@@ -2803,9 +2803,9 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <63> = Limit the NCBO FIFO, backpressure the sending NCB csrs requests to PFE.
+                                                                 <62> = Limit the RD FIFO, backpressure sending packet data to PBE.
+                                                                 <61> = Limit the LD FIFO , backpressure scheduling packet headers to PIX.
                                                                  <60> = Limit the X2P FIFO, ultimately backpressuring X2P bus. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
@@ -2836,9 +2836,9 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <63> = Limit the NCBO FIFO, backpressure the sending NCB csrs requests to PFE.
+                                                                 <62> = Limit the RD FIFO, backpressure sending packet data to PBE.
+                                                                 <61> = Limit the LD FIFO , backpressure scheduling packet headers to PIX.
                                                                  <60> = Limit the X2P FIFO, ultimately backpressuring X2P bus. */
 #endif /* Word 0 - End */
     } s;
@@ -7696,10 +7696,11 @@ static inline uint64_t BDK_PKI_PBE_ECO_FUNC(void)
  *
  * For diagnostic use only.
  * Reads of this register will indicate whether or not FPA has returned a pointer back
- * to PKI and, if so, the values that were returned.  A write to this register with any
- * data value will clear the VALID field.  This will indicate to HW that SW has consumed
- * the values associated with the most recently returned pointer information set.  It
- * is recommended that SW write to this register prior to each write of PKI_PBE_XFR_REQUEST.
+ * to PKI and, if so, the values that were returned. A write to this register with any
+ * data value will clear the VALID field. This will indicate to PKI that software has
+ * consumed the values associated with the most recently returned pointer information
+ * set. It is recommended that software write to this register prior to each write of
+ * PKI_PBE_XFR_REQUEST.
  */
 typedef union
 {
@@ -7708,7 +7709,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t valid                 : 1;  /**< [ 63: 63](R/W/H) If set, indicates that remaining fields within this register are valid to be
-                                                                 read by SW. */
+                                                                 read by software. */
         uint64_t fault                 : 1;  /**< [ 62: 62](R/W/H) The value of FAULT returned by FPA.  Indicates an illegal combination of GMID/GAURA
                                                                  during the request for a pointer. */
         uint64_t avail                 : 1;  /**< [ 61: 61](R/W/H) The value of AVAIL returned by FPA as part of a pointer return. */
@@ -7725,7 +7726,7 @@ typedef union
         uint64_t fault                 : 1;  /**< [ 62: 62](R/W/H) The value of FAULT returned by FPA.  Indicates an illegal combination of GMID/GAURA
                                                                  during the request for a pointer. */
         uint64_t valid                 : 1;  /**< [ 63: 63](R/W/H) If set, indicates that remaining fields within this register are valid to be
-                                                                 read by SW. */
+                                                                 read by software. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_fxa_result_s cn; */
@@ -9161,8 +9162,9 @@ typedef union
                                                                  implemented in HW. The soft reset pulse is short enough that we can guarantee
                                                                  that reset will complete below a subsequent RSL reference can be made. It is
                                                                  still useful for this bit to exist in case that property every changes and the
-                                                                 reset requires a longer duration. For this implementation, SW will check the bit
-                                                                 which will always report not BUSY allowing SW to proceed with its flow. */
+                                                                 reset requires a longer duration. For this implementation, software will check
+                                                                 the bit which will always report not BUSY allowing software to proceed with its
+                                                                 flow. */
         uint64_t reserved_33_62        : 30;
         uint64_t active                : 1;  /**< [ 32: 32](RO/H) When set, PKI is actively processing packet traffic. It is recommended that software wait
                                                                  until ACTIVE is clear before setting RST.
@@ -9188,8 +9190,9 @@ typedef union
                                                                  implemented in HW. The soft reset pulse is short enough that we can guarantee
                                                                  that reset will complete below a subsequent RSL reference can be made. It is
                                                                  still useful for this bit to exist in case that property every changes and the
-                                                                 reset requires a longer duration. For this implementation, SW will check the bit
-                                                                 which will always report not BUSY allowing SW to proceed with its flow. */
+                                                                 reset requires a longer duration. For this implementation, software will check
+                                                                 the bit which will always report not BUSY allowing software to proceed with its
+                                                                 flow. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_sft_rst_s cn; */

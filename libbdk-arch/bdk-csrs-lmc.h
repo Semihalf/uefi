@@ -2693,7 +2693,8 @@ typedef union
                                                                  Internal:
                                                                  JTAG test mode. Clock alignment between DCLK & REFCLK as
                                                                  well as FCLK & REFCLK can only be performed after the ddr_pll_divider_reset is deasserted.
-                                                                 SW need to wait at least 10 reference clock cycles after deasserting pll_divider_reset
+                                                                 Software needs to wait at least 10 reference clock cycles after deasserting
+                                                                 pll_divider_reset
                                                                  before asserting LMC()_DDR_PLL_CTL[JTG_TEST_MODE]. During alignment (which can take up
                                                                  to 160 microseconds) DCLK and FCLK can exhibit some high-frequency pulses. Therefore, all
                                                                  bring up activities in that clock domain need to be delayed (when the chip operates in
@@ -2755,7 +2756,8 @@ typedef union
                                                                  Internal:
                                                                  JTAG test mode. Clock alignment between DCLK & REFCLK as
                                                                  well as FCLK & REFCLK can only be performed after the ddr_pll_divider_reset is deasserted.
-                                                                 SW need to wait at least 10 reference clock cycles after deasserting pll_divider_reset
+                                                                 Software needs to wait at least 10 reference clock cycles after deasserting
+                                                                 pll_divider_reset
                                                                  before asserting LMC()_DDR_PLL_CTL[JTG_TEST_MODE]. During alignment (which can take up
                                                                  to 160 microseconds) DCLK and FCLK can exhibit some high-frequency pulses. Therefore, all
                                                                  bring up activities in that clock domain need to be delayed (when the chip operates in
@@ -9199,7 +9201,7 @@ typedef union
                                                                  achieved.
 
                                                                  When clear, LMC disengages the PHY bit deskew lock control mechanism. This
-                                                                 causes the PHY to continously perform and/or adjust the read deskew training on
+                                                                 causes the PHY to continuously perform and/or adjust the read deskew training on
                                                                  all DQ/DBI bits during any read operations. */
         uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
                                                                  Internal:
@@ -9534,7 +9536,7 @@ typedef union
                                                                  achieved.
 
                                                                  When clear, LMC disengages the PHY bit deskew lock control mechanism. This
-                                                                 causes the PHY to continously perform and/or adjust the read deskew training on
+                                                                 causes the PHY to continuously perform and/or adjust the read deskew training on
                                                                  all DQ/DBI bits during any read operations. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */

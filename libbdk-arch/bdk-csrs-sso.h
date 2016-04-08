@@ -4781,7 +4781,9 @@ typedef union
         uint64_t reserved_35_63        : 29;
         uint64_t cam_src               : 3;  /**< [ 34: 32](RO/H) Failing WS_GCAM error path. This field is updated when one of he following errors
                                                                  occur: SSO_ERR0[GMID_UNMAP] or SSO_ERR0[GMID_MULTI] and is held until both
-                                                                 errors are cleared from SSO_ERR2 register.
+                                                                 errors are cleared from SSO_ERR2. When multiple errors occur at the same
+                                                                 time, the prioritiy to latch error information is as follows: WS to PP, NCBO1 to WS,
+                                                                 NCBO0 to WS.
                                                                  <2> = From WS to PP (VHGRP to GGRP).
                                                                  <1> = From NCBO1 to WS (GGRP to VHGRP).
                                                                  <0> = From NCBO0 to WS (GGRP to VHGRP). */
@@ -4814,7 +4816,9 @@ typedef union
         uint64_t reserved_30_31        : 2;
         uint64_t cam_src               : 3;  /**< [ 34: 32](RO/H) Failing WS_GCAM error path. This field is updated when one of he following errors
                                                                  occur: SSO_ERR0[GMID_UNMAP] or SSO_ERR0[GMID_MULTI] and is held until both
-                                                                 errors are cleared from SSO_ERR2 register.
+                                                                 errors are cleared from SSO_ERR2. When multiple errors occur at the same
+                                                                 time, the prioritiy to latch error information is as follows: WS to PP, NCBO1 to WS,
+                                                                 NCBO0 to WS.
                                                                  <2> = From WS to PP (VHGRP to GGRP).
                                                                  <1> = From NCBO1 to WS (GGRP to VHGRP).
                                                                  <0> = From NCBO0 to WS (GGRP to VHGRP). */

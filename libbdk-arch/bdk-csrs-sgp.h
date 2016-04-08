@@ -273,7 +273,25 @@ typedef union
         uint32_t reserved_27_31        : 5;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_sgp_imp_clk_s cn; */
+    struct bdk_sgp_imp_clk_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_27_31        : 5;
+        uint32_t div                   : 27; /**< [ 26:  0](R/W) Coprocessor-clock divisor. Number of coprocessor clock cycles per
+                                                                 GPIO_SCLOCK. May only be changed when SGP_CFG0[ENA] and SGP_IMP_CTL[BUSY] are
+                                                                 clear. Should be programmed to yield a frequency between 64 Hz and 100 kHz;
+                                                                 reset value assumes a coprocessor clock of 800 MHz and a SGPIO_SCLOCK of 100
+                                                                 KHz. */
+#else /* Word 0 - Little Endian */
+        uint32_t div                   : 27; /**< [ 26:  0](R/W) Coprocessor-clock divisor. Number of coprocessor clock cycles per
+                                                                 GPIO_SCLOCK. May only be changed when SGP_CFG0[ENA] and SGP_IMP_CTL[BUSY] are
+                                                                 clear. Should be programmed to yield a frequency between 64 Hz and 100 kHz;
+                                                                 reset value assumes a coprocessor clock of 800 MHz and a SGPIO_SCLOCK of 100
+                                                                 KHz. */
+        uint32_t reserved_27_31        : 5;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_sgp_imp_clk_s cn9; */
 } bdk_sgp_imp_clk_t;
 
 #define BDK_SGP_IMP_CLK BDK_SGP_IMP_CLK_FUNC()
@@ -425,7 +443,23 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_sgp_imp_sec_clk_s cn; */
+    struct bdk_sgp_imp_sec_clk_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t div                   : 16; /**< [ 15:  0](R/W) Coprocessor-clock seconds divisor. Number of GPIO_SCLOCKs per 1/64th second. May
+                                                                 only be changed when SGP_CFG0[ENA] and SGP_IMP_CTL[BUSY] are clear. Should be
+                                                                 programmed to yield a frequency of 64 Hz; reset value assumes GPIO_SCLOCK of 100
+                                                                 kHz. */
+#else /* Word 0 - Little Endian */
+        uint32_t div                   : 16; /**< [ 15:  0](R/W) Coprocessor-clock seconds divisor. Number of GPIO_SCLOCKs per 1/64th second. May
+                                                                 only be changed when SGP_CFG0[ENA] and SGP_IMP_CTL[BUSY] are clear. Should be
+                                                                 programmed to yield a frequency of 64 Hz; reset value assumes GPIO_SCLOCK of 100
+                                                                 kHz. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_sgp_imp_sec_clk_s cn9; */
 } bdk_sgp_imp_sec_clk_t;
 
 #define BDK_SGP_IMP_SEC_CLK BDK_SGP_IMP_SEC_CLK_FUNC()
@@ -681,7 +715,41 @@ typedef union
         uint32_t sdataout3             : 8;  /**< [ 31: 24](R/W) See [SDATAOUT0]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_sgp_tx_gpx_s cn; */
+    struct bdk_sgp_tx_gpx_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sdataout3             : 8;  /**< [ 31: 24](R/W) See [SDATAOUT0]. */
+        uint32_t sdataout2             : 8;  /**< [ 23: 16](R/W) See [SDATAOUT0]. */
+        uint32_t sdataout1             : 8;  /**< [ 15:  8](R/W) See [SDATAOUT0]. */
+        uint32_t sdataout0             : 8;  /**< [  7:  0](R/W) Raw data to shift onto SGP_SDATAOUT. The bits are not in natural 32-bit form; they are
+                                                                 assigned to registers as follows:
+                                                                 _ Bit 0 (ID0.0): SGP_TX_GP(1)[SDATAOUT3]<0>.
+                                                                 _ Bit 8 (ID2.2): SGP_TX_GP(1)[SDATAOUT2]<0>.
+                                                                 _ Bit 16 (ID5.1): SGP_TX_GP(1)[SDATAOUT1]<0>.
+                                                                 _ Bit 24 (ID8.0): SGP_TX_GP(1)[SDATAOUT0]<0>.
+                                                                 _ Bit 32 (ID10.2): SGP_TX_GP(2)[SDATAOUT3]<0>.
+                                                                 _ Bit 40 (ID13.1): SGP_TX_GP(2)[SDATAOUT2]<0>.
+                                                                 _ Bit 47 (ID15.2): SGP_TX_GP(2)[SDATAOUT2]<7>.
+
+                                                                 SGP_TX_GP(2)[SDATAOUT1/SDATAOUT0] are ignored. */
+#else /* Word 0 - Little Endian */
+        uint32_t sdataout0             : 8;  /**< [  7:  0](R/W) Raw data to shift onto SGP_SDATAOUT. The bits are not in natural 32-bit form; they are
+                                                                 assigned to registers as follows:
+                                                                 _ Bit 0 (ID0.0): SGP_TX_GP(1)[SDATAOUT3]<0>.
+                                                                 _ Bit 8 (ID2.2): SGP_TX_GP(1)[SDATAOUT2]<0>.
+                                                                 _ Bit 16 (ID5.1): SGP_TX_GP(1)[SDATAOUT1]<0>.
+                                                                 _ Bit 24 (ID8.0): SGP_TX_GP(1)[SDATAOUT0]<0>.
+                                                                 _ Bit 32 (ID10.2): SGP_TX_GP(2)[SDATAOUT3]<0>.
+                                                                 _ Bit 40 (ID13.1): SGP_TX_GP(2)[SDATAOUT2]<0>.
+                                                                 _ Bit 47 (ID15.2): SGP_TX_GP(2)[SDATAOUT2]<7>.
+
+                                                                 SGP_TX_GP(2)[SDATAOUT1/SDATAOUT0] are ignored. */
+        uint32_t sdataout1             : 8;  /**< [ 15:  8](R/W) See [SDATAOUT0]. */
+        uint32_t sdataout2             : 8;  /**< [ 23: 16](R/W) See [SDATAOUT0]. */
+        uint32_t sdataout3             : 8;  /**< [ 31: 24](R/W) See [SDATAOUT0]. */
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_sgp_tx_gpx_s cn9; */
 } bdk_sgp_tx_gpx_t;
 
 static inline uint64_t BDK_SGP_TX_GPX(unsigned long a) __attribute__ ((pure, always_inline));

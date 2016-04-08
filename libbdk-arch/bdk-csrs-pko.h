@@ -11590,8 +11590,7 @@ typedef union
         uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
                                                                  PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
                                                                  only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
-                                                                 is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+                                                                 is cleared. Enumerated by PKO_DQSTATUS_E. */
         uint64_t reserved_12_15        : 4;
         uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](RO/H) This field stores the error code for illegally constructed send-packets that did not drop.
                                                                  Note that if multiple errors occur, only the first error code is captured here until
@@ -11620,8 +11619,7 @@ typedef union
         uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
                                                                  PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
                                                                  only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
-                                                                 is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+                                                                 is cleared. Enumerated by PKO_DQSTATUS_E. */
         uint64_t reserved_20_25        : 6;
         uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](RO/H) When PKO_PDM_STS_W1C[QCMD_IOBX_ERR] is set, this contains the queue command response's
                                                                  status
@@ -11646,8 +11644,7 @@ typedef union
         uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
                                                                  PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
                                                                  only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
-                                                                 is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+                                                                 is cleared. Enumerated by PKO_DQSTATUS_E. */
         uint64_t reserved_12_15        : 4;
         uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](RO/H) This field stores the error code for illegally constructed send-packets that did not drop.
                                                                  Note that if multiple errors occur, only the first error code is captured here until
@@ -11676,8 +11673,7 @@ typedef union
         uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](RO/H) Status field of the command response on the LMTST failure indicated by
                                                                  PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
                                                                  only the first error status will be captured here until PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]
-                                                                 is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+                                                                 is cleared. Enumerated by PKO_DQSTATUS_E. */
         uint64_t reserved_20           : 1;
         uint64_t reserved_21_24        : 4;
         uint64_t reserved_25           : 1;
@@ -11728,39 +11724,31 @@ typedef union
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
         uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
+        uint64_t reserved_26_31        : 6;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
+        uint64_t reserved_16_24        : 9;
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
         uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t reserved_10_13        : 4;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_1_2          : 2;
+        uint64_t reserved_2            : 1;
+        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
         uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
 #else /* Word 0 - Little Endian */
         uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
-        uint64_t reserved_1_2          : 2;
+        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
+        uint64_t reserved_2            : 1;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_7_8          : 2;
+        uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t reserved_12_13        : 2;
+        uint64_t reserved_10_13        : 4;
         uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
+        uint64_t reserved_16_24        : 9;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
-        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_26_31        : 6;
         uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
@@ -11812,39 +11800,31 @@ typedef union
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
         uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
+        uint64_t reserved_26_31        : 6;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
+        uint64_t reserved_16_24        : 9;
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
         uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t reserved_10_13        : 4;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_1_2          : 2;
+        uint64_t reserved_2            : 1;
+        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
         uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
 #else /* Word 0 - Little Endian */
         uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
-        uint64_t reserved_1_2          : 2;
+        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
+        uint64_t reserved_2            : 1;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_7_8          : 2;
+        uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t reserved_12_13        : 2;
+        uint64_t reserved_10_13        : 4;
         uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
+        uint64_t reserved_16_24        : 9;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
-        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_26_31        : 6;
         uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
@@ -11895,85 +11875,45 @@ typedef union
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Received signal that MWPBUF had data valid error. */
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Received signal that DRPBUF had data valid error. */
         uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Received signal that DWPBUF had data valid error. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) When PKO_PDM_STS[QCMD_IOBX_ERR] is set, this contains the queue command response's status
-                                                                 field for the response causing the error. Note that if multiple errors occur, only the
-                                                                 first error status is captured here until PKO_PDM_STS[QCMD_IOBX_ERR] is cleared.
-                                                                 Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_26_31        : 6;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Queue command IOBDMA/IOBLD error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[QCMD_IOBX_ERR_STS] contains the status code. Note that FPA being out of
+                                                                 PKO_PDM_STS_INFO[QCMD_IOBX_ERR_STS] contains the status code. Note that FPA being out of
                                                                  pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) This is the status field of the command response on the LMTDMA failure indicated by
-                                                                 PKO_PDM_STS[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors occur,
-                                                                 only the first error status is captured here until PKO_PDM_STS[SENDPKT_LMTDMA_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Send-packet of type LMTDMA error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[SENDPKT_LMTDMA_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) This is the status field of the command response on the LMTST failure indicated by
-                                                                 PKO_PDM_STS[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
-                                                                 only the first error status will be captured here until PKO_PDM_STS[SENDPKT_LMTST_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_16_24        : 9;
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Send-packet of type LMTST error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[SENDPKT_LMTST_ERR_STS] contains the status code. Note that FPA being out of
+                                                                 PKO_PDM_STS_INFO[SENDPKT_LMTST_ERR_STS] contains the status code. Note that FPA being out
+                                                                 of
                                                                  pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
         uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) FPA signaled PKO that FPA can not allocate pointers. This is a fatal error. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) This field stores the error code for illegally constructed send-packets that did not drop.
-                                                                 Note that if multiple errors occur, only the first error code is captured here until
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 = SEND_JUMP
-                                                                 not at end of descriptor. */
+        uint64_t reserved_10_13        : 4;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) PKO/PDM/CP did not drop a send-packet; however, the SEND_JUMP command is not at end of the
-                                                                 descriptor. The error code is captured in PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) This field stores the error code for illegally constructed send-packet drops. Note that if
-                                                                 multiple errors occur, only the first error code is captured here until
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
-                                                                 conditions. */
+                                                                 descriptor. The error code is captured in PKO_PDM_STS_INFO[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Dropped a send-packet in PDM/CP due to a rule violation. The error code is captured in
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_1_2          : 2;
+                                                                 PKO_PDM_STS_INFO[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t reserved_2            : 1;
+        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1C/H) A buffer flow-control store received a store done with an error indicated. */
         uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) CRC error occurred in a descriptor. (State may have been corrupted.) */
 #else /* Word 0 - Little Endian */
         uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) CRC error occurred in a descriptor. (State may have been corrupted.) */
-        uint64_t reserved_1_2          : 2;
+        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1C/H) A buffer flow-control store received a store done with an error indicated. */
+        uint64_t reserved_2            : 1;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Dropped a send-packet in PDM/CP due to a rule violation. The error code is captured in
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1C/H) This field stores the error code for illegally constructed send-packet drops. Note that if
-                                                                 multiple errors occur, only the first error code is captured here until
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_DROP] is cleared. PKO_CPSENDDROP_E enumerates the codes and
-                                                                 conditions. */
-        uint64_t reserved_7_8          : 2;
+                                                                 PKO_PDM_STS_INFO[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) PKO/PDM/CP did not drop a send-packet; however, the SEND_JUMP command is not at end of the
-                                                                 descriptor. The error code is captured in PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1C/H) This field stores the error code for illegally constructed send-packets that did not drop.
-                                                                 Note that if multiple errors occur, only the first error code is captured here until
-                                                                 PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP] is cleared. Codes: 0x0 = NO ERROR CODE. 0x1 = SEND_JUMP
-                                                                 not at end of descriptor. */
-        uint64_t reserved_12_13        : 2;
+                                                                 descriptor. The error code is captured in PKO_PDM_STS_INFO[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t reserved_10_13        : 4;
         uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) FPA signaled PKO that FPA can not allocate pointers. This is a fatal error. */
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Send-packet of type LMTST error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[SENDPKT_LMTST_ERR_STS] contains the status code. Note that FPA being out of
+                                                                 PKO_PDM_STS_INFO[SENDPKT_LMTST_ERR_STS] contains the status code. Note that FPA being out
+                                                                 of
                                                                  pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1C/H) This is the status field of the command response on the LMTST failure indicated by
-                                                                 PKO_PDM_STS[SENDPKT_LMTST_ERR] bits being asserted. Note that if multiple errors occur
-                                                                 only the first error status will be captured here until PKO_PDM_STS[SENDPKT_LMTST_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1C/H) Send-packet of type LMTDMA error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[SENDPKT_LMTDMA_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1C/H) This is the status field of the command response on the LMTDMA failure indicated by
-                                                                 PKO_PDM_STS[SENDPKT_LMTDMA_ERR] bits being asserted. Note that if multiple errors occur,
-                                                                 only the first error status is captured here until PKO_PDM_STS[SENDPKT_LMTDMA_ERR] is
-                                                                 cleared. Enumerated by PKO_DQSTATUS_E. */
+        uint64_t reserved_16_24        : 9;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Queue command IOBDMA/IOBLD error status occurred in PKO/PDM.
-                                                                 PKO_PDM_STS[QCMD_IOBX_ERR_STS] contains the status code. Note that FPA being out of
+                                                                 PKO_PDM_STS_INFO[QCMD_IOBX_ERR_STS] contains the status code. Note that FPA being out of
                                                                  pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1C/H) When PKO_PDM_STS[QCMD_IOBX_ERR] is set, this contains the queue command response's status
-                                                                 field for the response causing the error. Note that if multiple errors occur, only the
-                                                                 first error status is captured here until PKO_PDM_STS[QCMD_IOBX_ERR] is cleared.
-                                                                 Enumerated by PKO_DQSTATUS_E. */
-        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_26_31        : 6;
         uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Received signal that DWPBUF had data valid error. */
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Received signal that DRPBUF had data valid error. */
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Received signal that MWPBUF had data valid error. */
@@ -12025,39 +11965,31 @@ typedef union
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
         uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
+        uint64_t reserved_26_31        : 6;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
+        uint64_t reserved_16_24        : 9;
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
         uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
+        uint64_t reserved_10_13        : 4;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t reserved_7_8          : 2;
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
+        uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_1_2          : 2;
+        uint64_t reserved_2            : 1;
+        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
         uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
 #else /* Word 0 - Little Endian */
         uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
-        uint64_t reserved_1_2          : 2;
+        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
+        uint64_t reserved_2            : 1;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t cp_sendpkt_err_drop_code : 3;/**< [  6:  4](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_7_8          : 2;
+        uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
-        uint64_t cp_sendpkt_err_no_drp_code : 2;/**< [ 11: 10](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP_CODE]. */
-        uint64_t reserved_12_13        : 2;
+        uint64_t reserved_10_13        : 4;
         uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[FPA_NO_PTRS]. */
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR]. */
-        uint64_t sendpkt_lmtst_err_sts : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTST_ERR_STS]. */
-        uint64_t sendpkt_lmtdma_err    : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR]. */
-        uint64_t sendpkt_lmtdma_err_sts : 4; /**< [ 24: 21](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[SENDPKT_LMTDMA_ERR_STS]. */
+        uint64_t reserved_16_24        : 9;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR]. */
-        uint64_t qcmd_iobx_err_sts     : 4;  /**< [ 29: 26](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[QCMD_IOBX_ERR_STS]. */
-        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_26_31        : 6;
         uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DWPBUF_DATA_VAL_ERR]. */
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DRPBUF_DATA_VAL_ERR]. */
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[MWPBUF_DATA_VAL_ERR]. */
@@ -12679,9 +12611,9 @@ typedef union
         uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
         uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
         uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t reserved_0            : 1;
         uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
         uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
         uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
@@ -12735,9 +12667,9 @@ typedef union
         uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
         uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
         uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t reserved_0            : 1;
         uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
         uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
         uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
@@ -12791,9 +12723,9 @@ typedef union
         uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Asserted when PSE sends PD information for a nonconfigured FIFO. */
         uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Asserted when FCS SOP value greater than packet size detected. */
         uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Asserted when JUMP subdescriptor is not last in a PD. */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Asserted when EXT_HDR is not the second sub-descriptor in a PD. */
+        uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1C/H) Asserted when EXT_HDR is not the second sub-descriptor in a PD. */
+        uint64_t reserved_0            : 1;
         uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1C/H) Asserted when JUMP subdescriptor is not last in a PD. */
         uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1C/H) Asserted when FCS SOP value greater than packet size detected. */
         uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1C/H) Asserted when PSE sends PD information for a nonconfigured FIFO. */
@@ -12848,9 +12780,9 @@ typedef union
         uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
         uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
         uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint64_t peb_ext_hdr_def_err   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_EXT_HDR_DEF_ERR]. */
+        uint64_t reserved_0            : 1;
         uint64_t peb_jump_def_err      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_JUMP_DEF_ERR]. */
         uint64_t peb_fcs_sop_err       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_FCS_SOP_ERR]. */
         uint64_t peb_pse_fifo_err      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PEB_ERR_INT_W1C[PEB_PSE_FIFO_ERR]. */
@@ -16623,44 +16555,6 @@ static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL(unsigned long a, unsigned long b)
 #define arguments_BDK_PKO_VFX_DQX_WM_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pko_vf#_dq#_wm_ctl_w1c
- *
- * INTERNAL: PKO Descriptor Queue Watermark Control Write-1 Interrupt Clear Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_vfx_dqx_wm_ctl_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t intr                  : 1;  /**< [ 48: 48](RAZ) Reserved. */
-        uint64_t reserved_0_47         : 48;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_47         : 48;
-        uint64_t intr                  : 1;  /**< [ 48: 48](RAZ) Reserved. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_vfx_dqx_wm_ctl_w1c_s cn; */
-} bdk_pko_vfx_dqx_wm_ctl_w1c_t;
-
-static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL_W1C(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7)))
-        return 0x854400000148ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7);
-    __bdk_csr_fatal("PKO_VFX_DQX_WM_CTL_W1C", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) bdk_pko_vfx_dqx_wm_ctl_w1c_t
-#define bustype_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) "PKO_VFX_DQX_WM_CTL_W1C"
-#define device_bar_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) 0x10 /* VF_BAR0 */
-#define busnum_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) (a)
-#define arguments_BDK_PKO_VFX_DQX_WM_CTL_W1C(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB) pko_vf#_dq_fc_config
  *
  * PKO DQ Flow Control Configuration Register
@@ -16671,8 +16565,8 @@ typedef union
     struct bdk_pko_vfx_dq_fc_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t base                  : 33; /**< [ 39:  7](R/W) The cache-line (128-byte) aligned IOVA for the memory
+        uint64_t reserved_49_63        : 15;
+        uint64_t base                  : 42; /**< [ 48:  7](R/W) The cache-line (128-byte) aligned IOVA for the memory
                                                                  location where the DQ[0] buffer count will be written by PKO for flow
                                                                  control purposes. The locations where the DQ[7:1] buffer counts will
                                                                  be written are calculated according to the [STRIDE]. */
@@ -16767,11 +16661,11 @@ typedef union
                                                                  buffer count oscillated around some zero-crossing.  When [HYST_BITS]
                                                                  = 0, there is no hysteresis and all buffer count updates trigger
                                                                  stores. */
-        uint64_t base                  : 33; /**< [ 39:  7](R/W) The cache-line (128-byte) aligned IOVA for the memory
+        uint64_t base                  : 42; /**< [ 48:  7](R/W) The cache-line (128-byte) aligned IOVA for the memory
                                                                  location where the DQ[0] buffer count will be written by PKO for flow
                                                                  control purposes. The locations where the DQ[7:1] buffer counts will
                                                                  be written are calculated according to the [STRIDE]. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dq_fc_config_s cn; */

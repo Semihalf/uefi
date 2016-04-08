@@ -392,7 +392,7 @@ union bdk_ddf_inst_find_s
                                                                  The size of a bucket, e.g. 4 * (2^[NESTSZP2]) cannot be larger than 128 bytes.
 
                                                                  Internal:
-                                                                 This means a 32-byte SHA256 cannot have any payload (SW must use separate
+                                                                 This means a 32-byte SHA256 cannot have any payload (software must use separate
                                                                  table). Limiting to 32 byte nests means all 4 nests fit in a cache line. */
         uint64_t reserved_371          : 1;
         uint64_t nbuckp2               : 3;  /**< [370:368] Number of buckets per filter as a power-of-2.
@@ -449,7 +449,7 @@ union bdk_ddf_inst_find_s
                                                                  The size of a bucket, e.g. 4 * (2^[NESTSZP2]) cannot be larger than 128 bytes.
 
                                                                  Internal:
-                                                                 This means a 32-byte SHA256 cannot have any payload (SW must use separate
+                                                                 This means a 32-byte SHA256 cannot have any payload (software must use separate
                                                                  table). Limiting to 32 byte nests means all 4 nests fit in a cache line. */
         uint64_t hdrszp2               : 3;  /**< [377:375] Size of a single-way's filter header as power-of-2.
                                                                     0x0 = Reserved. (Hardware treats as 0x1).

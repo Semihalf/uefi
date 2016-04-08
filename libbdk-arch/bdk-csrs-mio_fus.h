@@ -622,7 +622,13 @@ typedef union
         uint64_t reserved_24           : 1;
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
                                                                  <23:22> = Alternate package.
+                                                                   0x0 = CN81xx-xxxx-BG676.
+                                                                   0x1 = CN80xx-xxxx-BG555.
+                                                                   0x2 = CN80xx-xxxx-BG676.
+                                                                   0x3 = Reserved.
+
                                                                  <21:19> = Major revision.
+
                                                                  <18:16> = Minor revision.
 
                                                                  For example:
@@ -671,7 +677,13 @@ typedef union
         uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Chip revision identifier.
                                                                  <23:22> = Alternate package.
+                                                                   0x0 = CN81xx-xxxx-BG676.
+                                                                   0x1 = CN80xx-xxxx-BG555.
+                                                                   0x2 = CN80xx-xxxx-BG676.
+                                                                   0x3 = Reserved.
+
                                                                  <21:19> = Major revision.
+
                                                                  <18:16> = Minor revision.
 
                                                                  For example:

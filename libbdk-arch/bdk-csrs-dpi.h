@@ -69,7 +69,9 @@
  */
 #define BDK_DPI_CS_E_ERRRSP (3)
 #define BDK_DPI_CS_E_NOERR (0)
+#define BDK_DPI_CS_E_RDFLT (4)
 #define BDK_DPI_CS_E_RDRST (1)
+#define BDK_DPI_CS_E_WRFLT (5)
 #define BDK_DPI_CS_E_WRRST (2)
 
 /**
@@ -124,9 +126,13 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define BDK_DPI_INT_VEC_E_DPI_CCX_INT(a) (0 + (a))
-#define BDK_DPI_INT_VEC_E_DPI_DBE_INT (0x42)
-#define BDK_DPI_INT_VEC_E_DPI_INT_REG (0x40)
-#define BDK_DPI_INT_VEC_E_DPI_SBE_INT (0x41)
+#define BDK_DPI_INT_VEC_E_DPI_DBE_INT_CN8 (0x4a)
+#define BDK_DPI_INT_VEC_E_DPI_DBE_INT_CN9 (0x42)
+#define BDK_DPI_INT_VEC_E_DPI_INT_REG_CN8 (0x48)
+#define BDK_DPI_INT_VEC_E_DPI_INT_REG_CN9 (0x40)
+#define BDK_DPI_INT_VEC_E_DPI_REQQX_INT(a) (0x40 + (a))
+#define BDK_DPI_INT_VEC_E_DPI_SBE_INT_CN8 (0x49)
+#define BDK_DPI_INT_VEC_E_DPI_SBE_INT_CN9 (0x41)
 
 /**
  * Structure dpi_dma_func_sel_s
@@ -3028,7 +3034,7 @@ typedef union
 static inline uint64_t BDK_DPIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=66)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=74)))
         return 0x86e001000000ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=66)))
         return 0x86e001000000ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
@@ -3071,7 +3077,7 @@ typedef union
 static inline uint64_t BDK_DPIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=66)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=74)))
         return 0x86e001000008ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=66)))
         return 0x86e001000008ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
@@ -3337,6 +3343,19 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
+        uint64_t qen                   : 8;  /**< [  7:  0](R/W/H) Indicates which instruction queues are enabled, and can dispatch instructions to a
+                                                                 requesting engine. */
+#else /* Word 0 - Little Endian */
+        uint64_t qen                   : 8;  /**< [  7:  0](R/W/H) Indicates which instruction queues are enabled, and can dispatch instructions to a
+                                                                 requesting engine. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_req_gbl_en_s cn8; */
+    struct bdk_dpix_req_gbl_en_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
         uint64_t qen                   : 8;  /**< [  7:  0](R/W) Indicates which instruction queues are enabled, and can dispatch instructions to a
                                                                  requesting engine. */
 #else /* Word 0 - Little Endian */
@@ -3344,8 +3363,7 @@ typedef union
                                                                  requesting engine. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_req_gbl_en_s cn; */
+    } cn9;
 } bdk_dpix_req_gbl_en_t;
 
 static inline uint64_t BDK_DPIX_REQ_GBL_EN(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3364,6 +3382,178 @@ static inline uint64_t BDK_DPIX_REQ_GBL_EN(unsigned long a)
 #define device_bar_BDK_DPIX_REQ_GBL_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_GBL_EN(a) (a)
 #define arguments_BDK_DPIX_REQ_GBL_EN(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_reqq#_int
+ *
+ * DPI DMA Per Instruction Queue Interrupt Register
+ * This register contains per-process completion interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_reqqx_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) NCB fault on completion status or zero byte write. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) NCB fault on DMA data write. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1C/H) NCB fault on DMA data read. */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1C/H) NCB fault on instruction read. */
+#else /* Word 0 - Little Endian */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1C/H) NCB fault on instruction read. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1C/H) NCB fault on DMA data read. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) NCB fault on DMA data write. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) NCB fault on completion status or zero byte write. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_reqqx_int_s cn; */
+} bdk_dpix_reqqx_int_t;
+
+static inline uint64_t BDK_DPIX_REQQX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_REQQX_INT(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000006600ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_REQQX_INT", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_REQQX_INT(a,b) bdk_dpix_reqqx_int_t
+#define bustype_BDK_DPIX_REQQX_INT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_REQQX_INT(a,b) "DPIX_REQQX_INT"
+#define device_bar_BDK_DPIX_REQQX_INT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_REQQX_INT(a,b) (a)
+#define arguments_BDK_DPIX_REQQX_INT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_reqq#_int_ena_w1c
+ *
+ * DPI DMA Per Instruction Queue Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_reqqx_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_reqqx_int_ena_w1c_s cn; */
+} bdk_dpix_reqqx_int_ena_w1c_t;
+
+static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1C(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000006680ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_REQQX_INT_ENA_W1C", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_REQQX_INT_ENA_W1C(a,b) bdk_dpix_reqqx_int_ena_w1c_t
+#define bustype_BDK_DPIX_REQQX_INT_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_REQQX_INT_ENA_W1C(a,b) "DPIX_REQQX_INT_ENA_W1C"
+#define device_bar_BDK_DPIX_REQQX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_REQQX_INT_ENA_W1C(a,b) (a)
+#define arguments_BDK_DPIX_REQQX_INT_ENA_W1C(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_reqq#_int_ena_w1s
+ *
+ * DPI DMA Per Instruction Queue Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_reqqx_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_reqqx_int_ena_w1s_s cn; */
+} bdk_dpix_reqqx_int_ena_w1s_t;
+
+static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1S(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e0000066c0ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_REQQX_INT_ENA_W1S", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_REQQX_INT_ENA_W1S(a,b) bdk_dpix_reqqx_int_ena_w1s_t
+#define bustype_BDK_DPIX_REQQX_INT_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_REQQX_INT_ENA_W1S(a,b) "DPIX_REQQX_INT_ENA_W1S"
+#define device_bar_BDK_DPIX_REQQX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_REQQX_INT_ENA_W1S(a,b) (a)
+#define arguments_BDK_DPIX_REQQX_INT_ENA_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_reqq#_int_w1s
+ *
+ * DPI DMA Per Instruction Queue Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_reqqx_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_reqqx_int_w1s_s cn; */
+} bdk_dpix_reqqx_int_w1s_t;
+
+static inline uint64_t BDK_DPIX_REQQX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_REQQX_INT_W1S(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000006640ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_REQQX_INT_W1S", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_REQQX_INT_W1S(a,b) bdk_dpix_reqqx_int_w1s_t
+#define bustype_BDK_DPIX_REQQX_INT_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_REQQX_INT_W1S(a,b) "DPIX_REQQX_INT_W1S"
+#define device_bar_BDK_DPIX_REQQX_INT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_REQQX_INT_W1S(a,b) (a)
+#define arguments_BDK_DPIX_REQQX_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) dpi#_sbe_int

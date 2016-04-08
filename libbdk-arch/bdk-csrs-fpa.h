@@ -813,45 +813,63 @@ static inline uint64_t BDK_FPA_CONST1_FUNC(void)
 #define arguments_BDK_FPA_CONST1 -1,-1,-1,-1
 
 /**
- * Register (NCB) fpa_dwb_info
+ * Register (NCB) fpa_dbg_info
  *
- * FPA DWB Information Register
+ * FPA Debug Information Register
  * Internal:
- * This register provides information for the current DWB logic status.
+ * This register provides debug information.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_fpa_dwb_info_s
+    struct bdk_fpa_dbg_info_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_14_63        : 50;
+        uint64_t ncbo_cmd_fault_cmd    : 5;  /**< [ 13:  9](RO/H) Internal:
+                                                                 When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
+
+                                                                 <13:9> = NCBO unsupport command. */
+        uint64_t ncbo_cmd_fault        : 1;  /**< [  8:  8](R/W1C/H) Internal:
+                                                                 When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
+
+                                                                 <8> = NCBO cmd fault (unsupport command detected). */
+        uint64_t reserved_6_7          : 2;
         uint64_t dwb_pending           : 6;  /**< [  5:  0](RO/H) Internal:
                                                                  Number of outstanding dwb requests in DWB queue. */
 #else /* Word 0 - Little Endian */
         uint64_t dwb_pending           : 6;  /**< [  5:  0](RO/H) Internal:
                                                                  Number of outstanding dwb requests in DWB queue. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_6_7          : 2;
+        uint64_t ncbo_cmd_fault        : 1;  /**< [  8:  8](R/W1C/H) Internal:
+                                                                 When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
+
+                                                                 <8> = NCBO cmd fault (unsupport command detected). */
+        uint64_t ncbo_cmd_fault_cmd    : 5;  /**< [ 13:  9](RO/H) Internal:
+                                                                 When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
+
+                                                                 <13:9> = NCBO unsupport command. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_fpa_dwb_info_s cn; */
-} bdk_fpa_dwb_info_t;
+    /* struct bdk_fpa_dbg_info_s cn; */
+} bdk_fpa_dbg_info_t;
 
-#define BDK_FPA_DWB_INFO BDK_FPA_DWB_INFO_FUNC()
-static inline uint64_t BDK_FPA_DWB_INFO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_FPA_DWB_INFO_FUNC(void)
+#define BDK_FPA_DBG_INFO BDK_FPA_DBG_INFO_FUNC()
+static inline uint64_t BDK_FPA_DBG_INFO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_FPA_DBG_INFO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x828000000468ll;
-    __bdk_csr_fatal("FPA_DWB_INFO", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("FPA_DBG_INFO", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_FPA_DWB_INFO bdk_fpa_dwb_info_t
-#define bustype_BDK_FPA_DWB_INFO BDK_CSR_TYPE_NCB
-#define basename_BDK_FPA_DWB_INFO "FPA_DWB_INFO"
-#define device_bar_BDK_FPA_DWB_INFO 0x0 /* PF_BAR0 */
-#define busnum_BDK_FPA_DWB_INFO 0
-#define arguments_BDK_FPA_DWB_INFO -1,-1,-1,-1
+#define typedef_BDK_FPA_DBG_INFO bdk_fpa_dbg_info_t
+#define bustype_BDK_FPA_DBG_INFO BDK_CSR_TYPE_NCB
+#define basename_BDK_FPA_DBG_INFO "FPA_DBG_INFO"
+#define device_bar_BDK_FPA_DBG_INFO 0x0 /* PF_BAR0 */
+#define busnum_BDK_FPA_DBG_INFO 0
+#define arguments_BDK_FPA_DBG_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) fpa_ecc_ctl

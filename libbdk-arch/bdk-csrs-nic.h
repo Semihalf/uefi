@@ -2831,11 +2831,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t mcam_entries          : 12; /**< [ 23: 12](RO) Number of MCAM entries. For backward compatability, a value of 0 represents 192. */
+        uint64_t mcam_entries          : 12; /**< [ 23: 12](RO) Number of MCAM entries. For backward compatibility, a value of 0 represents 192. */
         uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
 #else /* Word 0 - Little Endian */
         uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
-        uint64_t mcam_entries          : 12; /**< [ 23: 12](RO) Number of MCAM entries. For backward compatability, a value of 0 represents 192. */
+        uint64_t mcam_entries          : 12; /**< [ 23: 12](RO) Number of MCAM entries. For backward compatibility, a value of 0 represents 192. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
@@ -12640,7 +12640,7 @@ static inline uint64_t BDK_NIC_PF_STATUS_FUNC(void)
 /**
  * Register (NCB) nic_pf_sw_sync_pipe#_cq_cnts
  *
- * INTERNAL: NIC SW SYNC Pipline CQ Counter Registers
+ * INTERNAL: NIC Software Sync Pipline CQ Counter Registers
  *
  * For diagnostic use only for debug of the  NIC_PF_SW_SYNC_RX[SW_RX_SYNC] function. Index
  * enumerated by NIC_LMAC_E.
@@ -12685,7 +12685,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a)
 /**
  * Register (NCB) nic_pf_sw_sync_pipe#_pkt_cnts
  *
- * INTERNAL: NIC SW SYNC Pipeline Packet Counter Registers
+ * INTERNAL: NIC Software Sync Pipeline Packet Counter Registers
  *
  * For diagnostic use only for debug of the  NIC_PF_SW_SYNC_RX[SW_RX_SYNC] function. Index
  * enumerated by NIC_LMAC_E.

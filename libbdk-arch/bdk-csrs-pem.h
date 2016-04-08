@@ -1484,7 +1484,72 @@ typedef union
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_pemx_ctl_status_cn9 cn83xx; */
+    struct bdk_pemx_ctl_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
+        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
+        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
+
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
+        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
+        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+        uint64_t pm_xpme               : 1;  /**< [ 10: 10](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_pme port. EP mode. */
+        uint64_t ob_p_cmd              : 1;  /**< [  9:  9](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core outband_pwrup_cmd
+                                                                 port. EP mode. */
+        uint64_t reserved_8            : 1;
+        uint64_t reserved_7            : 1;
+        uint64_t nf_ecrc               : 1;  /**< [  6:  6](R/W) Do not forward peer-to-peer ECRC TLPs. */
+        uint64_t reserved_5            : 1;
+        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
+        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
+        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
+#else /* Word 0 - Little Endian */
+        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
+        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
+        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
+        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+        uint64_t reserved_5            : 1;
+        uint64_t nf_ecrc               : 1;  /**< [  6:  6](R/W) Do not forward peer-to-peer ECRC TLPs. */
+        uint64_t reserved_7            : 1;
+        uint64_t reserved_8            : 1;
+        uint64_t ob_p_cmd              : 1;  /**< [  9:  9](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core outband_pwrup_cmd
+                                                                 port. EP mode. */
+        uint64_t pm_xpme               : 1;  /**< [ 10: 10](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_pme port. EP mode. */
+        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
+                                                                 configuration read that does not carry a retry status. Until such time that the
+                                                                 timeout occurs and retry status is received for a configuration read, the read
+                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
+                                                                 UR.
+
+                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
+                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
+                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
+                                                                 issued until either successful completion or CPL UR. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
+        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
+        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn83xx;
     struct bdk_pemx_ctl_status_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1626,6 +1691,63 @@ static inline uint64_t BDK_PEMX_CTL_STATUS2(unsigned long a)
 #define device_bar_BDK_PEMX_CTL_STATUS2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_CTL_STATUS2(a) (a)
 #define arguments_BDK_PEMX_CTL_STATUS2(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) pem#_ctl_stream
+ *
+ * PEM EP Mode Stream Register
+ * This register is used to generate the SMMU stream ID when in endpoint mode.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pemx_ctl_stream_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t epsbmax               : 16; /**< [ 31: 16](R/W) The maximum SSU stream ID that will be generated by inbound
+                                                                 transactions. Initializes to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM
+                                                                 number. See [EPSBBASE]. */
+        uint64_t epsbbase              : 16; /**< [ 15:  0](R/W) The base SMMU stream ID that will be generated by inbound transactions.
+                                                                 Initializes to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM number.
+
+                                                                 When in EP mode:
+                                                                   _ stream id = min( (PCI_stream_id<15:0> + [EPSBBASE]), [EPSBMAX]).
+
+                                                                 Software must ensure that [EPSBBASE]...[EPSBMAX] are non-overlapping between all
+                                                                 endpoint PEMs and non-overlapping existing PCC devices. */
+#else /* Word 0 - Little Endian */
+        uint64_t epsbbase              : 16; /**< [ 15:  0](R/W) The base SMMU stream ID that will be generated by inbound transactions.
+                                                                 Initializes to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM number.
+
+                                                                 When in EP mode:
+                                                                   _ stream id = min( (PCI_stream_id<15:0> + [EPSBBASE]), [EPSBMAX]).
+
+                                                                 Software must ensure that [EPSBBASE]...[EPSBMAX] are non-overlapping between all
+                                                                 endpoint PEMs and non-overlapping existing PCC devices. */
+        uint64_t epsbmax               : 16; /**< [ 31: 16](R/W) The maximum SSU stream ID that will be generated by inbound
+                                                                 transactions. Initializes to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM
+                                                                 number. See [EPSBBASE]. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pemx_ctl_stream_s cn; */
+} bdk_pemx_ctl_stream_t;
+
+static inline uint64_t BDK_PEMX_CTL_STREAM(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PEMX_CTL_STREAM(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0c00004d0ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PEMX_CTL_STREAM", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PEMX_CTL_STREAM(a) bdk_pemx_ctl_stream_t
+#define bustype_BDK_PEMX_CTL_STREAM(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_PEMX_CTL_STREAM(a) "PEMX_CTL_STREAM"
+#define device_bar_BDK_PEMX_CTL_STREAM(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_PEMX_CTL_STREAM(a) (a)
+#define arguments_BDK_PEMX_CTL_STREAM(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) pem#_dbg_ena_w1c
@@ -8617,6 +8739,84 @@ typedef union
     struct bdk_pemx_spi_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pemx_spi_ctl_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t start_busy            : 1;  /**< [ 33: 33](R/W/H) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
+        uint64_t tvalid                : 1;  /**< [ 32: 32](R/W/H) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
+                                                                 clear status. */
+        uint64_t cmd                   : 8;  /**< [ 31: 24](R/W/H) SPI command to be passed to the flash memory.
+                                                                 This field will clear when command is complete.
+
+                                                                 Examples of some commonly used commands:
+                                                                 0x1  = WRSR: Write status register. A single-byte write of
+                                                                        corresponding PEM()_SPI_DATA[DATA<7:0>] to the register.
+                                                                 0x2  = PAGE PROGRAM/WRITE: An eight-byte page-mode write of the 64-bits of corresponding
+                                                                        PEM()_SPI_DATA to the memory array. Can only be issued to Sector 0.
+                                                                        Note, most devices require BULK or SECTOR ERASE to set bits first.
+                                                                 0x3  = READ: An eight-byte page-mode read access from the memory array
+                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA.
+                                                                        Can only be issued to sector 0.
+                                                                 0x4  = WRDI: Clear the write-enable latch (i.e. write protect the device).
+                                                                 0x5  = RDSR: Read status register. A single-byte read access from
+                                                                        the register with result in corresponding PEM()_SPI_DATA[DATA]<7:0>.
+                                                                 0x6  = WREN: set the write-enable latch (i.e. allow writes to occur).
+                                                                 0xB  = READ DATA HIGHER SPEED: Not supported.
+                                                                 0xAB = WAKE: Release from deep power-down.
+                                                                 0xB9 = SLEEP: Deep power-down.
+                                                                 0xC7 = BULK ERASE: Sets all bits to 1.
+                                                                 0xD8 = SECTOR ERASE: Sets to 1 all bits to the chosen sector (pointed to by [ADR]<18:15>).
+                                                                 0x9F = READ ID: a two-byte read access to get device identification
+                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA. */
+        uint64_t reserved_19_23        : 5;
+        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address. For READ and PAGE PROGRAM commands, forced to sector 0
+                                                                 so [ADR]<18:15> are not used.
+
+                                                                 This field will clear when command is complete. */
+#else /* Word 0 - Little Endian */
+        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address. For READ and PAGE PROGRAM commands, forced to sector 0
+                                                                 so [ADR]<18:15> are not used.
+
+                                                                 This field will clear when command is complete. */
+        uint64_t reserved_19_23        : 5;
+        uint64_t cmd                   : 8;  /**< [ 31: 24](R/W/H) SPI command to be passed to the flash memory.
+                                                                 This field will clear when command is complete.
+
+                                                                 Examples of some commonly used commands:
+                                                                 0x1  = WRSR: Write status register. A single-byte write of
+                                                                        corresponding PEM()_SPI_DATA[DATA<7:0>] to the register.
+                                                                 0x2  = PAGE PROGRAM/WRITE: An eight-byte page-mode write of the 64-bits of corresponding
+                                                                        PEM()_SPI_DATA to the memory array. Can only be issued to Sector 0.
+                                                                        Note, most devices require BULK or SECTOR ERASE to set bits first.
+                                                                 0x3  = READ: An eight-byte page-mode read access from the memory array
+                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA.
+                                                                        Can only be issued to sector 0.
+                                                                 0x4  = WRDI: Clear the write-enable latch (i.e. write protect the device).
+                                                                 0x5  = RDSR: Read status register. A single-byte read access from
+                                                                        the register with result in corresponding PEM()_SPI_DATA[DATA]<7:0>.
+                                                                 0x6  = WREN: set the write-enable latch (i.e. allow writes to occur).
+                                                                 0xB  = READ DATA HIGHER SPEED: Not supported.
+                                                                 0xAB = WAKE: Release from deep power-down.
+                                                                 0xB9 = SLEEP: Deep power-down.
+                                                                 0xC7 = BULK ERASE: Sets all bits to 1.
+                                                                 0xD8 = SECTOR ERASE: Sets to 1 all bits to the chosen sector (pointed to by [ADR]<18:15>).
+                                                                 0x9F = READ ID: a two-byte read access to get device identification
+                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA. */
+        uint64_t tvalid                : 1;  /**< [ 32: 32](R/W/H) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
+                                                                 clear status. */
+        uint64_t start_busy            : 1;  /**< [ 33: 33](R/W/H) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_pemx_spi_ctl_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t start_busy            : 1;  /**< [ 15: 15](R/W) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
         uint64_t tvalid                : 1;  /**< [ 14: 14](R/W) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
@@ -8635,8 +8835,7 @@ typedef union
         uint64_t start_busy            : 1;  /**< [ 15: 15](R/W) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pemx_spi_ctl_s cn; */
+    } cn9;
 } bdk_pemx_spi_ctl_t;
 
 static inline uint64_t BDK_PEMX_SPI_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8670,6 +8869,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t preamble              : 16; /**< [ 63: 48](R/W/H) EEPROM PREAMBLE read or write data. */
+        uint64_t spi_rsvd              : 3;  /**< [ 47: 45](R/W/H) Reserved. */
+        uint64_t cs2                   : 1;  /**< [ 44: 44](R/W/H) EEPROM CS2 read or write data bit. */
+        uint64_t adr                   : 12; /**< [ 43: 32](R/W/H) EEPROM CFG ADR read or write data. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W/H) EEPROM DATA read or write data. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W/H) EEPROM DATA read or write data. */
+        uint64_t adr                   : 12; /**< [ 43: 32](R/W/H) EEPROM CFG ADR read or write data. */
+        uint64_t cs2                   : 1;  /**< [ 44: 44](R/W/H) EEPROM CS2 read or write data bit. */
+        uint64_t spi_rsvd              : 3;  /**< [ 47: 45](R/W/H) Reserved. */
+        uint64_t preamble              : 16; /**< [ 63: 48](R/W/H) EEPROM PREAMBLE read or write data. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pemx_spi_data_s cn8; */
+    struct bdk_pemx_spi_data_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t preamble              : 16; /**< [ 63: 48](R/W/H) EEPROM PREAMBLE read or write data. */
         uint64_t reserved_45_47        : 3;
         uint64_t cs2                   : 1;  /**< [ 44: 44](R/W/H) EEPROM CS2 read or write data bit. */
         uint64_t adr                   : 12; /**< [ 43: 32](R/W/H) EEPROM CFG ADR read or write data. */
@@ -8681,8 +8897,7 @@ typedef union
         uint64_t reserved_45_47        : 3;
         uint64_t preamble              : 16; /**< [ 63: 48](R/W/H) EEPROM PREAMBLE read or write data. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pemx_spi_data_s cn; */
+    } cn9;
 } bdk_pemx_spi_data_t;
 
 static inline uint64_t BDK_PEMX_SPI_DATA(unsigned long a) __attribute__ ((pure, always_inline));

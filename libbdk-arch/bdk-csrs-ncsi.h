@@ -191,14 +191,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t msg                   : 64; /**< [ 63:  0](R/W) Data to communicate between BMC and CPU. Provides a mechanism for BMC to signal
-                                                                 to the CPU. CPU SW and BMC firmware must agree on the messaging definition which
-                                                                 is beyond the scope of this register definition.
+                                                                 to the CPU. CPU software and BMC firmware must agree on the messaging definition
+                                                                 which is beyond the scope of this register definition.
 
                                                                  When this register is written, NCSI_INT[BMC2CPU] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t msg                   : 64; /**< [ 63:  0](R/W) Data to communicate between BMC and CPU. Provides a mechanism for BMC to signal
-                                                                 to the CPU. CPU SW and BMC firmware must agree on the messaging definition which
-                                                                 is beyond the scope of this register definition.
+                                                                 to the CPU. CPU software and BMC firmware must agree on the messaging definition
+                                                                 which is beyond the scope of this register definition.
 
                                                                  When this register is written, NCSI_INT[BMC2CPU] is set. */
 #endif /* Word 0 - End */
@@ -208,8 +208,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t msg                   : 64; /**< [ 63:  0](R/W) Data to communicate between BMC and CPU. Provides a mechanism for BMC to signal
-                                                                 to the CPU. CPU SW and BMC firmware must agree on the messaging definition which
-                                                                 is beyond the scope of this register definition.
+                                                                 to the CPU. CPU software and BMC firmware must agree on the messaging definition
+                                                                 which is beyond the scope of this register definition.
 
                                                                  When this register is written, NCSI_INT[BMC2CPU] is set.
 
@@ -217,8 +217,8 @@ typedef union
                                                                  Interrupt is CN88XX pass 2 only, bug21942. */
 #else /* Word 0 - Little Endian */
         uint64_t msg                   : 64; /**< [ 63:  0](R/W) Data to communicate between BMC and CPU. Provides a mechanism for BMC to signal
-                                                                 to the CPU. CPU SW and BMC firmware must agree on the messaging definition which
-                                                                 is beyond the scope of this register definition.
+                                                                 to the CPU. CPU software and BMC firmware must agree on the messaging definition
+                                                                 which is beyond the scope of this register definition.
 
                                                                  When this register is written, NCSI_INT[BMC2CPU] is set.
 
@@ -350,12 +350,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t msg                   : 64; /**< [ 63:  0](R/W) Data to communicate between CPU and BMC. Provides a mechanism for CPU to signal
-                                                                 to the BMC. CPU SW and BMC firmware must agree on the messaging definition which
-                                                                 is beyond the scope of this register definition. */
+                                                                 to the BMC. CPU software and BMC firmware must agree on the messaging definition
+                                                                 which is beyond the scope of this register definition. */
 #else /* Word 0 - Little Endian */
         uint64_t msg                   : 64; /**< [ 63:  0](R/W) Data to communicate between CPU and BMC. Provides a mechanism for CPU to signal
-                                                                 to the BMC. CPU SW and BMC firmware must agree on the messaging definition which
-                                                                 is beyond the scope of this register definition. */
+                                                                 to the BMC. CPU software and BMC firmware must agree on the messaging definition
+                                                                 which is beyond the scope of this register definition. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_cpu2bmc_msg_s cn; */

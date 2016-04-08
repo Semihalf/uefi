@@ -37,7 +37,7 @@ typedef struct __attribute__ ((packed)) {
     bdk_csr_type_t  type : 4;       /**< Enum type from above */
     uint8_t         width : 4;      /**< CSR width in bytes */
     uint16_t        field_index;    /**< Index into __bdk_csr_db_fieldList where the fields start */
-    uint8_t         range[BDK_CSR_DB_MAX_PARAM]; /**< Index into __bdk_csr_db_range where the range is */
+    uint16_t        range[BDK_CSR_DB_MAX_PARAM]; /**< Index into __bdk_csr_db_range where the range is */
     uint16_t        param_inc[BDK_CSR_DB_MAX_PARAM]; /**< Index into __bdk_csr_db_number where the param multiplier is */
 } __bdk_csr_db_type_t;
 
