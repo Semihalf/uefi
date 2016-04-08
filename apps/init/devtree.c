@@ -157,7 +157,12 @@ static void *devtree_load(const char *filename)
         }
     }
     /* Tell the FDT it has extra space */
-    fdt_set_totalsize(fdt,  fdt_size);
+    int status = fdt_open_into(fdt, fdt, fdt_size);
+    if (status)
+    {
+        bdk_error("Unable resize FDT (%d:%s)\n", status, fdt_strerror(status));
+        return NULL;
+    }
     return fdt;
 }
 
