@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 **/
 #include "UsbBus.h"
+#include "UsbMass.h"
 
 /**
   Return the endpoint descriptor in this interface.
@@ -58,8 +59,9 @@ UsbFreeInterface (
   IN USB_INTERFACE        *UsbIf
   )
 {
-  UsbCloseHostProtoByChild (UsbIf->Device->Bus, UsbIf->Handle);
 #if defined(notdef_cavium)
+  UsbCloseHostProtoByChild (UsbIf->Device->Bus, UsbIf->Handle);
+
   gBS->UninstallMultipleProtocolInterfaces (
          UsbIf->Handle,
          &gEfiDevicePathProtocolGuid,
@@ -69,7 +71,7 @@ UsbFreeInterface (
          NULL
          );
 #else
-  CAVIUM_NOTYET("UninstallMultipleProtocolInterfaces");
+  // Nothing needs to be done
 #endif
   if (UsbIf->DevicePath != NULL) {
     FreePool (UsbIf->DevicePath);
@@ -155,13 +157,11 @@ UsbCreateInterface (
     DEBUG ((EFI_D_ERROR, "UsbCreateInterface: failed to install UsbIo - %d\n", (int) Status));
     goto ON_ERROR;
   }
-#else
-  CAVIUM_NOTYET("InstallMultipleProtocolInterfaces: UsbIo");
-#endif
+
   //
   // Open USB Host Controller Protocol by Child
   //
-#if defined(notdef_cavium)
+
   Status = UsbOpenHostProtoByChild (Device->Bus, UsbIf->Handle);
 
   if (EFI_ERROR (Status)) {
@@ -179,7 +179,7 @@ UsbCreateInterface (
     goto ON_ERROR;
   }
 #else
-  CAVIUM_NOTYET("InstallMultipleProtocolInterfaces: UsbOpenHostProtoByChild");
+  // Nothing needs to be done Connect/DisconnectDriver notifies bdk proper
 #endif
   return UsbIf;
 
@@ -278,6 +278,7 @@ UsbConnectDriver (
     Status = mUsbHubApi.Init (UsbIf);
 
   } else {
+#if defined(notdef_cavium)
       /* EFI_TPL                 OldTpl; */
     //
     // This function is called in both UsbIoControlTransfer and
@@ -304,6 +305,15 @@ UsbConnectDriver (
 
       /* gBS->RaiseTPL (OldTpl); */
     }
+#else
+        // We do not need to recursively connect.
+        // Call notifier for usb mass storage
+         if (UsbIf->IfSetting->Desc.InterfaceClass == USB_MASS_STORE_CLASS) {
+             Status = UsbMassIfStart(&UsbIf->UsbIo,  UsbIf->DevicePath, UsbIf);
+             // Record if mass storage will deal with it
+             UsbIf->IsManaged  = (BOOLEAN)!EFI_ERROR (Status);
+         } 
+#endif
 
   }
 
@@ -505,7 +515,9 @@ UsbDisconnectDriver (
     gBS->RaiseTPL (OldTpl);
 #else
     UsbIf->IsManaged = FALSE;
-    CAVIUM_NOTYET("disconnect controller from managed hub");
+//    CAVIUM_NOTYET("disconnect controller from managed hub");
+    UsbMassIfStop(UsbIf);
+    DEBUG (( EFI_D_INFO, "UsbDisconnectDriver: Stopped UsbIf %p\n", UsbIf));
 #endif
   }
   
@@ -1084,7 +1096,7 @@ UsbRootHubEnumeration (
         DEBUG (( EFI_D_INFO, "%s: The device disconnect fails at port %d from root hub %p, try again\n", __FUNCTION__, Index, RootHub));
       UsbRemoveDevice (Child);
     }
-    MT_DEBUG("Enumerating %p Index %d\n", RootHub, Index);
     UsbEnumeratePort (RootHub, Index);
   }
 }
+

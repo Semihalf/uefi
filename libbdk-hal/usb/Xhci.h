@@ -192,8 +192,9 @@ struct xhci_s {
     //
     USB_DEV_CONTEXT           UsbDevContext[256];
     // cavium node and port of the physical root hub
-    bdk_node_t node;
-    int usb_port;
+    bdk_rlock_t *xhci_lock;   // Pointer to xhci level lock. Used to protect IO instances from each other, RootHub enumeration and async interrupts
+    bdk_node_t node;          // Cavium node
+    int usb_port;             // Cavium physical port
 };
 
 typedef struct xhci_s xhci_t;
@@ -584,8 +585,25 @@ XhcAsyncIsochronousTransfer (
   IN     VOID                                *Context
   );
 
-//----------->
+
 int xhcPollRootHub(void *usb_root_hub,xhci_t* xhc);
+
+/**
+ ** return cavium node id and physical interface number for a protocol instance
+ ** @param This                 This EFI_USB2_HC_PROTOCOL instance.
+ ** @param node                 Address of variable to receive node number
+ ** @param usb_port             Address of variable to receive port number
+ ** @param lock                 Address of variable to receive pointer to bus level lock
+
+ ** @return Zero on success, non-zero on failure
+ */
+
+int
+cvmH2C_to_node(
+    EFI_USB2_HC_PROTOCOL *This,
+    bdk_node_t           *node,
+    int *usb_port,
+    void **lock);
 
 /*
 ** Register access portion

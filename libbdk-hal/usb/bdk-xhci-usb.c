@@ -248,7 +248,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
             goto out;
         }
         usb_global_data[node][usb_port].xhci_priv = thisHC;
-       
+        thisHC->xhci_lock = &usb_global_data[node][usb_port].xhci_lock;
     }
 #if 0
     printf("thisHC @%p\n",thisHC);

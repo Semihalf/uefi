@@ -482,6 +482,7 @@ const char* debuglvl2s(uint32_t lvl)
     case EFI_D_EVENT: return "EVENT";
     case EFI_D_INFO: return "INFO";
     case EFI_D_ERROR: return "ERROR";
+    case EFI_D_BLKIO: return "BLKIO";
     }
     return "????";
 }

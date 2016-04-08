@@ -36,7 +36,7 @@ dev_fs_t bdk_fs_dev_uart0 = {
 /* Linked list of all device. Uart0 is the head and uart1 is the tail */
 static dev_fs_t *dev_head = &bdk_fs_dev_uart0;
 static dev_fs_t *dev_tail = &bdk_fs_dev_uart1;
-
+static bdk_rlock_t dev_lock = {0,0};
 /**
  * Register a hardware device for use as a IO file. Devices are treated differently
  * than other files as they are per node. Device names are of the format "n0.dev0".
@@ -59,7 +59,7 @@ int bdk_fs_register_dev(const char *dev_base, int dev_index, const __bdk_fs_dev_
         bdk_error("Failed to allocate list entry for device %s%d\n", dev_base, dev_index);
         return -1;
     }
-
+    bdk_rlock_lock(&dev_lock);
     /* Fill the structure */
     dev->next = NULL;
     dev->ops = ops;
@@ -73,7 +73,54 @@ int bdk_fs_register_dev(const char *dev_base, int dev_index, const __bdk_fs_dev_
     else
         dev_head = dev;
     dev_tail = dev;
+    bdk_rlock_unlock(&dev_lock);
     return 0;
+}
+
+/**
+ * UnRegister a hardware device for use as a IO file. Devices are treated differently
+ * than other files as they are per node. Device names are of the format "n0.dev0".
+ * "n0" is the node number of the device, "dev" is the dev_base prefix given in
+ * this function call.
+ *
+ * @param dev_base  Name of the base device. Examples "sata", "uart", "pcie"
+ * @param dev_index Device index tying this device to a hardware block. This becomes the last number
+ *                  in the name.
+ * 
+ * @return Zero on success, negative on failure
+ */
+int bdk_fs_unregister_dev(const char *dev_base, int dev_index)
+{
+    dev_fs_t *dev, *pdev;
+    char dname[sizeof(dev->dev_name)];
+    if (NULL == dev_tail) return -1;
+    snprintf(dname,sizeof(dname), "%s%d",dev_base,dev_index);
+    dname[sizeof(dname)-1] = '\0';
+    bdk_rlock_lock(&dev_lock);
+    dev = dev_head; 
+    pdev = NULL;
+    while(dev) {
+        if (0 == strcmp(dname,dev->dev_name)) {
+            if (NULL == pdev) {
+                if (dev == dev_tail) {
+                    dev_head = dev_tail = NULL;
+                } else {
+                    dev_head = dev->next;
+                }
+            } else {
+                pdev->next = dev->next;
+                if (NULL == pdev->next) dev_tail = pdev;
+            }
+            bdk_rlock_unlock(&dev_lock);
+            free(dev);
+            printf("%s unregistered %s\n",__FUNCTION__,dname);
+            return 0;
+        }
+        pdev = dev;
+        dev = dev->next;   
+    }
+    bdk_rlock_unlock(&dev_lock);
+    return -1;
 }
 
 /**
@@ -117,7 +164,7 @@ static dev_fs_t *dev_find(const char *name)
 {
     const char *name_no_node = name + 3;
     char tmp[32];
-    dev_fs_t *dev = dev_head;
+    dev_fs_t *dev;
 
     /* Truncate name at next / as MPI uses sub names */
     const char *sub_name = strchr(name_no_node, '/');
@@ -130,13 +177,17 @@ static dev_fs_t *dev_find(const char *name)
         tmp[length] = 0;
         name_no_node = tmp;
     }
-
+    bdk_rlock_lock(&dev_lock);
+    dev = dev_head;
     while (dev)
     {
-        if (strcmp(name_no_node, dev->dev_name) == 0)
+        if (strcmp(name_no_node, dev->dev_name) == 0) {
+            bdk_rlock_unlock(&dev_lock);
             return dev;
+        }
         dev = dev->next;
     }
+    bdk_rlock_unlock(&dev_lock);
     return NULL;
 }
 
