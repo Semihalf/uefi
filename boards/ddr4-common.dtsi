@@ -995,8 +995,8 @@ cavium,bdk {
 
 	/* The DRAM initialization code has the ability to toggle a GPIO to
 	signal when it is running. Boards may need to mux TWSI access
-	between a BMC and THUNDERX so the BMC can monitor DIMM temperatures
-	and health. This GPIO will be driven high when THUNDERX may read
+	between a BMC and the SOC so the BMC can monitor DIMM temperatures
+	and health. This GPIO will be driven high when the SOC may read
 	from the SPDs on the DIMMs. When driven low, another device (BMC)
 	may takeover the TWSI connections to the DIMMS. The default value
 	(-1) disables this feature. */
