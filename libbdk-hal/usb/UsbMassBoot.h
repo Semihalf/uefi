@@ -307,7 +307,7 @@ UsbBootWriteBlocks (
   IN  USB_MASS_DEVICE         *UsbMass,
   IN  UINT32                  Lba,
   IN  UINTN                   TotalBlock,
-  IN  UINT8                   *Buffer
+  CONST IN  UINT8                   *Buffer
   );
 
 /**
@@ -347,7 +347,7 @@ UsbBootWriteBlocks16 (
   IN  USB_MASS_DEVICE         *UsbMass,
   IN  UINT64                  Lba,
   IN  UINTN                   TotalBlock,
-  IN  UINT8                   *Buffer
+  CONST IN  UINT8                   *Buffer
   );
 
 

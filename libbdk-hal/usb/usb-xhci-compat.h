@@ -18,7 +18,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "ProcessorBind.h"
+#include "Aarch64_ProcessorBind.h"
 
 #if !defined(IN)
 #	define IN

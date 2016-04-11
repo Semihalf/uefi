@@ -109,7 +109,7 @@ EFI_STATUS
   IN UINT32                         MediaId,
   IN EFI_LBA                        Lba,
   IN UINTN                          BufferSize,
-  IN VOID                           *Buffer
+  CONST IN VOID                           *Buffer
   );
 
 /**

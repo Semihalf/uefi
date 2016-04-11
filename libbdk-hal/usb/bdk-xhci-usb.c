@@ -409,5 +409,3 @@ int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const int change)
      
     
 }
-   
-

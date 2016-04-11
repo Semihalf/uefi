@@ -604,7 +604,7 @@ UsbBootReadCapacity (
       UsbMass->Cdb16Byte = TRUE;
     }
   }
-  DEBUG((EFI_D_INFO,"Block IO device, BlockSize 0x%x LastBlock %lx Size %lu MBytes", 
+  DEBUG((EFI_D_INFO,"Block IO device, BlockSize 0x%x LastBlock %lx Size %lu MBytes\n", 
          (int)  BlockSize, (uint64_t) Media->LastBlock,  (((uint64_t) Media->LastBlock+1) * BlockSize) >>20 ));
   return Status;
 }
@@ -927,7 +927,7 @@ UsbBootWriteBlocks (
   IN  USB_MASS_DEVICE         *UsbMass,
   IN  UINT32                  Lba,
   IN  UINTN                   TotalBlock,
-  IN  UINT8                   *Buffer
+  CONST IN  UINT8                   *Buffer
   )
 {
   USB_BOOT_WRITE10_CMD  WriteCmd;
@@ -969,7 +969,7 @@ UsbBootWriteBlocks (
                &WriteCmd,
                (UINT8) sizeof (USB_BOOT_WRITE10_CMD),
                EfiUsbDataOut,
-               Buffer,
+               (void*)Buffer,
                ByteSize,
                Timeout
                );
@@ -1077,7 +1077,7 @@ UsbBootWriteBlocks16 (
   IN  USB_MASS_DEVICE         *UsbMass,
   IN  UINT64                  Lba,
   IN  UINTN                   TotalBlock,
-  IN  UINT8                   *Buffer
+  CONST IN  UINT8                   *Buffer
   )
 {
   UINT8                 WriteCmd[16];
@@ -1117,7 +1117,7 @@ UsbBootWriteBlocks16 (
                WriteCmd,
                (UINT8) sizeof (WriteCmd),
                EfiUsbDataOut,
-               Buffer,
+               (void*)Buffer,
                ByteSize,
                Timeout
                );
