@@ -22,7 +22,7 @@ def maybe_image_number(cnx):
 
 def wait_for_bdkstub_messages(cnx):
     #cnx.powerCycle()
-    cnx.waitfor("Cavium THUNDERX", timeout=20)
+    cnx.waitfor("Cavium SOC", timeout=20)
     cnx.waitfor("BDK Stage1 Boot")
     cnx.waitfor("Boot Menu")
     cnx.waitfor("(INS)Menu choice:")
@@ -31,7 +31,7 @@ def wait_for_bdkstub_messages(cnx):
 # this is needed for a BDK that asks for an image number
     maybe_image_number(cnx)
 #
-    cnx.waitfor("Cavium THUNDERX")
+    cnx.waitfor("Cavium SOC")
     cnx.waitfor("Main Menu")
     cnx.waitfor("(INS)Menu choice []:")
     cnx.sendEcho("keys")
