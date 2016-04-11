@@ -48,7 +48,7 @@ void menu_qlm(bdk_menu_t *parent, char key, void *arg)
     bdk_menu_t menu;
     do
     {
-        bdk_menu_init(&menu, "THUNDERX Setup - Chip");
+        bdk_menu_init(&menu, "Setup - Chip");
         if (multinode)
         {
             if (node)

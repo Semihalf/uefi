@@ -22,7 +22,7 @@ void menu_chip(bdk_menu_t *parent, char key, void *arg)
     };
     do
     {
-        bdk_menu_init(&menu, "THUNDERX Setup - Chip");
+        bdk_menu_init(&menu, "Setup - Chip");
         int i = 0;
         while (info[i].key)
         {

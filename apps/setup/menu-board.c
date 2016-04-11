@@ -125,7 +125,7 @@ void menu_board(bdk_menu_t *parent, char key, void *arg)
 
     do
     {
-        bdk_menu_init(&menu, "THUNDERX Setup - Board");
+        bdk_menu_init(&menu, "Setup - Board");
         int i = 0;
         while (info[i].key)
         {

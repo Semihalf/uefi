@@ -52,7 +52,7 @@ void menu_dram(bdk_menu_t *parent, char key, void *arg)
     };
     do
     {
-        bdk_menu_init(&menu, "THUNDERX Setup - DRAM");
+        bdk_menu_init(&menu, "Setup - DRAM");
         int i = 0;
         while (info[i].key)
         {
