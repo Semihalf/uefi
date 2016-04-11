@@ -270,9 +270,9 @@ int main(int argc, const char **argv)
     bdk_boot_status(BDK_BOOT_STATUS_INIT_STARTING);
 
     printf(
-        "====================\n"
-        "Cavium THUNDERX Init\n"
-        "====================\n"
+        "===========\n"
+        "Cavium Init\n"
+        "===========\n"
         "BDK Version: %s\n"
         "\n",
         bdk_version_string());
