@@ -3341,8 +3341,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_timing_params0_t lmc_timing_params0;
         lmc_timing_params0.u = BDK_CSR_READ(node, BDK_LMCX_TIMING_PARAMS0(ddr_interface_num));
 
-        trp_value = divide_roundup(trp, tclk_psecs)
-            + divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs) - 5;
+        trp_value = divide_roundup(trp, tclk_psecs) - 1;
 
         lmc_timing_params0.s.txpr     = divide_roundup(max(5*tclk_psecs, trfc+10000ull), 16*tclk_psecs);
         lmc_timing_params0.s.tzqinit  = divide_roundup(max(512*tclk_psecs, 640000ull), (256*tclk_psecs));
