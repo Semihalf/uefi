@@ -30,6 +30,7 @@ os.environ["BIN_IMAGE"] = BDK_ROOT + "/target-bin/bdk.bin"
 os.environ["SYMBOL_IMAGE"] = BDK_ROOT + "/apps/diagnostics/app"
 if not "ASIM_CHIP" in os.environ:
     os.environ["ASIM_CHIP"] = "CN88XX:1.0"
+
 #
 # Load the simulator
 #
@@ -62,11 +63,11 @@ def wait_for(wait_str):
 assert sim.command("@%s/%s.asim" % (BDK_ROOT, os.environ["ASIM_CHIP"].split(":")[0]))
 assert sim.command("start 0")
 
-wait_for("Cavium THUNDERX")
+wait_for("Cavium SOC")
 wait_for("PASS: CRC32 verification")
-wait_for("=========================")
-wait_for("Cavium THUNDERX Boot Stub")
-wait_for("=========================")
+wait_for("================")
+wait_for("Cavium Boot Stub")
+wait_for("================")
 wait_for("Version:")
 if os.environ["ASIM_CHIP"].startswith("CN88XX"):
     wait_for("Node:  0")
@@ -98,11 +99,11 @@ wait_for("Choice:")
 send("e")
 wait_for("Loading image file '/fatfs/diagnostics.bin'")
 wait_for("---")
-wait_for("Cavium THUNDERX")
+wait_for("Cavium SOC")
 wait_for("PASS: CRC32 verification")
 wait_for("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
 
-wait_for("THUNDERX Diagnostic")
+wait_for("Cavium Diagnostic")
 wait_for("Copyright (C) 2010-2016 Cavium Inc.")
 wait_for("Version")
 
