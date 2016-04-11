@@ -2,7 +2,7 @@
 
 / {
 cavium,bdk {
-	/* THUNDERX TWSI port connected to the BMC for IPMI traffic.
+	/* On-chip TWSI port connected to the BMC for IPMI traffic.
 	-1 = No connection exists. 0+ is TWSI bus number. */
 	//BMC-TWSI = "-1";
 	BMC-TWSI = "1";
@@ -17,8 +17,8 @@ cavium,bdk {
 	format is:
 	    node,twsi_id,dev_addr,internal_addr,num_bytes,ia_width_bytes,data
 	    sleep,ms
-	node           = THUNDERX node ID the twsi bus is on. -1 means the local node
-	twsi_id        = THUNDERX twsi bus to use
+	node           = Node ID the twsi bus is on. -1 means the local node
+	twsi_id        = TWSI bus to use
 	dev_addr       = TWSI bus address
 	internal_addr  = TWSI internal address, zero if not used
 	num_bytes      = Number of bytes to write (1-8)
@@ -33,8 +33,8 @@ cavium,bdk {
 	    clause,node,bus_id,phy_id,device,location,val
 	    sleep,ms
 	clause   = MDIO clause for the write (22 or 45)
-	node     = THUNDERX node the MDIO bus is connected, -1 for local
-	bus_id   = THUNDERX MDIO bus to use
+	node     = Node the MDIO bus is connected, -1 for local
+	bus_id   = MDIO bus to use
 	phy_id   = MDIO address
 	device   = Clause 45 internal device address, zero for clause 22
 	location = MDIO register
@@ -140,7 +140,7 @@ cavium,bdk {
             0x50 is a read only rom, 0x56 are the modules registers. */
 	PHY-ADDRESS.N1.BGX0.P0 = "0x01012356";
 
-	/* Independent enables for each BGX port of THUNDERX. Use this to
+	/* Independent enables for each on-chip BGX port. Use this to
 	disable ports that are not wired on a board. Default is that all
 	ports are enabled. */
 	//BGX-ENABLE.N%d.BGX%d.P%d = "1";
@@ -210,10 +210,10 @@ cavium,bdk {
 	/* Cavium SKU for the chip. This is determined by early code and
 	passed to later software for display. This should not be set in
 	the input device tree, it will be ignored. */
-	//CHIP-SKU.NODE%d = "THUNDERX";
+	//CHIP-SKU.NODE%d = "TBD";
 
 	/* For Cavium evaluation boards, query the MCU for QLM setup
-	information. The MCU supplies a TWSI protocol for THUNDERX to
+	information. The MCU supplies a TWSI protocol for the SOC to
 	query the modules plugged in and automatically set the QLMs to
 	the correct mode. This should only be enabled(1) on Cavium
 	EBB8XXX boards. Other boards should have it disabled(0). */
@@ -491,21 +491,21 @@ cavium,bdk {
 
 	/* The DRAM initialization code has the ability to toggle a GPIO to
 	signal when it is running. Boards may need to mux TWSI access
-	between a BMC and THUNDERX so the BMC can monitor DIMM temperatures
-	and health. This GPIO will be driven high when THUNDERX may read
+	between a BMC and the SOC so the BMC can monitor DIMM temperatures
+	and health. This GPIO will be driven high when the SOC may read
 	from the SPDs on the DIMMs. When driven low, another device (BMC)
 	may takeover the TWSI connections to the DIMMS. The default value
 	(-1) disables this feature. */
 	//DDR-CONFIG-GPIO = "-1";
 
-	/* Specify a THUNDERX GPIO used to control power for a USB port. When
+	/* Specify a on-chip GPIO used to control power for a USB port. When
 	set, the USB host controller will toggle the GPIO automatically
-	during USB reset events. The default value assumes THUNDERX has no
+	during USB reset events. The default value assumes the SOC has no
 	control of the USB power and it is always on. */
 	//USB-PWR-GPIO.N%d.PORT%d = "-1";
 	USB-PWR-GPIO = "38";
 
-	/* Specify the polarity of a THUNDERX GPIO used to control power for
+	/* Specify the polarity of a on-chip GPIO used to control power for
 	a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this
 	GPIO low. The default value drives the GPIO high. */
 	//USB-PWR-GPIO-POLARITY.N%d.PORT%d = "1";
@@ -610,11 +610,11 @@ cavium,bdk {
 	//GPIO-SHUTDOWN-CTL-IN = "-1";
 	GPIO-SHUTDOWN-CTL-IN = "0x001011";
 
-	/* GPIO pin to CPLD-BMC from Thunder to inform host initiated shutdown */
+	/* GPIO pin to CPLD-BMC from SOC to inform host initiated shutdown */
 	//GPIO-SHUTDOWN-CTL-OUT = "-1";
 	GPIO-SHUTDOWN-CTL-OUT = "0x000010";
 
-	/* RTC connection over TWSI bus of Thunder.
+	/* RTC connection over TWSI bus of SOC.
 	   -1 =  No connection exists  */
 	//RTC-TWSI-CONFIG = "-1";
 	RTC-TWSI-CONFIG = "0x000068";
