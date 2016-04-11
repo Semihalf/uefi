@@ -126,8 +126,8 @@ local DEVICE_NAME = {
     [0xa055] = "USBDRD",
     [0xa056] = "XCV",
     [0xa057] = "DPI",
-    [0xa100] = "THUNDERX_CN88XX",
-    [0xa300] = "THUNDERX_CN83XX",
+    [0xa100] = "CN88XX",
+    [0xa300] = "CN83XX",
 }
 
 local configr8 = cavium.c.bdk_pcie_config_read8
@@ -642,7 +642,7 @@ function pcie.initialize(node, pcie_port)
     --
     function pcie_root:scan()
         self.devices = {}
-        -- Get the top level bus number. The PCIe ports in Thunder
+        -- Get the top level bus number. The PCIe ports in the SOC
         -- are behind a "bridge" on the ECAM. In an effort not to confuse
         -- people, this enumeration code starts at the bus behind the
         -- "bridge".

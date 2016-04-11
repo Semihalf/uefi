@@ -180,7 +180,7 @@ end
 -- Print out a banner
 print("")
 print("BDK version ".. require("bdk-version"))
-print("THUNDERX Chip Screen")
+print("Cavium Chip Screen")
 print("Copyright (C) 2010-2016 Cavium Inc.")
 
 if utils.isglobal("BOARD_SETUP_DONE") then
