@@ -23,20 +23,20 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "Unique string used as a serial number. This parameter is stored\n"
             "in a static board manufacturing area at the top of the boot flash.",
     [BDK_CONFIG_MAC_ADDRESS] =
-            "The first MAC address assigned to the THUNDERX network ports. MAC\n"
+            "The first MAC address assigned to the on-chip network ports. MAC\n"
             "addresses are in a contiguous block starting at this address and\n"
             "containing BOARD-MAC-ADDRESS-NUM number of addresses. The format\n"
             "of this parameter is 0xXXXXXXXXXXXX, 12 hex digits starting with\n"
             "'0x'.This parameter is stored in a static board manufacturing\n"
             "area at the top of the boot flash.",
     [BDK_CONFIG_MAC_ADDRESS_NUM] =
-            "The number of MAC addresses assigned to the THUNDERX network\n"
+            "The number of MAC addresses assigned to the on-chip network\n"
             "ports. See BOARD-MAC-ADDRESS for the actual MAC address numeric\n"
             "value.This parameter is stored in a static board manufacturing\n"
             "area at the top of the boot flash.",
     /* Board generic */
     [BDK_CONFIG_BMC_TWSI] =
-            "THUNDERX TWSI port connected to the BMC for IPMI traffic.\n"
+            "On-chip TWSI port connected to the BMC for IPMI traffic.\n"
             "-1 = No connection exists. 0+ is TWSI bus number.",
     [BDK_CONFIG_WATCHDOG_TIMEOUT] =
             "This specifies a watchdog timer should run during boot and reset\n"
@@ -48,8 +48,8 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "format is:\n"
             "    node,twsi_id,dev_addr,internal_addr,num_bytes,ia_width_bytes,data\n"
             "    sleep,ms\n"
-            "node           = THUNDERX node ID the twsi bus is on. -1 means the local node\n"
-            "twsi_id        = THUNDERX twsi bus to use\n"
+            "node           = Node ID the twsi bus is on. -1 means the local node\n"
+            "twsi_id        = TWSI bus to use\n"
             "dev_addr       = TWSI bus address\n"
             "internal_addr  = TWSI internal address, zero if not used\n"
             "num_bytes      = Number of bytes to write (1-8)\n"
@@ -63,8 +63,8 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "    clause,node,bus_id,phy_id,device,location,val\n"
             "    sleep,ms\n"
             "clause   = MDIO clause for the write (22 or 45)\n"
-            "node     = THUNDERX node the MDIO bus is connected, -1 for local\n"
-            "bus_id   = THUNDERX MDIO bus to use\n"
+            "node     = Node the MDIO bus is connected, -1 for local\n"
+            "bus_id   = MDIO bus to use\n"
             "phy_id   = MDIO address\n"
             "device   = Clause 45 internal device address, zero for clause 22\n"
             "location = MDIO register\n"
@@ -94,7 +94,7 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "    Bits[11:8]: TWSI bus number\n"
             "    Bits[7:0]: TWSI address",
     [BDK_CONFIG_BGX_ENABLE] =
-            "Independent enables for each BGX port of THUNDERX. Use this to\n"
+            "Independent enables for each on-chip BGX port. Use this to\n"
             "disable ports that are not wired on a board. Default is that all\n"
             "ports are enabled.",
     /* BDK Configuration params */
@@ -150,7 +150,7 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
     /* QLM related config */
     [BDK_CONFIG_QLM_AUTO_CONFIG] =
             "For Cavium evaluation boards, query the MCU for QLM setup\n"
-            "information. The MCU supplies a TWSI protocol for THUNDERX to\n"
+            "information. The MCU supplies a TWSI protocol for the SOC to\n"
             "query the modules plugged in and automatically set the QLMs to\n"
             "the correct mode. This should only be enabled(1) on Cavium\n"
             "EBB8XXX boards. Other boards should have it disabled(0).",
@@ -402,7 +402,7 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "        which node the value is for. Node must be 0-3. Optional.",
     [BDK_CONFIG_DDR_RANKS_MODE1_DIC] =
             "Output driver impedance control per rank. LMC writes this value\n"
-            "to MR1[D.I.C.] in the rank (i.e. DIMM0_CS0) DDR3 parts when \n"
+            "to MR1[D.I.C.] in the rank (i.e. DIMM0_CS0) DDR3 parts when\n"
             "selected during power-up/init, write-leveling, and, if\n"
             "LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit\n"
             "instruction sequences. See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and\n"
@@ -873,19 +873,19 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
     [BDK_CONFIG_DRAM_CONFIG_GPIO] =
             "The DRAM initialization code has the ability to toggle a GPIO to\n"
             "signal when it is running. Boards may need to mux TWSI access\n"
-            "between a BMC and THUNDERX so the BMC can monitor DIMM temperatures\n"
-            "and health. This GPIO will be driven high when THUNDERX may read\n"
+            "between a BMC and the SOC so the BMC can monitor DIMM temperatures\n"
+            "and health. This GPIO will be driven high when the SOC may read\n"
             "from the SPDs on the DIMMs. When driven low, another device (BMC)\n"
             "may takeover the TWSI connections to the DIMMS. The default value\n"
             "(-1) disables this feature.",
     /* USB */
     [BDK_CONFIG_USB_PWR_GPIO] =
-            "Specify a THUNDERX GPIO used to control power for a USB port. When\n"
+            "Specify a on-chip GPIO used to control power for a USB port. When\n"
             "set, the USB host controller will toggle the GPIO automatically\n"
-            "during USB reset events. The default value assumes THUNDERX has no\n"
+            "during USB reset events. The default value assumes the SOC has no\n"
             "control of the USB power and it is always on.",
     [BDK_CONFIG_USB_PWR_GPIO_POLARITY] =
-            "Specify the polarity of a THUNDERX GPIO used to control power for\n"
+            "Specify the polarity of a on-chip GPIO used to control power for\n"
             "a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this\n"
             "GPIO low. The default value drives the GPIO high.",
     /* How EYE diagrams are captured from a QLM */
