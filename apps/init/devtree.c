@@ -227,7 +227,7 @@ static int devtree_fixups(void *fdt)
         if (node == 0)
             snprintf(soc, sizeof(soc), "soc@0");
         else
-            snprintf(soc, sizeof(soc), "soc@%x000,00000000", node);
+            snprintf(soc, sizeof(soc), "soc@%x00000000000", node);
 
         /* 1) Remove unwanted CPUs and L2 caches */
         int num_cpus;
@@ -278,7 +278,7 @@ static int devtree_fixups(void *fdt)
             uint32_t high = address >> 32;
             uint32_t low = address & bdk_build_mask(32);
             /* Delete the ITS interrupt entry */
-            if (devtree_node_del(fdt, "/interrupt-controller@8010,00000000/gic-its@%x,%08x", high, low))
+            if (devtree_node_del(fdt, "/interrupt-controller@801000000000/gic-its@%x%08x", high, low))
                 return -1;
             /* Delete the SOC entry */
             if (devtree_node_del(fdt, "/%s", soc))
@@ -320,7 +320,7 @@ static int devtree_fixups(void *fdt)
                     uint64_t address = bdk_numa_get_address(node, BDK_PEM_BAR_E_PEMX_PF_BAR0(pem));
                     uint32_t high = address >> 32;
                     uint32_t low = address & bdk_build_mask(32);
-                    if (devtree_node_del(fdt, "/%s/pci@%x,%08x", soc, high, low))
+                    if (devtree_node_del(fdt, "/%s/pci@%x%08x", soc, high, low))
                         return -1;
                 }
             }
