@@ -155,7 +155,7 @@ void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1, uint64_t r
 
     /* Default color, Reset scroll region and goto bottom */
     static const char BANNER_1[] = "\33[0m\33[1;r\33[100;1H"
-                                   "\n\n\nCavium THUNDERX\n";
+                                   "\n\n\nCavium SOC\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_CRC_RIGHT[] = "PASS: CRC32 verification\n";
     static const char BANNER_CRC_WRONG[] = "FAIL: CRC32 verification\n";
