@@ -109,6 +109,16 @@ void __bdk_init_node(bdk_node_t node)
     BDK_TRACE(INIT, "N%d: Initialize VRM\n", node);
     bdk_vrm_initialize(node);
 
+    BDK_TRACE(INIT, "N%d: Initialize IOBN\n", node);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) || CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+    {
+        BDK_CSR_MODIFY(c, node, BDK_IOBNX_NCB0_HP(0),
+            c.s.hp = 1);
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+            BDK_CSR_MODIFY(c, node, BDK_IOBNX_NCB0_HP(1),
+                c.s.hp = 0);
+    }
+
     if (BDK_IS_REQUIRED(ECAM))
     {
         BDK_TRACE(INIT, "N%d: Performing global ECAM initialization\n", node);
