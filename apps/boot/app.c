@@ -114,7 +114,7 @@ void boot_menu(void)
                 break;
             }
             case 'R': /* Reboot */
-                printf("Rebooting THUNDERX\n");
+                printf("Rebooting\n");
                 bdk_reset_chip(bdk_numa_master());
                 break;
             default:
@@ -141,7 +141,7 @@ int main(void)
     if (strncasecmp(board, "EBB", 3) == 0)
     {
         bdk_evb_display_init(node);
-        bdk_evb_display_write_str(node, "THUNDERX");
+        bdk_evb_display_write_str(node, "Cavium");
     }
 
     /* Get the address of the version field in our header */
@@ -150,9 +150,9 @@ int main(void)
     const char *version = bdk_phys_to_ptr(version_pa);
 
     printf(
-        "=========================\n"
-        "Cavium THUNDERX Boot Stub\n"
-        "=========================\n"
+        "================\n"
+        "Cavium Boot Stub\n"
+        "================\n"
         "Firmware Version: %s\n"
         "BDK Version: %s\n"
         "\n"
