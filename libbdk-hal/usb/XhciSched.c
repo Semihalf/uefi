@@ -834,20 +834,16 @@ XhcCheckUrbResult (
         goto EXIT;
 
       case TRB_COMPLETION_SHORT_PACKET:
-        /* do not  print short packets for BULK EP since this is a normal situation */
-        if (/* EvtTrb->Completecode == TRB_COMPLETION_SHORT_PACKET &&  */Urb->Ep.Type != XHC_BULK_TRANSFER) {
-            DEBUG ((EFI_D_ERROR, "XhcCheckUrbResult: short packet happens! Type %u\n",
-                    (unsigned) Urb->Ep.Type  ));
-        }
-        /* Fall through */
       case TRB_COMPLETION_SUCCESS:
         TRBType = (UINT8) (TRBPtr->Type);
         if ((TRBType == TRB_TYPE_DATA_STAGE) ||
             (TRBType == TRB_TYPE_NORMAL) ||
             (TRBType == TRB_TYPE_ISOCH)) {
           CheckedUrb->Completed += (((TRANSFER_TRB_NORMAL*)TRBPtr)->Length - EvtTrb->Length);
+        } else if(EvtTrb->Completecode == TRB_COMPLETION_SHORT_PACKET &&  Urb->Ep.Type != XHC_BULK_TRANSFER) {
+            DEBUG ((EFI_D_ERROR, "XhcCheckUrbResult: short packet happens! EpType %u TrbType %d\n",
+                    (unsigned) Urb->Ep.Type, (unsigned) TRBPtr->Type  ));
         }
-
         break;
 
       default:
@@ -3956,5 +3952,3 @@ XhcConfigHubContext64 (
   }
   return Status;
 }
-
-

@@ -1069,9 +1069,12 @@ UsbHubRelease (
   if (EFI_ERROR (Status)) {
     return Status;
   }
-  CAVIUM_NOTYET(
+#if defined(notdef_cavium)
   gBS->CloseEvent (HubIf->HubNotify);
       );
+#else
+  // Setting interface HubNotify address to NULL below does it
+#endif
   HubIf->IsHub      = FALSE;
   HubIf->HubApi     = NULL;
   HubIf->HubEp      = NULL;
