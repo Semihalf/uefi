@@ -340,7 +340,7 @@ XhcCreateTransferTrb (
   } else {
     EPType  = (UINT8) ((DEVICE_CONTEXT_64 *)OutputContext)->EP[Dci-1].EPType;
   }
-  
+
   if (Urb->Data != NULL) {
 #if 0
     if (((UINT8) (Urb->Ep.Direction)) == EfiUsbDataIn) {
@@ -348,15 +348,15 @@ XhcCreateTransferTrb (
     } else {
       MapOp = EfiPciIoOperationBusMasterRead;
     }
-    
+
     Len = Urb->DataLen;
     Status  = Xhc->PciIo->Map (Xhc->PciIo, MapOp, Urb->Data, &Len, &PhyAddr, &Map);
-    
+
     if (EFI_ERROR (Status) || (Len != Urb->DataLen)) {
       DEBUG ((EFI_D_ERROR, "XhcCreateTransferTrb: Fail to map Urb->Data.\n"));
       return EFI_OUT_OF_RESOURCES;
     }
-    
+
     Urb->DataPhy  = (VOID *) ((UINTN) PhyAddr);
     Urb->DataMap  = Map;
 #else
@@ -782,7 +782,7 @@ XhcCheckUrbResult (
     if ((EvtTrb->Type != TRB_TYPE_COMMAND_COMPLT_EVENT) && (EvtTrb->Type != TRB_TYPE_TRANS_EVENT)) {
       continue;
     }
-    
+
     //
     // Need convert pci device address to host address
     //
@@ -802,12 +802,12 @@ XhcCheckUrbResult (
     //
     if (IsTransferRingTrb (TRBPtr, Urb)) {
       CheckedUrb = Urb;
-    } else if (IsAsyncIntTrb (Xhc, TRBPtr, &AsyncUrb)) {    
+    } else if (IsAsyncIntTrb (Xhc, TRBPtr, &AsyncUrb)) {
       CheckedUrb = AsyncUrb;
     } else {
       continue;
     }
-  
+
     switch (EvtTrb->Completecode) {
       case TRB_COMPLETION_STALL_ERROR:
         CheckedUrb->Result  |= EFI_USB_ERR_STALL;
@@ -907,7 +907,7 @@ EXIT:
   }
   BDK_WMB;
 #endif
-  
+
   return Urb->Finished;
 }
 
@@ -994,9 +994,9 @@ int xhciInitSched(xhci_t* xhc)
     int rc = 0;
     bdk_node_t node = xhc->node;
     int usb_port = xhc->usb_port;
-    
+
     xhc->MaxSlotsEn = xhc->hcsparams1.s.maxslots;
-    // Program max device slots 
+    // Program max device slots
     BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_CONFIG(usb_port),
                    c.s.maxslotsen = xhc->MaxSlotsEn);
     // Program device context base array and set scratchpad
@@ -1007,10 +1007,10 @@ int xhciInitSched(xhci_t* xhc)
         goto out;
     }
     bzero( dcbaa,  (entries) * sizeof(uint64_t));
-#define _clean(x) if (x) {free(x); x = NULL;}    
+#define _clean(x) if (x) {free(x); x = NULL;}
     unsigned MaxScratchPadBufs = xhc->hcsparams2.s.maxscratchpadbufs_l | ( xhc->hcsparams2.s.maxscratchpadbufs_h << 5);
     if (MaxScratchPadBufs) {
-        
+
         uint64_t *ScratchBuf; // Temp variable for physical addresses
         unsigned sz = ((MaxScratchPadBufs * sizeof(uint64_t)) + CAVIUM_XHCI_ALIGN -1) / CAVIUM_XHCI_ALIGN ;
         ScratchBuf = (typeof(ScratchBuf)) memalign(CAVIUM_XHCI_ALIGN, sz * CAVIUM_XHCI_ALIGN);
@@ -1033,7 +1033,7 @@ int xhciInitSched(xhci_t* xhc)
             bzero(thisScratchPad, xhc->PageSize);
             *ScratchBuf++ = bdk_ptr_to_phys(thisScratchPad);
         }
-        *(uint64_t*)dcbaa = ScratchPhy; 
+        *(uint64_t*)dcbaa = ScratchPhy;
         xhc->MaxScratchPadBufs = MaxScratchPadBufs;
     }
     xhc->DCBAA = dcbaa;
@@ -1066,11 +1066,11 @@ int xhciInitSched(xhci_t* xhc)
     // Allocate EventRing for Cmd, Ctrl, Bulk, Interrupt, AsynInterrupt transfer
     //
     CreateEventRing (xhc, &xhc->EventRing);
-    
+
 out:
-    if (rc) 
+    if (rc)
         printf("%s exiting with rc %d\n", __FUNCTION__, rc);
-    
+
     return rc;
 }
 /**
@@ -1134,7 +1134,7 @@ XhcEndpointToDci (
  */
 void xhciFreeSched(xhci_t* xhc)
 {
-   
+
     unsigned MaxScratchPadBufs = xhc->MaxScratchPadBufs;
     if (MaxScratchPadBufs && xhc->ScratchBuf) {
         for( unsigned Index = 0; Index < MaxScratchPadBufs; Index++) {
@@ -1170,7 +1170,7 @@ void CreateTransferRing (
   ASSERT (Buf != NULL);
   ASSERT (((UINTN) Buf & 0x3F) == 0);
   ZeroMem (Buf, sizeof (TRB_TEMPLATE) * TrbNum);
-#else    
+#else
     buf = memalign(BDK_CACHE_LINE_SIZE, sizeof (TRB_TEMPLATE) * TrbNum);
     ASSERT(buf != NULL);
     bzero(buf,sizeof (TRB_TEMPLATE) * TrbNum);
@@ -1214,7 +1214,7 @@ CreateEventRing (
 {
     void *buf;
     EVENT_RING_SEG_TABLE_ENTRY  *ERSTBase;
-#if defined(notdef_cavium)  
+#if defined(notdef_cavium)
   Size = sizeof (TRB_TEMPLATE) * EVENT_RING_TRB_NUMBER;
   Buf = UsbHcAllocateMem (Xhc->MemPool, Size);
   ASSERT (Buf != NULL);
@@ -1546,7 +1546,7 @@ XhcDisableSlotCmd64 (
     UsbHcFreeMem (Xhc->MemPool, Xhc->UsbDevContext[SlotId].InputContext, sizeof (INPUT_CONTEXT_64));
 #else
       free( Xhc->UsbDevContext[SlotId].InputContext);
-#endif 
+#endif
   }
 
   if (Xhc->UsbDevContext[SlotId].OutputContext != NULL) {
@@ -1753,12 +1753,12 @@ XhcInitializeDeviceSlot (
   ASSERT (OutputContext != NULL);
   ASSERT (((UINTN) OutputContext & 0x3F) == 0);
 #else
-  OutputContext = memalign(0x40,  sizeof (DEVICE_CONTEXT)); 
+  OutputContext = memalign(0x40,  sizeof (DEVICE_CONTEXT));
   if ((NULL == OutputContext) ||(((UINTN) OutputContext & 0x3F) != 0))  {
       DEBUG ((EFI_D_ERROR, "Failed to allocate OutputContext @%p %lu bytes\n", OutputContext, sizeof(*OutputContext)));
       free(InputContext);
       return EFI_OUT_OF_RESOURCES;
-  } 
+  }
 #endif
   ZeroMem (OutputContext, sizeof (DEVICE_CONTEXT));
 
@@ -2098,7 +2098,7 @@ XhcRecoverHaltedEndpoint (
   }
   Dci = XhcEndpointToDci (Urb->Ep.EpAddr, (UINT8)(Urb->Ep.Direction));
   ASSERT (Dci < 32);
-  
+
   DEBUG ((EFI_D_INFO, "Recovery Halted Slot = %x,Dci = %x\n", SlotId, Dci));
 
   //
@@ -2159,7 +2159,7 @@ XhcDequeueTrbFromEndpoint (
   }
   Dci = XhcEndpointToDci (Urb->Ep.EpAddr, (UINT8)(Urb->Ep.Direction));
   ASSERT (Dci < 32);
-  
+
   DEBUG ((EFI_D_INFO, "Stop Slot = %x,Dci = %x\n", SlotId, Dci));
 
   //
@@ -2564,7 +2564,7 @@ XhcPollPortStatusChange (
         } else {
             Status = XhcDisableSlotCmd64 (Xhc, SlotId);
         }
-    }    
+    }
    if (((PortState->PortStatus & USB_PORT_STAT_ENABLE) != 0) &&
       ((PortState->PortStatus & USB_PORT_STAT_CONNECTION) != 0)) {
     //
@@ -2591,7 +2591,7 @@ XhcPollPortStatusChange (
         Status = XhcInitializeDeviceSlot64 (Xhc, ParentRouteChart, Port, RouteChart, Speed);
       }
     }
-  } 
+  }
 
   return Status;
 }
@@ -3099,7 +3099,7 @@ XhcSetConfigCmd64 (
     if (Dci > MaxDci) {
       MaxDci = Dci;
     }
- 
+
     IfDesc = (USB_INTERFACE_DESCRIPTOR *)((UINTN)IfDesc + IfDesc->Length);
   }
 

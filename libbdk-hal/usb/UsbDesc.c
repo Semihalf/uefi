@@ -367,17 +367,17 @@ UsbParseConfigDesc (
   Len     -= Consumed;
 
   //
-  // Make allowances for devices that return extra data at the 
+  // Make allowances for devices that return extra data at the
   // end of their config descriptors
   //
 #if !defined(notdef_cavium)
-  int ifCount = NumIf; /* Euphemeral errors are reported for hard drives, 
-                          we need to stop parsing once all the interfaces are seen. 
+  int ifCount = NumIf; /* Euphemeral errors are reported for hard drives,
+                          we need to stop parsing once all the interfaces are seen.
                           Can not base on descriptor length alone */
 #endif
-  while (Len >= sizeof (EFI_USB_INTERFACE_DESCRIPTOR) 
+  while (Len >= sizeof (EFI_USB_INTERFACE_DESCRIPTOR)
 #if !defined(notdef_cavium)
-         && ifCount 
+         && ifCount
 #endif
       ) {
     Setting = UsbParseInterfaceDesc (DescBuf, Len, &Consumed);
@@ -763,7 +763,7 @@ UsbBuildLangTable (
 
   Max   = (Desc->Length - 2) / 2;
   Max   = MIN(Max, USB_MAX_LANG_ID);
-  
+
   Point = Desc->String;
   for (Index = 0; Index < Max; Index++) {
     UsbDev->LangId[Index] = *Point;

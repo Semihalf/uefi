@@ -16,7 +16,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 #define USB_MASS_TRANSPORT_COUNT    3
 //
-// Array of USB transport interfaces. 
+// Array of USB transport interfaces.
 //
 USB_MASS_TRANSPORT *mUsbMassTransport[USB_MASS_TRANSPORT_COUNT] = {
   &mUsbCbi0Transport,
@@ -46,7 +46,7 @@ USB_MASS_TRANSPORT *mUsbMassTransport[USB_MASS_TRANSPORT_COUNT] = {
 /**
   Reset the block device.
 
-  This function implements EFI_BLOCK_IO_PROTOCOL.Reset(). 
+  This function implements EFI_BLOCK_IO_PROTOCOL.Reset().
   It resets the block device hardware.
   ExtendedVerification is ignored in this implementation.
 
@@ -86,7 +86,7 @@ UsbMassReset (
 /**
   Reads the requested number of blocks from the device.
 
-  This function implements EFI_BLOCK_IO_PROTOCOL.ReadBlocks(). 
+  This function implements EFI_BLOCK_IO_PROTOCOL.ReadBlocks().
   It reads the requested number of blocks from the device.
   All the blocks are read, or an error is returned.
 
@@ -201,7 +201,7 @@ ON_EXIT:
 /**
   Writes a specified number of blocks to the device.
 
-  This function implements EFI_BLOCK_IO_PROTOCOL.WriteBlocks(). 
+  This function implements EFI_BLOCK_IO_PROTOCOL.WriteBlocks().
   It writes a specified number of blocks to the device.
   All blocks are written, or an error is returned.
 
@@ -305,7 +305,7 @@ UsbMassWriteBlocks (
     Status = UsbBootWriteBlocks16 (UsbMass, Lba, TotalBlock, Buffer);
   } else {
     Status = UsbBootWriteBlocks (UsbMass, (UINT32) Lba, TotalBlock, Buffer);
-  }  
+  }
 
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "UsbMassWriteBlocks: UsbBootWriteBlocks (%d) -> Reset\n", (int) Status));
@@ -408,14 +408,14 @@ UsbMassInitMultiLun (
   ASSERT (MaxLun > 0);
   ReturnStatus = EFI_NOT_FOUND;
 
-  for (Index = 0; Index <= MaxLun; Index++) { 
+  for (Index = 0; Index <= MaxLun; Index++) {
 
     DEBUG ((EFI_D_INFO, "UsbMassInitMultiLun: Start to initialize No.%d logic unit\n", Index));
-    
+
     UsbIo   = NULL;
     UsbMass = AllocateZeroPool (sizeof (USB_MASS_DEVICE));
     ASSERT (UsbMass != NULL);
-      
+
     UsbMass->Signature            = USB_MASS_SIGNATURE;
     UsbMass->UsbIo                = UsbIo;
     UsbMass->BlockIo.Media        = &UsbMass->BlockIoMedia;
@@ -427,7 +427,7 @@ UsbMassInitMultiLun (
     UsbMass->Transport            = Transport;
     UsbMass->Context              = Context;
     UsbMass->Lun                  = Index;
-    
+
     //
     // Initialize the media parameter data for EFI_BLOCK_IO_MEDIA of Block I/O Protocol.
     //
@@ -444,11 +444,11 @@ UsbMassInitMultiLun (
     LunNode.Header.Type    = MESSAGING_DEVICE_PATH;
     LunNode.Header.SubType = MSG_DEVICE_LOGICAL_UNIT_DP;
     LunNode.Lun            = UsbMass->Lun;
-  
+
     SetDevicePathNodeLength (&LunNode.Header, sizeof (LunNode));
-  
+
     UsbMass->DevicePath = AppendDevicePathNode (DevicePath, &LunNode.Header);
-  
+
     if (UsbMass->DevicePath == NULL) {
       DEBUG ((EFI_D_ERROR, "UsbMassInitMultiLun: failed to create device logic unit device path\n"));
       Status = EFI_OUT_OF_RESOURCES;
@@ -471,7 +471,7 @@ UsbMassInitMultiLun (
                     &UsbMass->DiskInfo,
                     NULL
                     );
-    
+
     if (EFI_ERROR (Status)) {
       DEBUG ((EFI_D_ERROR, "UsbMassInitMultiLun: InstallMultipleProtocolInterfaces (%d)\n", (int) Status));
       FreePool (UsbMass->DevicePath);
@@ -510,7 +510,7 @@ UsbMassInitMultiLun (
     ReturnStatus = EFI_SUCCESS;
     DEBUG ((EFI_D_INFO, "UsbMassInitMultiLun: Success to initialize No.%d logic unit\n", Index));
   }
-  
+
   return ReturnStatus;
 }
 
@@ -522,7 +522,7 @@ UsbMassInitMultiLun (
 /* Accounting of active usb mass storage devices */
 typedef struct _MASSDEV
 {
-    void *ifHandle; // Handle provided by USB HCI layer 
+    void *ifHandle; // Handle provided by USB HCI layer
     USB_MASS_DEVICE *UsbMass; // Pointer to UsbMassDevice
 } MASSDEV;
 
@@ -530,7 +530,7 @@ static bdk_rlock_t musb_list_lock = {0,0};
 static MASSDEV musb_list[8];
 /*
 ** Cavium IO methods for /dev/nX.usbY
-*/ 
+*/
 static USB_MASS_DEVICE *findUsbMass(const unsigned index, const bool lockIt) {
     if ( index   >= ARRAY_SIZE(musb_list)) {
         DEBUG((EFI_D_ERROR,"Index %u out of bounds max %lu",index,ARRAY_SIZE(musb_list) ));
@@ -540,7 +540,7 @@ static USB_MASS_DEVICE *findUsbMass(const unsigned index, const bool lockIt) {
     if (NULL == UsbMass) {
         DEBUG((EFI_D_ERROR,"Index %d points to empty slot",index ));
         return NULL;
-    }   
+    }
     if (lockIt) {
         ASSERT(UsbMass->bus_lock);
         bdk_rlock_lock(UsbMass->bus_lock);
@@ -550,10 +550,10 @@ static USB_MASS_DEVICE *findUsbMass(const unsigned index, const bool lockIt) {
 
 static int cvm_usb_open(__bdk_fs_dev_t *handle, int flags)
 {
-  
+
     USB_MASS_DEVICE *UsbMass = findUsbMass(handle->dev_index,true);
     if (NULL == UsbMass) return -1;
- 
+
     EFI_BLOCK_IO_MEDIA  *Media = &UsbMass->BlockIoMedia;
     bdk_rlock_unlock(UsbMass->bus_lock);
     DEBUG((EFI_D_BLKIO,"Opening usb%d block size 0x%x MaxLBA 0x%lx Removable %d MediaId %u ReadOnly %d\n",
@@ -563,7 +563,7 @@ static int cvm_usb_open(__bdk_fs_dev_t *handle, int flags)
            Media->RemovableMedia ? 1:0,
            (uint32_t)Media->MediaId,
            Media->ReadOnly ? 1: 0));
-   
+
     return 0;
 }
 
@@ -579,7 +579,7 @@ static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
     uint64_t BlockMask = (1ULL<<BlockShift) -1;
     // Check for unaligned beginning
     int head = handle->location & BlockMask;
-    char *scratchbuf = NULL; 
+    char *scratchbuf = NULL;
     int rc = length; // assume we have read everything
     EFI_STATUS Status;
     if (head || length&BlockMask) {
@@ -622,7 +622,7 @@ static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
             rc = 0;
             goto read_done;
         }
-        memcpy(buffer,scratchbuf,length); 
+        memcpy(buffer,scratchbuf,length);
     }
 read_done:
     bdk_rlock_unlock(UsbMass->bus_lock);
@@ -639,7 +639,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     EFI_BLOCK_IO_MEDIA  *Media = &UsbMass->BlockIoMedia;
     uint32_t BlockSize = Media->BlockSize;
     int rc = length; // assume we have written everything
-    char *scratchbuf = NULL; 
+    char *scratchbuf = NULL;
     if (Media->ReadOnly ) {
         DEBUG ((EFI_D_ERROR, "%s: Write is called for read-only media\n", __FUNCTION__));
         rc = 0;
@@ -675,7 +675,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         }
         buffer = ((char*)buffer) + lcopy;
         length -= lcopy;
-        LBA += 1;   
+        LBA += 1;
     }
     if ( 0 >= length) goto write_done;
     int numBlocks = length >> BlockShift;
@@ -702,7 +702,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
             goto write_done;
         }
     }
-    
+
 write_done:
     bdk_rlock_unlock(UsbMass->bus_lock);
     if (scratchbuf) free(scratchbuf);
@@ -739,7 +739,7 @@ static const __bdk_fs_dev_ops_t bdk_fs_usb_ops =
   Start controlling the usb mass storage interface
 
   @param  UsbIo                 Pointer to UsbIo for the interface
-  @param  RemainingDevicePath   The remaining device path. 
+  @param  RemainingDevicePath   The remaining device path.
   @param  ifHandle              Opaque handle which will be passed when stopping the interface
 
   @retval EFI_SUCCESS           The driver stopped from controlling the device.
@@ -750,23 +750,23 @@ static const __bdk_fs_dev_ops_t bdk_fs_usb_ops =
 
 **/
 EFI_STATUS
-UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,  
+UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
               EFI_DEVICE_PATH_PROTOCOL      *DevicePath,
               void *ifHandle
     )
-{  
+{
     EFI_USB_INTERFACE_DESCRIPTOR  Interface;
     EFI_STATUS                    Status;
-    
+
     // Find and initialize transport
     USB_MASS_TRANSPORT            **Transport;
-    VOID                          *tContext; 
+    VOID                          *tContext;
     UINT8                         MaxLun;
     Status = UsbIo->UsbGetInterfaceDescriptor (UsbIo, &Interface);
     if (EFI_ERROR (Status)) {
         return Status;
     }
-    
+
     // Traverse the USB_MASS_TRANSPORT arrary and try to find the
     // matching transport protocol.
     // If not found, return EFI_UNSUPPORTED.
@@ -776,7 +776,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     tContext = NULL;
     for (unsigned Index = 0; Index < USB_MASS_TRANSPORT_COUNT; Index++) {
         *Transport = mUsbMassTransport[Index];
-        
+
         if (Interface.InterfaceProtocol == (*Transport)->Protocol) {
             Status  = (*Transport)->Init (UsbIo, &tContext);
             break;
@@ -787,8 +787,8 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     }
     if ((*Transport)->Protocol == USB_MASS_STORE_BOT) {
         (*Transport)->GetMaxLun (tContext, &MaxLun);
-    }  
-    
+    }
+
     // Initialize mass device
     if (MaxLun > 0) {
         CAVIUM_NOTYET("MultiLun support is not implemented");
@@ -837,20 +837,20 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     if ((EFI_ERROR (Status)) && (Status != EFI_NO_MEDIA)) {
         DEBUG ((EFI_D_ERROR, "UsbMassInitNonLun: UsbMassInitMedia (%d)\n", (int)Status));
         free(UsbMass);
-        bdk_rlock_lock(&musb_list_lock); 
+        bdk_rlock_lock(&musb_list_lock);
         musb_list[devIndex].ifHandle = NULL;
         musb_list[devIndex].UsbMass = NULL;
-        bdk_rlock_unlock(&musb_list_lock);       
+        bdk_rlock_unlock(&musb_list_lock);
         goto err_exit;
     }
-  
+
     bdk_node_t node;
     int usb_port;
     {
         /* mat-2016-04-8 - tired of plumbing handle conversion  - hack
            Need to get a pointer to bus lock - it is reliable at this time as all the enteties in the chain exist.
         */
-        
+
         USB_INTERFACE *UsbIf =  (typeof(UsbIf))USB_INTERFACE_FROM_USBIO (UsbIo);
         USB_DEVICE *Device = UsbIf->Device;
         USB_BUS *Bus = Device->Bus;
@@ -859,11 +859,11 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
                             bdk_node_t           *node,
                             int *usb_port,
                             void **lock);
-        
+
         cvmH2C_to_node(Bus->Usb2Hc, &node, &usb_port, (void**)&UsbMass->bus_lock);
-        DEBUG((EFI_D_INFO,"Initialized USB_MASS %p ifhandle %p @devindex %d\n", UsbMass, ifHandle, devIndex)); 
+        DEBUG((EFI_D_INFO,"Initialized USB_MASS %p ifhandle %p @devindex %d\n", UsbMass, ifHandle, devIndex));
     }
-    DEBUG((EFI_D_INFO,"Initialized USB_MASS %p ifhandle %p @devindex %d for node %u usb_port %d lock @%p\n", UsbMass, ifHandle, devIndex, (unsigned) node, usb_port,UsbMass->bus_lock )); 
+    DEBUG((EFI_D_INFO,"Initialized USB_MASS %p ifhandle %p @devindex %d for node %u usb_port %d lock @%p\n", UsbMass, ifHandle, devIndex, (unsigned) node, usb_port,UsbMass->bus_lock ));
     int rc = bdk_fs_register_dev("usb",devIndex,&bdk_fs_usb_ops);
     printf("\nRegistered device \"/dev/n%d.usb%d\" for node %d usb port %d rc:%d ifHandle %p\n", node, devIndex, (int) node, usb_port,rc,ifHandle);
 
@@ -876,7 +876,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
 err_exit:
     if (Transport && tContext)
         (*Transport)->CleanUp(tContext);
-    
+
     return Status;
 }
 
@@ -890,7 +890,7 @@ void
 UsbMassIfStop(void *ifHandle)
 {
     USB_MASS_DEVICE *UsbMass = NULL;
-    bdk_rlock_lock(&musb_list_lock); 
+    bdk_rlock_lock(&musb_list_lock);
     unsigned devIndex;
     for(devIndex = 0;  devIndex < ARRAY_SIZE(musb_list); devIndex++) {
         if (ifHandle == musb_list[devIndex].ifHandle) {
@@ -912,4 +912,3 @@ UsbMassIfStop(void *ifHandle)
     }
     DEBUG((EFI_D_INFO, "Stopped USbMass %p for ifHandle %p\n", UsbMass, ifHandle));
 }
-

@@ -616,7 +616,7 @@ typedef struct _SLOT_CONTEXT_64 {
   UINT32                  RsvdZ9;
   UINT32                  RsvdZ10;
   UINT32                  RsvdZ11;
-  
+
   UINT32                  RsvdZ12;
   UINT32                  RsvdZ13;
   UINT32                  RsvdZ14;
@@ -684,12 +684,12 @@ typedef struct _ENDPOINT_CONTEXT_64 {
   UINT32                  RsvdZ5;
   UINT32                  RsvdZ6;
   UINT32                  RsvdZ7;
-  
+
   UINT32                  RsvdZ8;
   UINT32                  RsvdZ9;
   UINT32                  RsvdZ10;
   UINT32                  RsvdZ11;
-  
+
   UINT32                  RsvdZ12;
   UINT32                  RsvdZ13;
   UINT32                  RsvdZ14;

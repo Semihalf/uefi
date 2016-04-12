@@ -245,7 +245,7 @@ typedef enum {
   //
   EFI_USB_INTERRUPT_DELAY = 2000000
 } USB_TYPES_DEFINITION;
-#endif 
+#endif
 
 //
 // HID constants definition, see Device Class Definition

@@ -169,7 +169,7 @@ struct _USB_DEV_CONTEXT {
 struct xhci_s {
     EFI_USB2_HC_PROTOCOL      Usb2Hc;
     EFI_DEVICE_PATH_PROTOCOL  *DevicePath;
- 
+
     // Cmd Transfer Ring
     TRANSFER_RING             CmdRing;
     // EventRing

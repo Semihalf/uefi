@@ -1,13 +1,13 @@
 /*++
 
 Copyright (c) 2004 - 2010, Intel Corporation. All rights reserved.<BR>
-This program and the accompanying materials                          
-are licensed and made available under the terms and conditions of the BSD License         
-which accompanies this distribution.  The full text of the license may be found at        
-http://opensource.org/licenses/bsd-license.php                                            
-                                                                                          
-THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,                     
-WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.             
+This program and the accompanying materials
+are licensed and made available under the terms and conditions of the BSD License
+which accompanies this distribution.  The full text of the license may be found at
+http://opensource.org/licenses/bsd-license.php
+
+THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
+WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 Module Name:
 
@@ -120,7 +120,7 @@ enum {
   USB_REQ_TYPE_VENDOR     = (0x02 << 5),
 
   //
-  // Standard control transfer request type, or the value 
+  // Standard control transfer request type, or the value
   // to fill in EFI_USB_DEVICE_REQUEST.Request
   //
   USB_REQ_GET_STATUS      = 0x00,
@@ -136,7 +136,7 @@ enum {
   USB_REQ_SYNCH_FRAME     = 0x0C,
 
   //
-  // Usb control transfer target 
+  // Usb control transfer target
   //
   USB_TARGET_DEVICE       = 0,
   USB_TARGET_INTERFACE    = 0x01,
@@ -157,10 +157,10 @@ enum {
   // Features to be cleared by CLEAR_FEATURE requests
   //
   USB_FEATURE_ENDPOINT_HALT = 0,
-  
+
   //
   // USB endpoint types: 00: control, 01: isochronous, 10: bulk, 11: interrupt
-  // 
+  //
   USB_ENDPOINT_CONTROL    = 0x00,
   USB_ENDPOINT_ISO        = 0x01,
   USB_ENDPOINT_BULK       = 0x02,
@@ -170,7 +170,7 @@ enum {
   USB_ENDPOINT_DIR_IN     = 0x80,
 
   MAXBYTES                = 8,
-  
+
   //
   //Use 200 ms to increase the error handling response time
   //
@@ -179,7 +179,7 @@ enum {
 #endif
 
 //
-// USB standard descriptors and reqeust 
+// USB standard descriptors and reqeust
 //
 #pragma pack(1)
 
