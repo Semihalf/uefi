@@ -111,9 +111,9 @@ endif
 # Clean targets
 #
 clean:
-	@rm -rf $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o bdk.h.gch
+	rm -rf $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o bdk.h.gch
 distclean: clean
-	@rm -f $(deps)
+	rm -f $(deps)
 
 $(BDK_ROOT)/libbdk-hal/if/bdk-if.o: CFLAGS+=-O3 -Wno-invalid-pch
 $(BDK_ROOT)/libbdk-lua/trafficgen.o: CFLAGS+=-O3 -Wno-invalid-pch
