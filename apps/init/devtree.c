@@ -275,10 +275,8 @@ static int devtree_fixups(void *fdt)
         if (!bdk_numa_exists(node))
         {
             uint64_t address = bdk_numa_get_address(node, BDK_GIC_BAR_E_GIC_PF_BAR2);
-            uint32_t high = address >> 32;
-            uint32_t low = address & bdk_build_mask(32);
             /* Delete the ITS interrupt entry */
-            if (devtree_node_del(fdt, "/interrupt-controller@801000000000/gic-its@%x%08x", high, low))
+            if (devtree_node_del(fdt, "/interrupt-controller@801000000000/gic-its@%lx", address))
                 return -1;
             /* Delete the SOC entry */
             if (devtree_node_del(fdt, "/%s", soc))
@@ -317,11 +315,67 @@ static int devtree_fixups(void *fdt)
                 /* Delete PEMs that fail any of the above checks */
                 if (del_pem)
                 {
+                    /* Find the FDT node for the PEM */
                     uint64_t address = bdk_numa_get_address(node, BDK_PEM_BAR_E_PEMX_PF_BAR0(pem));
-                    uint32_t high = address >> 32;
-                    uint32_t low = address & bdk_build_mask(32);
-                    if (devtree_node_del(fdt, "/%s/pci@%x%08x", soc, high, low))
+                    char pem_name[64];
+                    snprintf(pem_name, sizeof(pem_name), "/%s/pci@%lx", soc, address);
+                    int fdt_node = fdt_path_offset(fdt, pem_name);
+                    if (fdt_node <= 0)
+                        continue;
+                    /* Get its phandle, used by SMMU */
+                    uint32_t pem_phandle = fdt_get_phandle(fdt, fdt_node);
+                    /* Delete the PEM */
+                    if (devtree_node_del(fdt, pem_name))
                         return -1;
+                    /* After deleting the PEM, we need to remove references to
+                       it from the SMMUs */
+                    const char *propname = "mmu-masters";
+                    fdt_node = devtree_node_offset_by_prop_name(fdt, -1, propname);
+                    while (fdt_node >= 0)
+                    {
+                        int next_node = devtree_node_offset_by_prop_name(fdt, fdt_node, propname);
+                        const char *fdt_node_name = fdt_get_name(fdt, fdt_node, NULL);
+                        /* Get the value of the property */
+                        int proplen = 0;
+                        const uint32_t *propvalue = fdt_getprop(fdt, fdt_node, propname, &proplen);
+                        const uint32_t *propend = propvalue + proplen / sizeof(uint32_t);
+                        /* Loop removing refernces to the PEMs phandle */
+                        uint32_t mmu_masters[4][2];
+                        int mmu_count = 0;
+                        while (propvalue < propend)
+                        {
+                            if (fdt32_to_cpu(*propvalue) != pem_phandle)
+                            {
+                                /* Copy */
+                                mmu_masters[mmu_count][0] = *propvalue++;
+                                mmu_masters[mmu_count][1] = *propvalue++;
+                                mmu_count++;
+                            }
+                            else
+                                propvalue += 2; /* Skip */
+                        }
+                        /* If any were deleted update the property */
+                        int new_len = mmu_count * sizeof(int32_t) * 2;
+                        if (new_len != proplen)
+                        {
+                            if (fdt_setprop(fdt, fdt_node, propname, mmu_masters, new_len))
+                            {
+                                bdk_error("Failed to update property %s[%s]\n",
+                                    fdt_node_name, propname);
+                                return -1;
+                            }
+                            else
+                            {
+                                BDK_TRACE(FDT_OS, "    %s[%s] removed PEM%d\n",
+                                    fdt_node_name, propname, pem);
+                                /* Changing the property reorders the FDT, so
+                                   we need to start at the top of the tree
+                                   again */
+                                next_node = -1;
+                            }
+                        }
+                        fdt_node = next_node;
+                    }
                 }
             }
         }
