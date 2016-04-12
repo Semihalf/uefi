@@ -797,7 +797,60 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_pemx_cfg_cn9 cn83xx; */
+    struct bdk_pemx_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) Enables overwriting the value for lane swapping. The reset value is captured on
+                                                                 cold reset by the pin straps (see PEM()_STRAP[PILANESWAP]). When set, lane swapping is
+                                                                 performed to/from the SerDes. When clear, no lane swapping is performed. */
+        uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
+                                                                 is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
+                                                                 PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
+                                                                 maximum of 4 or 2 lanes. This value is used to set the maximum link width field in the
+                                                                 core's
+                                                                 link capabilities register (CFG031) to indicate the maximum number of lanes
+                                                                 supported. Note that less lanes than the specified maximum can be configured for use via
+                                                                 the core's link control register (CFG032) negotiated link width field. */
+        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) Enables overwriting the value for host mode. The reset value is captured on
+                                                                 cold reset by the pin straps. (See PEM()_STRAP[PIMODE]. The HOSTMD reset value is the
+                                                                 bit-wise AND of the PIMODE straps.  When set, the PEM is configured to be a root complex.
+                                                                 When clear, the PEM is configured to be an end point. */
+        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) Enables overwriting the value for speed. The reset value is captured on cold
+                                                                 reset by the pin straps (see PEM()_STRAP[PIMODE]). For a root complex configuration
+                                                                 that is not running at Gen3 speed, the HOSTMD bit of this register must be set when this
+                                                                 field is changed.
+                                                                 0x0 = Gen1 speed.
+                                                                 0x1 = Gen2 speed.
+                                                                 0x2 = Gen3 speed.
+                                                                 0x3 = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) Enables overwriting the value for speed. The reset value is captured on cold
+                                                                 reset by the pin straps (see PEM()_STRAP[PIMODE]). For a root complex configuration
+                                                                 that is not running at Gen3 speed, the HOSTMD bit of this register must be set when this
+                                                                 field is changed.
+                                                                 0x0 = Gen1 speed.
+                                                                 0x1 = Gen2 speed.
+                                                                 0x2 = Gen3 speed.
+                                                                 0x3 = Reserved. */
+        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) Enables overwriting the value for host mode. The reset value is captured on
+                                                                 cold reset by the pin straps. (See PEM()_STRAP[PIMODE]. The HOSTMD reset value is the
+                                                                 bit-wise AND of the PIMODE straps.  When set, the PEM is configured to be a root complex.
+                                                                 When clear, the PEM is configured to be an end point. */
+        uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
+                                                                 is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
+                                                                 PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
+                                                                 maximum of 4 or 2 lanes. This value is used to set the maximum link width field in the
+                                                                 core's
+                                                                 link capabilities register (CFG031) to indicate the maximum number of lanes
+                                                                 supported. Note that less lanes than the specified maximum can be configured for use via
+                                                                 the core's link control register (CFG032) negotiated link width field. */
+        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) Enables overwriting the value for lane swapping. The reset value is captured on
+                                                                 cold reset by the pin straps (see PEM()_STRAP[PILANESWAP]). When set, lane swapping is
+                                                                 performed to/from the SerDes. When clear, no lane swapping is performed. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pemx_cfg_t;
 
 static inline uint64_t BDK_PEMX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1707,29 +1760,43 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t epsbmax               : 16; /**< [ 31: 16](R/W) The maximum SSU stream ID that will be generated by inbound
-                                                                 transactions. Initializes to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM
-                                                                 number. See [EPSBBASE]. */
-        uint64_t epsbbase              : 16; /**< [ 15:  0](R/W) The base SMMU stream ID that will be generated by inbound transactions.
-                                                                 Initializes to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM number.
+        uint64_t epsbmax               : 16; /**< [ 31: 16](R/W) The maximum SSU stream ID that will be generated by inbound endpoint
+                                                                 transactions. See [EPSBBASE]. Resets to PCC_DEV_CON_E::PCIERC({a}) where {a} is
+                                                                 the PEM number. */
+        uint64_t epsbbase              : 16; /**< [ 15:  0](R/W) The base SMMU stream ID that will be generated by inbound endpoint
+                                                                 transactions. Resets to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM number.
 
                                                                  When in EP mode:
                                                                    _ stream id = min( (PCI_stream_id<15:0> + [EPSBBASE]), [EPSBMAX]).
 
-                                                                 Software must ensure that [EPSBBASE]...[EPSBMAX] are non-overlapping between all
-                                                                 endpoint PEMs and non-overlapping existing PCC devices. */
+                                                                 When [EPSBBASE]/[EPSBMAX] are changed from the reset values then:
+
+                                                                 * Different endpoint requestors will map to different SMMU streams, enabling the
+                                                                 possibility of having different SMMU translations for each endpoint requestor.
+
+                                                                 * Software must ensure that [EPSBBASE]...[EPSBMAX] are non-overlapping between
+                                                                 all endpoint PEMs and non-overlapping with existing PCC devices.
+
+                                                                 * IOBN()_SLITAG()_CONTROL[BITS_DIS] must be set. */
 #else /* Word 0 - Little Endian */
-        uint64_t epsbbase              : 16; /**< [ 15:  0](R/W) The base SMMU stream ID that will be generated by inbound transactions.
-                                                                 Initializes to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM number.
+        uint64_t epsbbase              : 16; /**< [ 15:  0](R/W) The base SMMU stream ID that will be generated by inbound endpoint
+                                                                 transactions. Resets to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM number.
 
                                                                  When in EP mode:
                                                                    _ stream id = min( (PCI_stream_id<15:0> + [EPSBBASE]), [EPSBMAX]).
 
-                                                                 Software must ensure that [EPSBBASE]...[EPSBMAX] are non-overlapping between all
-                                                                 endpoint PEMs and non-overlapping existing PCC devices. */
-        uint64_t epsbmax               : 16; /**< [ 31: 16](R/W) The maximum SSU stream ID that will be generated by inbound
-                                                                 transactions. Initializes to PCC_DEV_CON_E::PCIERC({a}) where {a} is the PEM
-                                                                 number. See [EPSBBASE]. */
+                                                                 When [EPSBBASE]/[EPSBMAX] are changed from the reset values then:
+
+                                                                 * Different endpoint requestors will map to different SMMU streams, enabling the
+                                                                 possibility of having different SMMU translations for each endpoint requestor.
+
+                                                                 * Software must ensure that [EPSBBASE]...[EPSBMAX] are non-overlapping between
+                                                                 all endpoint PEMs and non-overlapping with existing PCC devices.
+
+                                                                 * IOBN()_SLITAG()_CONTROL[BITS_DIS] must be set. */
+        uint64_t epsbmax               : 16; /**< [ 31: 16](R/W) The maximum SSU stream ID that will be generated by inbound endpoint
+                                                                 transactions. See [EPSBBASE]. Resets to PCC_DEV_CON_E::PCIERC({a}) where {a} is
+                                                                 the PEM number. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -8590,6 +8657,42 @@ typedef union
     struct bdk_pemx_qlm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pemx_qlm_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM3/PEM3, for all other PEMs it has no
+                                                                 function.
+                                                                 PEM2: when set, will be configured to send/receive traffic to DLM4.
+                                                                       when clear, will be configured to send/receive traffic to QLM2/QLM3.
+                                                                 PEM3: when set, will be configured to send/receive traffic to DLM5/DLM6.
+                                                                       when clear, will be configured to send/receive traffic to QLM3.
+                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
+                                                                 reset.
+                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
+                                                                 bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM3/PEM3, for all other PEMs it has no
+                                                                 function.
+                                                                 PEM2: when set, will be configured to send/receive traffic to DLM4.
+                                                                       when clear, will be configured to send/receive traffic to QLM2/QLM3.
+                                                                 PEM3: when set, will be configured to send/receive traffic to DLM5/DLM6.
+                                                                       when clear, will be configured to send/receive traffic to QLM3.
+                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
+                                                                 reset.
+                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
+                                                                 bit. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_pemx_qlm_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t pem_tdlm              : 1;  /**< [  0:  0](R/W/H) When set, PEM2/PEM3 is configured to send/receive traffic to TDLM5/TDLM6.
                                                                  When clear, PEM2/PEM3 is configured to send/receive traffic to QLM2(QLM3)/QLM3.
@@ -8610,8 +8713,7 @@ typedef union
                                                                  bit. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pemx_qlm_s cn; */
+    } cn9;
 } bdk_pemx_qlm_t;
 
 static inline uint64_t BDK_PEMX_QLM(unsigned long a) __attribute__ ((pure, always_inline));

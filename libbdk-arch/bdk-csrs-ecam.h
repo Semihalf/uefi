@@ -384,22 +384,7 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ecamx_const_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t ecams                 : 8;  /**< [  7:  0](RO) Number of ECAM units.
-                                                                 Internal:
-                                                                 FIXME after update unit count, need reset_matches_size: "ECAM()_CONST,a" */
-#else /* Word 0 - Little Endian */
-        uint64_t ecams                 : 8;  /**< [  7:  0](RO) Number of ECAM units.
-                                                                 Internal:
-                                                                 FIXME after update unit count, need reset_matches_size: "ECAM()_CONST,a" */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_ecamx_const_s cn83xx; */
-    /* struct bdk_ecamx_const_s cn9; */
+    /* struct bdk_ecamx_const_s cn; */
 } bdk_ecamx_const_t;
 
 static inline uint64_t BDK_ECAMX_CONST(unsigned long a) __attribute__ ((pure, always_inline));

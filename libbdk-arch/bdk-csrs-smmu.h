@@ -75,6 +75,36 @@
 #define BDK_SMMU_CERROR_E_NONE (0)
 
 /**
+ * Enumeration smmu_cmd_e
+ *
+ * SMMU Command Queue Codes Enumeration
+ */
+#define BDK_SMMU_CMD_E_ATC_INV (0x40)
+#define BDK_SMMU_CMD_E_CFGI_CD (5)
+#define BDK_SMMU_CMD_E_CFGI_CD_ALL (6)
+#define BDK_SMMU_CMD_E_CFGI_STE (3)
+#define BDK_SMMU_CMD_E_CFGI_STE_RANGE (4)
+#define BDK_SMMU_CMD_E_PREFETCH_ADDR (2)
+#define BDK_SMMU_CMD_E_PREFETCH_CONFIG (1)
+#define BDK_SMMU_CMD_E_PRI_RESP (0x41)
+#define BDK_SMMU_CMD_E_RESUME (0x44)
+#define BDK_SMMU_CMD_E_STALL_TERM (0x45)
+#define BDK_SMMU_CMD_E_SYNC (0x46)
+#define BDK_SMMU_CMD_E_TLBI_EL2_ALL (0x20)
+#define BDK_SMMU_CMD_E_TLBI_EL2_ASID (0x21)
+#define BDK_SMMU_CMD_E_TLBI_EL2_VA (0x22)
+#define BDK_SMMU_CMD_E_TLBI_EL2_VAA (0x23)
+#define BDK_SMMU_CMD_E_TLBI_EL3_ALL (0x18)
+#define BDK_SMMU_CMD_E_TLBI_EL3_VA (0x1a)
+#define BDK_SMMU_CMD_E_TLBI_NH_ALL (0x10)
+#define BDK_SMMU_CMD_E_TLBI_NH_ASID (0x11)
+#define BDK_SMMU_CMD_E_TLBI_NH_VA (0x12)
+#define BDK_SMMU_CMD_E_TLBI_NH_VAA (0x13)
+#define BDK_SMMU_CMD_E_TLBI_NSNH_ALL (0x30)
+#define BDK_SMMU_CMD_E_TLBI_S12_VMALL (0x28)
+#define BDK_SMMU_CMD_E_TLBI_S2_IPA (0x2a)
+
+/**
  * Enumeration smmu_ctype_e
  *
  * SMMU Context Bank Type Enumeration
@@ -94,8 +124,11 @@
 #define BDK_SMMU_EVENT_E_C_BAD_CD (0xa)
 #define BDK_SMMU_EVENT_E_C_BAD_STE (4)
 #define BDK_SMMU_EVENT_E_C_BAD_STREAMID (2)
+#define BDK_SMMU_EVENT_E_C_BAD_SUBSTREAMID (8)
+#define BDK_SMMU_EVENT_E_E_PAGE_REQUEST (0x24)
 #define BDK_SMMU_EVENT_E_F_ACCESS (0x12)
 #define BDK_SMMU_EVENT_E_F_ADDR_SIZE (0x11)
+#define BDK_SMMU_EVENT_E_F_BAD_ATS_TREQ (5)
 #define BDK_SMMU_EVENT_E_F_CD_FETCH (9)
 #define BDK_SMMU_EVENT_E_F_CFG_CONFLICT (0x21)
 #define BDK_SMMU_EVENT_E_F_PERMISSION (0x13)
@@ -199,7 +232,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_AGBPA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_AGBPA(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000048ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_AGBPA", 1, a, 0, 0, 0);
 }
@@ -238,7 +271,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_AIDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_AIDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x83000000001cll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_AIDR", 1, a, 0, 0, 0);
 }
@@ -345,7 +378,7 @@ static inline uint64_t BDK_SMMUX_BIST_STATUS(unsigned long a)
         return 0x830000020010ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000020010ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000e08ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -2588,7 +2621,7 @@ static inline uint64_t BDK_SMMUX_CIDR0(unsigned long a)
         return 0x830000000ff0ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000ff0ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000ff0ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CIDR0", 1, a, 0, 0, 0);
 }
@@ -2630,7 +2663,7 @@ static inline uint64_t BDK_SMMUX_CIDR1(unsigned long a)
         return 0x830000000ff4ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000ff4ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000ff4ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CIDR1", 1, a, 0, 0, 0);
 }
@@ -2672,7 +2705,7 @@ static inline uint64_t BDK_SMMUX_CIDR2(unsigned long a)
         return 0x830000000ff8ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000ff8ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000ff8ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CIDR2", 1, a, 0, 0, 0);
 }
@@ -2714,7 +2747,7 @@ static inline uint64_t BDK_SMMUX_CIDR3(unsigned long a)
         return 0x830000000ffcll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000ffcll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000ffcll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CIDR3", 1, a, 0, 0, 0);
 }
@@ -2738,15 +2771,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_CMDQ_BASE[RA] */
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..2)_S_CMDQ_BASE[RA] */
         uint64_t reserved_52_61        : 10;
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_CMDQ_BASE[ADDR] */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_CMDQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..2)_S_CMDQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..2)_S_CMDQ_BASE[LOG2SIZE] */
 #else /* Word 0 - Little Endian */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_CMDQ_BASE[LOG2SIZE] */
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_CMDQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..2)_S_CMDQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..2)_S_CMDQ_BASE[ADDR] */
         uint64_t reserved_52_61        : 10;
-        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_CMDQ_BASE[RA] */
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..2)_S_CMDQ_BASE[RA] */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -2756,7 +2789,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_CMDQ_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CMDQ_BASE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000090ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CMDQ_BASE", 1, a, 0, 0, 0);
 }
@@ -2780,13 +2813,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t errx                  : 7;  /**< [ 30: 24](RO/H) SMMU(0..3)_S_CMDQ_CONS[ERRX] */
+        uint32_t errx                  : 7;  /**< [ 30: 24](RO/H) SMMU(0..2)_S_CMDQ_CONS[ERRX] */
         uint32_t reserved_20_23        : 4;
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_CMDQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..2)_S_CMDQ_CONS[RD] */
 #else /* Word 0 - Little Endian */
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_CMDQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..2)_S_CMDQ_CONS[RD] */
         uint32_t reserved_20_23        : 4;
-        uint32_t errx                  : 7;  /**< [ 30: 24](RO/H) SMMU(0..3)_S_CMDQ_CONS[ERRX] */
+        uint32_t errx                  : 7;  /**< [ 30: 24](RO/H) SMMU(0..2)_S_CMDQ_CONS[ERRX] */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -2796,7 +2829,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_CMDQ_CONS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CMDQ_CONS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x83000000009cll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CMDQ_CONS", 1, a, 0, 0, 0);
 }
@@ -2820,9 +2853,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_CMDQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W) SMMU(0..2)_S_CMDQ_PROD[WR] */
 #else /* Word 0 - Little Endian */
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_CMDQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W) SMMU(0..2)_S_CMDQ_PROD[WR] */
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -2832,7 +2865,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_CMDQ_PROD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CMDQ_PROD(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000098ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CMDQ_PROD", 1, a, 0, 0, 0);
 }
@@ -3017,7 +3050,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_CR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CR0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000020ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CR0", 1, a, 0, 0, 0);
 }
@@ -3042,7 +3075,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
-        uint32_t vmw                   : 3;  /**< [  8:  6](RAZ) Read-only hardware-modified SMMU(0..3)_CR0[VMW].
+        uint32_t vmw                   : 3;  /**< [  8:  6](RAZ) Read-only hardware-modified SMMU(0..2)_CR0[VMW].
                                                                  Internal:
                                                                  001 = TLB invalidations match VMID<N:1>.
                                                                  010 = TLB invalidations match VMID<N:2>.
@@ -3063,7 +3096,7 @@ typedef union
 
                                                                  If SMMU()_IDR0[VMW]=0, this field is Reserved. */
         uint32_t reserved_5            : 1;
-        uint32_t atschk                : 1;  /**< [  4:  4](RAZ) Read-only hardware-modified SMMU(0..3)_CR0[ATSCHK].
+        uint32_t atschk                : 1;  /**< [  4:  4](RAZ) Read-only hardware-modified SMMU(0..2)_CR0[ATSCHK].
                                                                  Internal:
                                                                  0 = Fast mode; all ATS translated traffic passes through the SMMU without
                                                                  stream table/TLB lookup.
@@ -3073,20 +3106,20 @@ typedef union
                                                                  translated transactions.
 
                                                                  If SMMU()_IDR0[ATS]=0, this field is reserved. */
-        uint32_t cmdqen                : 1;  /**< [  3:  3](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[CMDQEN]. */
-        uint32_t eventqen              : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[EVENTQEN]. */
-        uint32_t priqen                : 1;  /**< [  1:  1](RAZ) Read-only hardware-modified SMMU(0..3)_CR0[PRIQEN].
+        uint32_t cmdqen                : 1;  /**< [  3:  3](RO/H) Read-only hardware-modified SMMU(0..2)_CR0[CMDQEN]. */
+        uint32_t eventqen              : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..2)_CR0[EVENTQEN]. */
+        uint32_t priqen                : 1;  /**< [  1:  1](RAZ) Read-only hardware-modified SMMU(0..2)_CR0[PRIQEN].
                                                                  Internal:
                                                                  If SMMU()_IDR0[PRI]=0, this field is reserved. */
-        uint32_t smmuen                : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[SMMUEN]. */
+        uint32_t smmuen                : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..2)_CR0[SMMUEN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t smmuen                : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[SMMUEN]. */
-        uint32_t priqen                : 1;  /**< [  1:  1](RAZ) Read-only hardware-modified SMMU(0..3)_CR0[PRIQEN].
+        uint32_t smmuen                : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..2)_CR0[SMMUEN]. */
+        uint32_t priqen                : 1;  /**< [  1:  1](RAZ) Read-only hardware-modified SMMU(0..2)_CR0[PRIQEN].
                                                                  Internal:
                                                                  If SMMU()_IDR0[PRI]=0, this field is reserved. */
-        uint32_t eventqen              : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[EVENTQEN]. */
-        uint32_t cmdqen                : 1;  /**< [  3:  3](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[CMDQEN]. */
-        uint32_t atschk                : 1;  /**< [  4:  4](RAZ) Read-only hardware-modified SMMU(0..3)_CR0[ATSCHK].
+        uint32_t eventqen              : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..2)_CR0[EVENTQEN]. */
+        uint32_t cmdqen                : 1;  /**< [  3:  3](RO/H) Read-only hardware-modified SMMU(0..2)_CR0[CMDQEN]. */
+        uint32_t atschk                : 1;  /**< [  4:  4](RAZ) Read-only hardware-modified SMMU(0..2)_CR0[ATSCHK].
                                                                  Internal:
                                                                  0 = Fast mode; all ATS translated traffic passes through the SMMU without
                                                                  stream table/TLB lookup.
@@ -3097,7 +3130,7 @@ typedef union
 
                                                                  If SMMU()_IDR0[ATS]=0, this field is reserved. */
         uint32_t reserved_5            : 1;
-        uint32_t vmw                   : 3;  /**< [  8:  6](RAZ) Read-only hardware-modified SMMU(0..3)_CR0[VMW].
+        uint32_t vmw                   : 3;  /**< [  8:  6](RAZ) Read-only hardware-modified SMMU(0..2)_CR0[VMW].
                                                                  Internal:
                                                                  001 = TLB invalidations match VMID<N:1>.
                                                                  010 = TLB invalidations match VMID<N:2>.
@@ -3126,7 +3159,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_CR0ACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CR0ACK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000024ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CR0ACK", 1, a, 0, 0, 0);
 }
@@ -3150,19 +3183,19 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
-        uint32_t table_sh              : 2;  /**< [ 11: 10](R/W) SMMU(0..3)_S_CR1[TABLE_SH] */
-        uint32_t table_oc              : 2;  /**< [  9:  8](R/W) SMMU(0..3)_S_CR1[TABLE_OC] */
-        uint32_t table_ic              : 2;  /**< [  7:  6](R/W) SMMU(0..3)_S_CR1[TABLE_IC] */
-        uint32_t queue_sh              : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_CR1[QUEUE_SH] */
-        uint32_t queue_oc              : 2;  /**< [  3:  2](R/W) SMMU(0..3)_S_CR1[QUEUE_OC] */
-        uint32_t queue_ic              : 2;  /**< [  1:  0](R/W) SMMU(0..3)_S_CR1[QUEUE_IC] */
+        uint32_t table_sh              : 2;  /**< [ 11: 10](R/W) SMMU(0..2)_S_CR1[TABLE_SH] */
+        uint32_t table_oc              : 2;  /**< [  9:  8](R/W) SMMU(0..2)_S_CR1[TABLE_OC] */
+        uint32_t table_ic              : 2;  /**< [  7:  6](R/W) SMMU(0..2)_S_CR1[TABLE_IC] */
+        uint32_t queue_sh              : 2;  /**< [  5:  4](R/W) SMMU(0..2)_S_CR1[QUEUE_SH] */
+        uint32_t queue_oc              : 2;  /**< [  3:  2](R/W) SMMU(0..2)_S_CR1[QUEUE_OC] */
+        uint32_t queue_ic              : 2;  /**< [  1:  0](R/W) SMMU(0..2)_S_CR1[QUEUE_IC] */
 #else /* Word 0 - Little Endian */
-        uint32_t queue_ic              : 2;  /**< [  1:  0](R/W) SMMU(0..3)_S_CR1[QUEUE_IC] */
-        uint32_t queue_oc              : 2;  /**< [  3:  2](R/W) SMMU(0..3)_S_CR1[QUEUE_OC] */
-        uint32_t queue_sh              : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_CR1[QUEUE_SH] */
-        uint32_t table_ic              : 2;  /**< [  7:  6](R/W) SMMU(0..3)_S_CR1[TABLE_IC] */
-        uint32_t table_oc              : 2;  /**< [  9:  8](R/W) SMMU(0..3)_S_CR1[TABLE_OC] */
-        uint32_t table_sh              : 2;  /**< [ 11: 10](R/W) SMMU(0..3)_S_CR1[TABLE_SH] */
+        uint32_t queue_ic              : 2;  /**< [  1:  0](R/W) SMMU(0..2)_S_CR1[QUEUE_IC] */
+        uint32_t queue_oc              : 2;  /**< [  3:  2](R/W) SMMU(0..2)_S_CR1[QUEUE_OC] */
+        uint32_t queue_sh              : 2;  /**< [  5:  4](R/W) SMMU(0..2)_S_CR1[QUEUE_SH] */
+        uint32_t table_ic              : 2;  /**< [  7:  6](R/W) SMMU(0..2)_S_CR1[TABLE_IC] */
+        uint32_t table_oc              : 2;  /**< [  9:  8](R/W) SMMU(0..2)_S_CR1[TABLE_OC] */
+        uint32_t table_sh              : 2;  /**< [ 11: 10](R/W) SMMU(0..2)_S_CR1[TABLE_SH] */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -3172,7 +3205,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_CR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CR1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000028ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CR1", 1, a, 0, 0, 0);
 }
@@ -3268,7 +3301,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_CR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CR2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x83000000002cll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_CR2", 1, a, 0, 0, 0);
 }
@@ -3657,7 +3690,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ECO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000e00ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_ECO", 1, a, 0, 0, 0);
 }
@@ -4031,15 +4064,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_EVENTQ_BASE[WA] */
+        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0..2)_S_EVENTQ_BASE[WA] */
         uint64_t reserved_52_61        : 10;
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_EVENTQ_BASE[ADDR] */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_EVENTQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..2)_S_EVENTQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..2)_S_EVENTQ_BASE[LOG2SIZE] */
 #else /* Word 0 - Little Endian */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_EVENTQ_BASE[LOG2SIZE] */
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_EVENTQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..2)_S_EVENTQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..2)_S_EVENTQ_BASE[ADDR] */
         uint64_t reserved_52_61        : 10;
-        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_EVENTQ_BASE[WA] */
+        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0..2)_S_EVENTQ_BASE[WA] */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -4049,7 +4082,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_EVENTQ_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_EVENTQ_BASE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000000a0ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_EVENTQ_BASE", 1, a, 0, 0, 0);
 }
@@ -4072,13 +4105,13 @@ typedef union
     struct bdk_smmux_eventq_cons_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0..3)_S_EVENTQ_CONS[OVACKFLG] */
+        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0..2)_S_EVENTQ_CONS[OVACKFLG] */
         uint32_t reserved_20_30        : 11;
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_EVENTQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0..2)_S_EVENTQ_CONS[RD] */
 #else /* Word 0 - Little Endian */
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_EVENTQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0..2)_S_EVENTQ_CONS[RD] */
         uint32_t reserved_20_30        : 11;
-        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0..3)_S_EVENTQ_CONS[OVACKFLG] */
+        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0..2)_S_EVENTQ_CONS[OVACKFLG] */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_eventq_cons_s cn; */
@@ -4087,7 +4120,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_EVENTQ_CONS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_EVENTQ_CONS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000100acll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_EVENTQ_CONS", 1, a, 0, 0, 0);
 }
@@ -4111,7 +4144,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR]
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG0[ADDR]
                                                                  Internal:
                                                                  High-order bits of the [ADDR] above the system physical address size (see
                                                                  SMMU()_IDR5[OAS]) are 0.
@@ -4121,7 +4154,7 @@ typedef union
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR]
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG0[ADDR]
                                                                  Internal:
                                                                  High-order bits of the [ADDR] above the system physical address size (see
                                                                  SMMU()_IDR5[OAS]) are 0.
@@ -4137,7 +4170,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_EVENTQ_IRQ_CFG0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_EVENTQ_IRQ_CFG0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000000b0ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_EVENTQ_IRQ_CFG0", 1, a, 0, 0, 0);
 }
@@ -4160,9 +4193,9 @@ typedef union
     struct bdk_smmux_eventq_irq_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG1[DATA] */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG1[DATA] */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_eventq_irq_cfg1_s cn; */
@@ -4171,7 +4204,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_EVENTQ_IRQ_CFG1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_EVENTQ_IRQ_CFG1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000000b8ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_EVENTQ_IRQ_CFG1", 1, a, 0, 0, 0);
 }
@@ -4195,11 +4228,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[SH] */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[MEMATTR] */
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG2[SH] */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG2[MEMATTR] */
 #else /* Word 0 - Little Endian */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[MEMATTR] */
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[SH] */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG2[MEMATTR] */
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG2[SH] */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -4209,7 +4242,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_EVENTQ_IRQ_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_EVENTQ_IRQ_CFG2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000000bcll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_EVENTQ_IRQ_CFG2", 1, a, 0, 0, 0);
 }
@@ -4232,13 +4265,13 @@ typedef union
     struct bdk_smmux_eventq_prod_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[OVFLG] */
+        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0..2)_S_EVENTQ_PROD[OVFLG] */
         uint32_t reserved_20_30        : 11;
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..2)_S_EVENTQ_PROD[WR] */
 #else /* Word 0 - Little Endian */
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..2)_S_EVENTQ_PROD[WR] */
         uint32_t reserved_20_30        : 11;
-        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[OVFLG] */
+        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0..2)_S_EVENTQ_PROD[OVFLG] */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_eventq_prod_s cn; */
@@ -4247,7 +4280,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_EVENTQ_PROD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_EVENTQ_PROD(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000100a8ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_EVENTQ_PROD", 1, a, 0, 0, 0);
 }
@@ -4270,21 +4303,21 @@ typedef union
     struct bdk_smmux_gatos_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 52; /**< [ 63: 12](R/W) SMMU(0..3)_S_GATOS_ADDR[ADDR] */
-        uint64_t rtype                 : 2;  /**< [ 11: 10](R/W) SMMU(0..3)_S_GATOS_ADDR[RTYPE] */
-        uint64_t pnu                   : 1;  /**< [  9:  9](R/W) SMMU(0..3)_S_GATOS_ADDR[PNU] */
-        uint64_t rnw                   : 1;  /**< [  8:  8](R/W) SMMU(0..3)_S_GATOS_ADDR[RNW] */
-        uint64_t ind                   : 1;  /**< [  7:  7](R/W) SMMU(0..3)_S_GATOS_ADDR[IND] */
-        uint64_t httui                 : 1;  /**< [  6:  6](R/W) SMMU(0..3)_S_GATOS_ADDR[HTTUI] */
+        uint64_t addr                  : 52; /**< [ 63: 12](R/W) SMMU(0..2)_S_GATOS_ADDR[ADDR] */
+        uint64_t rtype                 : 2;  /**< [ 11: 10](R/W) SMMU(0..2)_S_GATOS_ADDR[RTYPE] */
+        uint64_t pnu                   : 1;  /**< [  9:  9](R/W) SMMU(0..2)_S_GATOS_ADDR[PNU] */
+        uint64_t rnw                   : 1;  /**< [  8:  8](R/W) SMMU(0..2)_S_GATOS_ADDR[RNW] */
+        uint64_t ind                   : 1;  /**< [  7:  7](R/W) SMMU(0..2)_S_GATOS_ADDR[IND] */
+        uint64_t httui                 : 1;  /**< [  6:  6](R/W) SMMU(0..2)_S_GATOS_ADDR[HTTUI] */
         uint64_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_5          : 6;
-        uint64_t httui                 : 1;  /**< [  6:  6](R/W) SMMU(0..3)_S_GATOS_ADDR[HTTUI] */
-        uint64_t ind                   : 1;  /**< [  7:  7](R/W) SMMU(0..3)_S_GATOS_ADDR[IND] */
-        uint64_t rnw                   : 1;  /**< [  8:  8](R/W) SMMU(0..3)_S_GATOS_ADDR[RNW] */
-        uint64_t pnu                   : 1;  /**< [  9:  9](R/W) SMMU(0..3)_S_GATOS_ADDR[PNU] */
-        uint64_t rtype                 : 2;  /**< [ 11: 10](R/W) SMMU(0..3)_S_GATOS_ADDR[RTYPE] */
-        uint64_t addr                  : 52; /**< [ 63: 12](R/W) SMMU(0..3)_S_GATOS_ADDR[ADDR] */
+        uint64_t httui                 : 1;  /**< [  6:  6](R/W) SMMU(0..2)_S_GATOS_ADDR[HTTUI] */
+        uint64_t ind                   : 1;  /**< [  7:  7](R/W) SMMU(0..2)_S_GATOS_ADDR[IND] */
+        uint64_t rnw                   : 1;  /**< [  8:  8](R/W) SMMU(0..2)_S_GATOS_ADDR[RNW] */
+        uint64_t pnu                   : 1;  /**< [  9:  9](R/W) SMMU(0..2)_S_GATOS_ADDR[PNU] */
+        uint64_t rtype                 : 2;  /**< [ 11: 10](R/W) SMMU(0..2)_S_GATOS_ADDR[RTYPE] */
+        uint64_t addr                  : 52; /**< [ 63: 12](R/W) SMMU(0..2)_S_GATOS_ADDR[ADDR] */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_gatos_addr_s cn; */
@@ -4293,7 +4326,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GATOS_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GATOS_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000110ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GATOS_ADDR", 1, a, 0, 0, 0);
 }
@@ -4317,9 +4350,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t run                   : 1;  /**< [  0:  0](R/W1S/H) SMMU(0..3)_S_GATOS_CTRL[RUN] */
+        uint32_t run                   : 1;  /**< [  0:  0](R/W1S/H) SMMU(0..2)_S_GATOS_CTRL[RUN] */
 #else /* Word 0 - Little Endian */
-        uint32_t run                   : 1;  /**< [  0:  0](R/W1S/H) SMMU(0..3)_S_GATOS_CTRL[RUN] */
+        uint32_t run                   : 1;  /**< [  0:  0](R/W1S/H) SMMU(0..2)_S_GATOS_CTRL[RUN] */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -4329,7 +4362,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GATOS_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GATOS_CTRL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000100ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GATOS_CTRL", 1, a, 0, 0, 0);
 }
@@ -4352,9 +4385,9 @@ typedef union
     struct bdk_smmux_gatos_par_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t par                   : 64; /**< [ 63:  0](RO/H) SMMU(0..3)_S_GATOS_PAR[PAR] */
+        uint64_t par                   : 64; /**< [ 63:  0](RO/H) SMMU(0..2)_S_GATOS_PAR[PAR] */
 #else /* Word 0 - Little Endian */
-        uint64_t par                   : 64; /**< [ 63:  0](RO/H) SMMU(0..3)_S_GATOS_PAR[PAR] */
+        uint64_t par                   : 64; /**< [ 63:  0](RO/H) SMMU(0..2)_S_GATOS_PAR[PAR] */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_gatos_par_s cn; */
@@ -4363,7 +4396,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GATOS_PAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GATOS_PAR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000118ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GATOS_PAR", 1, a, 0, 0, 0);
 }
@@ -4417,7 +4450,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GATOS_SID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GATOS_SID(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000108ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GATOS_SID", 1, a, 0, 0, 0);
 }
@@ -4531,7 +4564,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GBPA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GBPA(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000044ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GBPA", 1, a, 0, 0, 0);
 }
@@ -4643,7 +4676,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GERROR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GERROR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000060ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GERROR", 1, a, 0, 0, 0);
 }
@@ -4669,7 +4702,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR]
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG0[ADDR]
                                                                  Internal:
                                                                  High-order bits of the [ADDR] above the system physical address size (see
                                                                  SMMU()_IDR5[OAS]) are 0.
@@ -4679,7 +4712,7 @@ typedef union
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR]
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG0[ADDR]
                                                                  Internal:
                                                                  High-order bits of the [ADDR] above the system physical address size (see
                                                                  SMMU()_IDR5[OAS]) are 0.
@@ -4695,7 +4728,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GERROR_IRQ_CFG0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GERROR_IRQ_CFG0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000068ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GERROR_IRQ_CFG0", 1, a, 0, 0, 0);
 }
@@ -4718,9 +4751,9 @@ typedef union
     struct bdk_smmux_gerror_irq_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG1[DATA] */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG1[DATA] */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_gerror_irq_cfg1_s cn; */
@@ -4729,7 +4762,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GERROR_IRQ_CFG1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GERROR_IRQ_CFG1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000070ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GERROR_IRQ_CFG1", 1, a, 0, 0, 0);
 }
@@ -4753,11 +4786,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[SH] */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[MEMATTR] */
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG2[SH] */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG2[MEMATTR] */
 #else /* Word 0 - Little Endian */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[MEMATTR] */
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[SH] */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG2[MEMATTR] */
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..2)_S_GERROR_IRQ_CFG2[SH] */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -4767,7 +4800,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GERROR_IRQ_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GERROR_IRQ_CFG2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000074ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GERROR_IRQ_CFG2", 1, a, 0, 0, 0);
 }
@@ -4875,7 +4908,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_GERRORN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_GERRORN(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000064ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_GERRORN", 1, a, 0, 0, 0);
 }
@@ -5332,7 +5365,7 @@ static inline uint64_t BDK_SMMUX_IDR0(unsigned long a)
         return 0x830000000020ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000020ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000000ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_IDR0", 1, a, 0, 0, 0);
 }
@@ -5591,7 +5624,7 @@ static inline uint64_t BDK_SMMUX_IDR1(unsigned long a)
         return 0x830000000024ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000024ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000004ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_IDR1", 1, a, 0, 0, 0);
 }
@@ -5758,7 +5791,7 @@ static inline uint64_t BDK_SMMUX_IDR2(unsigned long a)
         return 0x830000000028ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000028ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000008ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_IDR2", 1, a, 0, 0, 0);
 }
@@ -5814,7 +5847,7 @@ static inline uint64_t BDK_SMMUX_IDR3(unsigned long a)
         return 0x83000000002cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x83000000002cll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x83000000000cll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_IDR3", 1, a, 0, 0, 0);
 }
@@ -5857,7 +5890,7 @@ static inline uint64_t BDK_SMMUX_IDR4(unsigned long a)
         return 0x830000000030ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000030ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000010ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_IDR4", 1, a, 0, 0, 0);
 }
@@ -5969,7 +6002,7 @@ static inline uint64_t BDK_SMMUX_IDR5(unsigned long a)
         return 0x830000000034ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000034ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000014ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_IDR5", 1, a, 0, 0, 0);
 }
@@ -6128,7 +6161,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_IIDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IIDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000018ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_IIDR", 1, a, 0, 0, 0);
 }
@@ -6188,7 +6221,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_IRQ_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IRQ_CTRL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000050ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_IRQ_CTRL", 1, a, 0, 0, 0);
 }
@@ -6213,17 +6246,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t eventq_irqen          : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[EVENTQ_IRQEN]. */
-        uint32_t priq_irqen            : 1;  /**< [  1:  1](RAZ) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[PRIQ_IRQEN].
+        uint32_t eventq_irqen          : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..2)_IRQ_CTRL[EVENTQ_IRQEN]. */
+        uint32_t priq_irqen            : 1;  /**< [  1:  1](RAZ) Read-only hardware-modified SMMU(0..2)_IRQ_CTRL[PRIQ_IRQEN].
                                                                  Internal:
                                                                  Not implemented in CNXXXX. */
-        uint32_t gerror_irqen          : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[GERROR_IRQEN]. */
+        uint32_t gerror_irqen          : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..2)_IRQ_CTRL[GERROR_IRQEN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t gerror_irqen          : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[GERROR_IRQEN]. */
-        uint32_t priq_irqen            : 1;  /**< [  1:  1](RAZ) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[PRIQ_IRQEN].
+        uint32_t gerror_irqen          : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..2)_IRQ_CTRL[GERROR_IRQEN]. */
+        uint32_t priq_irqen            : 1;  /**< [  1:  1](RAZ) Read-only hardware-modified SMMU(0..2)_IRQ_CTRL[PRIQ_IRQEN].
                                                                  Internal:
                                                                  Not implemented in CNXXXX. */
-        uint32_t eventq_irqen          : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[EVENTQ_IRQEN]. */
+        uint32_t eventq_irqen          : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..2)_IRQ_CTRL[EVENTQ_IRQEN]. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -6233,7 +6266,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_IRQ_CTRLACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IRQ_CTRLACK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000054ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_IRQ_CTRLACK", 1, a, 0, 0, 0);
 }
@@ -7630,7 +7663,7 @@ static inline uint64_t BDK_SMMUX_PIDR0(unsigned long a)
         return 0x830000000fe0ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000fe0ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000fe0ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_PIDR0", 1, a, 0, 0, 0);
 }
@@ -7674,7 +7707,7 @@ static inline uint64_t BDK_SMMUX_PIDR1(unsigned long a)
         return 0x830000000fe4ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000fe4ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000fe4ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_PIDR1", 1, a, 0, 0, 0);
 }
@@ -7744,7 +7777,7 @@ static inline uint64_t BDK_SMMUX_PIDR2(unsigned long a)
         return 0x830000000fe8ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000fe8ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000fe8ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_PIDR2", 1, a, 0, 0, 0);
 }
@@ -7790,7 +7823,7 @@ static inline uint64_t BDK_SMMUX_PIDR3(unsigned long a)
         return 0x830000000fecll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000fecll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000fecll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_PIDR3", 1, a, 0, 0, 0);
 }
@@ -7850,7 +7883,7 @@ static inline uint64_t BDK_SMMUX_PIDR4(unsigned long a)
         return 0x830000000fd0ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000fd0ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000fd0ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_PIDR4", 1, a, 0, 0, 0);
 }
@@ -7890,7 +7923,7 @@ static inline uint64_t BDK_SMMUX_PIDR5(unsigned long a)
         return 0x830000000fd4ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000fd4ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000fd4ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_PIDR5", 1, a, 0, 0, 0);
 }
@@ -7930,7 +7963,7 @@ static inline uint64_t BDK_SMMUX_PIDR6(unsigned long a)
         return 0x830000000fd8ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000fd8ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000fd8ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_PIDR6", 1, a, 0, 0, 0);
 }
@@ -7970,7 +8003,7 @@ static inline uint64_t BDK_SMMUX_PIDR7(unsigned long a)
         return 0x830000000fdcll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x830000000fdcll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000fdcll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_PIDR7", 1, a, 0, 0, 0);
 }
@@ -8016,7 +8049,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_CAPR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_CAPR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x830000100d88ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_CAPR", 2, a, b, 0, 0);
 }
@@ -8050,7 +8083,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_CNTENCLR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_CNTENCLR0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x830000100c20ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_CNTENCLR0", 2, a, b, 0, 0);
 }
@@ -8084,7 +8117,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_CNTENSET0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_CNTENSET0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x830000100c00ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_CNTENSET0", 2, a, b, 0, 0);
 }
@@ -8118,7 +8151,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_EVCNTRX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_EVCNTRX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1) && (c<=63)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1) && (c<=63)))
         return 0x830000100000ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1) + 8ll * ((c) & 0x3f);
     __bdk_csr_fatal("SMMUX_PMCGX_EVCNTRX", 3, a, b, c, 0);
 }
@@ -8210,7 +8243,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_EVTYPERX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_EVTYPERX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1) && (c<=63)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1) && (c<=63)))
         return 0x830000100400ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1) + 4ll * ((c) & 0x3f);
     __bdk_csr_fatal("SMMUX_PMCGX_EVTYPERX", 3, a, b, c, 0);
 }
@@ -8244,7 +8277,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_INTENCLR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_INTENCLR0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x830000100c60ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_INTENCLR0", 2, a, b, 0, 0);
 }
@@ -8278,7 +8311,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_INTENSET0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_INTENSET0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x830000100c40ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_INTENSET0", 2, a, b, 0, 0);
 }
@@ -8312,7 +8345,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_OVSCLR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_OVSCLR0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x830000100c80ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_OVSCLR0", 2, a, b, 0, 0);
 }
@@ -8346,7 +8379,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_OVSSET0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_OVSSET0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x830000100cc0ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_OVSSET0", 2, a, b, 0, 0);
 }
@@ -8408,7 +8441,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_SCR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_SCR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x830000100df8ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_SCR", 2, a, b, 0, 0);
 }
@@ -8478,7 +8511,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_SMRX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_SMRX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1) && (c<=63)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1) && (c<=63)))
         return 0x830000100a00ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1) + 4ll * ((c) & 0x3f);
     __bdk_csr_fatal("SMMUX_PMCGX_SMRX", 3, a, b, c, 0);
 }
@@ -8512,7 +8545,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_SVRX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_SVRX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1) && (c<=63)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1) && (c<=63)))
         return 0x830000100600ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1) + 8ll * ((c) & 0x3f);
     __bdk_csr_fatal("SMMUX_PMCGX_SVRX", 3, a, b, c, 0);
 }
@@ -8820,7 +8853,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_AGBPA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_AGBPA(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008048ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_AGBPA", 1, a, 0, 0, 0);
 }
@@ -8876,7 +8909,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_CMDQ_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_CMDQ_BASE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008090ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_CMDQ_BASE", 1, a, 0, 0, 0);
 }
@@ -8926,7 +8959,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_CMDQ_CONS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_CMDQ_CONS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x83000000809cll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_CMDQ_CONS", 1, a, 0, 0, 0);
 }
@@ -8964,7 +8997,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_CMDQ_PROD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_CMDQ_PROD(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008098ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_CMDQ_PROD", 1, a, 0, 0, 0);
 }
@@ -9113,7 +9146,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_CR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_CR0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008020ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_CR0", 1, a, 0, 0, 0);
 }
@@ -9138,7 +9171,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t nsstalld              : 1;  /**< [  9:  9](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[NSSTALLD].
+        uint32_t nsstalld              : 1;  /**< [  9:  9](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[NSSTALLD].
                                                                  Internal:
                                                                  When SMMU()_S_IDR0[STALL_MODEL]=0x0 (both stall and terminate models available),
                                                                  setting this bit modifies the non-secure behavior such that only the terminate
@@ -9151,21 +9184,21 @@ typedef union
 
                                                                  FIXME RES0. */
         uint32_t reserved_6_8          : 3;
-        uint32_t sif                   : 1;  /**< [  5:  5](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[SIF]. */
+        uint32_t sif                   : 1;  /**< [  5:  5](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[SIF]. */
         uint32_t reserved_4            : 1;
-        uint32_t cmdqen                : 1;  /**< [  3:  3](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[CMDQEN]. */
-        uint32_t eventqen              : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[EVENTQEN]. */
+        uint32_t cmdqen                : 1;  /**< [  3:  3](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[CMDQEN]. */
+        uint32_t eventqen              : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[EVENTQEN]. */
         uint32_t reserved_1            : 1;
-        uint32_t smmuen                : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[SMMUEN]. */
+        uint32_t smmuen                : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[SMMUEN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t smmuen                : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[SMMUEN]. */
+        uint32_t smmuen                : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[SMMUEN]. */
         uint32_t reserved_1            : 1;
-        uint32_t eventqen              : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[EVENTQEN]. */
-        uint32_t cmdqen                : 1;  /**< [  3:  3](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[CMDQEN]. */
+        uint32_t eventqen              : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[EVENTQEN]. */
+        uint32_t cmdqen                : 1;  /**< [  3:  3](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[CMDQEN]. */
         uint32_t reserved_4            : 1;
-        uint32_t sif                   : 1;  /**< [  5:  5](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[SIF]. */
+        uint32_t sif                   : 1;  /**< [  5:  5](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[SIF]. */
         uint32_t reserved_6_8          : 3;
-        uint32_t nsstalld              : 1;  /**< [  9:  9](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[NSSTALLD].
+        uint32_t nsstalld              : 1;  /**< [  9:  9](SRO/H) Read-only hardware-modified SMMU(0..2)_S_CR0[NSSTALLD].
                                                                  Internal:
                                                                  When SMMU()_S_IDR0[STALL_MODEL]=0x0 (both stall and terminate models available),
                                                                  setting this bit modifies the non-secure behavior such that only the terminate
@@ -9186,7 +9219,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_CR0ACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_CR0ACK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008024ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_CR0ACK", 1, a, 0, 0, 0);
 }
@@ -9292,7 +9325,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_CR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_CR1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008028ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_CR1", 1, a, 0, 0, 0);
 }
@@ -9358,7 +9391,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_CR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_CR2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x83000000802cll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_CR2", 1, a, 0, 0, 0);
 }
@@ -9392,7 +9425,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_CTXCX_DATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_CTXCX_DATX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=255) && (c<=7)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=255) && (c<=7)))
         return 0x830000048000ll + 0x1000000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0xff) + 8ll * ((c) & 0x7);
     __bdk_csr_fatal("SMMUX_S_CTXCX_DATX", 3, a, b, c, 0);
 }
@@ -9448,7 +9481,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_EVENTQ_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_EVENTQ_BASE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000080a0ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_EVENTQ_BASE", 1, a, 0, 0, 0);
 }
@@ -9494,7 +9527,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_EVENTQ_CONS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_EVENTQ_CONS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000080acll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_EVENTQ_CONS", 1, a, 0, 0, 0);
 }
@@ -9552,7 +9585,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_EVENTQ_IRQ_CFG0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_EVENTQ_IRQ_CFG0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000080b0ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_EVENTQ_IRQ_CFG0", 1, a, 0, 0, 0);
 }
@@ -9586,7 +9619,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_EVENTQ_IRQ_CFG1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_EVENTQ_IRQ_CFG1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000080b8ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_EVENTQ_IRQ_CFG1", 1, a, 0, 0, 0);
 }
@@ -9638,7 +9671,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_EVENTQ_IRQ_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_EVENTQ_IRQ_CFG2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000080bcll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_EVENTQ_IRQ_CFG2", 1, a, 0, 0, 0);
 }
@@ -9690,7 +9723,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_EVENTQ_PROD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_EVENTQ_PROD(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x8300000080a8ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_EVENTQ_PROD", 1, a, 0, 0, 0);
 }
@@ -9768,7 +9801,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GATOS_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GATOS_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008110ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GATOS_ADDR", 1, a, 0, 0, 0);
 }
@@ -9814,7 +9847,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GATOS_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GATOS_CTRL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008100ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GATOS_CTRL", 1, a, 0, 0, 0);
 }
@@ -9858,7 +9891,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GATOS_PAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GATOS_PAR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008118ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GATOS_PAR", 1, a, 0, 0, 0);
 }
@@ -9918,7 +9951,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GATOS_SID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GATOS_SID(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008108ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GATOS_SID", 1, a, 0, 0, 0);
 }
@@ -10052,7 +10085,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GBPA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GBPA(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008044ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GBPA", 1, a, 0, 0, 0);
 }
@@ -10124,7 +10157,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GERROR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GERROR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008060ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GERROR", 1, a, 0, 0, 0);
 }
@@ -10184,7 +10217,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GERROR_IRQ_CFG0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GERROR_IRQ_CFG0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008068ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GERROR_IRQ_CFG0", 1, a, 0, 0, 0);
 }
@@ -10218,7 +10251,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GERROR_IRQ_CFG1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GERROR_IRQ_CFG1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008070ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GERROR_IRQ_CFG1", 1, a, 0, 0, 0);
 }
@@ -10270,7 +10303,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GERROR_IRQ_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GERROR_IRQ_CFG2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008074ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GERROR_IRQ_CFG2", 1, a, 0, 0, 0);
 }
@@ -10342,7 +10375,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_GERRORN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_GERRORN(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008064ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_GERRORN", 1, a, 0, 0, 0);
 }
@@ -10430,7 +10463,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_IDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_IDR0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008000ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_IDR0", 1, a, 0, 0, 0);
 }
@@ -10474,7 +10507,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_IDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_IDR1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008004ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_IDR1", 1, a, 0, 0, 0);
 }
@@ -10508,7 +10541,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_IDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_IDR2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008008ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_IDR2", 1, a, 0, 0, 0);
 }
@@ -10542,7 +10575,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_IDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_IDR3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x83000000800cll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_IDR3", 1, a, 0, 0, 0);
 }
@@ -10576,7 +10609,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_IDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_IDR4(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008010ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_IDR4", 1, a, 0, 0, 0);
 }
@@ -10624,7 +10657,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_INIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_INIT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x83000000803cll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_INIT", 1, a, 0, 0, 0);
 }
@@ -10667,7 +10700,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_IRQ_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_IRQ_CTRL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008050ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_IRQ_CTRL", 1, a, 0, 0, 0);
 }
@@ -10715,7 +10748,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_IRQ_CTRLACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_IRQ_CTRLACK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008054ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_IRQ_CTRLACK", 1, a, 0, 0, 0);
 }
@@ -10749,7 +10782,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_RSTRX_DATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_RSTRX_DATX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=511) && (c<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=511) && (c<=1)))
         return 0x830000050000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1ff) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("SMMUX_S_RSTRX_DATX", 3, a, b, c, 0);
 }
@@ -10827,7 +10860,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_STRTAB_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_STRTAB_BASE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008080ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_STRTAB_BASE", 1, a, 0, 0, 0);
 }
@@ -10956,7 +10989,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_STRTAB_BASE_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_STRTAB_BASE_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000008088ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_S_STRTAB_BASE_CFG", 1, a, 0, 0, 0);
 }
@@ -10990,7 +11023,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_TLBX_DATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_TLBX_DATX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=2047) && (c<=3)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=2047) && (c<=3)))
         return 0x830000020000ll + 0x1000000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0x7ff) + 8ll * ((c) & 0x3);
     __bdk_csr_fatal("SMMUX_S_TLBX_DATX", 3, a, b, c, 0);
 }
@@ -11024,7 +11057,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_WCUX_DATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_WCUX_DATX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=639) && (c<=3)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=639) && (c<=3)))
         return 0x830000040000ll + 0x1000000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0x3ff) + 8ll * ((c) & 0x3);
     __bdk_csr_fatal("SMMUX_S_WCUX_DATX", 3, a, b, c, 0);
 }
@@ -12409,7 +12442,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_STATUSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STATUSR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000040ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_STATUSR", 1, a, 0, 0, 0);
 }
@@ -12699,15 +12732,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_STRTAB_BASE[RA] */
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..2)_S_STRTAB_BASE[RA] */
         uint64_t reserved_52_61        : 10;
-        uint64_t addr                  : 46; /**< [ 51:  6](R/W) SMMU(0..3)_S_STRTAB_BASE[ADDR] */
+        uint64_t addr                  : 46; /**< [ 51:  6](R/W) SMMU(0..2)_S_STRTAB_BASE[ADDR] */
         uint64_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_5          : 6;
-        uint64_t addr                  : 46; /**< [ 51:  6](R/W) SMMU(0..3)_S_STRTAB_BASE[ADDR] */
+        uint64_t addr                  : 46; /**< [ 51:  6](R/W) SMMU(0..2)_S_STRTAB_BASE[ADDR] */
         uint64_t reserved_52_61        : 10;
-        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_STRTAB_BASE[RA] */
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..2)_S_STRTAB_BASE[RA] */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -12717,7 +12750,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_STRTAB_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STRTAB_BASE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000080ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_STRTAB_BASE", 1, a, 0, 0, 0);
 }
@@ -12760,24 +12793,24 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
-        uint32_t fmt                   : 2;  /**< [ 17: 16](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[FMT]
+        uint32_t fmt                   : 2;  /**< [ 17: 16](R/W) SMMU(0..2)_S_STRTAB_BASE_CFG[FMT]
                                                                  Internal:
                                                                  When SMMU()_IDR0[ST_LEVEL]=0x0 (2-level unsupported), this field is RES0: its
                                                                  effective value is 0x0 regardless of any other value written. */
         uint32_t reserved_11_15        : 5;
-        uint32_t split                 : 5;  /**< [ 10:  6](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[SPLIT]
+        uint32_t split                 : 5;  /**< [ 10:  6](R/W) SMMU(0..2)_S_STRTAB_BASE_CFG[SPLIT]
                                                                  Internal:
                                                                  This field is ignored if FMT=0x0 and this field is RES0 when
                                                                  SMMU()_IDR0[ST_LEVEL]=0x0 (2-level unsupported). */
-        uint32_t log2size              : 6;  /**< [  5:  0](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[LOG2SIZE] */
+        uint32_t log2size              : 6;  /**< [  5:  0](R/W) SMMU(0..2)_S_STRTAB_BASE_CFG[LOG2SIZE] */
 #else /* Word 0 - Little Endian */
-        uint32_t log2size              : 6;  /**< [  5:  0](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[LOG2SIZE] */
-        uint32_t split                 : 5;  /**< [ 10:  6](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[SPLIT]
+        uint32_t log2size              : 6;  /**< [  5:  0](R/W) SMMU(0..2)_S_STRTAB_BASE_CFG[LOG2SIZE] */
+        uint32_t split                 : 5;  /**< [ 10:  6](R/W) SMMU(0..2)_S_STRTAB_BASE_CFG[SPLIT]
                                                                  Internal:
                                                                  This field is ignored if FMT=0x0 and this field is RES0 when
                                                                  SMMU()_IDR0[ST_LEVEL]=0x0 (2-level unsupported). */
         uint32_t reserved_11_15        : 5;
-        uint32_t fmt                   : 2;  /**< [ 17: 16](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[FMT]
+        uint32_t fmt                   : 2;  /**< [ 17: 16](R/W) SMMU(0..2)_S_STRTAB_BASE_CFG[FMT]
                                                                  Internal:
                                                                  When SMMU()_IDR0[ST_LEVEL]=0x0 (2-level unsupported), this field is RES0: its
                                                                  effective value is 0x0 regardless of any other value written. */
@@ -12790,7 +12823,7 @@ typedef union
 static inline uint64_t BDK_SMMUX_STRTAB_BASE_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STRTAB_BASE_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x830000000088ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_STRTAB_BASE_CFG", 1, a, 0, 0, 0);
 }

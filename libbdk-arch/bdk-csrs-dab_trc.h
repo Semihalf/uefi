@@ -4638,29 +4638,7 @@ typedef union
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_trcx_trcstatr_s cn9; */
-    struct bdk_trcx_trcstatr_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_2_31         : 30;
-        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS Lock is locked.
-                                                                 0 = Programmer's model is not stable.
-                                                                 1 = Programmer's model is stable. */
-        uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status bit.
-                                                                 0 = The trace unit is not idle.
-                                                                 1 = The trace unit is idle. */
-#else /* Word 0 - Little Endian */
-        uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status bit.
-                                                                 0 = The trace unit is not idle.
-                                                                 1 = The trace unit is idle. */
-        uint32_t pmstable              : 1;  /**< [  1:  1](RO) This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS Lock is locked.
-                                                                 0 = Programmer's model is not stable.
-                                                                 1 = Programmer's model is stable. */
-        uint32_t reserved_2_31         : 30;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_trcx_trcstatr_cn81xx cn88xx; */
-    /* struct bdk_trcx_trcstatr_s cn83xx; */
+    /* struct bdk_trcx_trcstatr_s cn; */
 } bdk_trcx_trcstatr_t;
 
 static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a) __attribute__ ((pure, always_inline));

@@ -241,7 +241,8 @@ typedef union
     struct bdk_tim_bist_result_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_10_63        : 54;
+        uint64_t bsk_mem               : 1;  /**< [  9:  9](RO/H) BIST result of the BSK memory. */
         uint64_t pf_msix_mem           : 1;  /**< [  8:  8](RO/H) BIST result of the PF_MSIX memory. */
         uint64_t vf_msix_mem           : 1;  /**< [  7:  7](RO/H) BIST result of the VF_MSIX memory. */
         uint64_t wqe_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the NCB WQE FIFO. */
@@ -261,7 +262,8 @@ typedef union
         uint64_t wqe_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the NCB WQE FIFO. */
         uint64_t vf_msix_mem           : 1;  /**< [  7:  7](RO/H) BIST result of the VF_MSIX memory. */
         uint64_t pf_msix_mem           : 1;  /**< [  8:  8](RO/H) BIST result of the PF_MSIX memory. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t bsk_mem               : 1;  /**< [  9:  9](RO/H) BIST result of the BSK memory. */
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bist_result_s cn; */
@@ -490,8 +492,9 @@ typedef union
         uint64_t ncbmux_ctlmem_bp      : 1;  /**< [  9:  9](R/W) NCBMUX CTLMEM FIFO backpressure.
                                                                  When asserted, the tim.tim_csr.tim_csr_ncbmux.ncb_ctlmem FIFO
                                                                  is blocked from receiving any more requests from the
-                                                                 NCBO-to-CSR path. Only the RSL path can be used when this
-                                                                 bit is set. */
+                                                                 NCBO-to-CSR path. This also blocks requests to the
+                                                                 tim.tim_csr.tim_csr_ncbmux.ncb_datmem FIFO. Only the RSL path
+                                                                 can be used when this bit is set. */
         uint64_t ncb_fpa_bp            : 1;  /**< [  8:  8](R/W) NCB CSR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_csrf FIFO
                                                                  is blocked from receiving any more responses from the
@@ -546,8 +549,9 @@ typedef union
         uint64_t ncbmux_ctlmem_bp      : 1;  /**< [  9:  9](R/W) NCBMUX CTLMEM FIFO backpressure.
                                                                  When asserted, the tim.tim_csr.tim_csr_ncbmux.ncb_ctlmem FIFO
                                                                  is blocked from receiving any more requests from the
-                                                                 NCBO-to-CSR path. Only the RSL path can be used when this
-                                                                 bit is set. */
+                                                                 NCBO-to-CSR path. This also blocks requests to the
+                                                                 tim.tim_csr.tim_csr_ncbmux.ncb_datmem FIFO. Only the RSL path
+                                                                 can be used when this bit is set. */
         uint64_t ncbmux_dstmem_bp      : 1;  /**< [ 10: 10](R/W) NCBMUX DSTMEM FIFO backpressure.
                                                                  When asserted, the tim.tim_csr.tim_csr_ncbmux.ncb_dstmem FIFO
                                                                  is blocked from receiving any more requests from the
@@ -1459,7 +1463,8 @@ typedef union
                                                                  prior to the transition. When clearing, software must delay until
                                                                  TIM_VRING()_REL[RING_ESR] = 0 to ensure the completion of the traversal
                                                                  before reprogramming the ring. When setting, [RCF_BUSY] must be clear.
-                                                                 Hardware will clear this bit when TIM_VF()_NRSPERR_INT[STDN_ERR] is set by hardware. */
+                                                                 Hardware will clear this bit when any TIM_VF()_NRSPERR_INT[*] bit is
+                                                                 set by hardware. */
         uint64_t reserved_46           : 1;
         uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to
                                                                  TIM_MEM_BUCKET_S[NUM_ENTRIES] and TIM_MEM_BUCKET_S[CHUNK_REMAINDER] when a
@@ -1488,7 +1493,8 @@ typedef union
                                                                  prior to the transition. When clearing, software must delay until
                                                                  TIM_VRING()_REL[RING_ESR] = 0 to ensure the completion of the traversal
                                                                  before reprogramming the ring. When setting, [RCF_BUSY] must be clear.
-                                                                 Hardware will clear this bit when TIM_VF()_NRSPERR_INT[STDN_ERR] is set by hardware. */
+                                                                 Hardware will clear this bit when any TIM_VF()_NRSPERR_INT[*] bit is
+                                                                 set by hardware. */
         uint64_t lock_en               : 1;  /**< [ 48: 48](R/W) Enables bucket locking mechanism between hardware and software.
                                                                    0 = Hardware will always service the bucket when it expires.
                                                                    1 = Hardware skips buckets when it can't get the bucket's lock. */
@@ -2279,16 +2285,24 @@ typedef union
         uint64_t count                 : 20; /**< [ 19:  0](RO/H) Indicates how many buckets are late ([COUNT] > 1) to be processed in this ring.
                                                                  When the associated ring is late, TIM will make a best effort to catch up and
                                                                  processes all buckets that are late, back-to-back. Incremented by TIM for every
-                                                                 ring expiration and decremented when a ring's bucket is serviced. Cleared by
-                                                                 hardware when (TIM_VRING(0..63)_LATE[COUNT] == CTL1[BSIZE+1]) or when
-                                                                 TIM_RING()_CTL1[ENA] transitions from 0 to 1 or from 1 to 0. */
+                                                                 ring expiration and decremented when a ring's bucket is serviced.
+                                                                 When (TIM_VRING()_LATE[COUNT] >= TIM_RING()_CTL1[BSIZE+1]), or
+                                                                 (TIM_VRING()_LATE[COUNT] 0xFFFFF, and to be incremented),
+                                                                 hardware will set TIM_VRING()_LATE[COUNT] = 1. Software may see the
+                                                                 greater-than condition for a brief period before the hardware update.
+                                                                 Hardware will set TIM_VRING()_LATE[COUNT] = 0 when TIM_RING()_CTL1[ENA]
+                                                                 transitions from 0 to 1 or from 1 to 0. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 20; /**< [ 19:  0](RO/H) Indicates how many buckets are late ([COUNT] > 1) to be processed in this ring.
                                                                  When the associated ring is late, TIM will make a best effort to catch up and
                                                                  processes all buckets that are late, back-to-back. Incremented by TIM for every
-                                                                 ring expiration and decremented when a ring's bucket is serviced. Cleared by
-                                                                 hardware when (TIM_VRING(0..63)_LATE[COUNT] == CTL1[BSIZE+1]) or when
-                                                                 TIM_RING()_CTL1[ENA] transitions from 0 to 1 or from 1 to 0. */
+                                                                 ring expiration and decremented when a ring's bucket is serviced.
+                                                                 When (TIM_VRING()_LATE[COUNT] >= TIM_RING()_CTL1[BSIZE+1]), or
+                                                                 (TIM_VRING()_LATE[COUNT] 0xFFFFF, and to be incremented),
+                                                                 hardware will set TIM_VRING()_LATE[COUNT] = 1. Software may see the
+                                                                 greater-than condition for a brief period before the hardware update.
+                                                                 Hardware will set TIM_VRING()_LATE[COUNT] = 0 when TIM_RING()_CTL1[ENA]
+                                                                 transitions from 0 to 1 or from 1 to 0. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;

@@ -775,7 +775,7 @@ typedef union
     } cn9;
     /* struct bdk_gic_cfg_ctlr_s cn81xx; */
     /* struct bdk_gic_cfg_ctlr_cn9 cn88xx; */
-    /* struct bdk_gic_cfg_ctlr_cn9 cn83xx; */
+    /* struct bdk_gic_cfg_ctlr_s cn83xx; */
 } bdk_gic_cfg_ctlr_t;
 
 #define BDK_GIC_CFG_CTLR BDK_GIC_CFG_CTLR_FUNC()

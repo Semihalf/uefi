@@ -10753,10 +10753,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
         uint64_t qsgmii_comma_wd_en    : 1;  /**< [ 32: 32](R/W) QSGMII comma watchdog byte counter enable. */
-        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and counts
-                                                                 incoming bytes to ensure state transitions in the PCS receive side state machine
-                                                                 when disparity enable is turned off and bad code groups and commas are not
-                                                                 communicated from the code group processor after code group lock. */
+        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and
+                                                                 counts incoming bytes to ensure state transitions in the PCS receive side state
+                                                                 machine when disparity enable is turned off and bad code groups and commas are
+                                                                 not communicated from the code group processor after code group lock. */
         uint64_t reserved_14_15        : 2;
         uint64_t disp_en               : 1;  /**< [ 13: 13](R/W) Disparity check enable.  When LMAC_TYPE=QSGMII the running disparity check should be
                                                                  disabled
@@ -10850,125 +10850,16 @@ typedef union
 
                                                                  See GSER()_LANE_MODE[LMODE]. */
         uint64_t reserved_14_15        : 2;
-        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and counts
-                                                                 incoming bytes to ensure state transitions in the PCS receive side state machine
-                                                                 when disparity enable is turned off and bad code groups and commas are not
-                                                                 communicated from the code group processor after code group lock. */
+        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and
+                                                                 counts incoming bytes to ensure state transitions in the PCS receive side state
+                                                                 machine when disparity enable is turned off and bad code groups and commas are
+                                                                 not communicated from the code group processor after code group lock. */
         uint64_t qsgmii_comma_wd_en    : 1;  /**< [ 32: 32](R/W) QSGMII comma watchdog byte counter enable. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bgxx_gmp_pcs_miscx_ctl_s cn9; */
-    struct bdk_bgxx_gmp_pcs_miscx_ctl_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t qsgmii_comma_wd_en    : 1;  /**< [ 32: 32](R/W) QSGMII comma watchdog byte counter enable. */
-        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and
-                                                                 counts incoming bytes to ensure state transitions in the PCS receive side state
-                                                                 machine when disparity enable is turned off and bad code groups and commas are
-                                                                 not communicated from the code group processor after code group lock. */
-        uint64_t reserved_14_15        : 2;
-        uint64_t disp_en               : 1;  /**< [ 13: 13](R/W) Disparity check enable.  When LMAC_TYPE=QSGMII the running disparity check should be
-                                                                 disabled
-                                                                 to
-                                                                 prevent propogation across ports.
-                                                                 0 = disable disparity check
-                                                                 1 = enable disparity checking
-
-                                                                 See GSER()_LANE_MODE[LMODE]. */
-        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
-                                                                 0 = other mode selected.
-                                                                 1 = SGMII or 1000BASE-X mode selected.
-
-                                                                 See GSER()_LANE_MODE[LMODE]. */
-        uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
-                                                                 GMI is checked only at SOP of every packet. */
-        uint64_t loopbck2              : 1;  /**< [ 10: 10](R/W) Sets external loopback mode to return RX data back out via the TX data path. 0 = No
-                                                                 loopback, 1 = Loopback.
-                                                                 LOOPBCK1 and LOOPBCK2 modes may not be supported simultaneously. */
-        uint64_t mac_phy               : 1;  /**< [  9:  9](R/W) MAC/PHY.
-                                                                 0 = MAC.
-                                                                 1 = PHY decides the tx_Config_Reg value to be sent during autonegotiation. */
-        uint64_t mode                  : 1;  /**< [  8:  8](R/W) Mode bit.
-
-                                                                 _ 0 = SGMII mode is selected and the following note applies.
-                                                                 The SGMII AN advertisement register (BGX()_GMP_PCS_SGM()_AN_ADV) is sent during
-                                                                 autonegotiation if BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] = 1 (PHY mode). If [MAC_PHY]
-                                                                 = 0 (MAC mode), the tx_Config_Reg<14> becomes ACK bit and <0> is always 1. All other bits
-                                                                 in tx_Config_Reg sent are 0. The PHY dictates the autonegotiation results.
-
-                                                                 _ 1 = 1000Base-X mode is selected. Autonegotiation follows IEEE 802.3 clause 37. */
-        uint64_t an_ovrd               : 1;  /**< [  7:  7](R/W) Autonegotiation results override:
-                                                                 0 = Disable.
-                                                                 1 = Enable override. Autonegotiation is allowed to happen but the results are ignored
-                                                                 when this bit is set.  Duplex and Link speed values are set from BGX()_GMP_PCS_MISC()_CTL. */
-        uint64_t samp_pt               : 7;  /**< [  6:  0](R/W) Byte number in elongated frames for 10/100 Mb/s operation for data sampling on RX side in
-                                                                 PCS. Recommended values are 0x5 for 100 Mb/s operation and 0x32 for 10 Mb/s operation.
-
-                                                                 For 10 Mb/s operation, this field should be set to a value less than 99 and greater than
-                                                                 0.
-                                                                 If set out of this range, a value of 50 is used for actual sampling internally without
-                                                                 affecting the CSR field.
-
-                                                                 For 100 Mb/s operation this field should be set to a value less than 9 and greater than 0.
-                                                                 If set out of this range, a value of 5 is used for actual sampling internally without
-                                                                 affecting the CSR field. */
-#else /* Word 0 - Little Endian */
-        uint64_t samp_pt               : 7;  /**< [  6:  0](R/W) Byte number in elongated frames for 10/100 Mb/s operation for data sampling on RX side in
-                                                                 PCS. Recommended values are 0x5 for 100 Mb/s operation and 0x32 for 10 Mb/s operation.
-
-                                                                 For 10 Mb/s operation, this field should be set to a value less than 99 and greater than
-                                                                 0.
-                                                                 If set out of this range, a value of 50 is used for actual sampling internally without
-                                                                 affecting the CSR field.
-
-                                                                 For 100 Mb/s operation this field should be set to a value less than 9 and greater than 0.
-                                                                 If set out of this range, a value of 5 is used for actual sampling internally without
-                                                                 affecting the CSR field. */
-        uint64_t an_ovrd               : 1;  /**< [  7:  7](R/W) Autonegotiation results override:
-                                                                 0 = Disable.
-                                                                 1 = Enable override. Autonegotiation is allowed to happen but the results are ignored
-                                                                 when this bit is set.  Duplex and Link speed values are set from BGX()_GMP_PCS_MISC()_CTL. */
-        uint64_t mode                  : 1;  /**< [  8:  8](R/W) Mode bit.
-
-                                                                 _ 0 = SGMII mode is selected and the following note applies.
-                                                                 The SGMII AN advertisement register (BGX()_GMP_PCS_SGM()_AN_ADV) is sent during
-                                                                 autonegotiation if BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] = 1 (PHY mode). If [MAC_PHY]
-                                                                 = 0 (MAC mode), the tx_Config_Reg<14> becomes ACK bit and <0> is always 1. All other bits
-                                                                 in tx_Config_Reg sent are 0. The PHY dictates the autonegotiation results.
-
-                                                                 _ 1 = 1000Base-X mode is selected. Autonegotiation follows IEEE 802.3 clause 37. */
-        uint64_t mac_phy               : 1;  /**< [  9:  9](R/W) MAC/PHY.
-                                                                 0 = MAC.
-                                                                 1 = PHY decides the tx_Config_Reg value to be sent during autonegotiation. */
-        uint64_t loopbck2              : 1;  /**< [ 10: 10](R/W) Sets external loopback mode to return RX data back out via the TX data path. 0 = No
-                                                                 loopback, 1 = Loopback.
-                                                                 LOOPBCK1 and LOOPBCK2 modes may not be supported simultaneously. */
-        uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
-                                                                 GMI is checked only at SOP of every packet. */
-        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
-                                                                 0 = other mode selected.
-                                                                 1 = SGMII or 1000BASE-X mode selected.
-
-                                                                 See GSER()_LANE_MODE[LMODE]. */
-        uint64_t disp_en               : 1;  /**< [ 13: 13](R/W) Disparity check enable.  When LMAC_TYPE=QSGMII the running disparity check should be
-                                                                 disabled
-                                                                 to
-                                                                 prevent propogation across ports.
-                                                                 0 = disable disparity check
-                                                                 1 = enable disparity checking
-
-                                                                 See GSER()_LANE_MODE[LMODE]. */
-        uint64_t reserved_14_15        : 2;
-        uint64_t qsgmii_comma_wd       : 16; /**< [ 31: 16](R/W) QSGMII comma watchdog byte counter. This counter is used in QSGMII mode and
-                                                                 counts incoming bytes to ensure state transitions in the PCS receive side state
-                                                                 machine when disparity enable is turned off and bad code groups and commas are
-                                                                 not communicated from the code group processor after code group lock. */
-        uint64_t qsgmii_comma_wd_en    : 1;  /**< [ 32: 32](R/W) QSGMII comma watchdog byte counter enable. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } cn81xx;
+    /* struct bdk_bgxx_gmp_pcs_miscx_ctl_s cn81xx; */
     struct bdk_bgxx_gmp_pcs_miscx_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

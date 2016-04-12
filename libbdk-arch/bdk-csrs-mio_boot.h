@@ -409,7 +409,46 @@ typedef union
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_mio_boot_pin_defs_cn9 cn83xx; */
+    struct bdk_mio_boot_pin_defs_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t uart1_rts             : 1;  /**< [ 17: 17](RO) State of UART1_RTS_N pin strap sampled when DCOK asserts. */
+        uint64_t ref_sel               : 1;  /**< [ 16: 16](RO) State of UART0_RTS_N pin strap sampled when DCOK asserts. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t emm_supply            : 3;  /**< [  8:  6](RO) EMMC power supply settings.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t smi_supply            : 3;  /**< [  5:  3](RO) SMI power supply setting based on VDD_SMI_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t io_supply             : 3;  /**< [  2:  0](RO) I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t io_supply             : 3;  /**< [  2:  0](RO) I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t smi_supply            : 3;  /**< [  5:  3](RO) SMI power supply setting based on VDD_SMI_SUPPLY_SELECT pin:
+                                                                 0x1 = 1.8V.
+                                                                 0x2 = 2.5V.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t emm_supply            : 3;  /**< [  8:  6](RO) EMMC power supply settings.
+                                                                 0x4 = 3.3V.
+                                                                 _ All other values reserved. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t ref_sel               : 1;  /**< [ 16: 16](RO) State of UART0_RTS_N pin strap sampled when DCOK asserts. */
+        uint64_t uart1_rts             : 1;  /**< [ 17: 17](RO) State of UART1_RTS_N pin strap sampled when DCOK asserts. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_mio_boot_pin_defs_t;
 
 #define BDK_MIO_BOOT_PIN_DEFS BDK_MIO_BOOT_PIN_DEFS_FUNC()

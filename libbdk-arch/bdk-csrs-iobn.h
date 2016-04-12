@@ -794,7 +794,18 @@ typedef union
     struct bdk_iobnx_dis_ncbi_io_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_6_63         : 58;
+        uint64_t sli_key_mem           : 1;  /**< [  5:  5](R/W) SLI KEY memory isolation.
+                                                                 0 = SLI initiated requests are allowed.
+                                                                 1 = SLI initiated read and write requests are allowed to
+                                                                     KEY_MEM(0..2047) (e.g. 16KB, not all of KEY_MEM) only.
+                                                                     SLI requests to any other address (non-KEY_MEM(0..2047))
+                                                                     will be redirected to ECAM0_NOP_ZF. */
+        uint64_t sli_off               : 1;  /**< [  4:  4](R/W) SLI isolation.
+                                                                 0 = Operation of NCBI transactions are not impacted.
+                                                                 1 = NCBI transactions initiating at the SLI are disabled and
+                                                                     turn into accesses to ECAM0_NOP_ZF. When set, this bit
+                                                                     overrides [SLI_KEY_MEM]. */
         uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
                                                                  outstanding request to receive responses. */
         uint64_t oci_key_only          : 1;  /**< [  2:  2](R/W) Restrict CCPI-sourced I/O write requests.
@@ -846,7 +857,18 @@ typedef union
                                                                  In pass 1, read-only. */
         uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
                                                                  outstanding request to receive responses. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t sli_off               : 1;  /**< [  4:  4](R/W) SLI isolation.
+                                                                 0 = Operation of NCBI transactions are not impacted.
+                                                                 1 = NCBI transactions initiating at the SLI are disabled and
+                                                                     turn into accesses to ECAM0_NOP_ZF. When set, this bit
+                                                                     overrides [SLI_KEY_MEM]. */
+        uint64_t sli_key_mem           : 1;  /**< [  5:  5](R/W) SLI KEY memory isolation.
+                                                                 0 = SLI initiated requests are allowed.
+                                                                 1 = SLI initiated read and write requests are allowed to
+                                                                     KEY_MEM(0..2047) (e.g. 16KB, not all of KEY_MEM) only.
+                                                                     SLI requests to any other address (non-KEY_MEM(0..2047))
+                                                                     will be redirected to ECAM0_NOP_ZF. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     struct bdk_iobnx_dis_ncbi_io_cn88xxp1
@@ -907,10 +929,67 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_iobnx_dis_ncbi_io_s cn9; */
-    /* struct bdk_iobnx_dis_ncbi_io_s cn81xx; */
+    struct bdk_iobnx_dis_ncbi_io_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
+                                                                 outstanding request to receive responses. */
+        uint64_t oci_key_only          : 1;  /**< [  2:  2](R/W) Restrict CCPI-sourced I/O write requests.
+
+                                                                 0 = CCPI-sourced I/O read and write requests are allowed to any device through
+                                                                 IOB, including allowing read/writes to all of KEY_MEM().
+
+                                                                 1 = CCPI-sourced I/O write requests allowed to KEY_MEM(0..2047) (e.g. 16KB, not
+                                                                 all of KEY_MEM) only. CCPI-sourced writes to __any__ other address
+                                                                 (non-KEY_MEM(0..2047)), or any CCPI-source read will be redirected to
+                                                                 ECAM0_NOP_ZF (for non-ECAM) or ECAM0_NOP_ONNF (for-ECAM).
+
+                                                                 This setting does not affect local-node originated traffic.
+
+                                                                 In pass 1, read-only. */
+        uint64_t all_gic               : 1;  /**< [  1:  1](R/W) All-to-GIC. For diagnostic use only.
+                                                                 Internal:
+                                                                 0 = Normal operation. NCBI traffic to GIC interrupt delivery registers will be ordered
+                                                                 with other interrupt delivery traffic and over the RIB bus.  NCBI traffic to normal non-
+                                                                 interrupt-delivery GIC registers will go via RSL.
+                                                                   1 = All NCBI traffic to the GIC DID will be assumed to be interrupt delivery traffic.
+                                                                 This will break NCBI write transactions to non-interrupt-delivery GIC registers, but may
+                                                                 work around bugs whereby interrupt-delivery CSRs are mis-catagorized inside IOB. */
+        uint64_t ncbi_off              : 1;  /**< [  0:  0](R/W) When set NCBI translation to I/O space (with exception of GIC traffic) will be disabled.
+                                                                 Disabled traffic will turn into access to ECAM0_NOP_ZF. */
+#else /* Word 0 - Little Endian */
+        uint64_t ncbi_off              : 1;  /**< [  0:  0](R/W) When set NCBI translation to I/O space (with exception of GIC traffic) will be disabled.
+                                                                 Disabled traffic will turn into access to ECAM0_NOP_ZF. */
+        uint64_t all_gic               : 1;  /**< [  1:  1](R/W) All-to-GIC. For diagnostic use only.
+                                                                 Internal:
+                                                                 0 = Normal operation. NCBI traffic to GIC interrupt delivery registers will be ordered
+                                                                 with other interrupt delivery traffic and over the RIB bus.  NCBI traffic to normal non-
+                                                                 interrupt-delivery GIC registers will go via RSL.
+                                                                   1 = All NCBI traffic to the GIC DID will be assumed to be interrupt delivery traffic.
+                                                                 This will break NCBI write transactions to non-interrupt-delivery GIC registers, but may
+                                                                 work around bugs whereby interrupt-delivery CSRs are mis-catagorized inside IOB. */
+        uint64_t oci_key_only          : 1;  /**< [  2:  2](R/W) Restrict CCPI-sourced I/O write requests.
+
+                                                                 0 = CCPI-sourced I/O read and write requests are allowed to any device through
+                                                                 IOB, including allowing read/writes to all of KEY_MEM().
+
+                                                                 1 = CCPI-sourced I/O write requests allowed to KEY_MEM(0..2047) (e.g. 16KB, not
+                                                                 all of KEY_MEM) only. CCPI-sourced writes to __any__ other address
+                                                                 (non-KEY_MEM(0..2047)), or any CCPI-source read will be redirected to
+                                                                 ECAM0_NOP_ZF (for non-ECAM) or ECAM0_NOP_ONNF (for-ECAM).
+
+                                                                 This setting does not affect local-node originated traffic.
+
+                                                                 In pass 1, read-only. */
+        uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
+                                                                 outstanding request to receive responses. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn9;
+    /* struct bdk_iobnx_dis_ncbi_io_cn9 cn81xx; */
     /* struct bdk_iobnx_dis_ncbi_io_s cn83xx; */
-    /* struct bdk_iobnx_dis_ncbi_io_s cn88xxp2; */
+    /* struct bdk_iobnx_dis_ncbi_io_cn9 cn88xxp2; */
 } bdk_iobnx_dis_ncbi_io_t;
 
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4065,6 +4144,24 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
+        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is '7'. For IOBN1 the reset value is '0'.
+                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
+                                                                 the IOBN. */
+#else /* Word 0 - Little Endian */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is '7'. For IOBN1 the reset value is '0'.
+                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
+                                                                 the IOBN. */
+        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_iobnx_ncb0_hp_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
         uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is '1'. For IOBN1 the reset value is '0'.
                                                                  When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
         uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is '7'. For IOBN1 the reset value is '0'.
@@ -4078,16 +4175,19 @@ typedef union
                                                                  When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_iobnx_ncb0_hp_s cn9; */
+    } cn9;
     struct bdk_iobnx_ncb0_hp_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t lp                    : 1;  /**< [  3:  3](R/W) When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through the IOBN. */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
+                                                                 the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x1. */
 #else /* Word 0 - Little Endian */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through the IOBN. */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
+                                                                 the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x1. */
         uint64_t lp                    : 1;  /**< [  3:  3](R/W) When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -4096,13 +4196,34 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t hp                    : 1;  /**< [  0:  0](R/W) When set, NCBI 0 ARB 0 will use the high performance path through the IOBN. */
+        uint64_t hp                    : 1;  /**< [  0:  0](R/W) When set, NCBI 0 ARB 0 will use the high performance path through the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] set, and IOB(1)_NCB0_HP[HP] clear. */
 #else /* Word 0 - Little Endian */
-        uint64_t hp                    : 1;  /**< [  0:  0](R/W) When set, NCBI 0 ARB 0 will use the high performance path through the IOBN. */
+        uint64_t hp                    : 1;  /**< [  0:  0](R/W) When set, NCBI 0 ARB 0 will use the high performance path through the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] set, and IOB(1)_NCB0_HP[HP] clear. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_iobnx_ncb0_hp_s cn83xx; */
+    struct bdk_iobnx_ncb0_hp_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
+                                                                 the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
+#else /* Word 0 - Little Endian */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
+                                                                 the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
+        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_iobnx_ncb0_hp_t;
 
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4501,7 +4622,62 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_iobnx_slitagx_control_s cn83xx; */
+    struct bdk_iobnx_slitagx_control_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
+                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
+                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
+                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
+                                                                 endpoint mode). This prevents SR-IOV security issues.
+                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
+                                                                 wait for all previous load operations' FILLs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
+                                                                 wait for all previous store operations' STDNs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
+                                                                 wait for all previous load operations' FILLs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
+                                                                 wait for all previous store operations' STDNs before issuing. */
+#else /* Word 0 - Little Endian */
+        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
+                                                                 wait for all previous store operations' STDNs before issuing. */
+        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
+                                                                 wait for all previous load operations' FILLs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
+                                                                 wait for all previous store operations' STDNs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
+                                                                 wait for all previous load operations' FILLs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
+                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
+                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
+                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
+                                                                 endpoint mode). This prevents SR-IOV security issues.
+                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } cn83xx;
     /* struct bdk_iobnx_slitagx_control_cn81xx cn88xxp2; */
 } bdk_iobnx_slitagx_control_t;
 

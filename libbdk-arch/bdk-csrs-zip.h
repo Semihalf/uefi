@@ -86,6 +86,7 @@
 #define BDK_ZIP_COMP_E_DSTOP (3)
 #define BDK_ZIP_COMP_E_DTRUNC (2)
 #define BDK_ZIP_COMP_E_FATAL (0xb)
+#define BDK_ZIP_COMP_E_INSTR_ERR (0xd)
 #define BDK_ZIP_COMP_E_ITRUNC (4)
 #define BDK_ZIP_COMP_E_NLEN (6)
 #define BDK_ZIP_COMP_E_NOTDONE (0)
@@ -2711,7 +2712,82 @@ typedef union
 #endif /* Word 0 - End */
     } cn9;
     /* struct bdk_zip_corex_bist_status_s cn88xx; */
-    /* struct bdk_zip_corex_bist_status_cn9 cn83xx; */
+    struct bdk_zip_corex_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_26_63        : 38;
+        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories.
+                                                                 Internal:
+                                                                 ZIPC (cores 0,2,4):
+                                                                 <25:18> = zipc_hash mem 7-0.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif.
+
+                                                                 ZIPD (cores 1,3,5):
+                                                                 <25:19> = 0.
+                                                                 <18>    = zip state cam.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif. */
+#else /* Word 0 - Little Endian */
+        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories.
+                                                                 Internal:
+                                                                 ZIPC (cores 0,2,4):
+                                                                 <25:18> = zipc_hash mem 7-0.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif.
+
+                                                                 ZIPD (cores 1,3,5):
+                                                                 <25:19> = 0.
+                                                                 <18>    = zip state cam.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif. */
+        uint64_t reserved_26_63        : 38;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_zip_corex_bist_status_t;
 
 static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2792,6 +2868,22 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reac                  : 1;  /**< [ 63: 63](R/W) Reset ZIP engine after completion of each instruction, to limit exposure to
                                                                  corrupt commands and structures affecting subsequent commands. */
+        uint64_t reserved_6_62         : 57;
+        uint64_t reset                 : 6;  /**< [  5:  0](R/W) When set, the conresponding core will be put into reset. When clear, the core is out of
+                                                                 reset.  Bit[<a>] resets ZIP core <a>. */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 6;  /**< [  5:  0](R/W) When set, the conresponding core will be put into reset. When clear, the core is out of
+                                                                 reset.  Bit[<a>] resets ZIP core <a>. */
+        uint64_t reserved_6_62         : 57;
+        uint64_t reac                  : 1;  /**< [ 63: 63](R/W) Reset ZIP engine after completion of each instruction, to limit exposure to
+                                                                 corrupt commands and structures affecting subsequent commands. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_core_reset_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reac                  : 1;  /**< [ 63: 63](R/W) Reset ZIP engine after completion of each instruction, to limit exposure to
+                                                                 corrupt commands and structures affecting subsequent commands. */
         uint64_t reserved_2_62         : 61;
         uint64_t reset                 : 2;  /**< [  1:  0](R/W) When set, the conresponding core will be put into reset. When clear, the core is out of
                                                                  reset.  Bit[<a>] resets ZIP core <a>. */
@@ -2802,8 +2894,9 @@ typedef union
         uint64_t reac                  : 1;  /**< [ 63: 63](R/W) Reset ZIP engine after completion of each instruction, to limit exposure to
                                                                  corrupt commands and structures affecting subsequent commands. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_core_reset_s cn; */
+    } cn88xx;
+    /* struct bdk_zip_core_reset_s cn83xx; */
+    /* struct bdk_zip_core_reset_cn88xx cn9; */
 } bdk_zip_core_reset_t;
 
 #define BDK_ZIP_CORE_RESET BDK_ZIP_CORE_RESET_FUNC()
@@ -2985,6 +3078,22 @@ typedef union
     struct bdk_zip_ctl_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_23_63        : 41;
+        uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
+                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
+                                                                 IDF[1:0],GSPF, IQF}. */
+#else /* Word 0 - Little Endian */
+        uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
+                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
+                                                                 IDF[1:0],GSPF, IQF}. */
+        uint64_t reserved_23_63        : 41;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_ctl_bist_status_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t bstatus               : 9;  /**< [  8:  0](RO/H) BIST result of CTL memories.
                                                                  Internal:
@@ -2997,8 +3106,36 @@ typedef union
                                                                  IDF[1:0],GSPF, IQF}. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_ctl_bist_status_s cn; */
+    } cn9;
+    /* struct bdk_zip_ctl_bist_status_cn9 cn88xx; */
+    struct bdk_zip_ctl_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_23_63        : 41;
+        uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
+                                                                 <22> = MBOX.
+                                                                 <21> = MSIX_PMEM.
+                                                                 <20> = MSIX_VMEM.
+                                                                 <19:14> = STDF[5:0].
+                                                                 <13:8> = OFIF[5:0].
+                                                                 <7:2> = Input data FIFO (idf) [5:0].
+                                                                 <1> = Gather/scatter FIFO (gspf).
+                                                                 <0> = Instruction buffer (iqf). */
+#else /* Word 0 - Little Endian */
+        uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
+                                                                 <22> = MBOX.
+                                                                 <21> = MSIX_PMEM.
+                                                                 <20> = MSIX_VMEM.
+                                                                 <19:14> = STDF[5:0].
+                                                                 <13:8> = OFIF[5:0].
+                                                                 <7:2> = Input data FIFO (idf) [5:0].
+                                                                 <1> = Gather/scatter FIFO (gspf).
+                                                                 <0> = Instruction buffer (iqf). */
+        uint64_t reserved_23_63        : 41;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_zip_ctl_bist_status_t;
 
 #define BDK_ZIP_CTL_BIST_STATUS BDK_ZIP_CTL_BIST_STATUS_FUNC()
@@ -3251,9 +3388,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
-        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, queue is wait for outstanding L2C transaction(s).
-                                                                 Otherwise, there are no outstanding L2C transaction and queue can be reset if
-                                                                 needed. */
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, the queue is waiting for outstanding L2C transaction(s).  Otherwise, there are
+                                                                 no outstanding L2C transactions and the queue can be reset. */
         uint64_t reserved_56_61        : 6;
         uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
         uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_VQ()_SBUF_ADDR
@@ -3263,9 +3399,8 @@ typedef union
                                                                  is written. */
         uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
         uint64_t reserved_56_61        : 6;
-        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, queue is wait for outstanding L2C transaction(s).
-                                                                 Otherwise, there are no outstanding L2C transaction and queue can be reset if
-                                                                 needed. */
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, the queue is waiting for outstanding L2C transaction(s).  Otherwise, there are
+                                                                 no outstanding L2C transactions and the queue can be reset. */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
 #endif /* Word 0 - End */
     } s;
@@ -3325,7 +3460,7 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
 #endif /* Word 0 - End */
     } cn9;
-    /* struct bdk_zip_dbg_quex_sta_cn9 cn83xx; */
+    /* struct bdk_zip_dbg_quex_sta_s cn83xx; */
 } bdk_zip_dbg_quex_sta_t;
 
 static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3360,6 +3495,56 @@ typedef union
     struct bdk_zip_ecc_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
+        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
+        uint64_t reserved_39           : 1;
+        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
+        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
+        uint64_t reserved_15_35        : 21;
+        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
+        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
+        uint64_t reserved_11           : 1;
+        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
+        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
+        uint64_t reserved_7            : 1;
+        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
+        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
+        uint64_t reserved_3            : 1;
+        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
+        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
+                                                                 0x0 = no error generation.
+                                                                 0x1 = flip one bit.
+                                                                 0x2 = flip one bit.
+                                                                 0x3 = flip two bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
+                                                                 0x0 = no error generation.
+                                                                 0x1 = flip one bit.
+                                                                 0x2 = flip one bit.
+                                                                 0x3 = flip two bits. */
+        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
+        uint64_t reserved_3            : 1;
+        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
+        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
+        uint64_t reserved_7            : 1;
+        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
+        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
+        uint64_t reserved_11           : 1;
+        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
+        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
+        uint64_t reserved_15_35        : 21;
+        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
+        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
+        uint64_t reserved_39           : 1;
+        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
+        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_ecc_ctl_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_19_63        : 45;
         uint64_t vmem_cdis             : 1;  /**< [ 18: 18](R/W) VMEM memory ECC correction disable. */
         uint64_t vmem_fs               : 2;  /**< [ 17: 16](R/W) Controls VMEM memory flip syndrome. */
@@ -3400,8 +3585,88 @@ typedef union
         uint64_t vmem_cdis             : 1;  /**< [ 18: 18](R/W) VMEM memory ECC correction disable. */
         uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_ecc_ctl_s cn; */
+    } cn9;
+    /* struct bdk_zip_ecc_ctl_cn9 cn88xx; */
+    struct bdk_zip_ecc_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
+        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
+        uint64_t reserved_39           : 1;
+        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
+        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
+        uint64_t reserved_35           : 1;
+        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
+        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
+        uint64_t reserved_31           : 1;
+        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
+        uint64_t reserved_27           : 1;
+        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
+        uint64_t reserved_23           : 1;
+        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
+        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
+        uint64_t reserved_19           : 1;
+        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
+        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
+        uint64_t reserved_15           : 1;
+        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
+        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
+        uint64_t reserved_11           : 1;
+        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
+        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
+        uint64_t reserved_7            : 1;
+        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
+        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
+        uint64_t reserved_3            : 1;
+        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
+        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
+                                                                 0x0 = no error generation.
+                                                                 0x1 = flip one bit.
+                                                                 0x2 = flip one bit.
+                                                                 0x3 = flip two bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
+                                                                 0x0 = no error generation.
+                                                                 0x1 = flip one bit.
+                                                                 0x2 = flip one bit.
+                                                                 0x3 = flip two bits. */
+        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
+        uint64_t reserved_3            : 1;
+        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
+        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
+        uint64_t reserved_7            : 1;
+        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
+        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
+        uint64_t reserved_11           : 1;
+        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
+        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
+        uint64_t reserved_15           : 1;
+        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
+        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
+        uint64_t reserved_19           : 1;
+        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
+        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
+        uint64_t reserved_23           : 1;
+        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
+        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t reserved_27           : 1;
+        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
+        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t reserved_31           : 1;
+        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
+        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
+        uint64_t reserved_35           : 1;
+        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
+        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
+        uint64_t reserved_39           : 1;
+        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
+        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_zip_ecc_ctl_t;
 
 #define BDK_ZIP_ECC_CTL BDK_ZIP_ECC_CTL_FUNC()
@@ -3436,6 +3701,52 @@ typedef union
     struct bdk_zip_ecce_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t dbe                   : 11; /**< [ 42: 32](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <42> = mbox.
+                                                                 <41> = msix_pmem.
+                                                                 <40> = msix_vmem.
+                                                                 <39:34> = idf[5:0].
+                                                                 <33> = gspf.
+                                                                 <32> = iqf. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t sbe                   : 11; /**< [ 10:  0](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <10> = mbox.
+                                                                 <9> = msix_pmem.
+                                                                 <8> = msix_vmem.
+                                                                 <7:2> = idf[5:0].
+                                                                 <1> = gspf.
+                                                                 <0> = iqf. */
+#else /* Word 0 - Little Endian */
+        uint64_t sbe                   : 11; /**< [ 10:  0](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <10> = mbox.
+                                                                 <9> = msix_pmem.
+                                                                 <8> = msix_vmem.
+                                                                 <7:2> = idf[5:0].
+                                                                 <1> = gspf.
+                                                                 <0> = iqf. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t dbe                   : 11; /**< [ 42: 32](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <42> = mbox.
+                                                                 <41> = msix_pmem.
+                                                                 <40> = msix_vmem.
+                                                                 <39:34> = idf[5:0].
+                                                                 <33> = gspf.
+                                                                 <32> = iqf. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_ecce_ena_w1c_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
         uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[DBE].
                                                                  Internal:
@@ -3454,8 +3765,9 @@ typedef union
                                                                  The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_ecce_ena_w1c_s cn; */
+    } cn9;
+    /* struct bdk_zip_ecce_ena_w1c_cn9 cn88xx; */
+    /* struct bdk_zip_ecce_ena_w1c_s cn83xx; */
 } bdk_zip_ecce_ena_w1c_t;
 
 #define BDK_ZIP_ECCE_ENA_W1C BDK_ZIP_ECCE_ENA_W1C_FUNC()
@@ -3490,6 +3802,52 @@ typedef union
     struct bdk_zip_ecce_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t dbe                   : 11; /**< [ 42: 32](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <42> = mbox.
+                                                                 <41> = msix_pmem.
+                                                                 <40> = msix_vmem.
+                                                                 <39:34> = idf[5:0].
+                                                                 <33> = gspf.
+                                                                 <32> = iqf. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t sbe                   : 11; /**< [ 10:  0](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <10> = mbox.
+                                                                 <9> = msix_pmem.
+                                                                 <8> = msix_vmem.
+                                                                 <7:2> = idf[5:0].
+                                                                 <1> = gspf.
+                                                                 <0> = iqf. */
+#else /* Word 0 - Little Endian */
+        uint64_t sbe                   : 11; /**< [ 10:  0](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <10> = mbox.
+                                                                 <9> = msix_pmem.
+                                                                 <8> = msix_vmem.
+                                                                 <7:2> = idf[5:0].
+                                                                 <1> = gspf.
+                                                                 <0> = iqf. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t dbe                   : 11; /**< [ 42: 32](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <42> = mbox.
+                                                                 <41> = msix_pmem.
+                                                                 <40> = msix_vmem.
+                                                                 <39:34> = idf[5:0].
+                                                                 <33> = gspf.
+                                                                 <32> = iqf. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_ecce_ena_w1s_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
         uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[DBE].
                                                                  Internal:
@@ -3508,8 +3866,9 @@ typedef union
                                                                  The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_ecce_ena_w1s_s cn; */
+    } cn9;
+    /* struct bdk_zip_ecce_ena_w1s_cn9 cn88xx; */
+    /* struct bdk_zip_ecce_ena_w1s_s cn83xx; */
 } bdk_zip_ecce_ena_w1s_t;
 
 #define BDK_ZIP_ECCE_ENA_W1S BDK_ZIP_ECCE_ENA_W1S_FUNC()
@@ -3544,6 +3903,52 @@ typedef union
     struct bdk_zip_ecce_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t dbe                   : 11; /**< [ 42: 32](R/W1C/H) Double-bit error detected in internal RAM. 0 = pass, 1 = fail. One bit per memory.
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <42> = mbox.
+                                                                 <41> = msix_pmem.
+                                                                 <40> = msix_vmem.
+                                                                 <39:34> = idf[5:0].
+                                                                 <33> = gspf.
+                                                                 <32> = iqf. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t sbe                   : 11; /**< [ 10:  0](R/W1C/H) Single-bit error detected in internal RAM. 0 = pass, 1 = fail. One bit per memory.
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <10> = mbox.
+                                                                 <9> = msix_pmem.
+                                                                 <8> = msix_vmem.
+                                                                 <7:2> = idf[5:0].
+                                                                 <1> = gspf.
+                                                                 <0> = iqf. */
+#else /* Word 0 - Little Endian */
+        uint64_t sbe                   : 11; /**< [ 10:  0](R/W1C/H) Single-bit error detected in internal RAM. 0 = pass, 1 = fail. One bit per memory.
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <10> = mbox.
+                                                                 <9> = msix_pmem.
+                                                                 <8> = msix_vmem.
+                                                                 <7:2> = idf[5:0].
+                                                                 <1> = gspf.
+                                                                 <0> = iqf. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t dbe                   : 11; /**< [ 42: 32](R/W1C/H) Double-bit error detected in internal RAM. 0 = pass, 1 = fail. One bit per memory.
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <42> = mbox.
+                                                                 <41> = msix_pmem.
+                                                                 <40> = msix_vmem.
+                                                                 <39:34> = idf[5:0].
+                                                                 <33> = gspf.
+                                                                 <32> = iqf. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_ecce_int_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
         uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1C/H) Double-bit error detected in internal RAM. 0 = pass, 1 = fail. One bit per memory.
                                                                  Internal:
@@ -3562,8 +3967,9 @@ typedef union
                                                                  The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_ecce_int_s cn; */
+    } cn9;
+    /* struct bdk_zip_ecce_int_cn9 cn88xx; */
+    /* struct bdk_zip_ecce_int_s cn83xx; */
 } bdk_zip_ecce_int_t;
 
 #define BDK_ZIP_ECCE_INT BDK_ZIP_ECCE_INT_FUNC()
@@ -3598,6 +4004,52 @@ typedef union
     struct bdk_zip_ecce_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t dbe                   : 11; /**< [ 42: 32](R/W1S/H) Reads or sets ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <42> = mbox.
+                                                                 <41> = msix_pmem.
+                                                                 <40> = msix_vmem.
+                                                                 <39:34> = idf[5:0].
+                                                                 <33> = gspf.
+                                                                 <32> = iqf. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t sbe                   : 11; /**< [ 10:  0](R/W1S/H) Reads or sets ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <10> = mbox.
+                                                                 <9> = msix_pmem.
+                                                                 <8> = msix_vmem.
+                                                                 <7:2> = idf[5:0].
+                                                                 <1> = gspf.
+                                                                 <0> = iqf. */
+#else /* Word 0 - Little Endian */
+        uint64_t sbe                   : 11; /**< [ 10:  0](R/W1S/H) Reads or sets ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <10> = mbox.
+                                                                 <9> = msix_pmem.
+                                                                 <8> = msix_vmem.
+                                                                 <7:2> = idf[5:0].
+                                                                 <1> = gspf.
+                                                                 <0> = iqf. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t dbe                   : 11; /**< [ 42: 32](R/W1S/H) Reads or sets ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 One memory per bit as follows:
+                                                                 <42> = mbox.
+                                                                 <41> = msix_pmem.
+                                                                 <40> = msix_vmem.
+                                                                 <39:34> = idf[5:0].
+                                                                 <33> = gspf.
+                                                                 <32> = iqf. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_ecce_int_w1s_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
         uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets ZIP_ECCE_INT[DBE].
                                                                  Internal:
@@ -3616,8 +4068,9 @@ typedef union
                                                                  The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_ecce_int_w1s_s cn; */
+    } cn9;
+    /* struct bdk_zip_ecce_int_w1s_cn9 cn88xx; */
+    /* struct bdk_zip_ecce_int_w1s_s cn83xx; */
 } bdk_zip_ecce_int_w1s_t;
 
 #define BDK_ZIP_ECCE_INT_W1S BDK_ZIP_ECCE_INT_W1S_FUNC()
@@ -5526,6 +5979,18 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
+        uint64_t reset                 : 8;  /**< [  7:  0](R/W) When set, the corresponding queue will be put into reset. When clear, the queue is out of
+                                                                 reset. Bit[<a>] resets queue <a>. */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 8;  /**< [  7:  0](R/W) When set, the corresponding queue will be put into reset. When clear, the queue is out of
+                                                                 reset. Bit[<a>] resets queue <a>. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_que_reset_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
         uint64_t reset                 : 8;  /**< [  7:  0](R/W) When set, the conresponding queue will be put into reset. When clear, the queue is out of
                                                                  reset. Bit[<a>] resets queue <a>. */
 #else /* Word 0 - Little Endian */
@@ -5533,8 +5998,9 @@ typedef union
                                                                  reset. Bit[<a>] resets queue <a>. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_que_reset_s cn; */
+    } cn88xx;
+    /* struct bdk_zip_que_reset_s cn83xx; */
+    /* struct bdk_zip_que_reset_cn88xx cn9; */
 } bdk_zip_que_reset_t;
 
 #define BDK_ZIP_QUE_RESET BDK_ZIP_QUE_RESET_FUNC()

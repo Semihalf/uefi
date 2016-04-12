@@ -108,7 +108,7 @@
  *
  * PKO Send-Packet Drop Error Codes Enumeration
  * Enumerates the error code for illegally constructed send-packet drops, stored in
- * PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP_CODE].
+ * PKO_PDM_STS_INFO[CP_SENDPKT_ERR_DROP_CODE].
  */
 #define BDK_PKO_CPSENDDROP_E_DROP_HDR_ONLY (1)
 #define BDK_PKO_CPSENDDROP_E_DROP_SIZE_8 (4)
@@ -129,7 +129,7 @@
  * Enumeration pko_dqop_e
  *
  * PKO DQ Operation Enumeration
- * Enumerates the different IOBLD operation codes and PKO_QUERY_RTN_S[DQOP] values.
+ * Enumerates the different PKO_VF()_DQ()_OP_QUERY[DQOP] values.
  */
 #define BDK_PKO_DQOP_E_CLOSE (2)
 #define BDK_PKO_DQOP_E_OPEN (1)
@@ -140,7 +140,7 @@
  * Enumeration pko_dqstatus_e
  *
  * PKO Descriptor Status Enumeration
- * Enumerates the different descriptor queue command results. See PKO_QUERY_RTN_S[DQSTATUS].
+ * Enumerates the different descriptor queue command results. See PKO_VF()_DQ()_OP_QUERY[DQSTATUS].
  */
 #define BDK_PKO_DQSTATUS_E_DQALREADYCREATED (0xc)
 #define BDK_PKO_DQSTATUS_E_DQBADSTATE (8)
@@ -2225,7 +2225,7 @@ union bdk_pko_send_mem_s
                                                                  incrementing. Enumerated by PKO_MEMALG_E.
 
                                                                  Unless [ALG] is SETTSTMP (PKO_SEND_HDR_S[TSTMP] must be set in this case),
-                                                                 the PKO_SEND_MEM can complete in any order relative to the packet send
+                                                                 the PKO_SEND_MEM_S can complete in any order relative to the packet send
                                                                  on the physical interface. */
         uint64_t dsz                   : 2;  /**< [ 55: 54] Memory data size. The size of the word in memory, enumerated by PKO_MEMDSZ_E. */
         uint64_t wmem                  : 1;  /**< [ 53: 53] Wait for memory. When set, there must be an SSO ADD_WORK requested with the final
@@ -2268,7 +2268,7 @@ union bdk_pko_send_mem_s
                                                                  incrementing. Enumerated by PKO_MEMALG_E.
 
                                                                  Unless [ALG] is SETTSTMP (PKO_SEND_HDR_S[TSTMP] must be set in this case),
-                                                                 the PKO_SEND_MEM can complete in any order relative to the packet send
+                                                                 the PKO_SEND_MEM_S can complete in any order relative to the packet send
                                                                  on the physical interface. */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Memory. Enumerated by PKO_SENDSUBDC_E::MEM. */
 #endif /* Word 0 - End */
@@ -2681,7 +2681,7 @@ typedef union
         uint64_t alc_fif_cnt           : 5;  /**< [ 18: 14](RO/H) Allocation FIFO count. This FIFO has 16 entries and acts as a pointer prefetch buffer.
                                                                  The DPFI attempts to keep this FIFO full at all times. Out of reset, the PKO requests
                                                                  pointers from the FPA to fill this FIFO. The PKO_READY flag will not be asserted until
-                                                                 the the Alloc FIFO is full. Once the PKO is enabled, SEND_PACKET commands that are
+                                                                 the alloc FIFO is full. Once the PKO is enabled, SEND_PACKET commands that are
                                                                  received by the PKO and require pointers are serviced from this FIFO. Once a pointer
                                                                  is popped, a request is made to the FPA to replenish it. The FIFO provides an elastic
                                                                  store of pointers to handle the occasional bursts of pointer requests from PKO without
@@ -2735,7 +2735,7 @@ typedef union
         uint64_t alc_fif_cnt           : 5;  /**< [ 18: 14](RO/H) Allocation FIFO count. This FIFO has 16 entries and acts as a pointer prefetch buffer.
                                                                  The DPFI attempts to keep this FIFO full at all times. Out of reset, the PKO requests
                                                                  pointers from the FPA to fill this FIFO. The PKO_READY flag will not be asserted until
-                                                                 the the Alloc FIFO is full. Once the PKO is enabled, SEND_PACKET commands that are
+                                                                 the alloc FIFO is full. Once the PKO is enabled, SEND_PACKET commands that are
                                                                  received by the PKO and require pointers are serviced from this FIFO. Once a pointer
                                                                  is popped, a request is made to the FPA to replenish it. The FIFO provides an elastic
                                                                  store of pointers to handle the occasional bursts of pointer requests from PKO without
@@ -3092,8 +3092,7 @@ typedef union
                                                                  PKO_META_DESC_S[JUMP]. */
         uint64_t fpd                   : 1;  /**< [ 30: 30](R/W/H) First packet descriptor. Set when corresponding descriptor is the first in a cacheline.
                                                                  See also PKO_META_DESC_S[FPD]. */
-        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) PKO_SEND_HDR_S[DS] from the corresponding descriptor. Should always be zero.
-                                                                 See also PKO_META_DESC_S[DS]. */
+        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) Reserved. */
         uint64_t adjust                : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is 0x100, it indicates that this CSR does not contain a valid meta,
                                                                  and all other fields in this CSR are invalid and shouldn't be used.
 
@@ -3161,8 +3160,7 @@ typedef union
 
                                                                  When [ADJUST] is not 0x100, it is the PKO_SEND_HDR_S[SHP_CHG] for the
                                                                  packet. See also PKO_META_DESC_S[ADJUST]. */
-        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) PKO_SEND_HDR_S[DS] from the corresponding descriptor. Should always be zero.
-                                                                 See also PKO_META_DESC_S[DS]. */
+        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) Reserved. */
         uint64_t fpd                   : 1;  /**< [ 30: 30](R/W/H) First packet descriptor. Set when corresponding descriptor is the first in a cacheline.
                                                                  See also PKO_META_DESC_S[FPD]. */
         uint64_t jump                  : 1;  /**< [ 31: 31](R/W/H) Set when the corresponding descriptor contains a PKO_SEND_JUMP_S.  See also
@@ -4775,8 +4773,7 @@ typedef union
                                                                  PKO_META_DESC_S[JUMP]. */
         uint64_t fpd                   : 1;  /**< [ 30: 30](R/W/H) First packet descriptor. Set when corresponding descriptor is the first in a cacheline.
                                                                  See also PKO_META_DESC_S[FPD]. */
-        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) PKO_SEND_HDR_S[DS] from the corresponding descriptor. Should always be zero.
-                                                                 See also PKO_META_DESC_S[DS]. */
+        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) Reserved. */
         uint64_t adjust                : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is 0x100, it indicates that this CSR does not contain a valid meta,
                                                                  and all other fields in this CSR are invalid and shouldn't be used.
 
@@ -4844,8 +4841,7 @@ typedef union
 
                                                                  When [ADJUST] is not 0x100, it is the PKO_SEND_HDR_S[SHP_CHG] for the
                                                                  packet. See also PKO_META_DESC_S[ADJUST]. */
-        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) PKO_SEND_HDR_S[DS] from the corresponding descriptor. Should always be zero.
-                                                                 See also PKO_META_DESC_S[DS]. */
+        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) Reserved. */
         uint64_t fpd                   : 1;  /**< [ 30: 30](R/W/H) First packet descriptor. Set when corresponding descriptor is the first in a cacheline.
                                                                  See also PKO_META_DESC_S[FPD]. */
         uint64_t jump                  : 1;  /**< [ 31: 31](R/W/H) Set when the corresponding descriptor contains a PKO_SEND_JUMP_S.  See also
@@ -5170,7 +5166,7 @@ typedef union
                                                                  PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
                                                                  SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
-                                                                 (and/or the PKO_PSE_PQ_DRAIN interrupt has occured) and
+                                                                 (and/or the PKO_PQ_DRAIN_W1C interrupt has occured) and
                                                                  PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
@@ -5195,7 +5191,7 @@ typedef union
                                                                  PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
                                                                  SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
-                                                                 (and/or the PKO_PSE_PQ_DRAIN interrupt has occured) and
+                                                                 (and/or the PKO_PQ_DRAIN_W1C interrupt has occured) and
                                                                  PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
@@ -6063,8 +6059,7 @@ typedef union
                                                                  PKO_META_DESC_S[JUMP]. */
         uint64_t fpd                   : 1;  /**< [ 30: 30](R/W/H) First packet descriptor. Set when corresponding descriptor is the first in a cacheline.
                                                                  See also PKO_META_DESC_S[FPD]. */
-        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) PKO_SEND_HDR_S[DS] from the corresponding descriptor. Should always be zero.
-                                                                 See also PKO_META_DESC_S[DS]. */
+        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) Reserved. */
         uint64_t adjust                : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is 0x100, it indicates that this CSR does not contain a valid meta,
                                                                  and all other fields in this CSR are invalid and shouldn't be used.
 
@@ -6132,8 +6127,7 @@ typedef union
 
                                                                  When [ADJUST] is not 0x100, it is the PKO_SEND_HDR_S[SHP_CHG] for the
                                                                  packet. See also PKO_META_DESC_S[ADJUST]. */
-        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) PKO_SEND_HDR_S[DS] from the corresponding descriptor. Should always be zero.
-                                                                 See also PKO_META_DESC_S[DS]. */
+        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) Reserved. */
         uint64_t fpd                   : 1;  /**< [ 30: 30](R/W/H) First packet descriptor. Set when corresponding descriptor is the first in a cacheline.
                                                                  See also PKO_META_DESC_S[FPD]. */
         uint64_t jump                  : 1;  /**< [ 31: 31](R/W/H) Set when the corresponding descriptor contains a PKO_SEND_JUMP_S.  See also
@@ -6640,7 +6634,7 @@ typedef union
                                                                  PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
                                                                  SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
-                                                                 (and/or the PKO_PSE_PQ_DRAIN interrupt has occured) and
+                                                                 (and/or the PKO_PQ_DRAIN_W1C interrupt has occured) and
                                                                  PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
@@ -6665,7 +6659,7 @@ typedef union
                                                                  PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
                                                                  SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
-                                                                 (and/or the PKO_PSE_PQ_DRAIN interrupt has occured) and
+                                                                 (and/or the PKO_PQ_DRAIN_W1C interrupt has occured) and
                                                                  PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
@@ -7429,8 +7423,7 @@ typedef union
                                                                  PKO_META_DESC_S[JUMP]. */
         uint64_t fpd                   : 1;  /**< [ 30: 30](R/W/H) First packet descriptor. Set when corresponding descriptor is the first in a cacheline.
                                                                  See also PKO_META_DESC_S[FPD]. */
-        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) PKO_SEND_HDR_S[DS] from the corresponding descriptor. Should always be zero.
-                                                                 See also PKO_META_DESC_S[DS]. */
+        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) Reserved. */
         uint64_t adjust                : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is 0x100, it indicates that this CSR does not contain a valid meta,
                                                                  and all other fields in this CSR are invalid and shouldn't be used.
 
@@ -7498,8 +7491,7 @@ typedef union
 
                                                                  When [ADJUST] is not 0x100, it is the PKO_SEND_HDR_S[SHP_CHG] for the
                                                                  packet. See also PKO_META_DESC_S[ADJUST]. */
-        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) PKO_SEND_HDR_S[DS] from the corresponding descriptor. Should always be zero.
-                                                                 See also PKO_META_DESC_S[DS]. */
+        uint64_t ds                    : 1;  /**< [ 29: 29](R/W/H) Reserved. */
         uint64_t fpd                   : 1;  /**< [ 30: 30](R/W/H) First packet descriptor. Set when corresponding descriptor is the first in a cacheline.
                                                                  See also PKO_META_DESC_S[FPD]. */
         uint64_t jump                  : 1;  /**< [ 31: 31](R/W/H) Set when the corresponding descriptor contains a PKO_SEND_JUMP_S.  See also
@@ -7955,7 +7947,7 @@ typedef union
                                                                  PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
                                                                  SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
-                                                                 (and/or the PKO_PSE_PQ_DRAIN interrupt has occured) and
+                                                                 (and/or the PKO_PQ_DRAIN_W1C interrupt has occured) and
                                                                  PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
@@ -7980,7 +7972,7 @@ typedef union
                                                                  PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
                                                                  SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
-                                                                 (and/or the PKO_PSE_PQ_DRAIN interrupt has occured) and
+                                                                 (and/or the PKO_PQ_DRAIN_W1C interrupt has occured) and
                                                                  PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
@@ -11881,12 +11873,12 @@ typedef union
         uint64_t reserved_26_31        : 6;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Queue command IOBDMA/IOBLD error status occurred in PKO/PDM.
                                                                  PKO_PDM_STS_INFO[QCMD_IOBX_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
+                                                                 pointers does not set this bit. (See [FPA_NO_PTRS].) */
         uint64_t reserved_16_24        : 9;
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Send-packet of type LMTST error status occurred in PKO/PDM.
                                                                  PKO_PDM_STS_INFO[SENDPKT_LMTST_ERR_STS] contains the status code. Note that FPA being out
                                                                  of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
+                                                                 pointers does not set this bit. (See [FPA_NO_PTRS].) */
         uint64_t fpa_no_ptrs           : 1;  /**< [ 14: 14](R/W1C/H) FPA signaled PKO that FPA can not allocate pointers. This is a fatal error. */
         uint64_t reserved_10_13        : 4;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) PKO/PDM/CP did not drop a send-packet; however, the SEND_JUMP command is not at end of the
@@ -11911,11 +11903,11 @@ typedef union
         uint64_t sendpkt_lmtst_err     : 1;  /**< [ 15: 15](R/W1C/H) Send-packet of type LMTST error status occurred in PKO/PDM.
                                                                  PKO_PDM_STS_INFO[SENDPKT_LMTST_ERR_STS] contains the status code. Note that FPA being out
                                                                  of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
+                                                                 pointers does not set this bit. (See [FPA_NO_PTRS].) */
         uint64_t reserved_16_24        : 9;
         uint64_t qcmd_iobx_err         : 1;  /**< [ 25: 25](R/W1C/H) Queue command IOBDMA/IOBLD error status occurred in PKO/PDM.
                                                                  PKO_PDM_STS_INFO[QCMD_IOBX_ERR_STS] contains the status code. Note that FPA being out of
-                                                                 pointers does not set this bit. (See PKO_FPA_NO_PTRS.) */
+                                                                 pointers does not set this bit. (See [FPA_NO_PTRS].) */
         uint64_t reserved_26_31        : 6;
         uint64_t dwpbuf_data_val_err   : 1;  /**< [ 32: 32](R/W1C/H) Received signal that DWPBUF had data valid error. */
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Received signal that DRPBUF had data valid error. */
@@ -14041,13 +14033,13 @@ typedef union
                                                                  send buffer frees, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP().
 
-                                                                 See also PKI_DPFI_GMCTL[GMID]. */
+                                                                 See also PKO_DPFI_GMCTL[GMID]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  send buffer frees, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP().
 
-                                                                 See also PKI_DPFI_GMCTL[GMID]. */
+                                                                 See also PKO_DPFI_GMCTL[GMID]. */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing DQ or data returns
                                                                  related to this VF/DQ set.
 
@@ -16024,8 +16016,8 @@ static inline uint64_t BDK_PKO_VFX_DQX_MP_STATEX(unsigned long a, unsigned long 
  * Register (NCB) pko_vf#_dq#_op_close
  *
  * PKO DQ Close Operation Register
- * Stores or atomic stores of any value initiate a close operation. Reads or atomic reads
- * return status of the operation identical to PKO_DQ()_OP_QUERY.
+ * A read request performs a close operation and returns status identical to PKO_DQ()_OP_QUERY.
+ * All other transaction types to these addresses are ignored.
  */
 typedef union
 {
@@ -16106,8 +16098,8 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_CLOSE(unsigned long a, unsigned long b
  * Register (NCB) pko_vf#_dq#_op_open
  *
  * PKO DQ Open Operation Register
- * Stores or atomic stores of any value initiate an open operation. Reads or atomic reads
- * return status of the operation identical to PKO_DQ()_OP_QUERY.
+ * A read request performs an open operation and returns status identical to PKO_DQ()_OP_QUERY.
+ * All other transaction types to these addresses are ignored.
  */
 typedef union
 {
@@ -16188,7 +16180,8 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_OPEN(unsigned long a, unsigned long b)
  * Register (NCB) pko_vf#_dq#_op_query
  *
  * PKO DQ Query Operation Register
- * Reads to this register initiate a query operation.
+ * Read operations to these registers performs a query operation. All other transaction types to
+ * these addresses are ignored.
  */
 typedef union
 {
@@ -16393,7 +16386,7 @@ typedef union
                                                                  PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
                                                                  SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
-                                                                 (and/or the PKO_PSE_PQ_DRAIN interrupt has occured) and
+                                                                 (and/or the PKO_PQ_DRAIN_W1C interrupt has occured) and
                                                                  PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
@@ -16418,7 +16411,7 @@ typedef union
                                                                  PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
                                                                  SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
-                                                                 (and/or the PKO_PSE_PQ_DRAIN interrupt has occured) and
+                                                                 (and/or the PKO_PQ_DRAIN_W1C interrupt has occured) and
                                                                  PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
@@ -16511,10 +16504,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response.  Specifies what value is returned in the
-                                                                 PKO_QUERY_RTN_S[DEPTH] field.  When set to '0', the value held in
-                                                                 PKO_DQ()_WM_CNT[COUNT] is returned.  When set to '1' the value held
-                                                                 in PKO_VF()_DQ()_FC_STATUS[COUNT] is returned. */
+        uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response. Specifies what value is returned in
+                                                                 PKO_VF()_DQ()_OP_QUERY[DEPTH].
+                                                                 0 = The value held in PKO_DQ()_WM_CNT[COUNT] is returned.
+                                                                 1 = The value held in PKO_VF()_DQ()_FC_STATUS[COUNT] is returned. */
         uint64_t enable                : 1;  /**< [ 50: 50](RAZ) Reserved. */
         uint64_t kind                  : 1;  /**< [ 49: 49](R/W) Selects the contents of PKO_DQ()_WM_CNT[COUNT].
                                                                  If [KIND] is clear, PKO_DQ()_WM_CNT[COUNT] is a byte count for the DQ - the
@@ -16532,10 +16525,10 @@ typedef union
                                                                  If [KIND] is set, PKO_DQ()_WM_CNT[COUNT] is a number of descriptors for the DQ.
                                                                  See PKO_DQ()_WM_CNT[COUNT]. */
         uint64_t enable                : 1;  /**< [ 50: 50](RAZ) Reserved. */
-        uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response.  Specifies what value is returned in the
-                                                                 PKO_QUERY_RTN_S[DEPTH] field.  When set to '0', the value held in
-                                                                 PKO_DQ()_WM_CNT[COUNT] is returned.  When set to '1' the value held
-                                                                 in PKO_VF()_DQ()_FC_STATUS[COUNT] is returned. */
+        uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response. Specifies what value is returned in
+                                                                 PKO_VF()_DQ()_OP_QUERY[DEPTH].
+                                                                 0 = The value held in PKO_DQ()_WM_CNT[COUNT] is returned.
+                                                                 1 = The value held in PKO_VF()_DQ()_FC_STATUS[COUNT] is returned. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -16617,13 +16610,13 @@ typedef union
                                                                  PKO_VF()_DQ()_FC_STATUS[COUNT] minus PKO_PDM_CFG[DQ_FC_SKID] to L2/DRAM
                                                                  for flow control purposes as a signed 64-bit integer.  The address to
                                                                  which the value is stored is specified through [BASE] and [STRIDE]; while
-                                                                 the frequency of the stores is controlled via [HYST_EXP]. */
+                                                                 the frequency of the stores is controlled via [HYST_BITS]. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable DQ buffer flow control.  When enabled PKO will periodically store
                                                                  PKO_VF()_DQ()_FC_STATUS[COUNT] minus PKO_PDM_CFG[DQ_FC_SKID] to L2/DRAM
                                                                  for flow control purposes as a signed 64-bit integer.  The address to
                                                                  which the value is stored is specified through [BASE] and [STRIDE]; while
-                                                                 the frequency of the stores is controlled via [HYST_EXP]. */
+                                                                 the frequency of the stores is controlled via [HYST_BITS]. */
         uint64_t reserved_1            : 1;
         uint64_t stride                : 1;  /**< [  2:  2](R/W) Address stride.
                                                                  0 = Locations are spaced every 128 bytes to give them their own cache line.
