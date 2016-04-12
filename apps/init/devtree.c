@@ -556,7 +556,7 @@ static int devtree_fixups(void *fdt)
             while (fdt_node > 0)
             {
                 const char *fdt_node_name = fdt_get_name(fdt, fdt_node, NULL);
-                if (fdt_setprop_inplace(fdt, fdt_node, "compatible", new_compatible, new_compatible_len))
+                if (fdt_setprop(fdt, fdt_node, "compatible", new_compatible, new_compatible_len))
                 {
                     bdk_error("Unable to edit %s[compatible] in FDT\n", fdt_node_name);
                     return -1;
