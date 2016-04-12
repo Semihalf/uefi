@@ -1,7 +1,7 @@
 #include <bdk.h>
 
 /*
-    Format of a ThunderX SKU
+    Format of a SKU
     CN8890-2000BG2601-AAP-G
     CN8890-2000BG2601-AAP-PR-Y-G
     CN XX XX X - XXX BG XXX - XX (- XX) (- X) - G
