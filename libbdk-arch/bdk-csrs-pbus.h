@@ -59,8 +59,11 @@
  * Enumerates the base address registers.
  */
 #define BDK_PBUS_BAR_E_PBUS_PF_BAR0 (0x87e001000000ll)
+#define BDK_PBUS_BAR_E_PBUS_PF_BAR0_SIZE 0x800000ull
 #define BDK_PBUS_BAR_E_PBUS_PF_BAR2 (0x800000000000ll)
+#define BDK_PBUS_BAR_E_PBUS_PF_BAR2_SIZE 0x100000000ull
 #define BDK_PBUS_BAR_E_PBUS_PF_BAR4 (0x87e001f00000ll)
+#define BDK_PBUS_BAR_E_PBUS_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration pbus_int_vec_e

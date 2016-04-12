@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_DFA_BAR_E_DFA_PF_BAR0 (0x846000000000ll)
+#define BDK_DFA_BAR_E_DFA_PF_BAR0_SIZE 0x800000000ull
 #define BDK_DFA_BAR_E_DFA_PF_BAR4 (0x846a00000000ll)
+#define BDK_DFA_BAR_E_DFA_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration dfa_int_vec_e

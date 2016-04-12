@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_MIO_PTP_BAR_E_MIO_PTP_PF_BAR0 (0x807000000000ll)
+#define BDK_MIO_PTP_BAR_E_MIO_PTP_PF_BAR0_SIZE 0x100000ull
 #define BDK_MIO_PTP_BAR_E_MIO_PTP_PF_BAR4 (0x807000f00000ll)
+#define BDK_MIO_PTP_BAR_E_MIO_PTP_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration mio_ptp_ext_sel_e

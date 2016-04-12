@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_SATA_BAR_E_SATAX_PF_BAR0(a) (0x810000000000ll + 0x1000000000ll * (a))
+#define BDK_SATA_BAR_E_SATAX_PF_BAR0_SIZE 0x200000ull
 #define BDK_SATA_BAR_E_SATAX_PF_BAR4(a) (0x810000200000ll + 0x1000000000ll * (a))
+#define BDK_SATA_BAR_E_SATAX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration sata_int_vec_e

@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_SGP_BAR_E_SGP_PF_BAR0 (0x87e027000000ll)
+#define BDK_SGP_BAR_E_SGP_PF_BAR0_SIZE 0x800000ull
 
 /**
  * Enumeration sgp_tx_act_e

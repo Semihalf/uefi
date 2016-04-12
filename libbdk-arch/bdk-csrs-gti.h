@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_GTI_BAR_E_GTI_PF_BAR0 (0x844000000000ll)
+#define BDK_GTI_BAR_E_GTI_PF_BAR0_SIZE 0x800000ull
 #define BDK_GTI_BAR_E_GTI_PF_BAR4 (0x84400f000000ll)
+#define BDK_GTI_BAR_E_GTI_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration gti_int_vec_e

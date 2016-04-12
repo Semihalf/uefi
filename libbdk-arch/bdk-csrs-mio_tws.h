@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0(a) (0x87e0d0000000ll + 0x1000000ll * (a))
+#define BDK_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0_SIZE 0x800000ull
 #define BDK_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4(a) (0x87e0d0f00000ll + 0x1000000ll * (a))
+#define BDK_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration mio_tws_int_vec_e

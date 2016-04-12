@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_SSOW_BAR_E_SSOW_PF_BAR0 (0x861000000000ll)
+#define BDK_SSOW_BAR_E_SSOW_PF_BAR0_SIZE 0x100000ull
 #define BDK_SSOW_BAR_E_SSOW_VFX_BAR0(a) (0x861800000000ll + 0x100000ll * (a))
+#define BDK_SSOW_BAR_E_SSOW_VFX_BAR0_SIZE 0x100000ull
 
 /**
  * Structure ssow_clr_nsched_addr_s

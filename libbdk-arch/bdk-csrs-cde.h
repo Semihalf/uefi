@@ -59,9 +59,13 @@
  * Enumerates the base address registers.
  */
 #define BDK_CDE_BAR_E_CDEX_PF_BAR0(a) (0x80c000000000ll + 0x1000000000ll * (a))
+#define BDK_CDE_BAR_E_CDEX_PF_BAR0_SIZE 0x10000000ull
 #define BDK_CDE_BAR_E_CDEX_PF_BAR4(a) (0x80c010000000ll + 0x1000000000ll * (a))
+#define BDK_CDE_BAR_E_CDEX_PF_BAR4_SIZE 0x100000ull
 #define BDK_CDE_BAR_E_CDEX_VFX_BAR0(a,b) (0x80c020000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
+#define BDK_CDE_BAR_E_CDEX_VFX_BAR0_SIZE 0x100000ull
 #define BDK_CDE_BAR_E_CDEX_VFX_BAR4(a,b) (0x80c030000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
+#define BDK_CDE_BAR_E_CDEX_VFX_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration cde_pf_int_vec_e

@@ -59,10 +59,15 @@
  * Enumerates the base address registers.
  */
 #define BDK_SSO_BAR_E_SSO_PF_BAR0 (0x860000000000ll)
+#define BDK_SSO_BAR_E_SSO_PF_BAR0_SIZE 0x100000000ull
 #define BDK_SSO_BAR_E_SSO_PF_BAR4 (0x860700000000ll)
+#define BDK_SSO_BAR_E_SSO_PF_BAR4_SIZE 0x100000ull
 #define BDK_SSO_BAR_E_SSO_VFX_BAR0(a) (0x860800000000ll + 0x100000ll * (a))
+#define BDK_SSO_BAR_E_SSO_VFX_BAR0_SIZE 0x100000ull
 #define BDK_SSO_BAR_E_SSO_VFX_BAR2(a) (0x862800000000ll + 0x100000ll * (a))
+#define BDK_SSO_BAR_E_SSO_VFX_BAR2_SIZE 0x100000ull
 #define BDK_SSO_BAR_E_SSO_VFX_BAR4(a) (0x860c00000000ll + 0x100000ll * (a))
+#define BDK_SSO_BAR_E_SSO_VFX_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration sso_op_e

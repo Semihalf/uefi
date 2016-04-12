@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_RNM_BAR_E_RNM_PF_BAR0 (0x87e040000000ll)
+#define BDK_RNM_BAR_E_RNM_PF_BAR0_SIZE 0x100000ull
 #define BDK_RNM_BAR_E_RNM_VF_BAR0 (0x840000800000ll)
+#define BDK_RNM_BAR_E_RNM_VF_BAR0_SIZE 0x100000ull
 
 /**
  * Register (RSL) rnm_bist_status

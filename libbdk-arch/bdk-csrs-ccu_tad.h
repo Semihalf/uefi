@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_CCU_TAD_BAR_E_CCUX_TADX_PF_BAR0(a,b) (0x87e070000000ll + 0x2000000ll * (a) + 0x800000ll * (b))
+#define BDK_CCU_TAD_BAR_E_CCUX_TADX_PF_BAR0_SIZE 0x800000ull
 
 /**
  * Register (RSL) ccu#_tad#_eco

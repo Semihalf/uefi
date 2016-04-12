@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_PCM_BAR_E_PCM_PF_BAR0 (0x806000000000ll)
+#define BDK_PCM_BAR_E_PCM_PF_BAR0_SIZE 0x800000ull
 #define BDK_PCM_BAR_E_PCM_PF_BAR4 (0x806000f00000ll)
+#define BDK_PCM_BAR_E_PCM_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration pcm_int_vec_e

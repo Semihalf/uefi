@@ -59,8 +59,11 @@
  * Enumerates the base address registers.
  */
 #define BDK_KEY_BAR_E_KEY_PF_BAR0 (0x87e041000000ll)
+#define BDK_KEY_BAR_E_KEY_PF_BAR0_SIZE 0x800000ull
 #define BDK_KEY_BAR_E_KEY_PF_BAR2 (0x841000400000ll)
+#define BDK_KEY_BAR_E_KEY_PF_BAR2_SIZE 0x100000ull
 #define BDK_KEY_BAR_E_KEY_PF_BAR4 (0x87e041f00000ll)
+#define BDK_KEY_BAR_E_KEY_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration key_int_vec_e

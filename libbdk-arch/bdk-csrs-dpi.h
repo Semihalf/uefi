@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_DPI_BAR_E_DPIX_PF_BAR0(a) (0x86e000000000ll + 0x10000000000ll * (a))
+#define BDK_DPI_BAR_E_DPIX_PF_BAR0_SIZE 0x1000000ull
 #define BDK_DPI_BAR_E_DPIX_PF_BAR4(a) (0x86e001000000ll + 0x10000000000ll * (a))
+#define BDK_DPI_BAR_E_DPIX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration dpi_cs_e

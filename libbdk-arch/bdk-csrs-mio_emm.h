@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0 (0x87e009000000ll)
+#define BDK_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0_SIZE 0x800000ull
 #define BDK_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4 (0x87e009f00000ll)
+#define BDK_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration mio_emm_int_vec_e

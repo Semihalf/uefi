@@ -59,8 +59,11 @@
  * Enumerates the base address registers.
  */
 #define BDK_TNS_BAR_E_TNS_PF_BAR0 (0x842000000000ll)
+#define BDK_TNS_BAR_E_TNS_PF_BAR0_SIZE 0x10000ull
 #define BDK_TNS_BAR_E_TNS_PF_BAR2 (0x842040000000ll)
+#define BDK_TNS_BAR_E_TNS_PF_BAR2_SIZE 0x40000000ull
 #define BDK_TNS_BAR_E_TNS_PF_BAR4 (0x842000f00000ll)
+#define BDK_TNS_BAR_E_TNS_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration tns_int_vec_e

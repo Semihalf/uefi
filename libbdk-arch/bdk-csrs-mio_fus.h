@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_MIO_FUS_BAR_E_MIO_FUS_PF_BAR0 (0x87e003000000ll)
+#define BDK_MIO_FUS_BAR_E_MIO_FUS_PF_BAR0_SIZE 0x800000ull
 
 /**
  * Enumeration mio_fus_fuse_num_e

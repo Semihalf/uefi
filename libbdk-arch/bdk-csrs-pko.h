@@ -75,8 +75,11 @@
  * Enumerates the base address registers.
  */
 #define BDK_PKO_BAR_E_PKO_PF_BAR0 (0x854000000000ll)
+#define BDK_PKO_BAR_E_PKO_PF_BAR0_SIZE 0x80000000ull
 #define BDK_PKO_BAR_E_PKO_PF_BAR4 (0x854300000000ll)
+#define BDK_PKO_BAR_E_PKO_PF_BAR4_SIZE 0x100000ull
 #define BDK_PKO_BAR_E_PKO_VFX_BAR0(a) (0x854400000000ll + 0x100000ll * (a))
+#define BDK_PKO_BAR_E_PKO_VFX_BAR0_SIZE 0x100000ull
 
 /**
  * Enumeration pko_ckl4alg_e

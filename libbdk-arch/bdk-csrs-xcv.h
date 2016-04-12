@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_XCV_BAR_E_XCVX_PF_BAR0(a) (0x87e0db000000ll + 0ll * (a))
+#define BDK_XCV_BAR_E_XCVX_PF_BAR0_SIZE 0x100000ull
 #define BDK_XCV_BAR_E_XCVX_PF_BAR4(a) (0x87e0dbf00000ll + 0ll * (a))
+#define BDK_XCV_BAR_E_XCVX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration xcv_int_vec_e

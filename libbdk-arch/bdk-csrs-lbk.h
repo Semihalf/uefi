@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_LBK_BAR_E_LBKX_PF_BAR0(a) (0x87e018000000ll + 0x1000000ll * (a))
+#define BDK_LBK_BAR_E_LBKX_PF_BAR0_SIZE 0x100000ull
 #define BDK_LBK_BAR_E_LBKX_PF_BAR4(a) (0x87e018f00000ll + 0x1000000ll * (a))
+#define BDK_LBK_BAR_E_LBKX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration lbk_connect_e

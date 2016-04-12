@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_MRML_BAR_E_MRML_PF_BAR0 (0x87e0fc000000ll)
+#define BDK_MRML_BAR_E_MRML_PF_BAR0_SIZE 0x100000ull
 #define BDK_MRML_BAR_E_MRML_PF_BAR4 (0x87e0fcf00000ll)
+#define BDK_MRML_BAR_E_MRML_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration mrml_int_vec_e

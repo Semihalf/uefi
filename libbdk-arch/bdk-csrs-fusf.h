@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_FUSF_BAR_E_FUSF_PF_BAR0 (0x87e004000000ll)
+#define BDK_FUSF_BAR_E_FUSF_PF_BAR0_SIZE 0x10000ull
 
 /**
  * Enumeration fusf_fuse_num_e

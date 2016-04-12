@@ -59,9 +59,13 @@
  * Enumerates the base address registers.
  */
 #define BDK_CPT_BAR_E_CPTX_PF_BAR0(a) (0x872000000000ll + 0x1000000000ll * (a))
+#define BDK_CPT_BAR_E_CPTX_PF_BAR0_SIZE 0x10000000ull
 #define BDK_CPT_BAR_E_CPTX_PF_BAR4(a) (0x872010000000ll + 0x1000000000ll * (a))
+#define BDK_CPT_BAR_E_CPTX_PF_BAR4_SIZE 0x100000ull
 #define BDK_CPT_BAR_E_CPTX_VFX_BAR0(a,b) (0x872020000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
+#define BDK_CPT_BAR_E_CPTX_VFX_BAR0_SIZE 0x100000ull
 #define BDK_CPT_BAR_E_CPTX_VFX_BAR4(a,b) (0x872030000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
+#define BDK_CPT_BAR_E_CPTX_VFX_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration cpt_comp_e

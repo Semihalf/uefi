@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_PKI_BAR_E_PKI_PF_BAR0 (0x86c000000000ll)
+#define BDK_PKI_BAR_E_PKI_PF_BAR0_SIZE 0x1000000ull
 #define BDK_PKI_BAR_E_PKI_PF_BAR4 (0x86c001000000ll)
+#define BDK_PKI_BAR_E_PKI_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration pki_beltype_e

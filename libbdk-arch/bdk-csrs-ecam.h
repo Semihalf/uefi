@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_ECAM_BAR_E_ECAMX_PF_BAR0(a) (0x87e048000000ll + 0x1000000ll * (a))
+#define BDK_ECAM_BAR_E_ECAMX_PF_BAR0_SIZE 0x100000ull
 #define BDK_ECAM_BAR_E_ECAMX_PF_BAR2(a) (0x848000000000ll + 0x1000000000ll * (a))
+#define BDK_ECAM_BAR_E_ECAMX_PF_BAR2_SIZE 0x1000000000ull
 
 /**
  * Structure ecam_cfg_addr_s

@@ -59,9 +59,13 @@
  * Enumerates the base-address registers.
  */
 #define BDK_NIC_BAR_E_NIC_PF_BAR0 (0x843000000000ll)
+#define BDK_NIC_BAR_E_NIC_PF_BAR0_SIZE 0x40000000ull
 #define BDK_NIC_BAR_E_NIC_PF_BAR4 (0x843060000000ll)
+#define BDK_NIC_BAR_E_NIC_PF_BAR4_SIZE 0x100000ull
 #define BDK_NIC_BAR_E_NIC_VFX_BAR0(a) (0x8430a0000000ll + 0x200000ll * (a))
+#define BDK_NIC_BAR_E_NIC_VFX_BAR0_SIZE 0x200000ull
 #define BDK_NIC_BAR_E_NIC_VFX_BAR4(a) (0x8430e0000000ll + 0x200000ll * (a))
+#define BDK_NIC_BAR_E_NIC_VFX_BAR4_SIZE 0x200000ull
 
 /**
  * Enumeration nic_chan_e

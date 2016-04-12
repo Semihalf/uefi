@@ -58,8 +58,12 @@
  * SMMU Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_SMMU_BAR_E_SMMUX_PF_BAR0(a) (0x830000000000ll + 0x1000000000ll * (a))
+#define BDK_SMMU_BAR_E_SMMUX_PF_BAR0_CN8(a) (0x830000000000ll + 0x1000000000ll * (a))
+#define BDK_SMMU_BAR_E_SMMUX_PF_BAR0_CN8_SIZE 0x8000000ull
+#define BDK_SMMU_BAR_E_SMMUX_PF_BAR0_CN9(a) (0x830000000000ll + 0x1000000000ll * (a))
+#define BDK_SMMU_BAR_E_SMMUX_PF_BAR0_CN9_SIZE 0x200000ull
 #define BDK_SMMU_BAR_E_SMMUX_PF_BAR4(a) (0x83000f000000ll + 0x1000000000ll * (a))
+#define BDK_SMMU_BAR_E_SMMUX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration smmu_cerror_e

@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_CCU_BAR_E_CCU_PF_BAR0 (0x87e087000000ll)
+#define BDK_CCU_BAR_E_CCU_PF_BAR0_SIZE 0x800000ull
 
 /**
  * Register (RSL) ccu_scratch

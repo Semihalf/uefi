@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR0(a) (0x87e058000000ll + 0x1000000ll * (a))
+#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR0_SIZE 0x800000ull
 #define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR4(a) (0x87e058f00000ll + 0x1000000ll * (a))
+#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration l2c_cbc_int_vec_e

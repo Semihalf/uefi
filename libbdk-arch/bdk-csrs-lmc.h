@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_LMC_BAR_E_LMCX_PF_BAR0(a) (0x87e088000000ll + 0x1000000ll * (a))
+#define BDK_LMC_BAR_E_LMCX_PF_BAR0_SIZE 0x800000ull
 #define BDK_LMC_BAR_E_LMCX_PF_BAR4(a) (0x87e088f00000ll + 0x1000000ll * (a))
+#define BDK_LMC_BAR_E_LMCX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration lmc_int_vec_e

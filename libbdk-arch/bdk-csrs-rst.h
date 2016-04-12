@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_RST_BAR_E_RST_PF_BAR0 (0x87e006000000ll)
+#define BDK_RST_BAR_E_RST_PF_BAR0_SIZE 0x800000ull
 #define BDK_RST_BAR_E_RST_PF_BAR4 (0x87e006f00000ll)
+#define BDK_RST_BAR_E_RST_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration rst_boot_fail_e

@@ -112,6 +112,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_L2C_BAR_E_L2C_PF_BAR0 (0x87e080800000ll)
+#define BDK_L2C_BAR_E_L2C_PF_BAR0_SIZE 0x800000ull
 
 /**
  * Enumeration l2c_dat_errprio_e

@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_OCX_BAR_E_OCX_PF_BAR0 (0x87e011000000ll)
+#define BDK_OCX_BAR_E_OCX_PF_BAR0_SIZE 0x800000ull
 #define BDK_OCX_BAR_E_OCX_PF_BAR4 (0x87e011f00000ll)
+#define BDK_OCX_BAR_E_OCX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration ocx_int_vec_e

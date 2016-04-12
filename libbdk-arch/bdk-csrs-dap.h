@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_DAP_BAR_E_DAP_PF_BAR0 (0x87e002000000ll)
+#define BDK_DAP_BAR_E_DAP_PF_BAR0_SIZE 0x100000ull
 #define BDK_DAP_BAR_E_DAP_PF_BAR2 (0x87a080000000ll)
+#define BDK_DAP_BAR_E_DAP_PF_BAR2_SIZE 0x2000000ull
 
 /**
  * Register (RSL) dap_eco

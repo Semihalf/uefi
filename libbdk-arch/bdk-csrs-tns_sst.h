@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_TNS_SST_BAR_E_TNS_SST_PF_BAR2 (0x842040000000ll)
+#define BDK_TNS_SST_BAR_E_TNS_SST_PF_BAR2_SIZE 0x40000000ull
 
 /**
  * Register (NCB) tns_sde_cfg_spare

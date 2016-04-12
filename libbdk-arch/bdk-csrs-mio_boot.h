@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_MIO_BOOT_BAR_E_MIO_BOOT_PF_BAR0 (0x87e000000000ll)
+#define BDK_MIO_BOOT_BAR_E_MIO_BOOT_PF_BAR0_SIZE 0x800000ull
 
 /**
  * Register (RSL) mio_boot_ap_jump

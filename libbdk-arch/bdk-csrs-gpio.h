@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_GPIO_BAR_E_GPIO_PF_BAR0 (0x803000000000ll)
+#define BDK_GPIO_BAR_E_GPIO_PF_BAR0_SIZE 0x800000ull
 #define BDK_GPIO_BAR_E_GPIO_PF_BAR4 (0x803000f00000ll)
+#define BDK_GPIO_BAR_E_GPIO_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration gpio_int_vec_e

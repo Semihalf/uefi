@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_PEMRC_BAR_E_PEMRCX_PF_BAR0(a) (0x87e0c0e00000ll + 0x1000000ll * (a))
+#define BDK_PEMRC_BAR_E_PEMRCX_PF_BAR0_SIZE 0x100000ull
 
 /**
  * Enumeration pemrc_int_vec_e

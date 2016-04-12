@@ -59,9 +59,13 @@
  * Enumerates the base address registers.
  */
 #define BDK_RAD_BAR_E_RAD_PF_BAR0 (0x870000000000ll)
+#define BDK_RAD_BAR_E_RAD_PF_BAR0_SIZE 0x800000ull
 #define BDK_RAD_BAR_E_RAD_PF_BAR4 (0x870000f00000ll)
+#define BDK_RAD_BAR_E_RAD_PF_BAR4_SIZE 0x100000ull
 #define BDK_RAD_BAR_E_RAD_VFX_BAR0(a) (0x870020000000ll + 0x100000ll * (a))
+#define BDK_RAD_BAR_E_RAD_VFX_BAR0_SIZE 0x100000ull
 #define BDK_RAD_BAR_E_RAD_VFX_BAR4(a) (0x870030000000ll + 0x100000ll * (a))
+#define BDK_RAD_BAR_E_RAD_VFX_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration rad_int_vec_e

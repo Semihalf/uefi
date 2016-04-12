@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_NCSI_BAR_E_NCSI_PF_BAR0 (0x87e00b000000ll)
+#define BDK_NCSI_BAR_E_NCSI_PF_BAR0_SIZE 0x800000ull
 #define BDK_NCSI_BAR_E_NCSI_PF_BAR4 (0x87e00bf00000ll)
+#define BDK_NCSI_BAR_E_NCSI_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration ncsi_ctl_pkt_type_e

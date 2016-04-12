@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_VRM_BAR_E_VRMX_PF_BAR0(a) (0x87e021000000ll + 0x1000000ll * (a))
+#define BDK_VRM_BAR_E_VRMX_PF_BAR0_SIZE 0x100000ull
 
 /**
  * Enumeration vrm_type_e

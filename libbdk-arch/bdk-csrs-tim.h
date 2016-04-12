@@ -59,9 +59,13 @@
  * Enumerates the base address registers.
  */
 #define BDK_TIM_BAR_E_TIM_PF_BAR0 (0x858000000000ll)
+#define BDK_TIM_BAR_E_TIM_PF_BAR0_SIZE 0x100000ull
 #define BDK_TIM_BAR_E_TIM_PF_BAR4 (0x858000f00000ll)
+#define BDK_TIM_BAR_E_TIM_PF_BAR4_SIZE 0x100000ull
 #define BDK_TIM_BAR_E_TIM_VFX_BAR0(a) (0x858010000000ll + 0x100000ll * (a))
+#define BDK_TIM_BAR_E_TIM_VFX_BAR0_SIZE 0x100000ull
 #define BDK_TIM_BAR_E_TIM_VFX_BAR4(a) (0x858020000000ll + 0x100000ll * (a))
+#define BDK_TIM_BAR_E_TIM_VFX_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration tim_clk_srcs_e

@@ -59,9 +59,13 @@
  * Enumerates the base address registers.
  */
 #define BDK_DDF_BAR_E_DDFX_PF_BAR0(a) (0x809000000000ll + 0ll * (a))
+#define BDK_DDF_BAR_E_DDFX_PF_BAR0_SIZE 0x10000000ull
 #define BDK_DDF_BAR_E_DDFX_PF_BAR4(a) (0x809010000000ll + 0ll * (a))
+#define BDK_DDF_BAR_E_DDFX_PF_BAR4_SIZE 0x100000ull
 #define BDK_DDF_BAR_E_DDFX_VFX_BAR0(a,b) (0x809020000000ll + 0ll * (a) + 0x100000ll * (b))
+#define BDK_DDF_BAR_E_DDFX_VFX_BAR0_SIZE 0x100000ull
 #define BDK_DDF_BAR_E_DDFX_VFX_BAR4(a,b) (0x809030000000ll + 0ll * (a) + 0x100000ll * (b))
+#define BDK_DDF_BAR_E_DDFX_VFX_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration ddf_cacpart_e

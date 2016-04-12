@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_RGX_BAR_E_RGXX_PF_BAR0(a) (0x87e0e8000000ll + 0x1000000ll * (a))
+#define BDK_RGX_BAR_E_RGXX_PF_BAR0_SIZE 0x400000ull
 #define BDK_RGX_BAR_E_RGXX_PF_BAR4(a) (0x87e0e8400000ll + 0x1000000ll * (a))
+#define BDK_RGX_BAR_E_RGXX_PF_BAR4_SIZE 0x400000ull
 
 /**
  * Enumeration rgx_int_vec_e

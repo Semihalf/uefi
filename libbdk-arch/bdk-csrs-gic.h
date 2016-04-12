@@ -59,8 +59,11 @@
  * Enumerates the base address registers.
  */
 #define BDK_GIC_BAR_E_GIC_PF_BAR0 (0x801000000000ll)
+#define BDK_GIC_BAR_E_GIC_PF_BAR0_SIZE 0x20000ull
 #define BDK_GIC_BAR_E_GIC_PF_BAR2 (0x801000020000ll)
+#define BDK_GIC_BAR_E_GIC_PF_BAR2_SIZE 0x20000ull
 #define BDK_GIC_BAR_E_GIC_PF_BAR4 (0x801080000000ll)
+#define BDK_GIC_BAR_E_GIC_PF_BAR4_SIZE 0x1000000ull
 
 /**
  * Enumeration gits_cmd_err_e

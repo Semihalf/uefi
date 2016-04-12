@@ -59,7 +59,9 @@
  * Enumerates the base address registers.
  */
 #define BDK_CER_BAR_E_CER_PF_BAR0 (0x87e007000000ll)
+#define BDK_CER_BAR_E_CER_PF_BAR0_SIZE 0x10000ull
 #define BDK_CER_BAR_E_CER_PF_BAR4 (0x87e007f00000ll)
+#define BDK_CER_BAR_E_CER_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration cer_serr_e

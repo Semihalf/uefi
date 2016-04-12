@@ -59,9 +59,13 @@
  * Enumerates the base address registers.
  */
 #define BDK_FPA_BAR_E_FPA_PF_BAR0 (0x828000000000ll)
+#define BDK_FPA_BAR_E_FPA_PF_BAR0_SIZE 0x80000000ull
 #define BDK_FPA_BAR_E_FPA_PF_BAR4 (0x828300000000ll)
+#define BDK_FPA_BAR_E_FPA_PF_BAR4_SIZE 0x100000ull
 #define BDK_FPA_BAR_E_FPA_VFX_BAR0(a) (0x828400000000ll + 0x400000ll * (a))
+#define BDK_FPA_BAR_E_FPA_VFX_BAR0_SIZE 0x400000ull
 #define BDK_FPA_BAR_E_FPA_VFX_BAR4(a) (0x828700000000ll + 0x100000ll * (a))
+#define BDK_FPA_BAR_E_FPA_VFX_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration fpa_pf_int_vec_e
