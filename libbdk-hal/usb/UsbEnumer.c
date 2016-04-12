@@ -599,7 +599,7 @@ UsbRemoveDevice (
     if ((Child == NULL) || (Child->ParentAddr != Device->Address)) {
       continue;
     }
-    MT_DEBUG("Removing  Child %p Address %d\n", Child,  Device->Address);
+
     Status = UsbRemoveDevice (Child);
 
     if (!EFI_ERROR (Status)) {

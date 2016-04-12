@@ -2550,12 +2550,10 @@ XhcPollPortStatusChange (
         RouteChart.Route.TierNum       = ParentRouteChart.Route.TierNum + 1;
     }
     SlotId = XhcRouteStringToSlotId (Xhc, RouteChart);
-//    MT_DEBUG("%s:%d %d:%d%d SlotID = %d\n",
-//             __FUNCTION__,__LINE__,Xhc->node,Xhc->usb_port,Port,SlotId);
     if (SlotId != 0) {
-    MT_DEBUG("%s:%d Disabling device slot n:%d u:%d s:%d\n",
-             __FUNCTION__, __LINE__, Xhc->node, Xhc->usb_port, SlotId);
-    if (Xhc->hccparams.s.csz == 0) {
+        DEBUG((EFI_D_INFO,"%s:%d Disabling device slot n:%d u:%d s:%d\n",
+               __FUNCTION__, __LINE__, Xhc->node, Xhc->usb_port, SlotId));
+        if (Xhc->hccparams.s.csz == 0) {
             Status = XhcDisableSlotCmd (Xhc, SlotId);
         } else {
             Status = XhcDisableSlotCmd64 (Xhc, SlotId);
@@ -2579,8 +2577,8 @@ XhcPollPortStatusChange (
     //
     SlotId = XhcRouteStringToSlotId (Xhc, RouteChart);
     if ((SlotId == 0) && ((PortState->PortChangeStatus & USB_PORT_STAT_C_RESET) != 0)) {
-    MT_DEBUG("%s:%d Initializing device slot n:%d u:%d s:%d speed %d\n",
-             __FUNCTION__, __LINE__, Xhc->node, Xhc->usb_port, Port, Speed);
+        DEBUG((EFI_D_INFO,"%s:%d Initializing device slot n:%d u:%d s:%d speed %d\n",
+               __FUNCTION__, __LINE__, Xhc->node, Xhc->usb_port, Port, Speed));
       if (Xhc->hccparams.s.csz == 0) {
         Status = XhcInitializeDeviceSlot (Xhc, ParentRouteChart, Port, RouteChart, Speed);
       } else {
