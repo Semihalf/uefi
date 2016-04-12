@@ -533,16 +533,15 @@ static MASSDEV musb_list[8];
 */
 static USB_MASS_DEVICE *findUsbMass(const unsigned index, const bool lockIt) {
     if ( index   >= ARRAY_SIZE(musb_list)) {
-        DEBUG((EFI_D_ERROR,"Index %u out of bounds max %lu",index,ARRAY_SIZE(musb_list) ));
+        DEBUG((EFI_D_ERROR,"Index %u out of bounds max %lu\n",index,ARRAY_SIZE(musb_list) ));
         return NULL;
     }
     USB_MASS_DEVICE *UsbMass = musb_list[index].UsbMass;
-    if (NULL == UsbMass) {
-        DEBUG((EFI_D_ERROR,"Index %d points to empty slot",index ));
-        return NULL;
-    }
     if (lockIt) {
-        ASSERT(UsbMass->bus_lock);
+        if (NULL == UsbMass) {
+            DEBUG((EFI_D_ERROR,"Index %d points to empty slot\n",index ));
+            return NULL;
+        }
         bdk_rlock_lock(UsbMass->bus_lock);
     }
     return UsbMass;
@@ -867,8 +866,8 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     int rc = bdk_fs_register_dev("usb",devIndex,&bdk_fs_usb_ops);
     printf("\nRegistered device \"/dev/n%d.usb%d\" for node %d usb port %d rc:%d ifHandle %p\n", node, devIndex, (int) node, usb_port,rc,ifHandle);
 
-    if (rc == 0) {
-       disk_usbnotify(devIndex, 1);
+    if (rc == 0 && __bdk_fs_fatfs_usbnotify) {
+       __bdk_fs_fatfs_usbnotify(devIndex, 1);
     }
 
     return Status;
@@ -904,7 +903,10 @@ UsbMassIfStop(void *ifHandle)
     if (NULL == UsbMass) {
         DEBUG((EFI_D_ERROR, "%s: Failed to find index for ifHandle %p in device list\n", __FUNCTION__, ifHandle));
     } else {
-	disk_usbnotify(devIndex, 0);
+        if (__bdk_fs_fatfs_usbnotify) {
+            __bdk_fs_fatfs_usbnotify(devIndex, 0);
+        }
+
         int rc = bdk_fs_unregister_dev("usb",devIndex);
         printf("\nUnregistered \"usb%d\" from bdk_fs rc:%d\n", devIndex,rc);
         UsbMass->Transport->CleanUp (UsbMass->Context);

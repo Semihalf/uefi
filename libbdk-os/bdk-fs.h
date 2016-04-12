@@ -69,6 +69,7 @@ int bdk_console_open_file(const char *filename);
 /* Prototypes for the init functions for all file systems */
 extern int __bdk_fs_boot_init(void) BDK_WEAK;
 extern int __bdk_fs_fatfs_init(void) BDK_WEAK;
+extern void __bdk_fs_fatfs_usbnotify(int drvIndex, int available) BDK_WEAK;
 extern int __bdk_fs_mem_init(void) BDK_WEAK;
 extern int __bdk_fs_mmc_init(void) BDK_WEAK;
 extern int __bdk_fs_mpi_init(void) BDK_WEAK;

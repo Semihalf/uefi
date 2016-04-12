@@ -61,21 +61,21 @@ static struct drv_list_d
 		0x00000,
 		NULL,
 		0
-	},       
+	},
    	{
 		"/dev/n0.usb1",
 		512,
 		0x00000,
 		NULL,
 		0
-	},         
+	},
    	{
 		"/dev/n0.usb2",
 		512,
 		0x00000,
 		NULL,
 		0
-	},         
+	},
 
 };
 
@@ -109,9 +109,9 @@ DSTATUS disk_status (
 	case DRV_BOOT:
 		stat = RES_OK;
 		break;
-                
-        case DRV_USB0: 
-        case DRV_USB1: 
+
+        case DRV_USB0:
+        case DRV_USB1:
         case DRV_USB2:
             stat = DRV_INIT(pdrv) ? RES_OK : STA_NOINIT;
             break;
@@ -263,7 +263,7 @@ DRESULT disk_ioctl (
 }
 #endif
 
-void disk_usbnotify(const unsigned drvNdx, const unsigned available) 
+void disk_usbnotify(const unsigned drvNdx, const unsigned available)
 {
     unsigned pdrv = DRV_USB0 + drvNdx;
     BDK_TRACE(FATFS, "%s:%d USB%d %s\n", __FUNCTION__, __LINE__, drvNdx, (available) ? "On": "Off");

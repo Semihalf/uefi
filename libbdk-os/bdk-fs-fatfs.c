@@ -87,20 +87,22 @@ static const __bdk_fs_ops_t bdk_fs_fatfs_ops =
     .write = fatfs_write,
 };
 
+static const char* const volstr[] = {_VOLUME_STRS};
+static FATFS fatfs[_VOLUMES]; /* FATFS handles for all defined volumes */
+
 int __bdk_fs_fatfs_init(void)
 {
-    static FATFS fatfs[_VOLUMES]; /* FATFS handles for all defined volumes */
 
     /* Go through all defined volumes and lazy-mount them. Lazy mounting will
      * always succeed. The volume will be hard-mounted later when the volume
      * will be first accessed via another operation. Any errors will be
      * generated at that point.
      */
-    static const char* const str[] = {_VOLUME_STRS};
+
     for (int i = 0; i < _VOLUMES; i++)
     {
         char volume_id[16];
-        snprintf(volume_id, sizeof(volume_id), "%s:", str[i]);
+        snprintf(volume_id, sizeof(volume_id), "%s:", volstr[i]);
         f_mount(&fatfs[i], volume_id, 0);
     }
 
@@ -111,4 +113,29 @@ int __bdk_fs_fatfs_init(void)
     }
 
     return bdk_fs_register("/fatfs/", &bdk_fs_fatfs_ops);
+}
+
+void __bdk_fs_fatfs_usbnotify(int drvIndex, int available)
+{ /* Poor mans automounter
+  ** It is called by usb proper when mass storage devices change
+  ** availability or media
+  */
+    int pdrv = drvIndex + DRV_USB0;
+    if (pdrv > DRV_USB2) return; /* There are more indexes then usb drives
+                                    ... fatfs can digest */
+    char volume_id[16];
+    snprintf(volume_id, sizeof(volume_id), "%s:", volstr[pdrv]);
+    if (available) {
+        // Mass storage device became available
+        // - reset its interface to blockio
+        // - do lazy mount
+        disk_usbnotify(drvIndex, available);
+        f_mount(&fatfs[pdrv], volume_id, 0);
+    } else {
+        // device is no longer there
+        // - unmount
+        // - reset blockio underneath
+        f_mount(NULL, volume_id,1) ;
+        disk_usbnotify(drvIndex, available);
+    }
 }

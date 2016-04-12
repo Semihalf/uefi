@@ -12,6 +12,11 @@ extern "C" {
 #define _USE_WRITE	1	/* 1: Enable disk_write function */
 #define _USE_IOCTL	1	/* 1: Enable disk_ioctl fucntion */
 
+/* Physical drive numbers. Passed into diskio API as pdrv. */
+#define DRV_BOOT	0
+#define DRV_USB0	1
+#define DRV_USB1	2
+#define DRV_USB2	3
 #include "integer.h"
 
 
