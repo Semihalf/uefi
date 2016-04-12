@@ -1190,7 +1190,7 @@ int __bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int
         bdk_error("N%d.QLM%d: Lane %d: Invalid TX_PRE(%d)\n", node, qlm, lane, tx_pre);
         return -1;
     }
-    if ((tx_post < -1) || (tx_post > 15))
+    if ((tx_post < -1) || (tx_post > 31))
     {
         bdk_error("N%d.QLM%d: Lane %d: Invalid TX_POST(%d)\n", node, qlm, lane, tx_post);
         return -1;
