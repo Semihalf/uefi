@@ -141,9 +141,13 @@ def writeEnum(out, arch, enum):
             r = enumValue["ranges"][chip]
             args = createDefineArgs(r)
             eq = csr_utils.addressToString(enumValue["value"][chip], None, addSuffix=True)
+            if enumValue["bar_size"]:
+                sz = "0x%xull" % (1 << enumValue["bar_size"][chip])
+            else:
+                sz = None
             #descr = formatDescription(enumValue["description"][chip], 40)
             output = "%s (%s)" % (args, eq)
-            enum_lines[chip] = full_name, output
+            enum_lines[chip] = full_name, output, sz
         # Consolidate all chips
         if enum_lines:
             consolidateChips(enum_lines)
@@ -154,6 +158,12 @@ def writeEnum(out, arch, enum):
                 out.write("#define %s%s\n" % (e[0], e[1]))
             else:
                 out.write("#define %s_%s%s\n" % (e[0], chip, e[1]))
+            if e[2]:
+                # Print BAR sizes
+                if chip == "CN":
+                    out.write("#define %s_SIZE %s\n" % (e[0], e[2]))
+                else:
+                    out.write("#define %s_%s_SIZE %s\n" % (e[0], chip, e[2]))
 
 #
 # Build a string representing all the fields in a structure or register. The
