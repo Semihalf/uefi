@@ -352,47 +352,4 @@ UsbHcAsyncIsochronousTransfer (
   IN  VOID                                *Context
   );
 
-/**
-  Open the USB host controller protocol BY_CHILD.
-
-  @param  Bus              The USB bus driver.
-  @param  Child            The child handle.
-
-  @return The open protocol return.
-
-**/
-EFI_STATUS
-UsbOpenHostProtoByChild (
-  IN USB_BUS              *Bus,
-  IN EFI_HANDLE           Child
-  );
-
-/**
-  Close the USB host controller protocol BY_CHILD.
-
-  @param  Bus              The USB bus driver.
-  @param  Child            The child handle.
-
-  @return None.
-
-**/
-VOID
-UsbCloseHostProtoByChild (
-  IN USB_BUS              *Bus,
-  IN EFI_HANDLE           Child
-  );
-
-/**
-  return the current TPL, copied from the EDKII glue lib.
-
-  @param  VOID.
-
-  @return Current TPL.
-
-**/
-EFI_TPL
-UsbGetCurrentTpl (
-  VOID
-  );
-
 #endif

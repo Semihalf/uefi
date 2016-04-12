@@ -80,10 +80,14 @@ UsbHcGetCapability (
                               );
 
   } else {
+#if defined(notdef_cavium)
     Status = UsbBus->UsbHc->GetRootHubPortNumber (UsbBus->UsbHc, NumOfPort);
 
     *MaxSpeed       = EFI_USB_SPEED_FULL;
     *Is64BitCapable = (UINT8) FALSE;
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -113,7 +117,11 @@ UsbHcReset (
   if (UsbBus->Usb2Hc != NULL) {
     Status = UsbBus->Usb2Hc->Reset (UsbBus->Usb2Hc, Attributes);
   } else {
+#if defined(notdef_cavium)
     Status = UsbBus->UsbHc->Reset (UsbBus->UsbHc, Attributes);
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -141,7 +149,11 @@ UsbHcGetState (
   if (UsbBus->Usb2Hc != NULL) {
     Status = UsbBus->Usb2Hc->GetState (UsbBus->Usb2Hc, State);
   } else {
+#if defined(notdef_cavium)
     Status = UsbBus->UsbHc->GetState (UsbBus->UsbHc, State);
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -169,7 +181,11 @@ UsbHcSetState (
   if (UsbBus->Usb2Hc != NULL) {
     Status = UsbBus->Usb2Hc->SetState (UsbBus->Usb2Hc, State);
   } else {
+#if defined(notdef_cavium)
     Status = UsbBus->UsbHc->SetState (UsbBus->UsbHc, State);
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -199,7 +215,11 @@ UsbHcGetRootHubPortStatus (
   if (UsbBus->Usb2Hc != NULL) {
     Status = UsbBus->Usb2Hc->GetRootHubPortStatus (UsbBus->Usb2Hc, PortIndex, PortStatus);
   } else {
+#if defined(notdef_cavium)
     Status = UsbBus->UsbHc->GetRootHubPortStatus (UsbBus->UsbHc, PortIndex, PortStatus);
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -230,7 +250,11 @@ UsbHcSetRootHubPortFeature (
   if (UsbBus->Usb2Hc != NULL) {
     Status = UsbBus->Usb2Hc->SetRootHubPortFeature (UsbBus->Usb2Hc, PortIndex, Feature);
   } else {
+#if defined(notdef_cavium)
     Status = UsbBus->UsbHc->SetRootHubPortFeature (UsbBus->UsbHc, PortIndex, Feature);
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -260,7 +284,11 @@ UsbHcClearRootHubPortFeature (
   if (UsbBus->Usb2Hc != NULL) {
     Status = UsbBus->Usb2Hc->ClearRootHubPortFeature (UsbBus->Usb2Hc, PortIndex, Feature);
   } else {
+#if defined(notdef_cavium)
     Status = UsbBus->UsbHc->ClearRootHubPortFeature (UsbBus->UsbHc, PortIndex, Feature);
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -302,7 +330,6 @@ UsbHcControlTransfer (
   )
 {
   EFI_STATUS              Status;
-  BOOLEAN                 IsSlowDevice;
 
   if (UsbBus->Usb2Hc != NULL) {
     Status = UsbBus->Usb2Hc->ControlTransfer (
@@ -320,6 +347,8 @@ UsbHcControlTransfer (
                                );
 
   } else {
+#if defined(notdef_cavium)
+    BOOLEAN                 IsSlowDevice;
     IsSlowDevice = (BOOLEAN)(EFI_USB_SPEED_LOW == DevSpeed);
     Status = UsbBus->UsbHc->ControlTransfer (
                               UsbBus->UsbHc,
@@ -333,6 +362,9 @@ UsbHcControlTransfer (
                               TimeOut,
                               UsbResult
                               );
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -395,6 +427,7 @@ UsbHcBulkTransfer (
                                UsbResult
                                );
   } else {
+#if defined(notdef_cavium)
     Status = UsbBus->UsbHc->BulkTransfer (
                               UsbBus->UsbHc,
                               DevAddr,
@@ -406,6 +439,9 @@ UsbHcBulkTransfer (
                               TimeOut,
                               UsbResult
                               );
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -451,7 +487,6 @@ UsbHcAsyncInterruptTransfer (
   )
 {
   EFI_STATUS              Status;
-  BOOLEAN                 IsSlowDevice;
 
   if (UsbBus->Usb2Hc != NULL) {
     Status = UsbBus->Usb2Hc->AsyncInterruptTransfer (
@@ -469,6 +504,8 @@ UsbHcAsyncInterruptTransfer (
                                Context
                                );
   } else {
+#if defined(notdef_cavium)
+    BOOLEAN                 IsSlowDevice;
     IsSlowDevice = (BOOLEAN)(EFI_USB_SPEED_LOW == DevSpeed);
 
     Status = UsbBus->UsbHc->AsyncInterruptTransfer (
@@ -484,6 +521,9 @@ UsbHcAsyncInterruptTransfer (
                               Callback,
                               Context
                               );
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -527,7 +567,6 @@ UsbHcSyncInterruptTransfer (
   )
 {
   EFI_STATUS              Status;
-  BOOLEAN                 IsSlowDevice;
 
   if (UsbBus->Usb2Hc != NULL) {
     Status = UsbBus->Usb2Hc->SyncInterruptTransfer (
@@ -544,6 +583,8 @@ UsbHcSyncInterruptTransfer (
                                UsbResult
                                );
   } else {
+#if defined(notdef_cavium)
+    BOOLEAN                 IsSlowDevice;
     IsSlowDevice = (BOOLEAN) ((EFI_USB_SPEED_LOW == DevSpeed) ? TRUE : FALSE);
     Status = UsbBus->UsbHc->SyncInterruptTransfer (
                               UsbBus->UsbHc,
@@ -557,6 +598,9 @@ UsbHcSyncInterruptTransfer (
                               TimeOut,
                               UsbResult
                               );
+#else
+    Status = EFI_UNSUPPORTED;
+#endif
   }
 
   return Status;
@@ -637,116 +681,7 @@ UsbHcAsyncIsochronousTransfer (
 }
 
 
-/**
-  Open the USB host controller protocol BY_CHILD.
 
-  @param  Bus              The USB bus driver.
-  @param  Child            The child handle.
-
-  @return The open protocol return.
-
-**/
-EFI_STATUS
-UsbOpenHostProtoByChild (
-  IN USB_BUS              *Bus,
-  IN EFI_HANDLE           Child
-  )
-{
-#if defined(notdef_cavium)
-  EFI_USB_HC_PROTOCOL     *UsbHc;
-  EFI_USB2_HC_PROTOCOL    *Usb2Hc;
-  EFI_STATUS              Status;
-
-  if (Bus->Usb2Hc != NULL) {
-    Status = gBS->OpenProtocol (
-                    Bus->HostHandle,
-                    &gEfiUsb2HcProtocolGuid,
-                    (VOID **) &Usb2Hc,
-                    mUsbBusDriverBinding.DriverBindingHandle,
-                    Child,
-                    EFI_OPEN_PROTOCOL_BY_CHILD_CONTROLLER
-                    );
-
-  } else {
-    Status = gBS->OpenProtocol (
-                    Bus->HostHandle,
-                    &gEfiUsbHcProtocolGuid,
-                    (VOID **) &UsbHc,
-                    mUsbBusDriverBinding.DriverBindingHandle,
-                    Child,
-                    EFI_OPEN_PROTOCOL_BY_CHILD_CONTROLLER
-                    );
-  }
-
-  return Status;
-#else
-  CAVIUM_NOTYET();
-  return 0;
-#endif
-}
-
-
-/**
-  Close the USB host controller protocol BY_CHILD.
-
-  @param  Bus              The USB bus driver.
-  @param  Child            The child handle.
-
-**/
-VOID
-UsbCloseHostProtoByChild (
-  IN USB_BUS              *Bus,
-  IN EFI_HANDLE           Child
-  )
-{
-#if defined(notdef_cavium)
-  if (Bus->Usb2Hc != NULL) {
-    gBS->CloseProtocol (
-           Bus->HostHandle,
-           &gEfiUsb2HcProtocolGuid,
-           mUsbBusDriverBinding.DriverBindingHandle,
-           Child
-           );
-
-  } else {
-    gBS->CloseProtocol (
-           Bus->HostHandle,
-           &gEfiUsbHcProtocolGuid,
-           mUsbBusDriverBinding.DriverBindingHandle,
-           Child
-           );
-  }
-#else
-  CAVIUM_NOTYET();
-#endif
-}
-
-
-/**
-  return the current TPL, copied from the EDKII glue lib.
-
-  @param  VOID.
-
-  @return Current TPL.
-
-**/
-EFI_TPL
-UsbGetCurrentTpl (
-  VOID
-  )
-{
-#if defined(notdef_cavium)
-  EFI_TPL                 Tpl;
-
-  Tpl = gBS->RaiseTPL (TPL_HIGH_LEVEL);
-  gBS->RestoreTPL (Tpl);
-
-  return Tpl;
-#else
-  CAVIUM_NOTYET();
-  return 0;
-#endif
-}
 
 /**
   Create a new device path which only contain the first Usb part of the DevicePath.
