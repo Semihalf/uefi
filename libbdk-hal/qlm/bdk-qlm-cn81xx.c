@@ -853,7 +853,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* cdrlock will be checked in the BGX */
 
     /* Errata (GSER-27140) SERDES temperature drift sensitivity in receiver */
-    __bdk_qlm_errata_gser_27140(node, qlm, baud_mhz, !__bdk_qlm_is_lane_kr(node, qlm, 0));
+    __bdk_qlm_errata_gser_27140(node, qlm, baud_mhz, false);
 
     /* Apply any custom tuning */
     __bdk_qlm_tune(node, qlm, mode, baud_mhz);
