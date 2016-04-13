@@ -731,8 +731,13 @@ int64_t bdk_config_get_int(bdk_config_t cfg_item, ...)
     const char *val = get_value(name, NULL);
     if (val)
     {
+        int count;
         int64_t tmp;
-        if (sscanf(val, "%li", &tmp) == 1)
+        if ((val[0] == '0') && (val[1] == 'x'))
+            count = sscanf(val + 2, "%lx", &tmp);
+        else
+            count = sscanf(val, "%li", &tmp);
+        if (count == 1)
         {
             if ((tmp < config_info[cfg_item].min_value) || (tmp > config_info[cfg_item].max_value))
             {
@@ -836,7 +841,10 @@ void bdk_config_set_int(int64_t value, bdk_config_t cfg_item, ...)
         return;
     }
 
-    snprintf(valstr, sizeof(valstr), "0x%lx", value);
+    if (value < 10)
+        snprintf(valstr, sizeof(valstr), "%ld", value);
+    else
+        snprintf(valstr, sizeof(valstr), "0x%lx", value);
 
     int status = fdt_setprop_string(config_fdt, config_node, name, valstr);
     if (status < 0)
@@ -1180,6 +1188,85 @@ int bdk_config_set_fdt(void *fdt)
     free(config_fdt);
     config_fdt = fdt;
     config_node = offset;
+    return 0;
+}
+
+/**
+ * Write all default values to a FDT. Missing config items get defaults in the
+ * BDK config, this function adds those defaults to the FDT. This way other code
+ * gets teh default value without needing special code.
+ *
+ * @param fdt    FDT structure to fill defaults into
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_config_expand_defaults(void *fdt)
+{
+    const struct fdt_property *prop;
+
+    int fdt_node = fdt_path_offset(fdt, "/cavium,bdk"); /* Find our node */
+    if (fdt_node < 0)
+    {
+        bdk_error("Failed to find top node, FDT error %d: %s\n",
+            fdt_node, fdt_strerror(fdt_node));
+        return -1;
+    }
+
+    /* Loop through all configuration items */
+    for (bdk_config_t cfg = 0; cfg < __BDK_CONFIG_END; cfg++)
+    {
+        /* Figure out the base name without and dot parameters */
+        const char *name = config_info[cfg].format;
+        const char *name_end = strchr(name, '.');
+        int name_len;
+        if (name_end)
+            name_len = name_end - name;
+        else
+            name_len = strlen(name);
+        /* Try and find the base name in the FDT */
+        prop = fdt_get_property_namelen(fdt, fdt_node, name, name_len, NULL);
+        /* If it wasn't found, then we need to add the default */
+        if (prop == NULL)
+        {
+            /* Create a copy of the name for use in FDT calls */
+            char temp_name[name_len + 1];
+            memcpy(temp_name, name, name_len);
+            temp_name[name_len] = 0;
+            /* Call the correct FDT call based on the type */
+            int status = 0;
+            switch (config_info[cfg].ctype)
+            {
+                case BDK_CONFIG_TYPE_INT:
+                {
+                    char temp_value[20];
+                    if (config_info[cfg].default_value < 10)
+                        snprintf(temp_value, sizeof(temp_value), "%ld", config_info[cfg].default_value);
+                    else
+                        snprintf(temp_value, sizeof(temp_value), "0x%lx", config_info[cfg].default_value);
+                    /* Store the default int value */
+                    status = fdt_setprop_string(fdt, fdt_node, temp_name, temp_value);
+                    break;
+                }
+                case BDK_CONFIG_TYPE_STR:
+                    /* Store the default string value, if present */
+                    if (config_info[cfg].default_value)
+                    {
+                        status = fdt_setprop_string(fdt, fdt_node, temp_name,
+                            (const char *)config_info[cfg].default_value);
+                    }
+                    break;
+                case BDK_CONFIG_TYPE_STR_LIST:
+                    /* Do nothing, string list default to empty */
+                    break;
+            }
+            if (status < 0)
+            {
+                bdk_error("Failed to set default for %s, FDT error %d: %s\n",
+                    temp_name, status, fdt_strerror(status));
+                return -1;
+            }
+        }
+    }
     return 0;
 }
 

@@ -672,6 +672,13 @@ int devtree_process(void)
         return -1;
     }
 
+    /* Expand the defaults for missing entries */
+    if (bdk_config_expand_defaults(fdt))
+    {
+        free(fdt);
+        return -1;
+    }
+
     /* Perform device tree fixups for Linux */
     if (devtree_fixups(fdt))
     {
