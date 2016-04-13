@@ -336,7 +336,6 @@ static void kr_monitor_27882(int unused0, void *unused1)
             /* Get next lane */
             int lane = __builtin_ffsl(lanes) - 1;
             /* Force the update */
-            extern int __bdk_qlm_errata_gser_27882(bdk_node_t node, int qlm, int lane);
             __bdk_qlm_errata_gser_27882(node, lane >> 2, lane & 3);
             /* Mark this lane as visited */
             lanes &= ~(1ull << lane);

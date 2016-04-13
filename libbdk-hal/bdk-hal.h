@@ -43,6 +43,7 @@
 #include "bdk-mmc.h"
 #include "bdk-pcie.h"
 #include "bdk-qlm.h"
+#include "qlm/bdk-qlm-errata-cn8xxx.h"
 #include "bdk-rng.h"
 #include "bdk-sata.h"
 #include "bdk-twsi.h"

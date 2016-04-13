@@ -223,224 +223,6 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         return BDK_QLM_MODE_OCI;
 }
 
-/**
- * (GSER-26150) 10G PHY PLL Temperature Failure
- *
- * 10 Gb temperature excursions can cause lock failure Change
- * the calibration point of the VCO at start up to shift some
- * available range of the VCO from -deltaT direction to the
- * +deltaT ramp direction allowing a greater range of VCO
- * temperatures before experiencing the failure.
- *
- * Applies to:
- *     CN88XX pass 1.x
- * Fix in hardware:
- *     CN88XX pass 2.x
- *     CN81XX
- *     CN83XX
- *
- * Only applies to QLMs running 10G
- *
- * @param node   Node to apply errata to
- * @param qlm    QLM to apply errata fix to
- *
- * @return Zero on success, negative on failure
- */
-static int qlm_errata_gser_26150(bdk_node_t node, int qlm, int baud_mhz)
-{
-    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-        return 0;
-    if (baud_mhz < 8000)
-        return 0;
-
-    /* Applying this errata twice causes problems */
-    BDK_CSR_INIT(pll_cfg_3, node, BDK_GSERX_GLBL_PLL_CFG_3(qlm));
-    if (pll_cfg_3.s.pll_vctrl_sel_lcvco_val == 0x2)
-        return 0;
-
-    /* (GSER-26150) 10 Gb temperature excursions can cause lock failure */
-    /* Change the calibration point of the VCO at start up to shift some
-       available range of the VCO from -deltaT direction to the +deltaT
-       ramp direction allowing a greater range of VCO temperatures before
-       experiencing the failure. */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_3(qlm),
-        c.s.pll_vctrl_sel_lcvco_val = 0x2;
-        c.s.pcs_sds_pll_vco_amp = 0);
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_MISC_CONFIG_1(qlm),
-        c.s.pcs_sds_trim_chp_reg = 0x2);
-
-    /* Recalibrates the PLL with the new PLL settings*/
-
-    /* Step 1: GSERx_GLBL_PLL_CFG_1.CFG_PLL_CTRL_EN -> set to 1'b1 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_1(qlm),
-        c.s.cfg_pll_ctrl_en = 1);
-
-    /* Step 2: GSERx_GLBL_PLL_CFG_2.PCS_SDS_PLL_COUNTER_RESETN -> set to 1'b0 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_2(qlm),
-        c.s.pcs_sds_pll_counter_resetn = 0);
-
-    /* Step 3: GSERx_GLBL_PLL_CFG_0.PCS_SDS_PLL_STRT_CAL_B -> set to 1'b0 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_0(qlm),
-        c.s.pcs_sds_pll_strt_cal_b = 0);
-
-    /* Step 4: GSERx_GLBL_PLL_CFG_2.PCS_SDS_PLL_COUNTER_RESETN -> set to 1'b1 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_2(qlm),
-        c.s.pcs_sds_pll_counter_resetn = 1);
-
-    /* Step 5: Wait 10us */
-    bdk_wait_usec(10);
-
-    /* Step 6: GSERx_GLBL_PLL_CFG_0.PCS_SDS_PLL_STRT_CAL_B ->set to 1'b1 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_0(qlm),
-        c.s.pcs_sds_pll_strt_cal_b = 1);
-
-    /* Step 7: GSERx_GLBL_PLL_CFG_1. CFG_PLL_CTRL_EN -> set to 1'b0 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_1(qlm),
-        c.s.cfg_pll_ctrl_en = 0);
-
-    /* Step 8: Wait 10ms to allow PLL to recalibrate */
-    bdk_wait_usec(10000);
-    return 0;
-}
-
-/**
- * (GSER-27140) SERDES has temperature drift sensitivity in the RX EQ
- *
- * SERDES temperature drift sensitivity in receiver. Issues have
- * been found with the Bit Error Rate (BER) reliability of
- * 10GBASE-KR links over the commercial temperature range (0 to 100C),
- * especially when subjected to rapid thermal ramp stress testing.
- * (See HRM for corresponding case temperature requirements for each speed grade.)
- *
- * Applies to:
- *     CN88XX pass 1.x
- *     CN88XX pass 2.x
- * Fixed in hardware:
- *     TBD
- *
- * Only applies to QLMs running 10G
- *
- * @param node     Note to apply errata fix to
- * @param qlm      QLM to apply errata fix to
- * @param baud_mhz QLM baud rate in Mhz
- *
- * @return Zero on success, negative on failure
- */
-static int qlm_errata_gser_27140(bdk_node_t node, int qlm, int baud_mhz)
-{
-    /* I. For each GSER QLM: */
-    /* Workaround GSER-27140: */
-    /* (1) GSER-26150 = Model checks are in the function */
-    qlm_errata_gser_26150(node, qlm, baud_mhz);
-    if (baud_mhz != 10312)
-        return 0;
-
-    /* (2) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MAX_FINE] = 0xE */
-    /* (3) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MIN_FINE] = 0x8 */
-    /* (4) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_STEP_FINE] = 0x2 */
-    /* (5) Write GSER()_LANE_VMA_FINE_CTRL_0[VMA_WINDOW_WAIT_FINE] = 0x5 */
-    /* (6) Write GSER()_LANE_VMA_FINE_CTRL_0[LMS_WAIT_TIME_FINE] = 0x5 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_VMA_FINE_CTRL_0(qlm),
-        c.s.rx_sdll_iq_max_fine = 0xE;
-        c.s.rx_sdll_iq_min_fine = 0x8;
-        c.s.rx_sdll_iq_step_fine = 0x2;
-        c.s.vma_window_wait_fine = 0x5;
-        c.s.lms_wait_time_fine = 0x5);
-    /* (7) Write GSER()_LANE_VMA_FINE_CTRL_2[RX_PRECTLE_GAIN_MAX_FINE] = 0xB */
-    /* (8) Write GSER()_LANE_VMA_FINE_CTRL_2[RX_PRECTLE_GAIN_MIN_FINE] = 0x6 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_VMA_FINE_CTRL_2(qlm),
-        c.s.rx_prectle_gain_max_fine = 0xB;
-        c.s.rx_prectle_gain_min_fine = 0x6);
-    /* (9) Write GSER()_RX_TXDIR_CTRL_0[RX_BOOST_LO_THRES] = 0x8 */
-    /* (10) Write GSER()_RX_TXDIR_CTRL_0[RX_BOOST_HI_THRES] = 0xB */
-    /* (11) Write GSER()_RX_TXDIR_CTRL_0[RX_BOOST_HI_VAL] = 0xF */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_0(qlm),
-        c.s.rx_boost_lo_thrs = 0x8;
-        c.s.rx_boost_hi_thrs = 0xB;
-        c.s.rx_boost_hi_val = 0xF);
-    /* (12) Write GSER()_RX_TXDIR_CTRL_1[RX_TAP1_LO_THRS] = 0x8 */
-    /* (13) Write GSER()_RX_TXDIR_CTRL_1[RX_TAP1_HI_THRS] = 0x17 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
-        c.s.rx_tap1_lo_thrs = 0x8;
-        c.s.rx_tap1_hi_thrs = 0x17);
-
-    /* Workaround GSER-26636: Applied elsewhere */
-    /* (14) Write GSER()_RX_TXDIR_CTRL_1[RX_PRECORR_CHG_DIR] = 0x1 */
-    /* (15) Write GSER()_RX_TXDIR_CTRL_1[RX_TAP1_CHG_DIR] = 0x1 */
-
-    /* Workaround GSER-27140: */
-    /* (16) Write GSER()_EQ_WAIT_TIME[RXEQ_WAIT_CNT] = 0x6 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_EQ_WAIT_TIME(qlm),
-        c.s.rxeq_wait_cnt = 0x6);
-    /* (17) Write GSER()_RX_TXDIR_CTRL_2[RX_PRECORR_HI_THRS] = 0xFF */
-    /* (18) Write GSER()_RX_TXDIR_CTRL_2[RX_PRECORR_LO_THRS] = 0x00 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_2(qlm),
-        c.s.rx_precorr_hi_thrs = 0xFF;
-        c.s.rx_precorr_lo_thrs = 0x00);
-
-    /* II. For each GSER QLM SerDes lane: */
-    /* Establish typical values, which are already reset values in pass 2: */
-    int num_lanes = bdk_qlm_get_lanes(node, qlm);
-    for (int lane = 0; lane < num_lanes; lane++)
-    {
-        /* (19) For each GSER lane in the 10GBASE-KR link: */
-        /*    (a) Write GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_BIAS_CTRL] = 0x3 */
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CTLE_CTRL(qlm, lane),
-            c.s.pcs_sds_rx_ctle_bias_ctrl = 0x3);
-        /*    (b) Write GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL] = 0xCD6F */
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane),
-            c.s.cfg_rx_errdet_ctrl = 0xCD6F);
-
-        /* Workaround GSER-27140: */
-        /* (20) For each GSER lane in the 10GBASE-KR link: */
-        /*    (a) Write GSER()_LANE()_RX_VALBBD_CTRL_0[AGC_GAIN] = 0x3 */
-        /*    (b) Write GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_GAIN] = 0x2 */
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(qlm, lane),
-            c.s.agc_gain = 0x3;
-            c.s.dfe_gain = 0x2);
-    }
-
-    /* III. The GSER QLM SerDes Lanes are now ready for 10GBASE-KR link training. */
-    return 0;
-}
-
-/**
- * Errata GSER-25992 - RX EQ Default Settings Update<p>
- * For all GSER and all lanes when not PCIe EP:
- *     set GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL<13:8>] = 13 (decimal)
- *     set GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_BIAS_CTRL] = 3
- * Applied when SERDES are configured for 8G and 10G.<p>
- * Applies to:
- *     CN88XX pass 1.x
- * Fixed in hardware:
- *     CN88XX pass 2.x
- *     CN81XX
- *     CN83XX
- *
- * @param node     Node to apply errata fix for
- * @param qlm      QLM to apply errata fix to
- * @param baud_mhz QLM speed in Mhz
- *
- * @return Zero on success, negative on failure
- */
-static int qlm_errata_gser_25992(bdk_node_t node, int qlm, int baud_mhz)
-{
-    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-        return 0;
-    if (baud_mhz < 8000)
-        return 0;
-
-    int num_lanes = bdk_qlm_get_lanes(node, qlm);
-    for (int lane = 0; lane < num_lanes; lane++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CTLE_CTRL(qlm, lane),
-            c.s.pcs_sds_rx_ctle_bias_ctrl = 3);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane),
-            c.s.cfg_rx_errdet_ctrl = 0xcd6f);
-    }
-    return 0;
-}
-
 static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
     const int MAX_A_CLK = 333000000; /* Max of 333Mhz */
@@ -1126,12 +908,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* Configure the gser pll */
     __bdk_qlm_init_mode_table(node, qlm);
 
-    /* Errata (GSER-26636) KR training coefficient update inverted. As of pass 2
-       this is the hardware default. It doesn't hurt to write it anyway */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
-        c.s.rx_precorr_chg_dir = 1;
-        c.s.rx_tap1_chg_dir = 1);
-
     /* Remember which lanes are using KR over BGX */
     if (is_bgx)
     {
@@ -1158,12 +934,20 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         }
     }
 
-    /* Errata GSER-25992 - RX EQ Default Settings Update. Note model checks are
-       performed in the function */
-    qlm_errata_gser_25992(node, qlm, baud_mhz);
+    /* Errata (GSER-25992) RX EQ Default Settings Update */
+    __bdk_qlm_errata_gser_25992(node, qlm, baud_mhz);
 
-    /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
-    qlm_errata_gser_27140(node, qlm, baud_mhz);
+    /* Errata (GSER-26150) 10G PHY PLL Temperature Failure */
+    __bdk_qlm_errata_gser_26150(node, qlm, baud_mhz);
+
+    /* Errata (GSER-26636) 10G-KR/40G-KR - Inverted Tx Coefficient Direction Change */
+    __bdk_qlm_errata_gser_26636(node, qlm, baud_mhz);
+
+    /* Errata (GSER-27140) SERDES temperature drift sensitivity in receiver */
+    __bdk_qlm_errata_gser_27140(node, qlm, baud_mhz, !__bdk_qlm_is_lane_kr(node, qlm, 0));
+
+    /* Errata (GSER-27882) GSER 10GBASE-KR Transmit Equalizer */
+    /* Applied in bdk-if-bgx.c */
 
     /* cdrlock will be checked in the BGX */
 
