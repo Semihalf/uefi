@@ -66,7 +66,7 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
     uint64_t sclk_rate = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
     uint64_t divider = (sclk_rate + 300000000-1) / 300000000;
     /*
-    ** Rules are:
+    ** According to HRM Rules are:
     ** - clock must be below 300MHz
     ** USB3 full-rate requires 150 MHz or better
     ** USB3 requires 125 MHz
@@ -108,26 +108,25 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
             c.s.h_clk_en = 1);
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
             c.s.h_clkdiv_rst = 0);
-#if 0
-        static bool printit[2] = {true,true};
-        if (printit[usb_port]) {
-            uint64_t fr_div;
-            if (divider < 5) fr_div = divider * 2;
-            else fr_div = 8 * (divider - 3);
-            uint64_t freq = (typeof(freq)) (sclk_rate / fr_div);
-            char *token;
-            if (freq < 62500000ULL) token = "???Low";
-            else if (freq < 90000000ULL) token = "USB2";
-            else if (freq < 125000000ULL) token = "USB2 Full";
-            else if (freq < 150000000ULL) token = "USB3";
-            else token = "USB3 Full";
-            printf("Freq %lld - %s\n",
-                   (unsigned long long)freq, token);
-            printit[usb_port] = false;
+        if (bdk_trace_enables & (1ull << BDK_TRACE_ENABLE_USB_XHCI)) {
+            static bool printit[2] = {true,true};
+            if (printit[usb_port]) {
+                uint64_t fr_div;
+                if (divider < 5) fr_div = divider * 2;
+                else fr_div = 8 * (divider - 3);
+                uint64_t freq = (typeof(freq)) (sclk_rate / fr_div);
+                char *token;
+                if (freq < 62500000ULL) token = "???Low";
+                else if (freq < 90000000ULL) token = "USB2";
+                else if (freq < 125000000ULL) token = "USB2 Full";
+                else if (freq < 150000000ULL) token = "USB3";
+                else token = "USB3 Full";
+                printf("Freq %lld - %s\n",
+                       (unsigned long long)freq, token);
+                printit[usb_port] = false;
+            }
         }
-#endif
     }
-
     /* 6.  Configure the strap signals in USBDRD(0..1)_UCTL_CTL.
         a.  Reference clock configuration (see Table 31.2): USB-
             DRD(0..1)_UCTL_CTL[REF_CLK_FSEL, MPLL_MULTIPLIER,
