@@ -931,7 +931,7 @@ XhcExecTransfer (
 {
   EFI_STATUS              Status;
   UINTN                   Index;
-  UINT64                   Loop;
+  UINT64                  Loop;
   UINT8                   SlotId;
   UINT8                   Dci;
   BOOLEAN                 Finished;
@@ -949,10 +949,8 @@ XhcExecTransfer (
   }
 
   Status = EFI_SUCCESS;
-  Loop   = Timeout * XHC_1_MILLISECOND;
-  if (Timeout == 0) {
-    Loop = 0xFFFFFFFF;
-  }
+
+  Loop   = (Timeout) ? Timeout * XHC_1_MILLISECOND : 0xFFFFFFFFU;
 
   XhcRingDoorBell (Xhc, SlotId, Dci);
 
@@ -1226,7 +1224,7 @@ CreateEventRing (
     EventRing->TrbNumber        = EVENT_RING_TRB_NUMBER;
     EventRing->EventRingDequeue = (TRB_TEMPLATE *) EventRing->EventRingSeg0;
     EventRing->EventRingEnqueue = (TRB_TEMPLATE *) EventRing->EventRingSeg0;
-    BDK_WMB;
+    BDK_MB;
     uint64_t  DequeuePhy = bdk_ptr_to_phys(buf);
     //
     // Software maintains an Event Ring Consumer Cycle State (CCS) bit, initializing it to '1'
@@ -1265,9 +1263,6 @@ CreateEventRing (
     BDK_CSR_WRITE(node,BDK_USBHX_UAHC_ERDPX(usb_port,0),uahc_erdp.u);
     //
     // Program the Interrupter Event Ring Segment Table Base Address (ERSTBA) register(5.5.2.3.2)
-    //
-    // Some 3rd party XHCI external cards don't support single 64-bytes width register access,
-    // So divide it to two 32-bytes width register access.
     //
     BDK_CSR_DEFINE(uahc_erstba,BDK_USBHX_UAHC_ERSTBAX(0,0)) = {.u=0,};
     uahc_erstba.s.erstba =ERSTPhy >> 6;
