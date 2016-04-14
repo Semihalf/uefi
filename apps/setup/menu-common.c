@@ -27,26 +27,66 @@ static void do_prompt(bdk_menu_t *parent, char key, void *arg)
     if (!info->is_num)
     {
         /* Prompt for string value */
-        const char *v = bdk_config_get_str(info->config);
+        const char *v = NULL;
+        switch (info->param)
+        {
+            case MENU_PARAM_NONE: /* The config item takes no parameters */
+                v = bdk_config_get_str(info->config);
+                break;
+            case MENU_PARAM_NODE: /* The config item takes one parameter, the node */
+                v = bdk_config_get_str(info->config, bdk_numa_local());
+                break;
+        }
         if (v)
             snprintf(prompt, sizeof(prompt), "%s [%s%s]: ", info->name, v, units);
         else
             snprintf(prompt, sizeof(prompt), "%s: ", info->name);
         const char *result = bdk_readline(prompt, NULL, 0);
         if (result[0] && (result[0] != 3))
-            bdk_config_set_str(result, info->config);
+        {
+            switch (info->param)
+            {
+                case MENU_PARAM_NONE: /* The config item takes no parameters */
+                    bdk_config_set_str(result, info->config);
+                    break;
+                case MENU_PARAM_NODE: /* The config item takes one parameter, the node */
+                    for (int node = 0; node < 2; node++)
+                        bdk_config_set_str(result, info->config, node);
+                    break;
+            }
+        }
     }
     else
     {
         /* Prompt for int value */
-        int64_t v = bdk_config_get_int(info->config);
+        int64_t v = 0;
+        switch (info->param)
+        {
+            case MENU_PARAM_NONE: /* The config item takes no parameters */
+                v = bdk_config_get_int(info->config);
+                break;
+            case MENU_PARAM_NODE: /* The config item takes one parameter, the node */
+                v = bdk_config_get_int(info->config, bdk_numa_local());
+                break;
+        }
         if (info->is_num == 1)
             snprintf(prompt, sizeof(prompt), "%s [%ld%s]: ", info->name, v, units);
         else
             snprintf(prompt, sizeof(prompt), "%s [0x%lx%s]: ", info->name, v, units);
         const char *result = bdk_readline(prompt, NULL, 0);
         if (sscanf(result, "%li", &v) == 1)
-            bdk_config_set_int(v, info->config);
+        {
+            switch (info->param)
+            {
+                case MENU_PARAM_NONE: /* The config item takes no parameters */
+                    bdk_config_set_int(v, info->config);
+                    break;
+                case MENU_PARAM_NODE: /* The config item takes one parameter, the node */
+                    for (int node = 0; node < 2; node++)
+                        bdk_config_set_int(v, info->config, node);
+                    break;
+            }
+        }
     }
 }
 
@@ -69,12 +109,30 @@ void menu_add_config(bdk_menu_t *menu, const struct menu_add_info *info)
 
     if (!info->is_num)
     {
-        const char *v = bdk_config_get_str(info->config);
+        const char *v = NULL;
+        switch (info->param)
+        {
+            case MENU_PARAM_NONE: /* The config item takes no parameters */
+                v = bdk_config_get_str(info->config);
+                break;
+            case MENU_PARAM_NODE: /* The config item takes one parameter, the node */
+                v = bdk_config_get_str(info->config, bdk_numa_local());
+                break;
+        }
         snprintf(str, sizeof(str), "%s (%s%s)", info->name, v, units);
     }
     else
     {
-        int64_t v = bdk_config_get_int(info->config);
+        int64_t v = 0;
+        switch (info->param)
+        {
+            case MENU_PARAM_NONE: /* The config item takes no parameters */
+                v = bdk_config_get_int(info->config);
+                break;
+            case MENU_PARAM_NODE: /* The config item takes one parameter, the node */
+                v = bdk_config_get_int(info->config, bdk_numa_local());
+                break;
+        }
         if (info->is_num == 1)
             snprintf(str, sizeof(str), "%s (%ld%s)", info->name, v, units);
         else
