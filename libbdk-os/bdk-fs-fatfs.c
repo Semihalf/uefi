@@ -89,7 +89,7 @@ static const __bdk_fs_ops_t bdk_fs_fatfs_ops =
 
 static const char* const volstr[] = {_VOLUME_STRS};
 static FATFS fatfs[_VOLUMES]; /* FATFS handles for all defined volumes */
-
+static uint32_t mountmask = 0;
 int __bdk_fs_fatfs_init(void)
 {
 
@@ -102,8 +102,11 @@ int __bdk_fs_fatfs_init(void)
     for (int i = 0; i < _VOLUMES; i++)
     {
         char volume_id[16];
-        snprintf(volume_id, sizeof(volume_id), "%s:", volstr[i]);
-        f_mount(&fatfs[i], volume_id, 0);
+        if ((i < DRV_USB0) || (i > DRV_USB2)) {
+            snprintf(volume_id, sizeof(volume_id), "%s:", volstr[i]);
+            f_mount(&fatfs[i], volume_id, 0);
+            mountmask |= (1<<i);
+        }
     }
 
     /* Initialize the FATFS disk IO layer. */
@@ -131,11 +134,21 @@ void __bdk_fs_fatfs_usbnotify(int drvIndex, int available)
         // - do lazy mount
         disk_usbnotify(drvIndex, available);
         f_mount(&fatfs[pdrv], volume_id, 0);
+        mountmask |= (1<<pdrv);
     } else {
         // device is no longer there
         // - unmount
         // - reset blockio underneath
-        f_mount(NULL, volume_id,1) ;
+        f_mount(NULL, volume_id,1);
+        mountmask &= ~(1<<pdrv);
         disk_usbnotify(drvIndex, available);
+    }
+}
+
+void __bdk_list_fs_fatfs() {
+    uint32_t tmask = 1;
+    for(int i = 0; i < _VOLUMES;tmask <<=1, i++) {
+        if (!(mountmask & tmask)) continue;
+        printf("  %d: == /fatfs/%s:\n", i,volstr[i]);
     }
 }

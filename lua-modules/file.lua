@@ -41,6 +41,13 @@ m:item("lua",   "Execute Lua file", function()
     end
 end)
 
+m:item("listfs",   "List file systems", function()
+    local result =  cavium.c.bdk_list_fs();
+    if not result then
+        printf("ERROR: %s\n", result)
+    end
+end)
+
 m:item("quit",  "Main menu")
 
 while (m:show() ~= "quit") do

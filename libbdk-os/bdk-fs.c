@@ -432,3 +432,18 @@ int bdk_jump_address(uint64_t paddress, uint64_t arg0, uint64_t arg1)
     return ptr(arg0, arg1);
 }
 
+int bdk_list_fs()
+{
+    for(unsigned ndx=0; ndx< MAX_MOUNT_POINTS; ndx++) {
+        if  (mount_points[ndx].prefix) {
+            printf("@%02d : %s\n", ndx,mount_points[ndx].prefix);
+            if (__bdk_list_fs_dev && (0 == strncmp("/dev",mount_points[ndx].prefix,4) ) ) {
+                __bdk_list_fs_dev();
+            } else if (__bdk_list_fs_fatfs  && (0 == strncmp("/fatfs",mount_points[ndx].prefix,6) ) ) {
+                __bdk_list_fs_fatfs();
+            }
+        }
+
+    }
+    return 1;
+}

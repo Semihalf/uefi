@@ -86,7 +86,7 @@ int bdk_fs_register_dev(const char *dev_base, int dev_index, const __bdk_fs_dev_
  * @param dev_base  Name of the base device. Examples "sata", "uart", "pcie"
  * @param dev_index Device index tying this device to a hardware block. This becomes the last number
  *                  in the name.
- * 
+ *
  * @return Zero on success, negative on failure
  */
 int bdk_fs_unregister_dev(const char *dev_base, int dev_index)
@@ -97,7 +97,7 @@ int bdk_fs_unregister_dev(const char *dev_base, int dev_index)
     snprintf(dname,sizeof(dname), "%s%d",dev_base,dev_index);
     dname[sizeof(dname)-1] = '\0';
     bdk_rlock_lock(&dev_lock);
-    dev = dev_head; 
+    dev = dev_head;
     pdev = NULL;
     while(dev) {
         if (0 == strcmp(dname,dev->dev_name)) {
@@ -113,11 +113,10 @@ int bdk_fs_unregister_dev(const char *dev_base, int dev_index)
             }
             bdk_rlock_unlock(&dev_lock);
             free(dev);
-            printf("%s unregistered %s\n",__FUNCTION__,dname);
             return 0;
         }
         pdev = dev;
-        dev = dev->next;   
+        dev = dev->next;
     }
     bdk_rlock_unlock(&dev_lock);
     return -1;
@@ -303,3 +302,16 @@ const __bdk_fs_ops_t bdk_fs_dev_ops =
     .write = dev_write,
 };
 
+void __bdk_list_fs_dev()
+{
+    dev_fs_t *dev;
+    bdk_rlock_lock(&dev_lock);
+    if (dev_head != dev_tail) {
+        dev = dev_head;
+        do {
+            printf("  /dev/nX.%s\n", dev->dev_name);
+            dev = dev->next;
+        } while (dev);
+    }
+    bdk_rlock_unlock(&dev_lock);
+}

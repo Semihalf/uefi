@@ -78,5 +78,7 @@ extern int __bdk_fs_ram_init(void) BDK_WEAK;
 extern int __bdk_fs_rom_init(void) BDK_WEAK;
 extern int __bdk_fs_sata_init(void) BDK_WEAK;
 extern int __bdk_fs_xmodem_init(void) BDK_WEAK;
-
+int bdk_list_fs();
+extern void __bdk_list_fs_dev() BDK_WEAK;
+extern void __bdk_list_fs_fatfs() BDK_WEAK;
 /** @} */
