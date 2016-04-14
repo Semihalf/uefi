@@ -37,7 +37,7 @@
 #define FALSE  ((BOOLEAN)(0==1))
 #endif
 typedef void VOID;
-typedef uint64_t EFI_PHYSICAL_ADDRESS; 
+typedef uint64_t EFI_PHYSICAL_ADDRESS;
 #endif
 
 #if !defined(CONST)
@@ -58,7 +58,7 @@ typedef uint64_t EFI_PHYSICAL_ADDRESS;
 
 
 # if !defined(MT_DEBUG)
-#define MT_DEBUG(fmt, args...) printf(fmt , ## args) 
+#define MT_DEBUG(fmt, args...) printf(fmt , ## args)
 #endif
 #if ! defined(EFI_D_INIT)
 #	define EFI_D_INIT        0x00000001          // Initialization style messages
@@ -83,16 +83,17 @@ const char* debuglvl2s(uint32_t lvl);
 
 #define _DEBUG_INNER(lvl, fmt, ...) \
     if (lvl & (EFI_D_WARN | EFI_D_ERROR)) {  \
-        printf("USB_XHCI: %s:%d %s " fmt, __FILE__, __LINE__, debuglvl2s(lvl) , ##__VA_ARGS__); \
+        printf("USB_XHCI: %s:%d %s " fmt, __FUNCTION__, __LINE__, debuglvl2s(lvl) , ##__VA_ARGS__); \
     } else {                                                            \
-        BDK_TRACE(USB_XHCI,"%s:%d %s " fmt, __FILE__, __LINE__, debuglvl2s(lvl) , ##__VA_ARGS__); \
+        BDK_TRACE(USB_XHCI,"%s:%d %s " fmt, __FUNCTION__, __LINE__, debuglvl2s(lvl) , ##__VA_ARGS__); \
     }
 
 #define DEBUG(x) do {\
         _DEBUG_INNER x ;                        \
     } while(0)
 
-#define ASSERT(x) if (!(x)){ printf("\n%s:%d ASSERT Failed\n", __FUNCTION__, __LINE__);}
+//#define ASSERT(x) if (!(x)){ printf("\n%s:%d ASSERT Failed\n", __FUNCTION__, __LINE__);}
+#define ASSERT(x)
 
 
 #if ! defined(CAVIUM_NOTYET)
@@ -252,40 +253,40 @@ typedef UINT16                    STRING_REF;
 #define RETURN_WARN_DELETE_FAILURE   ENCODE_WARNING (2)
 #define RETURN_WARN_WRITE_FAILURE    ENCODE_WARNING (3)
 #define RETURN_WARN_BUFFER_TOO_SMALL ENCODE_WARNING (4)
-#define EFI_SUCCESS               RETURN_SUCCESS              
-#define EFI_LOAD_ERROR            RETURN_LOAD_ERROR           
-#define EFI_INVALID_PARAMETER     RETURN_INVALID_PARAMETER    
-#define EFI_UNSUPPORTED           RETURN_UNSUPPORTED          
-#define EFI_BAD_BUFFER_SIZE       RETURN_BAD_BUFFER_SIZE      
-#define EFI_BUFFER_TOO_SMALL      RETURN_BUFFER_TOO_SMALL     
-#define EFI_NOT_READY             RETURN_NOT_READY            
-#define EFI_DEVICE_ERROR          RETURN_DEVICE_ERROR         
-#define EFI_WRITE_PROTECTED       RETURN_WRITE_PROTECTED      
-#define EFI_OUT_OF_RESOURCES      RETURN_OUT_OF_RESOURCES     
-#define EFI_VOLUME_CORRUPTED      RETURN_VOLUME_CORRUPTED     
-#define EFI_VOLUME_FULL           RETURN_VOLUME_FULL          
-#define EFI_NO_MEDIA              RETURN_NO_MEDIA             
-#define EFI_MEDIA_CHANGED         RETURN_MEDIA_CHANGED        
-#define EFI_NOT_FOUND             RETURN_NOT_FOUND            
-#define EFI_ACCESS_DENIED         RETURN_ACCESS_DENIED        
-#define EFI_NO_RESPONSE           RETURN_NO_RESPONSE          
-#define EFI_NO_MAPPING            RETURN_NO_MAPPING           
-#define EFI_TIMEOUT               RETURN_TIMEOUT              
-#define EFI_NOT_STARTED           RETURN_NOT_STARTED          
-#define EFI_ALREADY_STARTED       RETURN_ALREADY_STARTED      
-#define EFI_ABORTED               RETURN_ABORTED              
-#define EFI_ICMP_ERROR            RETURN_ICMP_ERROR           
-#define EFI_TFTP_ERROR            RETURN_TFTP_ERROR           
-#define EFI_PROTOCOL_ERROR        RETURN_PROTOCOL_ERROR       
-#define EFI_INCOMPATIBLE_VERSION  RETURN_INCOMPATIBLE_VERSION 
-#define EFI_SECURITY_VIOLATION    RETURN_SECURITY_VIOLATION   
-#define EFI_CRC_ERROR             RETURN_CRC_ERROR   
+#define EFI_SUCCESS               RETURN_SUCCESS
+#define EFI_LOAD_ERROR            RETURN_LOAD_ERROR
+#define EFI_INVALID_PARAMETER     RETURN_INVALID_PARAMETER
+#define EFI_UNSUPPORTED           RETURN_UNSUPPORTED
+#define EFI_BAD_BUFFER_SIZE       RETURN_BAD_BUFFER_SIZE
+#define EFI_BUFFER_TOO_SMALL      RETURN_BUFFER_TOO_SMALL
+#define EFI_NOT_READY             RETURN_NOT_READY
+#define EFI_DEVICE_ERROR          RETURN_DEVICE_ERROR
+#define EFI_WRITE_PROTECTED       RETURN_WRITE_PROTECTED
+#define EFI_OUT_OF_RESOURCES      RETURN_OUT_OF_RESOURCES
+#define EFI_VOLUME_CORRUPTED      RETURN_VOLUME_CORRUPTED
+#define EFI_VOLUME_FULL           RETURN_VOLUME_FULL
+#define EFI_NO_MEDIA              RETURN_NO_MEDIA
+#define EFI_MEDIA_CHANGED         RETURN_MEDIA_CHANGED
+#define EFI_NOT_FOUND             RETURN_NOT_FOUND
+#define EFI_ACCESS_DENIED         RETURN_ACCESS_DENIED
+#define EFI_NO_RESPONSE           RETURN_NO_RESPONSE
+#define EFI_NO_MAPPING            RETURN_NO_MAPPING
+#define EFI_TIMEOUT               RETURN_TIMEOUT
+#define EFI_NOT_STARTED           RETURN_NOT_STARTED
+#define EFI_ALREADY_STARTED       RETURN_ALREADY_STARTED
+#define EFI_ABORTED               RETURN_ABORTED
+#define EFI_ICMP_ERROR            RETURN_ICMP_ERROR
+#define EFI_TFTP_ERROR            RETURN_TFTP_ERROR
+#define EFI_PROTOCOL_ERROR        RETURN_PROTOCOL_ERROR
+#define EFI_INCOMPATIBLE_VERSION  RETURN_INCOMPATIBLE_VERSION
+#define EFI_SECURITY_VIOLATION    RETURN_SECURITY_VIOLATION
+#define EFI_CRC_ERROR             RETURN_CRC_ERROR
 #define EFI_END_OF_MEDIA          RETURN_END_OF_MEDIA
 #define EFI_END_OF_FILE           RETURN_END_OF_FILE
 
-#define EFI_WARN_UNKNOWN_GLYPH    RETURN_WARN_UNKNOWN_GLYPH   
-#define EFI_WARN_DELETE_FAILURE   RETURN_WARN_DELETE_FAILURE  
-#define EFI_WARN_WRITE_FAILURE    RETURN_WARN_WRITE_FAILURE   
+#define EFI_WARN_UNKNOWN_GLYPH    RETURN_WARN_UNKNOWN_GLYPH
+#define EFI_WARN_DELETE_FAILURE   RETURN_WARN_DELETE_FAILURE
+#define EFI_WARN_WRITE_FAILURE    RETURN_WARN_WRITE_FAILURE
 #define EFI_WARN_BUFFER_TOO_SMALL RETURN_WARN_BUFFER_TOO_SMALL
 
 #define EFI_ERROR(A)              RETURN_ERROR(A)
@@ -317,14 +318,14 @@ typedef UINT16                    STRING_REF;
 #define CopyMem(to,from,size) ({void *p;do {    \
     BDK_BARRIER;                  \
     p=memcpy((to),(from),(size));\
-    BDK_BARRIER;\
+    BDK_DSB;\
         } while(0);p;})
 
 #define ZeroMem(at,size) bzero((at),(size));
 /*
 ** defines to make things compile
 */
-#define REPORT_STATUS_CODE_WITH_DEVICE_PATH(x...) 
+#define REPORT_STATUS_CODE_WITH_DEVICE_PATH(x...)
 
 /**
   Returns the bit position of the highest bit set in a 32-bit value. Equivalent

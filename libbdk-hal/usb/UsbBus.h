@@ -215,7 +215,7 @@ struct _USB_DEVICE {
 // Stands for different functions of USB device
 //
 struct _USB_INTERFACE {
-  UINTN                     Signature;
+  /* UINTN                     Signature; */
   USB_DEVICE                *Device;
   USB_INTERFACE_DESC        *IfDesc;
   USB_INTERFACE_SETTING     *IfSetting;
@@ -257,7 +257,7 @@ struct _USB_INTERFACE {
 // Stands for the current USB Bus
 //
 struct _USB_BUS {
-  UINTN                     Signature;
+  /* UINTN                     Signature; */
   EFI_USB_BUS_PROTOCOL      BusId;
 
   //
@@ -266,7 +266,9 @@ struct _USB_BUS {
   EFI_HANDLE                HostHandle;
   EFI_DEVICE_PATH_PROTOCOL  *DevicePath;
   EFI_USB2_HC_PROTOCOL      *Usb2Hc;
+#if defined(notdef_cavium)
   EFI_USB_HC_PROTOCOL       *UsbHc;
+#endif
   //
   // Recorded the max supported usb devices.
   // XHCI can support up to 255 devices.
@@ -308,7 +310,7 @@ struct _USB_HUB_API{
 
 #define DEVICE_PATH_LIST_ITEM_SIGNATURE     SIGNATURE_32('d','p','l','i')
 typedef struct _DEVICE_PATH_LIST_ITEM{
-  UINTN                                 Signature;
+  /* UINTN                                 Signature; */
   LIST_ENTRY                            Link;
   EFI_DEVICE_PATH_PROTOCOL              *DevicePath;
 } DEVICE_PATH_LIST_ITEM;

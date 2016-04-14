@@ -864,10 +864,11 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     }
     DEBUG((EFI_D_INFO,"Initialized USB_MASS %p ifhandle %p @devindex %d for node %u usb_port %d lock @%p\n", UsbMass, ifHandle, devIndex, (unsigned) node, usb_port,UsbMass->bus_lock ));
     int rc = bdk_fs_register_dev("usb",devIndex,&bdk_fs_usb_ops);
-    printf("\nRegistered device \"/dev/n%d.usb%d\" for node %d usb port %d rc:%d ifHandle %p\n", node, devIndex, (int) node, usb_port,rc,ifHandle);
+    printf("\nRegistered device \"/dev/n%d.usb%d\" for node %d usb port %d - %s", node, devIndex, (int) node, usb_port, (rc) ? "??" : "OK");
 
     if (rc == 0 && __bdk_fs_fatfs_usbnotify) {
        __bdk_fs_fatfs_usbnotify(devIndex, 1);
+       printf("\nNotified fatfs of \"/fatfs/usb%d:\" availability\n", devIndex);
     }
 
     return Status;
@@ -905,10 +906,11 @@ UsbMassIfStop(void *ifHandle)
     } else {
         if (__bdk_fs_fatfs_usbnotify) {
             __bdk_fs_fatfs_usbnotify(devIndex, 0);
+             printf("\nNotified fatfs of \"/fatfs/usb%d:\" UnAvailability\n", devIndex);
         }
 
         int rc = bdk_fs_unregister_dev("usb",devIndex);
-        printf("\nUnregistered \"usb%d\" from bdk_fs rc:%d\n", devIndex,rc);
+        printf("Unregistered \"usb%d\" from bdk_fs - %s\n", devIndex , (rc) ? "ERROR" : "OK");
         UsbMass->Transport->CleanUp (UsbMass->Context);
         free(UsbMass);
     }

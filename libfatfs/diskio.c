@@ -11,10 +11,12 @@
 #include "diskio.h"		/* FatFs lower layer API */
 
 /* Physical drive numbers. Passed into diskio API as pdrv. */
+#if !defined(DRV_BOOT)
 #define DRV_BOOT	0
 #define DRV_USB0	1
 #define DRV_USB1	2
 #define DRV_USB2	3
+#endif
 PARTITION VolToPart[] =
 {
 	/* List of logical drives. Each line is a logical drive, drive numbers are
@@ -31,9 +33,9 @@ PARTITION VolToPart[] =
 	 *   No extended partitions are supported.
 	 */
 	{ DRV_BOOT, 1 }, /* /boot - device 0, partition 1, logical drive 0 */
-	{ DRV_USB0, 1 }, /* /USB device 0, partition 1, logical drive 1 */
-	{ DRV_USB1, 1 }, /* /USB device 1, partition 1, logical drive 2 */
-        { DRV_USB2, 1 }, /* /USB device 2, partition 1, logical drive 3 */
+	{ DRV_USB0, 0 }, /* /USB device 0, partition auto, logical drive 1 */
+	{ DRV_USB1, 0 }, /* /USB device 1, partition auto, logical drive 2 */
+        { DRV_USB2, 0 }, /* /USB device 2, partition auto, logical drive 3 */
 };
 
 
@@ -113,8 +115,8 @@ DSTATUS disk_status (
         case DRV_USB0:
         case DRV_USB1:
         case DRV_USB2:
-            stat = DRV_INIT(pdrv) ? RES_OK : STA_NOINIT;
-            break;
+               stat = DRV_INIT(pdrv) ? RES_OK : STA_NOINIT;
+               break;
 	default:
 		stat = STA_NODISK;
 		break;
@@ -268,6 +270,9 @@ void disk_usbnotify(const unsigned drvNdx, const unsigned available)
     unsigned pdrv = DRV_USB0 + drvNdx;
     BDK_TRACE(FATFS, "%s:%d USB%d %s\n", __FUNCTION__, __LINE__, drvNdx, (available) ? "On": "Off");
     if (pdrv > DRV_USB2) return;
-    if (DRV_FP(pdrv)) fclose(DRV_FP(pdrv));
+    if (DRV_FP(pdrv)) {
+	fclose(DRV_FP(pdrv));
+	DRV_FP(pdrv) = 0;
+    }
     DRV_INIT(pdrv) = 0;
 }

@@ -845,7 +845,7 @@ AddUsbDPToList (
   //
   ListItem = AllocateZeroPool (sizeof (DEVICE_PATH_LIST_ITEM));
   ASSERT (ListItem != NULL);
-  ListItem->Signature = DEVICE_PATH_LIST_ITEM_SIGNATURE;
+  /* ListItem->Signature = DEVICE_PATH_LIST_ITEM_SIGNATURE; */
   ListItem->DevicePath = DuplicateDevicePath (UsbDP);
 
   InsertTailList (UsbIoDPList, &ListItem->Link);
@@ -1089,7 +1089,7 @@ UsbBusAddWantedUsbIoDP (
   )
 {
   USB_BUS                       *Bus;
-  EFI_STATUS                    Status;
+//  EFI_STATUS                    Status;
   EFI_DEVICE_PATH_PROTOCOL      *DevicePathPtr;
 
   //
@@ -1117,8 +1117,8 @@ UsbBusAddWantedUsbIoDP (
     // Here use a Usb class Device Path in WantedUsbIoDPList to indicate all Usb devices
     // are wanted Usb devices
     //
-    Status = UsbBusFreeUsbDPList (&Bus->WantedUsbIoDPList);
-    ASSERT (!EFI_ERROR (Status));
+    /* Status = */ UsbBusFreeUsbDPList (&Bus->WantedUsbIoDPList);
+    /* ASSERT (!EFI_ERROR (Status)); */
     DevicePathPtr = DuplicateDevicePath ((EFI_DEVICE_PATH_PROTOCOL *) &mAllUsbClassDevicePath);
   } else if (!IsDevicePathEnd (RemainingDevicePath)) {
     //
@@ -1135,8 +1135,8 @@ UsbBusAddWantedUsbIoDP (
   }
 
   ASSERT (DevicePathPtr != NULL);
-  Status = AddUsbDPToList (DevicePathPtr, &Bus->WantedUsbIoDPList);
-  ASSERT (!EFI_ERROR (Status));
+  /* Status = */ AddUsbDPToList (DevicePathPtr, &Bus->WantedUsbIoDPList);
+  /* ASSERT (!EFI_ERROR (Status)); */
   FreePool (DevicePathPtr);
   return EFI_SUCCESS;
 

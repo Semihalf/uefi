@@ -109,7 +109,7 @@ UsbCreateInterface (
     return NULL;
   }
 
-  UsbIf->Signature  = USB_INTERFACE_SIGNATURE;
+  /* UsbIf->Signature  = USB_INTERFACE_SIGNATURE; */
   UsbIf->Device     = Device;
   UsbIf->IfDesc     = IfDesc;
   ASSERT (IfDesc->ActiveIndex < USB_MAX_INTERFACE_SETTING);

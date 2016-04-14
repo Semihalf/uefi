@@ -916,7 +916,7 @@ UsbBusBuildProtocol (
     return EFI_OUT_OF_RESOURCES;
   }
 
-  UsbBus->Signature  = USB_BUS_SIGNATURE;
+  /* UsbBus->Signature  = USB_BUS_SIGNATURE; */
   UsbBus->HostHandle = Controller;
   UsbBus->MaxDevices = USB_MAX_DEVICES;
 #if defined(notdef_cavium)
@@ -1034,7 +1034,7 @@ Status = EFI_SUCCESS;
   RootHub->NumOfInterface = 1;
   RootHub->Interfaces[0]  = RootIf;
   RootHub->Tier           = 0;
-  RootIf->Signature       = USB_INTERFACE_SIGNATURE;
+  /* RootIf->Signature       = USB_INTERFACE_SIGNATURE; */
   RootIf->Device          = RootHub;
   RootIf->DevicePath      = UsbBus->DevicePath;
 

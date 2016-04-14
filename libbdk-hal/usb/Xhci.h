@@ -631,9 +631,9 @@ static inline void cvmXhcWriteDoorBellReg(xhci_t* xhc, const unsigned slot, cons
 static inline void cvmXhcWriteDoorBellReg(xhci_t* xhc, const unsigned slot, const uint32_t data)
 {
 
-    BDK_WMB;
+    BDK_DSB;
     BDK_CSR_WRITE(xhc->node,BDK_USBHX_UAHC_DBX(xhc->usb_port,slot), data);
-    BDK_WMB;
+//    BDK_WMB; // Not needed IO bypasses write buffer
 }
 static inline uint32_t  cvmXhcReadDoorBellReg(xhci_t* xhc, const unsigned offset)  __attribute__((always_inline));
 static inline uint32_t  cvmXhcReadDoorBellReg(xhci_t* xhc, const unsigned offset) {

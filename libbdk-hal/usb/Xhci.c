@@ -375,7 +375,7 @@ XhcSetRootHubPortFeature (
 #else
     uahc_portsc.u  |= XHC_PORTSC_LWS;
     BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-    BDK_WMB;
+    BDK_DSB;
     uahc_portsc.u &= ~XHC_PORTSC_PLS;
     uahc_portsc.u |= (3 << 5) ;
     BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);

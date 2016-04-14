@@ -243,14 +243,17 @@ int bdk_usb_HCList()
  **/
 int bdk_usb_HCInit(bdk_node_t node, int usb_port)
 {
+    if ((0 == __bdk_is_dram_enabled(node)) || (0 == __bdk_is_dram_enabled(0))) {
+       printf("DRAM-less configuration does not fit\n");
+       return -1;
+    }
     if ((unsigned int) node > BDK_NUMA_MAX_NODES) {
         printf("Node must be less then %d vs %d", BDK_NUMA_MAX_NODES, node);
-       return -1;
+        return -1;
     }
     if (usb_port >= CAVIUM_MAX_USB_INSTANCES) {
         printf("USB port must be less then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
         return -1;
-
     }
     int rc = 0;
     xhci_t *thisHC = usb_global_data[node][usb_port].xhci_priv;
@@ -321,7 +324,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         RootHub->NumOfInterface = 1;
         RootHub->Interfaces[0]  = RootIf;
         RootHub->Tier           = 0;
-        RootIf->Signature       = USB_INTERFACE_SIGNATURE;
+        /* RootIf->Signature       = USB_INTERFACE_SIGNATURE; */
         RootIf->Device          = RootHub;
         RootIf->DevicePath      = UsbBus->DevicePath;
         {
@@ -350,6 +353,12 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         usb_global_data[node][usb_port].root_hub = RootHub;
     }
     bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], 0);
+    // Wait for async thread to initialize - otherwise lua menus will not be right
+    int count=1000;
+    while((0 == (usb_global_data[node][usb_port].async_mon_state & 4)) && (count)) {
+        bdk_thread_yield();
+        count--;
+    }
 out:
     if (rc)
         printf("%s exiting with rc %d\n", __FUNCTION__, rc);
