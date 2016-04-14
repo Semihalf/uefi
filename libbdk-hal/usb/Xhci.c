@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 **/
 #include <bdk.h>
 #include "Xhci.h"
-#include <malloc.h> // for memalign
 #include "UsbBus.h"
 #include "UsbDesc.h"
 #include "UsbHub.h"
@@ -106,7 +105,7 @@ xhci_t* createUsbXHci(bdk_node_t node, int usb_port)
     xhci_t *thisXHC;
     if (usb_port >= CAVIUM_MAX_USB_INSTANCES) return NULL;
     if (NULL == (thisXHC = malloc(sizeof(*thisXHC)))) {
-        printf("Could not allocate XHCI instance for node %d port %d\n", (unsigned) node , (unsigned) usb_port);
+        DEBUG((EFI_D_ERROR,"Could not allocate XHCI instance for node %d port %d\n", (unsigned) node , (unsigned) usb_port));
         return NULL;
     }
     bzero(thisXHC, sizeof (*thisXHC));

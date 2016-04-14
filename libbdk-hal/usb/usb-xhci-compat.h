@@ -94,7 +94,7 @@ const char* debuglvl2s(uint32_t lvl);
 
 //#define ASSERT(x) if (!(x)){ printf("\n%s:%d ASSERT Failed\n", __FUNCTION__, __LINE__);}
 #define ASSERT(x)
-
+#define ASSERT_HANG(x) if (!(x)){ printf("\n%s:%d ASSERT Failed\n", __FUNCTION__, __LINE__); while(1);}
 
 #if ! defined(CAVIUM_NOTYET)
 #define CAVIUM_NOTYET(x...) printf("NOTYET: " #x "%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__)

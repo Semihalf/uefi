@@ -1289,7 +1289,7 @@ XhcCheckNewEvent (
 
 **/
 
-VOID
+EFI_STATUS
 CreateTransferRing (
   IN  USB_XHCI_INSTANCE     *Xhc,
   IN  unsigned              TrbNum,
@@ -1302,7 +1302,7 @@ CreateTransferRing (
   @param  EventRing           The created event ring.
 
 **/
-VOID
+EFI_STATUS
 CreateEventRing (
   IN  USB_XHCI_INSTANCE     *Xhc,
   OUT EVENT_RING            *EventRing

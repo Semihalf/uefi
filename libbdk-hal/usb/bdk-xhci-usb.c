@@ -298,25 +298,42 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     USB_INTERFACE *RootIf = usb_global_data[node][usb_port].root_if;
     USB_BUS *UsbBus = usb_global_data[node][usb_port].usb_bus;
     USB_DEVICE *RootHub = usb_global_data[node][usb_port].root_hub;
-    if (NULL !=  RootIf) { free(RootIf); }
+
+    if (NULL !=  RootIf) { free(RootIf); RootIf = NULL;}
     if (NULL != UsbBus) {
         if (UsbBus->DevicePath) free( UsbBus->DevicePath);
         free(UsbBus);
+        UsbBus = NULL;
     }
-    if (NULL != RootHub) { free(RootHub);}
+    if (NULL != RootHub) { free(RootHub); RootHub = NULL;}
 
     if (NULL == RootIf) {
         CONTROLLER_DEVICE_PATH *ctlPath;
         ctlPath = calloc(2,sizeof(*ctlPath));
+        if (ctlPath) RootIf = calloc(1,sizeof(*RootIf));
+        if (RootIf) UsbBus = calloc(1,sizeof(*UsbBus));
+        if (UsbBus) RootHub = calloc(1,sizeof(*RootHub));
+        if (!ctlPath || !RootIf || !UsbBus || !RootHub) {
+            free(thisHC);
+            if (ctlPath) free(ctlPath);
+            if(RootIf) free(RootIf);
+            if (UsbBus) free(UsbBus);
+            if (RootHub) free(RootHub);
+            usb_global_data[node][usb_port].root_if = NULL;
+            usb_global_data[node][usb_port].usb_bus = NULL;
+            usb_global_data[node][usb_port].root_hub = NULL;
+            usb_global_data[node][usb_port].xhci_priv = NULL;
+            printf("memory allocation failure\n");
+            rc = -5;
+            goto out;
+        }
+
         ctlPath[0].Header.Type =  HARDWARE_DEVICE_PATH;
         ctlPath[0].Header.SubType = HW_CONTROLLER_DP;
         SetDevicePathNodeLength (&ctlPath[0].Header, sizeof (CONTROLLER_DEVICE_PATH));
         ctlPath[0].Controller = CAVIUM_NODE_PORT_TO_CONTROLLER(node,usb_port);
         SetDevicePathEndNode(&ctlPath[1].Header);
 
-        RootIf = calloc(1,sizeof(*RootIf));
-        UsbBus = calloc(1,sizeof(*UsbBus));
-        RootHub = calloc(1,sizeof(*RootHub));
         /* UsbBus.c:UsbBusBuildProtocol */
         UsbBus->MaxDevices = 128;
         UsbBus->Usb2Hc = &thisHC->Usb2Hc;

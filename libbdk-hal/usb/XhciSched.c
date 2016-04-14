@@ -1039,7 +1039,8 @@ int xhciInitSched(xhci_t* xhc)
     // Note: The Command Ring is 64 byte aligned, so the low order 6 bits of the Command Ring Pointer shall
     // always be '0'.
     //
-    CreateTransferRing (xhc, CMD_RING_TRB_NUMBER, &xhc->CmdRing);
+    if (( rc =CreateTransferRing (xhc, CMD_RING_TRB_NUMBER, &xhc->CmdRing)))
+        goto out;
     uint64_t CmdRingPhy = bdk_ptr_to_phys(xhc->CmdRing.RingSeg0);
     BDK_CSR_DEFINE(uahc_crcr,BDK_USBHX_UAHC_CRCR(0)) = {.u = 0,};
     uahc_crcr.s.rcs = 1;
@@ -1059,8 +1060,13 @@ int xhciInitSched(xhci_t* xhc)
     //
     // Allocate EventRing for Cmd, Ctrl, Bulk, Interrupt, AsynInterrupt transfer
     //
-    CreateEventRing (xhc, &xhc->EventRing);
-
+    rc = CreateEventRing (xhc, &xhc->EventRing);
+    if (rc) {
+        if (xhc->CmdRing.RingSeg0 != NULL) {
+            free(xhc->CmdRing.RingSeg0);
+            xhc->CmdRing.RingSeg0 = NULL;
+        }
+    }
 out:
     if (rc)
         printf("%s exiting with rc %d\n", __FUNCTION__, rc);
@@ -1151,7 +1157,7 @@ void xhciFreeSched(xhci_t* xhc)
 }
 #undef _clean
 
-void CreateTransferRing (
+EFI_STATUS CreateTransferRing (
      USB_XHCI_INSTANCE     *xhc,
      unsigned              TrbNum,
      TRANSFER_RING         *TransferRing
@@ -1166,7 +1172,9 @@ void CreateTransferRing (
   ZeroMem (Buf, sizeof (TRB_TEMPLATE) * TrbNum);
 #else
     buf = memalign(BDK_CACHE_LINE_SIZE, sizeof (TRB_TEMPLATE) * TrbNum);
-    ASSERT(buf != NULL);
+    if (NULL == buf) {
+        return EFI_OUT_OF_RESOURCES;
+    }
     bzero(buf,sizeof (TRB_TEMPLATE) * TrbNum);
 #endif
     TransferRing->RingSeg0     = buf;
@@ -1191,6 +1199,7 @@ void CreateTransferRing (
     // Set Cycle bit as other TRB PCS init value
     //
     EndTrb->CycleBit = 0;
+    return EFI_SUCCESS;
 }
 
 /**
@@ -1200,7 +1209,7 @@ void CreateTransferRing (
   @param  EventRing           The created event ring.
 
 **/
-VOID
+EFI_STATUS
 CreateEventRing (
   IN  USB_XHCI_INSTANCE     *xhc,
   OUT EVENT_RING            *EventRing
@@ -1217,7 +1226,9 @@ CreateEventRing (
 #else
     uint64_t size =  sizeof (TRB_TEMPLATE) * EVENT_RING_TRB_NUMBER;
     buf = memalign(BDK_CACHE_LINE_SIZE,size);
-    ASSERT (NULL != buf);
+    if (NULL == buf) {
+        return EFI_OUT_OF_RESOURCES;
+    }
     bzero(buf,size);
 #endif
     EventRing->EventRingSeg0    = buf;
@@ -1236,7 +1247,7 @@ CreateEventRing (
     buf = memalign(BDK_CACHE_LINE_SIZE,size);
     if (NULL == buf) {
         free(EventRing->EventRingSeg0);
-        return;
+        return EFI_OUT_OF_RESOURCES;
     }
     bzero(buf,size);
 
@@ -1272,6 +1283,7 @@ CreateEventRing (
     //
     BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_IMANX(usb_port,0),
                    c.s.ie=1;);
+    return EFI_SUCCESS;
 }
 
 /**
@@ -1697,7 +1709,10 @@ XhcInitializeDeviceSlot (
   //
   EndpointTransferRing = AllocateZeroPool (sizeof (TRANSFER_RING));
   Xhc->UsbDevContext[SlotId].EndpointTransferRing[0] = EndpointTransferRing;
-  CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[0]);
+  if (EFI_SUCCESS != CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[0])) {
+      DEBUG ((EFI_D_ERROR, "Failed to create TransferRing for context"));
+      return EFI_OUT_OF_RESOURCES;
+  }
   //
   // 5) Initialize the Input default control Endpoint 0 Context (6.2.3).
   //
@@ -1935,7 +1950,11 @@ XhcInitializeDeviceSlot64 (
   //
   EndpointTransferRing = AllocateZeroPool (sizeof (TRANSFER_RING));
   Xhc->UsbDevContext[SlotId].EndpointTransferRing[0] = EndpointTransferRing;
-  CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[0]);
+  if (EFI_SUCCESS != CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[0])) {
+      DEBUG ((EFI_D_ERROR, "Failed to create TransferRing for context"));
+      return EFI_OUT_OF_RESOURCES;
+  }
+
   //
   // 5) Initialize the Input default control Endpoint 0 Context (6.2.3).
   //
@@ -2690,7 +2709,8 @@ XhcInitializeEndpointContext (
         if (Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1] == NULL) {
           EndpointTransferRing = AllocateZeroPool(sizeof (TRANSFER_RING));
           Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1] = (VOID *) EndpointTransferRing;
-          CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1]);
+          EFI_STATUS rc=CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1]);
+          ASSERT_HANG(!EFI_ERROR(rc));
         }
 
         break;
@@ -2744,7 +2764,8 @@ XhcInitializeEndpointContext (
         if (Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1] == NULL) {
           EndpointTransferRing = AllocateZeroPool(sizeof (TRANSFER_RING));
           Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1] = (VOID *) EndpointTransferRing;
-          CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1]);
+          EFI_STATUS rc = CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1]);
+          ASSERT_HANG(!EFI_ERROR(rc));
         }
         break;
 
@@ -2856,7 +2877,8 @@ XhcInitializeEndpointContext64 (
         if (Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1] == NULL) {
           EndpointTransferRing = AllocateZeroPool(sizeof (TRANSFER_RING));
           Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1] = (VOID *) EndpointTransferRing;
-          CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1]);
+          EFI_STATUS rc = CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1]);
+           ASSERT_HANG(!EFI_ERROR(rc));
         }
 
         break;
@@ -2910,7 +2932,8 @@ XhcInitializeEndpointContext64 (
         if (Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1] == NULL) {
           EndpointTransferRing = AllocateZeroPool(sizeof (TRANSFER_RING));
           Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1] = (VOID *) EndpointTransferRing;
-          CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1]);
+          EFI_STATUS rc = CreateTransferRing(Xhc, TR_RING_TRB_NUMBER, (TRANSFER_RING *)Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1]);
+          ASSERT_HANG(!EFI_ERROR(rc));
         }
         break;
 
