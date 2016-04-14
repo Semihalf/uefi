@@ -458,13 +458,13 @@ int bdk_usb_test_mode(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode)
             return usb2_test_mode(node, usb_port, 4);
         case BDK_USB_TEST_USB2_FORCE_ENABLE:
             return usb2_test_mode(node, usb_port, 5);
-        case BDK_USB_HXCI_INIT:
+        case BDK_USB_XHCI_INIT:
             return bdk_usb_HCInit(node, usb_port);
-        case BDK_USB_HXCI_LIST_ADDRESSES:
+        case BDK_USB_XHCI_LIST_ADDRESSES:
             return bdk_usb_HCList();
-        case BDK_USB_HXCI_POLL_STATUS:
+        case BDK_USB_XHCI_POLL_STATUS:
             return bdk_usb_HCPoll(node, usb_port);
-        case BDK_USB_HXCI_TOGGLE_POLLING:
+        case BDK_USB_XHCI_TOGGLE_POLLING:
             bdk_usb_togglePoll(node, usb_port, DO_TOGGLE);
             return 0;
         case BDK_USB_TEST_USB2_LAST:
@@ -498,13 +498,13 @@ const char* bdk_usb_get_test_mode_string(bdk_node_t node, int usb_port, bdk_usb_
             return "USB 2.0 PACKET test";
         case BDK_USB_TEST_USB2_FORCE_ENABLE:
             return "USB 2.0 FORCE_ENABLE test";
-        case BDK_USB_HXCI_INIT:
+        case BDK_USB_XHCI_INIT:
             return "Initilize host controller";
-        case BDK_USB_HXCI_LIST_ADDRESSES:
+        case BDK_USB_XHCI_LIST_ADDRESSES:
             return "List USB interfaces";
-    	case BDK_USB_HXCI_POLL_STATUS:
+    	case BDK_USB_XHCI_POLL_STATUS:
             return "USB hxci poll root hub status";
-    	case BDK_USB_HXCI_TOGGLE_POLLING:
+    	case BDK_USB_XHCI_TOGGLE_POLLING:
         {
             int i = bdk_usb_togglePoll(node, usb_port, DO_QUERY);
             if (i>=0) {

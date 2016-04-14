@@ -20,9 +20,18 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 static void async_request_monitor(int unused, void *ctl);
 
+/*
+** Bit masks for async monitor state
+*/
+typedef enum _ASYNC_MON_STATE {
+    AM_Stop = 0x1, // user->async_mon request to stop
+    AM_Stopped=0x2, // async_mon->user
+    AM_Running = 0x4, // Bit is on while async mon is thread is running, off otherwise
+} ASYNC_MON_STATE;
+
 typedef struct usb_hc_descriptor_s {
     bdk_rlock_t xhci_lock;
-    int async_mon_state;
+    ASYNC_MON_STATE async_mon_state;
     USB_BUS *usb_bus;
     USB_DEVICE *root_hub;
     USB_INTERFACE *root_if;
@@ -45,15 +54,15 @@ void async_request_monitor(int unused, void *ctl)
 {
     usb_hc_descriptor_t *p = (usb_hc_descriptor_t*)ctl;
     int count = 0;
-    p->async_mon_state |= 4;
+    p->async_mon_state |= AM_Running;
     BDK_WMB;
     while(1)
     {
         bdk_wait_usec(XHC_ASYNC_TIMER_INTERVAL);
         bdk_rlock_lock(&p->xhci_lock);
-        if ((NULL == p->xhci_priv) ||  (p->async_mon_state & 1) ) {
-            p->async_mon_state |= 2;
+        if ((NULL == p->xhci_priv) ||  (p->async_mon_state & AM_Stop) ) {
             bdk_rlock_unlock(&p->xhci_lock);
+            p->async_mon_state |= AM_Stopped;
             break;
         }
         count++;
@@ -64,7 +73,7 @@ void async_request_monitor(int unused, void *ctl)
         XhcMonitorAsyncRequests(0,p->xhci_priv);
         bdk_rlock_unlock(&p->xhci_lock);
     }
-    p->async_mon_state &= ~(1|4);
+    p->async_mon_state &= ~(AM_Stop | AM_Running);
     BDK_WMB;
 }
 
@@ -355,7 +364,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], 0);
     // Wait for async thread to initialize - otherwise lua menus will not be right
     int count=1000;
-    while((0 == (usb_global_data[node][usb_port].async_mon_state & 4)) && (count)) {
+    while((0 == (usb_global_data[node][usb_port].async_mon_state & AM_Running)) && (count)) {
         bdk_thread_yield();
         count--;
     }
@@ -429,16 +438,16 @@ int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const bdk_usb_toggleReq_t 
     usb_hc_descriptor_t *thisDesc  = &usb_global_data[node][usb_port];
     if (action == DO_QUERY) { /* State Inquiry */
         if (NULL == thisDesc->xhci_priv) return -1;
-        return (thisDesc->async_mon_state & 4 ) ? 1 : 0;
+        return (thisDesc->async_mon_state & AM_Running ) ? 1 : 0;
     }
 
     if (NULL == thisDesc->xhci_priv) {
         printf("\n*** Initialize XHCI controller first ***\n");
         return -1;
     }
-    if (!(thisDesc->async_mon_state & 4)) { /* Polling needs to be started */
+    if (!(thisDesc->async_mon_state & AM_Running)) { /* Polling needs to be started */
         bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], 0);
-        while( !(thisDesc->async_mon_state & 4)) {
+        while( !(thisDesc->async_mon_state & AM_Running)) {
             bdk_thread_yield();
             bdk_wait_usec(100 * 1000);
         }
@@ -446,9 +455,9 @@ int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const bdk_usb_toggleReq_t 
         return 1;
     }
     /* Polling needs to stop */
-    thisDesc->async_mon_state |= 1;
+    thisDesc->async_mon_state |= AM_Stop;
     BDK_WMB;
-    while( (thisDesc->async_mon_state & 6) != 2) {
+    while( (thisDesc->async_mon_state & (AM_Running | AM_Stopped)) != AM_Stopped) {
         bdk_thread_yield();
         bdk_wait_usec(100 * 1000);
     }
