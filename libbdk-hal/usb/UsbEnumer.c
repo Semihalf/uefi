@@ -312,6 +312,12 @@ UsbConnectDriver (
              Status = UsbMassIfStart(&UsbIf->UsbIo,  UsbIf->DevicePath, UsbIf);
              // Record if mass storage will deal with it
              UsbIf->IsManaged  = (BOOLEAN)!EFI_ERROR (Status);
+         } else {
+             BDK_TRACE(USB_XHCI,"Not a storage device: class %d sub-class %d protocol %d\n",
+                       UsbIf->IfSetting->Desc.InterfaceClass,
+                       UsbIf->IfSetting->Desc.InterfaceSubClass,
+                       UsbIf->IfSetting->Desc.InterfaceProtocol);
+             UsbIf->IsManaged = FALSE;
          }
 #endif
 
@@ -515,7 +521,6 @@ UsbDisconnectDriver (
     gBS->RaiseTPL (OldTpl);
 #else
     UsbIf->IsManaged = FALSE;
-//    CAVIUM_NOTYET("disconnect controller from managed hub");
     UsbMassIfStop(UsbIf);
     DEBUG (( EFI_D_INFO, "UsbDisconnectDriver: Stopped UsbIf %p\n", UsbIf));
 #endif
