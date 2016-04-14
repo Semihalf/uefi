@@ -554,24 +554,6 @@ UsbGetMaxPacketSize0 (
   //
   for (Index = 0; Index < 3; Index++) {
 #if XHCI_BABBLE_WORKAROUND
-#if 0
-      char *buffer = calloc(1,256);
-      Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_DEVICE, 0, 0, buffer, 18);
-      if (EFI_ERROR(Status) ) {
-          DEBUG(( EFI_D_ERROR, "TEST failed 18 byte read %d Index %d\n",
-                  (int) Status, (int)Index));
-      } else {
-          DEBUG((EFI_D_INFO,"18 byte read OK(%lu) Index %d %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x\n",
-                 sizeof(EFI_USB_DEVICE_DESCRIPTOR), (int) Index,
-                 (int) buffer[0], (int) buffer[1], (int)buffer[2], (int)buffer[3],
-                 (int) buffer[4], (int) buffer[5], (int)buffer[6], (int)buffer[7],
-                 (int) buffer[8], (int) buffer[9], (int)buffer[10], (int)buffer[11],
-                 (int) buffer[12], (int) buffer[13], (int)buffer[14], (int)buffer[15],
-                 (int) buffer[16], (int) buffer[17]
-                    ));
-      }
-      free(buffer);
-#endif
       /* It looks as if 8 byte read is supported by all devices I could find.
       ** 18 byte read gave me grief on Trident TU-S9 device (usb-to-serial)
       */

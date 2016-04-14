@@ -868,7 +868,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
 
     if (rc == 0 && __bdk_fs_fatfs_usbnotify) {
        __bdk_fs_fatfs_usbnotify(devIndex, 1);
-       printf("\nNotified fatfs of \"/fatfs/usb%d:\" availability\n", devIndex);
+       printf("\nNotified fatfs \"/fatfs/usb%d:\" available\n", devIndex);
     }
 
     return Status;
@@ -906,11 +906,11 @@ UsbMassIfStop(void *ifHandle)
     } else {
         if (__bdk_fs_fatfs_usbnotify) {
             __bdk_fs_fatfs_usbnotify(devIndex, 0);
-             printf("\nNotified fatfs of \"/fatfs/usb%d:\" UnAvailability\n", devIndex);
+             printf("\nNotified fatfs \"/fatfs/usb%d:\" unavailable\n", devIndex);
         }
 
         int rc = bdk_fs_unregister_dev("usb",devIndex);
-        printf("Unregistered \"usb%d\" from bdk_fs - %s\n", devIndex , (rc) ? "ERROR" : "OK");
+        printf("Unregistered device \"/dev/nX.usb%d\" from bdk_fs - %s\n", devIndex , (rc) ? "ERROR" : "OK");
         UsbMass->Transport->CleanUp (UsbMass->Context);
         free(UsbMass);
     }

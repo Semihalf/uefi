@@ -1145,7 +1145,7 @@ XhcControlTransfer (
         // Don't support multi-TT feature for super speed hub now.
         //
         MTT = 0;
-        DEBUG ((EFI_D_ERROR, "XHCI: Don't support multi-TT feature for Hub now. (force to disable MTT)\n"));
+        DEBUG ((EFI_D_WARN, "XHCI: Don't support multi-TT feature for Hub at this time. (forcing MTT disable)\n"));
       } else {
         MTT = 0;
       }
