@@ -31,7 +31,7 @@ typedef enum _ASYNC_MON_STATE {
 
 typedef struct usb_hc_descriptor_s {
     bdk_rlock_t xhci_lock;
-    ASYNC_MON_STATE async_mon_state;
+    volatile ASYNC_MON_STATE async_mon_state;
     USB_BUS *usb_bus;
     USB_DEVICE *root_hub;
     USB_INTERFACE *root_if;
@@ -208,6 +208,7 @@ int bdk_usb_HCList()
     unsigned i,j;
     char buf[240];
     for (i=0;i<BDK_NUMA_MAX_NODES;i++) {
+        if (!bdk_numa_exists(i)) continue;
         for(j=0;j<CAVIUM_MAX_USB_INSTANCES;j++) {
             usb_hc_descriptor_t *p = &usb_global_data[i][j];
             if (p->usb_bus || p->root_hub||p->root_if || p->xhci_priv) {
@@ -252,12 +253,8 @@ int bdk_usb_HCList()
  **/
 int bdk_usb_HCInit(bdk_node_t node, int usb_port)
 {
-    if ((0 == __bdk_is_dram_enabled(node)) || (0 == __bdk_is_dram_enabled(0))) {
-       printf("DRAM-less configuration does not fit\n");
-       return -1;
-    }
-    if ((unsigned int) node > BDK_NUMA_MAX_NODES) {
-        printf("Node must be less then %d vs %d", BDK_NUMA_MAX_NODES, node);
+    if (!bdk_numa_exists(node)) {
+        printf("node %d does not exist", node);
         return -1;
     }
     if (usb_port >= CAVIUM_MAX_USB_INSTANCES) {
@@ -382,7 +379,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     // Wait for async thread to initialize - otherwise lua menus will not be right
     int count=1000;
     while((0 == (usb_global_data[node][usb_port].async_mon_state & AM_Running)) && (count)) {
-        bdk_thread_yield();
+        bdk_wait_usec(10*1000);
         count--;
     }
 out:
@@ -402,9 +399,9 @@ out:
  * @return Non-Zero error
  **/
 int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
-    if ((unsigned int) node > BDK_NUMA_MAX_NODES) {
-        printf("Node must be less then %d vs %d", BDK_NUMA_MAX_NODES, node);
-       return -1;
+    if (!bdk_numa_exists(node)) {
+        printf("node %d does not exist", node);
+        return -1;
     }
     if (usb_port >= CAVIUM_MAX_USB_INSTANCES) {
         printf("USB port must be less then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
@@ -442,16 +439,15 @@ int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
  **/
 int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const bdk_usb_toggleReq_t action)
 {
-   if ((unsigned int) node > BDK_NUMA_MAX_NODES) {
-        printf("Node must be less then %d vs %d", BDK_NUMA_MAX_NODES, node);
-       return -1;
+    if (!bdk_numa_exists(node)) {
+        printf("node %d does not exist", node);
+        return -1;
     }
     if (usb_port >= CAVIUM_MAX_USB_INSTANCES) {
         printf("USB port must be less then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
         return -1;
 
     }
-
     usb_hc_descriptor_t *thisDesc  = &usb_global_data[node][usb_port];
     if (action == DO_QUERY) { /* State Inquiry */
         if (NULL == thisDesc->xhci_priv) return -1;
@@ -464,9 +460,12 @@ int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const bdk_usb_toggleReq_t 
     }
     if (!(thisDesc->async_mon_state & AM_Running)) { /* Polling needs to be started */
         bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], 0);
-        while( !(thisDesc->async_mon_state & AM_Running)) {
+        // Wait for polling to actually start, but not forever it matters only for LUA displays
+        uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) +
+            5000 * XHC_1_MILLISECOND * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / 1000000;
+        while( !(thisDesc->async_mon_state & AM_Running) &&
+               (bdk_clock_get_count(BDK_CLOCK_TIME) < done) ) {
             bdk_thread_yield();
-            bdk_wait_usec(100 * 1000);
         }
         printf("\n*** USB-XHCI Polling have started ***\n");
         return 1;
@@ -474,12 +473,14 @@ int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const bdk_usb_toggleReq_t 
     /* Polling needs to stop */
     thisDesc->async_mon_state |= AM_Stop;
     BDK_WMB;
-    while( (thisDesc->async_mon_state & (AM_Running | AM_Stopped)) != AM_Stopped) {
+    // This may take a while - thread checks for stop requests only so often
+    uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) +
+        10000 * XHC_1_MILLISECOND * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / 1000000;
+    while (( (thisDesc->async_mon_state & (AM_Running | AM_Stopped)) != AM_Stopped) &&
+           (bdk_clock_get_count(BDK_CLOCK_TIME) < done) ) {
         bdk_thread_yield();
-        bdk_wait_usec(100 * 1000);
     }
-    printf("\n*** USB-XHCI Polling have stopped ***\n");
+
+printf("\n*** USB-XHCI Polling have stopped ***\n");
     return 0;
-
-
 }

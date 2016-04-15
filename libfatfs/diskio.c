@@ -153,7 +153,7 @@ DSTATUS disk_initialize (
 		if (!DRV_INIT(pdrv))
 			DRV_INIT(pdrv) = 1;
 		break;
-        case DRV_USB0: case DRV_USB1: case DRV_USB2:
+        case DRV_USB0...DRV_USB2:
             if (!DRV_INIT(pdrv))
                 DRV_INIT(pdrv) = 1;
 		break;
