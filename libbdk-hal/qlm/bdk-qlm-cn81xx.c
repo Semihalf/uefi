@@ -674,7 +674,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     __bdk_qlm_setup_pem_reset(node, 0, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
                         c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X4);
-                        // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                        c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
                         c.s.pemon = 1);
@@ -694,7 +694,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     __bdk_qlm_setup_pem_reset(node, 1, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(1),
                         c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X4);
-                        // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                        c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
                     /* x4 mode waits for DLM3 setup before turning on the PEM */
                     if (mode == BDK_QLM_MODE_PCIE_1X2)
@@ -717,7 +717,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         __bdk_qlm_setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(2),
                             c.s.lanes8 = 0;
-                            // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                            c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                             c.s.md = cfg_md);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2),
                             c.s.pemon = 1);
