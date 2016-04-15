@@ -389,15 +389,13 @@ out:
 }
 
 /**
- * Trigger enumeration on USB XHCI root hub instance on a thunder node (normally timer driven)
- * Root hub has to be initialized prior to that
+ * Manually trigger root Hub enumeration pass
  *
- * @param node cavium node number
- * @param usb_port xhci instance on a node
+ * @param node       Node to init
+ * @param usb_port   Port to intialize
  *
- * @return Zero	success
- * @return Non-Zero error
- **/
+ * @return Zero on success, negative on error
+ */
 int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
     if (!bdk_numa_exists(node)) {
         printf("node %d does not exist", node);

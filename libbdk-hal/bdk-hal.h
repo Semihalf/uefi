@@ -29,7 +29,7 @@
 #include "bdk-gpio.h"
 #include "device/bdk-device.h"
 #include "if/bdk-if.h"
-#include "usb/bdk-usb-extapi.h"
+#include "usb/bdk-usb-xhci-intf.h"
 #include "bdk-ecam.h"
 #include "bdk-fpa.h"
 #include "bdk-pki.h"
