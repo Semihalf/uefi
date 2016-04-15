@@ -104,9 +104,9 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
             {
                 case 0: /* PEM0 */
                 {
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(1));
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(0));
                     if (gserx_cfg.s.pcie)
-                        return 1; /* PEM0 is on DLM1 */
+                        return 0; /* PEM0 is on DLM0 */
                     else
                         return -1; /* PEM0 is disabled */
                 }
@@ -157,8 +157,16 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
     {
         switch (qlm)
         {
-            case 1: /* PEM0 */
-                return BDK_QLM_MODE_PCIE_1X2;
+            case 0: /* PEM0 */
+            {
+                BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
+                if (pemx_cfg.s.lanes8)
+                    return BDK_QLM_MODE_PCIE_1X4; /* PEM0 x4 */
+                else
+                    return BDK_QLM_MODE_PCIE_1X2; /* PEM0 x2 */
+            }
+            case 1: /* PEM0 second two lanes */
+                return BDK_QLM_MODE_PCIE_1X4; /* PEM0 x4 */
             case 2: /* Either PEM1 x4 or PEM1 x2 */
             {
                 BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(1));
@@ -660,14 +668,23 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 cfg_md = 2; /* Gen3 Speed */
             switch (qlm)
             {
-                case 1: /* PEM0 x2 */
+                case 0: /* Either PEM0 x4 or PEM0 x2 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(0),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 0, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
-                        c.s.lanes8 = 0;
+                        c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X4);
                         // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
+                    BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
+                        c.s.pemon = 1);
+                    /* x4 mode waits for DLM1 setup before turning on the PEM */
+                    if (mode == BDK_QLM_MODE_PCIE_1X2)
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
+                            c.s.pemon = 1);
+                    break;
+                case 1: /* Second two lanes for PEM0 x4 */
+                    /* PEMX_CFG already setup */
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
                         c.s.pemon = 1);
                     break;
@@ -687,7 +704,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 case 3: /* Either PEM1 x4 or PEM2 x2 */
                     if (mode == BDK_QLM_MODE_PCIE_1X4)
                     {
-                        /* Last 4 lanes of PEM1 */
+                        /* Last 2 lanes of PEM1 */
                         /* PEMX_CFG already setup */
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1),
                             c.s.pemon = 1);
@@ -864,7 +881,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     {
         switch (qlm)
         {
-            case 2:
+            case 0: /* PEM0 across DLM0-1 */
+            case 2: /* PEM1 across DLM2-3 */
                 /* Use the same reference clock for the second QLM */
                 BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
                     BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
@@ -921,6 +939,7 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
         int pem;
         switch (qlm)
         {
+            case 0: /* PEM0 */
             case 1: /* PEM0 */
                 pem = 0;
                 break;
