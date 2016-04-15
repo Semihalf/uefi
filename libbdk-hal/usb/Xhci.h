@@ -30,8 +30,19 @@ typedef struct _USB_DEV_CONTEXT USB_DEV_CONTEXT;
 #if ! defined(DEBUG)
 #define DEBUG(x...)
 #endif
-
+/*
+ * Number of XHCI instanses per node - so far the same for all chips supporting xhci
+ */
 #define CAVIUM_MAX_USB_INSTANCES 2
+/*
+** Maximum number of device slots controller supports.
+** Academically the number comes from a read-only register USBH(0..1)_UAHC_HCSPARAMS1.MAXSLOTS.
+** So far it happens to be the same for all Thunder chips.
+** This value has significant effect on memory allocation and making it dynamic would impact
+** both code footprint and critical path.
+*/
+#define CAVIUM_XHCI_MAXSLOTS 0x40
+
 //
 // The unit is microsecond, setting it as 1us.
 //
@@ -112,14 +123,6 @@ struct _USB_DEV_CONTEXT {
   //
   UINT8                     SlotId;
   //
-  // The route string presented an attached usb device.
-  //
-  USB_DEV_ROUTE             RouteString;
-  //
-  // The route string of parent device if it exists. Otherwise it's zero.
-  //
-  USB_DEV_ROUTE             ParentRouteString;
-  //
   // The actual device address assigned by XHCI through Address_Device command.
   //
   UINT8                     XhciDevAddr;
@@ -133,6 +136,14 @@ struct _USB_DEV_CONTEXT {
   //
   UINT8                     BusDevAddr;
   //
+  // The route string presented an attached usb device.
+  //
+  USB_DEV_ROUTE             RouteString;
+  //
+  // The route string of parent device if it exists. Otherwise it's zero.
+  //
+  USB_DEV_ROUTE             ParentRouteString;
+  //
   // The pointer to the input device context.
   //
   VOID                      *InputContext;
@@ -145,10 +156,6 @@ struct _USB_DEV_CONTEXT {
   //
   VOID                      *EndpointTransferRing[31];
   //
-  // The device descriptor which is stored to support XHCI's Evaluate_Context cmd.
-  //
-  EFI_USB_DEVICE_DESCRIPTOR DevDesc;
-  //
   // As a usb device may include multiple configuration descriptors, we dynamically allocate an array
   // to store them.
   // Note that every configuration descriptor stored here includes those lower level descriptors,
@@ -157,13 +164,19 @@ struct _USB_DEV_CONTEXT {
   //
   EFI_USB_CONFIG_DESCRIPTOR **ConfDesc;
   //
-  // A device has an active Configuration.
-  //
-  UINT8                     ActiveConfiguration;
-  //
   // Every interface has an active AlternateSetting.
   //
   UINT8                     *ActiveAlternateSetting;
+  //
+  // A device has an active Configuration.
+  //
+  UINT8                     ActiveConfiguration;
+
+  //
+  // The device descriptor which is stored to support XHCI's Evaluate_Context cmd.
+  //
+  EFI_USB_DEVICE_DESCRIPTOR DevDesc;
+
 };
 
 struct xhci_s {
@@ -186,15 +199,16 @@ struct xhci_s {
     uint32_t MaxSlotsEn;
     uint32_t MaxScratchPadBufs;
 
-    //
-    // Store device contexts managed by XHCI instance
-    // The array supports up to 255 devices, entry 0 is reserved and should not be used.
-    //
-    USB_DEV_CONTEXT           UsbDevContext[256];
     // cavium node and port of the physical root hub
     bdk_rlock_t *xhci_lock;   // Pointer to xhci level lock. Used to protect IO instances from each other, RootHub enumeration and async interrupts
     bdk_node_t node;          // Cavium node
     int usb_port;             // Cavium physical port
+
+    //
+    // Store device contexts managed by XHCI instance
+    // The array supports up to 255 devices, entry 0 is reserved and should not be used.
+    //
+    USB_DEV_CONTEXT           UsbDevContext[CAVIUM_XHCI_MAXSLOTS+1]; // First entry is root hub itself
 };
 
 typedef struct xhci_s xhci_t;

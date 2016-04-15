@@ -1303,7 +1303,7 @@ XhcRouteStringToSlotId (
 {
   unsigned Index;
 
-  for (Index = 0; Index < 255; Index++) {
+  for (Index = 0; Index < CAVIUM_XHCI_MAXSLOTS; Index++) {
     if (xhc->UsbDevContext[Index + 1].Enabled &&
         (xhc->UsbDevContext[Index + 1].SlotId != 0) &&
         (xhc->UsbDevContext[Index + 1].RouteString.Dword == RouteString.Dword)) {
@@ -1330,7 +1330,7 @@ XhcBusDevAddrToSlotId (
 {
   unsigned  Index;
 
-  for (Index = 0; Index < 255; Index++) {
+  for (Index = 0; Index < CAVIUM_XHCI_MAXSLOTS; Index++) {
     if (Xhc->UsbDevContext[Index + 1].Enabled &&
         (Xhc->UsbDevContext[Index + 1].SlotId != 0) &&
         (Xhc->UsbDevContext[Index + 1].BusDevAddr == BusDevAddr)) {
@@ -1364,7 +1364,7 @@ XhcDisableSlotCmd (
   // Disable the device slots occupied by these devices on its downstream ports.
   // Entry 0 is reserved.
   //
-  for (Index = 0; Index < 255; Index++) {
+  for (Index = 0; Index < CAVIUM_XHCI_MAXSLOTS; Index++) {
     if (!Xhc->UsbDevContext[Index + 1].Enabled ||
         (Xhc->UsbDevContext[Index + 1].SlotId == 0) ||
         (Xhc->UsbDevContext[Index + 1].ParentRouteString.Dword != Xhc->UsbDevContext[SlotId].RouteString.Dword)) {
@@ -1480,7 +1480,7 @@ XhcDisableSlotCmd64 (
   // Disable the device slots occupied by these devices on its downstream ports.
   // Entry 0 is reserved.
   //
-  for (Index = 0; Index < 255; Index++) {
+  for (Index = 0; Index < CAVIUM_XHCI_MAXSLOTS; Index++) {
     if (!Xhc->UsbDevContext[Index + 1].Enabled ||
         (Xhc->UsbDevContext[Index + 1].SlotId == 0) ||
         (Xhc->UsbDevContext[Index + 1].ParentRouteString.Dword != Xhc->UsbDevContext[SlotId].RouteString.Dword)) {

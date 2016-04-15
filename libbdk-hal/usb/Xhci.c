@@ -989,7 +989,7 @@ XhcControlTransfer (
     // Reset the BusDevAddr field of all disabled entries in UsbDevContext array firstly.
     // This way is used to clean the history to avoid using wrong device address by XhcAsyncInterruptTransfer().
     //
-    for (Index = 0; Index < 255; Index++) {
+    for (Index = 0; Index < CAVIUM_XHCI_MAXSLOTS; Index++) {
       if (!Xhc->UsbDevContext[Index + 1].Enabled &&
           (Xhc->UsbDevContext[Index + 1].SlotId == 0) &&
           (Xhc->UsbDevContext[Index + 1].BusDevAddr == (UINT8)Request->Value)) {
@@ -1522,13 +1522,13 @@ XhcAsyncInterruptTransfer (
     //
     // The delete request may happen after device is detached.
     //
-    for (Index = 0; Index < 255; Index++) {
+    for (Index = 0; Index < CAVIUM_XHCI_MAXSLOTS; Index++) {
       if (Xhc->UsbDevContext[Index + 1].BusDevAddr == DeviceAddress) {
         break;
       }
     }
 
-    if (Index == 255) {
+    if (Index == CAVIUM_XHCI_MAXSLOTS) {
       Status = EFI_INVALID_PARAMETER;
       goto ON_EXIT;
     }
