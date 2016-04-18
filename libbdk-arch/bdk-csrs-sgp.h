@@ -541,24 +541,26 @@ typedef union
         uint32_t sdatain1              : 8;  /**< [ 15:  8](RO/H) See [SDATAIN0]. */
         uint32_t sdatain0              : 8;  /**< [  7:  0](RO/H) Raw data shifted from SGP_SDATAIN. The bits are not in natural 32-bit form; they are
                                                                  assigned to registers as follows:
-                                                                 Bit 0 (ID0.0): SGP_RX_GP(1)[SDATAIN3]<0>.
-                                                                 Bit 8 (ID2.2): SGP_RX_GP(1)[SDATAIN2]<0>.
-                                                                 Bit 16 (ID5.1): SGP_RX_GP(1)[SDATAIN1]<0>.
-                                                                 Bit 24 (ID8.0): SGP_RX_GP(1)[SDATAIN0]<0>.
-                                                                 Bit 32 (ID10.2): SGP_RX_GP(2)[SDATAIN3]<0>.
-                                                                 Bit 40 (ID13.1): SGP_RX_GP(2)[SDATAIN2]<0>.
-                                                                 Bit 47 (ID15.2): SGP_RX_GP(2)[SDATAIN2]<7>.
+                                                                 _ Bit 0 (ID0.0): SGP_RX_GP(1)[SDATAIN3]<0>.
+                                                                 _ Bit 8 (ID2.2): SGP_RX_GP(1)[SDATAIN2]<0>.
+                                                                 _ Bit 16 (ID5.1): SGP_RX_GP(1)[SDATAIN1]<0>.
+                                                                 _ Bit 24 (ID8.0): SGP_RX_GP(1)[SDATAIN0]<0>.
+                                                                 _ Bit 32 (ID10.2): SGP_RX_GP(2)[SDATAIN3]<0>.
+                                                                 _ Bit 40 (ID13.1): SGP_RX_GP(2)[SDATAIN2]<0>.
+                                                                 _ Bit 47 (ID15.2): SGP_RX_GP(2)[SDATAIN2]<7>.
+
                                                                  SGP_RX_GP(2)[SDATAIN1/SDATAIN0] are always zero. */
 #else /* Word 0 - Little Endian */
         uint32_t sdatain0              : 8;  /**< [  7:  0](RO/H) Raw data shifted from SGP_SDATAIN. The bits are not in natural 32-bit form; they are
                                                                  assigned to registers as follows:
-                                                                 Bit 0 (ID0.0): SGP_RX_GP(1)[SDATAIN3]<0>.
-                                                                 Bit 8 (ID2.2): SGP_RX_GP(1)[SDATAIN2]<0>.
-                                                                 Bit 16 (ID5.1): SGP_RX_GP(1)[SDATAIN1]<0>.
-                                                                 Bit 24 (ID8.0): SGP_RX_GP(1)[SDATAIN0]<0>.
-                                                                 Bit 32 (ID10.2): SGP_RX_GP(2)[SDATAIN3]<0>.
-                                                                 Bit 40 (ID13.1): SGP_RX_GP(2)[SDATAIN2]<0>.
-                                                                 Bit 47 (ID15.2): SGP_RX_GP(2)[SDATAIN2]<7>.
+                                                                 _ Bit 0 (ID0.0): SGP_RX_GP(1)[SDATAIN3]<0>.
+                                                                 _ Bit 8 (ID2.2): SGP_RX_GP(1)[SDATAIN2]<0>.
+                                                                 _ Bit 16 (ID5.1): SGP_RX_GP(1)[SDATAIN1]<0>.
+                                                                 _ Bit 24 (ID8.0): SGP_RX_GP(1)[SDATAIN0]<0>.
+                                                                 _ Bit 32 (ID10.2): SGP_RX_GP(2)[SDATAIN3]<0>.
+                                                                 _ Bit 40 (ID13.1): SGP_RX_GP(2)[SDATAIN2]<0>.
+                                                                 _ Bit 47 (ID15.2): SGP_RX_GP(2)[SDATAIN2]<7>.
+
                                                                  SGP_RX_GP(2)[SDATAIN1/SDATAIN0] are always zero. */
         uint32_t sdatain1              : 8;  /**< [ 15:  8](RO/H) See [SDATAIN0]. */
         uint32_t sdatain2              : 8;  /**< [ 23: 16](RO/H) See [SDATAIN0]. */

@@ -722,6 +722,8 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
+                                                                 For SGMII, for use with QLMs must be 0x0. For use with DLMs must be 0x0 or 0x2.
+
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
                                                                  must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
                                                                  IDss must be unique for each of the 4 LMACs. */
@@ -752,6 +754,8 @@ typedef union
                                                                  the associated BGX()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then the actual
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
+
+                                                                 For SGMII, for use with QLMs must be 0x0. For use with DLMs must be 0x0 or 0x2.
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
                                                                  must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
@@ -976,7 +980,200 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_cmrx_config_s cn83xx; */
+    struct bdk_bgxx_cmrx_config_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t p2x_select            : 1;  /**< [ 17: 17](R/W) Selects interior side P2X interface over which the LMAC will communicate:
+                                                                 <pre>
+                                                                   [P2X_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 P2X0      NIC
+                                                                   1                 P2X1      PKO
+                                                                 </pre> */
+        uint64_t x2p_select            : 1;  /**< [ 16: 16](R/W) Selects interior side X2P interface over which the LMAC will communicate:
+                                                                 <pre>
+                                                                   [X2P_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 X2P0      NIC
+                                                                   1                 X2P1      PKI
+                                                                 </pre> */
+        uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
+                                                                 dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
+                                                                 and LMAC access to shared BGX resources (data path, SerDes lanes) is disabled.
+
+                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
+                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
+                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
+                                                                 setting this bit to enable the LMAC. This bit together with [LMAC_TYPE] is also used to
+                                                                 enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
+                                                                 is enabled when any of the paths are enabled. */
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+                                                                 data
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
+                                                                 layer
+                                                                 drops received data and flow-control packets. */
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of
+                                                                 data
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
+                                                                 layer
+                                                                 suppresses the transmission of new data and packets for the LMAC. */
+        uint64_t int_beat_gen          : 1;  /**< [ 12: 12](R/W) Internal beat generation. This bit is used for debug/test purposes and should be clear
+                                                                 during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
+                                                                 TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
+                                                                 RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
+        uint64_t mix_en                : 1;  /**< [ 11: 11](R/W) Must be 0. */
+        uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
+
+                                                                 <pre>
+                                                                   LMAC_TYPE  Name       Description            NUM_PCS_LANES
+                                                                   ----------------------------------------------------------
+                                                                   0x0        SGMII      SGMII/1000BASE-X             1
+                                                                   0x1        XAUI       10GBASE-X/XAUI or DXAUI      4
+                                                                   0x2        RXAUI      Reduced XAUI                 2
+                                                                   0x3        10G_R      10GBASE-R                    1
+                                                                   0x4        40G_R      40GBASE-R                    4
+                                                                   0x5        --         Reserved                     -
+                                                                   0x6        QSGMII     QSGMII                       4
+                                                                   Other      --         Reserved                     -
+                                                                 </pre>
+
+                                                                 NUM_PCS_LANES specifies the number of PCS lanes that are valid for
+                                                                 each type. Each valid PCS lane is mapped to a physical SerDes lane
+                                                                 based on the programming of [LANE_TO_SDS].
+
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
+                                                                 be changed when [ENABLE] = 1. */
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS lane to a
+                                                                 physical SerDes lane, as follows:
+
+                                                                 <pre>
+                                                                   Bits    Description            Reset value
+                                                                   ------------------------------------------
+                                                                   <7:6>   PCS Lane 3 SerDes ID       0x3
+                                                                   <5:4>   PCS Lane 2 SerDes ID       0x2
+                                                                   <3:2>   PCS Lane 1 SerDes ID       0x1
+                                                                   <1:0>   PCS Lane 0 SerDes ID       0x0
+                                                                 </pre>
+
+                                                                 PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
+                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
+                                                                 then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
+                                                                 are selected by bits <1:0>.
+
+                                                                 For 40GBASE-R ([LMAC_TYPE] = 40G_R), all four PCS lanes are valid, and the PCS lane IDs
+                                                                 determine the block distribution order and associated alignment markers on the transmit
+                                                                 side. This is not necessarily the order in which PCS lanes receive data because 802.3
+                                                                 allows multilane BASE-R receive lanes to be reordered. When a lane (called service
+                                                                 interface in 802.3ba-2010) has achieved alignment marker lock on the receive side (i.e.
+                                                                 the associated BGX()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then the actual
+                                                                 detected RX PCS lane number is recorded in the corresponding
+                                                                 BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
+
+                                                                 For SGMII, for use with QLMs must be 0x0. For use with DLMs must be 0x0 or 0x2.
+
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and
+                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
+                                                                 IDss must be unique for each of the 4 LMACs. */
+#else /* Word 0 - Little Endian */
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS lane to a
+                                                                 physical SerDes lane, as follows:
+
+                                                                 <pre>
+                                                                   Bits    Description            Reset value
+                                                                   ------------------------------------------
+                                                                   <7:6>   PCS Lane 3 SerDes ID       0x3
+                                                                   <5:4>   PCS Lane 2 SerDes ID       0x2
+                                                                   <3:2>   PCS Lane 1 SerDes ID       0x1
+                                                                   <1:0>   PCS Lane 0 SerDes ID       0x0
+                                                                 </pre>
+
+                                                                 PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
+                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
+                                                                 then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
+                                                                 are selected by bits <1:0>.
+
+                                                                 For 40GBASE-R ([LMAC_TYPE] = 40G_R), all four PCS lanes are valid, and the PCS lane IDs
+                                                                 determine the block distribution order and associated alignment markers on the transmit
+                                                                 side. This is not necessarily the order in which PCS lanes receive data because 802.3
+                                                                 allows multilane BASE-R receive lanes to be reordered. When a lane (called service
+                                                                 interface in 802.3ba-2010) has achieved alignment marker lock on the receive side (i.e.
+                                                                 the associated BGX()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then the actual
+                                                                 detected RX PCS lane number is recorded in the corresponding
+                                                                 BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
+
+                                                                 For SGMII, for use with QLMs must be 0x0. For use with DLMs must be 0x0 or 0x2.
+
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and
+                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
+                                                                 IDss must be unique for each of the 4 LMACs. */
+        uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
+
+                                                                 <pre>
+                                                                   LMAC_TYPE  Name       Description            NUM_PCS_LANES
+                                                                   ----------------------------------------------------------
+                                                                   0x0        SGMII      SGMII/1000BASE-X             1
+                                                                   0x1        XAUI       10GBASE-X/XAUI or DXAUI      4
+                                                                   0x2        RXAUI      Reduced XAUI                 2
+                                                                   0x3        10G_R      10GBASE-R                    1
+                                                                   0x4        40G_R      40GBASE-R                    4
+                                                                   0x5        --         Reserved                     -
+                                                                   0x6        QSGMII     QSGMII                       4
+                                                                   Other      --         Reserved                     -
+                                                                 </pre>
+
+                                                                 NUM_PCS_LANES specifies the number of PCS lanes that are valid for
+                                                                 each type. Each valid PCS lane is mapped to a physical SerDes lane
+                                                                 based on the programming of [LANE_TO_SDS].
+
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
+                                                                 be changed when [ENABLE] = 1. */
+        uint64_t mix_en                : 1;  /**< [ 11: 11](R/W) Must be 0. */
+        uint64_t int_beat_gen          : 1;  /**< [ 12: 12](R/W) Internal beat generation. This bit is used for debug/test purposes and should be clear
+                                                                 during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
+                                                                 TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
+                                                                 RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of
+                                                                 data
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
+                                                                 layer
+                                                                 suppresses the transmission of new data and packets for the LMAC. */
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+                                                                 data
+                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
+                                                                 layer
+                                                                 drops received data and flow-control packets. */
+        uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
+                                                                 dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
+                                                                 and LMAC access to shared BGX resources (data path, SerDes lanes) is disabled.
+
+                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
+                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
+                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
+                                                                 setting this bit to enable the LMAC. This bit together with [LMAC_TYPE] is also used to
+                                                                 enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
+                                                                 is enabled when any of the paths are enabled. */
+        uint64_t x2p_select            : 1;  /**< [ 16: 16](R/W) Selects interior side X2P interface over which the LMAC will communicate:
+                                                                 <pre>
+                                                                   [X2P_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 X2P0      NIC
+                                                                   1                 X2P1      PKI
+                                                                 </pre> */
+        uint64_t p2x_select            : 1;  /**< [ 17: 17](R/W) Selects interior side P2X interface over which the LMAC will communicate:
+                                                                 <pre>
+                                                                   [P2X_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 P2X0      NIC
+                                                                   1                 P2X1      PKO
+                                                                 </pre> */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_config_t;
 
 static inline uint64_t BDK_BGXX_CMRX_CONFIG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -10984,7 +11181,7 @@ typedef union
 
                                                                  The bit returns to 0 after PCS has been reset. Takes 32 coprocessor-clock cycles to reset
                                                                  PCS.   This bit, when set, also drains the tx gmi fifo and can be used as a fifo draining
-                                                                 mechanism for both Serdes reset conditions and for XCV reset conditions. */
+                                                                 mechanism for both SerDes reset conditions and for XCV reset conditions. */
         uint64_t loopbck1              : 1;  /**< [ 14: 14](R/W) Enable loopback:
                                                                    0 = Normal operation.
                                                                    1 = Internal loopback mode.
@@ -11076,7 +11273,7 @@ typedef union
 
                                                                  The bit returns to 0 after PCS has been reset. Takes 32 coprocessor-clock cycles to reset
                                                                  PCS.   This bit, when set, also drains the tx gmi fifo and can be used as a fifo draining
-                                                                 mechanism for both Serdes reset conditions and for XCV reset conditions. */
+                                                                 mechanism for both SerDes reset conditions and for XCV reset conditions. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -11092,7 +11289,7 @@ typedef union
 
                                                                  The bit returns to 0 after PCS has been reset. Takes 32 coprocessor-clock cycles to reset
                                                                  PCS.   This bit, when set, also drains the tx gmi fifo and can be used as a fifo draining
-                                                                 mechanism for both Serdes reset conditions and for XCV reset conditions. */
+                                                                 mechanism for both SerDes reset conditions and for XCV reset conditions. */
         uint64_t loopbck1              : 1;  /**< [ 14: 14](R/W) Enable loopback:
                                                                    0 = Normal operation.
                                                                    1 = Internal loopback mode.
@@ -11182,7 +11379,7 @@ typedef union
 
                                                                  The bit returns to 0 after PCS has been reset. Takes 32 coprocessor-clock cycles to reset
                                                                  PCS.   This bit, when set, also drains the tx gmi fifo and can be used as a fifo draining
-                                                                 mechanism for both Serdes reset conditions and for XCV reset conditions. */
+                                                                 mechanism for both SerDes reset conditions and for XCV reset conditions. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xx;

@@ -75,7 +75,9 @@
  */
 #define BDK_DDF_CACPART_E_EVEN (1)
 #define BDK_DDF_CACPART_E_FILTER (2)
+#define BDK_DDF_CACPART_E_GANG (3)
 #define BDK_DDF_CACPART_E_NONE (0)
+#define BDK_DDF_CACPART_E_NONGANG (2)
 #define BDK_DDF_CACPART_E_RECORD (3)
 
 /**
@@ -91,7 +93,8 @@
 #define BDK_DDF_COMP_E_HDR_ALIGN (0xf)
 #define BDK_DDF_COMP_E_HDR_LT_NEST (8)
 #define BDK_DDF_COMP_E_HDR_TOO_BIG (6)
-#define BDK_DDF_COMP_E_ILLEGAL_OPCODE (0x10)
+#define BDK_DDF_COMP_E_ILLEGAL_OPCODE_CN8 (0x12)
+#define BDK_DDF_COMP_E_ILLEGAL_OPCODE_CN9 (0x10)
 #define BDK_DDF_COMP_E_ILLEGAL_QWORDS (4)
 #define BDK_DDF_COMP_E_KEY_GT_NEST (9)
 #define BDK_DDF_COMP_E_KEY_SIZE (0xa)
@@ -100,6 +103,8 @@
 #define BDK_DDF_COMP_E_NO_RANK (0xb)
 #define BDK_DDF_COMP_E_NO_RB (0xd)
 #define BDK_DDF_COMP_E_RANK_ALIGN (0xe)
+#define BDK_DDF_COMP_E_RB_ALIGN (0x10)
+#define BDK_DDF_COMP_E_RES_ALIGN (0x11)
 #define BDK_DDF_COMP_E_WAY_TOO_BIG (7)
 
 /**
@@ -960,7 +965,7 @@ union bdk_ddf_inst_match_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t nrec                  : 16; /**< [ 63: 48] Number of records to compare.
                                                                  Typically the same as the number of records in a record block.
-                                                                 If 0x0, compare nothing. */
+                                                                 If 0x0, compare nothing and return DDF_COMP_E::NO_RB. */
         uint64_t recszm1               : 8;  /**< [ 47: 40] Record size in bytes minus one.  Number of bytes must be multiple of 4
                                                                  and are not required to be powers of 2. Hardware enforces bits 1:0 are set and bits 7:6
                                                                  are clear.
@@ -976,12 +981,15 @@ union bdk_ddf_inst_match_s
                                                                  Internal:
                                                                  Must support non-power-of-2. */
         uint64_t reserved_23_39        : 17;
-        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
-                                                                 0 = A match is only expected in one record.
-                                                                 Once a record is found to match in any record-set, ignore further comparisons.
-                                                                 1 = A match may occur in multiple records.
-                                                                 If a record is found to match, continue to compare or update all records in
-                                                                 all record-sets. */
+        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches, applies to DDF_INST_MATCH_S::MATCH_SET,MATCH_INS,MATCH_DEL.
+
+                                                                 0 = A match is only expected in one record. Once a record is found to match, ignore
+                                                                 further comparisons.
+
+                                                                 1 = A match may occur in multiple records. If a record is found to match, continue to
+                                                                 compare or update all records in all record-sets.
+
+                                                                 For MATCH_INS on an empty record, only 1 record is inserted. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
         uint64_t cacr                  : 1;  /**< [ 20: 20] L2 cache record data. If set, when reading record data, allocate into L2
                                                                  cache. If clear, do not allocate if not already in L2 cache. */
@@ -1001,12 +1009,15 @@ union bdk_ddf_inst_match_s
         uint64_t cacr                  : 1;  /**< [ 20: 20] L2 cache record data. If set, when reading record data, allocate into L2
                                                                  cache. If clear, do not allocate if not already in L2 cache. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
-        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
-                                                                 0 = A match is only expected in one record.
-                                                                 Once a record is found to match in any record-set, ignore further comparisons.
-                                                                 1 = A match may occur in multiple records.
-                                                                 If a record is found to match, continue to compare or update all records in
-                                                                 all record-sets. */
+        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches, applies to DDF_INST_MATCH_S::MATCH_SET,MATCH_INS,MATCH_DEL.
+
+                                                                 0 = A match is only expected in one record. Once a record is found to match, ignore
+                                                                 further comparisons.
+
+                                                                 1 = A match may occur in multiple records. If a record is found to match, continue to
+                                                                 compare or update all records in all record-sets.
+
+                                                                 For MATCH_INS on an empty record, only 1 record is inserted. */
         uint64_t reserved_23_39        : 17;
         uint64_t recszm1               : 8;  /**< [ 47: 40] Record size in bytes minus one.  Number of bytes must be multiple of 4
                                                                  and are not required to be powers of 2. Hardware enforces bits 1:0 are set and bits 7:6
@@ -1024,7 +1035,7 @@ union bdk_ddf_inst_match_s
                                                                  Must support non-power-of-2. */
         uint64_t nrec                  : 16; /**< [ 63: 48] Number of records to compare.
                                                                  Typically the same as the number of records in a record block.
-                                                                 If 0x0, compare nothing. */
+                                                                 If 0x0, compare nothing and return DDF_COMP_E::NO_RB. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
@@ -1067,7 +1078,7 @@ union bdk_ddf_inst_match_s
         uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
                                                                  For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
-                                                                 If 0x0, this way is not used, and will never match.
+                                                                 If 0x0, this record block is not used, and DDF_COMP_E::NO_RB is returned.
 
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility. */
@@ -1075,7 +1086,7 @@ union bdk_ddf_inst_match_s
         uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
                                                                  For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
-                                                                 If 0x0, this way is not used, and will never match.
+                                                                 If 0x0, this record block is not used, and DDF_COMP_E::NO_RB is returned.
 
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility. */
@@ -1146,7 +1157,206 @@ union bdk_ddf_inst_match_s
         uint64_t keydata7              : 64; /**< [1023:960] Extension of [KEYDATA0]. */
 #endif /* Word 15 - End */
     } s;
-    struct bdk_ddf_inst_match_s_cn
+    struct bdk_ddf_inst_match_s_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t nrec                  : 16; /**< [ 63: 48] Number of records to compare.
+                                                                 Typically the same as the number of records in a record block.
+                                                                 If 0x0, compare nothing and return DDF_COMP_E::NO_RB. */
+        uint64_t recszm1               : 8;  /**< [ 47: 40] Record size in bytes minus one.  Number of bytes must be multiple of 4
+                                                                 and are not required to be powers of 2. Hardware enforces bits 1:0 are set and bits 7:6
+                                                                 are clear.
+
+                                                                 0x3 = 4 bytes.
+                                                                 0x7 = 8 bytes.
+                                                                 0xF = 16 bytes.
+                                                                 0x13 = 20 bytes.
+                                                                 0x17 = 24 bytes.
+                                                                 _ ...
+                                                                 0x3F = 64 bytes.
+
+                                                                 Internal:
+                                                                 Must support non-power-of-2. */
+        uint64_t reserved_32_39        : 8;
+        uint64_t reserved_23_31        : 9;
+        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches, applies to DDF_INST_MATCH_S::MATCH_SET,MATCH_INS,MATCH_DEL.
+
+                                                                 0 = A match is only expected in one record. Once a record is found to match, ignore
+                                                                 further comparisons.
+
+                                                                 1 = A match may occur in multiple records. If a record is found to match, continue to
+                                                                 compare or update all records in all record-sets.
+
+                                                                 For MATCH_INS on an empty record, only 1 record is inserted. */
+        uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
+        uint64_t cacr                  : 1;  /**< [ 20: 20] L2 cache record data. If set, when reading record data, allocate into L2
+                                                                 cache. If clear, do not allocate if not already in L2 cache. */
+        uint64_t reserved_19           : 1;
+        uint64_t sync                  : 1;  /**< [ 18: 18] See DDF_INST_FIND_S[SYNC]. */
+        uint64_t gang                  : 1;  /**< [ 17: 17] See DDF_INST_FIND_S[GANG]. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_INST_FIND_S[DONEINT]. */
+        uint64_t qwords                : 8;  /**< [ 15:  8] See DDF_INST_FIND_S[QWORDS]. */
+        uint64_t op                    : 8;  /**< [  7:  0] See DDF_INST_FIND_S[OP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t op                    : 8;  /**< [  7:  0] See DDF_INST_FIND_S[OP]. */
+        uint64_t qwords                : 8;  /**< [ 15:  8] See DDF_INST_FIND_S[QWORDS]. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_INST_FIND_S[DONEINT]. */
+        uint64_t gang                  : 1;  /**< [ 17: 17] See DDF_INST_FIND_S[GANG]. */
+        uint64_t sync                  : 1;  /**< [ 18: 18] See DDF_INST_FIND_S[SYNC]. */
+        uint64_t reserved_19           : 1;
+        uint64_t cacr                  : 1;  /**< [ 20: 20] L2 cache record data. If set, when reading record data, allocate into L2
+                                                                 cache. If clear, do not allocate if not already in L2 cache. */
+        uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
+        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches, applies to DDF_INST_MATCH_S::MATCH_SET,MATCH_INS,MATCH_DEL.
+
+                                                                 0 = A match is only expected in one record. Once a record is found to match, ignore
+                                                                 further comparisons.
+
+                                                                 1 = A match may occur in multiple records. If a record is found to match, continue to
+                                                                 compare or update all records in all record-sets.
+
+                                                                 For MATCH_INS on an empty record, only 1 record is inserted. */
+        uint64_t reserved_23_31        : 9;
+        uint64_t reserved_32_39        : 8;
+        uint64_t recszm1               : 8;  /**< [ 47: 40] Record size in bytes minus one.  Number of bytes must be multiple of 4
+                                                                 and are not required to be powers of 2. Hardware enforces bits 1:0 are set and bits 7:6
+                                                                 are clear.
+
+                                                                 0x3 = 4 bytes.
+                                                                 0x7 = 8 bytes.
+                                                                 0xF = 16 bytes.
+                                                                 0x13 = 20 bytes.
+                                                                 0x17 = 24 bytes.
+                                                                 _ ...
+                                                                 0x3F = 64 bytes.
+
+                                                                 Internal:
+                                                                 Must support non-power-of-2. */
+        uint64_t nrec                  : 16; /**< [ 63: 48] Number of records to compare.
+                                                                 Typically the same as the number of records in a record block.
+                                                                 If 0x0, compare nothing and return DDF_COMP_E::NO_RB. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
+                                                                 If nonzero, specifies where to write DDF_RES_MATCH_S.
+                                                                 If zero, no result structure will be written.
+
+                                                                 If [RR] is clear, address must be 16-byte aligned.
+                                                                 If [RR] is set, address must be 128-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
+#else /* Word 1 - Little Endian */
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
+                                                                 If nonzero, specifies where to write DDF_RES_MATCH_S.
+                                                                 If zero, no result structure will be written.
+
+                                                                 If [RR] is clear, address must be 16-byte aligned.
+                                                                 If [RR] is set, address must be 128-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t reserved_172_191      : 20;
+        uint64_t grp                   : 10; /**< [171:162] See DDF_INST_FIND_S[GRP]. */
+        uint64_t tt                    : 2;  /**< [161:160] See DDF_INST_FIND_S[TT]. */
+        uint64_t tag                   : 32; /**< [159:128] See DDF_INST_FIND_S[TAG]. */
+#else /* Word 2 - Little Endian */
+        uint64_t tag                   : 32; /**< [159:128] See DDF_INST_FIND_S[TAG]. */
+        uint64_t tt                    : 2;  /**< [161:160] See DDF_INST_FIND_S[TT]. */
+        uint64_t grp                   : 10; /**< [171:162] See DDF_INST_FIND_S[GRP]. */
+        uint64_t reserved_172_191      : 20;
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t wq_ptr                : 64; /**< [255:192] See DDF_INST_FIND_S[WQ_PTR]. */
+#else /* Word 3 - Little Endian */
+        uint64_t wq_ptr                : 64; /**< [255:192] See DDF_INST_FIND_S[WQ_PTR]. */
+#endif /* Word 3 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
+        uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
+                                                                 For DDF_OP_E::RABS_SET instruction, pointer to data to change.
+                                                                 Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
+                                                                 If 0x0, this record block is not used, and DDF_COMP_E::NO_RB is returned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
+#else /* Word 4 - Little Endian */
+        uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
+                                                                 For DDF_OP_E::RABS_SET instruction, pointer to data to change.
+                                                                 Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
+                                                                 If 0x0, this record block is not used, and DDF_COMP_E::NO_RB is returned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
+#endif /* Word 4 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
+        uint64_t reserved_320_383      : 64;
+#else /* Word 5 - Little Endian */
+        uint64_t reserved_320_383      : 64;
+#endif /* Word 5 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
+        uint64_t set_bdis              : 64; /**< [447:384] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7] byte. If
+                                                                 that bit is clear the corresponding byte will be set in the record. Only bits
+                                                                 [SET_BDIS]<RECSZM1:0> have an effect. */
+#else /* Word 6 - Little Endian */
+        uint64_t set_bdis              : 64; /**< [447:384] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7] byte. If
+                                                                 that bit is clear the corresponding byte will be set in the record. Only bits
+                                                                 [SET_BDIS]<RECSZM1:0> have an effect. */
+#endif /* Word 6 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
+        uint64_t cmp_bdis              : 64; /**< [511:448] Compare byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7]
+                                                                 byte. If that clear is set the corresponding byte must be identical to that byte
+                                                                 in the record to be considered a match. Only bits [CMP_BDIS]<RECSZM1:0> have an
+                                                                 effect. */
+#else /* Word 7 - Little Endian */
+        uint64_t cmp_bdis              : 64; /**< [511:448] Compare byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7]
+                                                                 byte. If that clear is set the corresponding byte must be identical to that byte
+                                                                 in the record to be considered a match. Only bits [CMP_BDIS]<RECSZM1:0> have an
+                                                                 effect. */
+#endif /* Word 7 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
+        uint64_t keydata0              : 64; /**< [575:512] Key or opaque data bytes. */
+#else /* Word 8 - Little Endian */
+        uint64_t keydata0              : 64; /**< [575:512] Key or opaque data bytes. */
+#endif /* Word 8 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
+        uint64_t keydata1              : 64; /**< [639:576] Extension of [KEYDATA0]. */
+#else /* Word 9 - Little Endian */
+        uint64_t keydata1              : 64; /**< [639:576] Extension of [KEYDATA0]. */
+#endif /* Word 9 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
+        uint64_t keydata2              : 64; /**< [703:640] Extension of [KEYDATA0]. */
+#else /* Word 10 - Little Endian */
+        uint64_t keydata2              : 64; /**< [703:640] Extension of [KEYDATA0]. */
+#endif /* Word 10 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
+        uint64_t keydata3              : 64; /**< [767:704] Extension of [KEYDATA0]. */
+#else /* Word 11 - Little Endian */
+        uint64_t keydata3              : 64; /**< [767:704] Extension of [KEYDATA0]. */
+#endif /* Word 11 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
+        uint64_t keydata4              : 64; /**< [831:768] Extension of [KEYDATA0]. */
+#else /* Word 12 - Little Endian */
+        uint64_t keydata4              : 64; /**< [831:768] Extension of [KEYDATA0]. */
+#endif /* Word 12 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
+        uint64_t keydata5              : 64; /**< [895:832] Extension of [KEYDATA0]. */
+#else /* Word 13 - Little Endian */
+        uint64_t keydata5              : 64; /**< [895:832] Extension of [KEYDATA0]. */
+#endif /* Word 13 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
+        uint64_t keydata6              : 64; /**< [959:896] Extension of [KEYDATA0]. */
+#else /* Word 14 - Little Endian */
+        uint64_t keydata6              : 64; /**< [959:896] Extension of [KEYDATA0]. */
+#endif /* Word 14 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
+        uint64_t keydata7              : 64; /**< [1023:960] Extension of [KEYDATA0]. */
+#else /* Word 15 - Little Endian */
+        uint64_t keydata7              : 64; /**< [1023:960] Extension of [KEYDATA0]. */
+#endif /* Word 15 - End */
+    } cn8;
+    struct bdk_ddf_inst_match_s_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t nrec                  : 16; /**< [ 63: 48] Number of records to compare.
@@ -1338,7 +1548,7 @@ union bdk_ddf_inst_match_s
 #else /* Word 15 - Little Endian */
         uint64_t keydata7              : 64; /**< [1023:960] Extension of [KEYDATA0]. */
 #endif /* Word 15 - End */
-    } cn;
+    } cn9;
 };
 
 /**
@@ -1365,6 +1575,158 @@ union bdk_ddf_res_find_s
     struct bdk_ddf_res_find_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t cuckoo                : 7;  /**< [ 54: 48] Number of cuckoo replacements made on insert. Valid only for DDF_OP_E::FIND_INS. */
+        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of ways in which the item was found using the secondary bucket
+                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
+                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
+                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of ways in which the item was found using the primary bucket
+                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
+                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
+                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t hitvict               : 8;  /**< [ 31: 24] Hit victim-ways. Bitmask of ways in which the item was found as a victim, else clear.
+                                                                 For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or [HITVIC] will
+                                                                 be set indicating the set/inserted/deleted location.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
+                                                                 for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
+                                                                 clear. */
+        uint64_t reserved_17_21        : 5;
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
+                                                                 DDF_INST_FIND_S[DONEINT]. */
+        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
+        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
+                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
+                                                                 software may write the memory location containing [COMPCODE] to 0x0
+                                                                 before ringing the doorbell, and then poll for completion by
+                                                                 checking for a nonzero value.
+
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
+                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
+                                                                 output stream, and result data. */
+#else /* Word 0 - Little Endian */
+        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
+                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
+                                                                 software may write the memory location containing [COMPCODE] to 0x0
+                                                                 before ringing the doorbell, and then poll for completion by
+                                                                 checking for a nonzero value.
+
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
+                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
+                                                                 output stream, and result data. */
+        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
+                                                                 DDF_INST_FIND_S[DONEINT]. */
+        uint64_t reserved_17_21        : 5;
+        uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
+                                                                 for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
+                                                                 clear. */
+        uint64_t hitvict               : 8;  /**< [ 31: 24] Hit victim-ways. Bitmask of ways in which the item was found as a victim, else clear.
+                                                                 For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or [HITVIC] will
+                                                                 be set indicating the set/inserted/deleted location.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of ways in which the item was found using the primary bucket
+                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
+                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
+                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of ways in which the item was found using the secondary bucket
+                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
+                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
+                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t cuckoo                : 7;  /**< [ 54: 48] Number of cuckoo replacements made on insert. Valid only for DDF_OP_E::FIND_INS. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_118_127      : 10;
+        uint64_t bktb                  : 6;  /**< [117:112] BucketB number of the nest that is returned in [RDATA0]..[3]. Valid only for a
+                                                                 DDF_OP_E::FIND_INS or FEMPTY_INS that results in a cuckoo displacement as indicated by
+                                                                 [COMPCODE] of DDF_COMP_E::FULL. The key for the displaced nest can be reconstructed from
+                                                                 DDF_RES_FIND_S::RANK, DDF_RES_FIND_S::BKTB and [RDATA0]..[3]. */
+        uint64_t reserved_110_111      : 2;
+        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
+        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
+#else /* Word 1 - Little Endian */
+        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
+        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
+        uint64_t reserved_110_111      : 2;
+        uint64_t bktb                  : 6;  /**< [117:112] BucketB number of the nest that is returned in [RDATA0]..[3]. Valid only for a
+                                                                 DDF_OP_E::FIND_INS or FEMPTY_INS that results in a cuckoo displacement as indicated by
+                                                                 [COMPCODE] of DDF_COMP_E::FULL. The key for the displaced nest can be reconstructed from
+                                                                 DDF_RES_FIND_S::RANK, DDF_RES_FIND_S::BKTB and [RDATA0]..[3]. */
+        uint64_t reserved_118_127      : 10;
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t rdata0                : 64; /**< [191:128] Key data bytes read from the nest or header before any update.
+
+                                                                 If multiple hits resulted from a DDF_OP_E::FIND the nest data from [NEST] from the lowest
+                                                                 matching way is returned.
+
+                                                                 If both [HITP] and [HITS] are set in the lowest matching way, the primary nest is
+                                                                 returned.
+
+                                                                 For DDF_OP_E::FABS_SET the nest or header data as selected by [WAY],[PBKT],[NEST],[VICTEN]
+                                                                 from [KEYDATA0]..[3] is returned.
+
+                                                                 The data is read from the nest before any updates take place, including empty nest inserts
+                                                                 where RDATA will be all zeroes. RDATA will also be all zeroes if [HITP], [HITS] and [HITV]
+                                                                 are clear, except for a FEMPTY_INS or FIND_INS that returns DDF_COMP_E::FULL. In this case
+                                                                 RDATA0..3 will contain the unplaced/displaced key data.
+
+                                                                 [RDATA0]..[3] is only written if DDF_RES_FIND_S::RR is set. */
+#else /* Word 2 - Little Endian */
+        uint64_t rdata0                : 64; /**< [191:128] Key data bytes read from the nest or header before any update.
+
+                                                                 If multiple hits resulted from a DDF_OP_E::FIND the nest data from [NEST] from the lowest
+                                                                 matching way is returned.
+
+                                                                 If both [HITP] and [HITS] are set in the lowest matching way, the primary nest is
+                                                                 returned.
+
+                                                                 For DDF_OP_E::FABS_SET the nest or header data as selected by [WAY],[PBKT],[NEST],[VICTEN]
+                                                                 from [KEYDATA0]..[3] is returned.
+
+                                                                 The data is read from the nest before any updates take place, including empty nest inserts
+                                                                 where RDATA will be all zeroes. RDATA will also be all zeroes if [HITP], [HITS] and [HITV]
+                                                                 are clear, except for a FEMPTY_INS or FIND_INS that returns DDF_COMP_E::FULL. In this case
+                                                                 RDATA0..3 will contain the unplaced/displaced key data.
+
+                                                                 [RDATA0]..[3] is only written if DDF_RES_FIND_S::RR is set. */
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
+#else /* Word 3 - Little Endian */
+        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
+#endif /* Word 3 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
+        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
+#else /* Word 4 - Little Endian */
+        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
+#endif /* Word 4 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
+        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
+#else /* Word 5 - Little Endian */
+        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
+#endif /* Word 5 - End */
+    } s;
+    /* struct bdk_ddf_res_find_s_s cn8; */
+    struct bdk_ddf_res_find_s_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of which ways in which the item was found using the
                                                                  secondary bucket number. For insert/deletes a single bit in [HITP], or [HITS],
@@ -1464,8 +1826,7 @@ union bdk_ddf_res_find_s
 #else /* Word 5 - Little Endian */
         uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
 #endif /* Word 5 - End */
-    } s;
-    /* struct bdk_ddf_res_find_s_s cn; */
+    } cn9;
 };
 
 /**

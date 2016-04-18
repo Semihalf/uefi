@@ -1220,6 +1220,187 @@ typedef union
         uint64_t reserved_11_31        : 21;
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
+                                                                 0 = When CDE()_VQ()_MISC_INT[SWERR],
+                                                                 CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
+                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 CDE()_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at CDE()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big-endian format in memory. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
+
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
+        uint64_t reserved_4_6          : 3;
+        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
+        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
+                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
+                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
+#else /* Word 0 - Little Endian */
+        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
+                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
+                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
+        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
+        uint64_t reserved_4_6          : 3;
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
+
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big-endian format in memory. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
+
+                                                                 0 = When CDE()_VQ()_MISC_INT[SWERR],
+                                                                 CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
+                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 CDE()_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at CDE()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be {a}*n + 1, where n is the number of instructions per buffer segment,
+                                                                 and {a} is 8 for CPT or 16 for DDF. The plus one is for the next-chunk pointer. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_cdex_pf_qx_ctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be {a}*n + 1, where n is the number of instructions per buffer segment,
+                                                                 and {a} is 8 for CPT or 16 for DDF. The plus one is for the next-chunk pointer. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
+
+                                                                 0 = When CDE()_VQ()_MISC_INT[HWERR], CDE()_VQ()_MISC_INT[SWERR],
+                                                                 CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
+                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 CDE()_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at CDE()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big-endian format in memory. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
+
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
+        uint64_t reserved_4_6          : 3;
+        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
+        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
+                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
+                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
+#else /* Word 0 - Little Endian */
+        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
+                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
+                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
+        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
+        uint64_t reserved_4_6          : 3;
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
+
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big-endian format in memory. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
+
+                                                                 0 = When CDE()_VQ()_MISC_INT[HWERR], CDE()_VQ()_MISC_INT[SWERR],
+                                                                 CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
+                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 CDE()_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at CDE()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be {a}*n + 1, where n is the number of instructions per buffer segment,
+                                                                 and {a} is 8 for CPT or 16 for DDF. The plus one is for the next-chunk pointer. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cdex_pf_qx_ctl_s cn83xx; */
+    struct bdk_cdex_pf_qx_ctl_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be {a}*n + 1, where n is the number of instructions per buffer segment,
+                                                                 and {a} is 8 for CPT or 16 for DDF. The plus one is for the next-chunk pointer. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
+
                                                                  0 = When CDE()_VQ()_MISC_INT[SWERR], CDE()_VQ()_MISC_INT[NWRP],
                                                                  CDE()_VQ()_MISC_INT[IRDE] or CDE()_VQ()_MISC_INT[DOVF]
                                                                  are set by hardware or software via
@@ -1294,8 +1475,7 @@ typedef union
                                                                  [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cdex_pf_qx_ctl_s cn; */
+    } cn9;
 } bdk_cdex_pf_qx_ctl_t;
 
 static inline uint64_t BDK_CDEX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2329,7 +2509,8 @@ typedef union
     struct bdk_cdex_vqx_misc_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_6_63         : 58;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
@@ -2341,7 +2522,8 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[HWERR]. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cdex_vqx_misc_ena_w1c_cn81xx
@@ -2363,7 +2545,24 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cdex_vqx_misc_ena_w1c_s cn83xx; */
-    /* struct bdk_cdex_vqx_misc_ena_w1c_s cn9; */
+    struct bdk_cdex_vqx_misc_ena_w1c_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_cdex_vqx_misc_ena_w1c_t;
 
 static inline uint64_t BDK_CDEX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2397,7 +2596,8 @@ typedef union
     struct bdk_cdex_vqx_misc_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_6_63         : 58;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
@@ -2409,7 +2609,8 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[HWERR]. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cdex_vqx_misc_ena_w1s_cn81xx
@@ -2431,7 +2632,24 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cdex_vqx_misc_ena_w1s_s cn83xx; */
-    /* struct bdk_cdex_vqx_misc_ena_w1s_s cn9; */
+    struct bdk_cdex_vqx_misc_ena_w1s_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_cdex_vqx_misc_ena_w1s_t;
 
 static inline uint64_t BDK_CDEX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2465,6 +2683,28 @@ typedef union
     struct bdk_cdex_vqx_misc_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CDE()_VF()_PF_MBOX(0)
+                                                                 is written. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CDE()_VF()_PF_MBOX(0)
+                                                                 is written. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_cdex_vqx_misc_int_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
@@ -2481,8 +2721,9 @@ typedef union
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cdex_vqx_misc_int_s cn; */
+    } cn81xx;
+    /* struct bdk_cdex_vqx_misc_int_s cn83xx; */
+    /* struct bdk_cdex_vqx_misc_int_cn81xx cn9; */
 } bdk_cdex_vqx_misc_int_t;
 
 static inline uint64_t BDK_CDEX_VQX_MISC_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2516,7 +2757,8 @@ typedef union
     struct bdk_cdex_vqx_misc_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_6_63         : 58;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
@@ -2528,7 +2770,8 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[HWERR]. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cdex_vqx_misc_int_w1s_cn81xx
@@ -2550,7 +2793,24 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cdex_vqx_misc_int_w1s_s cn83xx; */
-    /* struct bdk_cdex_vqx_misc_int_w1s_s cn9; */
+    struct bdk_cdex_vqx_misc_int_w1s_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[NWRP]. */
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CDE(0)_VQ(0..63)_MISC_INT[SWERR]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_cdex_vqx_misc_int_w1s_t;
 
 static inline uint64_t BDK_CDEX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

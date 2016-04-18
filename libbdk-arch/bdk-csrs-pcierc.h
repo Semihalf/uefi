@@ -2310,9 +2310,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode).
 
                                                                  This field is writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field. */
@@ -2324,9 +2324,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode).
 
                                                                  This field is writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field. */
@@ -2394,9 +2394,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode).
 
                                                                  This field is writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field. */
@@ -2408,9 +2408,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode).
 
                                                                  This field is writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field. */
@@ -3562,9 +3562,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x3: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x7: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x7: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x7: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+                                                                 _ MD is 0x3, reset to 0x7: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
@@ -3586,9 +3586,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x3: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x7: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x7: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x7: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+                                                                 _ MD is 0x3, reset to 0x7: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
         uint32_t cls                   : 1;  /**< [  8:  8](RO) Crosslink supported. */
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
@@ -3694,9 +3694,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
 #else /* Word 0 - Little Endian */
         uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
                                                                  operational speed by restricting the values advertised by the upstream component in its
@@ -3718,9 +3718,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
         uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
                                                                  speed indicated in the target link speed field by setting this bit to 1 in both components
                                                                  on a link and then initiating a hot reset on the link. */
@@ -3838,9 +3838,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
 #else /* Word 0 - Little Endian */
         uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
                                                                  operational speed by restricting the values advertised by the upstream component in its
@@ -3862,9 +3862,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
         uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
                                                                  speed indicated in the target link speed field by setting this bit to 1 in both components
                                                                  on a link and then initiating a hot reset on the link. */
@@ -3956,7 +3956,7 @@ typedef union
 
                                                                  When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
 
-                                                                 PCIERC()_CFG515[S_D_E] can be used to change the deepphasis on the upstream ports. */
+                                                                 PCIERC()_CFG515[S_D_E] can be used to change the deemphasis on the upstream ports. */
         uint32_t hasd                  : 1;  /**< [  5:  5](R/W) Hardware autonomous speed disable. When asserted, the application must disable hardware
                                                                  from changing the link speed for device-specific reasons other than attempting to correct
                                                                  unreliable link operation by reducing link speed. Initial transition to the highest
@@ -3984,9 +3984,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
 #else /* Word 0 - Little Endian */
         uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
                                                                  operational speed by restricting the values advertised by the upstream component in its
@@ -4008,9 +4008,9 @@ typedef union
 
                                                                  _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
 
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
         uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
                                                                  speed indicated in the target link speed field by setting this bit to 1 in both components
                                                                  on a link and then initiating a hot reset on the link. */
@@ -4025,7 +4025,7 @@ typedef union
 
                                                                  When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
 
-                                                                 PCIERC()_CFG515[S_D_E] can be used to change the deepphasis on the upstream ports. */
+                                                                 PCIERC()_CFG515[S_D_E] can be used to change the deemphasis on the upstream ports. */
         uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
                                                                  the transmitter signals:
                                                                  0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
@@ -5324,7 +5324,52 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pciercx_cfg065_cn81xx cn88xx; */
-    /* struct bdk_pciercx_cfg065_cn9 cn83xx; */
+    struct bdk_pciercx_cfg065_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t reserved_23           : 1;
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
+        uint32_t reserved_21           : 1;
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise down error status. */
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise down error status. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
+        uint32_t reserved_21           : 1;
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pciercx_cfg065_t;
 
 static inline uint64_t BDK_PCIERCX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));

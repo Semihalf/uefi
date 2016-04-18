@@ -7938,19 +7938,19 @@ typedef union
                                                                  If set, during X2P_BP cycling of backpressure information, the
                                                                  PKI hardware will override a single channel's backpressure value
                                                                  with [VALUE] during the X2P_BP transfer cycle defined by [CHANNEL]. */
-        uint64_t reserved_12_62        : 51;
-        uint64_t value                 : 1;  /**< [ 11: 11](R/W) Backpressure value. */
-        uint64_t channel               : 11; /**< [ 10:  0](R/W) [CHANNEL]<10:7> defines the CHAN_ID on the X2P_BP interface
+        uint64_t reserved_13_62        : 50;
+        uint64_t value                 : 1;  /**< [ 12: 12](R/W) Backpressure value. */
+        uint64_t channel               : 12; /**< [ 11:  0](R/W) [CHANNEL]<11:8> defines the CHAN_ID on the X2P_BP interface
                                                                  that will be affected by this logic. The remaining bits of
                                                                  [CHANNEL] define which channel within the targeted device
                                                                  will have its backpressure value overridden with [VALUE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t channel               : 11; /**< [ 10:  0](R/W) [CHANNEL]<10:7> defines the CHAN_ID on the X2P_BP interface
+        uint64_t channel               : 12; /**< [ 11:  0](R/W) [CHANNEL]<11:8> defines the CHAN_ID on the X2P_BP interface
                                                                  that will be affected by this logic. The remaining bits of
                                                                  [CHANNEL] define which channel within the targeted device
                                                                  will have its backpressure value overridden with [VALUE]. */
-        uint64_t value                 : 1;  /**< [ 11: 11](R/W) Backpressure value. */
-        uint64_t reserved_12_62        : 51;
+        uint64_t value                 : 1;  /**< [ 12: 12](R/W) Backpressure value. */
+        uint64_t reserved_13_62        : 50;
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) Enable injection mode. For diagnostic use only.
                                                                  If set, during X2P_BP cycling of backpressure information, the
                                                                  PKI hardware will override a single channel's backpressure value

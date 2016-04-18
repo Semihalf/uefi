@@ -2681,6 +2681,8 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_MACIFC_MON_0(unsigned long a, unsigne
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
+        return 0x87e0904c0108ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_PCS_MACIFC_MON_0", 2, a, b, 0, 0);
 }
 
@@ -3941,7 +3943,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_5(unsigned long a, unsigned long b
 /**
  * Register (RSL) gser#_lane#_rx_ctle_ctrl
  *
- * GSER Lane RX Pre-Correlation Control Register
+ * GSER Lane RX Precorrelation Control Register
  * These are the RAW PCS per-lane RX CTLE control registers.
  * These registers are reset by hardware only during chip cold reset. The values of the CSR
  * fields in these registers do not change during chip warm or soft resets.
@@ -3975,7 +3977,7 @@ typedef union
                                                                  link training is not present and link speed < 5 Gbaud. */
         uint64_t rx_ctle_pole_ovrrd_en : 1;  /**< [  9:  9](R/W) Equalizer pole adjustment override enable. */
         uint64_t rx_ctle_pole_ovrrd_val : 4; /**< [  8:  5](R/W) Equalizer pole adjustment override value.
-                                                                 RX pre-correlation sample counter control
+                                                                 RX precorrelation sample counter control
                                                                  bit 3: Optimize CTLE during training.
                                                                  bit 2: Turn off DFE1 for edge samplers.
                                                                  bits 1:0:
@@ -3991,7 +3993,7 @@ typedef union
         uint64_t pcs_sds_rx_ctle_pole_min : 2;/**< [  2:  1](R/W) Minimum pole value (for VMA adaption, not applicable in manual mode). */
         uint64_t pcs_sds_rx_ctle_pole_max : 2;/**< [  4:  3](R/W) Maximum pole value (for VMA adaption, not applicable in manual mode). */
         uint64_t rx_ctle_pole_ovrrd_val : 4; /**< [  8:  5](R/W) Equalizer pole adjustment override value.
-                                                                 RX pre-correlation sample counter control
+                                                                 RX precorrelation sample counter control
                                                                  bit 3: Optimize CTLE during training.
                                                                  bit 2: Turn off DFE1 for edge samplers.
                                                                  bits 1:0:
@@ -4681,11 +4683,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t sds_pcs_rx_precorr_vld : 1; /**< [ 12: 12](RO/H) RX pre-correlation count is valid. */
-        uint64_t sds_pcs_rx_precorr_cnt : 12;/**< [ 11:  0](RO/H) RX pre-correlation count. */
+        uint64_t sds_pcs_rx_precorr_vld : 1; /**< [ 12: 12](RO/H) RX precorrelation count is valid. */
+        uint64_t sds_pcs_rx_precorr_cnt : 12;/**< [ 11:  0](RO/H) RX precorrelation count. */
 #else /* Word 0 - Little Endian */
-        uint64_t sds_pcs_rx_precorr_cnt : 12;/**< [ 11:  0](RO/H) RX pre-correlation count. */
-        uint64_t sds_pcs_rx_precorr_vld : 1; /**< [ 12: 12](RO/H) RX pre-correlation count is valid. */
+        uint64_t sds_pcs_rx_precorr_cnt : 12;/**< [ 11:  0](RO/H) RX precorrelation count. */
+        uint64_t sds_pcs_rx_precorr_vld : 1; /**< [ 12: 12](RO/H) RX precorrelation count is valid. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -5413,7 +5415,7 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_gserx_lanex_rx_vma_status_0_s cn88xx; */
+    /* struct bdk_gserx_lanex_rx_vma_status_0_cn81xx cn88xx; */
     /* struct bdk_gserx_lanex_rx_vma_status_0_s cn83xx; */
 } bdk_gserx_lanex_rx_vma_status_0_t;
 
@@ -5456,7 +5458,7 @@ typedef union
         uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
                                                                  0x0 = Window counter<19:12> (VMA RAW FOM).
                                                                  0x1 = Window counter<11:4>.
-                                                                 0x2 = CTLE (continous time linear equalizer) pole, SDLL_IQ.
+                                                                 0x2 = CTLE (continuous time linear equalizer) pole, SDLL_IQ.
                                                                  0x3 = Pre-CTLE gain, CTLE Peak.
 
                                                                  <7>: Training done.
@@ -5470,7 +5472,7 @@ typedef union
         uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
                                                                  0x0 = Window counter<19:12> (VMA RAW FOM).
                                                                  0x1 = Window counter<11:4>.
-                                                                 0x2 = CTLE (continous time linear equalizer) pole, SDLL_IQ.
+                                                                 0x2 = CTLE (continuous time linear equalizer) pole, SDLL_IQ.
                                                                  0x3 = Pre-CTLE gain, CTLE Peak.
 
                                                                  <7>: Training done.
@@ -5483,7 +5485,45 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_lanex_rx_vma_status_1_s cn; */
+    /* struct bdk_gserx_lanex_rx_vma_status_1_s cn9; */
+    struct bdk_gserx_lanex_rx_vma_status_1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
+                                                                 0x0 = Window counter<19:12> (VMA RAW FOM).
+                                                                 0x1 = Window counter<11:4>.
+                                                                 0x2 = CTLE (continuous time linear equalizer) pole, SDLL_IQ.
+                                                                 0x3 = Pre-CTLE gain, CTLE Peak.
+
+                                                                 <7>: Training done.
+
+                                                                 <6:4>: Internal state machine delta.
+
+                                                                 <3:0>: Output is controlled by GSER()_LANE()_RX_CDR_CTRL_1[CDR phase offset override
+                                                                 enable]<4>:
+                                                                 0x0 = DLL IQ Training value.
+                                                                 0x1 = CDR Phase Offset. */
+#else /* Word 0 - Little Endian */
+        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
+                                                                 0x0 = Window counter<19:12> (VMA RAW FOM).
+                                                                 0x1 = Window counter<11:4>.
+                                                                 0x2 = CTLE (continuous time linear equalizer) pole, SDLL_IQ.
+                                                                 0x3 = Pre-CTLE gain, CTLE Peak.
+
+                                                                 <7>: Training done.
+
+                                                                 <6:4>: Internal state machine delta.
+
+                                                                 <3:0>: Output is controlled by GSER()_LANE()_RX_CDR_CTRL_1[CDR phase offset override
+                                                                 enable]<4>:
+                                                                 0x0 = DLL IQ Training value.
+                                                                 0x1 = CDR Phase Offset. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gserx_lanex_rx_vma_status_1_cn81xx cn88xx; */
+    /* struct bdk_gserx_lanex_rx_vma_status_1_s cn83xx; */
 } bdk_gserx_lanex_rx_vma_status_1_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -5679,11 +5719,11 @@ typedef union
         uint64_t pcs_sds_tx_vboost_en  : 1;  /**< [ 10: 10](RO/H) TX boost enable. */
         uint64_t pcs_sds_tx_turbos_en  : 1;  /**< [  9:  9](RO/H) TX turbo mode enable signal, increases swing of TX
                                                                  through current mode. */
-        uint64_t pcs_sds_premptap      : 9;  /**< [  8:  0](RO/H) Pre-emphasis control.
+        uint64_t pcs_sds_premptap      : 9;  /**< [  8:  0](RO/H) Preemphasis control.
                                                                  <8:4> = Post-cursor.
                                                                  <3:0> = Pre-cursor. */
 #else /* Word 0 - Little Endian */
-        uint64_t pcs_sds_premptap      : 9;  /**< [  8:  0](RO/H) Pre-emphasis control.
+        uint64_t pcs_sds_premptap      : 9;  /**< [  8:  0](RO/H) Preemphasis control.
                                                                  <8:4> = Post-cursor.
                                                                  <3:0> = Pre-cursor. */
         uint64_t pcs_sds_tx_turbos_en  : 1;  /**< [  9:  9](RO/H) TX turbo mode enable signal, increases swing of TX
@@ -6083,7 +6123,7 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_3(unsigned long a, unsigned long b
 /**
  * Register (RSL) gser#_lane#_tx_pre_emphasis
  *
- * GSER Lane TX Configuration Pre-Emphasis Register
+ * GSER Lane TX Configuration Preemphasis Register
  * These registers are for diagnostic use only. These registers are reset by hardware only during
  * chip cold reset. The values of the CSR fields in these registers do not change during chip
  * warm or soft resets.
@@ -7773,10 +7813,10 @@ typedef union
                                                                  </pre>
 
                                                                  For SATA, [PLL_ICP] should always be 1.
-                                                                 For PCIE 1.1 @100MHz, [PLL_ICP] should be 4.
-                                                                 For PCIE 2.1 @100MHz, [PLL_ICP] should be 3.
-                                                                 For PCIE 1.1 @125MHz, [PLL_ICP] should be 3.
-                                                                 For PCIE 2.1 @125MHz, [PLL_ICP] should be 3.
+                                                                 For PCIE 1.1 @100 MHz, [PLL_ICP] should be 4.
+                                                                 For PCIE 2.1 @100 MHz, [PLL_ICP] should be 4.
+                                                                 For PCIE 1.1 @125 MHz, [PLL_ICP] should be 3.
+                                                                 For PCIE 2.1 @125 MHz, [PLL_ICP] should be 3.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
         uint64_t pll_rloop             : 3;  /**< [ 11:  9](R/W/H) Loop resistor tuning.
@@ -7864,16 +7904,16 @@ typedef union
                                                                  </pre>
 
                                                                  For SATA, [PLL_ICP] should always be 1.
-                                                                 For PCIE 1.1 @100MHz, [PLL_ICP] should be 4.
-                                                                 For PCIE 2.1 @100MHz, [PLL_ICP] should be 3.
-                                                                 For PCIE 1.1 @125MHz, [PLL_ICP] should be 3.
-                                                                 For PCIE 2.1 @125MHz, [PLL_ICP] should be 3.
+                                                                 For PCIE 1.1 @100 MHz, [PLL_ICP] should be 4.
+                                                                 For PCIE 2.1 @100 MHz, [PLL_ICP] should be 4.
+                                                                 For PCIE 1.1 @125 MHz, [PLL_ICP] should be 3.
+                                                                 For PCIE 2.1 @125 MHz, [PLL_ICP] should be 3.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_gserx_pll_px_mode_0_s cn88xx; */
+    /* struct bdk_gserx_pll_px_mode_0_cn81xx cn88xx; */
     /* struct bdk_gserx_pll_px_mode_0_s cn83xx; */
 } bdk_gserx_pll_px_mode_0_t;
 
@@ -8091,6 +8131,10 @@ typedef union
                                                                  </pre>
 
                                                                  For SATA with 100 MHz reference clock, [PLL_CPADJ] should always be 2.
+                                                                 For PCIE 1.1 @100MHz, [PLL_CPADJ] should be 2.
+                                                                 For PCIE 2.1 @100MHz, [PLL_CPADJ] should be 2.
+                                                                 For PCIE 1.1 @125MHz, [PLL_CPADJ] should be 1.
+                                                                 For PCIE 2.1 @125MHz, [PLL_CPADJ] should be 1.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
         uint64_t pll_pcie3en           : 1;  /**< [ 10: 10](R/W/H) Enable PCIE3 mode.
@@ -8170,6 +8214,10 @@ typedef union
                                                                  </pre>
 
                                                                  For SATA with 100 MHz reference clock, [PLL_CPADJ] should always be 2.
+                                                                 For PCIE 1.1 @100MHz, [PLL_CPADJ] should be 2.
+                                                                 For PCIE 2.1 @100MHz, [PLL_CPADJ] should be 2.
+                                                                 For PCIE 1.1 @125MHz, [PLL_CPADJ] should be 1.
+                                                                 For PCIE 2.1 @125MHz, [PLL_CPADJ] should be 1.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
         uint64_t pll_16p5en            : 1;  /**< [ 13: 13](R/W/H) Enable for the DIV 16.5 divided down clock.
@@ -8193,8 +8241,147 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_gserx_pll_px_mode_1_s cn88xx; */
-    /* struct bdk_gserx_pll_px_mode_1_s cn83xx; */
+    /* struct bdk_gserx_pll_px_mode_1_cn81xx cn88xx; */
+    struct bdk_gserx_pll_px_mode_1_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t pll_16p5en            : 1;  /**< [ 13: 13](R/W/H) Enable for the DIV 16.5 divided down clock.
+
+                                                                 Recommended settings, based on the reference clock speed:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x1    0x1     0x1
+                                                                 2.5G:     0x0    0x0     0x0
+                                                                 3.125G:   NS     0x1     0x1
+                                                                 5.0G:     0x0    0x0     0x0
+                                                                 6.25G:    NS     0x0     0x0
+                                                                 8.0G:     0x0    0x0     NS
+                                                                 10.3125G: NS     NS      0x1
+                                                                 </pre>
+
+                                                                 For SATA, [PLL_16P5EN] should always be 0.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_cpadj             : 2;  /**< [ 12: 11](R/W/H) PLL charge adjust.
+
+                                                                 Recommended settings, based on the reference clock speed:
+
+                                                                 <pre>
+                                                                           100MHz 125MHz 156.25MHz
+                                                                 1.25G:     0x2     0x2    0x3
+                                                                 2.5G:      0x2     0x1    0x2
+                                                                 3.125G:    NS      0x2    0x2
+                                                                 5.0G:      0x2     0x1    0x2
+                                                                 6.25G:     NS      0x2    0x2
+                                                                 8.0G:      0x2     0x1    NS
+                                                                 10.3125G:  NS      NS     0x2
+                                                                 </pre>
+
+                                                                 For SATA with 100 MHz reference clock, [PLL_CPADJ] should always be 2.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_pcie3en           : 1;  /**< [ 10: 10](R/W/H) Enable PCIE3 mode.
+
+                                                                 Recommended settings:
+                                                                 0 = Any rate other than 8 Gbaud.
+                                                                 1 = Rate is equal to 8 Gbaud.
+
+                                                                 For SATA, [PLL_PCIE3EN] should always be 0. */
+        uint64_t pll_opr               : 1;  /**< [  9:  9](R/W/H) PLL op range:
+                                                                 0 = Use ring oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
+                                                                 1 = Use LC-tank VCO. Recommended for rates 8 Gbaud and higher.
+
+                                                                 For SATA, [PLL_OPR] should always be 0. */
+        uint64_t pll_div               : 9;  /**< [  8:  0](R/W/H) PLL divider in feedback path which sets the PLL frequency.
+
+                                                                 Recommended settings:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x19   0x14    0x10
+                                                                 2.5G:     0x19   0x14    0x10
+                                                                 3.125G:   NS     0x19    0x14
+                                                                 5.0G:     0x19   0x14    0x10
+                                                                 6.25G:    NS     0x19    0x14
+                                                                 8.0G:     0x28   0x20    NS
+                                                                 10.3125G: NS     NS      0x21
+                                                                 </pre>
+
+                                                                 For SATA with 100 MHz reference clock, [PLL_DIV] should always be 0x1E.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t pll_div               : 9;  /**< [  8:  0](R/W/H) PLL divider in feedback path which sets the PLL frequency.
+
+                                                                 Recommended settings:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x19   0x14    0x10
+                                                                 2.5G:     0x19   0x14    0x10
+                                                                 3.125G:   NS     0x19    0x14
+                                                                 5.0G:     0x19   0x14    0x10
+                                                                 6.25G:    NS     0x19    0x14
+                                                                 8.0G:     0x28   0x20    NS
+                                                                 10.3125G: NS     NS      0x21
+                                                                 </pre>
+
+                                                                 For SATA with 100 MHz reference clock, [PLL_DIV] should always be 0x1E.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_opr               : 1;  /**< [  9:  9](R/W/H) PLL op range:
+                                                                 0 = Use ring oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
+                                                                 1 = Use LC-tank VCO. Recommended for rates 8 Gbaud and higher.
+
+                                                                 For SATA, [PLL_OPR] should always be 0. */
+        uint64_t pll_pcie3en           : 1;  /**< [ 10: 10](R/W/H) Enable PCIE3 mode.
+
+                                                                 Recommended settings:
+                                                                 0 = Any rate other than 8 Gbaud.
+                                                                 1 = Rate is equal to 8 Gbaud.
+
+                                                                 For SATA, [PLL_PCIE3EN] should always be 0. */
+        uint64_t pll_cpadj             : 2;  /**< [ 12: 11](R/W/H) PLL charge adjust.
+
+                                                                 Recommended settings, based on the reference clock speed:
+
+                                                                 <pre>
+                                                                           100MHz 125MHz 156.25MHz
+                                                                 1.25G:     0x2     0x2    0x3
+                                                                 2.5G:      0x2     0x1    0x2
+                                                                 3.125G:    NS      0x2    0x2
+                                                                 5.0G:      0x2     0x1    0x2
+                                                                 6.25G:     NS      0x2    0x2
+                                                                 8.0G:      0x2     0x1    NS
+                                                                 10.3125G:  NS      NS     0x2
+                                                                 </pre>
+
+                                                                 For SATA with 100 MHz reference clock, [PLL_CPADJ] should always be 2.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t pll_16p5en            : 1;  /**< [ 13: 13](R/W/H) Enable for the DIV 16.5 divided down clock.
+
+                                                                 Recommended settings, based on the reference clock speed:
+
+                                                                 <pre>
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x1    0x1     0x1
+                                                                 2.5G:     0x0    0x0     0x0
+                                                                 3.125G:   NS     0x1     0x1
+                                                                 5.0G:     0x0    0x0     0x0
+                                                                 6.25G:    NS     0x0     0x0
+                                                                 8.0G:     0x0    0x0     NS
+                                                                 10.3125G: NS     NS      0x1
+                                                                 </pre>
+
+                                                                 For SATA, [PLL_16P5EN] should always be 0.
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_pll_px_mode_1_t;
 
 static inline uint64_t BDK_GSERX_PLL_PX_MODE_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -9720,7 +9907,7 @@ static inline uint64_t BDK_GSERX_SATA_LANEX_TX_AMPX(unsigned long a, unsigned lo
  * Register (RSL) gser#_sata_lane#_tx_preemph#
  *
  * GSER SATA Lane Transmit Preemphsis Gen Register
- * SATA TX pre-emphasis at Gen 1, 2 and 3 speeds. The values of the CSR
+ * SATA TX preemphasis at Gen 1, 2 and 3 speeds. The values of the CSR
  * fields in these registers do not change during chip warm or soft resets.
  * * PREEMPH(0) is for Gen1.
  * * PREEMPH(1) is for Gen2.
@@ -10307,7 +10494,7 @@ typedef union
 
                                                                  <pre>
                                                                        REFCLK  Link Rate
-                                                                 SPD   (Mhz)   (Gb)      LMODE
+                                                                 SPD   (MHz)   (Gb)      LMODE
                                                                  ----  ------  ------    -----------------------
                                                                  0x0:  100     1.25      R_125G_REFCLK15625_KX
                                                                  0x1:  100     2.5       R_25G_REFCLK100
@@ -10351,7 +10538,7 @@ typedef union
 
                                                                  <pre>
                                                                        REFCLK  Link Rate
-                                                                 SPD   (Mhz)   (Gb)      LMODE
+                                                                 SPD   (MHz)   (Gb)      LMODE
                                                                  ----  ------  ------    -----------------------
                                                                  0x0:  100     1.25      R_125G_REFCLK15625_KX
                                                                  0x1:  100     2.5       R_25G_REFCLK100
@@ -10404,7 +10591,7 @@ typedef union
 
                                                                  <pre>
                                                                        REFCLK  Link Rate
-                                                                 SPD   (Mhz)   (Gb)     Train  LMODE
+                                                                 SPD   (MHz)   (Gb)     Train  LMODE
                                                                  ----  ------  ------   -----  -----------------------
                                                                  0x0:  100     5        TS     R_5G_REFCLK100
                                                                  0x1:  100     2.5      --     R_25G_REFCLK100
@@ -10451,7 +10638,7 @@ typedef union
 
                                                                  <pre>
                                                                        REFCLK  Link Rate
-                                                                 SPD   (Mhz)   (Gb)     Train  LMODE
+                                                                 SPD   (MHz)   (Gb)     Train  LMODE
                                                                  ----  ------  ------   -----  -----------------------
                                                                  0x0:  100     5        TS     R_5G_REFCLK100
                                                                  0x1:  100     2.5      --     R_25G_REFCLK100

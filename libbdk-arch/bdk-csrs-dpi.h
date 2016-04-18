@@ -1593,7 +1593,7 @@ static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned lo
 static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000428ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000438ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000428ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_ERR_RSP_STATUS", 2, a, b, 0, 0);
@@ -1812,6 +1812,46 @@ static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b)
 #define arguments_BDK_DPIX_DMAX_IFLIGHT(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) dpi#_dma#_iwbusy
+ *
+ * DPI DMA Instruction Word Busy Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dmax_iwbusy_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t iwbusy                : 1;  /**< [  0:  0](RO/H) Indicates that there are valid instructions in the request queue local
+                                                                 cache. These instructions will be dropped if DPI()_DMA()_QRST[QRST] is set for
+                                                                 the corresponding request queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t iwbusy                : 1;  /**< [  0:  0](RO/H) Indicates that there are valid instructions in the request queue local
+                                                                 cache. These instructions will be dropped if DPI()_DMA()_QRST[QRST] is set for
+                                                                 the corresponding request queue. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dmax_iwbusy_s cn; */
+} bdk_dpix_dmax_iwbusy_t;
+
+static inline uint64_t BDK_DPIX_DMAX_IWBUSY(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DMAX_IWBUSY(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000428ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_DMAX_IWBUSY", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DMAX_IWBUSY(a,b) bdk_dpix_dmax_iwbusy_t
+#define bustype_BDK_DPIX_DMAX_IWBUSY(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DMAX_IWBUSY(a,b) "DPIX_DMAX_IWBUSY"
+#define device_bar_BDK_DPIX_DMAX_IWBUSY(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DMAX_IWBUSY(a,b) (a)
+#define arguments_BDK_DPIX_DMAX_IWBUSY(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) dpi#_dma#_naddr
  *
  * DPI DMA Next Ichunk Address Registers
@@ -1849,6 +1889,46 @@ static inline uint64_t BDK_DPIX_DMAX_NADDR(unsigned long a, unsigned long b)
 #define device_bar_BDK_DPIX_DMAX_NADDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_NADDR(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_NADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_dma#_qrst
+ *
+ * DPI DMA Instruction Queue Reset Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dmax_qrst_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t qrst                  : 1;  /**< [  0:  0](R/W1/H) Resets the instruction queue to clear out the local cache, reset the pointer
+                                                                 inside the chunk, and clear the doorbell count. Has no effect unless the
+                                                                 corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_DMA()_IBUFF_CSIZE[IDLE]=1. */
+#else /* Word 0 - Little Endian */
+        uint64_t qrst                  : 1;  /**< [  0:  0](R/W1/H) Resets the instruction queue to clear out the local cache, reset the pointer
+                                                                 inside the chunk, and clear the doorbell count. Has no effect unless the
+                                                                 corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_DMA()_IBUFF_CSIZE[IDLE]=1. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dmax_qrst_s cn; */
+} bdk_dpix_dmax_qrst_t;
+
+static inline uint64_t BDK_DPIX_DMAX_QRST(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DMAX_QRST(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000430ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_DMAX_QRST", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DMAX_QRST(a,b) bdk_dpix_dmax_qrst_t
+#define bustype_BDK_DPIX_DMAX_QRST(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DMAX_QRST(a,b) "DPIX_DMAX_QRST"
+#define device_bar_BDK_DPIX_DMAX_QRST(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DMAX_QRST(a,b) (a)
+#define arguments_BDK_DPIX_DMAX_QRST(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) dpi#_dma#_reqbnk0
@@ -3738,6 +3818,218 @@ typedef union
                                                                  Since QLM_CFG is simply a copy of the QLM CFG pins, it could reflect values that are not
                                                                  normal for DMA or packet operations. QLM_CFG does not indicate if a port is disabled.
                                                                  GSER()_CFG can be used for more complete QLM configuration information. */
+        uint64_t reserved_17_19        : 3;
+        uint64_t exact_rd_dis          : 1;  /**< [ 16: 16](R/W) Exact read mode disable.
+                                                                 0 = DPI will issue a 32-bit read request to the PEM when the size and alignment
+                                                                 ensure that the request will not cross a 32-bit boundary.
+                                                                 1 = DPI will always use a minimum 64-bit read request to the PEM. */
+        uint64_t reserved_15           : 1;
+        uint64_t molr                  : 7;  /**< [ 14:  8](R/W) Maximum outstanding load requests. Limits the number of outstanding load requests on the
+                                                                 port by restricting the number of tags used by the SLI to track load responses. This value
+                                                                 can range from 1 to 64 (maximum of 32 if port not configured for 8 lanes). Setting MOLR
+                                                                 to a value of 0 halts all read traffic to the port. There are no restrictions on when this
+                                                                 value can be changed. */
+        uint64_t mps_lim               : 1;  /**< [  7:  7](R/W) MAC memory space write requests cannot cross the (naturally-aligned) MPS boundary.
+                                                                 When clear, DPI is allowed to issue a MAC memory- space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MPS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a write by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space write that crosses the naturally-aligned
+                                                                 boundary of size defined by MPS. */
+        uint64_t mps                   : 3;  /**< [  6:  4](R/W) Maximum payload size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MPS size must not exceed the size selected by PCIE*_CFG030[MPS]. */
+        uint64_t mrrs_lim              : 1;  /**< [  3:  3](R/W) MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
+
+                                                                 When clear, DPI is allowed to issue a MAC memory-space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MRRS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a read by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
+                                                                 boundary of size defined by MRRS. */
+        uint64_t mrrs                  : 3;  /**< [  2:  0](R/W) Maximum read-request size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+                                                                 0x2 = 512B.
+                                                                 0x3 = 1024B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mrrs                  : 3;  /**< [  2:  0](R/W) Maximum read-request size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+                                                                 0x2 = 512B.
+                                                                 0x3 = 1024B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS]. */
+        uint64_t mrrs_lim              : 1;  /**< [  3:  3](R/W) MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
+
+                                                                 When clear, DPI is allowed to issue a MAC memory-space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MRRS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a read by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
+                                                                 boundary of size defined by MRRS. */
+        uint64_t mps                   : 3;  /**< [  6:  4](R/W) Maximum payload size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MPS size must not exceed the size selected by PCIE*_CFG030[MPS]. */
+        uint64_t mps_lim               : 1;  /**< [  7:  7](R/W) MAC memory space write requests cannot cross the (naturally-aligned) MPS boundary.
+                                                                 When clear, DPI is allowed to issue a MAC memory- space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MPS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a write by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space write that crosses the naturally-aligned
+                                                                 boundary of size defined by MPS. */
+        uint64_t molr                  : 7;  /**< [ 14:  8](R/W) Maximum outstanding load requests. Limits the number of outstanding load requests on the
+                                                                 port by restricting the number of tags used by the SLI to track load responses. This value
+                                                                 can range from 1 to 64 (maximum of 32 if port not configured for 8 lanes). Setting MOLR
+                                                                 to a value of 0 halts all read traffic to the port. There are no restrictions on when this
+                                                                 value can be changed. */
+        uint64_t reserved_15           : 1;
+        uint64_t exact_rd_dis          : 1;  /**< [ 16: 16](R/W) Exact read mode disable.
+                                                                 0 = DPI will issue a 32-bit read request to the PEM when the size and alignment
+                                                                 ensure that the request will not cross a 32-bit boundary.
+                                                                 1 = DPI will always use a minimum 64-bit read request to the PEM. */
+        uint64_t reserved_17_19        : 3;
+        uint64_t qlm_cfg               : 1;  /**< [ 20: 20](RO/H) Read only copy of the QLM CFG pin.
+                                                                 0 = MAC is DPI.
+                                                                 1 = Reserved.
+
+                                                                 Since QLM_CFG is simply a copy of the QLM CFG pins, it could reflect values that are not
+                                                                 normal for DMA or packet operations. QLM_CFG does not indicate if a port is disabled.
+                                                                 GSER()_CFG can be used for more complete QLM configuration information. */
+        uint64_t reserved_21_23        : 3;
+        uint64_t halt                  : 1;  /**< [ 24: 24](RO/H) When set, HALT indicates that the MAC has detected a reset condition. No further
+                                                                 instructions that reference the MAC from any instruction queue will be issued until the
+                                                                 MAC comes out of reset and HALT is cleared in SLI_CTL_PORT()[DIS_PORT]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_dpix_sli_prtx_cfg_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t halt                  : 1;  /**< [ 24: 24](RO/H) When set, HALT indicates that the MAC has detected a reset condition. No further
+                                                                 instructions that reference the MAC from any instruction queue will be issued until the
+                                                                 MAC comes out of reset and HALT is cleared in SLI_CTL_PORT()[DIS_PORT]. */
+        uint64_t reserved_17_23        : 7;
+        uint64_t exact_rd_dis          : 1;  /**< [ 16: 16](R/W) Exact read mode disable.
+                                                                 0 = DPI will issue a 32-bit read request to the PEM when the size and alignment
+                                                                 ensure that the request will not cross a 32-bit boundary.
+                                                                 1 = DPI will always use a minimum 64-bit read request to the PEM. */
+        uint64_t reserved_15           : 1;
+        uint64_t molr                  : 7;  /**< [ 14:  8](R/W) Maximum outstanding load requests. Limits the number of outstanding load requests on the
+                                                                 port by restricting the number of tags used by the SLI to track load responses. This value
+                                                                 can range from 1 to 64 (maximum of 32 if port not configured for 8 lanes). Setting MOLR
+                                                                 to a value of 0 halts all read traffic to the port. There are no restrictions on when this
+                                                                 value can be changed. */
+        uint64_t mps_lim               : 1;  /**< [  7:  7](R/W) MAC memory space write requests cannot cross the (naturally-aligned) MPS boundary.
+                                                                 When clear, DPI is allowed to issue a MAC memory- space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MPS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a write by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space write that crosses the naturally-aligned
+                                                                 boundary of size defined by MPS. */
+        uint64_t mps                   : 3;  /**< [  6:  4](R/W) Maximum payload size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MPS size must not exceed the size selected by PCIE*_CFG030[MPS]. */
+        uint64_t mrrs_lim              : 1;  /**< [  3:  3](R/W) MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
+
+                                                                 When clear, DPI is allowed to issue a MAC memory-space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MRRS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a read by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
+                                                                 boundary of size defined by MRRS. */
+        uint64_t mrrs                  : 3;  /**< [  2:  0](R/W) Maximum read-request size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+                                                                 0x2 = 512B.
+                                                                 0x3 = 1024B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mrrs                  : 3;  /**< [  2:  0](R/W) Maximum read-request size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+                                                                 0x2 = 512B.
+                                                                 0x3 = 1024B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS]. */
+        uint64_t mrrs_lim              : 1;  /**< [  3:  3](R/W) MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
+
+                                                                 When clear, DPI is allowed to issue a MAC memory-space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MRRS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a read by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
+                                                                 boundary of size defined by MRRS. */
+        uint64_t mps                   : 3;  /**< [  6:  4](R/W) Maximum payload size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MPS size must not exceed the size selected by PCIE*_CFG030[MPS]. */
+        uint64_t mps_lim               : 1;  /**< [  7:  7](R/W) MAC memory space write requests cannot cross the (naturally-aligned) MPS boundary.
+                                                                 When clear, DPI is allowed to issue a MAC memory- space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MPS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a write by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space write that crosses the naturally-aligned
+                                                                 boundary of size defined by MPS. */
+        uint64_t molr                  : 7;  /**< [ 14:  8](R/W) Maximum outstanding load requests. Limits the number of outstanding load requests on the
+                                                                 port by restricting the number of tags used by the SLI to track load responses. This value
+                                                                 can range from 1 to 64 (maximum of 32 if port not configured for 8 lanes). Setting MOLR
+                                                                 to a value of 0 halts all read traffic to the port. There are no restrictions on when this
+                                                                 value can be changed. */
+        uint64_t reserved_15           : 1;
+        uint64_t exact_rd_dis          : 1;  /**< [ 16: 16](R/W) Exact read mode disable.
+                                                                 0 = DPI will issue a 32-bit read request to the PEM when the size and alignment
+                                                                 ensure that the request will not cross a 32-bit boundary.
+                                                                 1 = DPI will always use a minimum 64-bit read request to the PEM. */
+        uint64_t reserved_17_23        : 7;
+        uint64_t halt                  : 1;  /**< [ 24: 24](RO/H) When set, HALT indicates that the MAC has detected a reset condition. No further
+                                                                 instructions that reference the MAC from any instruction queue will be issued until the
+                                                                 MAC comes out of reset and HALT is cleared in SLI_CTL_PORT()[DIS_PORT]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } cn8;
+    struct bdk_dpix_sli_prtx_cfg_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t halt                  : 1;  /**< [ 24: 24](RO/H) When set, HALT indicates that the MAC has detected a reset condition. No further
+                                                                 instructions that reference the MAC from any instruction queue will be issued until the
+                                                                 MAC comes out of reset and HALT is cleared in SLI_CTL_PORT()[DIS_PORT]. */
+        uint64_t reserved_21_23        : 3;
+        uint64_t qlm_cfg               : 1;  /**< [ 20: 20](RO/H) Read only copy of the QLM CFG pin.
+                                                                 0 = MAC is DPI.
+                                                                 1 = Reserved.
+
+                                                                 Since QLM_CFG is simply a copy of the QLM CFG pins, it could reflect values that are not
+                                                                 normal for DMA or packet operations. QLM_CFG does not indicate if a port is disabled.
+                                                                 GSER()_CFG can be used for more complete QLM configuration information. */
         uint64_t reserved_15_19        : 5;
         uint64_t molr                  : 7;  /**< [ 14:  8](R/W) Maximum outstanding load requests. Limits the number of outstanding load requests on the
                                                                  port by restricting the number of tags used by the SLI to track load responses. This value
@@ -3826,8 +4118,7 @@ typedef union
                                                                  MAC comes out of reset and HALT is cleared in SLI_CTL_PORT()[DIS_PORT]. */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_sli_prtx_cfg_s cn; */
+    } cn9;
 } bdk_dpix_sli_prtx_cfg_t;
 
 static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

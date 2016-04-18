@@ -1026,12 +1026,12 @@ typedef union
         uint64_t mcdtrig               : 3;  /**< [  6:  4](R/W) Enable MCD triggering. For each bit corresponding to the three MCDs:
                                                                  0 = MCD does not cause trigger.
                                                                  1 = When the corresponding MCD is received it will cause
-                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. */
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. */
         uint64_t exten                 : 1;  /**< [  3:  3](R/W) Enable external triggering.
                                                                  0 = External triggering ignored.
                                                                  1 = When the external trigger pin selected with GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER
                                                                  is high it will cause
-                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
                                                                  signal (it is not edge sensitive.) */
         uint64_t den                   : 1;  /**< [  2:  2](R/W) Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
                                                                  counters may increment. When clear, the bus is always zero and internal flops may be clock
@@ -1048,12 +1048,12 @@ typedef union
                                                                  0 = External triggering ignored.
                                                                  1 = When the external trigger pin selected with GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER
                                                                  is high it will cause
-                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
                                                                  signal (it is not edge sensitive.) */
         uint64_t mcdtrig               : 3;  /**< [  6:  4](R/W) Enable MCD triggering. For each bit corresponding to the three MCDs:
                                                                  0 = MCD does not cause trigger.
                                                                  1 = When the corresponding MCD is received it will cause
-                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. */
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -1066,7 +1066,7 @@ typedef union
                                                                  0 = External triggering ignored.
                                                                  1 = When the external trigger pin selected with GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER
                                                                  is high it will cause
-                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
                                                                  signal (it is not edge sensitive.) */
         uint64_t den                   : 1;  /**< [  2:  2](R/W) Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
                                                                  counters may increment. When clear, the bus is always zero and internal flops may be clock
@@ -1083,7 +1083,7 @@ typedef union
                                                                  0 = External triggering ignored.
                                                                  1 = When the external trigger pin selected with GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER
                                                                  is high it will cause
-                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
                                                                  signal (it is not edge sensitive.) */
         uint64_t mcdtrig               : 3;  /**< [  6:  4](RAZ) Reserved. */
         uint64_t reserved_7_63         : 57;

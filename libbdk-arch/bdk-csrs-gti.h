@@ -856,10 +856,10 @@ typedef union
     struct bdk_gti_cc_cntcv_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](SR/W/H) System counter count value. The counter is also read-only accessable by the
+        uint64_t cnt                   : 64; /**< [ 63:  0](SR/W/H) System counter count value. The counter is also read-only accessible by the
                                                                  nonsecure world with GTI_RD_CNTCV. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](SR/W/H) System counter count value. The counter is also read-only accessable by the
+        uint64_t cnt                   : 64; /**< [ 63:  0](SR/W/H) System counter count value. The counter is also read-only accessible by the
                                                                  nonsecure world with GTI_RD_CNTCV. */
 #endif /* Word 0 - End */
     } s;
@@ -3823,7 +3823,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR3(unsigned long a)
  * Register (NCB32b) gti_wc#_pidr0
  *
  * GTI Watchdog Control Peripheral Identification Register 0
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -3861,7 +3861,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR0(unsigned long a)
  * Register (NCB32b) gti_wc#_pidr1
  *
  * GTI Watchdog Control Peripheral Identification Register 1
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -3901,7 +3901,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR1(unsigned long a)
  * Register (NCB32b) gti_wc#_pidr2
  *
  * GTI Watchdog Control Peripheral Identification Register 2
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -3943,7 +3943,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a)
  * Register (NCB32b) gti_wc#_pidr3
  *
  * GTI Watchdog Control Peripheral Identification Register 3
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -3985,7 +3985,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a)
  * Register (NCB32b) gti_wc#_pidr4
  *
  * GTI Watchdog Control Peripheral Identification Register 4
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -4127,7 +4127,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR7(unsigned long a)
  * Register (NCB32b) gti_wc#_w_iidr
  *
  * GTI Watchdog Control Interface Identification Register
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -4179,7 +4179,7 @@ static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a)
  * Register (NCB32b) gti_wc#_wcs
  *
  * GTI Watchdog Control and Status Register
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -4221,7 +4221,7 @@ static inline uint64_t BDK_GTI_WCX_WCS(unsigned long a)
  * Register (NCB) gti_wc#_wcv
  *
  * GTI Watchdog Control Compare Value Register
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -4257,7 +4257,7 @@ static inline uint64_t BDK_GTI_WCX_WCV(unsigned long a)
  * Register (NCB32b) gti_wc#_wor
  *
  * GTI Watchdog Control Offset Register
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -4733,7 +4733,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR7(unsigned long a)
  * Register (NCB32b) gti_wr#_w_iidr
  *
  * GTI Watchdog Refresh Interface Identification Register
- * GTI_WR(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WR(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WR(1) accesses the nonsecure watchdog.
  */
 typedef union
@@ -4785,7 +4785,7 @@ static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a)
  * Register (NCB32b) gti_wr#_wrr
  *
  * GTI Watchdog Refresh Register
- * GTI_WR(0) accesses the secure watchdog and is accessable only by the
+ * GTI_WR(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WR(1) accesses the nonsecure watchdog.
  */
 typedef union

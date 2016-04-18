@@ -1481,7 +1481,7 @@ typedef union
                                                                  SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
                                                                  max read request size. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not suppported). */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not supported). */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable. This bit should never be set; PEM requests never use phantom functions. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. */
         uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
@@ -1515,7 +1515,7 @@ typedef union
                                                                  functionality. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable. This bit should never be set; PEM requests never use phantom functions. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not suppported). */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not supported). */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
                                                                  0x0 =128 bytes.
@@ -1675,7 +1675,99 @@ typedef union
         uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_WR. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepx_cfg031_s cn; */
+    struct bdk_pcieepx_cfg031_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t aspm                  : 1;  /**< [ 22: 22](RO/WRSL) ASPM optionality compliance. */
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO) Link bandwidth notification capability. Set to 0 for endpoint devices. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Data link layer active reporting capable. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO) Surprise down error reporting capable. Set to 0 for endpoint devices. */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO/WRSL) Clock power management. The default value is the value that software specifies during
+                                                                 hardware configuration, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field. */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO/WRSL) L1 exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_WR. */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO/WRSL) L0s exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_WR. */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. The default value is the value that software specifies
+                                                                 during hardware configuration, writable through PEM()_CFG_WR. However, the application
+                                                                 must not change this field. */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
+                                                                 The reset value of this field is determined by the value read from the PEM
+                                                                 csr PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
+
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both [MLW] and [MLS] out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting [MLW] and [MLS] to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL/H) Maximum link speed. The reset value of this field is controlled by the value read from
+                                                                 PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both [MLW] and [MLS] out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting [MLW] and [MLS] to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
+#else /* Word 0 - Little Endian */
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL/H) Maximum link speed. The reset value of this field is controlled by the value read from
+                                                                 PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both [MLW] and [MLS] out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting [MLW] and [MLS] to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
+                                                                 The reset value of this field is determined by the value read from the PEM
+                                                                 csr PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
+
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both [MLW] and [MLS] out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting [MLW] and [MLS] to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. The default value is the value that software specifies
+                                                                 during hardware configuration, writable through PEM()_CFG_WR. However, the application
+                                                                 must not change this field. */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO/WRSL) L0s exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_WR. */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO/WRSL) L1 exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_WR. */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO/WRSL) Clock power management. The default value is the value that software specifies during
+                                                                 hardware configuration, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO) Surprise down error reporting capable. Set to 0 for endpoint devices. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Data link layer active reporting capable. */
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO) Link bandwidth notification capability. Set to 0 for endpoint devices. */
+        uint32_t aspm                  : 1;  /**< [ 22: 22](RO/WRSL) ASPM optionality compliance. */
+        uint32_t reserved_23           : 1;
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_WR. */
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepx_cfg031_s cn9; */
 } bdk_pcieepx_cfg031_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2025,7 +2117,61 @@ typedef union
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepx_cfg039_s cn; */
+    struct bdk_pcieepx_cfg039_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t cls                   : 1;  /**< [  8:  8](RO) Crosslink supported. */
+        uint32_t slsv                  : 7;  /**< [  7:  1](RO/WRSL) Supported link speeds vector. Indicates the supported link speeds of the associated port.
+                                                                 For each bit, a value of 1 b indicates that the corresponding link speed is supported;
+                                                                 otherwise, the link speed is not supported. Bit definitions are:
+
+                                                                 _ Bit <1> =  2.5 GT/s.
+
+                                                                 _ Bit <2> = 5.0 GT/s.
+
+                                                                 _ Bit <3> = 8.0 GT/s.
+
+                                                                 _ Bits <7:4> are reserved.
+
+                                                                 The reset value of this field is controlled by the value read from PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x3: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x7: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x7: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t slsv                  : 7;  /**< [  7:  1](RO/WRSL) Supported link speeds vector. Indicates the supported link speeds of the associated port.
+                                                                 For each bit, a value of 1 b indicates that the corresponding link speed is supported;
+                                                                 otherwise, the link speed is not supported. Bit definitions are:
+
+                                                                 _ Bit <1> =  2.5 GT/s.
+
+                                                                 _ Bit <2> = 5.0 GT/s.
+
+                                                                 _ Bit <3> = 8.0 GT/s.
+
+                                                                 _ Bits <7:4> are reserved.
+
+                                                                 The reset value of this field is controlled by the value read from PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x3: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x7: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x7: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+        uint32_t cls                   : 1;  /**< [  8:  8](RO) Crosslink supported. */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepx_cfg039_s cn9; */
 } bdk_pcieepx_cfg039_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG039(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2191,7 +2337,145 @@ typedef union
         uint32_t reserved_23_31        : 9;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepx_cfg040_s cn; */
+    struct bdk_pcieepx_cfg040_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
+        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C) Link equalization request */
+        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization phase 3 successful */
+        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization phase 2 successful */
+        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization phase 1 successful */
+        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization complete */
+        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
+                                                                 the level of deemphasis. Encodings:
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB.
+
+                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
+        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in polling. Compliance state if
+                                                                 the entry occurred due to the TX compliance receive bit being 1. Encodings:
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to 1, the LTSSM is required to send SKP ordered sets periodically
+                                                                 in between the (modified) compliance patterns.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to 1, the device transmits a modified
+                                                                 compliance pattern if the LTSSM enters polling compliance state. */
+        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
+                                                                 the transmitter pins:
+                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
+                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
+                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for halfswing.
+                                                                 0x4-0x7 = Reserved.
+
+                                                                 This field is reset to 0x0 on entry to the LTSSM polling compliance substate. When
+                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
+                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB. */
+        uint32_t sde                   : 1;  /**< [  6:  6](RO) Selectable deemphasis. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t hasd                  : 1;  /**< [  5:  5](RO/H) Hardware autonomous speed disable. When asserted, the application must disable hardware
+                                                                 from changing the link speed for device-specific reasons other than attempting to correct
+                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
+                                                                 supported common link speed is not blocked by this signal. */
+        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
+                                                                 speed indicated in the target link speed field by setting this bit to 1 in both components
+                                                                 on a link and then initiating a hot reset on the link. */
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
+                                                                 operational speed by restricting the values advertised by the upstream component in its
+                                                                 training sequences:
+
+                                                                 0x1 = 2.5 Gb/s target link speed.
+                                                                 0x2 = 5 Gb/s target link speed.
+                                                                 0x3 = 8 Gb/s target link speed.
+
+                                                                 All other encodings are reserved.
+
+                                                                 If a value is written to this field that does not correspond to a speed included in the
+                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
+                                                                 ports, this field is used to set the target compliance mode speed when software is using
+                                                                 the enter compliance bit to force a link into compliance mode.
+                                                                 The reset value of this field is controlled by the value read from PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+#else /* Word 0 - Little Endian */
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
+                                                                 operational speed by restricting the values advertised by the upstream component in its
+                                                                 training sequences:
+
+                                                                 0x1 = 2.5 Gb/s target link speed.
+                                                                 0x2 = 5 Gb/s target link speed.
+                                                                 0x3 = 8 Gb/s target link speed.
+
+                                                                 All other encodings are reserved.
+
+                                                                 If a value is written to this field that does not correspond to a speed included in the
+                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
+                                                                 ports, this field is used to set the target compliance mode speed when software is using
+                                                                 the enter compliance bit to force a link into compliance mode.
+                                                                 The reset value of this field is controlled by the value read from PEM()_CFG[MD].
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
+        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
+                                                                 speed indicated in the target link speed field by setting this bit to 1 in both components
+                                                                 on a link and then initiating a hot reset on the link. */
+        uint32_t hasd                  : 1;  /**< [  5:  5](RO/H) Hardware autonomous speed disable. When asserted, the application must disable hardware
+                                                                 from changing the link speed for device-specific reasons other than attempting to correct
+                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
+                                                                 supported common link speed is not blocked by this signal. */
+        uint32_t sde                   : 1;  /**< [  6:  6](RO) Selectable deemphasis. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
+                                                                 the transmitter pins:
+                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
+                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
+                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for halfswing.
+                                                                 0x4-0x7 = Reserved.
+
+                                                                 This field is reset to 0x0 on entry to the LTSSM polling compliance substate. When
+                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
+                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB. */
+        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to 1, the device transmits a modified
+                                                                 compliance pattern if the LTSSM enters polling compliance state. */
+        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to 1, the LTSSM is required to send SKP ordered sets periodically
+                                                                 in between the (modified) compliance patterns.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in polling. Compliance state if
+                                                                 the entry occurred due to the TX compliance receive bit being 1. Encodings:
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
+                                                                 the level of deemphasis. Encodings:
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB.
+
+                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
+        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization complete */
+        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization phase 1 successful */
+        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization phase 2 successful */
+        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization phase 3 successful */
+        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C) Link equalization request */
+        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepx_cfg040_s cn9; */
 } bdk_pcieepx_cfg040_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG040(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2230,7 +2514,7 @@ typedef union
         uint32_t reserved_27_29        : 3;
         uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). Writable through PEM()_CFG_WR.
 
-                                                                 This field is writable by issueing a PEM()_CFG_WR to PCIEEP(0)_CFG044
+                                                                 This field is writable by issuing a PEM()_CFG_WR to PCIEEP(0)_CFG044
                                                                  when PEM()_CFG_WR[ADDR[31]] is set. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer */
         uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID */
@@ -2239,7 +2523,7 @@ typedef union
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer */
         uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). Writable through PEM()_CFG_WR.
 
-                                                                 This field is writable by issueing a PEM()_CFG_WR to PCIEEP(0)_CFG044
+                                                                 This field is writable by issuing a PEM()_CFG_WR to PCIEEP(0)_CFG044
                                                                  when PEM()_CFG_WR[ADDR[31]] is set. */
         uint32_t reserved_27_29        : 3;
         uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
@@ -4470,8 +4754,8 @@ typedef union
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which IVF register is updated.
-                                                                 0 = accesses non-ARI Capable Hieracrhy copy of IVF.
-                                                                 1 = accesses ARI Capable Hieracrhy copy of IVF. */
+                                                                 0 = accesses non-ARI Capable Hierarchy copy of IVF.
+                                                                 1 = accesses ARI Capable Hierarchy copy of IVF. */
 #else /* Word 0 - Little Endian */
         uint32_t ivf                   : 16; /**< [ 15:  0](RO/WRSL) Initial VFs.
 
@@ -4485,8 +4769,8 @@ typedef union
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which IVF register is updated.
-                                                                 0 = accesses non-ARI Capable Hieracrhy copy of IVF.
-                                                                 1 = accesses ARI Capable Hieracrhy copy of IVF. */
+                                                                 0 = accesses non-ARI Capable Hierarchy copy of IVF.
+                                                                 1 = accesses ARI Capable Hierarchy copy of IVF. */
         uint32_t tvf                   : 16; /**< [ 31: 16](RO) Total VFs.  Read-only copy of PCIEEP()_CFG097[IVF]. */
 #endif /* Word 0 - End */
     } s;
@@ -4573,8 +4857,8 @@ typedef union
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which VFS register is updated.
-                                                                 0 = accesses non-ARI capable hieracrhy copy of VFS.
-                                                                 1 = accesses ARI capable hieracrhy copy of VFS. */
+                                                                 0 = accesses non-ARI capable hierarchy copy of VFS.
+                                                                 1 = accesses ARI capable hierarchy copy of VFS. */
         uint32_t fo                    : 16; /**< [ 15:  0](RO/H) First VF offset.
 
                                                                  Reset values:
@@ -4587,8 +4871,8 @@ typedef union
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which FO register is updated.
-                                                                 0 = accesses non-ARI capable hieracrhy copy of FO.
-                                                                 1 = accesses ARI capable hieracrhy copy of FO. */
+                                                                 0 = accesses non-ARI capable hierarchy copy of FO.
+                                                                 1 = accesses ARI capable hierarchy copy of FO. */
 #else /* Word 0 - Little Endian */
         uint32_t fo                    : 16; /**< [ 15:  0](RO/H) First VF offset.
 
@@ -4602,8 +4886,8 @@ typedef union
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which FO register is updated.
-                                                                 0 = accesses non-ARI capable hieracrhy copy of FO.
-                                                                 1 = accesses ARI capable hieracrhy copy of FO. */
+                                                                 0 = accesses non-ARI capable hierarchy copy of FO.
+                                                                 1 = accesses ARI capable hierarchy copy of FO. */
         uint32_t vfs                   : 16; /**< [ 31: 16](RO/H) VF stride.
 
                                                                  Reset values:
@@ -4616,8 +4900,8 @@ typedef union
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which VFS register is updated.
-                                                                 0 = accesses non-ARI capable hieracrhy copy of VFS.
-                                                                 1 = accesses ARI capable hieracrhy copy of VFS. */
+                                                                 0 = accesses non-ARI capable hierarchy copy of VFS.
+                                                                 1 = accesses ARI capable hierarchy copy of VFS. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg099_s cn; */
@@ -10987,10 +11271,10 @@ typedef union
                                                                  0x1 = The controller forwards all incoming I/O or MEM
                                                                       requests with UR/CA/CRS status to your application. */
         uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
-                                                                 RO bits are writeable from the DBI. */
+                                                                 RO bits are writable from the DBI. */
 #else /* Word 0 - Little Endian */
         uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
-                                                                 RO bits are writeable from the DBI. */
+                                                                 RO bits are writable from the DBI. */
         uint32_t def_target            : 1;  /**< [  1:  1](R/W) Default target a received IO or MEM request with UR/CA/CRS
                                                                  is sent to be the controller.
                                                                  0x0 = The controller drops all incoming I/O or Mem (after

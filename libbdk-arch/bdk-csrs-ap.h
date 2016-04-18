@@ -6184,7 +6184,12 @@ typedef union
     struct bdk_ap_cvmmemctl1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_39_63        : 25;
+        uint64_t reserved_42_63        : 22;
+        uint64_t cvap_dis              : 1;  /**< [ 41: 41](R/W) If set, convert DC_CVAP into DC_CVAC.  For diagnostic use only. */
+        uint64_t tlbinoadr             : 1;  /**< [ 40: 40](R/W) If set, convert broadcast TLBI address-based opcodes to context-based opcode. For
+                                                                 diagnostic use only. */
+        uint64_t utlbentriesm1_5       : 1;  /**< [ 39: 39](R/W) Bit<5> of [UTLBENTRIESM1], the number of uTLB entries - 1. The uTLB is flushed when this
+                                                                 value is changed. */
         uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
                                                                  0 = Do nothing.
                                                                  1 = Flush the ICache. */
@@ -6272,7 +6277,12 @@ typedef union
         uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
                                                                  0 = Do nothing.
                                                                  1 = Flush the ICache. */
-        uint64_t reserved_39_63        : 25;
+        uint64_t utlbentriesm1_5       : 1;  /**< [ 39: 39](R/W) Bit<5> of [UTLBENTRIESM1], the number of uTLB entries - 1. The uTLB is flushed when this
+                                                                 value is changed. */
+        uint64_t tlbinoadr             : 1;  /**< [ 40: 40](R/W) If set, convert broadcast TLBI address-based opcodes to context-based opcode. For
+                                                                 diagnostic use only. */
+        uint64_t cvap_dis              : 1;  /**< [ 41: 41](R/W) If set, convert DC_CVAP into DC_CVAC.  For diagnostic use only. */
+        uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvmmemctl1_el1_s cn9; */
@@ -6404,7 +6414,100 @@ typedef union
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_ap_cvmmemctl1_el1_s cn83xx; */
+    struct bdk_ap_cvmmemctl1_el1_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_39_63        : 25;
+        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.
+                                                                 0 = Single counter mode (combined hit and miss latency counter).
+                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
+        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
+                                                                 Internal:
+                                                                 Backpressure is applied if:
+                                                                 <pre>
+                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
+                                                                 </pre>
+
+                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
+                                                                 is the MSB of the 4-bit miss counter being set. */
+        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency. */
+        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency. */
+        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare. */
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to nonzero node id. */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable SSO and PKO address region.
+                                                                 0 = Accesses described below will trap.
+                                                                 1 = Allow > 64-bit memory instructions, multi-register memory instructions, and
+                                                                 atomic instructions to SSO and PKO I/O address regions. This must be set if SSO
+                                                                 or PKO are to be used.
+
+                                                                 Other address regions (e.g. SLI) are not affected by this setting. */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
+        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
+        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
+        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
+        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
+        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable SSO and PKO address region.
+                                                                 0 = Accesses described below will trap.
+                                                                 1 = Allow > 64-bit memory instructions, multi-register memory instructions, and
+                                                                 atomic instructions to SSO and PKO I/O address regions. This must be set if SSO
+                                                                 or PKO are to be used.
+
+                                                                 Other address regions (e.g. SLI) are not affected by this setting. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to nonzero node id. */
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
+        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare. */
+        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency. */
+        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency. */
+        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
+                                                                 Internal:
+                                                                 Backpressure is applied if:
+                                                                 <pre>
+                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
+                                                                 </pre>
+
+                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
+                                                                 is the MSB of the 4-bit miss counter being set. */
+        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.
+                                                                 0 = Single counter mode (combined hit and miss latency counter).
+                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
+        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
+                                                                 0 = Do nothing.
+                                                                 1 = Flush the ICache. */
+        uint64_t reserved_39_63        : 25;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_ap_cvmmemctl1_el1_t;
 
 #define BDK_AP_CVMMEMCTL1_EL1 BDK_AP_CVMMEMCTL1_EL1_FUNC()

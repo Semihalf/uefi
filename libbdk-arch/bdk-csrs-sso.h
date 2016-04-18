@@ -5706,7 +5706,32 @@ typedef union
                                                                  <50> = Work-slot CAM access. (arbc).
                                                                  <49> = Work-slot RAM access. (arbr).
                                                                  <48> = Work-slot pushes to AQ, CQ, DQ. (arbq). */
-        uint64_t reserved_8_47         : 40;
+        uint64_t reserved_31_47        : 17;
+        uint64_t bp_interval           : 3;  /**< [ 30: 28](R/W) Coprocessor-clock cycles between each 16 cycle interval of HWS backpressure.
+                                                                 For diagnostic use only.
+                                                                 0x0 = Disable this backpressure mechanism.
+                                                                 0x1 =   64 cycles.
+                                                                 0x2 =  128 cycles.
+                                                                 0x3 =  256 cycles.
+                                                                 0x4 =  512 cycles.
+                                                                 0x5 = 1024 cycles.
+                                                                 0x6 = 2048 cycles.
+                                                                 0x7 = 4096 cycles. */
+        uint64_t dqrd_replay_thr       : 12; /**< [ 27: 16](R/W) Theshold for the number of consecutive DQ reads that are aborted due
+                                                                 to hazards without a successful DQ read. Equalling or exceeding the
+                                                                 threshold indicates a potential deadlock due to a circular dependency
+                                                                 of hazards and results in 16 cycles of backpressure to DQ readers
+                                                                 to break free of the deadlock. A threshold of zero disables this
+                                                                 backpressure mechanism.
+                                                                 For diagnostic use only.
+
+                                                                 Internal:
+                                                                 The deadlock is caused by a HWS or AGTX making another HWS replay RAM
+                                                                 reads while waiting for a CAM grant. The CAM grant gets aborted on
+                                                                 seeing the replayed reads in progress, doesn't make forward progress,
+                                                                 and makes other HWSs replay RAM reads. Applying backpressure to ARBR
+                                                                 requests from the HWSs trying to replay RAM reads breaks the deadlock. */
+        uint64_t reserved_8_15         : 8;
         uint64_t sai_flush             : 1;  /**< [  7:  7](R/W1) When written with one, send a pulse to invalidate the VHWS switch tag cache
                                                                  inside the cores.  Reads as zero. For diagnostic use only. */
         uint64_t aw_clk_dis            : 1;  /**< [  6:  6](R/W) Reserved. */
@@ -5726,7 +5751,32 @@ typedef union
         uint64_t aw_clk_dis            : 1;  /**< [  6:  6](R/W) Reserved. */
         uint64_t sai_flush             : 1;  /**< [  7:  7](R/W1) When written with one, send a pulse to invalidate the VHWS switch tag cache
                                                                  inside the cores.  Reads as zero. For diagnostic use only. */
-        uint64_t reserved_8_47         : 40;
+        uint64_t reserved_8_15         : 8;
+        uint64_t dqrd_replay_thr       : 12; /**< [ 27: 16](R/W) Theshold for the number of consecutive DQ reads that are aborted due
+                                                                 to hazards without a successful DQ read. Equalling or exceeding the
+                                                                 threshold indicates a potential deadlock due to a circular dependency
+                                                                 of hazards and results in 16 cycles of backpressure to DQ readers
+                                                                 to break free of the deadlock. A threshold of zero disables this
+                                                                 backpressure mechanism.
+                                                                 For diagnostic use only.
+
+                                                                 Internal:
+                                                                 The deadlock is caused by a HWS or AGTX making another HWS replay RAM
+                                                                 reads while waiting for a CAM grant. The CAM grant gets aborted on
+                                                                 seeing the replayed reads in progress, doesn't make forward progress,
+                                                                 and makes other HWSs replay RAM reads. Applying backpressure to ARBR
+                                                                 requests from the HWSs trying to replay RAM reads breaks the deadlock. */
+        uint64_t bp_interval           : 3;  /**< [ 30: 28](R/W) Coprocessor-clock cycles between each 16 cycle interval of HWS backpressure.
+                                                                 For diagnostic use only.
+                                                                 0x0 = Disable this backpressure mechanism.
+                                                                 0x1 =   64 cycles.
+                                                                 0x2 =  128 cycles.
+                                                                 0x3 =  256 cycles.
+                                                                 0x4 =  512 cycles.
+                                                                 0x5 = 1024 cycles.
+                                                                 0x6 = 2048 cycles.
+                                                                 0x7 = 4096 cycles. */
+        uint64_t reserved_31_47        : 17;
         uint64_t ocla_bp               : 8;  /**< [ 55: 48](R/W) Enable OCLA backpressure stalls. For diagnostic use only.
                                                                  Internal:
                                                                  <55> = NCBB input fifo stall (ncbo).

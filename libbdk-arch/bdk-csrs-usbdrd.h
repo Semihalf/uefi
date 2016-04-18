@@ -9866,7 +9866,7 @@ typedef union
                                                                  0x2 = +15 mV.
                                                                  0x1 = -15 mV.
                                                                  0x0 = reserved. */
-        uint64_t tx_preemp_amp_tune    : 2;  /**< [ 43: 42](R/W) High-speed transmitter pre-emphasis current control. Controls the amount of current
+        uint64_t tx_preemp_amp_tune    : 2;  /**< [ 43: 42](R/W) High-speed transmitter preemphasis current control. Controls the amount of current
                                                                  sourced to DP0 and DM0 after a J-to-K or K-to-J transition. The high-speed transmitter
                                                                  preemphasis current is defined in terms of unit amounts. One unit amount is approximately
                                                                  600 A and is defined as 1* preemphasis current.
@@ -9987,7 +9987,7 @@ typedef union
 
                                                                  If this signal is not used, set it to 0. */
         uint64_t reserved_41           : 1;
-        uint64_t tx_preemp_amp_tune    : 2;  /**< [ 43: 42](R/W) High-speed transmitter pre-emphasis current control. Controls the amount of current
+        uint64_t tx_preemp_amp_tune    : 2;  /**< [ 43: 42](R/W) High-speed transmitter preemphasis current control. Controls the amount of current
                                                                  sourced to DP0 and DM0 after a J-to-K or K-to-J transition. The high-speed transmitter
                                                                  preemphasis current is defined in terms of unit amounts. One unit amount is approximately
                                                                  600 A and is defined as 1* preemphasis current.
@@ -10132,7 +10132,7 @@ typedef union
                                                                  0x1 (according to the PIPE3 specification). The values for transmit deemphasis are derived
                                                                  from the following equation:
 
-                                                                 _ TX de-emphasis (db) = 20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
+                                                                 _ TX deemphasis (db) = 20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
 
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
@@ -10147,7 +10147,7 @@ typedef union
                                                                  second potential launch amplitude. The values for transmit deemphasis are derived from the
                                                                  following equation:
 
-                                                                 _ TX de-emphasis (db) = 20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
+                                                                 _ TX deemphasis (db) = 20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
 
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
@@ -10205,7 +10205,7 @@ typedef union
                                                                  second potential launch amplitude. The values for transmit deemphasis are derived from the
                                                                  following equation:
 
-                                                                 _ TX de-emphasis (db) = 20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
+                                                                 _ TX deemphasis (db) = 20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
 
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
@@ -10219,7 +10219,7 @@ typedef union
                                                                  0x1 (according to the PIPE3 specification). The values for transmit deemphasis are derived
                                                                  from the following equation:
 
-                                                                 _ TX de-emphasis (db) = 20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
+                                                                 _ TX deemphasis (db) = 20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
 
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test

@@ -566,9 +566,9 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <63> = Reserved.
+                                                                 <62> = Reserved.
+                                                                 <61> = Reserved.
                                                                  <60> = Apply backpressure to adp      to csr traffic.      Backpressure weight controlled
                                                                  by [BP_CFG12].
                                                                  <59> = Apply backpressure to adp      to l2s traffic.      Backpressure weight controlled
@@ -646,9 +646,9 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <63> = Reserved.
+                                                                 <62> = Reserved.
+                                                                 <61> = Reserved.
                                                                  <60> = Apply backpressure to adp      to csr traffic.      Backpressure weight controlled
                                                                  by [BP_CFG12].
                                                                  <59> = Apply backpressure to adp      to l2s traffic.      Backpressure weight controlled
@@ -1388,7 +1388,7 @@ typedef union
                                                                  <19:3> = Reserved.
 
                                                                  Internal:
-                                                                 FIXME update based on input bus connections in fpa_xfr.v. */
+                                                                 There are 3 requesters on XFR bus. */
         uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Dellocation input disable. Each bit corresponds to a hardware deallocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
                                                                  and FPA_GEN_INT[FREE_DIS] set
@@ -1439,7 +1439,7 @@ typedef union
                                                                  <19:3> = Reserved.
 
                                                                  Internal:
-                                                                 FIXME update based on input bus connections in fpa_xfr.v. */
+                                                                 There are 3 requesters on XFR bus. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;

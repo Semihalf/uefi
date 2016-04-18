@@ -6662,7 +6662,24 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pemx_diag_status_cn81xx cn88xx; */
-    /* struct bdk_pemx_diag_status_s cn83xx; */
+    struct bdk_pemx_diag_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t pwrdwn                : 3;  /**< [  8:  6](RO/H) Current mac_phy_powerdown state. */
+        uint64_t pm_dst                : 3;  /**< [  5:  3](RO/H) Current power management DSTATE. */
+        uint64_t pm_stat               : 1;  /**< [  2:  2](RO/H) Power management status. */
+        uint64_t pm_en                 : 1;  /**< [  1:  1](RO/H) Power management event enable. */
+        uint64_t aux_en                : 1;  /**< [  0:  0](RO/H) Auxiliary power enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t aux_en                : 1;  /**< [  0:  0](RO/H) Auxiliary power enable. */
+        uint64_t pm_en                 : 1;  /**< [  1:  1](RO/H) Power management event enable. */
+        uint64_t pm_stat               : 1;  /**< [  2:  2](RO/H) Power management status. */
+        uint64_t pm_dst                : 3;  /**< [  5:  3](RO/H) Current power management DSTATE. */
+        uint64_t pwrdwn                : 3;  /**< [  8:  6](RO/H) Current mac_phy_powerdown state. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pemx_diag_status_t;
 
 static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7011,6 +7028,29 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t erom                  : 64; /**< [ 63:  0](R/W/H) PCIe express read transactions to BAR3 (through PCIEEP()_CFG012) will appear as
+                                                                 8-byte RSL reads to this register.
+
+                                                                 Although 512 KB is advertised from PCIEEP()_CFG012, only the first 448 KB is
+                                                                 actually accessible, and reads above 448 KB will return zeros, writes are NOP.
+
+                                                                 Accessible through PEM2 if EP PEM0 is an RC, otherwise accessible through PEM0.
+                                                                 Access from a PEM that doesn't own the EEPROM will return fault. */
+#else /* Word 0 - Little Endian */
+        uint64_t erom                  : 64; /**< [ 63:  0](R/W/H) PCIe express read transactions to BAR3 (through PCIEEP()_CFG012) will appear as
+                                                                 8-byte RSL reads to this register.
+
+                                                                 Although 512 KB is advertised from PCIEEP()_CFG012, only the first 448 KB is
+                                                                 actually accessible, and reads above 448 KB will return zeros, writes are NOP.
+
+                                                                 Accessible through PEM2 if EP PEM0 is an RC, otherwise accessible through PEM0.
+                                                                 Access from a PEM that doesn't own the EEPROM will return fault. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pemx_eromx_s cn8; */
+    struct bdk_pemx_eromx_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t erom                  : 64; /**< [ 63:  0](R/W/H) PCIe express read transactions to BAR3 (through PCIEEP()_CFG012) will appear as
                                                                  RSL reads to this register.
 
                                                                  Although 512 KB is advertised from PCIEEP()_CFG012, only the first 510 KB is
@@ -7028,8 +7068,7 @@ typedef union
                                                                  Accessible through PEM2 if EP PEM0 is an RC, otherwise accessible through PEM0.
                                                                  Access from a PEM that doesn't own the EEPROM will return fault. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pemx_eromx_s cn; */
+    } cn9;
 } bdk_pemx_eromx_t;
 
 static inline uint64_t BDK_PEMX_EROMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -8879,13 +8918,15 @@ typedef union
                                                                  0x9F = READ ID: a two-byte read access to get device identification
                                                                         with result in the 64-bits of corresponding PEM()_SPI_DATA. */
         uint64_t reserved_19_23        : 5;
-        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address. For READ and PAGE PROGRAM commands, forced to sector 0
-                                                                 so [ADR]<18:15> are not used.
+        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address.
+                                                                 For READ and PAGE PROGRAM commands, forced to a 8-byte aligned entry in sector 0, so
+                                                                 <18:16> and <2:0> are forced to zero.  For all other commands, the entire ADR is passed.
 
                                                                  This field will clear when command is complete. */
 #else /* Word 0 - Little Endian */
-        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address. For READ and PAGE PROGRAM commands, forced to sector 0
-                                                                 so [ADR]<18:15> are not used.
+        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address.
+                                                                 For READ and PAGE PROGRAM commands, forced to a 8-byte aligned entry in sector 0, so
+                                                                 <18:16> and <2:0> are forced to zero.  For all other commands, the entire ADR is passed.
 
                                                                  This field will clear when command is complete. */
         uint64_t reserved_19_23        : 5;

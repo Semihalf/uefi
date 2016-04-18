@@ -11728,13 +11728,9 @@ typedef union
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_2            : 1;
-        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+        uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
-        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
-        uint64_t reserved_2            : 1;
+        uint64_t reserved_0_2          : 3;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
@@ -11804,13 +11800,9 @@ typedef union
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_2            : 1;
-        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+        uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
-        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
-        uint64_t reserved_2            : 1;
+        uint64_t reserved_0_2          : 3;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
@@ -11886,13 +11878,9 @@ typedef union
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Dropped a send-packet in PDM/CP due to a rule violation. The error code is captured in
                                                                  PKO_PDM_STS_INFO[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_2            : 1;
-        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1C/H) A buffer flow-control store received a store done with an error indicated. */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) CRC error occurred in a descriptor. (State may have been corrupted.) */
+        uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1C/H) CRC error occurred in a descriptor. (State may have been corrupted.) */
-        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1C/H) A buffer flow-control store received a store done with an error indicated. */
-        uint64_t reserved_2            : 1;
+        uint64_t reserved_0_2          : 3;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Dropped a send-packet in PDM/CP due to a rule violation. The error code is captured in
                                                                  PKO_PDM_STS_INFO[CP_SENDPKT_ERR_DROP_CODE]. */
         uint64_t reserved_4_8          : 5;
@@ -11969,13 +11957,9 @@ typedef union
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_2            : 1;
-        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
+        uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
-        uint64_t desc_crc_err          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[DESC_CRC_ERR]. */
-        uint64_t buf_fc_stdn_err       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[BUF_FC_STDN_ERR]. */
-        uint64_t reserved_2            : 1;
+        uint64_t reserved_0_2          : 3;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
