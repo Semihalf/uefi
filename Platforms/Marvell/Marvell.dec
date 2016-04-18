@@ -175,9 +175,6 @@
   gMarvellTokenSpaceGuid.PcdChip3ComPhySpeeds|{ 0 }|VOID*|0x30000176
   gMarvellTokenSpaceGuid.PcdChip3ComPhyInvFlags|{ 0 }|VOID*|0x30000177
 
-#SATA
-  gMarvellTokenSpaceGuid.PcdSataBaseAddress|0|UINT32|0x4000052
-
 #UtmiPhy
   gMarvellTokenSpaceGuid.PcdUtmiPhyCount|0|UINT32|0x30000205
   gMarvellTokenSpaceGuid.PcdUtmiPhyRegUsbCfg|{ 0 }|VOID*|0x30000206
@@ -223,6 +220,12 @@
   gMarvellTokenSpaceGuid.PcdPciEDevClassCode1|{ 0 }|VOID*|0x30000061
   gMarvellTokenSpaceGuid.PcdPciEDevClassCode2|{ 0 }|VOID*|0x30000062
   gMarvellTokenSpaceGuid.PcdPciEDevClassCode3|{ 0 }|VOID*|0x30000063
+
+#SATA
+  gMarvellTokenSpaceGuid.PcdSataBaseAddress|0|UINT32|0x4000052
+
+[PcdsFeatureFlag.common]
+  gMarvellTokenSpaceGuid.PcdSataMapPortAddress|FALSE|BOOLEAN|0x4000053
 
 [Protocols]
   gMarvellEepromProtocolGuid               = { 0x71954bda, 0x60d3, 0x4ef8, { 0x8e, 0x3c, 0x0e, 0x33, 0x9f, 0x3b, 0xc2, 0x2b }}
