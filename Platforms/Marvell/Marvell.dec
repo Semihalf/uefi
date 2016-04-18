@@ -185,6 +185,7 @@
 
 #SATA
   gMarvellTokenSpaceGuid.PcdSataBaseAddress|0|UINT32|0x4000052
+  gMarvellTokenSpaceGuid.PcdSataMapPortAddress|FALSE|BOOLEAN|0x4000053
 
 #MDIO
   gMarvellTokenSpaceGuid.PcdMdioBaseAddress|0|UINT64|0x3000043
