@@ -113,6 +113,12 @@ xhci_t* createUsbXHci(bdk_node_t node, int usb_port)
     thisXHC->hcsparams2.u =  BDK_CSR_READ(node, BDK_USBHX_UAHC_HCSPARAMS2(usb_port));
     thisXHC->hccparams.u =  BDK_CSR_READ(node, BDK_USBHX_UAHC_HCCPARAMS(usb_port));
     BDK_CSR_INIT(pgsz,node,BDK_USBHX_UAHC_PAGESIZE(usb_port));
+    if ( thisXHC->hcsparams1.s.maxslots > CAVIUM_XHCI_MAXSLOTS) {
+        bdk_warn("XHCI hcsparams1.maxslots(%d) exceeds configured maximum(%d)\n"
+                 "Please complain to software provider\n"
+                 ,
+                 thisXHC->hcsparams1.s.maxslots,  CAVIUM_XHCI_MAXSLOTS);
+    }
     int msb = -1;
     if (pgsz.s.pagesize) {
         unsigned mask;

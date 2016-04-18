@@ -143,6 +143,7 @@ void __bdk_fs_fatfs_usbnotify(int drvIndex, int available)
         mountmask &= ~(1<<pdrv);
         disk_usbnotify(drvIndex, available);
     }
+    printf("\n/fatfs/%s %savailable\n", volume_id, (available) ? "" : "un");
 }
 
 void __bdk_list_fs_fatfs() {

@@ -30,12 +30,14 @@ typedef enum _ASYNC_MON_STATE {
 } ASYNC_MON_STATE;
 
 typedef struct usb_hc_descriptor_s {
-    bdk_rlock_t xhci_lock;
-    volatile ASYNC_MON_STATE async_mon_state;
-    USB_BUS *usb_bus;
-    USB_DEVICE *root_hub;
-    USB_INTERFACE *root_if;
-    xhci_t *xhci_priv;
+    bdk_rlock_t xhci_lock;                  // Lock for xhci hardware instance
+    volatile ASYNC_MON_STATE async_mon_state; // Async interrupt monitor state
+    uint64_t root_hub_enum_timestamp;  // Timestamp of last root hub enumeration in BDK_CLOCK_TIME units
+    uint64_t root_hub_poll_delta;      // Root hub poll interval in BDK_CLOCK_TIME units, keeping it here affords running async mon process on any node
+    USB_BUS *usb_bus;                 // Pointer to usb_bus descriptor for root hub
+    USB_DEVICE *root_hub;             // Pointer to hub descriptor for root hub
+    USB_INTERFACE *root_if;           // Pointer to interface descriptor for root hub
+    xhci_t *xhci_priv;                // Pointer for xhci hardware descriptor.
 } usb_hc_descriptor_t;
 /**
 Internal helper routines
@@ -53,9 +55,10 @@ static usb_hc_descriptor_t usb_global_data[BDK_NUMA_MAX_NODES][CAVIUM_MAX_USB_IN
 void async_request_monitor(int unused, void *ctl)
 {
     usb_hc_descriptor_t *p = (usb_hc_descriptor_t*)ctl;
-    int count = 0;
     p->async_mon_state |= AM_Running;
     BDK_WMB;
+
+    p->root_hub_poll_delta = USB_ROOTHUB_POLL_INTERVAL * bdk_clock_get_rate(bdk_numa_local(),BDK_CLOCK_TIME) / 1000000 ;
     while(1)
     {
         bdk_wait_usec(XHC_ASYNC_TIMER_INTERVAL);
@@ -65,10 +68,10 @@ void async_request_monitor(int unused, void *ctl)
             p->async_mon_state |= AM_Stopped;
             break;
         }
-        count++;
-        if (count == (100 * 1000)/XHC_ASYNC_TIMER_INTERVAL) {
+        uint64_t now =  bdk_clock_get_count(BDK_CLOCK_TIME);
+        if ((now - p->root_hub_enum_timestamp) > p->root_hub_poll_delta) {
             UsbRootHubEnumeration(0,(USB_INTERFACE *)p->root_if);
-            count = 0;
+            p->root_hub_enum_timestamp = now;
         }
         XhcMonitorAsyncRequests(0,p->xhci_priv);
         bdk_rlock_unlock(&p->xhci_lock);
@@ -258,7 +261,12 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         return -1;
     }
     if (usb_port >= CAVIUM_MAX_USB_INSTANCES) {
-        printf("USB port must be less then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
+        printf("USB port must below then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
+        return -1;
+    }
+    BDK_CSR_INIT(uctl_ctl,node,BDK_USBHX_UCTL_CTL(usb_port));
+    if (0 == uctl_ctl.s.h_clk_en) {
+        printf("\nUSB port have not been initialized\n");
         return -1;
     }
     int rc = 0;

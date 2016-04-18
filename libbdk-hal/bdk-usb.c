@@ -4,35 +4,6 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(USB);
 
-/*
-** Internal helper to keep track of port initialization
-** Attempt to do xhci anything without init will cause crash.
-*/
-// Port initialization state.
-//  Nibble per node, bit per port within node
-static uint64_t usb_init_done=0;
-
-/**
- * Mark (node,port) as initialized.
- * @param node       Node to mark
- * @param usb_port   Port to mark
- */
-static inline void usbMarkInitDone(bdk_node_t node, int usb_port)
-{
-    usb_init_done |= (1ull << usb_port) << (node *4);
-}
-
-/**
- * Check if (node,port) was initialized.
- * @param node       Node to mark
- * @param usb_port   Port to mark
- * @return true or false as appropriate
- */
-static inline bool usbIsInitDone(bdk_node_t node, int usb_port)
-{
-    return usb_init_done & (1ull << usb_port) << (node *4);
-}
-
 /**
  * Initialize the clocks for USB such that it is ready for a generic XHCI driver
  *
@@ -48,6 +19,7 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
     /* Asim's USB model is broken */
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
         return -1;
+
     int is_usbdrd = !CAVIUM_IS_MODEL(CAVIUM_CN88XX);
     /* Perform the following steps to initiate a cold reset. */
 
@@ -399,9 +371,6 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
             device initiation sequence starts with a device soft reset by
             setting USBDRD(0..1)_UAHC_DCTL[CSFTRST] = 1 and wait for a read
             operation to return 0. */
-
-    /* Mark init done*/
-    usbMarkInitDone(node,usb_port);
     return 0;
 }
 
@@ -485,10 +454,6 @@ int bdk_usb_test_mode(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode)
         case BDK_USB_TEST_USB2_FORCE_ENABLE:
             return usb2_test_mode(node, usb_port, 5);
         case BDK_USB_XHCI_INIT:
-            if ( !__bdk_is_dram_enabled(node) && !usbIsInitDone(node,usb_port)) {
-                printf("Port have not been initialized\n");
-                return -1;
-            }
             return bdk_usb_HCInit(node, usb_port);
         case BDK_USB_XHCI_LIST_ADDRESSES:
             return bdk_usb_HCList();
