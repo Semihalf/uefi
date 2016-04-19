@@ -59,9 +59,9 @@ def wait_for_bootstub_messages(cnx):
     cnx.match("PASS: CRC32 verification")
     cnx.match("Transferring to thread scheduler")
     cnx.match("Using configuration from previous image")
-    cnx.match("================")
-    cnx.match("Cavium Boot Stub")
-    cnx.match("================")
+    cnx.match("===========")
+    cnx.match("Cavium Init")
+    cnx.match("===========")
     cnx.match("BDK Version:")
     cnx.waitforRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=60)
     if cnx.multinode:
@@ -73,6 +73,7 @@ def wait_for_bootstub_messages(cnx):
         except:
             pass
         cnx.matchRE("Chip:  0xa1 Pass [1-2]\\.[0-1]")
+        cnx.matchRE("SKU:   CN[0-9]+-[0-9]+BG[0-9]+-[A-Z]+(-[Y-Z])?-G")
         cnx.match("L2:    16384 KB")
         cnx.matchRE("RCLK:  [0-9]+ Mhz")
         cnx.matchRE("SCLK:  [0-9]+ Mhz")
