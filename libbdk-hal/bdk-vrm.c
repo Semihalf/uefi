@@ -8,18 +8,10 @@
  */
 static void do_throttle(bdk_node_t node, int percent)
 {
-    const int NUM_IOBN = CAVIUM_IS_MODEL(CAVIUM_CN81XX) ? 1 : 2;
-    /* Read the per core power constant */
-    bdk_ap_cvm_power_el1_t ap_cvm_power_el1;
-    BDK_MRS_NV(s3_0_c11_c0_2, ap_cvm_power_el1.u);
-    /* Calculate the global power throttle level */
-    int pwr_setting = bdk_get_num_cores(node) * ap_cvm_power_el1.s.maxpow * 4 * percent / 100;
-    /* Apply the new throttle level */
-    for (int iobn = 0; iobn < NUM_IOBN; iobn++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(iobn),
-            c.s.pwr_setting = pwr_setting);
-    }
+    /* Use the per-core throttle instead of the global IOBN throttle. The
+       hardware team doesn't have faith in the global setting and quick
+       delivery seems more important than performance */
+    bdk_power_throttle(node, 255 * percent / 100);
 }
 
 /**
