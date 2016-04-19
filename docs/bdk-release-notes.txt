@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.22-rc4 ==
+== thunder-release-v1.22-rc5 ==
 * Added support for CN88XX pass 2.1. Prior releases will crash when entering diagnostics on CN88XX pass 2.1 and higher.
 * Added support for measuring SERDES quality using a vertical eye measurement
 ** New traffic-gen command "margin_rx" for networking related SERDES
@@ -22,13 +22,15 @@ incorporated into each BDK release.
 ** Power burn functionality moved into a new "Power Burn options" menu
 * DDR
 ** Improvements to diagnostic output, bit deskew training, VREF processing
-** Enable data inversion for power efficiency
 ** Allow rank majority to affect single DIMM configurations
 ** Compute the pattern averages from rank windows, not rank averages
 ** Move setting of the DRAM SPD addresses out of the common DDR3 and DDR4 config
 ** Enable the trim circuit on the appropriate LMC channels to adjust the DDR clock duty cycle for chips that support it
 ** Rework the sequence used to take the DRAM out of self-refresh mode
 ** Correct the calculation for TIMING_PARAMS0[trp].
+** Enhance HW-assist tuning to allow use on data bytelanes.
+** Fix HW write-leveling validity checking.
+** Enable ECC byte tuning by default; fix speed caclulation.
 * SERDES
 ** Have RX equalization check that a lane has CDR lock before trying equalization
 ** BGX: Don't allow lane up to continue until RX equalization succeeds on all lanes
@@ -56,11 +58,13 @@ incorporated into each BDK release.
 ** Chip SKU information is now displayed to the user and passed in the device tree
 ** Boot messages report secure or non-secure boot
 ** Dynamic device tree fixup for Linux. The BDK will now load an extra device tree for the operating system use. See documentation for details on BDK configuration.
-** Add support for dynamic thermal monitoring
+** Add support for dynamic thermal monitoring. Add options to the setup menu to control power throttling
 ** Improve the performance of the MPI/SPI transfers
 ** Use recursive lock for console output instead of spinlock. Fixes potential hangs with many output threads on one core.
 ** Add init of IOBX_NCB0_HP
 ** Many messages renames to remove references to THUNDERX
+** USB XHCI support for hubs and mass storage. Storage devices with FatFS volumes can be read/written.
+** File menu now has an option to list files in BDK file systems.
 
 == thunder-release-v1.21 ==
 * Redo handling of CCPI link init to support CN88XX pass 2.0.
