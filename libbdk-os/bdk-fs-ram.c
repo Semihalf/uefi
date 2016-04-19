@@ -121,6 +121,19 @@ static int ram_unlink(const char *name)
     return 0;
 }
 
+static int ram_list(const char *path, __bdk_fs_list_callback callback, void *callback_state)
+{
+    ram_file_t *fptr = head;
+    while (fptr)
+    {
+        if (callback)callback(fptr->name,callback_state);
+        else puts(fptr->name);
+
+        fptr = fptr->next;
+    }
+    return 0;
+}
+
 static const __bdk_fs_ops_t bdk_fs_ram_ops =
 {
     .stat = NULL,
@@ -129,6 +142,7 @@ static const __bdk_fs_ops_t bdk_fs_ram_ops =
     .close = NULL,
     .read = ram_read,
     .write = ram_write,
+    .list = ram_list,
 };
 
 int __bdk_fs_ram_init(void)

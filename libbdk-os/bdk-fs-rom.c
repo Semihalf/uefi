@@ -70,6 +70,29 @@ static int rom_read(__bdk_fs_file_t *handle, void *buffer, int length)
     return count;
 }
 
+static int rom_list(const char *path, __bdk_fs_list_callback callback, void *callback_state)
+{
+   extern void _end();
+   const char *ptr = (const char *)&_end;
+#define _BUF_LEN 512
+   char *buf = malloc(_BUF_LEN);
+   if (NULL == buf) return -1;
+   while (memcmp(ptr, "ROM-FS", 6) == 0)
+   {
+       uint16_t fname_length = *(uint16_t*)(ptr+6);
+       uint32_t fdata_length = *(uint32_t*)(ptr+8);
+       const char *fname_ptr = ptr+12;
+       snprintf(buf,_BUF_LEN, "%.*s",fname_length,fname_ptr);
+       buf[_BUF_LEN-1] = '\0';
+       if (callback) callback(buf,callback_state);
+       else puts(buf);
+       const char *fdata_ptr = fname_ptr + fname_length;
+       ptr = fdata_ptr + fdata_length;
+   }
+   free(buf);
+   return 0;
+}
+
 static const __bdk_fs_ops_t bdk_fs_rom_ops =
 {
     .stat = NULL,
@@ -78,6 +101,7 @@ static const __bdk_fs_ops_t bdk_fs_rom_ops =
     .close = NULL,
     .read = rom_read,
     .write = NULL,
+    .list = rom_list,
 };
 
 int __bdk_fs_rom_init(void)

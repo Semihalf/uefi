@@ -432,18 +432,61 @@ int bdk_jump_address(uint64_t paddress, uint64_t arg0, uint64_t arg1)
     return ptr(arg0, arg1);
 }
 
-int bdk_list_fs()
+int bdk_fs_list(const char *path,__bdk_fs_list_callback callback, void *callback_state)
 {
-    for(unsigned ndx=0; ndx< MAX_MOUNT_POINTS; ndx++) {
-        if  (mount_points[ndx].prefix) {
-            printf("@%02d : %s\n", ndx,mount_points[ndx].prefix);
-            if (__bdk_list_fs_dev && (0 == strncmp("/dev",mount_points[ndx].prefix,4) ) ) {
-                __bdk_list_fs_dev();
-            } else if (__bdk_list_fs_fatfs  && (0 == strncmp("/fatfs",mount_points[ndx].prefix,6) ) ) {
-                __bdk_list_fs_fatfs();
+    if (NULL == path) return -1;
+    int rc;
+    if (1 >= strlen(path)) {
+        /* root directory listing */
+        if (('\0' == *path) || ('/' == *path)) {
+            for(unsigned ndx=0; ndx< MAX_MOUNT_POINTS; ndx++) {
+                if  (mount_points[ndx].prefix) {
+                    if (callback) {
+                        callback(mount_points[ndx].prefix, callback_state);
+                    } else {
+                        puts(mount_points[ndx].prefix);
+                    }
+                }
+            }
+            return 0;
+        }
+        return -1;
+    } else {
+        const char *usedpath = path;
+        char *buf = NULL;
+
+        int mount = get_mount(path);
+        if (mount < 0) {
+            // try once more adding leading and trailing slashes
+            int len = strlen(path);
+            buf = malloc(len+3);
+            if (NULL == buf) return -1;
+            bool tryagain = false;
+            int i=0;
+            if (path[0] != '/') {
+                buf[0] = '/';
+                i++;tryagain = true;
+            }
+            memcpy(&buf[i],path,len);
+            if (('/' != path[len-1]) && (NULL == strchr(path+1, '/'))) {
+                        buf[i+len] = '/';
+                        i++;
+                        tryagain = true;
+                    }
+            if (tryagain) {
+                usedpath = buf;
+                buf[len+i] = '\0';
+                mount = get_mount(buf);
             }
         }
-
+        if ((mount >= 0) && mount_points[mount].ops->list){
+            usedpath += strlen(mount_points[mount].prefix);
+            // TODO Should we insert callback to add fs name here?
+            rc = mount_points[mount].ops->list(usedpath,callback,callback_state);
+        } else
+            rc = -1;
+        if (buf) free(buf);
     }
-    return 1;
+
+    return rc;
 }

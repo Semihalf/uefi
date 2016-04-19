@@ -25,6 +25,7 @@ typedef struct
 /**
  * This structure are the operations that can be performed on non-device files
  */
+typedef void(*__bdk_fs_list_callback)(const char *name, void *state);
 typedef struct __bdk_fs_ops_s
 {
     int (*stat)(const char *name, struct stat *st);
@@ -33,6 +34,7 @@ typedef struct __bdk_fs_ops_s
     int (*close)(__bdk_fs_file_t *handle);
     int (*read)(__bdk_fs_file_t *handle, void *buffer, int length);
     int (*write)(__bdk_fs_file_t *handle, const void *buffer, int length);
+    int (*list)(const char *path, __bdk_fs_list_callback callback, void *callback_state);
 } __bdk_fs_ops_t;
 
 /**
@@ -65,6 +67,7 @@ int bdk_fs_unregister_dev(const char *dev_base, int dev_index);
 int bdk_jump_address(uint64_t paddress, uint64_t arg0, uint64_t arg1);
 int __bdk_fs_check_break(void);
 int bdk_console_open_file(const char *filename);
+int bdk_fs_list(const char *path, __bdk_fs_list_callback callback, void *callback_state);
 
 /* Prototypes for the init functions for all file systems */
 extern int __bdk_fs_boot_init(void) BDK_WEAK;
@@ -78,7 +81,4 @@ extern int __bdk_fs_ram_init(void) BDK_WEAK;
 extern int __bdk_fs_rom_init(void) BDK_WEAK;
 extern int __bdk_fs_sata_init(void) BDK_WEAK;
 extern int __bdk_fs_xmodem_init(void) BDK_WEAK;
-int bdk_list_fs();
-extern void __bdk_list_fs_dev() BDK_WEAK;
-extern void __bdk_list_fs_fatfs() BDK_WEAK;
 /** @} */

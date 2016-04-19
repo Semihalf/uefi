@@ -50,6 +50,7 @@ static const __bdk_fs_ops_t bdk_fs_boot_ops =
     .close = boot_close,
     .read = boot_read,
     .write = boot_write,
+    .list = NULL,
 };
 
 int __bdk_fs_boot_init(void)

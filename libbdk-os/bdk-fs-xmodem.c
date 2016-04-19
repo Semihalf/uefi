@@ -568,6 +568,7 @@ static const __bdk_fs_ops_t bdk_fs_xmodem_ops =
     .close = xmodem_close,
     .read = xmodem_read,
     .write = xmodem_write,
+    .list = NULL,
 };
 
 int __bdk_fs_xmodem_init(void)

@@ -292,6 +292,28 @@ static int dev_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         return -1;
 }
 
+static int dev_list(const char *path,__bdk_fs_list_callback callback, void *callback_state)
+{
+    if (1 >= strlen(path)) {
+        dev_fs_t *dev;
+        if (dev_head != dev_tail) {
+            dev = dev_head;
+            do {
+                char buf[20];
+                snprintf(buf,sizeof(buf),"n0.%s", dev->dev_name);
+                if (callback)
+                    callback(buf,callback_state);
+                else
+                    puts(buf);
+                dev = dev->next;
+            } while (dev);
+        }
+        return 0;
+    }
+    // Are there subpath?
+    return -1;
+}
+
 const __bdk_fs_ops_t bdk_fs_dev_ops =
 {
     .stat = NULL,
@@ -300,18 +322,5 @@ const __bdk_fs_ops_t bdk_fs_dev_ops =
     .close = dev_close,
     .read = dev_read,
     .write = dev_write,
+    .list = dev_list,
 };
-
-void __bdk_list_fs_dev()
-{
-    dev_fs_t *dev;
-    bdk_rlock_lock(&dev_lock);
-    if (dev_head != dev_tail) {
-        dev = dev_head;
-        do {
-            printf("  /dev/nX.%s\n", dev->dev_name);
-            dev = dev->next;
-        } while (dev);
-    }
-    bdk_rlock_unlock(&dev_lock);
-}

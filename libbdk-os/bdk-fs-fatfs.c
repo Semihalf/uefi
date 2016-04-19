@@ -77,6 +77,9 @@ static int fatfs_unlink(const char *name)
     return f_unlink(name);
 }
 
+/* Forward declaration for fatfs_list */
+static int  fatfs_list(const char *path,__bdk_fs_list_callback callback, void *callback_state);
+
 static const __bdk_fs_ops_t bdk_fs_fatfs_ops =
 {
     .stat = NULL,
@@ -85,6 +88,7 @@ static const __bdk_fs_ops_t bdk_fs_fatfs_ops =
     .close = fatfs_close,
     .read = fatfs_read,
     .write = fatfs_write,
+    .list = fatfs_list,
 };
 
 static const char* const volstr[] = {_VOLUME_STRS};
@@ -146,10 +150,110 @@ void __bdk_fs_fatfs_usbnotify(int drvIndex, int available)
     printf("\n/fatfs/%s %savailable\n", volume_id, (available) ? "" : "un");
 }
 
-void __bdk_list_fs_fatfs() {
-    uint32_t tmask = 1;
-    for(int i = 0; i < _VOLUMES;tmask <<=1, i++) {
-        if (!(mountmask & tmask)) continue;
-        printf("  %d: == /fatfs/%s:\n", i,volstr[i]);
+
+static int  fatfs_list(const char *path,__bdk_fs_list_callback callback, void *callback_state)
+{
+    if (1 >= strlen(path)) {
+        // List volumes
+        uint32_t tmask = 1;
+        for(int i = 0; i < _VOLUMES;tmask <<=1, i++) {
+            if (!(mountmask & tmask)) continue;
+            char volume_id[16];
+            snprintf(volume_id, sizeof(volume_id), "%s:", volstr[i]);
+            if (callback) callback(volume_id,callback_state);
+            else puts(volume_id);
+        }
+        return 0;
+    } else {
+        DIR dir;
+        FILINFO fno;
+        char *buf;
+/* Temp buffer is used to:
+** - build temporary path name for fstat and opendir
+** - to form output lines to be printed or passed to external formatter
+** Conveniently all and any path manipulation happens before output.
+*/
+#define _OUTBUF_SIZE 256
+#if _USE_LFN
+        // Allocate two work areas in one chunk
+        // _OUTBUF_SIZE of it is used for output buffer
+        // _MAX_LFN bytes at the end is used to retrieve long file names from libfatfs
+        buf = malloc(_OUTBUF_SIZE + _MAX_LFN+1);
+        fno.lfname = &buf[_OUTBUF_SIZE];
+        fno.lfsize = _MAX_LFN+1;
+#else
+       buf = malloc(_OUTBUF_SIZE);
+#endif
+       if (NULL == buf) return -1;
+
+       // Next snippet does two things as both require looking at path
+       // - Root directory has no fstat. Its name ends either with ":" or ":/"
+       // - In addition we need to strip trailing slash, opendir does not handle it for non-root directories
+        bool mustbedir = false;
+        int lpath = strlen(path);
+        memcpy(buf,path,lpath+1);
+        if (path[lpath-1] == '/') {
+            lpath--;
+            buf[lpath] = '\0'; // strip trailing slash from the path
+            mustbedir = true;
+        }
+        if  (path[lpath-1] != ':') {
+            if (FR_OK != f_stat(buf,&fno)) {
+                free(buf);
+                return -1;
+            }
+        } else {
+            fno.fattrib = AM_DIR; // f_stat for root directory would fail
+                                  // ignore result and fake directory attribute
+        }
+
+        if (fno.fattrib & AM_DIR) {
+            // Directory - list names, append trailing slash to subdirectory names
+            if (FR_OK == f_opendir(&dir,buf)) {
+                while(FR_OK == f_readdir(&dir,&fno)) {
+                    if (0 == fno.fname[0]) break;
+                    int l;
+#if _USE_LFN
+                    if (fno.lfname[0] ) {
+                        l = strlen(fno.lfname);
+                        memcpy(buf, fno.lfname,l);
+                    } else {
+                        l = strlen(fno.fname);
+                        memcpy(buf, fno.fname,l);
+                    }
+#else
+                    l = strlen(fno.fname);
+                    memcpy(buf, fno.fname,l);
+#endif
+                    if (fno.fattrib & AM_DIR) {
+                        buf[l] = '/';
+                        l++;
+                    }
+                    buf[l] = '\0';
+                    if (callback) callback(buf,callback_state);
+                    else puts(buf);
+                }
+                f_closedir(&dir);
+            }
+        } else if (!mustbedir) {
+            // Single file - output size and details
+            snprintf(buf,_OUTBUF_SIZE,
+                     "%s Size:%u Time:%u/%02u/%02u, %02u:%02u Attributes: -%c%c%c%c",
+                     path,
+                     (unsigned int) fno.fsize,
+                     (fno.fdate >> 9) + 1980, fno.fdate >> 5 & 15, fno.fdate & 31,
+                     fno.ftime >> 11, fno.ftime >> 5 & 63,
+                     /*(fno.fattrib & AM_DIR) ? 'D' : '-',*/
+                     (fno.fattrib & AM_RDO) ? 'R' : '-',
+                     (fno.fattrib & AM_HID) ? 'H' : '-',
+                     (fno.fattrib & AM_SYS) ? 'S' : '-',
+                     (fno.fattrib & AM_ARC) ? 'A' : '-');
+
+            if (callback) callback(buf,callback_state);
+            else puts(buf);
+        }
+        free(buf);
+#undef _OUTBUF_SIZE
     }
+    return 0;
 }

@@ -41,8 +41,9 @@ m:item("lua",   "Execute Lua file", function()
     end
 end)
 
-m:item("listfs",   "List file systems", function()
-    local result =  cavium.c.bdk_list_fs();
+m:item("listfs",   "List files", function()
+    local name = menu.prompt_filename("Enter diectory name")
+    local result =  cavium.c.bdk_fs_list(name, 0, 0);
     if not result then
         printf("ERROR: %s\n", result)
     end
