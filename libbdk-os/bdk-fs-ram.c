@@ -123,12 +123,11 @@ static int ram_unlink(const char *name)
 
 static int ram_list(const char *path, __bdk_fs_list_callback callback, void *callback_state)
 {
+    if (NULL == callback) return -1;
     ram_file_t *fptr = head;
     while (fptr)
     {
-        if (callback)callback(fptr->name,callback_state);
-        else puts(fptr->name);
-
+        callback(fptr->name,callback_state);
         fptr = fptr->next;
     }
     return 0;

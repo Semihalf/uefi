@@ -74,6 +74,7 @@ static int rom_list(const char *path, __bdk_fs_list_callback callback, void *cal
 {
    extern void _end();
    const char *ptr = (const char *)&_end;
+   if (NULL == callback) return -1;
 #define _BUF_LEN 512
    char *buf = malloc(_BUF_LEN);
    if (NULL == buf) return -1;
@@ -84,8 +85,7 @@ static int rom_list(const char *path, __bdk_fs_list_callback callback, void *cal
        const char *fname_ptr = ptr+12;
        snprintf(buf,_BUF_LEN, "%.*s",fname_length,fname_ptr);
        buf[_BUF_LEN-1] = '\0';
-       if (callback) callback(buf,callback_state);
-       else puts(buf);
+       callback(buf,callback_state);
        const char *fdata_ptr = fname_ptr + fname_length;
        ptr = fdata_ptr + fdata_length;
    }

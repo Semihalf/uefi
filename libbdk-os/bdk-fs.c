@@ -432,20 +432,33 @@ int bdk_jump_address(uint64_t paddress, uint64_t arg0, uint64_t arg1)
     return ptr(arg0, arg1);
 }
 
-int bdk_fs_list(const char *path,__bdk_fs_list_callback callback, void *callback_state)
+/*
+ * default output formatter for file list
+ */
+static void default_list_formatter(const char *outbuf, void *dummy) {
+    puts(outbuf);
+}
+/**
+ * List files or filesystems
+ * @param path pointer to the path string
+ * @param callback address of formatter If no formatter is specified default_list_formatter is used.
+ * @param callback_state pointer to formatter context, passed back to it
+ *
+ * @return Zero on success, non-zero on failure.
+ */
+
+int bdk_fs_list(const char *path, __bdk_fs_list_callback callback, void *callback_state)
 {
     if (NULL == path) return -1;
+    __bdk_fs_list_callback list_item_output = (callback) ? callback : default_list_formatter;
+
     int rc;
     if (1 >= strlen(path)) {
         /* root directory listing */
         if (('\0' == *path) || ('/' == *path)) {
             for(unsigned ndx=0; ndx< MAX_MOUNT_POINTS; ndx++) {
                 if  (mount_points[ndx].prefix) {
-                    if (callback) {
-                        callback(mount_points[ndx].prefix, callback_state);
-                    } else {
-                        puts(mount_points[ndx].prefix);
-                    }
+                    list_item_output(mount_points[ndx].prefix, callback_state);
                 }
             }
             return 0;
@@ -482,7 +495,7 @@ int bdk_fs_list(const char *path,__bdk_fs_list_callback callback, void *callback
         if ((mount >= 0) && mount_points[mount].ops->list){
             usedpath += strlen(mount_points[mount].prefix);
             // TODO Should we insert callback to add fs name here?
-            rc = mount_points[mount].ops->list(usedpath,callback,callback_state);
+            rc = mount_points[mount].ops->list(usedpath, list_item_output, callback_state);
         } else
             rc = -1;
         if (buf) free(buf);

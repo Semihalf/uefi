@@ -153,6 +153,7 @@ void __bdk_fs_fatfs_usbnotify(int drvIndex, int available)
 
 static int  fatfs_list(const char *path,__bdk_fs_list_callback callback, void *callback_state)
 {
+    if (NULL == callback) return -1;
     if (1 >= strlen(path)) {
         // List volumes
         uint32_t tmask = 1;
@@ -160,8 +161,7 @@ static int  fatfs_list(const char *path,__bdk_fs_list_callback callback, void *c
             if (!(mountmask & tmask)) continue;
             char volume_id[16];
             snprintf(volume_id, sizeof(volume_id), "%s:", volstr[i]);
-            if (callback) callback(volume_id,callback_state);
-            else puts(volume_id);
+            callback(volume_id,callback_state);
         }
         return 0;
     } else {
@@ -230,8 +230,7 @@ static int  fatfs_list(const char *path,__bdk_fs_list_callback callback, void *c
                         l++;
                     }
                     buf[l] = '\0';
-                    if (callback) callback(buf,callback_state);
-                    else puts(buf);
+                    callback(buf,callback_state);
                 }
                 f_closedir(&dir);
             }
@@ -249,8 +248,7 @@ static int  fatfs_list(const char *path,__bdk_fs_list_callback callback, void *c
                      (fno.fattrib & AM_SYS) ? 'S' : '-',
                      (fno.fattrib & AM_ARC) ? 'A' : '-');
 
-            if (callback) callback(buf,callback_state);
-            else puts(buf);
+            callback(buf,callback_state);
         }
         free(buf);
 #undef _OUTBUF_SIZE

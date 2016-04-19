@@ -294,6 +294,7 @@ static int dev_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 
 static int dev_list(const char *path,__bdk_fs_list_callback callback, void *callback_state)
 {
+    if (NULL == callback) return -1;
     if (1 >= strlen(path)) {
         dev_fs_t *dev;
         if (dev_head != dev_tail) {
@@ -301,10 +302,7 @@ static int dev_list(const char *path,__bdk_fs_list_callback callback, void *call
             do {
                 char buf[20];
                 snprintf(buf,sizeof(buf),"n0.%s", dev->dev_name);
-                if (callback)
-                    callback(buf,callback_state);
-                else
-                    puts(buf);
+                callback(buf,callback_state);
                 dev = dev->next;
             } while (dev);
         }
