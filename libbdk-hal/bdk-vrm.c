@@ -21,6 +21,10 @@ static void do_throttle(bdk_node_t node, int percent)
  */
 int bdk_vrm_initialize(bdk_node_t node)
 {
+    /* Skip throttle setup on Asim */
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
+        return 0;
+
     const int NUM_VRM = CAVIUM_IS_MODEL(CAVIUM_CN88XX) ? 2 : 1;
     /* Set the temperature for thermal trip */
     int temp_trip = bdk_config_get_int(BDK_CONFIG_VRM_TEMP_TRIP, node);
