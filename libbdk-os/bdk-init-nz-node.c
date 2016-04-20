@@ -617,6 +617,10 @@ void __bdk_init_incorrect_node(void)
     BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
     __bdk_init_ccpi_early(0);
 
+    /* We may need to change some of the fuses during early boot. Note
+       this may trigger a soft reset */
+    bdk_fuse_init(node);
+
     /* Temporarily change the master node global to this node so some
        functions will work properly when called */
     extern int __bdk_numa_master_node;

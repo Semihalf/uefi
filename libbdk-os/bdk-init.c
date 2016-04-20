@@ -188,6 +188,10 @@ void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1, uint64_t r
         if (!bdk_is_platform(BDK_PLATFORM_EMULATOR) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
             BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
 
+        /* We may need to change some of the fuses during early boot. Note
+           this may trigger a soft reset */
+        bdk_fuse_init(node);
+
         /* Enable the timer */
         BDK_MSR(CNTFRQ_EL0, BDK_GTI_RATE); /* Needed for Asim */
         bdk_clock_setup(node);
