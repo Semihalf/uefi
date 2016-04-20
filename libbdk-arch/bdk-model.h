@@ -108,4 +108,13 @@ extern int cavium_is_altpkg(uint32_t arg_model);
  */
 extern const char* bdk_model_get_sku(int node);
 
+/**
+ * Get a list of fuses that are suppose to be blown for this chip model
+ *
+ * @param node   Node to query
+ *
+ * @return Pointer to array of fuses, or NULL on failure. End of array is marked with a zero.
+ */
+extern const uint16_t* bdk_model_get_fuses(int node);
+
 /** @} */
