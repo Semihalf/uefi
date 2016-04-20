@@ -35,6 +35,11 @@ int bdk_vrm_initialize(bdk_node_t node)
                 c.s.trip_level = temp_trip);
     }
 
+    /* Don't perform polling on CN88XX pass 1.x. The throttling uses DAP
+       core acceses that have an errata on pass 1.x (DAP-24000) */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        return 0;
+
     /* The poll below will override this default */
     const int THROTTLE_NORMAL = bdk_config_get_int(BDK_CONFIG_VRM_THROTTLE_NORMAL, node);
     do_throttle(node, THROTTLE_NORMAL);
@@ -53,6 +58,11 @@ int bdk_vrm_initialize(bdk_node_t node)
  */
 int bdk_vrm_poll(bdk_node_t node)
 {
+    /* Don't perform polling on CN88XX pass 1.x. The throttling uses DAP
+       core acceses that have an errata on pass 1.x (DAP-24000) */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        return 0;
+
     const int NUM_VRM = CAVIUM_IS_MODEL(CAVIUM_CN88XX) ? 2 : 1;
     /* VRMX_TS_TEMP_CONV_RESULT[temp_corrected] has the lower two bits as a
        fractional part for better accuracy. FRACTIONAL represents the scale
