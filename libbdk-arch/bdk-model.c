@@ -30,6 +30,8 @@
         = 1 shows xx10
 */
 
+static const char *RAD40_DIGITS = " ABCDEFGHIJKLMNOPQRSTUVWXYZ#.-0123456789";
+
 /* Definition of each SKU table entry for the different dies */
 typedef struct
 {
@@ -347,6 +349,73 @@ static const model_sku_info_t* get_sku_table(void)
 }
 
 /**
+ * Given a core count, return the last two digits of a model number
+ *
+ * @param cores  Number of cores
+ *
+ * @return Two digit model number
+ */
+static int model_digits_for_cores(int cores)
+{
+    /* If the number of cores is between two model levels, use the lower
+       level. This assumes that a model gaurantees a minimum number of
+       cores. This should never happen, but you never know */
+    switch (cores)
+    {
+        case 1: /* CNxx10 = 1 core */
+            return 10;
+        case 2 ... 3: /* CNxx20 = 2 cores */
+            return 20;
+        case 4 ... 7: /* CNxx30 = 4 cores */
+            return 30;
+        case 8 ... 11: /* CNxx40 = 8 cores */
+            return 40;
+        case 12 ... 15: /* CNxx50 = 12 cores */
+            return 50;
+        case 16 ... 19: /* CNxx60 = 16 cores */
+            return 60;
+        case 20 ... 23: /* CNxx65 = 20 cores */
+            return 65; /* This currently isn't used */
+        case 24 ... 31: /* CNxx70 = 24 cores */
+            return 70;
+        case 32 ... 47: /* CNxx80 = 32 cores */
+            return 80;
+        default: /* CNxx90 = 48 cores */
+            return 90;
+    }
+}
+
+/**
+ * Return the SKU table entry for a chip, or NULL if it can't be found
+ *
+ * @param node   Node to query
+ *
+ * @return Entry into the SKU table, or NULL if the fuses don't specify an exact entry
+ */
+static const model_sku_info_t* get_sku_entry(int node)
+{
+    /* Get the SKU table for this chip  */
+    const model_sku_info_t *sku_info = get_sku_table();
+    if (!sku_info)
+        return NULL;
+
+    /* Read PNAME fuses. We only need to process if some are blown */
+    bdk_fuse_pname_info_t pname = bdk_fuse_pname_extract(node);
+    if (pname.index == 0)
+        return NULL;
+
+    /* Search the SKU table for the fuse list */
+    int i = 0;
+    while (sku_info[i].fuse_index)
+    {
+        if (sku_info[i].fuse_index == pname.index)
+            return &sku_info[i];
+        i++;
+    }
+    return NULL; /* Not found */
+}
+
+/**
  * Return non-zero if the die is in an alternate package. The
  * normal is_model() checks will treat alternate package parts
  * as all the same, where this function can be used to detect
@@ -384,31 +453,28 @@ const char* bdk_model_get_sku(int node)
     if (chip_sku[node][0])
         return chip_sku[node];
 
-    /* Figure out which SKU list to use */
-    const model_sku_info_t *sku_info = get_sku_table();
-    if (!sku_info)
-        bdk_fatal("SKU detect: Unknown die\n");
-
     /* Read the SKU index from the PNAME fuses */
-    int match_index = -1;
-    // FIXME: Implement PNAME reads
-
-    /* Search the SKU list for the best match, where all the fuses match.
-       Only needed if the PNAME fuses don't specify the index */
-    if (match_index == -1)
+    const model_sku_info_t *sku_info = get_sku_entry(node);
+    if (sku_info == NULL)
     {
-        match_index = 0;
+        /* Search the SKU list for the best match, where all the fuses match.
+           Only needed if the PNAME fuses don't specify the index */
+        /* Figure out which SKU list to use */
+        const model_sku_info_t *sku_base = get_sku_table();
+        if (!sku_base)
+            bdk_fatal("SKU detect: Unknown die\n");
+        int match_index = 0;
         int match_score = -1;
         int index = 0;
-        while (sku_info[index].fuse_index)
+        while (sku_base[index].fuse_index)
         {
             int score = 0;
             int fuse_index = 0;
             /* Count the number of fuses that match. A mismatch forces the worst
                score (-1) */
-            while (sku_info[index].fuses[fuse_index])
+            while (sku_base[index].fuses[fuse_index])
             {
-                int fuse = bdk_fuse_read(node, sku_info[index].fuses[fuse_index]);
+                int fuse = bdk_fuse_read(node, sku_base[index].fuses[fuse_index]);
                 if (fuse)
                 {
                     /* Match, improve the score */
@@ -431,59 +497,28 @@ const char* bdk_model_get_sku(int node)
             }
             index++;
         }
+        sku_info = &sku_base[match_index];
     }
 
     /* Use the SKU table to determine the defaults for the SKU parts */
-    const char *prefix          = sku_info[match_index].prefix;
-    int         model           = 100 * sku_info[match_index].model_base;
+    char        prefix[3];
+    char        customer_code[2];
+    char        segment[4]; /* Market segment */
+    int         model           = 100 * sku_info->model_base;
     int         cores           = bdk_get_num_cores(node);
-    const char *customer_code   = "";
     int         rclk_limit      = bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000;
     const char *bg_str          = "BG"; /* Default Ball Grid array */
-    int         balls           = sku_info[match_index].num_balls; /* Num package balls */
-    const char *segment         = sku_info[match_index].segment; /* Market segment */
+    int         balls           = sku_info->num_balls; /* Num package balls */
     const char *prod_phase      = ""; /* Default for production */
     const char *prod_rev        = ""; /* Product revision */
     const char *rohs_option     = "G"; /* RoHS is always G for current parts */
 
-    /* Update the model number with the number of cores. If the number of
-       cores is between two model levels, use the lower level. This assumes
-       that a model gaurantees a minimum number of cores. This should never
-       happen, but you never know */
-    model = (model / 100) * 100; /* Zero out lower two digits */
-    switch (cores)
-    {
-        case 1: /* CNxx10 = 1 core */
-            model += 10;
-            break;
-        case 2 ... 3: /* CNxx20 = 2 cores */
-            model += 20;
-            break;
-        case 4 ... 7: /* CNxx30 = 4 cores */
-            model += 30;
-            break;
-        case 8 ... 11: /* CNxx40 = 8 cores */
-            model += 40;
-            break;
-        case 12 ... 15: /* CNxx50 = 12 cores */
-            model += 50;
-            break;
-        case 16 ... 19: /* CNxx60 = 16 cores */
-            model += 60;
-            break;
-        case 20 ... 23: /* CNxx65 = 20 cores */
-            model += 65; /* This currently isn't used */
-            break;
-        case 24 ... 31: /* CNxx70 = 24 cores */
-            model += 70;
-            break;
-        case 32 ... 47: /* CNxx80 = 32 cores */
-            model += 80;
-            break;
-        default: /* CNxx90 = 48 cores */
-            model += 90;
-            break;
-    }
+    strncpy(prefix, sku_info->prefix, sizeof(prefix));
+    strncpy(segment, sku_info->segment, sizeof(segment));
+    customer_code[0] = 0;
+
+    /* Update the model number with the number of cores */
+    model = (model / 100) * 100 + model_digits_for_cores(cores);
 
     /* Update the RCLK setting based on MIO_FUS_DAT3[core_pll_mul] */
     BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
@@ -515,7 +550,49 @@ const char* bdk_model_get_sku(int node)
     }
 
     /* Read PNAME fuses, looking for SKU overrides */
-    // FIXME: Implement PNAME reads
+    bdk_fuse_pname_info_t pname = bdk_fuse_pname_extract(node);
+    if (pname.cores)
+        model = (model / 100) * 100 + model_digits_for_cores(pname.cores);
+    if (pname.rclk)
+        rclk_limit = pname.rclk * 100;
+    switch (pname.prod)
+    {
+        case 1: /* Prototype */
+            prod_phase = "-PR";
+            break;
+        case 2: /* Engineering Sample */
+            prod_phase = "-ES";
+            break;
+    }
+    if (pname.model)
+        model = (model / 1000) * 1000 + (pname.model - 1) * 5;
+    if (pname.segment)
+    {
+        int digit1 = pname.segment % 40;
+        int digit2 = (pname.segment / 40) % 40;
+        int digit3 = (pname.segment / 1600) % 40;
+        segment[0] = (digit1) ? RAD40_DIGITS[digit1] : 0;
+        segment[1] = (digit2) ? RAD40_DIGITS[digit2] : 0;
+        segment[2] = (digit3) ? RAD40_DIGITS[digit3] : 0;
+        segment[3] = 0;
+    }
+    if (pname.prefix)
+    {
+        int digit1 = pname.prefix % 40;
+        int digit2 = (pname.prefix / 40) % 40;
+        int digit3 = (pname.prefix / 1600) % 40;
+        if (digit1)
+        {
+            prefix[0] = RAD40_DIGITS[digit1];
+            prefix[1] = (digit2) ? RAD40_DIGITS[digit2] : 0;
+            prefix[2] = 0;
+        }
+        if (digit3)
+        {
+            customer_code[0] = RAD40_DIGITS[digit3];
+            customer_code[1] = 0;
+        }
+    }
 
     /* Build the SKU string */
     snprintf(chip_sku[node], sizeof(chip_sku[node]), "%s%d%s-%d%s%d-%s%s%s-%s",
