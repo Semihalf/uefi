@@ -72,12 +72,12 @@ int bdk_fuse_soft_blow(bdk_node_t node, int fuse)
     fus_prog.s.prog = 1;
     BDK_CSR_WRITE(node, BDK_MIO_FUS_PROG, fus_prog.u);
 
-    /* Wait for the program to complete */
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_FUS_PROG, prog, ==, 0, 100000))
+    /* Wait for the program to complete. We don't use timeouts because this
+       code can run without the GTI timer */
+    do
     {
-        bdk_error("Timeout soft blowing fuse\n");
-        return -1;
-    }
+        fus_prog.u = BDK_CSR_READ(node, BDK_MIO_FUS_PROG);
+    } while (fus_prog.s.prog);
 
     /* Read the fuse to make sure it was really soft blown */
     if (bdk_fuse_read(node, fuse) == 0)
@@ -151,12 +151,12 @@ int bdk_fuse_field_soft_blow(bdk_node_t node, int fuse)
     fus_prog.s.prog = 1;
     BDK_CSR_WRITE(node, BDK_FUSF_PROG, fus_prog.u);
 
-    /* Wait for the program to complete */
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_FUSF_PROG, prog, ==, 0, 100000))
+    /* Wait for the program to complete. We don't use timeouts because this
+       code can run without the GTI timer */
+    do
     {
-        bdk_error("Timeout soft blowing field fuse\n");
-        return -1;
-    }
+        fus_prog.u = BDK_CSR_READ(node, BDK_FUSF_PROG);
+    } while (fus_prog.s.prog);
 
     /* Read the fuse to make sure it was really soft blown */
     if (bdk_fuse_field_read(node, fuse) == 0)
