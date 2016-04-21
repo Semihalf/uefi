@@ -135,9 +135,6 @@ void bdk_power_throttle(bdk_node_t node, int throttle_percent)
                 power.s.maxpow = 165;
             /* Percentage is based on the Max power field */
             power.s.powlim = throttle_percent * power.s.maxpow / 100;
-            /* This allows setting a percentage higher than the
-               normal hardware limit */
-            power.s.override = 1;
             bdk_sysreg_write(node, core, BDK_AP_CVM_POWER_EL1, power.u);
         }
     }
