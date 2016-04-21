@@ -51,15 +51,17 @@ static EFI_STATUS cvmXhcResetHC(USB_XHCI_INSTANCE* xhc,UINT64 timeout);
 static  EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout)
 {
     BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 1;);
-    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,0, timeout) ?
+    EFI_STATUS Status = BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,0, timeout * XHC_1_MILLISECOND) ?
         EFI_TIMEOUT : EFI_SUCCESS ;
+    return Status;
 }
 
 static EFI_STATUS cvmXhcHaltHC(xhci_t* xhc,uint64_t timeout)
 {
     BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 0;);
-    return BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,1, timeout) ?
+    EFI_STATUS Status = BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,1, timeout * XHC_1_MILLISECOND) ?
         EFI_TIMEOUT : EFI_SUCCESS ;
+    return Status;
 }
 
 
@@ -69,7 +71,6 @@ static EFI_STATUS cvmXhcResetHC (
   )
 {
     EFI_STATUS              Status;
-
     Status = EFI_SUCCESS;
     if (!cvmXhcIsHalt(Xhc)) {
         Status = cvmXhcHaltHC (Xhc, Timeout);
@@ -87,10 +88,10 @@ static EFI_STATUS cvmXhcResetHC (
 #else
   BDK_CSR_MODIFY(c,Xhc->node,BDK_USBHX_UAHC_USBCMD(Xhc->usb_port),c.s.hcrst=1;);
   BDK_WMB;
-  return BDK_CSR_WAIT_FOR_FIELD(Xhc->node, BDK_USBHX_UAHC_USBCMD(Xhc->usb_port), hcrst, == , 0, Timeout) ?
+  Status = BDK_CSR_WAIT_FOR_FIELD(Xhc->node, BDK_USBHX_UAHC_USBCMD(Xhc->usb_port), hcrst, == , 0, Timeout * XHC_1_MILLISECOND) ?
       EFI_TIMEOUT : EFI_SUCCESS;
 #endif
-
+  return Status;
 }
 
 /*
@@ -103,6 +104,7 @@ static EFI_STATUS cvmXhcResetHC (
 xhci_t* createUsbXHci(bdk_node_t node, int usb_port)
 {
     xhci_t *thisXHC;
+
     if (usb_port >= CAVIUM_MAX_USB_INSTANCES) return NULL;
     if (NULL == (thisXHC = malloc(sizeof(*thisXHC)))) {
         DEBUG((EFI_D_ERROR,"Could not allocate XHCI instance for node %d port %d\n", (unsigned) node , (unsigned) usb_port));
@@ -113,6 +115,7 @@ xhci_t* createUsbXHci(bdk_node_t node, int usb_port)
     thisXHC->hcsparams2.u =  BDK_CSR_READ(node, BDK_USBHX_UAHC_HCSPARAMS2(usb_port));
     thisXHC->hccparams.u =  BDK_CSR_READ(node, BDK_USBHX_UAHC_HCCPARAMS(usb_port));
     BDK_CSR_INIT(pgsz,node,BDK_USBHX_UAHC_PAGESIZE(usb_port));
+
     if ( thisXHC->hcsparams1.s.maxslots > CAVIUM_XHCI_MAXSLOTS) {
         bdk_warn("XHCI hcsparams1.maxslots(%d) exceeds configured maximum(%d)\n"
                  "Please complain to software provider\n"
@@ -396,7 +399,7 @@ XhcSetRootHubPortFeature (
       Status = cvmXhcRunHC (Xhc, XHC_GENERIC_TIMEOUT);
 
       if (EFI_ERROR (Status)) {
-          DEBUG ((EFI_D_INFO, "XhcSetRootHubPortFeature :failed to start HC - %d\n", (int)Status));
+          DEBUG ((EFI_D_WARN, "XhcSetRootHubPortFeature :failed to start HC - %d\n", (int)Status));
         break;
       }
     }
@@ -412,7 +415,7 @@ XhcSetRootHubPortFeature (
 #else
     uahc_portsc.u |= XHC_PORTSC_RESET;
     BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-    BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber), prc, ==, 1,  XHC_GENERIC_TIMEOUT);
+    BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber), prc, ==, 1,  XHC_GENERIC_TIMEOUT*XHC_1_MILLISECOND);
 #endif
     break;
 
@@ -1861,5 +1864,19 @@ cvmH2C_to_node(
     if (node) *node = Xhc->node;
     if (usb_port) *usb_port = Xhc->usb_port;
     if (lock) *lock = Xhc->xhci_lock;
+    return 0;
+}
+
+/**
+ ** Cause xhci hardware to to begin operations
+ ** @param xhc pointer to xhci instance created with createUsbXhci
+ **
+ ** @return Zero on success, non-zero on failure
+ */
+int cvmXhcStart(xhci_t* xhc) {
+    if (cvmXhcIsHalt(xhc)) {
+        // Starting controller in other then halted state will cause undefined results per hxci spec
+        return cvmXhcRunHC(xhc, 2*XHC_GENERIC_TIMEOUT);
+    }
     return 0;
 }

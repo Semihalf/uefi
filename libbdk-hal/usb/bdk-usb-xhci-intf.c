@@ -69,7 +69,7 @@ void async_request_monitor(int unused, void *ctl)
             break;
         }
         uint64_t now =  bdk_clock_get_count(BDK_CLOCK_TIME);
-        if ((now - p->root_hub_enum_timestamp) > p->root_hub_poll_delta) {
+        if ((now - p->root_hub_enum_timestamp) >= p->root_hub_poll_delta) {
             UsbRootHubEnumeration(0,(USB_INTERFACE *)p->root_if);
             p->root_hub_enum_timestamp = now;
         }
@@ -264,11 +264,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         printf("USB port must below then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
         return -1;
     }
-    BDK_CSR_INIT(uctl_ctl,node,BDK_USBHX_UCTL_CTL(usb_port));
-    if (0 == uctl_ctl.s.h_clk_en) {
-        printf("\nUSB port have not been initialized\n");
-        return -1;
-    }
+
     int rc = 0;
     xhci_t *thisHC = usb_global_data[node][usb_port].xhci_priv;
     if (thisHC) {
@@ -383,7 +379,16 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         usb_global_data[node][usb_port].usb_bus = UsbBus;
         usb_global_data[node][usb_port].root_hub = RootHub;
     }
+    // This portion of init would be done at the end of driver init
+    // - start xhci host controller hardware
+    // - set base timestamp for root hub enumeration
+    // - start thread which handles async interrupt transfers from subordinate hubs and root hub enumeration
+    cvmXhcStart(thisHC);
+
+    usb_global_data[node][usb_port].root_hub_enum_timestamp = bdk_clock_get_count(BDK_CLOCK_TIME);
+
     bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], 0);
+
     // Wait for async thread to initialize - otherwise lua menus will not be right
     int count=1000;
     while((0 == (usb_global_data[node][usb_port].async_mon_state & AM_Running)) && (count)) {

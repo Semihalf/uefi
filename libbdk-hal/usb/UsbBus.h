@@ -73,14 +73,21 @@ typedef struct _USB_HUB_API    USB_HUB_API;
 // The unit of roothub is 100us, means 100ms as interval, and
 // the unit of hub is 1ms, means 64ms as interval.
 //
+#if defined(notdef_cavium)
 #define USB_ROOTHUB_POLL_INTERVAL (100 * 10000U)
+#else
+#define USB_ROOTHUB_POLL_INTERVAL (100 * XHC_1_MILLISECOND)
+#endif
 #define USB_HUB_POLL_INTERVAL     64
 
 //
 // Wait for port stable to work, refers to specification
 // [USB20-9.1.2]
-//
-#define USB_WAIT_PORT_STABLE_STALL  (100 * USB_BUS_1_MILLISECOND)
+// cavium:
+// Minimum is 100 msec, crb2 board needs more
+// - 100 msec and 110msec do not work
+// - 150 msec does
+#define USB_WAIT_PORT_STABLE_STALL  (150 * USB_BUS_1_MILLISECOND)
 
 //
 // Wait for port statue reg change, set by experience
