@@ -4,8 +4,13 @@ require("utils")
 require("menu")
 
 local function do_throttle()
-    local percent = menu.prompt_number("Throttle level (percent)", 71, 1, 100)
+    -- Get the current setting
+    local percent = cavium.c.bdk_config_get_int(cavium.CONFIG_VRM_THROTTLE_NORMAL, menu.node);
+    percent = menu.prompt_number("Throttle level (percent)", percent, 1, 100)
+    -- Apply the throttling
     cavium.c.bdk_power_throttle(menu.node, percent)
+    -- Update the config with the current throttle percentage
+    cavium.c.bdk_config_set_int(percent, cavium.CONFIG_VRM_THROTTLE_NORMAL, menu.node);
 end
 
 repeat

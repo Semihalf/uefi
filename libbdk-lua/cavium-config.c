@@ -74,5 +74,12 @@ void register_cavium_config(lua_State* L)
     push_bdk_enum(BDK_CONFIG_SGPIO_PIN_SCLOCK);
     push_bdk_enum(BDK_CONFIG_SGPIO_PIN_SLOAD);
     push_bdk_enum(BDK_CONFIG_SGPIO_PIN_SDATAOUT);
+
+    /* VRM temperature throttling */
+    push_bdk_enum(BDK_CONFIG_VRM_TEMP_TRIP);
+    push_bdk_enum(BDK_CONFIG_VRM_TEMP_HIGH);
+    push_bdk_enum(BDK_CONFIG_VRM_TEMP_LOW);
+    push_bdk_enum(BDK_CONFIG_VRM_THROTTLE_NORMAL);
+    push_bdk_enum(BDK_CONFIG_VRM_THROTTLE_THERM);
 }
 
