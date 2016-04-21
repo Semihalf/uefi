@@ -1306,6 +1306,25 @@ static void config_set_defaults(void)
     /* Emulator only supports 4 cores */
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         config_info[BDK_CONFIG_COREMASK].default_value = 0xf;
+
+    /* Change the default throttle level to the fuse level */
+    BDK_CSR_INIT(mio_fus_dat2, bdk_numa_local(), BDK_MIO_FUS_DAT2);
+    /* Fuse Encoding: 00 - 71%, 01 - 66%, 10 - 61%, 11 - 100% */
+    switch (mio_fus_dat2.s.power_limit)
+    {
+        case 0:
+            config_info[BDK_CONFIG_VRM_THROTTLE_NORMAL].default_value = 71;
+            break;
+        case 1:
+            config_info[BDK_CONFIG_VRM_THROTTLE_NORMAL].default_value = 66;
+            break;
+        case 2:
+            config_info[BDK_CONFIG_VRM_THROTTLE_NORMAL].default_value = 61;
+            break;
+        default:
+            config_info[BDK_CONFIG_VRM_THROTTLE_NORMAL].default_value = 100;
+            break;
+    }
 }
 
 /**
