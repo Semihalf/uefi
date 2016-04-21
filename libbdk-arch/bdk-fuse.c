@@ -168,6 +168,113 @@ int bdk_fuse_field_soft_blow(bdk_node_t node, int fuse)
 }
 
 /**
+ * Read the current PNAME fuses into a 128 bit number. This makes processing
+ * the fuses easier in code.
+ *
+ * @param node   Node to read fuses for
+ *
+ * @return Fuse state as a 128 bit number. First fuse is bit 0, last fuse is bit 127
+ */
+static __uint128_t pname_read(bdk_node_t node)
+{
+    __uint128_t pname_fuses = 0;
+    for (int fuse = BDK_MIO_FUS_FUSE_NUM_E_PNAMEX(120) / 8;
+          fuse >= BDK_MIO_FUS_FUSE_NUM_E_PNAMEX(0) / 8; fuse--)
+    {
+        pname_fuses <<= 8;
+        pname_fuses |= bdk_fuse_read_byte(node, fuse);
+    }
+    return pname_fuses;
+}
+
+/**
+ * Extrace PNAME fuses to determine chip info
+ *
+ * @param node   Node to query
+ *
+ * @return PNAME fuse states
+ */
+bdk_fuse_pname_info_t bdk_fuse_pname_extract(bdk_node_t node)
+{
+    /* Cache the results of this function as reading fuses is slow */
+    static bdk_fuse_pname_info_t result[BDK_NUMA_MAX_NODES] = { { 0, }, };
+    /* Returned cached results on Asim as fuses are meaningless there */
+    if (result[node].valid || bdk_is_platform(BDK_PLATFORM_ASIM))
+        return result[node];
+
+    /* Read PNAME fuses. We only need to process if some are blown */
+    __uint128_t pname_fuses = pname_read(node);
+    result[node].valid = 1;
+    if (!pname_fuses)
+        return result[node];
+
+    int fuse = 0;
+    int tmp;
+
+    /* Read index into SKU table */
+    do
+    {
+        tmp = bdk_extract(pname_fuses, fuse, 8);
+        fuse += 8;
+    } while ((tmp == 0xff) && (fuse <= 120));
+    if (tmp == 0xff) /* Bad fuse setup, stop processing */
+        return result[node];
+    result[node].index = tmp;
+
+    /* Read number of cores field */
+    do
+    {
+        tmp = bdk_extract(pname_fuses, fuse, 8);
+        fuse += 8;
+    } while ((tmp == 0xff) && (fuse <= 120));
+    if (tmp == 0xff) /* Bad fuse setup, stop processing */
+        return result[node];
+    result[node].cores = tmp & 0x7f;
+
+    /* Read the production and RCLK fields */
+    do
+    {
+        tmp = bdk_extract(pname_fuses, fuse, 8);
+        fuse += 8;
+    } while ((tmp == 0xff) && (fuse <= 120));
+    if (tmp == 0xff) /* Bad fuse setup, stop processing */
+        return result[node];
+    result[node].rclk = tmp & 0x3f;
+    result[node].prod = (tmp >> 6) & 3;
+
+    /* Read segment override */
+    do
+    {
+        tmp = bdk_extract(pname_fuses, fuse, 16);
+        fuse += 16;
+    } while ((tmp >= 0xff00) && (fuse <= 112));
+    if (tmp >= 0xff00) /* Bad fuse setup, stop processing */
+        return result[node];
+    result[node].segment = tmp;
+
+    /* Read prefix override */
+    do
+    {
+        tmp = bdk_extract(pname_fuses, fuse, 16);
+        fuse += 16;
+    } while ((tmp >= 0xff00) && (fuse <= 112));
+    if (tmp >= 0xff00) /* Bad fuse setup, stop processing */
+        return result[node];
+    result[node].prefix = tmp;
+
+    /* Read model override */
+    do
+    {
+        tmp = bdk_extract(pname_fuses, fuse, 8);
+        fuse += 8;
+    } while ((tmp == 0xff) && (fuse <= 120));
+    if (tmp != 0xff)
+        result[node].model = tmp;
+
+    return result[node];
+}
+
+/**
  * Fuse initialization is called very early in startup to determine if fuses are
  * properly setup. This function is called before the GTI clock is setup, so care
  * must be taken with delays. It is also called on secondary nodes before CCPI
