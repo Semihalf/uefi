@@ -5117,10 +5117,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                 // check validity only if no bitmask errors
                 if (wlevel_bitmask_errors == 0) {
-                    wlevel_validity_errors =
-                        Validate_HW_WL_Settings(node, ddr_interface_num,
-                                                &lmc_wlevel_rank, ecc_ena);
-                    wlevel_validity_errors_rank += (wlevel_validity_errors != 0);
+                    if ((spd_dimm_type != 5) && (spd_dimm_type != 6)) { // bypass if mini-[RU]DIMM
+                        wlevel_validity_errors =
+                            Validate_HW_WL_Settings(node, ddr_interface_num,
+                                                    &lmc_wlevel_rank, ecc_ena);
+                        wlevel_validity_errors_rank += (wlevel_validity_errors != 0);
+                    }
                 } else
                     wlevel_bitmask_errors_rank++;
 
@@ -5940,7 +5942,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 						rlevel_rank_errors += (register_adjacent_delay-1) * RLEVEL_ADJACENT_DELAY_ERROR;
 					    }
 					}
-					if ((spd_dimm_type == 2) || (spd_dimm_type == 6)) { /* 1=UDIMM, 5=Mini-UDIMM */
+					if ((spd_dimm_type == 2) || (spd_dimm_type == 6)) { /* 2=UDIMM, 6=Mini-UDIMM */
 					    /* Unbuffered dimm topology routes from end to end. */
 					    rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 7+ecc_ena,
 										       maximum_adjacent_rlevel_delay_increment);
@@ -7217,9 +7219,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                     // do validity check on the calculated ECC delay value 
                                     // this depends on the DIMM type
                                     if (spd_rdimm) { // RDIMM
-                                        // it can be > byte4, but should never be > byte3
-                                        if (test_byte8 > lmc_wlevel_rank.s.byte3) {
-                                            byte_test_status[8] = WL_ESTIMATED; /* say it is still estimated */
+                                        if (spd_dimm_type != 5) { // but not mini-RDIMM
+                                            // it can be > byte4, but should never be > byte3
+                                            if (test_byte8 > lmc_wlevel_rank.s.byte3) {
+                                                byte_test_status[8] = WL_ESTIMATED; /* say it is still estimated */
+                                            }
                                         }
                                     } else { // UDIMM
                                         if ((test_byte8 < lmc_wlevel_rank.s.byte3) ||
