@@ -115,12 +115,12 @@ int bdk_power_burn(bdk_node_t node, bdk_power_burn_type_t burn_type)
 }
 
 /**
- * Set the core throttle level for all running cores
+ * Set the throttle level percent for an entire chip
  *
  * @param node     Node to set
- * @param throttle Throttle level, raw register value
+ * @param throttle Percent of Throttle level (0-100)
  */
-void bdk_power_throttle(bdk_node_t node, int throttle)
+void bdk_power_throttle(bdk_node_t node, int throttle_percent)
 {
     const int num_cores = bdk_get_num_cores(node);
     uint64_t running = bdk_get_running_coremask(node);
@@ -130,7 +130,13 @@ void bdk_power_throttle(bdk_node_t node, int throttle)
         {
             BDK_CSR_DEFINE(power, BDK_AP_CVM_POWER_EL1);
             power.u = bdk_sysreg_read(node, core, BDK_AP_CVM_POWER_EL1);
-            power.s.max_setting = throttle;
+            /* Max power was set incorrectly for CN88XX pass 1.x */
+            if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+                power.s.maxpow = 165;
+            /* Percentage is based on the Max power field */
+            power.s.powlim = throttle_percent * power.s.maxpow / 100;
+            /* This allows setting a percentage higher than the
+               normal hardware limit */
             power.s.override = 1;
             bdk_sysreg_write(node, core, BDK_AP_CVM_POWER_EL1, power.u);
         }

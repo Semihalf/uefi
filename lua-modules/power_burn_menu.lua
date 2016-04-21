@@ -4,8 +4,8 @@ require("utils")
 require("menu")
 
 local function do_throttle()
-    local throttle = menu.prompt_number("Throttle level", 0xcc, 0, 0xff)
-    cavium.c.bdk_power_throttle(menu.node, throttle)
+    local percent = menu.prompt_number("Throttle level (percent)", 71, 1, 100)
+    cavium.c.bdk_power_throttle(menu.node, percent)
 end
 
 repeat

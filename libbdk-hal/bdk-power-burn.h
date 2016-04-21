@@ -20,10 +20,10 @@ typedef enum
 extern int bdk_power_burn(bdk_node_t node, bdk_power_burn_type_t burn_type);
 
 /**
- * Set the core throttle level for all running cores
+ * Set the throttle level percent for an entire chip
  *
  * @param node     Node to set
- * @param throttle Throttle level, raw register value
+ * @param throttle Percent of Throttle level (0-100)
  */
-extern void bdk_power_throttle(bdk_node_t node, int throttle);
+extern void bdk_power_throttle(bdk_node_t node, int throttle_percent);
 

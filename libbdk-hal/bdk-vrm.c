@@ -1,20 +1,6 @@
 #include <bdk.h>
 
 /**
- * Set the global throttle level for the chip
- *
- * @param node    Node to set
- * @param percent Throttle percentage (0-100). A value of zero will make the cores unusable
- */
-static void do_throttle(bdk_node_t node, int percent)
-{
-    /* Use the per-core throttle instead of the global IOBN throttle. The
-       hardware team doesn't have faith in the global setting and quick
-       delivery seems more important than performance */
-    bdk_power_throttle(node, 255 * percent / 100);
-}
-
-/**
  * Initialize the VRM
  *
  * @return Zero on success, negative on failure
@@ -42,7 +28,7 @@ int bdk_vrm_initialize(bdk_node_t node)
 
     /* The poll below will override this default */
     const int THROTTLE_NORMAL = bdk_config_get_int(BDK_CONFIG_VRM_THROTTLE_NORMAL, node);
-    do_throttle(node, THROTTLE_NORMAL);
+    bdk_power_throttle(node, THROTTLE_NORMAL);
 
     /* Poll VRM status after setup */
     return bdk_vrm_poll(node);
@@ -109,7 +95,7 @@ int bdk_vrm_poll(bdk_node_t node)
             if (desired_throttle < THROTTLE_THERM)
                 desired_throttle = THROTTLE_THERM;
             /* Apply the new throttle level */
-            do_throttle(node, desired_throttle);
+            bdk_power_throttle(node, desired_throttle);
         }
     }
     return 0;
