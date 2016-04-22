@@ -209,7 +209,7 @@ int read_DAC_DBI_settings(int node, int rank_mask, int ddr_interface_num,
     int byte_lane, bit_num;
     int deskew;
     int dac_value;
-    int is_t88p2 = CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X);
+    int is_t88p2 = CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X); // FIXME TODO
 
     BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                    phy_ctl.s.dsk_dbg_clk_scaler = 3);
@@ -235,7 +235,7 @@ int read_DAC_DBI_settings(int node, int rank_mask, int ddr_interface_num,
 	    phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
 	} while (phy_ctl.s.dsk_dbg_rd_complete != 1);
 			
-	deskew = phy_ctl.s.dsk_dbg_rd_data >> 3;
+	deskew = phy_ctl.s.dsk_dbg_rd_data /*>> 3*/; // leave the flag bits for DBI
 	dac_value = phy_ctl.s.dsk_dbg_rd_data & 0xff;
 
 	settings[byte_lane] =  (dac_or_dbi) ? dac_value : deskew;
@@ -1522,7 +1522,7 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
     }
 }
 
-static void ddr4_mrw(bdk_node_t node, int ddr_interface_num, int rank,
+void ddr4_mrw(bdk_node_t node, int ddr_interface_num, int rank,
               int mr_wr_addr, int mr_wr_sel, int mr_wr_bg1)
 {
     bdk_lmcx_mr_mpr_ctl_t lmc_mr_mpr_ctl;

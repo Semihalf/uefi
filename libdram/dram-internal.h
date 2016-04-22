@@ -78,7 +78,7 @@ extern int initialize_ddr_clock(bdk_node_t node,
     uint32_t ddr_hertz, uint32_t ddr_ref_hertz, int ddr_interface_num,
     uint32_t ddr_interface_mask);
 extern int test_dram_byte(uint64_t p, uint64_t bitmask);
-extern int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p);
+extern int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int flags);
 
 extern int get_dimm_part_number(char *buffer, bdk_node_t node, const dimm_config_t *dimm_config,
 				int dimm_index, int ddr_type);
@@ -143,5 +143,7 @@ extern int perform_margin_read_voltage(bdk_node_t node);
 #define LMC_DDR3_RESET_DEASSERT 1
 extern void cn88xx_lmc_ddr3_reset(bdk_node_t node, int ddr_interface_num, int reset);
 extern void perform_lmc_reset(bdk_node_t node, int ddr_interface_num);
+extern void ddr4_mrw(bdk_node_t node, int ddr_interface_num, int rank,
+                     int mr_wr_addr, int mr_wr_sel, int mr_wr_bg1);
 #endif /* __DRAM_INTERNAL_H__ */
 

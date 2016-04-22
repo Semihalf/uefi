@@ -409,7 +409,8 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
     return errors;
 }
 
-int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p)
+// NOTE: "flags" is 0 for normal (tuning) behavior, 1 for DBI deskew training behavior
+int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int flags)
 {
     uint64_t p1;
     uint64_t k, ii;
@@ -504,15 +505,15 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p)
         dbtrain_ctl.s.row_a          = row;
         dbtrain_ctl.s.bg             = (bank >> 2) & 3;
         dbtrain_ctl.s.prank          = rank;
-        dbtrain_ctl.s.activate       = 0;
+        dbtrain_ctl.s.activate       = (flags == 0) ? 0 : 1;
         dbtrain_ctl.s.write_ena      = 1;
         dbtrain_ctl.s.read_cmd_count = 31; // max count pass 1.x
-        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) // FIXME TODO
             dbtrain_ctl.s.cmd_count_ext = 3; // max count pass 2.x
         else
             dbtrain_ctl.s.cmd_count_ext = 0; // max count pass 1.x
         dbtrain_ctl.s.rw_train       = 1;
-        dbtrain_ctl.s.tccd_sel       = 0;
+        dbtrain_ctl.s.tccd_sel       = (flags == 0) ? 0 : 1;
 #endif
 
 	// for each address, iterate over the 4 "banks" in the BA
@@ -571,6 +572,8 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p)
 	    */
 	    BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
 			   phy_ctl.s.phy_reset = 1);
+
+            if (flags != 0) continue; // bypass error checking if DBI mode
 
 	    // FIXME FIXME FIXME
 	    //if (mpr_data0 != 0) {
@@ -1608,6 +1611,241 @@ perform_lmc_reset(bdk_node_t node, int ddr_interface_num)
     } /* if ( !ddr_memory_preserved(node)) */
 }
 
+/* first pattern example:
+   GENERAL_PURPOSE0.DATA == 64'h00ff00ff00ff00ff;
+   GENERAL_PURPOSE1.DATA == 64'h00ff00ff00ff00ff;
+   GENERAL_PURPOSE0.DATA == 16'h0000;
+*/
+const uint64_t dbi_pattern[3] = { 0x00ff00ff00ff00ffULL, 0x00ff00ff00ff00ffULL, 0x0000ULL };
+
+// Perform switchover to DBI
+static void dbi_switchover_interface(int node, int lmc)
+{
+    bdk_lmcx_modereg_params0_t modereg_params0;
+    bdk_lmcx_modereg_params3_t modereg_params3;
+    bdk_lmcx_phy_ctl_t phy_ctl;
+    bdk_lmcx_config_t lmcx_config;
+    bdk_lmcx_ddr_pll_ctl_t ddr_pll_ctl;
+    int rank_mask, rankx, active_ranks;
+    uint64_t phys_addr, rank_offset;
+    int num_lmcs, errors;
+    int dbi_settings[9], byte, unlocked, retries;
+    int ecc_ena;
+
+    ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(0));
+
+    lmcx_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(lmc));
+    rank_mask = lmcx_config.s.init_status;
+    ecc_ena = lmcx_config.s.ecc_ena;
+
+    // FIXME: must filter out any non-supported configs
+    //        ie, no DDR3, no x4 devices 
+    if ((ddr_pll_ctl.s.ddr4_mode == 0) || (lmcx_config.s.mode_x4dev == 1)) {
+        ddr_print("N%d.LMC%d: DBI switchover: inappropriate device; EXITING...\n",
+                  node, lmc);
+        return;
+    }
+
+    // this should be correct for 1 or 2 ranks, 1 or 2 DIMMs
+    num_lmcs = __bdk_dram_get_num_lmc(node);
+    rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
+
+    ddr_print("N%d.LMC%d: DBI switchover: rank_mask 0x%x, rank_offset 0x%016llx.\n",
+	      node, lmc, rank_mask, (unsigned long long)rank_offset);
+
+    /* 1. conduct the current init sequence as usual all the way
+         after software write leveling.
+     */
+
+    read_DAC_DBI_settings(node, /*ignored*/0, lmc, /*DBI*/0, dbi_settings);
+
+    // FIXME: print out the DBI settings array? 
+    ddr_print("N%d.LMC%d: Pre-training DBI Deskew Settings %d:0  :",
+              node, lmc, 7+ecc_ena);
+    for (byte = (7+ecc_ena); byte >= 0; --byte) {
+        ddr_print(" 0x%03x ", dbi_settings[byte]);
+    }
+    ddr_print("\n");
+ 
+   /* 2. set DBI related CSRs as below and issue MR write. 
+         MODEREG_PARAMS3.WR_DBI=1
+         MODEREG_PARAMS3.RD_DBI=1
+         PHY_CTL.DBI_MODE_ENA=1
+    */
+    modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(lmc));
+
+    modereg_params3.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS3(lmc));
+    modereg_params3.s.wr_dbi = 1;
+    modereg_params3.s.rd_dbi = 1;
+    DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS3(lmc), modereg_params3.u);
+
+    phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(lmc));
+    phy_ctl.s.dbi_mode_ena = 1;
+    DRAM_CSR_WRITE(node, BDK_LMCX_PHY_CTL(lmc), phy_ctl.u);
+
+    /*
+        there are two options for data to send.  Lets start with (1) and could move to (2) in the future:
+        
+        1) DBTRAIN_CTL[LFSR_PATTERN_SEL] = 0 (or for older chips where this does not exist)
+           set data directly in these reigsters.  this will yield a clk/2 pattern:
+           GENERAL_PURPOSE0.DATA == 64'h00ff00ff00ff00ff;
+           GENERAL_PURPOSE1.DATA == 64'h00ff00ff00ff00ff;
+           GENERAL_PURPOSE0.DATA == 16'h0000;
+        2) DBTRAIN_CTL[LFSR_PATTERN_SEL] = 1
+           here data comes from the LFSR generating a PRBS pattern
+           CHAR_CTL.EN = 0
+           CHAR_CTL.SEL = 0; // for PRBS
+           CHAR_CTL.DR = 1;
+           CHAR_CTL.PRBS = setup for whatever type of PRBS to send
+           CHAR_CTL.SKEW_ON = 1;
+    */
+    DRAM_CSR_WRITE(node, BDK_LMCX_GENERAL_PURPOSE0(lmc), dbi_pattern[0]);
+    DRAM_CSR_WRITE(node, BDK_LMCX_GENERAL_PURPOSE1(lmc), dbi_pattern[1]);
+    DRAM_CSR_WRITE(node, BDK_LMCX_GENERAL_PURPOSE2(lmc), dbi_pattern[2]);
+
+    /* 
+      3. adjust cas_latency (only necessary if RD_DBI is set).
+         here is my code for doing this:
+ 
+         if (csr_model.MODEREG_PARAMS3.RD_DBI.value == 1) begin
+           case (csr_model.MODEREG_PARAMS0.CL.value)
+             0,1,2,3,4: csr_model.MODEREG_PARAMS0.CL.value += 2; // CL 9-13 -> 11-15
+             5: begin
+                // CL=14, CWL=10,12 gets +2, CLW=11,14 gets +3
+                if((csr_model.MODEREG_PARAMS0.CWL.value==1 || csr_model.MODEREG_PARAMS0.CWL.value==3))
+                  csr_model.MODEREG_PARAMS0.CL.value = 7; // 14->16
+                else
+                  csr_model.MODEREG_PARAMS0.CL.value = 13; // 14->17
+                end
+             6: csr_model.MODEREG_PARAMS0.CL.value = 8; // 15->18
+             7: csr_model.MODEREG_PARAMS0.CL.value = 14; // 16->19
+             8: csr_model.MODEREG_PARAMS0.CL.value = 15; // 18->21
+             default:
+             `cn_fatal(("Error mem_cfg (%s) CL (%d) with RD_DBI=1, I am not sure what to do.", 
+                        mem_cfg, csr_model.MODEREG_PARAMS3.RD_DBI.value))
+           endcase
+        end
+    */
+    if (modereg_params3.s.rd_dbi == 1) {
+        int old_cl, new_cl, old_cwl;
+
+        old_cl  = modereg_params0.s.cl;
+        old_cwl = modereg_params0.s.cwl;
+
+        switch (old_cl) {
+        case 0: case 1: case 2: case 3: case 4: new_cl = old_cl + 2; break; // 9-13->11-15
+        // CL=14, CWL=10,12 gets +2, CLW=11,14 gets +3
+        case 5: new_cl = ((old_cwl == 1) || (old_cwl == 3)) ? 7 : 13; break;
+        case 6: new_cl =  8; break; // 15->18
+        case 7: new_cl = 14; break; // 16->19
+        case 8: new_cl = 15; break; // 18->21
+        default:
+            error_print("ERROR: Bad CL value (%d) for DBI switchover.\n", old_cl);
+            // FIXME: need to error exit here...
+            old_cl = -1;
+            new_cl = -1;
+            break;
+        }
+        ddr_print("N%d.LMC%d: DBI switchover: CL ADJ: old_cl 0x%x, old_cwl 0x%x, new_cl 0x%x.\n",
+                  node, lmc, old_cl, old_cwl, new_cl);
+        modereg_params0.s.cl = new_cl;
+        DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(lmc), modereg_params0.u);
+    }
+
+    /*
+      4. issue MRW to MR0 (CL) and MR5 (DBI), using LMC sequence SEQ_CTL[SEQ_SEL] = MRW.
+     */
+    // Use the default values, from the CSRs fields
+    // also, do B-sides for RDIMMs...
+
+    for (rankx = 0; rankx < 4; rankx++) {
+        if (!(rank_mask & (1 << rankx)))
+            continue;
+
+        // for RDIMMs, B-side writes should get done automatically when the A-side is written
+        ddr4_mrw(node, lmc, rankx, -1/* use_default*/,   0/*MRreg*/, 0 /*A-side*/); /* MR0 */
+        ddr4_mrw(node, lmc, rankx, -1/* use_default*/,   5/*MRreg*/, 0 /*A-side*/); /* MR5 */
+
+    } /* for (rankx = 0; rankx < 4; rankx++) */
+
+    /*
+      5. conduct DBI bit deskew training via the General Purpose R/W sequence (dbtrain).
+         may need to run this over and over to get a lock (I need up to 5 in simulation):
+         SEQ_CTL[SEQ_SEL] = RW_TRAINING (15)
+         DBTRAIN_CTL.CMD_COUNT_EXT = all 1's
+         DBTRAIN_CTL.READ_CMD_COUNT = all 1's
+         DBTRAIN_CTL.TCCD_SEL = set according to MODEREG_PARAMS3[TCCD_L]
+         DBTRAIN_CTL.RW_TRAIN = 1
+         DBTRAIN_CTL.READ_DQ_COUNT = dont care
+         DBTRAIN_CTL.WRITE_ENA = 1;
+         DBTRAIN_CTL.ACTIVATE = 1;
+         DBTRAIN_CTL LRANK, PRANK, ROW_A, BG, BA, COLUMN_A = set to a valid address
+     */
+
+    // NOW - do the training
+    ddr_print("N%d.LMC%d: DBI switchover: TRAINING begins...\n",
+                  node, lmc);
+
+    retries = 0;
+
+restart_training:
+
+    active_ranks = 0;
+    for (rankx = 0; rankx < 4; rankx++) {
+        if (!(rank_mask & (1 << rankx)))
+            continue;
+
+        phys_addr = (lmc << 7);
+        phys_addr |= rank_offset * active_ranks;
+        active_ranks++;
+
+        // NOTE: return is a bitmask of the erroring bytelanes..
+        errors = test_dram_byte_hw(node, lmc, phys_addr, 1);
+
+        ddr_print("N%d.LMC%d: DBI switchover: TEST: rank %d, errors 0x%x.\n",
+                  node, lmc, rankx, errors);
+
+    } /* for (rankx = 0; rankx < 4; rankx++) */
+
+    // NEXT - check for locking
+    unlocked = 0;
+    read_DAC_DBI_settings(node, /*ignored*/0, lmc, /*DBI*/0, dbi_settings);
+
+    for (byte = 0; byte < (8+ecc_ena); byte++) {
+        unlocked += (dbi_settings[byte] & 1) ^ 1;
+    }
+
+    if (unlocked > 0) {
+        ddr_print("N%d.LMC%d: DBI switchover: LOCK: %d still unlocked.\n",
+                  node, lmc, unlocked);
+
+        retries++;
+        if (retries < 10) {
+
+            // FIXME: print out the DBI settings array before a retry?
+            ddr_print("N%d.LMC%d: Post-training DBI Deskew Settings %d:0  :",
+                      node, lmc, 7+ecc_ena);
+            for (byte = (7+ecc_ena); byte >= 0; --byte) {
+                ddr_print(" 0x%03x ", dbi_settings[byte]);
+            }
+            ddr_print("\n");
+
+            goto restart_training;
+        }
+        else
+            ddr_print("N%d.LMC%d: DBI switchover: LOCK: %d retries exhausted.\n",
+                      node, lmc, retries);
+    }
+
+    // print out the final DBI settings array
+    ddr_print("N%d.LMC%d: FINAL DBI Deskew Settings %d:0  :",
+              node, lmc, 7+ecc_ena);
+    for (byte = (7+ecc_ena); byte >= 0; --byte) {
+        ddr_print(" 0x%03x ", dbi_settings[byte]);
+    }
+    ddr_print("\n");
+}
+
 uint32_t measure_octeon_ddr_clock(bdk_node_t node,
 				  const ddr_configuration_t *ddr_configuration,
 				  uint32_t cpu_hertz,
@@ -1840,6 +2078,28 @@ int octeon_ddr_initialize(bdk_node_t node,
 	/* All interfaces failed to initialize, so return error */
 	return -1;
 
+    // switch over to DBI mode only for chips that support it, and enabled by envvar
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) ||
+        CAVIUM_IS_MODEL(CAVIUM_CN83XX)         ||
+        CAVIUM_IS_MODEL(CAVIUM_CN81XX)
+        )
+    {
+        int do_dbi = 0;
+        if ((s = lookup_env_parameter("ddr_dbi_switchover")) != NULL) {
+            do_dbi = !!strtoul(s, NULL, 10);
+        }
+        if (do_dbi) {
+            printf("DBI Switchover starting...\n");
+            for (interface_index = 0; interface_index < 4; ++interface_index) {
+                if (! (ddr_config_valid_mask & (1 << interface_index)))
+                    continue;
+                dbi_switchover_interface(node, interface_index);
+            }
+            printf("DBI Switchover finished.\n");
+        }
+    }
+
+    // limit memory size if desired...
     if ((s = lookup_env_parameter("limit_dram_mbytes")) != NULL) {
 	unsigned int mbytes = strtoul(s, NULL, 10);
 	if (mbytes > 0) {

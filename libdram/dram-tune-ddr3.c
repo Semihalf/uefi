@@ -1589,7 +1589,7 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
                 active_ranks++;
 
                 // NOTE: return is a now a bitmask of the erroring bytelanes..
-		errors[rankx] = test_dram_byte_hw(node, lmc, phys_addr);
+		errors[rankx] = test_dram_byte_hw(node, lmc, phys_addr, 0);
 
                 for (byte = byte_lo; byte <= byte_hi; byte++) { // do bytelane(s)
 
