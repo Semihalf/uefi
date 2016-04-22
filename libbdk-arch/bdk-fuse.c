@@ -180,6 +180,9 @@ int bdk_fuse_field_soft_blow(bdk_node_t node, int fuse)
  */
 int bdk_fuse_init(bdk_node_t node)
 {
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
+        return 0;
+
     bool need_reset = false;
 
     /* Change the default core throttling level */
