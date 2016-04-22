@@ -1189,6 +1189,11 @@ static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a)
  * AP DBG External Debug Context ID Sample Register
  * Contains the sampled value of CONTEXTIDR_EL1, captured on
  *     reading the low half of EDPCSR.
+ * When DBG()_EDSCR[SC2] is set, if the sampled PC was from Non-secure state and EL2 is using
+ * AArch64,
+ * EDVIDSR is written with the value of CONTEXTIDR_EL2 associated with the most recent EDPCSR
+ * sample.
+ * Otherwiwse, EDVIDSR becomes UNKNOWN.
  */
 typedef union
 {
@@ -2121,6 +2126,8 @@ static inline uint64_t BDK_DBGX_EDLSR(unsigned long a)
  *
  * AP DBG External Debug Program Counter Sample High Register
  * PC bits 63:32 sampled when EDPCSR_LO is read.
+ * When DBG()_EDSCR[SC2] is set, EDPCSR_HI[23:0] is set to bits [55:32] of the sampled PC, and
+ * EDPCSR_HI[31:29] record the NS-state [31] and Exception level [30:29].
  */
 typedef union
 {
@@ -2159,7 +2166,7 @@ static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a)
  * Low order 32 bits of the sampled PC.  Maybe used to capture PC values when sampling is
  * enabled.
  * When read, causes the capture of the low PC bits, EDCIDSR (Context), EDVIDSR (VMID) and
- * EDPCSR_hi.
+ * EDPCSR_HI.
  */
 typedef union
 {
@@ -3782,7 +3789,7 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_dbgx_edscr_cn88xxp1 cn9; */
+    /* struct bdk_dbgx_edscr_s cn9; */
     /* struct bdk_dbgx_edscr_s cn81xx; */
     /* struct bdk_dbgx_edscr_s cn83xx; */
     /* struct bdk_dbgx_edscr_s cn88xxp2; */
@@ -3829,13 +3836,15 @@ typedef union
                                                                     most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
                                                                     value of EDPCSR[63:32] is 0x0. */
         uint32_t reserved_16_27        : 12;
-        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2.VMID associated with the
-                                                                     most recent EDPCSR sample. If EDVIDSR.NS == 0 or EDVIDSR.E2 ==
-                                                                     1, this field is 0x0. */
+        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
+                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
+                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
 #else /* Word 0 - Little Endian */
-        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2.VMID associated with the
-                                                                     most recent EDPCSR sample. If EDVIDSR.NS == 0 or EDVIDSR.E2 ==
-                                                                     1, this field is 0x0. */
+        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
+                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
+                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
         uint32_t reserved_16_27        : 12;
         uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
                                                                     most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
@@ -3891,86 +3900,10 @@ typedef union
                                                                      associated with the most recent EDPCSR sample. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_dbgx_edvidsr_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
-                                                                     associated with the most recent EDPCSR sample. */
-        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
-                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
-                                                                     0, this bit is 0. */
-        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
-                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
-                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
-                                                                     EDPCSR was read, this bit is 0. */
-        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
-                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
-                                                                    value of EDPCSR[63:32] is 0x0. */
-        uint32_t reserved_8_27         : 20;
-        uint32_t vmid                  : 8;  /**< [  7:  0](RO) VMID sample. The value of VTTBR_EL2.VMID associated with the
-                                                                     most recent EDPCSR sample. If EDVIDSR.NS == 0 or EDVIDSR.E2 ==
-                                                                     1, this field is 0x0. */
-#else /* Word 0 - Little Endian */
-        uint32_t vmid                  : 8;  /**< [  7:  0](RO) VMID sample. The value of VTTBR_EL2.VMID associated with the
-                                                                     most recent EDPCSR sample. If EDVIDSR.NS == 0 or EDVIDSR.E2 ==
-                                                                     1, this field is 0x0. */
-        uint32_t reserved_8_27         : 20;
-        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
-                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
-                                                                    value of EDPCSR[63:32] is 0x0. */
-        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
-                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
-                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
-                                                                     EDPCSR was read, this bit is 0. */
-        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
-                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
-                                                                     0, this bit is 0. */
-        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
-                                                                     associated with the most recent EDPCSR sample. */
-#endif /* Word 0 - End */
-    } cn9;
-    struct bdk_dbgx_edvidsr_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
-                                                                     associated with the most recent EDPCSR sample. */
-        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
-                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
-                                                                     0, this bit is 0. */
-        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
-                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
-                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
-                                                                     EDPCSR was read, this bit is 0. */
-        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
-                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
-                                                                    value of EDPCSR[63:32] is 0x0. */
-        uint32_t reserved_16_27        : 12;
-        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
-                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
-                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
-                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
-#else /* Word 0 - Little Endian */
-        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
-                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
-                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
-                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
-        uint32_t reserved_16_27        : 12;
-        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
-                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
-                                                                    value of EDPCSR[63:32] is 0x0. */
-        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
-                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
-                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
-                                                                     EDPCSR was read, this bit is 0. */
-        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
-                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
-                                                                     0, this bit is 0. */
-        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
-                                                                     associated with the most recent EDPCSR sample. */
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_dbgx_edvidsr_cn81xx cn83xx; */
-    /* struct bdk_dbgx_edvidsr_cn81xx cn88xxp2; */
+    /* struct bdk_dbgx_edvidsr_s cn9; */
+    /* struct bdk_dbgx_edvidsr_s cn81xx; */
+    /* struct bdk_dbgx_edvidsr_s cn83xx; */
+    /* struct bdk_dbgx_edvidsr_s cn88xxp2; */
 } bdk_dbgx_edvidsr_t;
 
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a) __attribute__ ((pure, always_inline));

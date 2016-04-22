@@ -625,7 +625,8 @@ typedef union
         uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
                                                                  is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
                                                                  PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
-                                                                 maximum of 4 lanes. This value is used to set the maximum link width field in the core's
+                                                                 maximum of 4 or 2 lanes. This value is used to set the maximum link width field in the
+                                                                 core's
                                                                  link capabilities register (CFG031) to indicate the maximum number of lanes
                                                                  supported. Note that less lanes than the specified maximum can be configured for use via
                                                                  the core's link control register (CFG032) negotiated link width field. */
@@ -657,7 +658,8 @@ typedef union
         uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
                                                                  is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
                                                                  PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
-                                                                 maximum of 4 lanes. This value is used to set the maximum link width field in the core's
+                                                                 maximum of 4 or 2 lanes. This value is used to set the maximum link width field in the
+                                                                 core's
                                                                  link capabilities register (CFG031) to indicate the maximum number of lanes
                                                                  supported. Note that less lanes than the specified maximum can be configured for use via
                                                                  the core's link control register (CFG032) negotiated link width field. */
@@ -683,7 +685,8 @@ typedef union
         uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
                                                                  is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
                                                                  PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
-                                                                 maximum of 4 lanes. This value is used to set the maximum link width field in the core's
+                                                                 maximum of 4 or 2 lanes. This value is used to set the maximum link width field in the
+                                                                 core's
                                                                  link capabilities register (CFG031) to indicate the maximum number of lanes
                                                                  supported. Note that less lanes than the specified maximum can be configured for use via
                                                                  the core's link control register (CFG032) negotiated link width field. */
@@ -715,7 +718,8 @@ typedef union
         uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
                                                                  is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
                                                                  PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
-                                                                 maximum of 4 lanes. This value is used to set the maximum link width field in the core's
+                                                                 maximum of 4 or 2 lanes. This value is used to set the maximum link width field in the
+                                                                 core's
                                                                  link capabilities register (CFG031) to indicate the maximum number of lanes
                                                                  supported. Note that less lanes than the specified maximum can be configured for use via
                                                                  the core's link control register (CFG032) negotiated link width field. */
@@ -797,60 +801,7 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pemx_cfg_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) Enables overwriting the value for lane swapping. The reset value is captured on
-                                                                 cold reset by the pin straps (see PEM()_STRAP[PILANESWAP]). When set, lane swapping is
-                                                                 performed to/from the SerDes. When clear, no lane swapping is performed. */
-        uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
-                                                                 is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
-                                                                 PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
-                                                                 maximum of 4 or 2 lanes. This value is used to set the maximum link width field in the
-                                                                 core's
-                                                                 link capabilities register (CFG031) to indicate the maximum number of lanes
-                                                                 supported. Note that less lanes than the specified maximum can be configured for use via
-                                                                 the core's link control register (CFG032) negotiated link width field. */
-        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) Enables overwriting the value for host mode. The reset value is captured on
-                                                                 cold reset by the pin straps. (See PEM()_STRAP[PIMODE]. The HOSTMD reset value is the
-                                                                 bit-wise AND of the PIMODE straps.  When set, the PEM is configured to be a root complex.
-                                                                 When clear, the PEM is configured to be an end point. */
-        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) Enables overwriting the value for speed. The reset value is captured on cold
-                                                                 reset by the pin straps (see PEM()_STRAP[PIMODE]). For a root complex configuration
-                                                                 that is not running at Gen3 speed, the HOSTMD bit of this register must be set when this
-                                                                 field is changed.
-                                                                 0x0 = Gen1 speed.
-                                                                 0x1 = Gen2 speed.
-                                                                 0x2 = Gen3 speed.
-                                                                 0x3 = Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) Enables overwriting the value for speed. The reset value is captured on cold
-                                                                 reset by the pin straps (see PEM()_STRAP[PIMODE]). For a root complex configuration
-                                                                 that is not running at Gen3 speed, the HOSTMD bit of this register must be set when this
-                                                                 field is changed.
-                                                                 0x0 = Gen1 speed.
-                                                                 0x1 = Gen2 speed.
-                                                                 0x2 = Gen3 speed.
-                                                                 0x3 = Reserved. */
-        uint64_t hostmd                : 1;  /**< [  2:  2](R/W/H) Enables overwriting the value for host mode. The reset value is captured on
-                                                                 cold reset by the pin straps. (See PEM()_STRAP[PIMODE]. The HOSTMD reset value is the
-                                                                 bit-wise AND of the PIMODE straps.  When set, the PEM is configured to be a root complex.
-                                                                 When clear, the PEM is configured to be an end point. */
-        uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Enables overwriting the value for the maximum number of lanes. The reset value
-                                                                 is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
-                                                                 PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
-                                                                 maximum of 4 or 2 lanes. This value is used to set the maximum link width field in the
-                                                                 core's
-                                                                 link capabilities register (CFG031) to indicate the maximum number of lanes
-                                                                 supported. Note that less lanes than the specified maximum can be configured for use via
-                                                                 the core's link control register (CFG032) negotiated link width field. */
-        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) Enables overwriting the value for lane swapping. The reset value is captured on
-                                                                 cold reset by the pin straps (see PEM()_STRAP[PILANESWAP]). When set, lane swapping is
-                                                                 performed to/from the SerDes. When clear, no lane swapping is performed. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pemx_cfg_cn9 cn83xx; */
 } bdk_pemx_cfg_t;
 
 static inline uint64_t BDK_PEMX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1431,7 +1382,7 @@ typedef union
         uint64_t reserved_8            : 1;
         uint64_t reserved_7            : 1;
         uint64_t nf_ecrc               : 1;  /**< [  6:  6](R/W) Do not forward peer-to-peer ECRC TLPs. */
-        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
+        uint64_t reserved_5            : 1;
         uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
                                                                  active when in RC mode. */
         uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
@@ -1445,7 +1396,7 @@ typedef union
         uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
         uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
                                                                  active when in RC mode. */
-        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
+        uint64_t reserved_5            : 1;
         uint64_t nf_ecrc               : 1;  /**< [  6:  6](R/W) Do not forward peer-to-peer ECRC TLPs. */
         uint64_t reserved_7            : 1;
         uint64_t reserved_8            : 1;
@@ -1539,72 +1490,7 @@ typedef union
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_pemx_ctl_status_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
-        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
-        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
-        uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
-                                                                 configuration read that does not carry a retry status. Until such time that the
-                                                                 timeout occurs and retry status is received for a configuration read, the read
-                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
-                                                                 UR.
-
-                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
-                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
-                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
-                                                                 issued until either successful completion or CPL UR. */
-        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
-        uint64_t pm_xpme               : 1;  /**< [ 10: 10](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_pme port. EP mode. */
-        uint64_t ob_p_cmd              : 1;  /**< [  9:  9](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core outband_pwrup_cmd
-                                                                 port. EP mode. */
-        uint64_t reserved_8            : 1;
-        uint64_t reserved_7            : 1;
-        uint64_t nf_ecrc               : 1;  /**< [  6:  6](R/W) Do not forward peer-to-peer ECRC TLPs. */
-        uint64_t reserved_5            : 1;
-        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
-                                                                 active when in RC mode. */
-        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
-        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
-        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
-        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
-#else /* Word 0 - Little Endian */
-        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
-        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
-        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
-        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
-        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
-                                                                 active when in RC mode. */
-        uint64_t reserved_5            : 1;
-        uint64_t nf_ecrc               : 1;  /**< [  6:  6](R/W) Do not forward peer-to-peer ECRC TLPs. */
-        uint64_t reserved_7            : 1;
-        uint64_t reserved_8            : 1;
-        uint64_t ob_p_cmd              : 1;  /**< [  9:  9](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core outband_pwrup_cmd
-                                                                 port. EP mode. */
-        uint64_t pm_xpme               : 1;  /**< [ 10: 10](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_pme port. EP mode. */
-        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
-        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 in coprocessor clocks to wait for a CPL to a
-                                                                 configuration read that does not carry a retry status. Until such time that the
-                                                                 timeout occurs and retry status is received for a configuration read, the read
-                                                                 will be resent. A value of 0 disables retries and treats a CPL retry as a CPL
-                                                                 UR.
-
-                                                                 To use, it is recommended [CFG_RTRY] be set value corresponding to 200ms or
-                                                                 less, although the PCI Express Base Specification allows up to 900ms for a
-                                                                 device to send a successful completion.  When enabled, only one CFG RD may be
-                                                                 issued until either successful completion or CPL UR. */
-        uint64_t reserved_32_33        : 2;
-        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
-        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
-        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pemx_ctl_status_cn9 cn83xx; */
     struct bdk_pemx_ctl_status_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1807,6 +1693,8 @@ static inline uint64_t BDK_PEMX_CTL_STREAM(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PEMX_CTL_STREAM(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0c00004d0ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x87e0c00004d0ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PEMX_CTL_STREAM", 1, a, 0, 0, 0);
 }
@@ -6630,13 +6518,13 @@ typedef union
         uint64_t reserved_9_63         : 55;
         uint64_t pwrdwn                : 3;  /**< [  8:  6](RO/H) Current mac_phy_powerdown state. */
         uint64_t pm_dst                : 3;  /**< [  5:  3](RO/H) Current power management DSTATE. */
-        uint64_t pm_stat               : 1;  /**< [  2:  2](RO) Power management status. */
-        uint64_t pm_en                 : 1;  /**< [  1:  1](RO) Power management event enable. */
-        uint64_t aux_en                : 1;  /**< [  0:  0](RO) Auxiliary power enable. */
+        uint64_t pm_stat               : 1;  /**< [  2:  2](RO/H) Power management status. */
+        uint64_t pm_en                 : 1;  /**< [  1:  1](RO/H) Power management event enable. */
+        uint64_t aux_en                : 1;  /**< [  0:  0](RO/H) Auxiliary power enable. */
 #else /* Word 0 - Little Endian */
-        uint64_t aux_en                : 1;  /**< [  0:  0](RO) Auxiliary power enable. */
-        uint64_t pm_en                 : 1;  /**< [  1:  1](RO) Power management event enable. */
-        uint64_t pm_stat               : 1;  /**< [  2:  2](RO) Power management status. */
+        uint64_t aux_en                : 1;  /**< [  0:  0](RO/H) Auxiliary power enable. */
+        uint64_t pm_en                 : 1;  /**< [  1:  1](RO/H) Power management event enable. */
+        uint64_t pm_stat               : 1;  /**< [  2:  2](RO/H) Power management status. */
         uint64_t pm_dst                : 3;  /**< [  5:  3](RO/H) Current power management DSTATE. */
         uint64_t pwrdwn                : 3;  /**< [  8:  6](RO/H) Current mac_phy_powerdown state. */
         uint64_t reserved_9_63         : 55;
@@ -6662,24 +6550,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pemx_diag_status_cn81xx cn88xx; */
-    struct bdk_pemx_diag_status_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t pwrdwn                : 3;  /**< [  8:  6](RO/H) Current mac_phy_powerdown state. */
-        uint64_t pm_dst                : 3;  /**< [  5:  3](RO/H) Current power management DSTATE. */
-        uint64_t pm_stat               : 1;  /**< [  2:  2](RO/H) Power management status. */
-        uint64_t pm_en                 : 1;  /**< [  1:  1](RO/H) Power management event enable. */
-        uint64_t aux_en                : 1;  /**< [  0:  0](RO/H) Auxiliary power enable. */
-#else /* Word 0 - Little Endian */
-        uint64_t aux_en                : 1;  /**< [  0:  0](RO/H) Auxiliary power enable. */
-        uint64_t pm_en                 : 1;  /**< [  1:  1](RO/H) Power management event enable. */
-        uint64_t pm_stat               : 1;  /**< [  2:  2](RO/H) Power management status. */
-        uint64_t pm_dst                : 3;  /**< [  5:  3](RO/H) Current power management DSTATE. */
-        uint64_t pwrdwn                : 3;  /**< [  8:  6](RO/H) Current mac_phy_powerdown state. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pemx_diag_status_s cn83xx; */
 } bdk_pemx_diag_status_t;
 
 static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7046,29 +6917,7 @@ typedef union
                                                                  Access from a PEM that doesn't own the EEPROM will return fault. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pemx_eromx_s cn8; */
-    struct bdk_pemx_eromx_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t erom                  : 64; /**< [ 63:  0](R/W/H) PCIe express read transactions to BAR3 (through PCIEEP()_CFG012) will appear as
-                                                                 RSL reads to this register.
-
-                                                                 Although 512 KB is advertised from PCIEEP()_CFG012, only the first 510 KB is
-                                                                 actually accessible, and reads above 510 KB will return ones, writes are NOP.
-
-                                                                 Accessible through PEM2 if EP PEM0 is an RC, otherwise accessible through PEM0.
-                                                                 Access from a PEM that doesn't own the EEPROM will return fault. */
-#else /* Word 0 - Little Endian */
-        uint64_t erom                  : 64; /**< [ 63:  0](R/W/H) PCIe express read transactions to BAR3 (through PCIEEP()_CFG012) will appear as
-                                                                 RSL reads to this register.
-
-                                                                 Although 512 KB is advertised from PCIEEP()_CFG012, only the first 510 KB is
-                                                                 actually accessible, and reads above 510 KB will return ones, writes are NOP.
-
-                                                                 Accessible through PEM2 if EP PEM0 is an RC, otherwise accessible through PEM0.
-                                                                 Access from a PEM that doesn't own the EEPROM will return fault. */
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_pemx_eromx_s cn; */
 } bdk_pemx_eromx_t;
 
 static inline uint64_t BDK_PEMX_EROMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -8696,63 +8545,32 @@ typedef union
     struct bdk_pemx_qlm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_1_63         : 63;
+        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM3/PEM3, for all other PEMs it has no
+                                                                 function.
+                                                                 PEM2: when set, will be configured to send/receive traffic to DLM4.
+                                                                       when clear, will be configured to send/receive traffic to QLM2/QLM3.
+                                                                 PEM3: when set, will be configured to send/receive traffic to DLM5/DLM6.
+                                                                       when clear, will be configured to send/receive traffic to QLM3.
+                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
+                                                                 reset.
+                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
+                                                                 bit. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM3/PEM3, for all other PEMs it has no
+                                                                 function.
+                                                                 PEM2: when set, will be configured to send/receive traffic to DLM4.
+                                                                       when clear, will be configured to send/receive traffic to QLM2/QLM3.
+                                                                 PEM3: when set, will be configured to send/receive traffic to DLM5/DLM6.
+                                                                       when clear, will be configured to send/receive traffic to QLM3.
+                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
+                                                                 reset.
+                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
+                                                                 bit. */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_qlm_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM3/PEM3, for all other PEMs it has no
-                                                                 function.
-                                                                 PEM2: when set, will be configured to send/receive traffic to DLM4.
-                                                                       when clear, will be configured to send/receive traffic to QLM2/QLM3.
-                                                                 PEM3: when set, will be configured to send/receive traffic to DLM5/DLM6.
-                                                                       when clear, will be configured to send/receive traffic to QLM3.
-                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
-                                                                 reset.
-                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
-                                                                 bit. */
-#else /* Word 0 - Little Endian */
-        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM3/PEM3, for all other PEMs it has no
-                                                                 function.
-                                                                 PEM2: when set, will be configured to send/receive traffic to DLM4.
-                                                                       when clear, will be configured to send/receive traffic to QLM2/QLM3.
-                                                                 PEM3: when set, will be configured to send/receive traffic to DLM5/DLM6.
-                                                                       when clear, will be configured to send/receive traffic to QLM3.
-                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
-                                                                 reset.
-                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
-                                                                 bit. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn8;
-    struct bdk_pemx_qlm_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pem_tdlm              : 1;  /**< [  0:  0](R/W/H) When set, PEM2/PEM3 is configured to send/receive traffic to TDLM5/TDLM6.
-                                                                 When clear, PEM2/PEM3 is configured to send/receive traffic to QLM2(QLM3)/QLM3.
-                                                                 Note that this bit can only be set for PEM2 or PEM3, for all other PEMs it has no
-                                                                 function.
-                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
-                                                                 reset.
-                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
-                                                                 bit. */
-#else /* Word 0 - Little Endian */
-        uint64_t pem_tdlm              : 1;  /**< [  0:  0](R/W/H) When set, PEM2/PEM3 is configured to send/receive traffic to TDLM5/TDLM6.
-                                                                 When clear, PEM2/PEM3 is configured to send/receive traffic to QLM2(QLM3)/QLM3.
-                                                                 Note that this bit can only be set for PEM2 or PEM3, for all other PEMs it has no
-                                                                 function.
-                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
-                                                                 reset.
-                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
-                                                                 bit. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_pemx_qlm_s cn; */
 } bdk_pemx_qlm_t;
 
 static inline uint64_t BDK_PEMX_QLM(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8882,105 +8700,76 @@ typedef union
     struct bdk_pemx_spi_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_34_63        : 30;
+        uint64_t start_busy            : 1;  /**< [ 33: 33](R/W/H) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
+        uint64_t tvalid                : 1;  /**< [ 32: 32](R/W/H) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
+                                                                 clear status. */
+        uint64_t cmd                   : 8;  /**< [ 31: 24](R/W/H) SPI command to be passed to the flash memory.
+                                                                 This field will clear when command is complete.
+
+                                                                 Examples of some commonly used commands:
+                                                                 0x1  = WRSR: Write status register. A single-byte write of
+                                                                        corresponding PEM()_SPI_DATA[DATA<7:0>] to the register.
+                                                                 0x2  = PAGE PROGRAM/WRITE: An eight-byte page-mode write of the 64-bits of corresponding
+                                                                        PEM()_SPI_DATA to the memory array. Can only be issued to Sector 0.
+                                                                        Note, most devices require BULK or SECTOR ERASE to set bits first.
+                                                                 0x3  = READ: An eight-byte page-mode read access from the memory array
+                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA.
+                                                                        Can only be issued to sector 0.
+                                                                 0x4  = WRDI: Clear the write-enable latch (i.e. write protect the device).
+                                                                 0x5  = RDSR: Read status register. A single-byte read access from
+                                                                        the register with result in corresponding PEM()_SPI_DATA[DATA]<7:0>.
+                                                                 0x6  = WREN: set the write-enable latch (i.e. allow writes to occur).
+                                                                 0xB  = READ DATA HIGHER SPEED: Not supported.
+                                                                 0xAB = WAKE: Release from deep power-down.
+                                                                 0xB9 = SLEEP: Deep power-down.
+                                                                 0xC7 = BULK ERASE: Sets all bits to 1.
+                                                                 0xD8 = SECTOR ERASE: Sets to 1 all bits to the chosen sector (pointed to by [ADR]<18:15>).
+                                                                 0x9F = READ ID: a two-byte read access to get device identification
+                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA. */
+        uint64_t reserved_19_23        : 5;
+        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address.
+                                                                 For READ and PAGE PROGRAM commands, forced to a 8-byte aligned entry in sector 0, so
+                                                                 <18:16> and <2:0> are forced to zero.  For all other commands, the entire ADR is passed.
+
+                                                                 This field will clear when command is complete. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address.
+                                                                 For READ and PAGE PROGRAM commands, forced to a 8-byte aligned entry in sector 0, so
+                                                                 <18:16> and <2:0> are forced to zero.  For all other commands, the entire ADR is passed.
+
+                                                                 This field will clear when command is complete. */
+        uint64_t reserved_19_23        : 5;
+        uint64_t cmd                   : 8;  /**< [ 31: 24](R/W/H) SPI command to be passed to the flash memory.
+                                                                 This field will clear when command is complete.
+
+                                                                 Examples of some commonly used commands:
+                                                                 0x1  = WRSR: Write status register. A single-byte write of
+                                                                        corresponding PEM()_SPI_DATA[DATA<7:0>] to the register.
+                                                                 0x2  = PAGE PROGRAM/WRITE: An eight-byte page-mode write of the 64-bits of corresponding
+                                                                        PEM()_SPI_DATA to the memory array. Can only be issued to Sector 0.
+                                                                        Note, most devices require BULK or SECTOR ERASE to set bits first.
+                                                                 0x3  = READ: An eight-byte page-mode read access from the memory array
+                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA.
+                                                                        Can only be issued to sector 0.
+                                                                 0x4  = WRDI: Clear the write-enable latch (i.e. write protect the device).
+                                                                 0x5  = RDSR: Read status register. A single-byte read access from
+                                                                        the register with result in corresponding PEM()_SPI_DATA[DATA]<7:0>.
+                                                                 0x6  = WREN: set the write-enable latch (i.e. allow writes to occur).
+                                                                 0xB  = READ DATA HIGHER SPEED: Not supported.
+                                                                 0xAB = WAKE: Release from deep power-down.
+                                                                 0xB9 = SLEEP: Deep power-down.
+                                                                 0xC7 = BULK ERASE: Sets all bits to 1.
+                                                                 0xD8 = SECTOR ERASE: Sets to 1 all bits to the chosen sector (pointed to by [ADR]<18:15>).
+                                                                 0x9F = READ ID: a two-byte read access to get device identification
+                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA. */
+        uint64_t tvalid                : 1;  /**< [ 32: 32](R/W/H) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
+                                                                 clear status. */
+        uint64_t start_busy            : 1;  /**< [ 33: 33](R/W/H) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
+        uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_spi_ctl_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_34_63        : 30;
-        uint64_t start_busy            : 1;  /**< [ 33: 33](R/W/H) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
-        uint64_t tvalid                : 1;  /**< [ 32: 32](R/W/H) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
-                                                                 clear status. */
-        uint64_t cmd                   : 8;  /**< [ 31: 24](R/W/H) SPI command to be passed to the flash memory.
-                                                                 This field will clear when command is complete.
-
-                                                                 Examples of some commonly used commands:
-                                                                 0x1  = WRSR: Write status register. A single-byte write of
-                                                                        corresponding PEM()_SPI_DATA[DATA<7:0>] to the register.
-                                                                 0x2  = PAGE PROGRAM/WRITE: An eight-byte page-mode write of the 64-bits of corresponding
-                                                                        PEM()_SPI_DATA to the memory array. Can only be issued to Sector 0.
-                                                                        Note, most devices require BULK or SECTOR ERASE to set bits first.
-                                                                 0x3  = READ: An eight-byte page-mode read access from the memory array
-                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA.
-                                                                        Can only be issued to sector 0.
-                                                                 0x4  = WRDI: Clear the write-enable latch (i.e. write protect the device).
-                                                                 0x5  = RDSR: Read status register. A single-byte read access from
-                                                                        the register with result in corresponding PEM()_SPI_DATA[DATA]<7:0>.
-                                                                 0x6  = WREN: set the write-enable latch (i.e. allow writes to occur).
-                                                                 0xB  = READ DATA HIGHER SPEED: Not supported.
-                                                                 0xAB = WAKE: Release from deep power-down.
-                                                                 0xB9 = SLEEP: Deep power-down.
-                                                                 0xC7 = BULK ERASE: Sets all bits to 1.
-                                                                 0xD8 = SECTOR ERASE: Sets to 1 all bits to the chosen sector (pointed to by [ADR]<18:15>).
-                                                                 0x9F = READ ID: a two-byte read access to get device identification
-                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA. */
-        uint64_t reserved_19_23        : 5;
-        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address.
-                                                                 For READ and PAGE PROGRAM commands, forced to a 8-byte aligned entry in sector 0, so
-                                                                 <18:16> and <2:0> are forced to zero.  For all other commands, the entire ADR is passed.
-
-                                                                 This field will clear when command is complete. */
-#else /* Word 0 - Little Endian */
-        uint64_t adr                   : 19; /**< [ 18:  0](R/W/H) EEPROM CMD byte address.
-                                                                 For READ and PAGE PROGRAM commands, forced to a 8-byte aligned entry in sector 0, so
-                                                                 <18:16> and <2:0> are forced to zero.  For all other commands, the entire ADR is passed.
-
-                                                                 This field will clear when command is complete. */
-        uint64_t reserved_19_23        : 5;
-        uint64_t cmd                   : 8;  /**< [ 31: 24](R/W/H) SPI command to be passed to the flash memory.
-                                                                 This field will clear when command is complete.
-
-                                                                 Examples of some commonly used commands:
-                                                                 0x1  = WRSR: Write status register. A single-byte write of
-                                                                        corresponding PEM()_SPI_DATA[DATA<7:0>] to the register.
-                                                                 0x2  = PAGE PROGRAM/WRITE: An eight-byte page-mode write of the 64-bits of corresponding
-                                                                        PEM()_SPI_DATA to the memory array. Can only be issued to Sector 0.
-                                                                        Note, most devices require BULK or SECTOR ERASE to set bits first.
-                                                                 0x3  = READ: An eight-byte page-mode read access from the memory array
-                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA.
-                                                                        Can only be issued to sector 0.
-                                                                 0x4  = WRDI: Clear the write-enable latch (i.e. write protect the device).
-                                                                 0x5  = RDSR: Read status register. A single-byte read access from
-                                                                        the register with result in corresponding PEM()_SPI_DATA[DATA]<7:0>.
-                                                                 0x6  = WREN: set the write-enable latch (i.e. allow writes to occur).
-                                                                 0xB  = READ DATA HIGHER SPEED: Not supported.
-                                                                 0xAB = WAKE: Release from deep power-down.
-                                                                 0xB9 = SLEEP: Deep power-down.
-                                                                 0xC7 = BULK ERASE: Sets all bits to 1.
-                                                                 0xD8 = SECTOR ERASE: Sets to 1 all bits to the chosen sector (pointed to by [ADR]<18:15>).
-                                                                 0x9F = READ ID: a two-byte read access to get device identification
-                                                                        with result in the 64-bits of corresponding PEM()_SPI_DATA. */
-        uint64_t tvalid                : 1;  /**< [ 32: 32](R/W/H) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
-                                                                 clear status. */
-        uint64_t start_busy            : 1;  /**< [ 33: 33](R/W/H) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
-        uint64_t reserved_34_63        : 30;
-#endif /* Word 0 - End */
-    } cn8;
-    struct bdk_pemx_spi_ctl_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t start_busy            : 1;  /**< [ 15: 15](R/W) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
-        uint64_t tvalid                : 1;  /**< [ 14: 14](R/W) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
-                                                                 clear status. */
-        uint64_t cmd                   : 3;  /**< [ 13: 11](R/W) SPI commands; WREN (110), WRDI (100), READ (011), WRITE (010), RDSR (101), WRSR (001).
-                                                                 Unsupported Commands; Read Identification, Read Data at Higher Speed, Page Program,
-                                                                 Sector Erase, Bulk Erase, Deep Power-down, and Release from Deep Power-Down. */
-        uint64_t adr                   : 11; /**< [ 10:  0](R/W) EEPROM read/write address. */
-#else /* Word 0 - Little Endian */
-        uint64_t adr                   : 11; /**< [ 10:  0](R/W) EEPROM read/write address. */
-        uint64_t cmd                   : 3;  /**< [ 13: 11](R/W) SPI commands; WREN (110), WRDI (100), READ (011), WRITE (010), RDSR (101), WRSR (001).
-                                                                 Unsupported Commands; Read Identification, Read Data at Higher Speed, Page Program,
-                                                                 Sector Erase, Bulk Erase, Deep Power-down, and Release from Deep Power-Down. */
-        uint64_t tvalid                : 1;  /**< [ 14: 14](R/W) Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
-                                                                 clear status. */
-        uint64_t start_busy            : 1;  /**< [ 15: 15](R/W) Start/busy status. Starts SPI xctn when written; reads 1 when EEPROM busy, 0 when complete. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_pemx_spi_ctl_s cn; */
 } bdk_pemx_spi_ctl_t;
 
 static inline uint64_t BDK_PEMX_SPI_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9026,23 +8815,7 @@ typedef union
         uint64_t preamble              : 16; /**< [ 63: 48](R/W/H) EEPROM PREAMBLE read or write data. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pemx_spi_data_s cn8; */
-    struct bdk_pemx_spi_data_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t preamble              : 16; /**< [ 63: 48](R/W/H) EEPROM PREAMBLE read or write data. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t cs2                   : 1;  /**< [ 44: 44](R/W/H) EEPROM CS2 read or write data bit. */
-        uint64_t adr                   : 12; /**< [ 43: 32](R/W/H) EEPROM CFG ADR read or write data. */
-        uint64_t data                  : 32; /**< [ 31:  0](R/W/H) EEPROM DATA read or write data. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 32; /**< [ 31:  0](R/W/H) EEPROM DATA read or write data. */
-        uint64_t adr                   : 12; /**< [ 43: 32](R/W/H) EEPROM CFG ADR read or write data. */
-        uint64_t cs2                   : 1;  /**< [ 44: 44](R/W/H) EEPROM CS2 read or write data bit. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t preamble              : 16; /**< [ 63: 48](R/W/H) EEPROM PREAMBLE read or write data. */
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_pemx_spi_data_s cn; */
 } bdk_pemx_spi_data_t;
 
 static inline uint64_t BDK_PEMX_SPI_DATA(unsigned long a) __attribute__ ((pure, always_inline));

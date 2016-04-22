@@ -453,12 +453,8 @@ typedef union
         uint64_t pwr_bw                : 2;  /**< [ 33: 32](R/W) Configures the reaction time of the closed-loop feedback control system for the
                                                                  AVG_CHIP_POWER power approximation. Higher numbers decrease bandwidth, reducing response
                                                                  time, which could lead to greater tracking error, but reduce ringing. */
-        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Maximum allowed CURRENT_POWER_SETTING value. [PWR_MAX] must be >= [PWR_MIN]. */
-        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Minimum allowed CURRENT_POWER_SETTING value. [PWR_MIN] must be <= [PWR_MAX]. We
-                                                                 recommend a [PWR_MIN] value larger than zero to set a minimum performance level
-                                                                 in case [PWR_SETTING] is set to an unreachable goal. See the CPU CP0 PowThrottle
-                                                                 description. [PWR_MIN] = 50% of PowThrottle[MAXPOW] could be a good choice, for
-                                                                 example. */
+        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Reserved. */
+        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Reserved. */
         uint64_t pwr_setting           : 16; /**< [ 15:  0](R/W) A power limiter for the chip. A limiter of the power consumption of the
                                                                  chip. This power limiting is implemented by a closed-loop feedback control
                                                                  system for the AVG_CHIP_POWER power approximation. The direct output of the
@@ -488,65 +484,15 @@ typedef union
                                                                  [PWR_SETTING] equal to 0 forces the chip to consume near minimum
                                                                  power. Increasing [PWR_SETTING] value from 0 to 0xFFFF increases the power that
                                                                  the chip is allowed to consume linearly (roughly) from minimum to maximum. */
-        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Minimum allowed CURRENT_POWER_SETTING value. [PWR_MIN] must be <= [PWR_MAX]. We
-                                                                 recommend a [PWR_MIN] value larger than zero to set a minimum performance level
-                                                                 in case [PWR_SETTING] is set to an unreachable goal. See the CPU CP0 PowThrottle
-                                                                 description. [PWR_MIN] = 50% of PowThrottle[MAXPOW] could be a good choice, for
-                                                                 example. */
-        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Maximum allowed CURRENT_POWER_SETTING value. [PWR_MAX] must be >= [PWR_MIN]. */
+        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Reserved. */
+        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Reserved. */
         uint64_t pwr_bw                : 2;  /**< [ 33: 32](R/W) Configures the reaction time of the closed-loop feedback control system for the
                                                                  AVG_CHIP_POWER power approximation. Higher numbers decrease bandwidth, reducing response
                                                                  time, which could lead to greater tracking error, but reduce ringing. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_iobnx_chip_glb_pwr_throttle_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_34_63        : 30;
-        uint64_t pwr_bw                : 2;  /**< [ 33: 32](R/W) Configures the reaction time of the closed-loop feedback control system for the
-                                                                 AVG_CHIP_POWER power approximation. Higher numbers decrease bandwidth, reducing response
-                                                                 time, which could lead to greater tracking error, but reduce ringing. */
-        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Reserved. */
-        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Reserved. */
-        uint64_t pwr_setting           : 16; /**< [ 15:  0](R/W) A power limiter for the chip. A limiter of the power consumption of the
-                                                                 chip. This power limiting is implemented by a closed-loop feedback control
-                                                                 system for the AVG_CHIP_POWER power approximation. The direct output of the
-                                                                 [PWR_SETTING] feedback control system is the CURRENT_POWER_SETTING value. The
-                                                                 power consumed by the chip (estimated currently by the AVG_CHIP_POWER value) is
-                                                                 an indirect output of the PWR_SETTING feedback control system. [PWR_SETTING] is
-                                                                 not used by the hardware when [PWR_MIN] equals [PWR_MAX]. [PWR_MIN] and
-                                                                 [PWR_MAX] threshold requirements always supersede [PWR_SETTING] limits. (For
-                                                                 maximum [PWR_SETTING] feedback control freedom, set [PWR_MIN]=0 and
-                                                                 [PWR_MAX]=0xff.)
-
-                                                                 [PWR_SETTING] equal to 0 forces the chip to consume near minimum
-                                                                 power. Increasing [PWR_SETTING] value from 0 to 0xFFFF increases the power that
-                                                                 the chip is allowed to consume linearly (roughly) from minimum to maximum. */
-#else /* Word 0 - Little Endian */
-        uint64_t pwr_setting           : 16; /**< [ 15:  0](R/W) A power limiter for the chip. A limiter of the power consumption of the
-                                                                 chip. This power limiting is implemented by a closed-loop feedback control
-                                                                 system for the AVG_CHIP_POWER power approximation. The direct output of the
-                                                                 [PWR_SETTING] feedback control system is the CURRENT_POWER_SETTING value. The
-                                                                 power consumed by the chip (estimated currently by the AVG_CHIP_POWER value) is
-                                                                 an indirect output of the PWR_SETTING feedback control system. [PWR_SETTING] is
-                                                                 not used by the hardware when [PWR_MIN] equals [PWR_MAX]. [PWR_MIN] and
-                                                                 [PWR_MAX] threshold requirements always supersede [PWR_SETTING] limits. (For
-                                                                 maximum [PWR_SETTING] feedback control freedom, set [PWR_MIN]=0 and
-                                                                 [PWR_MAX]=0xff.)
-
-                                                                 [PWR_SETTING] equal to 0 forces the chip to consume near minimum
-                                                                 power. Increasing [PWR_SETTING] value from 0 to 0xFFFF increases the power that
-                                                                 the chip is allowed to consume linearly (roughly) from minimum to maximum. */
-        uint64_t pwr_min               : 8;  /**< [ 23: 16](R/W) Reserved. */
-        uint64_t pwr_max               : 8;  /**< [ 31: 24](R/W) Reserved. */
-        uint64_t pwr_bw                : 2;  /**< [ 33: 32](R/W) Configures the reaction time of the closed-loop feedback control system for the
-                                                                 AVG_CHIP_POWER power approximation. Higher numbers decrease bandwidth, reducing response
-                                                                 time, which could lead to greater tracking error, but reduce ringing. */
-        uint64_t reserved_34_63        : 30;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_iobnx_chip_glb_pwr_throttle_s cn9; */
+    /* struct bdk_iobnx_chip_glb_pwr_throttle_s cn; */
 } bdk_iobnx_chip_glb_pwr_throttle_t;
 
 static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a) __attribute__ ((pure, always_inline));
@@ -929,7 +875,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_iobnx_dis_ncbi_io_cn9
+    /* struct bdk_iobnx_dis_ncbi_io_s cn9; */
+    struct bdk_iobnx_dis_ncbi_io_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -986,10 +933,9 @@ typedef union
                                                                  outstanding request to receive responses. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_iobnx_dis_ncbi_io_cn9 cn81xx; */
+    } cn81xx;
     /* struct bdk_iobnx_dis_ncbi_io_s cn83xx; */
-    /* struct bdk_iobnx_dis_ncbi_io_cn9 cn88xxp2; */
+    /* struct bdk_iobnx_dis_ncbi_io_cn81xx cn88xxp2; */
 } bdk_iobnx_dis_ncbi_io_t;
 
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4146,36 +4092,21 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
                                                                  When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is '7'. For IOBN1 the reset value is '0'.
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
                                                                  When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
-                                                                 the IOBN. */
+                                                                 the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is '7'. For IOBN1 the reset value is '0'.
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
                                                                  When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
-                                                                 the IOBN. */
+                                                                 the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
         uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
                                                                  When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_iobnx_ncb0_hp_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is '1'. For IOBN1 the reset value is '0'.
-                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is '7'. For IOBN1 the reset value is '0'.
-                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
-                                                                 the IOBN. */
-#else /* Word 0 - Little Endian */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is '7'. For IOBN1 the reset value is '0'.
-                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
-                                                                 the IOBN. */
-        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is '1'. For IOBN1 the reset value is '0'.
-                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_iobnx_ncb0_hp_s cn9; */
     struct bdk_iobnx_ncb0_hp_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4204,26 +4135,7 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_iobnx_ncb0_hp_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
-                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
-                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
-                                                                 the IOBN.
-                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
-#else /* Word 0 - Little Endian */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
-                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
-                                                                 the IOBN.
-                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
-        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
-                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_iobnx_ncb0_hp_s cn83xx; */
 } bdk_iobnx_ncb0_hp_t;
 
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4479,11 +4391,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) Bitstream disable.
-                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and subordinate
-                                                                 bus numbers corresponding to that PEM.  This prevents SR-IOV security issues.
-                                                                 Typically clear when in root complex mode.
-                                                                 1 = Do not check inbound stream IDs.  Typically set when in endpoint mode. */
+        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
+                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
+                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
+                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
+                                                                 endpoint mode). This prevents SR-IOV security issues.
+                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
         uint64_t reserved_4_7          : 4;
         uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
                                                                  wait for all previous load operations' FILLs before issuing.
@@ -4521,11 +4434,12 @@ typedef union
                                                                  Atomic transactions (which for PCI are non-posted so not part of normal store
                                                                  ordering) are also considered loads for the purpose of this bit. */
         uint64_t reserved_4_7          : 4;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](R/W) Bitstream disable.
-                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and subordinate
-                                                                 bus numbers corresponding to that PEM.  This prevents SR-IOV security issues.
-                                                                 Typically clear when in root complex mode.
-                                                                 1 = Do not check inbound stream IDs.  Typically set when in endpoint mode. */
+        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
+                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
+                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
+                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
+                                                                 endpoint mode). This prevents SR-IOV security issues.
+                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -4622,62 +4536,7 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_iobnx_slitagx_control_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
-                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
-                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
-                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
-                                                                 endpoint mode). This prevents SR-IOV security issues.
-                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
-                                                                 wait for all previous store operations' STDNs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
-                                                                 wait for all previous store operations' STDNs before issuing. */
-#else /* Word 0 - Little Endian */
-        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
-                                                                 wait for all previous store operations' STDNs before issuing. */
-        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
-                                                                 wait for all previous store operations' STDNs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
-                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
-                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
-                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
-                                                                 endpoint mode). This prevents SR-IOV security issues.
-                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_iobnx_slitagx_control_s cn83xx; */
     /* struct bdk_iobnx_slitagx_control_cn81xx cn88xxp2; */
 } bdk_iobnx_slitagx_control_t;
 

@@ -255,7 +255,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG089(pcie_port),
         c.s.l0dtp = 0x7;
         c.s.l0utp = 0x7;
-        c.s.l1ddtp = 0x7;
+        c.cn9.l1ddtp = 0x7;
         c.s.l1utp = 0x7);
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG090(pcie_port),
         c.s.l2dtp = 0x7;

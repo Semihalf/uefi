@@ -3662,11 +3662,13 @@ typedef union
                                                                  operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
                                                                  +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB. */
         uint32_t sde                   : 1;  /**< [  6:  6](RO/WRSL) Selectable deemphasis. When the link is operating at 5.0 GT/s speed, selects the level of
-                                                                 deemphasis:
-                                                                 1 = -3.5 dB.
+                                                                 deemphasis on the downstream device.  Must be set prior to link training.
                                                                  0 = -6 dB.
+                                                                 1 = -3.5 dB.
 
-                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect. */
+                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
+
+                                                                 PCIERC()_CFG515[S_D_E] can be used to change the deemphasis on the upstream ports. */
         uint32_t hasd                  : 1;  /**< [  5:  5](R/W) Hardware autonomous speed disable. When asserted, the application must disable hardware
                                                                  from changing the link speed for device-specific reasons other than attempting to correct
                                                                  unreliable link operation by reducing link speed. Initial transition to the highest
@@ -3729,11 +3731,13 @@ typedef union
                                                                  unreliable link operation by reducing link speed. Initial transition to the highest
                                                                  supported common link speed is not blocked by this signal. */
         uint32_t sde                   : 1;  /**< [  6:  6](RO/WRSL) Selectable deemphasis. When the link is operating at 5.0 GT/s speed, selects the level of
-                                                                 deemphasis:
-                                                                 1 = -3.5 dB.
+                                                                 deemphasis on the downstream device.  Must be set prior to link training.
                                                                  0 = -6 dB.
+                                                                 1 = -3.5 dB.
 
-                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect. */
+                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
+
+                                                                 PCIERC()_CFG515[S_D_E] can be used to change the deemphasis on the upstream ports. */
         uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
                                                                  the transmitter signals:
                                                                  0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
@@ -3913,154 +3917,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pciercx_cfg040_cn81xx cn88xx; */
-    struct bdk_pciercx_cfg040_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_23_31        : 9;
-        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
-        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C/H) Link equalization request */
-        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization phase 3 successful */
-        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization phase 2 successful */
-        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization phase 1 successful */
-        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization complete */
-        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
-                                                                 the level of deemphasis. Encodings:
-                                                                 1 = -3.5 dB.
-                                                                 0 = -6 dB.
-
-                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
-        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in Polling.Compliance state if
-                                                                 the entry occurred due to the TX compliance receive bit being 1. Encodings:
-                                                                 0x1 = -3.5 dB.
-                                                                 0x0 = -6 dB.
-
-                                                                 When the Link is operating at 2.5 GT/s, the setting of this bit has no effect. */
-        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to 1, the LTSSM is required to send SKP ordered sets periodically
-                                                                 in between the (modified) compliance patterns.
-                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
-        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to 1, the device transmits a modified
-                                                                 compliance pattern if the LTSSM enters Polling.Compliance state. */
-        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
-                                                                 the transmitter signals:
-                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
-                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
-                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for half-swing.
-                                                                 0x4-0x7 = Reserved.
-                                                                 This field is reset to 0x0 on entry to the LTSSM Polling.Compliance substate. When
-                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
-                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB. */
-        uint32_t sde                   : 1;  /**< [  6:  6](RO/WRSL) Selectable deemphasis. When the link is operating at 5.0 GT/s speed, selects the level of
-                                                                 deemphasis on the downstream device.  Must be set prior to link training.
-                                                                 0 = -6 dB.
-                                                                 1 = -3.5 dB.
-
-                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
-
-                                                                 PCIERC()_CFG515[S_D_E] can be used to change the deemphasis on the upstream ports. */
-        uint32_t hasd                  : 1;  /**< [  5:  5](R/W) Hardware autonomous speed disable. When asserted, the application must disable hardware
-                                                                 from changing the link speed for device-specific reasons other than attempting to correct
-                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
-                                                                 supported common link speed is not blocked by this signal. */
-        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
-                                                                 speed indicated in the target link speed field by setting this bit to 1 in both components
-                                                                 on a link and then initiating a hot reset on the link. */
-        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
-                                                                 operational speed by restricting the values advertised by the upstream component in its
-                                                                 training sequences:
-
-                                                                 0x1 = 2.5 Gb/s target link speed.
-                                                                 0x2 = 5 Gb/s target link speed.
-                                                                 0x3 = 8 Gb/s target link speed.
-
-                                                                 All other encodings are reserved.
-
-                                                                 If a value is written to this field that does not correspond to a speed included in the
-                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
-                                                                 ports, this field is used to set the target compliance mode speed when software is using
-                                                                 the enter compliance bit to force a link into compliance mode.
-                                                                 The reset value of this field is controlled by the value read from PEM()_CFG[MD].
-
-                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
-
-                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
-
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
-
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
-#else /* Word 0 - Little Endian */
-        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
-                                                                 operational speed by restricting the values advertised by the upstream component in its
-                                                                 training sequences:
-
-                                                                 0x1 = 2.5 Gb/s target link speed.
-                                                                 0x2 = 5 Gb/s target link speed.
-                                                                 0x3 = 8 Gb/s target link speed.
-
-                                                                 All other encodings are reserved.
-
-                                                                 If a value is written to this field that does not correspond to a speed included in the
-                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
-                                                                 ports, this field is used to set the target compliance mode speed when software is using
-                                                                 the enter compliance bit to force a link into compliance mode.
-                                                                 The reset value of this field is controlled by the value read from PEM()_CFG[MD].
-
-                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
-
-                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
-
-                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
-
-                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
-        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
-                                                                 speed indicated in the target link speed field by setting this bit to 1 in both components
-                                                                 on a link and then initiating a hot reset on the link. */
-        uint32_t hasd                  : 1;  /**< [  5:  5](R/W) Hardware autonomous speed disable. When asserted, the application must disable hardware
-                                                                 from changing the link speed for device-specific reasons other than attempting to correct
-                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
-                                                                 supported common link speed is not blocked by this signal. */
-        uint32_t sde                   : 1;  /**< [  6:  6](RO/WRSL) Selectable deemphasis. When the link is operating at 5.0 GT/s speed, selects the level of
-                                                                 deemphasis on the downstream device.  Must be set prior to link training.
-                                                                 0 = -6 dB.
-                                                                 1 = -3.5 dB.
-
-                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
-
-                                                                 PCIERC()_CFG515[S_D_E] can be used to change the deemphasis on the upstream ports. */
-        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
-                                                                 the transmitter signals:
-                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
-                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
-                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for half-swing.
-                                                                 0x4-0x7 = Reserved.
-                                                                 This field is reset to 0x0 on entry to the LTSSM Polling.Compliance substate. When
-                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
-                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB. */
-        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to 1, the device transmits a modified
-                                                                 compliance pattern if the LTSSM enters Polling.Compliance state. */
-        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to 1, the LTSSM is required to send SKP ordered sets periodically
-                                                                 in between the (modified) compliance patterns.
-                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
-        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in Polling.Compliance state if
-                                                                 the entry occurred due to the TX compliance receive bit being 1. Encodings:
-                                                                 0x1 = -3.5 dB.
-                                                                 0x0 = -6 dB.
-
-                                                                 When the Link is operating at 2.5 GT/s, the setting of this bit has no effect. */
-        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
-                                                                 the level of deemphasis. Encodings:
-                                                                 1 = -3.5 dB.
-                                                                 0 = -6 dB.
-
-                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
-        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization complete */
-        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization phase 1 successful */
-        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization phase 2 successful */
-        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization phase 3 successful */
-        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C/H) Link equalization request */
-        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
-        uint32_t reserved_23_31        : 9;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg040_s cn83xx; */
 } bdk_pciercx_cfg040_t;
 
 static inline uint64_t BDK_PCIERCX_CFG040(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5206,13 +5063,13 @@ typedef union
         uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
         uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
         uint32_t reserved_6_11         : 6;
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error status. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise down error status. */
         uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error status. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise down error status. */
         uint32_t reserved_6_11         : 6;
         uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
         uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
@@ -5250,7 +5107,7 @@ typedef union
         uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
         uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
         uint32_t reserved_6_11         : 6;
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error status. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise down error status. */
         uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
         uint32_t reserved_1_3          : 3;
         uint32_t reserved_0            : 1;
@@ -5258,7 +5115,7 @@ typedef union
         uint32_t reserved_0            : 1;
         uint32_t reserved_1_3          : 3;
         uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error status. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise down error status. */
         uint32_t reserved_6_11         : 6;
         uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
         uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
@@ -5324,52 +5181,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pciercx_cfg065_cn81xx cn88xx; */
-    struct bdk_pciercx_cfg065_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
-        uint32_t reserved_23           : 1;
-        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
-        uint32_t reserved_21           : 1;
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise down error status. */
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
-        uint32_t reserved_1_3          : 3;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1_3          : 3;
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
-        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise down error status. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
-        uint32_t reserved_21           : 1;
-        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
-        uint32_t reserved_23           : 1;
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg065_cn9 cn83xx; */
 } bdk_pciercx_cfg065_t;
 
 static inline uint64_t BDK_PCIERCX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6606,6 +6418,48 @@ typedef union
         uint32_t reserved_23           : 1;
         uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
+        uint32_t reserved_15_19        : 5;
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t reserved_7            : 1;
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t reserved_7            : 1;
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t reserved_15_19        : 5;
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t reserved_23           : 1;
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg089_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t reserved_23           : 1;
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t l1ddtp                : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
         uint32_t reserved_15           : 1;
@@ -6640,8 +6494,39 @@ typedef union
                                                                  However, the application must not change this field. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg089_s cn; */
+    } cn9;
+    /* struct bdk_pciercx_cfg089_cn9 cn81xx; */
+    /* struct bdk_pciercx_cfg089_cn9 cn88xx; */
+    struct bdk_pciercx_cfg089_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_15           : 1;
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_7            : 1;
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+#else /* Word 0 - Little Endian */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_7            : 1;
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_15           : 1;
+        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pciercx_cfg089_t;
 
 static inline uint64_t BDK_PCIERCX_CFG089(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6719,7 +6604,39 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg090_s cn; */
+    /* struct bdk_pciercx_cfg090_s cn9; */
+    /* struct bdk_pciercx_cfg090_s cn81xx; */
+    /* struct bdk_pciercx_cfg090_s cn88xx; */
+    struct bdk_pciercx_cfg090_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_15           : 1;
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. How */
+        uint32_t reserved_7            : 1;
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+#else /* Word 0 - Little Endian */
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_7            : 1;
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. How */
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_15           : 1;
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pciercx_cfg090_t;
 
 static inline uint64_t BDK_PCIERCX_CFG090(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6797,7 +6714,39 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg091_s cn; */
+    /* struct bdk_pciercx_cfg091_s cn9; */
+    /* struct bdk_pciercx_cfg091_s cn81xx; */
+    /* struct bdk_pciercx_cfg091_s cn88xx; */
+    struct bdk_pciercx_cfg091_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_15           : 1;
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_7            : 1;
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+#else /* Word 0 - Little Endian */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_7            : 1;
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_15           : 1;
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pciercx_cfg091_t;
 
 static inline uint64_t BDK_PCIERCX_CFG091(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6875,7 +6824,39 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg092_s cn; */
+    /* struct bdk_pciercx_cfg092_s cn9; */
+    /* struct bdk_pciercx_cfg092_s cn81xx; */
+    /* struct bdk_pciercx_cfg092_s cn88xx; */
+    struct bdk_pciercx_cfg092_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_15           : 1;
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_7            : 1;
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+#else /* Word 0 - Little Endian */
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_7            : 1;
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_15           : 1;
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_23           : 1;
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pciercx_cfg092_t;
 
 static inline uint64_t BDK_PCIERCX_CFG092(unsigned long a) __attribute__ ((pure, always_inline));
@@ -13040,7 +13021,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_21_31        : 11;
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
@@ -13068,7 +13051,9 @@ typedef union
                                                                  indicates full swing. When set to 0, indicates low swing. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB. */
         uint32_t reserved_21_31        : 11;
 #endif /* Word 0 - End */
     } s;
@@ -13077,7 +13062,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_22_31        : 10;
         uint32_t reserved_21           : 1;
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
@@ -13151,7 +13138,9 @@ typedef union
                                                                  indicates full swing. When set to 0, indicates low swing. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB. */
         uint32_t reserved_21           : 1;
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
@@ -13271,7 +13260,7 @@ typedef union
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
+                                                                 indicates low swing. When set to 0, indicates full swing. */
         uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
         uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
         uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
@@ -13338,7 +13327,7 @@ typedef union
         uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
         uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
+                                                                 indicates low swing. When set to 0, indicates full swing. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.

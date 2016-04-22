@@ -5610,7 +5610,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_TIMX(unsigned long a, unsigned long b, 
 #define arguments_BDK_SLIX_EPFX_DMA_TIMX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_dma_vf_lint
+ * Register (NCB) sli#_epf#_dma_vf_lint
  *
  * SLI DMA Error Response VF Bit Array Registers
  * When an error response is received for a VF PP transaction read, the appropriate VF indexed
@@ -5639,19 +5639,19 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT(unsigned long a, unsigned long 
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x874000002000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x874080028300ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x1);
+        return 0x874000002000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("SLIX_EPFX_DMA_VF_LINT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_DMA_VF_LINT(a,b) bdk_slix_epfx_dma_vf_lint_t
-#define bustype_BDK_SLIX_EPFX_DMA_VF_LINT(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_DMA_VF_LINT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_DMA_VF_LINT(a,b) "SLIX_EPFX_DMA_VF_LINT"
 #define device_bar_BDK_SLIX_EPFX_DMA_VF_LINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_DMA_VF_LINT(a,b) (a)
 #define arguments_BDK_SLIX_EPFX_DMA_VF_LINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_dma_vf_lint_ena_w1c
+ * Register (NCB) sli#_epf#_dma_vf_lint_ena_w1c
  *
  * SLI DMA Error Response VF Bit Array Local Enable Clear Registers
  * This register clears interrupt enable bits.
@@ -5684,19 +5684,19 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(unsigned long a, unsign
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x874000002200ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x874080028320ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x1);
+        return 0x874000002200ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("SLIX_EPFX_DMA_VF_LINT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(a,b) bdk_slix_epfx_dma_vf_lint_ena_w1c_t
-#define bustype_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(a,b) "SLIX_EPFX_DMA_VF_LINT_ENA_W1C"
 #define device_bar_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(a,b) (a)
 #define arguments_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_dma_vf_lint_ena_w1s
+ * Register (NCB) sli#_epf#_dma_vf_lint_ena_w1s
  *
  * SLI DMA Error Response VF Bit Array Local Enable Set Registers
  * This register sets interrupt enable bits.
@@ -5729,19 +5729,19 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(unsigned long a, unsign
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x874000002300ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x874080028330ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x1);
+        return 0x874000002300ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("SLIX_EPFX_DMA_VF_LINT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(a,b) bdk_slix_epfx_dma_vf_lint_ena_w1s_t
-#define bustype_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(a,b) "SLIX_EPFX_DMA_VF_LINT_ENA_W1S"
 #define device_bar_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(a,b) (a)
 #define arguments_BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_dma_vf_lint_w1s
+ * Register (NCB) sli#_epf#_dma_vf_lint_w1s
  *
  * SLI DMA Error Response VF Bit Array Set Registers
  * This register sets interrupt bits.
@@ -5774,12 +5774,12 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_W1S(unsigned long a, unsigned l
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x874000002100ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x874080028310ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x1);
+        return 0x874000002100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("SLIX_EPFX_DMA_VF_LINT_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_DMA_VF_LINT_W1S(a,b) bdk_slix_epfx_dma_vf_lint_w1s_t
-#define bustype_BDK_SLIX_EPFX_DMA_VF_LINT_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_DMA_VF_LINT_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_DMA_VF_LINT_W1S(a,b) "SLIX_EPFX_DMA_VF_LINT_W1S"
 #define device_bar_BDK_SLIX_EPFX_DMA_VF_LINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_DMA_VF_LINT_W1S(a,b) (a)
@@ -5962,7 +5962,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_W1S(unsigned long a, unsigned l
 #define arguments_BDK_SLIX_EPFX_DMA_VF_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_misc_lint
+ * Register (NCB) sli#_epf#_misc_lint
  *
  * SLI MAC Interrupt Summary Register
  * This register contains the different interrupt-summary bits for one MAC in the SLI.
@@ -6015,19 +6015,19 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_LINT(unsigned long a, unsigned long b)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
         return 0x874000002400ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
-        return 0x874080028200ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x3);
+        return 0x874000002400ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_EPFX_MISC_LINT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_MISC_LINT(a,b) bdk_slix_epfx_misc_lint_t
-#define bustype_BDK_SLIX_EPFX_MISC_LINT(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_MISC_LINT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_MISC_LINT(a,b) "SLIX_EPFX_MISC_LINT"
 #define device_bar_BDK_SLIX_EPFX_MISC_LINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_MISC_LINT(a,b) (a)
 #define arguments_BDK_SLIX_EPFX_MISC_LINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_misc_lint_ena_w1c
+ * Register (NCB) sli#_epf#_misc_lint_ena_w1c
  *
  * SLI MAC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -6088,19 +6088,19 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(unsigned long a, unsigned
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
         return 0x874000002600ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
-        return 0x874080028220ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x3);
+        return 0x874000002600ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_EPFX_MISC_LINT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(a,b) bdk_slix_epfx_misc_lint_ena_w1c_t
-#define bustype_BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(a,b) "SLIX_EPFX_MISC_LINT_ENA_W1C"
 #define device_bar_BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(a,b) (a)
 #define arguments_BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_misc_lint_ena_w1s
+ * Register (NCB) sli#_epf#_misc_lint_ena_w1s
  *
  * SLI MAC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -6161,19 +6161,19 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(unsigned long a, unsigned
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
         return 0x874000002700ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
-        return 0x874080028230ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x3);
+        return 0x874000002700ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_EPFX_MISC_LINT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(a,b) bdk_slix_epfx_misc_lint_ena_w1s_t
-#define bustype_BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(a,b) "SLIX_EPFX_MISC_LINT_ENA_W1S"
 #define device_bar_BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(a,b) (a)
 #define arguments_BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_misc_lint_w1s
+ * Register (NCB) sli#_epf#_misc_lint_w1s
  *
  * SLI MAC Interrupt Set Register
  * This register sets interrupt bits.
@@ -6234,12 +6234,12 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_W1S(unsigned long a, unsigned lon
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
         return 0x874000002500ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
-        return 0x874080028210ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x3);
+        return 0x874000002500ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_EPFX_MISC_LINT_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_MISC_LINT_W1S(a,b) bdk_slix_epfx_misc_lint_w1s_t
-#define bustype_BDK_SLIX_EPFX_MISC_LINT_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_MISC_LINT_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_MISC_LINT_W1S(a,b) "SLIX_EPFX_MISC_LINT_W1S"
 #define device_bar_BDK_SLIX_EPFX_MISC_LINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_MISC_LINT_W1S(a,b) (a)
@@ -6514,7 +6514,7 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_W1S(unsigned long a, unsigned lon
 #define arguments_BDK_SLIX_EPFX_MISC_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_pp_vf_lint
+ * Register (NCB) sli#_epf#_pp_vf_lint
  *
  * SLI PP Error Response VF Bit Array Registers
  * When an error response is received for a VF PP transaction read, the appropriate VF indexed
@@ -6543,19 +6543,19 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT(unsigned long a, unsigned long b
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x874000002800ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x874080028280ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x1);
+        return 0x874000002800ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("SLIX_EPFX_PP_VF_LINT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_PP_VF_LINT(a,b) bdk_slix_epfx_pp_vf_lint_t
-#define bustype_BDK_SLIX_EPFX_PP_VF_LINT(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_PP_VF_LINT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_PP_VF_LINT(a,b) "SLIX_EPFX_PP_VF_LINT"
 #define device_bar_BDK_SLIX_EPFX_PP_VF_LINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_PP_VF_LINT(a,b) (a)
 #define arguments_BDK_SLIX_EPFX_PP_VF_LINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_pp_vf_lint_ena_w1c
+ * Register (NCB) sli#_epf#_pp_vf_lint_ena_w1c
  *
  * SLI PP Error Response VF Bit Array Local Enable Clear Registers
  * This register clears interrupt enable bits.
@@ -6588,19 +6588,19 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(unsigned long a, unsigne
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x874000002a00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x8740800282a0ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x1);
+        return 0x874000002a00ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("SLIX_EPFX_PP_VF_LINT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(a,b) bdk_slix_epfx_pp_vf_lint_ena_w1c_t
-#define bustype_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(a,b) "SLIX_EPFX_PP_VF_LINT_ENA_W1C"
 #define device_bar_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(a,b) (a)
 #define arguments_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_pp_vf_lint_ena_w1s
+ * Register (NCB) sli#_epf#_pp_vf_lint_ena_w1s
  *
  * SLI PP Error Response VF Bit Array Local Enable Set Registers
  * This register sets interrupt enable bits.
@@ -6633,19 +6633,19 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(unsigned long a, unsigne
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x874000002b00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x8740800282b0ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x1);
+        return 0x874000002b00ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("SLIX_EPFX_PP_VF_LINT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(a,b) bdk_slix_epfx_pp_vf_lint_ena_w1s_t
-#define bustype_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(a,b) "SLIX_EPFX_PP_VF_LINT_ENA_W1S"
 #define device_bar_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(a,b) (a)
 #define arguments_BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_epf#_pp_vf_lint_w1s
+ * Register (NCB) sli#_epf#_pp_vf_lint_w1s
  *
  * SLI PP Error Response VF Bit Array Set Registers
  * This register sets interrupt bits.
@@ -6678,12 +6678,12 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_W1S(unsigned long a, unsigned lo
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
         return 0x874000002900ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x874080028290ll + 0x1000000000ll * ((a) & 0x1) + 0x800000ll * ((b) & 0x1);
+        return 0x874000002900ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("SLIX_EPFX_PP_VF_LINT_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_EPFX_PP_VF_LINT_W1S(a,b) bdk_slix_epfx_pp_vf_lint_w1s_t
-#define bustype_BDK_SLIX_EPFX_PP_VF_LINT_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_EPFX_PP_VF_LINT_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_EPFX_PP_VF_LINT_W1S(a,b) "SLIX_EPFX_PP_VF_LINT_W1S"
 #define device_bar_BDK_SLIX_EPFX_PP_VF_LINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_EPFX_PP_VF_LINT_W1S(a,b) (a)

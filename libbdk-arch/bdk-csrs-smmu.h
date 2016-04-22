@@ -5047,12 +5047,9 @@ typedef union
                                                                  act of terminating a transaction may be configured using SMMU_CD_S[A] to successfully
                                                                  complete the transaction (RAZ/WI) or abort the transaction/return error.
 
-                                                                 0 = Terminating a transaction with RAZ/WI behavior is not supported,
+                                                                 1 = Terminating a transaction with RAZ/WI behavior is not supported,
                                                                  SMMU_CD_S[A] must be 1 This means that a terminated transaction will always be
-                                                                 aborted/error returned.
-
-                                                                 Internal:
-                                                                 FIXME wording two zeros. */
+                                                                 aborted/error returned. */
         uint32_t stall_model           : 2;  /**< [ 25: 24](RO) Stalling fault model support.
                                                                      0x0 = Stall and terminate models supported.
                                                                      0x1 = Stall is not supported (all faults terminate transaction); SMMU_STE_S[S2S]/CD[S]
@@ -5340,12 +5337,9 @@ typedef union
                                                                  act of terminating a transaction may be configured using SMMU_CD_S[A] to successfully
                                                                  complete the transaction (RAZ/WI) or abort the transaction/return error.
 
-                                                                 0 = Terminating a transaction with RAZ/WI behavior is not supported,
+                                                                 1 = Terminating a transaction with RAZ/WI behavior is not supported,
                                                                  SMMU_CD_S[A] must be 1 This means that a terminated transaction will always be
-                                                                 aborted/error returned.
-
-                                                                 Internal:
-                                                                 FIXME wording two zeros. */
+                                                                 aborted/error returned. */
         uint32_t st_level              : 2;  /**< [ 28: 27](RO) Multi-level stream table support.
                                                                  0x0 = Linear stream table supported.
                                                                  0x1 = 2-level stream table supported in addition to linear stream table.
@@ -5769,14 +5763,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
         uint32_t ba_vatos              : 10; /**< [  9:  0](RO) VATOS page base address offset. If SMMU()_IDR0[VATOS]=0, no VATOS page is
-                                                                 present and this value is 0.
-
-                                                                 FIXME value */
+                                                                 present and this value is 0. */
 #else /* Word 0 - Little Endian */
         uint32_t ba_vatos              : 10; /**< [  9:  0](RO) VATOS page base address offset. If SMMU()_IDR0[VATOS]=0, no VATOS page is
-                                                                 present and this value is 0.
-
-                                                                 FIXME value */
+                                                                 present and this value is 0. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } cn9;

@@ -777,6 +777,53 @@ typedef union
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = NCBI requests.
                                                                  <62> = Instruction prefetching.
+                                                                 <61> = GMID RAM access arbitration.
+                                                                 <60> = Reserved. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   <23:22> = BP_CFG3.
+                                                                   <21:20> = BP_CFG2.
+                                                                   <19:18> = BP_CFG1.
+                                                                   <17:16> = BP_CFG0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   <23:22> = BP_CFG3.
+                                                                   <21:20> = BP_CFG2.
+                                                                   <19:18> = BP_CFG1.
+                                                                   <17:16> = BP_CFG0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = NCBI requests.
+                                                                 <62> = Instruction prefetching.
+                                                                 <61> = GMID RAM access arbitration.
+                                                                 <60> = Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_bp_test_s cn8; */
+    struct bdk_cptx_pf_bp_test_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = NCBI requests.
+                                                                 <62> = Instruction prefetching.
                                                                  <61> = Reserved.
                                                                  <60> = Reserved. */
         uint64_t reserved_24_59        : 36;
@@ -813,8 +860,7 @@ typedef union
                                                                  <61> = Reserved.
                                                                  <60> = Reserved. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cptx_pf_bp_test_s cn; */
+    } cn9;
 } bdk_cptx_pf_bp_test_t;
 
 static inline uint64_t BDK_CPTX_PF_BP_TEST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2796,7 +2842,8 @@ typedef union
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[HWERR], CPT()_VQ()_MISC_INT[SWERR],
-                                                                 CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
+                                                                 CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE],
+                                                                 CPT()_VQ()_MISC_INT[FAULT] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
                                                                  CPT()_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
                                                                  pipelining, additional instructions may have been processed between the
@@ -2850,7 +2897,8 @@ typedef union
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[HWERR], CPT()_VQ()_MISC_INT[SWERR],
-                                                                 CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
+                                                                 CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE],
+                                                                 CPT()_VQ()_MISC_INT[FAULT] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
                                                                  CPT()_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
                                                                  pipelining, additional instructions may have been processed between the
@@ -2970,7 +3018,8 @@ typedef union
         uint64_t reserved_11_31        : 21;
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
-                                                                 0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
+                                                                 0 = When CPT()_VQ()_MISC_INT[HWERR], CPT()_VQ()_MISC_INT[SWERR],
+                                                                 CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
                                                                  CPT()_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
                                                                  pipelining, additional instructions may have been processed between the
@@ -3023,7 +3072,8 @@ typedef union
                                                                  chunk, that chunk will be freed to the FPA. */
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
-                                                                 0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
+                                                                 0 = When CPT()_VQ()_MISC_INT[HWERR], CPT()_VQ()_MISC_INT[SWERR],
+                                                                 CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
                                                                  CPT()_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
                                                                  pipelining, additional instructions may have been processed between the
@@ -4177,7 +4227,8 @@ typedef union
     struct bdk_cptx_vqx_misc_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[FAULT]. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
@@ -4191,7 +4242,8 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[FAULT]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cptx_vqx_misc_ena_w1c_cn81xx
@@ -4216,7 +4268,8 @@ typedef union
     struct bdk_cptx_vqx_misc_ena_w1c_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_6_63         : 58;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
@@ -4228,7 +4281,8 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn9;
 } bdk_cptx_vqx_misc_ena_w1c_t;
@@ -4264,7 +4318,8 @@ typedef union
     struct bdk_cptx_vqx_misc_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[FAULT]. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
@@ -4278,7 +4333,8 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[FAULT]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cptx_vqx_misc_ena_w1s_cn81xx
@@ -4303,7 +4359,8 @@ typedef union
     struct bdk_cptx_vqx_misc_ena_w1s_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_6_63         : 58;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
@@ -4315,7 +4372,8 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn9;
 } bdk_cptx_vqx_misc_ena_w1s_t;
@@ -4351,7 +4409,8 @@ typedef union
     struct bdk_cptx_vqx_misc_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Translation fault detected. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
@@ -4367,7 +4426,8 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Translation fault detected. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cptx_vqx_misc_int_cn81xx
@@ -4391,7 +4451,28 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_vqx_misc_int_s cn83xx; */
-    /* struct bdk_cptx_vqx_misc_int_cn81xx cn9; */
+    struct bdk_cptx_vqx_misc_int_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT()_VF()_PF_MBOX(0)
+                                                                 is written. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT()_VF()_PF_MBOX(0)
+                                                                 is written. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
+        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_cptx_vqx_misc_int_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -4425,7 +4506,8 @@ typedef union
     struct bdk_cptx_vqx_misc_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[FAULT]. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
@@ -4439,7 +4521,8 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[FAULT]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cptx_vqx_misc_int_w1s_cn81xx
@@ -4464,7 +4547,8 @@ typedef union
     struct bdk_cptx_vqx_misc_int_w1s_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_6_63         : 58;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
@@ -4476,7 +4560,8 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn9;
 } bdk_cptx_vqx_misc_int_w1s_t;

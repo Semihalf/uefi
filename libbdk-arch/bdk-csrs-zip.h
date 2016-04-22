@@ -2695,9 +2695,75 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories. */
+        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories.
+                                                                 Internal:
+                                                                 ZIPC (cores 0,2,4):
+                                                                 <25:18> = zipc_hash mem 7-0.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif.
+
+                                                                 ZIPD (cores 1,3,5):
+                                                                 <25:19> = 0.
+                                                                 <18>    = zip state cam.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif. */
 #else /* Word 0 - Little Endian */
-        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories. */
+        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories.
+                                                                 Internal:
+                                                                 ZIPC (cores 0,2,4):
+                                                                 <25:18> = zipc_hash mem 7-0.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif.
+
+                                                                 ZIPD (cores 1,3,5):
+                                                                 <25:19> = 0.
+                                                                 <18>    = zip state cam.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
@@ -2705,89 +2771,89 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
-        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories. */
+        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories.
+                                                                 Internal:
+                                                                 ZIPC (cores 0,2,4):
+                                                                 <25:18> = zipc_hash mem 7-0.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif.
+
+                                                                 ZIPD (cores 1,3,5):
+                                                                 <25:19> = 0.
+                                                                 <18>    = zip state cam.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif. */
 #else /* Word 0 - Little Endian */
-        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories. */
+        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories.
+                                                                 Internal:
+                                                                 ZIPC (cores 0,2,4):
+                                                                 <25:18> = zipc_hash mem 7-0.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif.
+
+                                                                 ZIPD (cores 1,3,5):
+                                                                 <25:19> = 0.
+                                                                 <18>    = zip state cam.
+                                                                 <17>    = zip state symbols.
+                                                                 <16>    = zip state code1.
+                                                                 <15>    = zip state code0.
+                                                                 <14>    = zip state data1 hi.
+                                                                 <13>    = zip state data1 lo.
+                                                                 <12>    = zip state data0 hi.
+                                                                 <11>    = zip state data0 lo.
+                                                                 <10:8>  = zip history mem1 banks 2-0.
+                                                                 <7:5>   = zip history mem0 banks 2-0.
+                                                                 <4>     = zip history outfifo.
+                                                                 <3:2>   = zip history bundle fifo 1-0.
+                                                                 <1>     = zip history dfifo.
+                                                                 <0>     = sha ifif. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn9;
-    /* struct bdk_zip_corex_bist_status_s cn88xx; */
-    struct bdk_zip_corex_bist_status_cn83xx
+    struct bdk_zip_corex_bist_status_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_26_63        : 38;
-        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories.
-                                                                 Internal:
-                                                                 ZIPC (cores 0,2,4):
-                                                                 <25:18> = zipc_hash mem 7-0.
-                                                                 <17>    = zip state symbols.
-                                                                 <16>    = zip state code1.
-                                                                 <15>    = zip state code0.
-                                                                 <14>    = zip state data1 hi.
-                                                                 <13>    = zip state data1 lo.
-                                                                 <12>    = zip state data0 hi.
-                                                                 <11>    = zip state data0 lo.
-                                                                 <10:8>  = zip history mem1 banks 2-0.
-                                                                 <7:5>   = zip history mem0 banks 2-0.
-                                                                 <4>     = zip history outfifo.
-                                                                 <3:2>   = zip history bundle fifo 1-0.
-                                                                 <1>     = zip history dfifo.
-                                                                 <0>     = sha ifif.
-
-                                                                 ZIPD (cores 1,3,5):
-                                                                 <25:19> = 0.
-                                                                 <18>    = zip state cam.
-                                                                 <17>    = zip state symbols.
-                                                                 <16>    = zip state code1.
-                                                                 <15>    = zip state code0.
-                                                                 <14>    = zip state data1 hi.
-                                                                 <13>    = zip state data1 lo.
-                                                                 <12>    = zip state data0 hi.
-                                                                 <11>    = zip state data0 lo.
-                                                                 <10:8>  = zip history mem1 banks 2-0.
-                                                                 <7:5>   = zip history mem0 banks 2-0.
-                                                                 <4>     = zip history outfifo.
-                                                                 <3:2>   = zip history bundle fifo 1-0.
-                                                                 <1>     = zip history dfifo.
-                                                                 <0>     = sha ifif. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t bstatus               : 26; /**< [ 25:  0](RO/H) BIST result of the ZIP core memories.
-                                                                 Internal:
-                                                                 ZIPC (cores 0,2,4):
-                                                                 <25:18> = zipc_hash mem 7-0.
-                                                                 <17>    = zip state symbols.
-                                                                 <16>    = zip state code1.
-                                                                 <15>    = zip state code0.
-                                                                 <14>    = zip state data1 hi.
-                                                                 <13>    = zip state data1 lo.
-                                                                 <12>    = zip state data0 hi.
-                                                                 <11>    = zip state data0 lo.
-                                                                 <10:8>  = zip history mem1 banks 2-0.
-                                                                 <7:5>   = zip history mem0 banks 2-0.
-                                                                 <4>     = zip history outfifo.
-                                                                 <3:2>   = zip history bundle fifo 1-0.
-                                                                 <1>     = zip history dfifo.
-                                                                 <0>     = sha ifif.
-
-                                                                 ZIPD (cores 1,3,5):
-                                                                 <25:19> = 0.
-                                                                 <18>    = zip state cam.
-                                                                 <17>    = zip state symbols.
-                                                                 <16>    = zip state code1.
-                                                                 <15>    = zip state code0.
-                                                                 <14>    = zip state data1 hi.
-                                                                 <13>    = zip state data1 lo.
-                                                                 <12>    = zip state data0 hi.
-                                                                 <11>    = zip state data0 lo.
-                                                                 <10:8>  = zip history mem1 banks 2-0.
-                                                                 <7:5>   = zip history mem0 banks 2-0.
-                                                                 <4>     = zip history outfifo.
-                                                                 <3:2>   = zip history bundle fifo 1-0.
-                                                                 <1>     = zip history dfifo.
-                                                                 <0>     = sha ifif. */
-        uint64_t reserved_26_63        : 38;
+        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_zip_corex_bist_status_cn9 cn83xx; */
 } bdk_zip_corex_bist_status_t;
 
 static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2896,7 +2962,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_core_reset_s cn83xx; */
-    /* struct bdk_zip_core_reset_cn88xx cn9; */
+    /* struct bdk_zip_core_reset_s cn9; */
 } bdk_zip_core_reset_t;
 
 #define BDK_ZIP_CORE_RESET BDK_ZIP_CORE_RESET_FUNC()
@@ -3067,7 +3133,7 @@ static inline uint64_t BDK_ZIP_CORE_TO_CFG_FUNC(void)
 /**
  * Register (NCB) zip_ctl_bist_status
  *
- * ZIP Control Bist Status Register
+ * ZIP Control BIST Status Register
  * This register has the BIST status of memories in ZIP CTL (instruction buffer, G/S pointer
  * FIFO, input data buffer, output data buffers). Each bit is the BIST result of an individual
  * memory (per bit, 0 = pass and 1 = fail).
@@ -3081,17 +3147,30 @@ typedef union
         uint64_t reserved_23_63        : 41;
         uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
                                                                  Internal:
-                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
-                                                                 IDF[1:0],GSPF, IQF}. */
+                                                                 <22> = MBOX.
+                                                                 <21> = MSIX_PMEM.
+                                                                 <20> = MSIX_VMEM.
+                                                                 <19:14> = STDF[5:0].
+                                                                 <13:8> = OFIF[5:0].
+                                                                 <7:2> = Input data FIFO (idf) [5:0].
+                                                                 <1> = Gather/scatter FIFO (gspf).
+                                                                 <0> = Instruction buffer (iqf). */
 #else /* Word 0 - Little Endian */
         uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
                                                                  Internal:
-                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
-                                                                 IDF[1:0],GSPF, IQF}. */
+                                                                 <22> = MBOX.
+                                                                 <21> = MSIX_PMEM.
+                                                                 <20> = MSIX_VMEM.
+                                                                 <19:14> = STDF[5:0].
+                                                                 <13:8> = OFIF[5:0].
+                                                                 <7:2> = Input data FIFO (idf) [5:0].
+                                                                 <1> = Gather/scatter FIFO (gspf).
+                                                                 <0> = Instruction buffer (iqf). */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_zip_ctl_bist_status_cn9
+    /* struct bdk_zip_ctl_bist_status_s cn9; */
+    struct bdk_zip_ctl_bist_status_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
@@ -3106,36 +3185,8 @@ typedef union
                                                                  IDF[1:0],GSPF, IQF}. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_zip_ctl_bist_status_cn9 cn88xx; */
-    struct bdk_zip_ctl_bist_status_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_23_63        : 41;
-        uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
-                                                                 Internal:
-                                                                 <22> = MBOX.
-                                                                 <21> = MSIX_PMEM.
-                                                                 <20> = MSIX_VMEM.
-                                                                 <19:14> = STDF[5:0].
-                                                                 <13:8> = OFIF[5:0].
-                                                                 <7:2> = Input data FIFO (idf) [5:0].
-                                                                 <1> = Gather/scatter FIFO (gspf).
-                                                                 <0> = Instruction buffer (iqf). */
-#else /* Word 0 - Little Endian */
-        uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
-                                                                 Internal:
-                                                                 <22> = MBOX.
-                                                                 <21> = MSIX_PMEM.
-                                                                 <20> = MSIX_VMEM.
-                                                                 <19:14> = STDF[5:0].
-                                                                 <13:8> = OFIF[5:0].
-                                                                 <7:2> = Input data FIFO (idf) [5:0].
-                                                                 <1> = Gather/scatter FIFO (gspf).
-                                                                 <0> = Instruction buffer (iqf). */
-        uint64_t reserved_23_63        : 41;
-#endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_zip_ctl_bist_status_s cn83xx; */
 } bdk_zip_ctl_bist_status_t;
 
 #define BDK_ZIP_CTL_BIST_STATUS BDK_ZIP_CTL_BIST_STATUS_FUNC()
@@ -3444,22 +3495,7 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_zip_dbg_quex_sta_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
-        uint64_t reserved_56_62        : 7;
-        uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
-        uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_VQ()_SBUF_ADDR
-                                                                 is written. */
-#else /* Word 0 - Little Endian */
-        uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_VQ()_SBUF_ADDR
-                                                                 is written. */
-        uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
-        uint64_t reserved_56_62        : 7;
-        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_zip_dbg_quex_sta_s cn9; */
     /* struct bdk_zip_dbg_quex_sta_s cn83xx; */
 } bdk_zip_dbg_quex_sta_t;
 
@@ -3545,9 +3581,27 @@ typedef union
     struct bdk_zip_ecc_ctl_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_19_63        : 45;
-        uint64_t vmem_cdis             : 1;  /**< [ 18: 18](R/W) VMEM memory ECC correction disable. */
-        uint64_t vmem_fs               : 2;  /**< [ 17: 16](R/W) Controls VMEM memory flip syndrome. */
+        uint64_t reserved_43_63        : 21;
+        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
+        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
+        uint64_t reserved_39           : 1;
+        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
+        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
+        uint64_t reserved_35           : 1;
+        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
+        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
+        uint64_t reserved_31           : 1;
+        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
+        uint64_t reserved_27           : 1;
+        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
+        uint64_t reserved_23           : 1;
+        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
+        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
+        uint64_t reserved_19           : 1;
+        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
+        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
         uint64_t reserved_15           : 1;
         uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
         uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
@@ -3581,36 +3635,35 @@ typedef union
         uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
         uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
         uint64_t reserved_15           : 1;
-        uint64_t vmem_fs               : 2;  /**< [ 17: 16](R/W) Controls VMEM memory flip syndrome. */
-        uint64_t vmem_cdis             : 1;  /**< [ 18: 18](R/W) VMEM memory ECC correction disable. */
-        uint64_t reserved_19_63        : 45;
+        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
+        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
+        uint64_t reserved_19           : 1;
+        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
+        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
+        uint64_t reserved_23           : 1;
+        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
+        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t reserved_27           : 1;
+        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
+        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t reserved_31           : 1;
+        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
+        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
+        uint64_t reserved_35           : 1;
+        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
+        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
+        uint64_t reserved_39           : 1;
+        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
+        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
+        uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } cn9;
-    /* struct bdk_zip_ecc_ctl_cn9 cn88xx; */
-    struct bdk_zip_ecc_ctl_cn83xx
+    struct bdk_zip_ecc_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_43_63        : 21;
-        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
-        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
-        uint64_t reserved_39           : 1;
-        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
-        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
-        uint64_t reserved_35           : 1;
-        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
-        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
-        uint64_t reserved_31           : 1;
-        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
-        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
-        uint64_t reserved_27           : 1;
-        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
-        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
-        uint64_t reserved_23           : 1;
-        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
-        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
-        uint64_t reserved_19           : 1;
-        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
-        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
+        uint64_t reserved_19_63        : 45;
+        uint64_t vmem_cdis             : 1;  /**< [ 18: 18](R/W) VMEM memory ECC correction disable. */
+        uint64_t vmem_fs               : 2;  /**< [ 17: 16](R/W) Controls VMEM memory flip syndrome. */
         uint64_t reserved_15           : 1;
         uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
         uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
@@ -3644,29 +3697,12 @@ typedef union
         uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
         uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
         uint64_t reserved_15           : 1;
-        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
-        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
-        uint64_t reserved_19           : 1;
-        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
-        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
-        uint64_t reserved_23           : 1;
-        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
-        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
-        uint64_t reserved_27           : 1;
-        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
-        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
-        uint64_t reserved_31           : 1;
-        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
-        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
-        uint64_t reserved_35           : 1;
-        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
-        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
-        uint64_t reserved_39           : 1;
-        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
-        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
-        uint64_t reserved_43_63        : 21;
+        uint64_t vmem_fs               : 2;  /**< [ 17: 16](R/W) Controls VMEM memory flip syndrome. */
+        uint64_t vmem_cdis             : 1;  /**< [ 18: 18](R/W) VMEM memory ECC correction disable. */
+        uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_zip_ecc_ctl_cn9 cn83xx; */
 } bdk_zip_ecc_ctl_t;
 
 #define BDK_ZIP_ECC_CTL BDK_ZIP_ECC_CTL_FUNC()
@@ -3744,7 +3780,8 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_zip_ecce_ena_w1c_cn9
+    /* struct bdk_zip_ecce_ena_w1c_s cn9; */
+    struct bdk_zip_ecce_ena_w1c_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
@@ -3765,8 +3802,7 @@ typedef union
                                                                  The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_zip_ecce_ena_w1c_cn9 cn88xx; */
+    } cn88xx;
     /* struct bdk_zip_ecce_ena_w1c_s cn83xx; */
 } bdk_zip_ecce_ena_w1c_t;
 
@@ -3845,7 +3881,8 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_zip_ecce_ena_w1s_cn9
+    /* struct bdk_zip_ecce_ena_w1s_s cn9; */
+    struct bdk_zip_ecce_ena_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
@@ -3866,8 +3903,7 @@ typedef union
                                                                  The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_zip_ecce_ena_w1s_cn9 cn88xx; */
+    } cn88xx;
     /* struct bdk_zip_ecce_ena_w1s_s cn83xx; */
 } bdk_zip_ecce_ena_w1s_t;
 
@@ -3946,7 +3982,8 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_zip_ecce_int_cn9
+    /* struct bdk_zip_ecce_int_s cn9; */
+    struct bdk_zip_ecce_int_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
@@ -3967,8 +4004,7 @@ typedef union
                                                                  The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_zip_ecce_int_cn9 cn88xx; */
+    } cn88xx;
     /* struct bdk_zip_ecce_int_s cn83xx; */
 } bdk_zip_ecce_int_t;
 
@@ -4047,7 +4083,8 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_zip_ecce_int_w1s_cn9
+    /* struct bdk_zip_ecce_int_w1s_s cn9; */
+    struct bdk_zip_ecce_int_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
@@ -4068,8 +4105,7 @@ typedef union
                                                                  The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_zip_ecce_int_w1s_cn9 cn88xx; */
+    } cn88xx;
     /* struct bdk_zip_ecce_int_w1s_s cn83xx; */
 } bdk_zip_ecce_int_w1s_t;
 
@@ -5968,7 +6004,7 @@ static inline uint64_t BDK_ZIP_QUE_PRI_FUNC(void)
 /**
  * Register (NCB) zip_que_reset
  *
- * INERNAL: ZIP Queue Reset Register
+ * INTERNAL: ZIP Queue Reset Register
  *
  * This register resets the ZIP instruction queues.
  */
@@ -6000,7 +6036,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_que_reset_s cn83xx; */
-    /* struct bdk_zip_que_reset_cn88xx cn9; */
+    /* struct bdk_zip_que_reset_s cn9; */
 } bdk_zip_que_reset_t;
 
 #define BDK_ZIP_QUE_RESET BDK_ZIP_QUE_RESET_FUNC()

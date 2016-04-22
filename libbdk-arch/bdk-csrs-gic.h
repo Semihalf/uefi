@@ -725,7 +725,9 @@ typedef union
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gic_cfg_ctlr_cn9
+    /* struct bdk_gic_cfg_ctlr_s cn9; */
+    /* struct bdk_gic_cfg_ctlr_s cn81xx; */
+    struct bdk_gic_cfg_ctlr_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
@@ -772,9 +774,7 @@ typedef union
         uint64_t dis_cpu_if_load_balancer : 1;/**< [ 32: 32](SR/W) Disable the CPU interface load balancer. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_gic_cfg_ctlr_s cn81xx; */
-    /* struct bdk_gic_cfg_ctlr_cn9 cn88xx; */
+    } cn88xx;
     /* struct bdk_gic_cfg_ctlr_s cn83xx; */
 } bdk_gic_cfg_ctlr_t;
 

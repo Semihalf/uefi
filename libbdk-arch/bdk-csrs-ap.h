@@ -2449,7 +2449,7 @@ typedef union
                                                                  1 = Causes access to CPACR or AP_CPACR_EL1 to be trapped. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_cptr_el2_cn8
+    struct bdk_ap_cptr_el2_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t tcpac                 : 1;  /**< [ 31: 31](R/W) This causes a direct access to CPACR or AP_CPACR_EL1 from EL1 to
@@ -2490,47 +2490,7 @@ typedef union
                                                                  0 = Does not cause access to CPACR or AP_CPACR_EL1 to be trapped.
                                                                  1 = Causes access to CPACR or AP_CPACR_EL1 to be trapped. */
 #endif /* Word 0 - End */
-    } cn8;
-    struct bdk_ap_cptr_el2_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t tcpac                 : 1;  /**< [ 31: 31](R/W) This causes a direct access to CPACR or AP_CPACR_EL1 from EL1 to
-                                                                     trap to EL2.
-                                                                 0 = Does not cause access to CPACR or AP_CPACR_EL1 to be trapped.
-                                                                 1 = Causes access to CPACR or AP_CPACR_EL1 to be trapped. */
-        uint32_t reserved_21_30        : 10;
-        uint32_t reserved_20           : 1;
-        uint32_t reserved_14_19        : 6;
-        uint32_t rsvd_12_13            : 2;  /**< [ 13: 12](RO) Reserved 1. */
-        uint32_t reserved_11           : 1;
-        uint32_t tfp                   : 1;  /**< [ 10: 10](R/W) This causes instructions that access the registers associated
-                                                                     with Floating Point and Advanced SIMD execution to trap to EL2
-                                                                     when executed from EL0, EL1, or EL2, unless trapped to EL1.
-
-                                                                 0 = Does not cause any instruction to be trapped.
-                                                                 1 = Causes any instructions that use the registers associated with
-                                                                     Floating Point and Advanced SIMD execution to be trapped. */
-        uint32_t rsvd_0_9              : 10; /**< [  9:  0](RO) Reserved 1. */
-#else /* Word 0 - Little Endian */
-        uint32_t rsvd_0_9              : 10; /**< [  9:  0](RO) Reserved 1. */
-        uint32_t tfp                   : 1;  /**< [ 10: 10](R/W) This causes instructions that access the registers associated
-                                                                     with Floating Point and Advanced SIMD execution to trap to EL2
-                                                                     when executed from EL0, EL1, or EL2, unless trapped to EL1.
-
-                                                                 0 = Does not cause any instruction to be trapped.
-                                                                 1 = Causes any instructions that use the registers associated with
-                                                                     Floating Point and Advanced SIMD execution to be trapped. */
-        uint32_t reserved_11           : 1;
-        uint32_t rsvd_12_13            : 2;  /**< [ 13: 12](RO) Reserved 1. */
-        uint32_t reserved_14_19        : 6;
-        uint32_t reserved_20           : 1;
-        uint32_t reserved_21_30        : 10;
-        uint32_t tcpac                 : 1;  /**< [ 31: 31](R/W) This causes a direct access to CPACR or AP_CPACR_EL1 from EL1 to
-                                                                     trap to EL2.
-                                                                 0 = Does not cause access to CPACR or AP_CPACR_EL1 to be trapped.
-                                                                 1 = Causes access to CPACR or AP_CPACR_EL1 to be trapped. */
-#endif /* Word 0 - End */
-    } cn9;
+    } cn;
 } bdk_ap_cptr_el2_t;
 
 #define BDK_AP_CPTR_EL2 BDK_AP_CPTR_EL2_FUNC()
@@ -5425,7 +5385,10 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_ap_cvmctl_el1_cn9
+    /* struct bdk_ap_cvmctl_el1_s cn9; */
+    /* struct bdk_ap_cvmctl_el1_s cn81xx; */
+    /* struct bdk_ap_cvmctl_el1_s cn83xx; */
+    struct bdk_ap_cvmctl_el1_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
@@ -5488,10 +5451,7 @@ typedef union
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_ap_cvmctl_el1_s cn81xx; */
-    /* struct bdk_ap_cvmctl_el1_s cn83xx; */
-    /* struct bdk_ap_cvmctl_el1_cn9 cn88xxp2; */
+    } cn88xxp2;
 } bdk_ap_cvmctl_el1_t;
 
 #define BDK_AP_CVMCTL_EL1 BDK_AP_CVMCTL_EL1_FUNC()
@@ -15493,188 +15453,7 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_ap_mdscr_el1_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t rxfull                : 1;  /**< [ 30: 30](R/W) Used for save/restore of EDSCR[RXfull].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO, and software must treat it as UNK/SBZP.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t txfull                : 1;  /**< [ 29: 29](R/W) Used for save/restore of EDSCR[TXfull].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO, and software must treat it as UNK/SBZP.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t reserved_28           : 1;
-        uint32_t rxo                   : 1;  /**< [ 27: 27](R/W) Used for save/restore of EDSCR[RXO].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t txu                   : 1;  /**< [ 26: 26](R/W) Used for save/restore of EDSCR[TXU].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t reserved_24_25        : 2;
-        uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Used for save/restore of EDSCR[INTdis].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this field
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this field
-                                                                     is RW. */
-        uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Used for save/restore of EDSCR[TDA].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t reserved_19_20        : 2;
-        uint32_t reserved_16_18        : 3;
-        uint32_t mde                   : 1;  /**< [ 15: 15](R/W) Monitor debug events. Enable Breakpoint, Watchpoint, and
-                                                                     Vector catch debug exceptions.
-                                                                 0 = Breakpoint, Watchpoint, and Vector catch debug exceptions
-                                                                     disabled.
-                                                                 1 = Breakpoint, Watchpoint, and Vector catch debug exceptions
-                                                                     enabled. */
-        uint32_t hde                   : 1;  /**< [ 14: 14](R/W) Used for save/restore of EDSCR[HDE].
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t kde                   : 1;  /**< [ 13: 13](R/W) Local (kernel) debug enable. If EL{d} is using
-                                                                     AArch64, enable Software debug events within EL{d}.
-
-                                                                 RES0 if EL{d} is using AArch32.
-                                                                 0 = Software debug events, other than Software breakpoint
-                                                                     instructions, disabled within EL{d}.
-                                                                 1 = Software debug events enabled within EL{d}. */
-        uint32_t tdcc                  : 1;  /**< [ 12: 12](R/W) Trap Debug Communications Channel access. When set, any EL0
-                                                                     access to the following registers is trapped to EL1:
-
-                                                                 AArch32: DBGDIDR, DBGDRAR, DBGDSAR, DBGDSCRint, DBGDTRTXint,
-                                                                     DBGDTRRXint.
-
-                                                                 AArch64: AP_MDCCSR_EL0, AP_DBGDTR_EL0, AP_DBGDTRTX_EL0, AP_DBGDTRRX_EL0. */
-        uint32_t reserved_7_11         : 5;
-        uint32_t err                   : 1;  /**< [  6:  6](R/W) Used for save/restore of EDSCR[ERR].
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t reserved_1_5          : 5;
-        uint32_t ss                    : 1;  /**< [  0:  0](R/W) Software step control bit. If EL{d} is using AArch64,
-                                                                     enable Software step.
-                                                                 RES0 if EL{d} is using AArch32.
-                                                                 0 = Software step disabled
-                                                                 1 = Software step enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t ss                    : 1;  /**< [  0:  0](R/W) Software step control bit. If EL{d} is using AArch64,
-                                                                     enable Software step.
-                                                                 RES0 if EL{d} is using AArch32.
-                                                                 0 = Software step disabled
-                                                                 1 = Software step enabled. */
-        uint32_t reserved_1_5          : 5;
-        uint32_t err                   : 1;  /**< [  6:  6](R/W) Used for save/restore of EDSCR[ERR].
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t reserved_7_11         : 5;
-        uint32_t tdcc                  : 1;  /**< [ 12: 12](R/W) Trap Debug Communications Channel access. When set, any EL0
-                                                                     access to the following registers is trapped to EL1:
-
-                                                                 AArch32: DBGDIDR, DBGDRAR, DBGDSAR, DBGDSCRint, DBGDTRTXint,
-                                                                     DBGDTRRXint.
-
-                                                                 AArch64: AP_MDCCSR_EL0, AP_DBGDTR_EL0, AP_DBGDTRTX_EL0, AP_DBGDTRRX_EL0. */
-        uint32_t kde                   : 1;  /**< [ 13: 13](R/W) Local (kernel) debug enable. If EL{d} is using
-                                                                     AArch64, enable Software debug events within EL{d}.
-
-                                                                 RES0 if EL{d} is using AArch32.
-                                                                 0 = Software debug events, other than Software breakpoint
-                                                                     instructions, disabled within EL{d}.
-                                                                 1 = Software debug events enabled within EL{d}. */
-        uint32_t hde                   : 1;  /**< [ 14: 14](R/W) Used for save/restore of EDSCR[HDE].
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t mde                   : 1;  /**< [ 15: 15](R/W) Monitor debug events. Enable Breakpoint, Watchpoint, and
-                                                                     Vector catch debug exceptions.
-                                                                 0 = Breakpoint, Watchpoint, and Vector catch debug exceptions
-                                                                     disabled.
-                                                                 1 = Breakpoint, Watchpoint, and Vector catch debug exceptions
-                                                                     enabled. */
-        uint32_t reserved_16_18        : 3;
-        uint32_t reserved_19_20        : 2;
-        uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Used for save/restore of EDSCR[TDA].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Used for save/restore of EDSCR[INTdis].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this field
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this field
-                                                                     is RW. */
-        uint32_t reserved_24_25        : 2;
-        uint32_t txu                   : 1;  /**< [ 26: 26](R/W) Used for save/restore of EDSCR[TXU].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t rxo                   : 1;  /**< [ 27: 27](R/W) Used for save/restore of EDSCR[RXO].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO. Software must treat it as UNKNOWN and use an SBZP
-                                                                     policy for writes.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t reserved_28           : 1;
-        uint32_t txfull                : 1;  /**< [ 29: 29](R/W) Used for save/restore of EDSCR[TXfull].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO, and software must treat it as UNK/SBZP.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t rxfull                : 1;  /**< [ 30: 30](R/W) Used for save/restore of EDSCR[RXfull].
-                                                                 When AP_OSLSR_EL1[OSLK] == 0 (the OS lock is unlocked), this bit
-                                                                     is RO, and software must treat it as UNK/SBZP.
-
-                                                                 When AP_OSLSR_EL1[OSLK] == 1 (the OS lock is locked), this bit is
-                                                                     RW. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_ap_mdscr_el1_s cn9; */
     /* struct bdk_ap_mdscr_el1_s cn81xx; */
     /* struct bdk_ap_mdscr_el1_s cn83xx; */
     /* struct bdk_ap_mdscr_el1_s cn88xxp2; */

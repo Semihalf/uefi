@@ -537,7 +537,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ncsi_int_cn88xxp2 cn9; */
+    /* struct bdk_ncsi_int_s cn9; */
     /* struct bdk_ncsi_int_s cn83xx; */
 } bdk_ncsi_int_t;
 
@@ -612,7 +612,8 @@ typedef union
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ncsi_int_ena_w1c_cn9
+    /* struct bdk_ncsi_int_ena_w1c_s cn9; */
+    struct bdk_ncsi_int_ena_w1c_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -651,8 +652,7 @@ typedef union
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_ncsi_int_ena_w1c_cn9 cn88xx; */
+    } cn88xx;
     /* struct bdk_ncsi_int_ena_w1c_s cn83xx; */
 } bdk_ncsi_int_ena_w1c_t;
 
@@ -727,7 +727,8 @@ typedef union
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ncsi_int_ena_w1s_cn9
+    /* struct bdk_ncsi_int_ena_w1s_s cn9; */
+    struct bdk_ncsi_int_ena_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -766,8 +767,7 @@ typedef union
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_ncsi_int_ena_w1s_cn9 cn88xx; */
+    } cn88xx;
     /* struct bdk_ncsi_int_ena_w1s_s cn83xx; */
 } bdk_ncsi_int_ena_w1s_t;
 
@@ -842,7 +842,8 @@ typedef union
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ncsi_int_w1s_cn9
+    /* struct bdk_ncsi_int_w1s_s cn9; */
+    struct bdk_ncsi_int_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -881,8 +882,7 @@ typedef union
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_ncsi_int_w1s_cn9 cn88xx; */
+    } cn88xx;
     /* struct bdk_ncsi_int_w1s_s cn83xx; */
 } bdk_ncsi_int_w1s_t;
 

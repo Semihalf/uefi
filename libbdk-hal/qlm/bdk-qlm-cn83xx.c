@@ -113,7 +113,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                 case 2: /* PEM2 */
                 {
                     BDK_CSR_INIT(pemx_qlm, node, BDK_PEMX_QLM(2));
-                    if (pemx_qlm.cn8.pem_bdlm)
+                    if (pemx_qlm.s.pem_bdlm)
                     {
                         /* PEM2 is routed to DLM5 */
                         BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(5));
@@ -135,7 +135,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                 case 3: /* PEM3 */
                 {
                     BDK_CSR_INIT(pemx_qlm, node, BDK_PEMX_QLM(3));
-                    if (pemx_qlm.cn8.pem_bdlm)
+                    if (pemx_qlm.s.pem_bdlm)
                     {
                         /* PEM3 is routed to DLM6 */
                         BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(6));
@@ -739,7 +739,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     break;
                 case 2: /* Either PEM2 x4 or PEM2 x8 */
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(2),
-                        c.cn8.pem_bdlm = 0); /* PEM2 is on QLM2 */
+                        c.s.pem_bdlm = 0); /* PEM2 is on QLM2 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(2),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -761,7 +761,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     {
                         /* Last 4 lanes of PEM2 */
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(3),
-                            c.cn8.pem_bdlm = 1); /* PEM3 can only be on DLM6 */
+                            c.s.pem_bdlm = 1); /* PEM3 can only be on DLM6 */
                         /* PEMX_CFG already setup */
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2),
                             c.s.pemon = 1);
@@ -770,7 +770,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     {
                         /* Four lanes of PEM3 */
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(3),
-                            c.cn8.pem_bdlm = 0); /* PEM3 is on QLM3 */
+                            c.s.pem_bdlm = 0); /* PEM3 is on QLM3 */
                         BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
                             c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                         __bdk_qlm_setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -787,7 +787,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 }
                 case 5: /* PEM2 x2 on DLM5 */
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(2),
-                        c.cn8.pem_bdlm = 1); /* PEM2 is on DLM5 */
+                        c.s.pem_bdlm = 1); /* PEM2 is on DLM5 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(2),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -802,7 +802,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     break;
                 case 6: /* PEM3 x2 on DLM6 */
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(3),
-                        c.cn8.pem_bdlm = 1); /* PEM3 is on DLM6 */
+                        c.s.pem_bdlm = 1); /* PEM3 is on DLM6 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
