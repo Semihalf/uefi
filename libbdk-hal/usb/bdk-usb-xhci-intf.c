@@ -264,7 +264,11 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         printf("USB port must below then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
         return -1;
     }
-
+    BDK_CSR_INIT(uctl_ctl,node,BDK_USBHX_UCTL_CTL(usb_port));
+    if (0 == uctl_ctl.s.h_clk_en) {
+        printf("\nUSB port have not been initialized\n");
+        return -1;
+    }
     int rc = 0;
     xhci_t *thisHC = usb_global_data[node][usb_port].xhci_priv;
     if (thisHC) {
