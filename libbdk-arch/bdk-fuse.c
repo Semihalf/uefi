@@ -317,6 +317,39 @@ int bdk_fuse_init(bdk_node_t node)
         }
     }
 
+    /* Limit the number of cores to the PNAME limit */
+    bdk_fuse_pname_info_t pname = bdk_fuse_pname_extract(node);
+    if (pname.cores)
+    {
+        /* Figure out the number of PP_AVAILABLE fuses */
+        int max_cores;
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+            max_cores = 48;
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+            max_cores = 24;
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+            max_cores = 4;
+        else /* Unknown die */
+            return -1;
+
+        /* We need to blow fuses to disable any unusable cores */
+        int to_disable = bdk_get_num_cores(node) - pname.cores;
+        /* Start at the top fuse and work down until we find a hole. This works
+           because we assume manufacturing has already giving us a contiguous
+           core set. Taking unusable cores off the end remains contiguous */
+        int fuse = BDK_MIO_FUS_FUSE_NUM_E_PP_AVAILABLEX(max_cores - 1);
+        while (to_disable > 0)
+        {
+            /* Find a non-blown fuse */
+            while (bdk_fuse_read(node, fuse))
+                fuse--;
+            /* Blow this fuse */
+            bdk_fuse_soft_blow(node, fuse);
+            need_reset = true;
+            to_disable--;
+        }
+    }
+
     /* Perform a softrest if we need one */
     if (need_reset)
     {
