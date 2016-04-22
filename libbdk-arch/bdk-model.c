@@ -19,14 +19,26 @@
 
     Table of Core to Model encoding
         >= 48 shows xx90
+        >= 44 shows xx88
+        >= 42 shows xx85
         >= 32 shows xx80
         >= 24 shows xx70
         >= 20 shows xx65
         >= 16 shows xx60
-        >= 12 shows xx50
-        >= 8 shows xx40
-        >= 4 shows xx30
-        >= 2 shows xx20
+        = 15 shows xx58
+        = 14 shows xx55
+        = 13 shows xx52
+        = 12 shows xx50
+        = 11 shows xx48
+        = 10 shows xx45
+        = 9 shows xx42
+        = 8 shows xx40
+        = 7 shows xx38
+        = 6 shows xx34
+        = 5 shows xx32
+        = 4 shows xx30
+        = 3 shows xx25
+        = 2 shows xx20
         = 1 shows xx10
 */
 
@@ -362,26 +374,28 @@ static int model_digits_for_cores(int cores)
        cores. This should never happen, but you never know */
     switch (cores)
     {
-        case 1: /* CNxx10 = 1 core */
-            return 10;
-        case 2 ... 3: /* CNxx20 = 2 cores */
-            return 20;
-        case 4 ... 7: /* CNxx30 = 4 cores */
-            return 30;
-        case 8 ... 11: /* CNxx40 = 8 cores */
-            return 40;
-        case 12 ... 15: /* CNxx50 = 12 cores */
-            return 50;
-        case 16 ... 19: /* CNxx60 = 16 cores */
-            return 60;
-        case 20 ... 23: /* CNxx65 = 20 cores */
-            return 65; /* This currently isn't used */
-        case 24 ... 31: /* CNxx70 = 24 cores */
-            return 70;
-        case 32 ... 47: /* CNxx80 = 32 cores */
-            return 80;
-        default: /* CNxx90 = 48 cores */
-            return 90;
+        case  1: return 10; /* CNxx10 = 1 core */
+        case  2: return 20; /* CNxx20 = 2 cores */
+        case  3: return 25; /* CNxx25 = 3 cores */
+        case  4: return 30; /* CNxx30 = 4 cores */
+        case  5: return 32; /* CNxx32 = 5 cores */
+        case  6: return 34; /* CNxx34 = 6 cores */
+        case  7: return 38; /* CNxx38 = 7 cores */
+        case  8: return 40; /* CNxx40 = 8 cores */
+        case  9: return 42; /* CNxx42 = 9 cores */
+        case 10: return 45; /* CNxx45 = 10 cores */
+        case 11: return 48; /* CNxx48 = 11 cores */
+        case 12: return 50; /* CNxx50 = 12 cores */
+        case 13: return 52; /* CNxx52 = 13 cores */
+        case 14: return 55; /* CNxx55 = 14 cores */
+        case 15: return 58; /* CNxx58 = 15 cores */
+        case 16 ... 19: return 60; /* CNxx60 = 16 cores */
+        case 20 ... 23: return 65; /* CNxx65 = 20 cores */
+        case 24 ... 31: return 70; /* CNxx70 = 24 cores */
+        case 32 ... 39: return 80; /* CNxx80 = 32 cores */
+        case 40 ... 43: return 85; /* CNxx85 = 40 cores */
+        case 44 ... 47: return 88; /* CNxx88 = 44 cores */
+        default: return 90; /* CNxx90 = 48 cores */
     }
 }
 
