@@ -167,6 +167,13 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 0,
         .max_value = 1,
     },
+    [BDK_CONFIG_PCIE_ORDERING] = {
+        .format = "PCIE-ORDERING", /* No parameters */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0, /* 1 = Wait for commit, 0 = Don't wait for commit */
+        .min_value = 0,
+        .max_value = 1,
+    },
     [BDK_CONFIG_CCPI_LANE_REVERSE] = {
         .format = "CCPI-LANE-REVERSE", /* No parameters */
         .ctype = BDK_CONFIG_TYPE_INT,

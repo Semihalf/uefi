@@ -420,7 +420,8 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
         c.s.ctlp_ro = 1;
         c.s.ptlp_ro = 1;
         c.s.wind_d = 1;
-        c.s.bar0_d = 1);
+        c.s.bar0_d = 1;
+        c.s.wait_com = (bdk_config_get_int(BDK_CONFIG_PCIE_ORDERING) == 1));
 }
 
 /**

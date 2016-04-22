@@ -134,6 +134,11 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "    1 = Enhanced Allocation is supported\n"
             "Note EA is not supported on CN88XX pass 1.x, and is always\n"
             "disabled.",
+    [BDK_CONFIG_PCIE_ORDERING] =
+            "Enforcing stronger PCIe ordering. Use this option if a PCIe card\n"
+            "is having compatibility issues.\n"
+            "    0 = Don't wait for commit, default for best performance.\n"
+            "    1 = Wait for commit, use conservative ordering.",
     [BDK_CONFIG_CCPI_LANE_REVERSE] =
             "Force CCPI lane reversal. This should be set for boards which\n"
             "reverse the CCPI lanes between nodes. If lane 0 connects to lane\n"
