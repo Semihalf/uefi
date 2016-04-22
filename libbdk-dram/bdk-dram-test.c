@@ -575,23 +575,28 @@ static void __bdk_dram_report_address_decode_new(uint64_t address, uint64_t xor,
     int node, lmc, dimm, rank, bank, row, col;
 
     int byte = 8; // means no byte-lanes in error, should not happen
+    uint64_t bits, print_bits = 0;
 
     // find the byte-lane(s) with errors
     for (int i = 0; i < 8; i++) {
-	if (xor & (0xffULL << (8 * i))) {
+        bits = xor & 0xffULL;
+        xor >>= 8;
+	if (bits) {
 	    if (byte != 8) {
 		byte = 9; // means more than 1 byte-lane was present
+                print_bits = xor;
 		break; // quit now
 	    } else {
 		byte = i; // keep checking
+                print_bits = bits;
 	    }
 	}
     }
 	
     bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
 
-    snprintf(buffer, len, "N%d.LMC%d: CMP byte %d (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)[0x%011lx]",
-	     node, lmc, byte, dimm, rank, bank, row, col, address);
+    snprintf(buffer, len, "N%d.LMC%d: CMP byte %d xor 0x%02lx (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)[0x%011lx]",
+	     node, lmc, byte, print_bits, dimm, rank, bank, row, col, address);
 }
 
 /**
