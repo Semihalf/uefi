@@ -5131,15 +5131,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    if (wloop_retries < WLOOP_RETRIES_DEFAULT) {
 			wloop_retries++;
                         wloop_retries_total++;
-			// this printout is per-retry: only when VBL is high enough (DEV?)
+			// this printout is per-retry: only when VBL is high enough (DEV2?)
                         // FIXME: do we want to show the bad bitmaps or delays here also?
-			VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: H/W Write-Leveling had %s errors - retrying...\n",
+			VB_PRT(VBL_DEV2, "N%d.LMC%d.R%d: H/W Write-Leveling had %s errors - retrying...\n",
 				  node, ddr_interface_num, rankx,
                                   (wlevel_bitmask_errors) ? "Bitmask" : "Validity");
 			continue; // this takes us back to the top without counting a sample
 		    } else { // ran out of retries for this sample
                         // retries exhausted, do not print at normal VBL
-			VB_PRT(VBL_FAE, "N%d.LMC%d.R%d: H/W Write-Leveling issues: %s errors\n",
+			VB_PRT(VBL_DEV2, "N%d.LMC%d.R%d: H/W Write-Leveling issues: %s errors\n",
 				  node, ddr_interface_num, rankx,
                                   (wlevel_bitmask_errors) ? "Bitmask" : "Validity");
                         wloop_retries_exhausted++;
