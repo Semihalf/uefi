@@ -534,12 +534,6 @@ const bdk_device_t *bdk_device_lookup(bdk_node_t node, uint32_t id, int instance
     return NULL;
 }
 
-static unsigned int findMsb(unsigned int offset)
-{
-    if (offset == 0) return (unsigned int) -1;
-    return (unsigned) (8*sizeof(unsigned int) - __builtin_clz(offset));
-
-}
 /**
  * Read from a device BAR
  *
@@ -554,7 +548,7 @@ uint64_t bdk_bar_read(const bdk_device_t *device, int bar, int size, uint64_t of
 {
     uint64_t address = offset & bdk_build_mask(device->bar[bar/2].size2);
     address += device->bar[bar/2].address;
-    if (findMsb(offset+size-1) > device->bar[bar/2].size2) {
+    if (offset+size > (1ULL << device->bar[bar/2].size2)) {
         /* The CSR address passed in offset doesn't contain the node number. Copy it
            from the BAR address */
         offset |= address & (0x3ull << 44);
@@ -588,7 +582,7 @@ void bdk_bar_write(const bdk_device_t *device, int bar, int size, uint64_t offse
 {
     uint64_t address = offset & bdk_build_mask(device->bar[bar/2].size2);
     address += device->bar[bar/2].address;
-    if (findMsb(offset+size-1) > device->bar[bar/2].size2) {
+    if (offset+size > (1ULL << device->bar[bar/2].size2)) {
         /* The CSR address passed in offset doesn't contain the node number. Copy it
            from the BAR address */
         offset |= address & (0x3ull << 44);

@@ -984,6 +984,7 @@ XhcExecTransfer (
           Status = EFI_SUCCESS;
           break;
       }
+      bdk_thread_yield();
   } while(bdk_clock_get_count(BDK_CLOCK_TIME) < done);
 
   if (EFI_TIMEOUT == Status) {
