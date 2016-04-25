@@ -264,11 +264,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         printf("USB port must below then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
         return -1;
     }
-    BDK_CSR_INIT(uctl_ctl,node,BDK_USBHX_UCTL_CTL(usb_port));
-    if (0 == uctl_ctl.s.h_clk_en) {
-        printf("\nUSB port have not been initialized\n");
-        return -1;
-    }
+
     int rc = 0;
     xhci_t *thisHC = usb_global_data[node][usb_port].xhci_priv;
     if (thisHC) {
@@ -278,21 +274,13 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     } else {
         thisHC = createUsbXHci(node,usb_port);
         if (thisHC == NULL) {
-            printf("failed to allocate device context\n");
             rc = -3;
             goto out;
         }
         usb_global_data[node][usb_port].xhci_priv = thisHC;
         thisHC->xhci_lock = &usb_global_data[node][usb_port].xhci_lock;
     }
-#if 0
-    printf("thisHC @%p\n",thisHC);
-    printf("hcsparams1:%08lx\n",(unsigned long) thisHC->hcsparams1.u);
-    printf("hcsparams2:%08lx\n",(unsigned long) thisHC->hcsparams2.u);
-    printf("hccparams:%08lx\n",(unsigned long) thisHC->hccparams.u);
-    printf("page size %d\nnode %d port %d\n", thisHC->PageSize,thisHC->node,thisHC->usb_port);
-    printf("64 bit capability %d\n",thisHC->hccparams.s.ac64);
-#endif
+
     if (0 != xhciInitSched(thisHC)) {
         printf("Failed to initialize Scheduler for node %d usb_port %d\n",
                thisHC->node, thisHC->usb_port

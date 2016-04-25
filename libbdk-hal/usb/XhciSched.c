@@ -14,8 +14,19 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 **/
 #include <bdk.h>
 #include "Xhci.h"
+#include "XhciReg.h"
 #include <malloc.h> // for memalign
 
+static inline VOID
+XhcWriteDoorBellReg (
+  IN USB_XHCI_INSTANCE    *Xhc,
+  IN UINT32               Offset,
+  IN UINT32               Data
+  )
+{
+    BDK_DSB; //Settle memory writes
+    XhcWrite32(Xhc, Xhc->DBOff+Offset,Data);
+}
 
 /**
   Check if the Trb is a transaction of the URBs in XHCI's asynchronous transfer list.
@@ -313,7 +324,7 @@ XhcCreateTransferTrb (
   UINTN                         TotalLen;
   UINTN                         Len;
   UINTN                         TrbNum;
-#if 0
+#if defined(notdef_cavium)
   EFI_PCI_IO_PROTOCOL_OPERATION MapOp;
   EFI_PHYSICAL_ADDRESS          PhyAddr;
   VOID                          *Map;
@@ -342,7 +353,7 @@ XhcCreateTransferTrb (
   }
 
   if (Urb->Data != NULL) {
-#if 0
+#if defined(notdef_cavium)
     if (((UINT8) (Urb->Ep.Direction)) == EfiUsbDataIn) {
       MapOp = EfiPciIoOperationBusMasterWrite;
     } else {
@@ -706,12 +717,8 @@ XhcRingDoorBell (
   IN UINT8                Dci
   )
 {
-  if (SlotId == 0) {
-    cvmXhcWriteDoorBellReg (Xhc, 0, 0);
-  } else {
-      cvmXhcWriteDoorBellReg (Xhc, SlotId/* * sizeof (UINT32)*/, Dci);
-  }
-
+  if (0 == SlotId) Dci = 0;
+  XhcWriteDoorBellReg (Xhc, SlotId * sizeof (UINT32), Dci);
   return EFI_SUCCESS;
 }
 
@@ -893,15 +900,11 @@ EXIT:
   }
 #else
   ;
-  BDK_CSR_INIT(uahc_erdp,Xhc->node,BDK_USBHX_UAHC_ERDPX(Xhc->usb_port,0));
   PhyAddr = (typeof(PhyAddr))bdk_ptr_to_phys(Xhc->EventRing.EventRingDequeue);
-
-  if ((uahc_erdp.u & (~0x0F)) != (PhyAddr & (~0x0F))) {
-      uahc_erdp.u = PhyAddr;
-      uahc_erdp.s.ehb = 1;
-      BDK_CSR_WRITE(Xhc->node, BDK_USBHX_UAHC_ERDPX(Xhc->usb_port,0), uahc_erdp.u);
+  uint64_t XhcDequeue = XhcReadRuntimeReg64(Xhc,XHC_ERDP_OFFSET);
+  if ((XhcDequeue & (~0x0F)) != (PhyAddr & (~0x0F))) {
+    XhcWriteRuntimeReg64 (Xhc, XHC_ERDP_OFFSET, (UINT64)PhyAddr | BIT3); /* uahc_erdp.s.ehb  */
   }
-  BDK_WMB;
 #endif
 
   return Urb->Finished;
@@ -930,8 +933,6 @@ XhcExecTransfer (
   )
 {
   EFI_STATUS              Status;
-  UINTN                   Index;
-  UINT64                  Loop;
   UINT8                   SlotId;
   UINT8                   Dci;
   BOOLEAN                 Finished;
@@ -947,7 +948,9 @@ XhcExecTransfer (
     Dci  = XhcEndpointToDci (Urb->Ep.EpAddr, (UINT8)(Urb->Ep.Direction));
     ASSERT (Dci < 32);
   }
-
+#if defined(notdef_cavium)
+  UINTN                   Index;
+  UINT64                  Loop;
   Status = EFI_SUCCESS;
 
   Loop   = (Timeout) ? Timeout * XHC_1_MILLISECOND : 0xFFFFFFFFU;
@@ -959,11 +962,7 @@ XhcExecTransfer (
     if (Finished) {
       break;
     }
-#if defined(notdef_cavium)
     gBS->Stall (XHC_1_MICROSECOND);
-#else
-    bdk_wait_usec(1);
-#endif
   }
 
   if (Index == Loop) {
@@ -972,7 +971,27 @@ XhcExecTransfer (
   } else if (Urb->Result != EFI_USB_NOERROR) {
       Status      = EFI_DEVICE_ERROR;
   }
+#else
+  Status      = EFI_TIMEOUT;
+  XhcRingDoorBell (Xhc, SlotId, Dci);
 
+  uint64_t done = (Timeout) ? Timeout * XHC_1_MILLISECOND : 0xFFFFFFFFU;
+  done += bdk_clock_get_count(BDK_CLOCK_TIME) + done * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / 1000000;
+
+  do {
+      Finished = XhcCheckUrbResult (Xhc, Urb);
+      if (Finished) {
+          Status = EFI_SUCCESS;
+          break;
+      }
+  } while(bdk_clock_get_count(BDK_CLOCK_TIME) < done);
+
+  if (EFI_TIMEOUT == Status) {
+    Urb->Result = EFI_USB_ERR_TIMEOUT;
+  } else if (Urb->Result != EFI_USB_NOERROR) {
+      Status      = EFI_DEVICE_ERROR;
+  }
+#endif
   return Status;
 }
 
@@ -986,13 +1005,11 @@ XhcExecTransfer (
 int xhciInitSched(xhci_t* xhc)
 {
     int rc = 0;
-    bdk_node_t node = xhc->node;
-    int usb_port = xhc->usb_port;
 
     xhc->MaxSlotsEn = xhc->hcsparams1.s.maxslots;
     // Program max device slots
-    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_CONFIG(usb_port),
-                   c.s.maxslotsen = xhc->MaxSlotsEn);
+    XhcWriteOpReg (xhc, XHC_CONFIG_OFFSET, xhc->MaxSlotsEn);
+
     // Program device context base array and set scratchpad
     unsigned entries = xhc->MaxSlotsEn + 1;
     void *dcbaa = memalign( CAVIUM_XHCI_ALIGN, entries * sizeof(uint64_t));
@@ -1031,8 +1048,8 @@ int xhciInitSched(xhci_t* xhc)
         xhc->MaxScratchPadBufs = MaxScratchPadBufs;
     }
     xhc->DCBAA = dcbaa;
-    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_DCBAAP(usb_port),
-                   c.s.dcbaap = bdk_ptr_to_phys(dcbaa)  >> 6;);
+    XhcWriteOpReg64 (xhc, XHC_DCBAAP_OFFSET,bdk_ptr_to_phys(dcbaa) );
+
     //
     // Define the Command Ring Dequeue Pointer by programming the Command Ring Control Register
     // (5.4.5) with a 64-bit address pointing to the starting address of the first TRB of the Command Ring.
@@ -1042,20 +1059,17 @@ int xhciInitSched(xhci_t* xhc)
     if (( rc =CreateTransferRing (xhc, CMD_RING_TRB_NUMBER, &xhc->CmdRing)))
         goto out;
     uint64_t CmdRingPhy = bdk_ptr_to_phys(xhc->CmdRing.RingSeg0);
-    BDK_CSR_DEFINE(uahc_crcr,BDK_USBHX_UAHC_CRCR(0)) = {.u = 0,};
-    uahc_crcr.s.rcs = 1;
-    uahc_crcr.s.cmd_ring_ptr = CmdRingPhy >> 6;
-    BDK_CSR_WRITE(node,BDK_USBHX_UAHC_CRCR(usb_port),uahc_crcr.u);
+    CmdRingPhy |= XHC_CRCR_RCS;
+    XhcWriteOpReg64 (xhc, XHC_CRCR_OFFSET, CmdRingPhy);
     //
     // Disable the 'interrupter enable' bit in USB_CMD
     // and clear IE & IP bit in all Interrupter X Management Registers.
     //
-    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_USBCMD(usb_port),
-                   c.s.inte = 0;);
-    for(unsigned Index=0; Index < xhc->hcsparams1.s.maxintrs; Index++) {
-        BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_IMANX(usb_port,Index),
-                       c.s.ie=0;c.s.ip=1;);
-    }
+   XhcClearOpRegBit (xhc, XHC_USBCMD_OFFSET, XHC_USBCMD_INTE);
+   for (unsigned Index = 0; Index <xhc->hcsparams1.s.maxintrs ; Index++) {
+    XhcClearRuntimeRegBit (xhc, XHC_IMAN_OFFSET + (Index * 32), XHC_IMAN_IE);
+    XhcSetRuntimeRegBit (xhc, XHC_IMAN_OFFSET + (Index * 32), XHC_IMAN_IP);
+  }
 
     //
     // Allocate EventRing for Cmd, Ctrl, Bulk, Interrupt, AsynInterrupt transfer
@@ -1067,6 +1081,7 @@ int xhciInitSched(xhci_t* xhc)
             xhc->CmdRing.RingSeg0 = NULL;
         }
     }
+
 out:
     if (rc)
         printf("%s exiting with rc %d\n", __FUNCTION__, rc);
@@ -1258,31 +1273,36 @@ CreateEventRing (
     ERSTBase->RingTrbSize = EVENT_RING_TRB_NUMBER;
 
     uint64_t  ERSTPhy = bdk_ptr_to_phys(ERSTBase);
-    bdk_node_t node = xhc->node;
-    int usb_port = xhc->usb_port;
+
     //
     // Program the Interrupter Event Ring Segment Table Size (ERSTSZ) register (5.5.2.3.1)
     //
-    BDK_CSR_DEFINE(uahc_erstsz,BDK_USBHX_UAHC_ERSTSZX(0,0)) = {.u=0,};
-    uahc_erstsz.s.erstsz = ERST_NUMBER;
-    BDK_CSR_WRITE(node,BDK_USBHX_UAHC_ERSTSZX(usb_port,0),uahc_erstsz.u);
+    XhcWriteRuntimeReg (
+        xhc,
+        XHC_ERSTSZ_OFFSET,
+        ERST_NUMBER
+        );
     //
     // Program the Interrupter Event Ring Dequeue Pointer (ERDP) register (5.5.2.3.3)
     //
-    BDK_CSR_DEFINE(uahc_erdp,BDK_USBHX_UAHC_ERDPX(0,0)) = {.u=0,};
-    uahc_erdp.s.erdp = DequeuePhy >> 4;
-    BDK_CSR_WRITE(node,BDK_USBHX_UAHC_ERDPX(usb_port,0),uahc_erdp.u);
+    XhcWriteRuntimeReg64 (
+        xhc,
+        XHC_ERDP_OFFSET,
+        DequeuePhy
+        );
     //
     // Program the Interrupter Event Ring Segment Table Base Address (ERSTBA) register(5.5.2.3.2)
     //
-    BDK_CSR_DEFINE(uahc_erstba,BDK_USBHX_UAHC_ERSTBAX(0,0)) = {.u=0,};
-    uahc_erstba.s.erstba =ERSTPhy >> 6;
-    BDK_CSR_WRITE(node,BDK_USBHX_UAHC_ERSTBAX(usb_port,0),uahc_erstba.u);
+    XhcWriteRuntimeReg64 (
+        xhc,
+        XHC_ERSTBA_OFFSET,
+        ERSTPhy
+        );
     //
     // Need set IMAN IE bit to enble the ring interrupt
     //
-    BDK_CSR_MODIFY(c,node,BDK_USBHX_UAHC_IMANX(usb_port,0),
-                   c.s.ie=1;);
+    XhcSetRuntimeRegBit (xhc, XHC_IMAN_OFFSET, XHC_IMAN_IE);
+
     return EFI_SUCCESS;
 }
 
@@ -2747,7 +2767,7 @@ XhcInitializeEndpointContext (
           // Calculate through the bInterval field of Endpoint descriptor.
           //
           ASSERT (Interval != 0);
-          InputContext->EP[Dci-1].Interval = (UINT32)HighBitSet32((UINT32)Interval) + 3;
+          InputContext->EP[Dci-1].Interval = (UINT32)HighBitSet((UINT32)Interval) + 3;
         } else if ((DeviceSpeed == EFI_USB_SPEED_HIGH) || (DeviceSpeed == EFI_USB_SPEED_SUPER)) {
           Interval = EpDesc->Interval;
           ASSERT (Interval >= 1 && Interval <= 16);
@@ -2915,7 +2935,7 @@ XhcInitializeEndpointContext64 (
           // Calculate through the bInterval field of Endpoint descriptor.
           //
           ASSERT (Interval != 0);
-          InputContext->EP[Dci-1].Interval = (UINT32)HighBitSet32((UINT32)Interval) + 3;
+          InputContext->EP[Dci-1].Interval = (UINT32)HighBitSet((UINT32)Interval) + 3;
         } else if ((DeviceSpeed == EFI_USB_SPEED_HIGH) || (DeviceSpeed == EFI_USB_SPEED_SUPER)) {
           Interval = EpDesc->Interval;
           ASSERT (Interval >= 1 && Interval <= 16);

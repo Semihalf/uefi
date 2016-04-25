@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 **/
 #include <bdk.h>
 #include "Xhci.h"
+#include "XhciReg.h"
 #include "UsbBus.h"
 #include "UsbDesc.h"
 #include "UsbHub.h"
@@ -44,53 +45,94 @@ EFI_USB2_HC_PROTOCOL gXhciUsb2HcTemplate = {
 /*
 ** Helper functions
 */
-static EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout);
-static EFI_STATUS cvmXhcHaltHC(xhci_t* xhc,uint64_t timeout);
-static EFI_STATUS cvmXhcResetHC(USB_XHCI_INSTANCE* xhc,UINT64 timeout);
-
-static  EFI_STATUS cvmXhcRunHC(xhci_t* xhc,uint64_t timeout)
-{
-    BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 1;);
-    EFI_STATUS Status = BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,0, timeout * XHC_1_MILLISECOND) ?
-        EFI_TIMEOUT : EFI_SUCCESS ;
-    return Status;
-}
-
-static EFI_STATUS cvmXhcHaltHC(xhci_t* xhc,uint64_t timeout)
-{
-    BDK_CSR_MODIFY(c,xhc->node,BDK_USBHX_UAHC_USBCMD(xhc->usb_port), c.s.r_s = 0;);
-    EFI_STATUS Status = BDK_CSR_WAIT_FOR_FIELD(xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port), hch, == ,1, timeout * XHC_1_MILLISECOND) ?
-        EFI_TIMEOUT : EFI_SUCCESS ;
-    return Status;
-}
 
 
-static EFI_STATUS cvmXhcResetHC (
+/**
+  Set the XHCI host controller to run.
+
+  @param  Xhc          The XHCI Instance.
+  @param  Timeout      Time to wait before abort (in millisecond, ms).
+
+  @return EFI_SUCCESS  The XHCI host controller is running.
+  @return EFI_TIMEOUT  Failed to set the XHCI to run before Timeout.
+
+**/
+static EFI_STATUS
+XhcRunHC (
   IN USB_XHCI_INSTANCE    *Xhc,
-  IN UINT64               Timeout
+  IN UINT32               Timeout
   )
 {
-    EFI_STATUS              Status;
-    Status = EFI_SUCCESS;
-    if (!cvmXhcIsHalt(Xhc)) {
-        Status = cvmXhcHaltHC (Xhc, Timeout);
+  EFI_STATUS              Status;
 
-        if (EFI_ERROR (Status)) {
-            return Status;
-        }
+  XhcSetOpRegBit (Xhc, XHC_USBCMD_OFFSET, XHC_USBCMD_RUN);
+  Status = XhcWaitOpRegBit (Xhc, XHC_USBSTS_OFFSET, XHC_USBSTS_HALT, FALSE, Timeout);
+  return Status;
+}
+/**
+  Halt the XHCI host controller.
+
+  @param  Xhc          The XHCI Instance.
+  @param  Timeout      Time to wait before abort (in millisecond, ms).
+
+  @return EFI_SUCCESS  The XHCI host controller is halt.
+  @return EFI_TIMEOUT  Failed to halt the XHCI before Timeout.
+
+**/
+static EFI_STATUS
+XhcHaltHC (
+  IN USB_XHCI_INSTANCE   *Xhc,
+  IN UINT32              Timeout
+  )
+{
+  EFI_STATUS              Status;
+
+  XhcClearOpRegBit (Xhc, XHC_USBCMD_OFFSET, XHC_USBCMD_RUN);
+  Status = XhcWaitOpRegBit (Xhc, XHC_USBSTS_OFFSET, XHC_USBSTS_HALT, TRUE, Timeout);
+  return Status;
+}
+
+
+/**
+  Reset the XHCI host controller.
+
+  @param  Xhc          The XHCI Instance.
+  @param  Timeout      Time to wait before abort (in millisecond, ms).
+
+  @retval EFI_SUCCESS  The XHCI host controller is reset.
+  @return Others       Failed to reset the XHCI before Timeout.
+
+**/
+static EFI_STATUS
+XhcResetHC (
+  IN USB_XHCI_INSTANCE    *Xhc,
+  IN UINT32               Timeout
+  )
+{
+  EFI_STATUS              Status;
+
+  Status = EFI_SUCCESS;
+
+  /* DEBUG ((EFI_D_INFO, "XhcResetHC!\n")); */
+  //
+  // Host can only be reset when it is halt. If not so, halt it
+  //
+  if (!XHC_REG_BIT_IS_SET (Xhc, XHC_USBSTS_OFFSET, XHC_USBSTS_HALT)) {
+	  Status = XhcHaltHC (Xhc, Timeout);
+
+    if (EFI_ERROR (Status)) {
+        DEBUG ((EFI_D_ERROR, "XhcResetHC! <<-- 1 status=%d\n", (int)Status));
+        return Status;
     }
-#if defined(notdef_cavium)
+  }
+
   if ((Xhc->DebugCapSupOffset == 0xFFFFFFFF) || ((XhcReadExtCapReg (Xhc, Xhc->DebugCapSupOffset) & 0xFF) != XHC_CAP_USB_DEBUG) ||
       ((XhcReadExtCapReg (Xhc, Xhc->DebugCapSupOffset + XHC_DC_DCCTRL) & BIT0) == 0)) {
     XhcSetOpRegBit (Xhc, XHC_USBCMD_OFFSET, XHC_USBCMD_RESET);
     Status = XhcWaitOpRegBit (Xhc, XHC_USBCMD_OFFSET, XHC_USBCMD_RESET, FALSE, Timeout);
   }
-#else
-  BDK_CSR_MODIFY(c,Xhc->node,BDK_USBHX_UAHC_USBCMD(Xhc->usb_port),c.s.hcrst=1;);
-  BDK_WMB;
-  Status = BDK_CSR_WAIT_FOR_FIELD(Xhc->node, BDK_USBHX_UAHC_USBCMD(Xhc->usb_port), hcrst, == , 0, Timeout * XHC_1_MILLISECOND) ?
-      EFI_TIMEOUT : EFI_SUCCESS;
-#endif
+
+  DEBUG ((EFI_D_INFO, "XhcResetHC! <<-- 2 status=%d\n", (int)Status));
   return Status;
 }
 
@@ -111,10 +153,57 @@ xhci_t* createUsbXHci(bdk_node_t node, int usb_port)
         return NULL;
     }
     bzero(thisXHC, sizeof (*thisXHC));
-    thisXHC->hcsparams1.u =  BDK_CSR_READ(node, BDK_USBHX_UAHC_HCSPARAMS1(usb_port));
-    thisXHC->hcsparams2.u =  BDK_CSR_READ(node, BDK_USBHX_UAHC_HCSPARAMS2(usb_port));
-    thisXHC->hccparams.u =  BDK_CSR_READ(node, BDK_USBHX_UAHC_HCCPARAMS(usb_port));
-    BDK_CSR_INIT(pgsz,node,BDK_USBHX_UAHC_PAGESIZE(usb_port));
+    // Setup for Register IO
+#define USBH_DEVID ((BDK_PCC_PROD_E_GEN << 24) | BDK_PCC_VENDOR_E_CAVIUM | (BDK_PCC_DEV_IDL_E_USBH << 16))
+#define USBDRD_DEVID ((BDK_PCC_PROD_E_GEN << 24) | BDK_PCC_VENDOR_E_CAVIUM | (BDK_PCC_DEV_IDL_E_USBDRD << 16))
+    const bdk_device_t *dev;
+    if (NULL != (dev = bdk_device_lookup(node, USBH_DEVID, usb_port)) ) {
+        BDK_CSR_INIT(uctl_ctl,node,BDK_USBHX_UCTL_CTL(usb_port));
+        if (0 == uctl_ctl.s.h_clk_en) {
+            printf("\nUSB port have not been initialized\n");
+            goto err_exit;
+        }
+    } else if (NULL != (dev = bdk_device_lookup(node, USBDRD_DEVID, usb_port)) )  {
+         BDK_CSR_INIT(uctl_ctl,node,BDK_USBDRDX_UCTL_CTL(usb_port));
+         if (0 == uctl_ctl.s.h_clk_en) {
+             printf("\nUSB port have not been initialized\n");
+             goto err_exit;
+         }
+         if ( 0 != uctl_ctl.s.drd_mode) {
+             printf("\nController setup is for mode other then host\n");
+             goto err_exit;
+         }
+    } else {
+        bdk_warn("No suitable XHCI device found\n");
+        goto err_exit;
+    }
+    thisXHC->bdk_dev = dev;
+
+    thisXHC->node = node;
+    thisXHC->usb_port = usb_port;
+    // Read section offsets from config space of xhci controller
+    thisXHC->DBOff = XhcReadCapReg (thisXHC, XHC_DBOFF_OFFSET); // DoorBell ofset
+    thisXHC->RTSOff = XhcReadCapReg (thisXHC, XHC_RTSOFF_OFFSET); // Runtime space offset
+    BDK_CSR_DEFINE(caplength, BDK_USBHX_UAHC_CAPLENGTH(0));
+    caplength.u =  XhcReadCapReg (thisXHC,  XHC_CAPLENGTH_OFFSET);
+    thisXHC->CapLength = caplength.s.caplength; // OpReg space offset
+
+    thisXHC->hcsparams1.u = XhcReadCapReg (thisXHC, XHC_HCSPARAMS1_OFFSET);
+    thisXHC->hcsparams2.u = XhcReadCapReg (thisXHC, XHC_HCSPARAMS2_OFFSET);
+    thisXHC->hccparams.u = XhcReadCapReg (thisXHC, XHC_HCCPARAMS_OFFSET);
+    BDK_CSR_DEFINE(pgsz, BDK_USBHX_UAHC_PAGESIZE(0));
+    pgsz.u = XhcReadOpReg(thisXHC, XHC_PAGESIZE_OFFSET);
+    thisXHC->ExtCapRegBase = ((typeof(thisXHC->ExtCapRegBase))thisXHC->hccparams.s.xecp) << 2;
+    thisXHC->DebugCapSupOffset = XhcGetCapabilityAddr (thisXHC, XHC_CAP_USB_DEBUG);
+#if 0
+    printf("thisHC @%p\n",thisXHC);
+    printf("hcsparams1:%08lx\n",(unsigned long) thisXHC->hcsparams1.u);
+    printf("hcsparams2:%08lx\n",(unsigned long) thisXHC->hcsparams2.u);
+    printf("hccparams:%08lx\n",(unsigned long) thisXHC->hccparams.u);
+    printf("page size %d\nnode %d port %d\n", pgsz.u,thisXHC->node,thisXHC->usb_port);
+    printf("64 bit capability %d Debug: %08x\n",thisXHC->hccparams.s.ac64, thisXHC->DebugCapSupOffset);
+
+#endif
 
     if ( thisXHC->hcsparams1.s.maxslots > CAVIUM_XHCI_MAXSLOTS) {
         bdk_warn("XHCI hcsparams1.maxslots(%d) exceeds configured maximum(%d)\n"
@@ -122,18 +211,15 @@ xhci_t* createUsbXHci(bdk_node_t node, int usb_port)
                  ,
                  thisXHC->hcsparams1.s.maxslots,  CAVIUM_XHCI_MAXSLOTS);
     }
-    int msb = -1;
-    if (pgsz.s.pagesize) {
-        unsigned mask;
-        for (mask = 0x8000,msb=15; !(mask & pgsz.s.pagesize);msb--, mask >>=1);
-    }
-    thisXHC->PageSize = 1 << (12 + msb);
-     CopyMem (&thisXHC->Usb2Hc, &gXhciUsb2HcTemplate, sizeof (EFI_USB2_HC_PROTOCOL));
+
+    thisXHC->PageSize = 1 << (12 + HighBitSet(pgsz.s.pagesize));
+    CopyMem (&thisXHC->Usb2Hc, &gXhciUsb2HcTemplate, sizeof (EFI_USB2_HC_PROTOCOL));
     InitializeListHead(&thisXHC->AsyncIntTransfers);
-    thisXHC->node = node;
-    thisXHC->usb_port = usb_port;
 
     return thisXHC;
+err_exit:
+    free(thisXHC);
+    return NULL;
 }
 
 const USB_PORT_STATE_MAP mUsbPortStateMap[] = {
@@ -183,99 +269,6 @@ int xhcPollRootHub(void *usb_root_hub,xhci_t* xhc) {
     return -1;
 }
 
-int
-xhcClearRootHubPortFeature (xhci_t *xhc,unsigned PortNumber,const EFI_USB_PORT_FEATURE PortFeature)
-{
-    if ((NULL == xhc) || (PortNumber > xhc->hcsparams1.s.maxports))
-        return -1;
-    bdk_node_t node = xhc->node;
-    int usb_port = xhc->usb_port;
-
-    BDK_CSR_INIT(uahc_portsc,node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber));
-    // Mask pertinent bits
-    uahc_portsc.u &=  ~ (BIT1 | BIT17 | BIT18 | BIT19 | BIT20 | BIT21 | BIT22 | BIT23);
-
-    int rc = 0;
-    switch (PortFeature)
-    {
-    case EfiUsbPortEnable:
-        //
-        // Ports may only be enabled by the xHC. Software cannot enable a port by writing a '1' to this flag.
-        // A port may be disabled by software writing a '1' to this flag.
-        //
-        uahc_portsc.u |= XHC_PORTSC_PED;
-        uahc_portsc.u &= ~XHC_PORTSC_RESET;
-        BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-        break;
-
-    case EfiUsbPortSuspend:
-        uahc_portsc.u |= XHC_PORTSC_LWS;
-        BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-        uahc_portsc.u &= ~XHC_PORTSC_PLS;
-        BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-        break;
-
-    case EfiUsbPortReset:
-        //
-        // PORTSC_RESET BIT(4) bit is RW1S attribute, which means Write-1-to-set status:
-        // Register bits indicate status when read, a clear bit may be set by
-        // writing a '1'. Writing a '0' to RW1S bits has no effect.
-        //
-        break;
-
-    case EfiUsbPortOwner:
-        //
-        // XHCI root hub port don't has the owner bit, ignore the operation
-        //
-        break;
-
-    case EfiUsbPortConnectChange:
-        //
-        // Clear connect status change
-        //
-        uahc_portsc.u |= XHC_PORTSC_CSC;
-        BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-        break;
-
-    case EfiUsbPortEnableChange:
-        //
-        // Clear enable status change
-        //
-        uahc_portsc.u |= XHC_PORTSC_PEC;
-        BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-        break;
-
-    case EfiUsbPortOverCurrentChange:
-        //
-        // Clear PortOverCurrent change
-        //
-        uahc_portsc.u |= XHC_PORTSC_OCC;
-        BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-        break;
-
-    case EfiUsbPortResetChange:
-        //
-        // Clear Port Reset change
-        //
-        uahc_portsc.u |= XHC_PORTSC_PRC;
-        BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-        break;
-
-    case EfiUsbPortPower:
-    case EfiUsbPortSuspendChange:
-        //
-        // Not supported or not related operation
-        //
-        break;
-
-    default:
-        rc = -2;
-        break;
-    }
-
-    return rc;
-}
-
 /**
   Clears a feature for the specified root hub port.
 
@@ -300,14 +293,110 @@ XhcClearRootHubPortFeature (
   )
 {
   USB_XHCI_INSTANCE       *Xhc;
+  UINT32                  Offset;
+  UINT32                  State;
+  EFI_STATUS              Status;
+  /* EFI_TPL                 OldTpl; */
 
-   /* OldTpl = gBS->RaiseTPL (XHC_TPL); */
+  /* OldTpl = gBS->RaiseTPL (XHC_TPL); */
 
   Xhc       = XHC_FROM_THIS (This);
-  EFI_STATUS              Status = xhcClearRootHubPortFeature(Xhc, PortNumber,PortFeature);
-#if defined(notdef_cavium)
-  gBS->RestoreTPL (OldTpl);
-#endif
+  Status    = EFI_SUCCESS;
+
+  if (PortNumber >= Xhc->hcsparams1.s.maxports) {
+    Status = EFI_INVALID_PARAMETER;
+    goto ON_EXIT;
+  }
+
+  Offset = XHC_PORTSC_OFFSET + (0x10 * PortNumber);
+
+  //
+  // Mask off the port status change bits, these bits are
+  // write clean bit
+  //
+  State  = XhcReadOpReg (Xhc, Offset);
+  State &= ~ (BIT1 | BIT17 | BIT18 | BIT19 | BIT20 | BIT21 | BIT22 | BIT23);
+
+  switch (PortFeature) {
+  case EfiUsbPortEnable:
+    //
+    // Ports may only be enabled by the xHC. Software cannot enable a port by writing a '1' to this flag.
+    // A port may be disabled by software writing a '1' to this flag.
+    //
+    State |= XHC_PORTSC_PED;
+    State &= ~XHC_PORTSC_RESET;
+    XhcWriteOpReg (Xhc, Offset, State);
+    break;
+
+  case EfiUsbPortSuspend:
+    State |= XHC_PORTSC_LWS;
+    XhcWriteOpReg (Xhc, Offset, State);
+    State &= ~XHC_PORTSC_PLS;
+    XhcWriteOpReg (Xhc, Offset, State);
+    break;
+
+  case EfiUsbPortReset:
+    //
+    // PORTSC_RESET BIT(4) bit is RW1S attribute, which means Write-1-to-set status:
+    // Register bits indicate status when read, a clear bit may be set by
+    // writing a '1'. Writing a '0' to RW1S bits has no effect.
+    //
+    break;
+
+  case EfiUsbPortOwner:
+    //
+    // XHCI root hub port don't has the owner bit, ignore the operation
+    //
+    break;
+
+  case EfiUsbPortConnectChange:
+    //
+    // Clear connect status change
+    //
+    State |= XHC_PORTSC_CSC;
+    XhcWriteOpReg (Xhc, Offset, State);
+    break;
+
+  case EfiUsbPortEnableChange:
+    //
+    // Clear enable status change
+    //
+    State |= XHC_PORTSC_PEC;
+    XhcWriteOpReg (Xhc, Offset, State);
+    break;
+
+  case EfiUsbPortOverCurrentChange:
+    //
+    // Clear PortOverCurrent change
+    //
+    State |= XHC_PORTSC_OCC;
+    XhcWriteOpReg (Xhc, Offset, State);
+    break;
+
+  case EfiUsbPortResetChange:
+    //
+    // Clear Port Reset change
+    //
+    State |= XHC_PORTSC_PRC;
+    XhcWriteOpReg (Xhc, Offset, State);
+    break;
+
+  case EfiUsbPortPower:
+  case EfiUsbPortSuspendChange:
+    //
+    // Not supported or not related operation
+    //
+    break;
+
+  default:
+    Status = EFI_INVALID_PARAMETER;
+    break;
+  }
+
+ON_EXIT:
+  DEBUG ((EFI_D_INFO, "XhcClearRootHubPortFeature: status %d\n", (int) Status));
+  /* gBS->RestoreTPL (OldTpl); */
+
   return Status;
 }
 
@@ -332,8 +421,8 @@ XhcSetRootHubPortFeature (
   )
 {
   USB_XHCI_INSTANCE       *Xhc;
-  /* UINT32                  Offset; */
-  /* UINT32                  State; */
+  UINT32                  Offset;
+  UINT32                  State;
   UINT32                  TotalPort;
   EFI_STATUS              Status;
 #if defined(notdef_cavium)
@@ -350,19 +439,14 @@ XhcSetRootHubPortFeature (
     Status = EFI_INVALID_PARAMETER;
     goto ON_EXIT;
   }
-#if defined(notdef_cavium)
   Offset = (UINT32) (XHC_PORTSC_OFFSET + (0x10 * PortNumber));
   State  = XhcReadOpReg (Xhc, Offset);
-#else
-  bdk_node_t node = Xhc->node;
-  int usb_port = Xhc->usb_port;
-  BDK_CSR_INIT(uahc_portsc,node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber));
-#endif
+
   //
   // Mask off the port status change bits, these bits are
   // write clean bit
   //
-  /* State */ uahc_portsc.u &= ~ (BIT1 | BIT17 | BIT18 | BIT19 | BIT20 | BIT21 | BIT22 | BIT23);
+  State &= ~ (BIT1 | BIT17 | BIT18 | BIT19 | BIT20 | BIT21 | BIT22 | BIT23);
 
   switch (PortFeature) {
   case EfiUsbPortEnable:
@@ -374,20 +458,13 @@ XhcSetRootHubPortFeature (
     break;
 
   case EfiUsbPortSuspend:
-#if defined(notdef_cavium)
+
     State |= XHC_PORTSC_LWS;
     XhcWriteOpReg (Xhc, Offset, State);
     State &= ~XHC_PORTSC_PLS;
     State |= (3 << 5) ;
     XhcWriteOpReg (Xhc, Offset, State);
-#else
-    uahc_portsc.u  |= XHC_PORTSC_LWS;
-    BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-    BDK_DSB;
-    uahc_portsc.u &= ~XHC_PORTSC_PLS;
-    uahc_portsc.u |= (3 << 5) ;
-    BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-#endif
+
     break;
 
   case EfiUsbPortReset:
@@ -395,8 +472,8 @@ XhcSetRootHubPortFeature (
     //
     // Make sure Host Controller not halt before reset it
     //
-    if (cvmXhcIsHalt (Xhc)) {
-      Status = cvmXhcRunHC (Xhc, XHC_GENERIC_TIMEOUT);
+    if (XhcIsHalt (Xhc)) {
+      Status = XhcRunHC (Xhc, XHC_GENERIC_TIMEOUT);
 
       if (EFI_ERROR (Status)) {
           DEBUG ((EFI_D_WARN, "XhcSetRootHubPortFeature :failed to start HC - %d\n", (int)Status));
@@ -408,15 +485,10 @@ XhcSetRootHubPortFeature (
     // 4.3.1 Resetting a Root Hub Port
     // 1) Write the PORTSC register with the Port Reset (PR) bit set to '1'.
     //
-#if defined(notdef_cavium)
     State |= XHC_PORTSC_RESET;
     XhcWriteOpReg (Xhc, Offset, State);
     XhcWaitOpRegBit(Xhc, Offset, XHC_PORTSC_PRC, TRUE, XHC_GENERIC_TIMEOUT);
-#else
-    uahc_portsc.u |= XHC_PORTSC_RESET;
-    BDK_CSR_WRITE(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber),uahc_portsc.u);
-    BDK_CSR_WAIT_FOR_FIELD(node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber), prc, ==, 1,  XHC_GENERIC_TIMEOUT*XHC_1_MILLISECOND);
-#endif
+
     break;
 
   case EfiUsbPortPower:
@@ -535,27 +607,22 @@ XhcReset (
   // Flow through, same behavior as Host Controller Reset
   //
   case EFI_USB_HC_RESET_HOST_CONTROLLER:
-#if defined(notdef_cavium)
     if ((Xhc->DebugCapSupOffset != 0xFFFFFFFF) && ((XhcReadExtCapReg (Xhc, Xhc->DebugCapSupOffset) & 0xFF) == XHC_CAP_USB_DEBUG) &&
         ((XhcReadExtCapReg (Xhc, Xhc->DebugCapSupOffset + XHC_DC_DCCTRL) & BIT0) != 0)) {
       Status = EFI_SUCCESS;
       goto ON_EXIT;
     }
-#else
-// There is no debug capability
-#endif
     //
     // Host Controller must be Halt when Reset it
     //
-    if (!cvmXhcIsHalt (Xhc)) {
-//      Status = cvmXhcHaltHC (Xhc, XHC_GENERIC_TIMEOUT);
+    if (!XhcIsHalt (Xhc)) {
         /*
          * Per XHCI specification section 5.4.1.1 Run/Stop (R/S)
          * The xHC is forced to halt within 16 ms. of software clearing the R/S bit to ‘0’
          * Since lower level SW could initialize HC we have to wait at least 16ms to
          * force HC to halt
          */
-        Status = cvmXhcHaltHC (Xhc, XHC_1_MILLISECOND * 200);
+        Status = XhcHaltHC (Xhc, XHC_1_MILLISECOND * 200);
 
       if (EFI_ERROR (Status)) {
         Status = EFI_DEVICE_ERROR;
@@ -563,22 +630,12 @@ XhcReset (
       }
     }
 
-    Status = cvmXhcResetHC (Xhc, XHC_RESET_TIMEOUT);
-#if defined(notdef_cavium)
+    Status = XhcResetHC (Xhc, XHC_RESET_TIMEOUT);
     ASSERT (!(XHC_REG_BIT_IS_SET (Xhc, XHC_USBSTS_OFFSET, XHC_USBSTS_CNR)));
     if (EFI_ERROR (Status)) {
       goto ON_EXIT;
     }
-#else
-    {
-        BDK_CSR_INIT(uahc_usbsts, Xhc->node,BDK_USBHX_UAHC_USBSTS(Xhc->usb_port));
-        if (EFI_ERROR(Status) || (uahc_usbsts.u & (/* XHC_USBSTS_HALT | */   XHC_USBSTS_HSE | XHC_USBSTS_CNR))) {
-            DEBUG((EFI_D_ERROR,"Failed to reset xHC: %d %llx\n", (int) Status, (unsigned long long) uahc_usbsts.u));
-            Status = EFI_DEVICE_ERROR;
-            goto ON_EXIT;
-        }
-    }
-#endif
+
     //
     // Clean up the asynchronous transfers, currently only
     // interrupt supports asynchronous operation.
@@ -628,8 +685,8 @@ XhcGetRootHubPortStatus (
   )
 {
   USB_XHCI_INSTANCE       *Xhc;
-  /* UINT32                  Offset; */
-  /* UINT32                  State; */
+  UINT32                  Offset;
+  UINT32                  State;
   UINT32                  TotalPort;
   UINTN                   Index;
   UINTN                   MapSize;
@@ -653,18 +710,11 @@ XhcGetRootHubPortStatus (
     goto ON_EXIT;
   }
 
-  /* Offset                       = (UINT32) (XHC_PORTSC_OFFSET + (0x10 * PortNumber)); */
+  Offset                       = (UINT32) (XHC_PORTSC_OFFSET + (0x10 * PortNumber));
   PortStatus->PortStatus       = 0;
   PortStatus->PortChangeStatus = 0;
-#if defined(notdef_cavium)
-  State = XhcReadOpReg (Xhc, Offset);
-#else
-  bdk_node_t node = Xhc->node;
-  int usb_port = Xhc->usb_port;
 
-    BDK_CSR_INIT(uahc_portsc,node,BDK_USBHX_UAHC_PORTSCX(usb_port,PortNumber));
-#define State uahc_portsc.u
-#endif
+  State = XhcReadOpReg (Xhc, Offset);
 
   //
   // According to XHCI 1.0 spec, bit 10~13 of the root port status register identifies the speed of the attached device.
@@ -727,11 +777,7 @@ XhcGetRootHubPortStatus (
   XhcPollPortStatusChange (Xhc, ParentRouteChart, PortNumber, PortStatus);
 
 ON_EXIT:
-#if defined(notdef_cavium)
-  gBS->RestoreTPL (OldTpl);
-#else
-#undef State
-#endif
+   /* gBS->RestoreTPL (OldTpl); */
   return Status;
 }
 
@@ -766,7 +812,7 @@ XhcGetState (
 
   Xhc    = XHC_FROM_THIS (This);
 
-  if (/* XHC_REG_BIT_IS_SET (Xhc, XHC_USBSTS_OFFSET, XHC_USBSTS_HALT) */cvmXhcIsHalt(Xhc)) {
+  if (XHC_REG_BIT_IS_SET (Xhc, XHC_USBSTS_OFFSET, XHC_USBSTS_HALT)) {
     *State = EfiUsbHcStateHalt;
   } else {
     *State = EfiUsbHcStateOperational;
@@ -818,7 +864,7 @@ XhcSetState (
 
   switch (State) {
   case EfiUsbHcStateHalt:
-    Status = /* XhcHaltHC */ cvmXhcHaltHC (Xhc, XHC_GENERIC_TIMEOUT);
+    Status = XhcHaltHC(Xhc, XHC_GENERIC_TIMEOUT);
     break;
 
   case EfiUsbHcStateOperational:
@@ -828,31 +874,25 @@ XhcSetState (
       break;
     }
 
+    if (!XHC_REG_BIT_IS_SET (Xhc, XHC_USBSTS_OFFSET, XHC_USBSTS_HALT)) {
+      Status = EFI_DEVICE_ERROR;
+      break;
+    }
+#else
+    {
+        uint32_t hcsts = XhcReadOpReg(Xhc, XHC_USBSTS_OFFSET);
+        if (( hcsts & XHC_USBSTS_HSE) || !(hcsts &  XHC_USBSTS_HALT)) {
+            Status = EFI_DEVICE_ERROR;
+            break;
+        }
+    }
+#endif
     //
     // Software must not write a one to this field unless the host controller
     // is in the Halted state. Doing so will yield undefined results.
     // refers to Spec[XHCI1.0-2.3.1]
     //
-    if (!XHC_REG_BIT_IS_SET (Xhc, XHC_USBSTS_OFFSET, XHC_USBSTS_HALT)) {
-      Status = EFI_DEVICE_ERROR;
-      break;
-    }
     Status = XhcRunHC (Xhc, XHC_GENERIC_TIMEOUT);
-#else
-    {
-        BDK_CSR_INIT(uahc_usbsts,Xhc->node,BDK_USBHX_UAHC_USBSTS(Xhc->usb_port));
-        if (uahc_usbsts.s.hse || !uahc_usbsts.s.hch) {
-            Status = EFI_DEVICE_ERROR;
-            break;
-        }
-        //
-        // Software must not write a one to this field unless the host controller
-        // is in the Halted state. Doing so will yield undefined results.
-        // refers to Spec[XHCI1.0-2.3.1]
-        //
-        Status = cvmXhcRunHC (Xhc, XHC_GENERIC_TIMEOUT);
-    }
-#endif
     break;
 
   case EfiUsbHcStateSuspend:
@@ -1874,9 +1914,9 @@ cvmH2C_to_node(
  ** @return Zero on success, non-zero on failure
  */
 int cvmXhcStart(xhci_t* xhc) {
-    if (cvmXhcIsHalt(xhc)) {
-        // Starting controller in other then halted state will cause undefined results per hxci spec
-        return cvmXhcRunHC(xhc, 2*XHC_GENERIC_TIMEOUT);
+    if (XhcIsHalt(xhc)) {
+        // Starting controller in other then halted state will cause undefined results per xhci spec
+        return XhcRunHC(xhc, 2*XHC_GENERIC_TIMEOUT);
     }
     return 0;
 }

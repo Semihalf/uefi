@@ -574,7 +574,7 @@ static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
     if (NULL == UsbMass) return -1;
     EFI_BLOCK_IO_MEDIA  *Media = &UsbMass->BlockIoMedia;
     uint32_t BlockSize = Media->BlockSize;
-    int BlockShift = HighBitSet32(Media->BlockSize);
+    int BlockShift = HighBitSet(Media->BlockSize);
     uint64_t BlockMask = (1ULL<<BlockShift) -1;
     // Check for unaligned beginning
     int head = handle->location & BlockMask;
@@ -644,7 +644,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         rc = 0;
         goto write_done;
     }
-    int BlockShift = HighBitSet32(Media->BlockSize);
+    int BlockShift = HighBitSet(Media->BlockSize);
     uint64_t BlockMask = (1ULL<<BlockShift)-1;
     int head = handle->location & BlockMask; // Check for unaligned start
     EFI_STATUS Status;
@@ -864,7 +864,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     }
     DEBUG((EFI_D_INFO,"Initialized USB_MASS %p ifhandle %p @devindex %d for node %u usb_port %d lock @%p\n", UsbMass, ifHandle, devIndex, (unsigned) node, usb_port,UsbMass->bus_lock ));
     int rc = bdk_fs_register_dev("usb",devIndex,&bdk_fs_usb_ops);
-    printf("\nRegistered device \"/dev/n0.usb%d\" for node %d usb port %d - %s", devIndex, (int) node, usb_port, (rc) ? "??" : "OK");
+    printf("\nRegistered device \"/dev/n0.usb%d\" for node %d usb port %d - %s\n", devIndex, (int) node, usb_port, (rc) ? "??" : "OK");
 
     if (rc == 0 && __bdk_fs_fatfs_usbnotify) {
        __bdk_fs_fatfs_usbnotify(devIndex, 1);
@@ -908,7 +908,7 @@ UsbMassIfStop(void *ifHandle)
          }
 
         int rc = bdk_fs_unregister_dev("usb",devIndex);
-        printf("Unregistered device \"/dev/n0.usb%d\" from bdk_fs - %s\n", devIndex , (rc) ? "ERROR" : "OK");
+        printf("\nUnregistered device \"/dev/n0.usb%d\" from bdk_fs - %s\n", devIndex , (rc) ? "ERROR" : "OK");
         UsbMass->Transport->CleanUp (UsbMass->Context);
         free(UsbMass);
     }

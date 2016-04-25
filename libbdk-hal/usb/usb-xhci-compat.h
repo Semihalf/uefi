@@ -328,33 +328,31 @@ typedef UINT16                    STRING_REF;
 #define REPORT_STATUS_CODE_WITH_DEVICE_PATH(x...)
 
 /**
-  Returns the bit position of the highest bit set in a 32-bit value. Equivalent
+  Returns the bit position of the highest bit set in a 64-bit value. Equivalent
   to log2(x).
 
   This function computes the bit position of the highest bit set in the 32-bit
   value specified by Operand. If Operand is zero, then -1 is returned.
-  Otherwise, a value between 0 and 31 is returned.
+  Otherwise, a value between 0 and 63 is returned.
 
-  @param  Operand The 32-bit operand to evaluate.
+  @param  Operand The unsigned integer to evaluate.
 
   @return Position of the highest bit set in Operand if found.
   @retval -1  Operand is zero.
 
 **/
-static inline int HighBitSet32 (UINT32 Operand) __attribute__((always_inline));
+static inline int HighBitSet (unsigned int Operand) __attribute__((always_inline));
 static inline int
 /*EFIAPI */
-HighBitSet32 (
-  IN      UINT32                    Operand
+HighBitSet (
+  IN      unsigned int                    Operand
   )
 {
-  int                              BitIndex;
 
   if (Operand == 0) {
     return - 1;
   }
-  for (BitIndex = 31; (INT32)Operand > 0; BitIndex--, Operand <<= 1);
-  return BitIndex;
+  return (8*sizeof(unsigned int) - __builtin_clz(Operand)) -1 ;
 }
 
 #endif

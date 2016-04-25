@@ -25,7 +25,6 @@ typedef struct _USB_DEV_CONTEXT USB_DEV_CONTEXT;
 #include <Protocol/Usb2HostController.h>
 #include <Protocol/DevicePath.h>
 #include "usb2-industry.h" // USB2
-#include "XhciReg.h"
 #include "XhciSched.h" // Transfer scheduling routines
 #if ! defined(DEBUG)
 #define DEBUG(x...)
@@ -103,14 +102,9 @@ typedef struct _USB_DEV_CONTEXT USB_DEV_CONTEXT;
 #define XHC_LOW_32BIT(Addr64)          ((UINT32)(((UINTN)(Addr64)) & 0xFFFFFFFFU))
 #define XHC_HIGH_32BIT(Addr64)         ((UINT32)(((UINTN)(Addr64)>>32) & 0xFFFFFFFFU))
 #define XHC_BIT_IS_SET(Data, Bit)      ((BOOLEAN)(((Data) & (Bit)) == (Bit)))
+#define XHC_REG_BIT_IS_SET(Xhc, Offset, Bit) \
+          (XHC_BIT_IS_SET(XhcReadOpReg ((Xhc), (Offset)), (Bit)))
 #define XHCI_IS_DATAIN(EndpointAddr)   XHC_BIT_IS_SET((EndpointAddr), 0x80)
-
-static inline bool bdk_xhc_halted(bdk_node_t node,int usb_port) __attribute__((always_inline));
-static inline bool bdk_xhc_halted(bdk_node_t node,int usb_port)
-{
-    BDK_CSR_INIT(usbsts,node,BDK_USBHX_UAHC_USBSTS(usb_port));
-    return 1 == usbsts.s.hch;
-}
 
 #define CAVIUM_XHCI_ALIGN 512
 struct _USB_DEV_CONTEXT {
@@ -192,9 +186,15 @@ struct xhci_s {
     uint64_t* ScratchBuf;	// ...
     void* ScratchMap;		// ...
     uint64_t* DCBAA;
+    const bdk_device_t  *bdk_dev;      // Address of config space for this xhci instance
     BDK_CSR_DEFINE(hcsparams1,BDK_USBHX_UAHC_HCSPARAMS1(0));
     BDK_CSR_DEFINE(hcsparams2,BDK_USBHX_UAHC_HCSPARAMS2(0));
     BDK_CSR_DEFINE(hccparams,BDK_USBHX_UAHC_HCCPARAMS(0));
+    uint32_t                    CapLength;     ///< Capability Register Length
+    uint32_t                    DBOff;        ///< Doorbell Offset
+    uint32_t                    RTSOff;       ///< Runtime Register Space Offset
+    UINT32                    ExtCapRegBase;
+    UINT32                    DebugCapSupOffset;
     uint32_t PageSize;
     uint32_t MaxSlotsEn;
     uint32_t MaxScratchPadBufs;
@@ -237,12 +237,6 @@ xhci_t* createUsbXHci(bdk_node_t node, int usb_port);
 
 
 **/
-int xhcClearRootHubPortFeature (
-    xhci_t *xhc,
-  unsigned PortNumber,
-  const EFI_USB_PORT_FEATURE  PortFeature
-  );
-
 EFI_STATUS
 EFIAPI
 XhcClearRootHubPortFeature (
@@ -629,41 +623,5 @@ cvmH2C_to_node(
 
 int cvmXhcStart(xhci_t* xhc);
 
-/*
-** Register access portion
-*/
-static inline bool cvmXhcIsHalt(xhci_t* xhc) __attribute__((always_inline));
-static inline bool cvmXhcIsHalt(xhci_t* xhc)
-{
-    BDK_CSR_INIT(usbsts,xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port));
-    return 1 == usbsts.s.hch;
-}
-static inline bool cvmXhcIsSysError(xhci_t* xhc) __attribute__((always_inline));
-static inline bool cvmXhcIsSysError(xhci_t* xhc)
-{
-    BDK_CSR_INIT(usbsts,xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port));
-    return 1 == usbsts.s.hse;
-}
-
-static inline bool cvmXhcNotOK(xhci_t* xhc) __attribute__((always_inline));
-static inline bool cvmXhcNotOK(xhci_t* xhc) {
-     BDK_CSR_INIT(usbsts,xhc->node,BDK_USBHX_UAHC_USBSTS(xhc->usb_port));
-     return (usbsts.s.hch|| usbsts.s.hse) != 0;
-}
-
-static inline void cvmXhcWriteDoorBellReg(xhci_t* xhc, const unsigned slot, const uint32_t data) __attribute__((always_inline));
-static inline void cvmXhcWriteDoorBellReg(xhci_t* xhc, const unsigned slot, const uint32_t data)
-{
-
-    BDK_DSB;
-    BDK_CSR_WRITE(xhc->node,BDK_USBHX_UAHC_DBX(xhc->usb_port,slot), data);
-//    BDK_WMB; // Not needed IO bypasses write buffer
-}
-static inline uint32_t  cvmXhcReadDoorBellReg(xhci_t* xhc, const unsigned offset)  __attribute__((always_inline));
-static inline uint32_t  cvmXhcReadDoorBellReg(xhci_t* xhc, const unsigned offset) {
-    unsigned db_index = offset >>2;
-    BDK_CSR_INIT(uahc_db,xhc->node,BDK_USBHX_UAHC_DBX(xhc->usb_port,db_index));
-    return uahc_db.u;
-}
 
 #endif
