@@ -706,7 +706,40 @@ UsbEnumerateNewDev (
 #if defined(notdef_cavium)
   gBS->Stall (USB_WAIT_PORT_STABLE_STALL);
 #else
-  bdk_wait_usec(USB_WAIT_PORT_STABLE_STALL);
+  /* Delay is mandated by USB2.0 7.1.7.3 (TATTDB) clause.
+  ** Simple delay does not do it, delay has to be restarted on disconnect
+  */
+  unsigned conn = 0xffff;
+  unsigned thold = 0;
+  int same=0, chg=0;
+
+#define _WAIT_INTERVAL 500
+#define _DELTA 25
+#define _STABLE_THRESHOLD 100
+  for (unsigned done = 0; done < _WAIT_INTERVAL; done += _DELTA)
+  {
+      Status = HubApi->GetPortStatus (HubIf, Port, &PortState);
+      if (EFI_ERROR(Status)) {
+          DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed status debouncing port %d - %d\n", Port, (int) Status));
+          return Status;
+      }
+      if (!(PortState.PortChangeStatus & USB_PORT_STAT_C_CONNECTION) &&
+          (conn == (PortState.PortStatus & USB_PORT_STAT_C_CONNECTION))) {
+          same++;
+          thold += _DELTA;
+          if (thold >= _STABLE_THRESHOLD) break;
+      } else {
+          chg++;
+          thold = 0;
+          conn = PortState.PortStatus & USB_PORT_STAT_C_CONNECTION;
+      }
+      bdk_wait_usec(_DELTA * USB_BUS_1_MILLISECOND);
+  }
+  if (thold < _STABLE_THRESHOLD ) {
+      DEBUG ((EFI_D_WARN, "UsbEnumerateNewDev: failed to debounce port %d - same %d chg %d\n", Port, same, chg));
+  }
+#undef _WAIT_INTERVAL
+#undef _DELTA
 #endif
   //
   // Hub resets the device for at least 10 milliseconds.
@@ -718,7 +751,6 @@ UsbEnumerateNewDev (
 
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to reset port %d - %d\n", Port, (int) Status));
-
     return Status;
   }
 
