@@ -508,7 +508,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int fl
         dbtrain_ctl.s.activate       = (flags == 0) ? 0 : 1;
         dbtrain_ctl.s.write_ena      = 1;
         dbtrain_ctl.s.read_cmd_count = 31; // max count pass 1.x
-        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) // FIXME TODO
+        if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) // added 81xx and 83xx
             dbtrain_ctl.s.cmd_count_ext = 3; // max count pass 2.x
         else
             dbtrain_ctl.s.cmd_count_ext = 0; // max count pass 1.x
@@ -819,7 +819,7 @@ int initialize_ddr_clock(bdk_node_t node,
         }
     }
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX)) {
 
         bdk_lmcx_ddr_pll_ctl_t ddr_pll_ctl;
         const dimm_config_t *dimm_config_table = ddr_configuration->dimm_config_table;
@@ -932,9 +932,12 @@ int initialize_ddr_clock(bdk_node_t node,
                 DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL2(loop_interface_num), dll_ctl2.u);
             }
 
-	    /* Now set INTF_EN for *ONLY* LMC2/3 if they are to be active */
-	    /* Do *NOT* touch LMC0/1 INTF_EN setting */
-            for (loop_interface_num = 2; loop_interface_num < 4; ++loop_interface_num) {
+	    /* Now set INTF_EN for *ONLY* LMC2/3 if they are to be active on 88XX. */
+	    /* Do *NOT* touch LMC0/1 INTF_EN=0 setting on 88XX. */
+            /* But we do have to set LMC1 INTF_EN=1 on 83XX if we want it active... */
+            /* Note that 81xx has only LMC0 so the mask should reflect that. */
+            for (loop_interface_num = (CAVIUM_IS_MODEL(CAVIUM_CN83XX)) ? 1 : 2;
+                 loop_interface_num < 4; ++loop_interface_num) {
                 if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
                     continue;
 
@@ -980,6 +983,7 @@ int initialize_ddr_clock(bdk_node_t node,
             ddr_print("%-45s : 0x%016lx\n", "LMC0: DDR_PLL_CTL", ddr_pll_ctl.u);
 
             // NOTE: 81xx has only 1 LMC...
+            // FIXME? what about 83XX in 1-LMC mode???
             if (! CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
                 ddr_pll_ctl.s.dclk_invert       ^= 1; /* DEFAULT: Toggle dclk_invert from LMC0 */
                 if ((s = lookup_env_parameter("ddr1_set_dclk_invert")) != NULL) { // override?
@@ -1520,7 +1524,7 @@ int initialize_ddr_clock(bdk_node_t node,
             /* Enable the trim circuit on the appropriate channels to
                adjust the DDR clock duty cycle for chips that support
                it. */
-            if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+            if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
                 bdk_lmcx_phy_ctl_t lmc_phy_ctl;
                 int loop_interface_num;
 
@@ -1539,7 +1543,7 @@ int initialize_ddr_clock(bdk_node_t node,
 
         } /* Do this once */
 
-    } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) */
+    } /* if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX)) */
 
     set_ddr_clock_initialized(node, ddr_interface_num, 1);
     return(0);
@@ -1947,14 +1951,15 @@ int octeon_ddr_initialize(bdk_node_t node,
 	    ddr_config_valid_mask |= (1 << interface_index);
 	}
     }
-    // Validate that it can only be 2-LMC mode or 4-LMC mode
-    if ((ddr_config_valid_mask != 0x03) && (ddr_config_valid_mask != 0x0f)) {
-	puts("ERROR: Invalid LMC configuration detected.\n");
-	return -1;
-    }
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
 	int four_lmc_mode = 1;
+
+        // Validate that it can only be 2-LMC mode or 4-LMC mode
+        if ((ddr_config_valid_mask != 0x03) && (ddr_config_valid_mask != 0x0f)) {
+            puts("ERROR: Invalid LMC configuration detected.\n");
+            return -1;
+        }
 
 	if ((s = lookup_env_parameter("ddr_four_lmc")) != NULL)
 	    four_lmc_mode = !!strtoul(s, NULL, 0);
@@ -2088,11 +2093,7 @@ int octeon_ddr_initialize(bdk_node_t node,
 	return -1;
 
     // switch over to DBI mode only for chips that support it, and enabled by envvar
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) ||
-        CAVIUM_IS_MODEL(CAVIUM_CN83XX)         ||
-        CAVIUM_IS_MODEL(CAVIUM_CN81XX)
-        )
-    {
+    if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
         int do_dbi = 0;
         if ((s = lookup_env_parameter("ddr_dbi_switchover")) != NULL) {
             do_dbi = !!strtoul(s, NULL, 10);

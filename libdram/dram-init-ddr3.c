@@ -63,7 +63,7 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     uint8_t nib_min[2], nib_max[2], nib_unl[2];
     int c;
     // NOTE: these are for pass 2.x
-    int is_t88p2 = CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X);
+    int is_t88p2 = !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X); // added 81xx and 83xx
     int bit_start = (is_t88p2) ? 9 : 8;
     
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
@@ -210,7 +210,7 @@ int read_DAC_DBI_settings(int node, int rank_mask, int ddr_interface_num,
     int byte_lane, bit_num;
     int deskew;
     int dac_value;
-    int is_t88p2 = CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X); // FIXME TODO
+    int is_t88p2 = !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X); // added 81xx and 83xx
 
     BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                    phy_ctl.s.dsk_dbg_clk_scaler = 3);
@@ -273,7 +273,7 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
     }
 
     lock_retries_limit = default_lock_retry_limit;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) // FIXME? modify for 81xx, 83xx?
+    if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) // added 81xx and 83xx
         lock_retries_limit *= 2; // give pass 2.0 twice as many
 
     do { /* while (sat_retries < sat_retry_limit) */
@@ -3149,7 +3149,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ++fatal_error;
     }
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX)) { // any THUNDER
         if ((dram_width != 8) && (dram_width != 16) && (dram_width != 4)) {
             error_print("Unsupported SDRAM Width, %d.  Must be 4, 8 or 16.\n", dram_width);
             ++fatal_error;
@@ -3452,9 +3452,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_timing_params1.s.twtr     = divide_roundup(twtr, tclk_psecs) - 1;
         lmc_timing_params1.s.trfc     = divide_roundup(trfc, 8*tclk_psecs);
 
-	// workaround needed for all THUNDER chips thru T88 Pass 2.0
-	// FIXME: but not 81xx most likely, TBD...
-        if (ddr_type == DDR4_DRAM) {
+	// workaround needed for all THUNDER chips thru T88 Pass 2.0,
+	// but not 81xx and 83xx...
+        if ((ddr_type == DDR4_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
             /* Workaround bug 24006. Use Trrd_l. */
             lmc_timing_params1.s.trrd     = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 2;
         } else
@@ -4558,7 +4558,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // as a second step, after internal VREF training, before starting deskew training:
     // for DDR3 and THUNDER pass 2.x, override the DAC setting to 127
     // FIXME: will need to add CN83XX (all) and CN81XX (all) at some point...
-    if ((ddr_type == DDR3_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+    if ((ddr_type == DDR3_DRAM) && !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
         load_dac_override(node, ddr_interface_num, 127, /* all */0x0A);
         ddr_print("N%d.LMC%d: Overriding DDR3 internal VREF DAC settings to 127 (early).\n",
                   node, ddr_interface_num);
@@ -4595,7 +4595,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // as a final step in internal VREF training, after deskew training but before HW WL:
     // for DDR3 and THUNDER pass 2.x, override the DAC setting to 127
     // FIXME: will need to add CN83XX (all) and CN81XX (all) at some point...
-    if ((ddr_type == DDR3_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+    if ((ddr_type == DDR3_DRAM) && !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
         load_dac_override(node, ddr_interface_num, 127, /* all */0x0A);
         ddr_print("N%d.LMC%d, Overriding DDR3 internal VREF DAC settings to 127 (late).\n",
                   node, ddr_interface_num);
@@ -5355,7 +5355,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // NOTE: THUNDER pass 2.x only
     // FIXME: allow override
     int enable_write_deskew = ENABLE_WRITE_DESKEW_DEFAULT;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+    if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
 	if ((s = lookup_env_parameter("ddr_enable_write_deskew")) != NULL) {
 	    enable_write_deskew = !!strtoul(s, NULL, 0);
 	} // else take default setting
@@ -5410,8 +5410,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
 
         } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
-
-    } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) */
+    } /* if (enable_write_deskew) */
 
     /*
      * 6.9.12 LMC Read Leveling
@@ -6867,7 +6866,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
        LMCX_PHY_CTL2[DQS[0..8]_DSK_ADJ] > 4, set
        LMCX_EXT_CONFIG[DRIVE_ENA_BPRCH] = 1.
     */
-    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) { // only for 88XX pass 2
         bdk_lmcx_dll_ctl3_t dll_ctl3;
         bdk_lmcx_phy_ctl2_t phy_ctl2;
         bdk_lmcx_ext_config_t ext_config;
@@ -7756,7 +7755,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	// NOTE: this must be done for pass 2.x
 	// must enable ECC interrupts to get ECC error info in LMCX_INT
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+	if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
 	    DRAM_CSR_WRITE(node, BDK_LMCX_INT_ENA_W1S(ddr_interface_num), -1ULL);
 	    BDK_CSR_INIT(lmc_int_ena_w1s, node, BDK_LMCX_INT_ENA_W1S(ddr_interface_num));
 	    ddr_print("%-45s : 0x%08lx\n", "LMC_INT_ENA_W1S", lmc_int_ena_w1s.u);
