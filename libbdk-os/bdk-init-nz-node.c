@@ -313,18 +313,11 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
         if (ccpi_trace)
         {
             bdk_dbg_uart_str("\33[1;1H");
-            BDK_CSR_INIT(mio_fus_dat2, node, BDK_MIO_FUS_DAT2);
-            int major_pass = ((mio_fus_dat2.s.chip_id >> 3) & 7) + 1;
-            int minor_pass = mio_fus_dat2.s.chip_id & 7;
             bdk_dbg_uart_str(bdk_version_string());
             bdk_dbg_uart_str(EOL);
             /* Print the node banner at the top of the screen */
             bdk_dbg_uart_str("Node ");
             uart_dec1(node);
-            bdk_dbg_uart_str(" Pass ");
-            uart_dec1(major_pass);
-            bdk_dbg_uart_char('.');
-            uart_dec1(minor_pass);
             bdk_dbg_uart_str(", CCPI Speed ");
             uart_dec2(baud_mhz / 100);
             uart_dec2(baud_mhz % 100);

@@ -8,9 +8,6 @@
  */
 void bdk_boot_info_strapping(bdk_node_t node)
 {
-    BDK_CSR_INIT(mio_fus_dat2, node, BDK_MIO_FUS_DAT2);
-    BDK_CSR_INIT(gicd_iidr, node, BDK_GICD_IIDR);
-
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
     const char *boot_method_str;
     int boot_method = bdk_extract(gpio_strap.u, 0, 4);
@@ -51,17 +48,6 @@ void bdk_boot_info_strapping(bdk_node_t node)
             break;
     }
 
-    /* Read the Pass information for fuses so we can read a different node.
-       Note that pass info in MIO_FUS_DAT2[CHIP_ID] is encoded as
-            bit[7] = Unused, zero
-            bit[6] = Alternate package
-            bit[5..3] = Major pass
-            bit[2..0] = Minor pass */
-    int alt_pkg = (mio_fus_dat2.s.chip_id >> 6) & 1;
-    int major_pass = ((mio_fus_dat2.s.chip_id >> 3) & 7) + 1;
-    int minor_pass = mio_fus_dat2.s.chip_id & 7;
-    const char *package_str = (alt_pkg) ? " (alt pkg)" : "";
-
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
         BDK_CSR_INIT(ocx_com_node, node, BDK_OCX_COM_NODE);
@@ -80,7 +66,6 @@ void bdk_boot_info_strapping(bdk_node_t node)
     }
 
     printf(
-        "Chip:  0x%x Pass %d.%d%s\n"
         "SKU:   %s\n"
         "L2:    %d KB\n"
         "RCLK:  %lu Mhz\n"
@@ -88,7 +73,6 @@ void bdk_boot_info_strapping(bdk_node_t node)
         "Boot:  %s(%d)\n"
         "VRM:   %s\n"
         "Trust: %s%s\n",
-        gicd_iidr.s.productid, major_pass, minor_pass, package_str,
         bdk_model_get_sku(node),
         bdk_l2c_get_cache_size_bytes(node) >> 10,
         bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000,

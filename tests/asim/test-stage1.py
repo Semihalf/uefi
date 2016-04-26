@@ -71,7 +71,6 @@ wait_for("================")
 wait_for("Version:")
 if os.environ["ASIM_CHIP"].startswith("CN88XX"):
     wait_for("Node:  0")
-wait_for("Chip:  0xa")
 wait_for("SKU:   CN8")
 wait_for("L2:")
 wait_for("RCLK:  2500 Mhz")
