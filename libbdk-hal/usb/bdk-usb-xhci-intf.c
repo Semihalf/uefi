@@ -186,12 +186,15 @@ static void list_usb_interface(const USB_INTERFACE *UsbIf,const int tier)
         } else {
             usbsubclass = Device->DevDesc->Desc.DeviceSubClass;
         }
-        printf("%*s#%02u Device@%p PP:%d PA:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x\n",
+        printf("%*s#%02u Device@%p PP:%d PA:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x Vend 0x%04x Prod 0x%04x\n",
                2*tier,"", ndx, Device,
                Device->ParentPort, Device->ParentAddr,
                Device->Tier,Device->NumOfInterface,
                b2i(Device->DisconnectFail),
-               usbclass, usbsubclass);
+               usbclass, usbsubclass,
+               bdk_le16_to_cpu(Device->DevDesc->Desc.IdVendor),
+               bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct)
+            );
         for(unsigned n=0; n < Device->NumOfInterface; n++) {
             if (NULL == Device->Interfaces[n]) continue;
             list_usb_interface(Device->Interfaces[n],Device->Tier);
@@ -225,17 +228,20 @@ int bdk_usb_HCList()
                     printf("RootHub If@%p IsHub %d IsManaged %d Ports:%d DevicePath:%s\n",
                            UsbIf, b2i(UsbIf->IsHub), b2i(UsbIf->IsManaged), UsbIf->NumOfPort, buf );
                     for(unsigned ndx=1; ndx < Bus->MaxDevices; ndx++) {
-                         Device = Bus->Devices[ndx];
-                         if (Device && (Device->ParentAddr == p->root_if->Device->Address)) {
-                             printf("R#%02u Device@%p Port:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x\n",
-                                    ndx, Device, Device->ParentPort,Device->Tier,Device->NumOfInterface,
-                                    b2i(Device->DisconnectFail),
-                                    Device->DevDesc->Desc.DeviceClass, Device->DevDesc->Desc.DeviceSubClass );
-                             for(unsigned n=0; n < Device->NumOfInterface; n++) {
-                                 if (NULL == (UsbIf = Device->Interfaces[n])) continue;
-                                 list_usb_interface(Device->Interfaces[n], Device->Tier);
-                             }
-                         }
+                        Device = Bus->Devices[ndx];
+                        if (Device && (Device->ParentAddr == p->root_if->Device->Address)) {
+                            printf("R#%02u Device@%p Port:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x Vend 0x%04x Prod 0x%04x\n",
+                                   ndx, Device, Device->ParentPort,Device->Tier,Device->NumOfInterface,
+                                   b2i(Device->DisconnectFail),
+                                   Device->DevDesc->Desc.DeviceClass, Device->DevDesc->Desc.DeviceSubClass ,
+                                   bdk_le16_to_cpu(Device->DevDesc->Desc.IdVendor),
+                                   bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct)
+                                );
+                            for(unsigned n=0; n < Device->NumOfInterface; n++) {
+                                if (NULL == (UsbIf = Device->Interfaces[n])) continue;
+                                list_usb_interface(Device->Interfaces[n], Device->Tier);
+                            }
+                        }
                     }
                 }
             }
