@@ -1611,6 +1611,23 @@ perform_lmc_reset(bdk_node_t node, int ddr_interface_num)
     } /* if ( !ddr_memory_preserved(node)) */
 }
 
+///////////////////////////////////////////////////////////
+// start of DBI switchover
+
+// print out the DBI settings array
+static void
+display_DBI_settings(int node, int lmc, int ecc_ena, int *dbi_settings, char *title)
+{
+    int byte;
+
+    ddr_print("N%d.LMC%d: %s DBI Deskew Settings %d:0  :",
+              node, lmc, title, 7+ecc_ena);
+    for (byte = (7+ecc_ena); byte >= 0; --byte) {
+        ddr_print(" 0x%03x ", dbi_settings[byte]);
+    }
+    ddr_print("\n");
+}
+
 /* first pattern example:
    GENERAL_PURPOSE0.DATA == 64'h00ff00ff00ff00ff;
    GENERAL_PURPOSE1.DATA == 64'h00ff00ff00ff00ff;
@@ -1631,6 +1648,7 @@ static void dbi_switchover_interface(int node, int lmc)
     int num_lmcs, errors;
     int dbi_settings[9], byte, unlocked, retries;
     int ecc_ena;
+    int rank_max = 1; // FIXME: make this 4 to try all the ranks
 
     ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(0));
 
@@ -1650,7 +1668,7 @@ static void dbi_switchover_interface(int node, int lmc)
     num_lmcs = __bdk_dram_get_num_lmc(node);
     rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
 
-    ddr_print("N%d.LMC%d: DBI switchover: rank_mask 0x%x, rank_offset 0x%016llx.\n",
+    ddr_print("N%d.LMC%d: DBI switchover: rank mask 0x%x, rank size 0x%016llx.\n",
 	      node, lmc, rank_mask, (unsigned long long)rank_offset);
 
     /* 1. conduct the current init sequence as usual all the way
@@ -1659,13 +1677,7 @@ static void dbi_switchover_interface(int node, int lmc)
 
     read_DAC_DBI_settings(node, /*ignored*/0, lmc, /*DBI*/0, dbi_settings);
 
-    // FIXME: print out the DBI settings array? 
-    ddr_print("N%d.LMC%d: Pre-training DBI Deskew Settings %d:0  :",
-              node, lmc, 7+ecc_ena);
-    for (byte = (7+ecc_ena); byte >= 0; --byte) {
-        ddr_print(" 0x%03x ", dbi_settings[byte]);
-    }
-    ddr_print("\n");
+    display_DBI_settings(node, lmc, ecc_ena, dbi_settings, " INIT");
  
    /* 2. set DBI related CSRs as below and issue MR write. 
          MODEREG_PARAMS3.WR_DBI=1
@@ -1786,12 +1798,8 @@ static void dbi_switchover_interface(int node, int lmc)
     ddr_print("N%d.LMC%d: DBI switchover: TRAINING begins...\n",
                   node, lmc);
 
-    retries = 0;
-
-restart_training:
-
     active_ranks = 0;
-    for (rankx = 0; rankx < 4; rankx++) {
+    for (rankx = 0; rankx < rank_max; rankx++) {
         if (!(rank_mask & (1 << rankx)))
             continue;
 
@@ -1799,52 +1807,53 @@ restart_training:
         phys_addr |= rank_offset * active_ranks;
         active_ranks++;
 
+        retries = 0;
+
+#if 0
+        phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(lmc));
+        phy_ctl.s.phy_reset = 1; // FIXME: this may reset too much?
+        DRAM_CSR_WRITE(node, BDK_LMCX_PHY_CTL(lmc), phy_ctl.u);
+#endif
+
+restart_training:
+
         // NOTE: return is a bitmask of the erroring bytelanes..
         errors = test_dram_byte_hw(node, lmc, phys_addr, 1);
 
-        ddr_print("N%d.LMC%d: DBI switchover: TEST: rank %d, errors 0x%x.\n",
-                  node, lmc, rankx, errors);
+        ddr_print("N%d.LMC%d: DBI switchover: TEST: rank %d, phys_addr 0x%lx, errors 0x%x.\n",
+                  node, lmc, rankx, phys_addr, errors);
 
-    } /* for (rankx = 0; rankx < 4; rankx++) */
+        // NEXT - check for locking
+        unlocked = 0;
+        read_DAC_DBI_settings(node, /*ignored*/0, lmc, /*DBI*/0, dbi_settings);
 
-    // NEXT - check for locking
-    unlocked = 0;
-    read_DAC_DBI_settings(node, /*ignored*/0, lmc, /*DBI*/0, dbi_settings);
+        for (byte = 0; byte < (8+ecc_ena); byte++) {
+            unlocked += (dbi_settings[byte] & 1) ^ 1;
+        }
 
-    for (byte = 0; byte < (8+ecc_ena); byte++) {
-        unlocked += (dbi_settings[byte] & 1) ^ 1;
-    }
+        // FIXME: print out the DBI settings array after each rank?
+        if (rank_max > 1) // only when doing more than 1 rank
+            display_DBI_settings(node, lmc, ecc_ena, dbi_settings, " RANK");
 
-    if (unlocked > 0) {
-        ddr_print("N%d.LMC%d: DBI switchover: LOCK: %d still unlocked.\n",
+        if (unlocked > 0) {
+            ddr_print("N%d.LMC%d: DBI switchover: LOCK: %d still unlocked.\n",
                   node, lmc, unlocked);
 
-        retries++;
-        if (retries < 10) {
-
-            // FIXME: print out the DBI settings array before a retry?
-            ddr_print("N%d.LMC%d: Post-training DBI Deskew Settings %d:0  :",
-                      node, lmc, 7+ecc_ena);
-            for (byte = (7+ecc_ena); byte >= 0; --byte) {
-                ddr_print(" 0x%03x ", dbi_settings[byte]);
+            retries++;
+            if (retries < 10) {
+                goto restart_training;
+            } else {
+                ddr_print("N%d.LMC%d: DBI switchover: LOCK: %d retries exhausted.\n",
+                          node, lmc, retries);
             }
-            ddr_print("\n");
-
-            goto restart_training;
         }
-        else
-            ddr_print("N%d.LMC%d: DBI switchover: LOCK: %d retries exhausted.\n",
-                      node, lmc, retries);
-    }
+    } /* for (rankx = 0; rankx < rank_max; rankx++) */
 
     // print out the final DBI settings array
-    ddr_print("N%d.LMC%d: FINAL DBI Deskew Settings %d:0  :",
-              node, lmc, 7+ecc_ena);
-    for (byte = (7+ecc_ena); byte >= 0; --byte) {
-        ddr_print(" 0x%03x ", dbi_settings[byte]);
-    }
-    ddr_print("\n");
+    display_DBI_settings(node, lmc, ecc_ena, dbi_settings, "FINAL");
 }
+// end of DBI switchover
+///////////////////////////////////////////////////////////
 
 uint32_t measure_octeon_ddr_clock(bdk_node_t node,
 				  const ddr_configuration_t *ddr_configuration,
