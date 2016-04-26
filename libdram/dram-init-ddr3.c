@@ -5800,7 +5800,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			int byte_idx;
 			rlevel_byte_data_t rlevel_byte[9];
 			int average_loops;
-			int rlevel_rank_errors;
+			int rlevel_rank_errors, rlevel_bitmask_errors, rlevel_nonseq_errors;
 			rlevel_bitmask_t rlevel_bitmask[9];
 #if PICK_BEST_RANK_SCORE_NOT_AVG
 			int rlevel_best_rank_score = DEFAULT_BEST_RANK_SCORE;
@@ -5813,7 +5813,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			memset(rlevel_bitmask, 0, sizeof(rlevel_bitmask));
 
 			for (average_loops = 0; average_loops < rlevel_avg_loops; average_loops++) {
-			    rlevel_rank_errors = 0;
+			    rlevel_bitmask_errors = 0;
+			    rlevel_nonseq_errors  = 0;
 
 			    if (! (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM))) {
 				/* Clear read-level delays */
@@ -5903,10 +5904,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 				} /* if (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM)) */
 
-				/* Evaluate the quality of the read-leveling
-				   delays. Also save off a software computed
-				   read-leveling mask that may be used later
-				   to qualify the delay results from Octeon. */
+				/*
+                                 * Evaluate the quality of the read-leveling delays. Also
+                                 * save off a software computed read-leveling mask that
+                                 * may be used later to qualify the delay results from Octeon.
+                                 */
 				for (byte_idx = 0; byte_idx < (8+ecc_ena); ++byte_idx) {
 				    if (!(ddr_interface_bytemask&(1<<byte_idx)))
 					continue;
@@ -5916,7 +5918,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    }
 				    rlevel_bitmask[byte_idx].errs =
 					validate_ddr3_rlevel_bitmask(&rlevel_bitmask[byte_idx]);
-				    rlevel_rank_errors += rlevel_bitmask[byte_idx].errs;
+				    rlevel_bitmask_errors += rlevel_bitmask[byte_idx].errs;
 				}
 
 				/* Set delays for unused bytes to match byte 0. */
@@ -5936,26 +5938,38 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					if ((spd_dimm_type == 1) || (spd_dimm_type == 5)) { /* 1=RDIMM, 5=Mini-RDIMM */
 					    int register_adjacent_delay = _abs(rlevel_byte[4].delay - rlevel_byte[5].delay);
 					    /* Registered dimm topology routes from the center. */
-					    rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena,
+					    rlevel_nonseq_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena,
 										       maximum_adjacent_rlevel_delay_increment);
-					    rlevel_rank_errors += nonsequential_delays(rlevel_byte, 5, 7+ecc_ena,
+					    rlevel_nonseq_errors += nonsequential_delays(rlevel_byte, 5, 7+ecc_ena,
 										       maximum_adjacent_rlevel_delay_increment);
 					    if (register_adjacent_delay > 1) {
 						/* Assess proximity of bytes on opposite sides of register */
-						rlevel_rank_errors += (register_adjacent_delay-1) * RLEVEL_ADJACENT_DELAY_ERROR;
+						rlevel_nonseq_errors += (register_adjacent_delay-1) * RLEVEL_ADJACENT_DELAY_ERROR;
 					    }
 					}
 					if ((spd_dimm_type == 2) || (spd_dimm_type == 6)) { /* 2=UDIMM, 6=Mini-UDIMM */
 					    /* Unbuffered dimm topology routes from end to end. */
-					    rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 7+ecc_ena,
+					    rlevel_nonseq_errors += nonsequential_delays(rlevel_byte, 0, 7+ecc_ena,
 										       maximum_adjacent_rlevel_delay_increment);
 					}
 				    } else {
-					rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena,
+					rlevel_nonseq_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena,
 										   maximum_adjacent_rlevel_delay_increment);
 				    }
 				}
 
+                                // Calculate total errors for the rank:
+                                // we do NOT add nonsequential errors if mini-[RU]DIMM or x16;
+                                // mini-DIMMs and x16 devices have unusual sequence geometries.
+                                // Make the final scores for them depend only on the bitmasks...
+                                rlevel_rank_errors = rlevel_bitmask_errors;
+                                if ((spd_dimm_type != 5) &&
+                                    (spd_dimm_type != 6) &&
+                                    (dram_width != 16))
+                                {
+                                    rlevel_rank_errors += rlevel_nonseq_errors;
+                                }
+                                
 				// print here only if we are not really averaging or picking best
 				if (rlevel_avg_loops < 2) {
                                     display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask);
