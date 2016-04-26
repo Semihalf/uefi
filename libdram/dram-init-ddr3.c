@@ -714,7 +714,8 @@ static uint64_t octeon_read_lmcx_ddr3_wlevel_dbg(bdk_node_t node, int ddr_interf
  *   +++++++++++++++++++++++++++++++++++++++++++++++++++
  */
 #define MASKRANGE 0x3f
-static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp, uint8_t *widthp)
+static int
+validate_ddr3_rlevel_bitmask(rlevel_bitmask_t *rlevel_bitmask_p)
 {
     int i;
     int errors  = 0;
@@ -729,6 +730,7 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
     uint8_t blank = 0;
     uint8_t narrow = 0;
     uint8_t trailing = 0;
+    uint64_t bitmask = rlevel_bitmask_p->bm;
 
     if (bitmask == 0) {
 	blank += RLEVEL_BITMASK_BLANK_ERROR;
@@ -811,8 +813,8 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
     errors = bubble + tbubble + blank + narrow + trailing;
 
     /* Pass out useful statistics */
-    *mstartp = mstart;
-    *widthp = width;
+    rlevel_bitmask_p->mstart = mstart;
+    rlevel_bitmask_p->width  = width;
 
     debug_bitmask_print("bm:%05lx mask:%2lx, width:%2u, mstart:%2d, fb:%2u, lb:%2u"
 			" (bu:%d, tb:%d, bl:%d, n:%d, t:%d) errors:%3d ",
@@ -5910,11 +5912,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					    octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, byte_idx);
 				    }
 				    rlevel_bitmask[byte_idx].errs =
-					validate_ddr3_rlevel_bitmask(rlevel_bitmask[byte_idx].bm,
-								     &rlevel_bitmask[byte_idx].mstart,
-								     &rlevel_bitmask[byte_idx].width);
+					validate_ddr3_rlevel_bitmask(&rlevel_bitmask[byte_idx]);
 				    rlevel_rank_errors += rlevel_bitmask[byte_idx].errs;
-
 				}
 
 				/* Set delays for unused bytes to match byte 0. */
