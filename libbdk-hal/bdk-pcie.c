@@ -133,10 +133,11 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         c.s.fe_en = 1; /* Fatal error reporting enable. */
         c.s.ur_en = 1); /* Unsupported request reporting enable. */
 
-    /* ECRC Generation (PCIE*_CFG070[GE,CE]) */
+    /* Disable ECRC Generation as not all card support it. The OS can enable it
+       later if desired (PCIE*_CFG070[GE,CE]) */
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG070(pcie_port),
-        c.s.ge = 1; /* ECRC generation enable. */
-        c.s.ce = 1); /* ECRC check enable. */
+        c.s.ge = 0; /* ECRC generation disable. */
+        c.s.ce = 0); /* ECRC check disable. */
 
     /* Access Enables (PCIE*_CFG001[MSAE,ME]) */
         /* ME and MSAE should always be set. */
