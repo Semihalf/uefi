@@ -10,6 +10,7 @@
 #define ADD_48_OHM_SKIP    1
 #define NOSKIP_40_48_OHM   1
 #define NOSKIP_48_STACKED  1
+#define NOSKIP_FOR_MINI    1
 #define MAJORITY_OVER_AVG  1
 #define RANK_MAJORITY      MAJORITY_OVER_AVG && 1
 #define SW_WL_CHECK_PATCH  1 // check validity after SW adjust
@@ -6141,6 +6142,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			rodt_row_skip_mask &= ~(1 << ddr4_rodt_ctl_48_ohm); // noskip RODT row 48 ohms
 		    }
 #endif /* NOSKIP_48_STACKED */
+#if NOSKIP_FOR_MINI
+                    // for now, leave all rows eligible when we have mini-DIMMs...
+                    if ((spd_dimm_type == 5) || (spd_dimm_type == 6)) {
+                        rodt_row_skip_mask = 0;
+                    }
+#endif /* NOSKIP_FOR_MINI */
 		}
 
 		VB_PRT(VBL_DEV, "Evaluating Read-Leveling Scoreboard for AUTO settings.\n");
