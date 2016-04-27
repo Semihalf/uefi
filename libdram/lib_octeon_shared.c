@@ -150,7 +150,7 @@ static int init_octeon_dram_interface(bdk_node_t node,
     if (mem_size_mbytes == 0) { // means restart is possible
         if (lmc_restart_retries < DEFAULT_RESTART_RETRIES) {
             lmc_restart_retries++;
-            error_print("N%d.LMC%d Configuration problem: attempting LMC reset and init restart %d\n",
+            ddr_print("N%d.LMC%d Configuration problem: attempting LMC reset and init restart %d\n",
                         node, ddr_interface_num, lmc_restart_retries);
             // re-assert RESET first, as that is the assumption of the init code
             if (!ddr_memory_preserved(node))

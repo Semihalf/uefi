@@ -7523,8 +7523,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     bdk_wait_usec(500000);
                     bdk_reset_chip(node);
                 } else { // return error flag so LMC init can be retried...
-                    error_print("INFO: Short memory test indicates a retry is needed on N%d.LMC%d.R%d. Restarting LMC init...\n",
-                                node, ddr_interface_num, rankx);
+                    ddr_print("INFO: Short memory test indicates a retry is needed on N%d.LMC%d.R%d. Restarting LMC init...\n",
+                              node, ddr_interface_num, rankx);
                     return 0; // 0 indicates restart possible...
                 }
             }
