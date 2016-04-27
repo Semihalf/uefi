@@ -385,7 +385,10 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
 
     usb_global_data[node][usb_port].root_hub_enum_timestamp = bdk_clock_get_count(BDK_CLOCK_TIME);
 
-    bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], 0);
+    // Default stack is too small for async monitor - it issues callbacks into mass storage
+#define _ASYNC_STACK_SIZE (6 * 1024)
+    bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], _ASYNC_STACK_SIZE);
+#undef _ASYNC_STACK_SIZE
 
     // Wait for async thread to initialize - otherwise lua menus will not be right
     int count=1000;

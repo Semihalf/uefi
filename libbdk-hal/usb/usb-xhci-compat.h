@@ -301,9 +301,6 @@ typedef UINT16                    STRING_REF;
  * Useful stuff
  */
 
-#if ! defined(COMPILE_ASSERT)
-#define COMPILE_ASSERT(test, msg) typedef char _COMPILE_ASSERT_ ## msg [ ((test) ? 1 : -1) ]
-#endif
 #if !defined(BDK_BARRIER)
 #define BDK_BARRIER     asm volatile ("" : : :"memory") /* noop, compiler will not cross */
 #endif
