@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.22-rc5 ==
+== thunder-release-v1.22-rc6 ==
 * Added support for CN88XX pass 2.1. Prior releases will crash when entering diagnostics on CN88XX pass 2.1 and higher.
 * Added support for measuring SERDES quality using a vertical eye measurement
 ** New traffic-gen command "margin_rx" for networking related SERDES
@@ -50,6 +50,8 @@ incorporated into each BDK release.
 ** Update PEM-21178 workaround as soem fields weren't covered
 ** Don't apply QLM tuning to PCIe Gen3 links
 ** Fixed memory transactions in the PCIe menu
+** Add setup menu option to control PCIe ordering
+** Disable ECRC for PCIe. It can be enabled by the operating system later if needed
 * Misc
 ** Support building with GCC5. GCC5 executables will not work on CN88XX pass 1.x as GCC uses compare and swap
 ** Preliminary support for CN81XX and CN83XX
@@ -58,13 +60,18 @@ incorporated into each BDK release.
 ** Chip SKU information is now displayed to the user and passed in the device tree
 ** Boot messages report secure or non-secure boot
 ** Dynamic device tree fixup for Linux. The BDK will now load an extra device tree for the operating system use. See documentation for details on BDK configuration.
-** Add support for dynamic thermal monitoring. Add options to the setup menu to control power throttling
+** Add support for dynamic thermal monitoring. Add options to the setup menu to control power throttling. Diagnostics power menu options updated.
+** Default hardware power throttle changed from 71% to 66%
 ** Improve the performance of the MPI/SPI transfers
 ** Use recursive lock for console output instead of spinlock. Fixes potential hangs with many output threads on one core.
 ** Add init of IOBX_NCB0_HP
 ** Many messages renames to remove references to THUNDERX
 ** USB XHCI support for hubs and mass storage. Storage devices with FatFS volumes can be read/written.
 ** File menu now has an option to list files in BDK file systems.
+** BDK now soft blows some fuses during initial power on. This results in a soft reset early in boot
+** Once booted, most fuses are locked to prevent accidental tampering
+** Added PNAME fuse decoding for SKU display
+** Remove the printing of the chip pass in boot messages
 
 == thunder-release-v1.21 ==
 * Redo handling of CCPI link init to support CN88XX pass 2.0.
