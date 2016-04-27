@@ -651,6 +651,7 @@ int devtree_process(void)
     /* Warn if we could load a device tree */
     if (!fdt)
     {
+        return -1; /* SDK team is not ready with OS device trees yet */
         printf("\33[1m"); /* Bold */
         bdk_warn("\n");
         bdk_warn("********************************************************\n");
