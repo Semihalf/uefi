@@ -325,40 +325,6 @@ static const model_sku_info_t t81_sku_info[] =
 };
 
 /**
- * Get the correct SKU table for the current chip
- *
- * @return SKU table, or NULL on failure
- */
-static const model_sku_info_t* get_sku_table(void)
-{
-    /* Figure out which SKU list to use */
-    uint64_t die;
-    asm ("mrs %[rd],MIDR_EL1" : [rd] "=r" (die));
-    die = bdk_extract(die, 4, 12);
-    switch (die)
-    {
-        case 0xa1:
-            /* CN88XX has a weird special case, when the secondary
-               nodes are in early boot and not running from the code link
-               address. In this case we need to fixup the address of the table
-               to contain the node address */
-            if ((long)__builtin_return_address(0) > 1L << 40)
-            {
-                uint64_t pa = (long)t88_sku_info;
-                pa = bdk_numa_get_address(bdk_numa_local(), pa);
-                return (const model_sku_info_t*)pa;
-            }
-            return t88_sku_info;
-        case 0xa2:
-            return t81_sku_info;
-        case 0xa3:
-            return t83_sku_info;
-        default:
-            return NULL;
-    }
-}
-
-/**
  * Given a core count, return the last two digits of a model number
  *
  * @param cores  Number of cores
@@ -436,9 +402,24 @@ const char* bdk_model_get_sku(int node)
         return chip_sku[node];
 
     /* Figure out which SKU list to use */
-    const model_sku_info_t *sku_info = get_sku_table();
-    if (!sku_info)
-        bdk_fatal("SKU detect: Unknown die\n");
+    const model_sku_info_t *sku_info;
+    uint64_t result;
+    asm ("mrs %[rd],MIDR_EL1" : [rd] "=r" (result));
+    result = bdk_extract(result, 4, 12);
+    switch (result)
+    {
+        case 0xa1:
+            sku_info = t88_sku_info;
+            break;
+        case 0xa2:
+            sku_info = t81_sku_info;
+            break;
+        case 0xa3:
+            sku_info = t83_sku_info;
+            break;
+        default:
+            bdk_fatal("SKU detect: Unknown die\n");
+    }
 
     /* Read the SKU index from the PNAME fuses */
     int match_index = -1;
