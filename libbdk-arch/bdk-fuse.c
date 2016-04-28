@@ -289,9 +289,6 @@ int bdk_fuse_init(bdk_node_t node)
 {
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
         return 0;
-    /* We can't process fuses if LCK_PRD is set */
-    if (bdk_fuse_read(node, BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_PRD))
-        return 0;
 
     bool need_reset = false;
 
