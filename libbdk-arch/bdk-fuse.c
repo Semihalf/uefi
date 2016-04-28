@@ -350,27 +350,6 @@ int bdk_fuse_init(bdk_node_t node)
         }
     }
 
-    /* Check various safety lock fuses */
-    const uint16_t safety_fuses[] = {
-        BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_DES,
-        BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_MAN,
-        BDK_MIO_FUS_FUSE_NUM_E_EFUS_LCK_PRD, /* This must be last */
-        0, /* End of list marker */
-    };
-
-    {
-        int i = 0;
-        while (safety_fuses[i])
-        {
-            if (bdk_fuse_read(node, safety_fuses[i]) == 0)
-            {
-                bdk_fuse_soft_blow(node, safety_fuses[i]);
-                need_reset = true;
-            }
-            i++;
-        }
-    }
-
     /* Perform a softrest if we need one */
     if (need_reset)
     {
