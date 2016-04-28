@@ -98,7 +98,7 @@ typedef struct _USB_HUB_API    USB_HUB_API;
 // Wait for set device address, refers to specification
 // [USB20-9.2.6.3, it says 2ms]
 //
-#define USB_SET_DEVICE_ADDRESS_STALL   (2 * USB_BUS_1_MILLISECOND)
+#define USB_SET_DEVICE_ADDRESS_STALL   (10 * USB_BUS_1_MILLISECOND)
 
 //
 // Wait for retry max packet size, set by experience
@@ -375,22 +375,6 @@ EFIAPI
 UsbBusIsWantedUsbIO (
   IN USB_BUS                 *Bus,
   IN USB_INTERFACE           *UsbIf
-  );
-
-/**
-  Recursively connnect every wanted usb child device to ensure they all fully connected.
-  Check all the child Usb IO handles in this bus, recursively connecte if it is wanted usb child device.
-
-  @param  UsbBusId                  Point to EFI_USB_BUS_PROTOCOL interface.
-
-  @retval EFI_SUCCESS               Connect is done successfully.
-  @retval EFI_INVALID_PARAMETER     The parameter is invalid.
-
-**/
-EFI_STATUS
-EFIAPI
-UsbBusRecursivelyConnectWantedUsbIo (
-  IN EFI_USB_BUS_PROTOCOL         *UsbBusId
   );
 
 /**
@@ -704,88 +688,9 @@ UsbBusBuildProtocol (
   IN EFI_DEVICE_PATH_PROTOCOL     *RemainingDevicePath
   );
 
-/**
-  The USB bus driver entry pointer.
-
-  @param ImageHandle       The driver image handle.
-  @param SystemTable       The system table.
-
-  @return EFI_SUCCESS      The component name protocol is installed.
-  @return Others           Failed to init the usb driver.
-
-**/
-EFI_STATUS
-EFIAPI
-UsbBusDriverEntryPoint (
-  IN EFI_HANDLE           ImageHandle,
-  IN EFI_SYSTEM_TABLE     *SystemTable
-  );
-
-/**
-  Check whether USB bus driver support this device.
-
-  @param  This                   The USB bus driver binding protocol.
-  @param  Controller             The controller handle to check.
-  @param  RemainingDevicePath    The remaining device path.
-
-  @retval EFI_SUCCESS            The bus supports this controller.
-  @retval EFI_UNSUPPORTED        This device isn't supported.
-
-**/
-EFI_STATUS
-EFIAPI
-UsbBusControllerDriverSupported (
-  IN EFI_DRIVER_BINDING_PROTOCOL  *This,
-  IN EFI_HANDLE                   Controller,
-  IN EFI_DEVICE_PATH_PROTOCOL     *RemainingDevicePath
-  );
-
-/**
-  Start to process the controller.
-
-  @param  This                   The USB bus driver binding instance.
-  @param  Controller             The controller to check.
-  @param  RemainingDevicePath    The remaining device patch.
-
-  @retval EFI_SUCCESS            The controller is controlled by the usb bus.
-  @retval EFI_ALREADY_STARTED    The controller is already controlled by the usb
-                                 bus.
-  @retval EFI_OUT_OF_RESOURCES   Failed to allocate resources.
-
-**/
-EFI_STATUS
-EFIAPI
-UsbBusControllerDriverStart (
-  IN EFI_DRIVER_BINDING_PROTOCOL  *This,
-  IN EFI_HANDLE                   Controller,
-  IN EFI_DEVICE_PATH_PROTOCOL     *RemainingDevicePath
-  );
-
-/**
-  Stop handle the controller by this USB bus driver.
-
-  @param  This                   The USB bus driver binding protocol.
-  @param  Controller             The controller to release.
-  @param  NumberOfChildren       The child of USB bus that opened controller
-                                 BY_CHILD.
-  @param  ChildHandleBuffer      The array of child handle.
-
-  @retval EFI_SUCCESS            The controller or children are stopped.
-  @retval EFI_DEVICE_ERROR       Failed to stop the driver.
-
-**/
-EFI_STATUS
-EFIAPI
-UsbBusControllerDriverStop (
-  IN EFI_DRIVER_BINDING_PROTOCOL  *This,
-  IN EFI_HANDLE                   Controller,
-  IN UINTN                        NumberOfChildren,
-  IN EFI_HANDLE                   *ChildHandleBuffer
-  );
 
 extern EFI_USB_IO_PROTOCOL            mUsbIoProtocol;
 #if defined(notdef_cavium)
-extern EFI_DRIVER_BINDING_PROTOCOL    mUsbBusDriverBinding;
 extern EFI_COMPONENT_NAME_PROTOCOL    mUsbBusComponentName;
 extern EFI_COMPONENT_NAME2_PROTOCOL   mUsbBusComponentName2;
 #endif
