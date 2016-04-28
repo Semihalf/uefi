@@ -557,9 +557,9 @@ UsbGetMaxPacketSize0 (
       /* It looks as if 8 byte read is supported by all devices I could find.
       ** 18 byte read gave me grief on Trident TU-S9 device (usb-to-serial)
       */
-      Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_DEVICE, 0, 0, &DevDesc, 8);
-      if (EFI_ERROR(Status)) {
-          DEBUG(( EFI_D_WARN, "%s:%d retrying for BABBLE workaround\n",__FUNCTION__,__LINE__));
+      if ( (UsbDev->Speed == EFI_USB_SPEED_LOW) || (UsbDev->Speed == EFI_USB_SPEED_FULL) ) {
+          Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_DEVICE, 0, 0, &DevDesc, 8);
+      } else {
           Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_DEVICE, 0, 0, &DevDesc, sizeof(EFI_USB_DEVICE_DESCRIPTOR));
       }
 #else
