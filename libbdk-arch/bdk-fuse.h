@@ -47,16 +47,3 @@ extern int bdk_fuse_field_read(bdk_node_t node, int fuse);
  */
 extern int bdk_fuse_field_soft_blow(bdk_node_t node, int fuse);
 
-/**
- * Fuse initialization is called very early in startup to determine if fuses are
- * properly setup. This function is called before the GTI clock is setup, so care
- * must be taken with delays. It is also called on secondary nodes before CCPI
- * is up and running. This function may trigger a soft reset internally, forcing
- * a reload of fuse information.
- *
- * @param node   Node to check and initialize fuses on
- *
- * @return Zero on success, negative on failure
- */
-extern int bdk_fuse_init(bdk_node_t node);
-
