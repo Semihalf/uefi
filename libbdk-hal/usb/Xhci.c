@@ -1144,7 +1144,7 @@ XhcControlTransfer (
       ((Request->RequestType == USB_REQUEST_TYPE (EfiUsbDataIn, USB_REQ_TYPE_STANDARD, USB_TARGET_DEVICE)) ||
       ((Request->RequestType == USB_REQUEST_TYPE (EfiUsbDataIn, USB_REQ_TYPE_CLASS, USB_TARGET_DEVICE))))) {
     DescriptorType = (UINT8)(Request->Value >> 8);
-    if ((DescriptorType == USB_DESC_TYPE_DEVICE) && ((*DataLength == sizeof (EFI_USB_DEVICE_DESCRIPTOR)) || ((DeviceSpeed == EFI_USB_SPEED_FULL) && (*DataLength == 8)))) {
+    if ((DescriptorType == USB_DESC_TYPE_DEVICE) && ((*DataLength == sizeof (EFI_USB_DEVICE_DESCRIPTOR)) || ((DeviceSpeed == EFI_USB_SPEED_FULL) && (*DataLength >= 8)))) {
         ASSERT (Data != NULL);
         //
         // Store a copy of device scriptor as hub device need this info to configure endpoint.
@@ -1158,11 +1158,21 @@ XhcControlTransfer (
         } else {
           MaxPacket0 = Xhc->UsbDevContext[SlotId].DevDesc.MaxPacketSize0;
         }
-        Xhc->UsbDevContext[SlotId].ConfDesc = AllocateZeroPool (Xhc->UsbDevContext[SlotId].DevDesc.NumConfigurations * sizeof (EFI_USB_CONFIG_DESCRIPTOR *));
-        if (Xhc->/* HcCParams.Data.Csz */hccparams.s.csz == 0) {
-          Status = XhcEvaluateContext (Xhc, SlotId, MaxPacket0);
+        bool doEval;
+        if (NULL == Xhc->UsbDevContext[SlotId].ConfDesc) {
+            Xhc->UsbDevContext[SlotId].ConfDesc = AllocateZeroPool (Xhc->UsbDevContext[SlotId].DevDesc.NumConfigurations * sizeof (EFI_USB_CONFIG_DESCRIPTOR *));
+            doEval = true;
         } else {
-          Status = XhcEvaluateContext64 (Xhc, SlotId, MaxPacket0);
+            doEval =
+                (Xhc->UsbDevContext[SlotId].InputContext &&
+                 ((INPUT_CONTEXT*)Xhc->UsbDevContext[SlotId].InputContext)->EP[0].MaxPacketSize != MaxPacket0);
+        }
+        if (doEval) {
+            if (Xhc->/* HcCParams.Data.Csz */hccparams.s.csz == 0) {
+                Status = XhcEvaluateContext (Xhc, SlotId, MaxPacket0);
+            } else {
+                Status = XhcEvaluateContext64 (Xhc, SlotId, MaxPacket0);
+            }
         }
     } else if (DescriptorType == USB_DESC_TYPE_CONFIG) {
       ASSERT (Data != NULL);

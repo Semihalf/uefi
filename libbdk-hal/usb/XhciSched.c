@@ -899,7 +899,6 @@ EXIT:
     XhcWriteRuntimeReg (Xhc, XHC_ERDP_OFFSET + 4, XHC_HIGH_32BIT (PhyAddr));
   }
 #else
-  ;
   PhyAddr = (typeof(PhyAddr))bdk_ptr_to_phys(Xhc->EventRing.EventRingDequeue);
   uint64_t XhcDequeue = XhcReadRuntimeReg64(Xhc,XHC_ERDP_OFFSET);
   if ((XhcDequeue & (~0x0F)) != (PhyAddr & (~0x0F))) {
@@ -1441,12 +1440,15 @@ XhcDisableSlotCmd (
       Xhc->UsbDevContext[SlotId].EndpointTransferRing[Index] = NULL;
     }
   }
-  for (Index = 0; Index < Xhc->UsbDevContext[SlotId].DevDesc.NumConfigurations; Index++) {
-    if (Xhc->UsbDevContext[SlotId].ConfDesc[Index] != NULL) {
-      FreePool (Xhc->UsbDevContext[SlotId].ConfDesc[Index]);
-    }
+  if (Xhc->UsbDevContext[SlotId].ConfDesc) {
+      for (Index = 0; Index < Xhc->UsbDevContext[SlotId].DevDesc.NumConfigurations; Index++) {
+          if (Xhc->UsbDevContext[SlotId].ConfDesc[Index] != NULL) {
+              FreePool (Xhc->UsbDevContext[SlotId].ConfDesc[Index]);
+          }
+      }
+      free(Xhc->UsbDevContext[SlotId].ConfDesc);
+      Xhc->UsbDevContext[SlotId].ConfDesc = NULL;
   }
-
   if (Xhc->UsbDevContext[SlotId].ActiveAlternateSetting != NULL) {
     FreePool (Xhc->UsbDevContext[SlotId].ActiveAlternateSetting);
   }
@@ -1455,6 +1457,7 @@ XhcDisableSlotCmd (
     UsbHcFreeMem (Xhc->MemPool, Xhc->UsbDevContext[SlotId].InputContext, sizeof (INPUT_CONTEXT));
 #else
       free( Xhc->UsbDevContext[SlotId].InputContext);
+      Xhc->UsbDevContext[SlotId].InputContext = NULL;
 #endif
   }
 
@@ -1463,6 +1466,7 @@ XhcDisableSlotCmd (
     UsbHcFreeMem (Xhc->MemPool, Xhc->UsbDevContext[SlotId].OutputContext, sizeof (DEVICE_CONTEXT));
 #else
       free(Xhc->UsbDevContext[SlotId].OutputContext);
+      Xhc->UsbDevContext[SlotId].OutputContext = NULL;
 #endif
   }
   //
@@ -1557,10 +1561,14 @@ XhcDisableSlotCmd64 (
       Xhc->UsbDevContext[SlotId].EndpointTransferRing[Index] = NULL;
     }
   }
-  for (Index = 0; Index < Xhc->UsbDevContext[SlotId].DevDesc.NumConfigurations; Index++) {
-    if (Xhc->UsbDevContext[SlotId].ConfDesc[Index] != NULL) {
-      FreePool (Xhc->UsbDevContext[SlotId].ConfDesc[Index]);
-    }
+  if (Xhc->UsbDevContext[SlotId].ConfDesc) {
+      for (Index = 0; Index < Xhc->UsbDevContext[SlotId].DevDesc.NumConfigurations; Index++) {
+          if (Xhc->UsbDevContext[SlotId].ConfDesc[Index] != NULL) {
+              FreePool (Xhc->UsbDevContext[SlotId].ConfDesc[Index]);
+          }
+      }
+      free(Xhc->UsbDevContext[SlotId].ConfDesc);
+      Xhc->UsbDevContext[SlotId].ConfDesc = NULL;
   }
   if (Xhc->UsbDevContext[SlotId].ActiveAlternateSetting != NULL) {
     FreePool (Xhc->UsbDevContext[SlotId].ActiveAlternateSetting);
@@ -1570,6 +1578,7 @@ XhcDisableSlotCmd64 (
     UsbHcFreeMem (Xhc->MemPool, Xhc->UsbDevContext[SlotId].InputContext, sizeof (INPUT_CONTEXT_64));
 #else
       free( Xhc->UsbDevContext[SlotId].InputContext);
+      Xhc->UsbDevContext[SlotId].InputContext = NULL;
 #endif
   }
 
@@ -1578,6 +1587,7 @@ XhcDisableSlotCmd64 (
       UsbHcFreeMem (Xhc->MemPool, Xhc->UsbDevContext[SlotId].OutputContext, sizeof (DEVICE_CONTEXT_64));
 #else
       free( Xhc->UsbDevContext[SlotId].OutputContext);
+      Xhc->UsbDevContext[SlotId].OutputContext = NULL;
 #endif
   }
   //
