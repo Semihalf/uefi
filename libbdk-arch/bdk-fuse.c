@@ -301,22 +301,6 @@ int bdk_fuse_init(bdk_node_t node)
         need_reset = true;
     }
 
-    /* Check if and model specific fuses need to be updated */
-    const uint16_t* fuse_list = bdk_model_get_fuses(node);
-    if (fuse_list)
-    {
-        int i = 0;
-        while (fuse_list[i])
-        {
-            if (bdk_fuse_read(node, fuse_list[i]) == 0)
-            {
-                bdk_fuse_soft_blow(node, fuse_list[i]);
-                need_reset = true;
-            }
-            i++;
-        }
-    }
-
     /* Perform a softrest if we need one */
     if (need_reset)
     {

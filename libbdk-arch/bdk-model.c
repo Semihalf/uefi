@@ -615,20 +615,3 @@ const char* bdk_model_get_sku(int node)
 
     return chip_sku[node];
 }
-
-/**
- * Get a list of fuses that are suppose to be blown for this chip model
- *
- * @param node   Node to query
- *
- * @return Pointer to array of fuses, or NULL on failure. End of array is marked with a zero.
- */
-const uint16_t* bdk_model_get_fuses(int node)
-{
-    /* Get the SKU table for this chip  */
-    const model_sku_info_t *sku_info = get_sku_entry(node);
-    if (sku_info)
-        return sku_info->fuses;
-    else
-        return NULL;
-}
