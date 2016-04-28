@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.22-rc6 ==
+== thunder-release-v1.22-rc7 ==
 * Added support for CN88XX pass 2.1. Prior releases will crash when entering diagnostics on CN88XX pass 2.1 and higher.
 * Added support for measuring SERDES quality using a vertical eye measurement
 ** New traffic-gen command "margin_rx" for networking related SERDES
@@ -31,6 +31,8 @@ incorporated into each BDK release.
 ** Enhance HW-assist tuning to allow use on data bytelanes.
 ** Fix HW write-leveling validity checking.
 ** Enable ECC byte tuning by default; fix speed caclulation.
+** Fix handling of mini-UDIMMs and mini-RDIMMs.
+** DBI support.
 * SERDES
 ** Have RX equalization check that a lane has CDR lock before trying equalization
 ** BGX: Don't allow lane up to continue until RX equalization succeeds on all lanes
@@ -68,10 +70,6 @@ incorporated into each BDK release.
 ** Many messages renames to remove references to THUNDERX
 ** USB XHCI support for hubs and mass storage. Storage devices with FatFS volumes can be read/written.
 ** File menu now has an option to list files in BDK file systems.
-** BDK now soft blows some fuses during initial power on. This results in a soft reset early in boot
-** Once booted, most fuses are locked to prevent accidental tampering
-** Added PNAME fuse decoding for SKU display
-** Remove the printing of the chip pass in boot messages
 
 == thunder-release-v1.21 ==
 * Redo handling of CCPI link init to support CN88XX pass 2.0.
