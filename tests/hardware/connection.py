@@ -113,6 +113,8 @@ class TelnetPort:
             if time.time() - start_time > timeout:
                 raise Exception("Timeout")
             self.data += self.telnet.read_eager()
+            if not self.data:
+                time.sleep(0.01) # 10ms
         result = self.data[0]
         self.data = self.data[1:]
         return result
