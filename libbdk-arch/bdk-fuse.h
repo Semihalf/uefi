@@ -6,18 +6,6 @@
  * <hr>$Revision: 49448 $<hr>
  */
 
-/* Contains decoded information read from PNAME fuses */
-typedef struct
-{
-    uint8_t index;      /* Index in SKU TABLE, zero if not set in fuses */
-    uint8_t cores : 7;  /* Number of cores in the part, zero if not limited by fuses */
-    uint8_t valid : 1;  /* Set if the PNAME fuses were read successfully. Ignored by upper level software */
-    uint8_t rclk : 6;   /* RCLK frequency in 100Mhz units, zero if not limited by fuses */
-    uint8_t prod : 2;   /* Production type */
-    uint8_t model;      /* Override to replace last three digits of model number */
-    uint16_t segment;   /* Override segment with up to three characters */
-    uint16_t prefix;    /* Override prefix with up to three characters */
-} bdk_fuse_pname_info_t;
 
 /**
  * Read a single fuse bit
@@ -58,15 +46,6 @@ extern int bdk_fuse_field_read(bdk_node_t node, int fuse);
  * @return Zero on success, negative on failure
  */
 extern int bdk_fuse_field_soft_blow(bdk_node_t node, int fuse);
-
-/**
- * Extrace PNAME fuses to determine chip info
- *
- * @param node   Node to query
- *
- * @return PNAME fuse states
- */
-extern bdk_fuse_pname_info_t bdk_fuse_pname_extract(bdk_node_t node);
 
 /**
  * Fuse initialization is called very early in startup to determine if fuses are
