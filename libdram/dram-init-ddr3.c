@@ -2594,7 +2594,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
 #if 0 // FIXME: do we really need this anymore?
-    if (dram_is_verbose(NORMAL)) {
+    if (dram_is_verbose(VBL_NORM)) {
         printf("DDR SPD Table:");
         for (didx = 0; didx < DDR_CFG_T_MAX_DIMMS; ++didx) {
             if (dimm_config_table[didx].spd_addrs[0] == 0) break;

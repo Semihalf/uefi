@@ -1130,7 +1130,12 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 
 	// print and load the offset values
 	// print the windows bit arrays
-	printf("N%d.LMC%d: DLL %s Offset Amount %s : ", node, lmc, mode_str, mode_blk);
+	// only when margining...
+	if (!do_tune) {
+            printf("N%d.LMC%d: DLL %s Offset Amount %s : ", node, lmc, mode_str, mode_blk);
+        } else {
+            ddr_print("N%d.LMC%d: DLL %s Offset Amount %s : ", node, lmc, mode_str, mode_blk);
+        }
 	for (byte = 8; byte >= 0; --byte) { // print in "normal" reverse index order
 
 	    int count = byte_delay_best_count[lmc][byte];
@@ -1151,7 +1156,7 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 		else
 		    low_risk_count++;
 	    } else { // if just tuning, make the printout less lengthy
-                printf("%5d ", byte_offset);
+                ddr_print("%5d ", byte_offset);
             }
 
 	    // FIXME? should we be able to override this?
@@ -1161,7 +1166,12 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 		load_dll_offset(node, lmc, dll_offset_mode, 0, byte);
 
 	}
-	printf("\n");
+	if (!do_tune) {
+            printf("\n");
+        } else {
+            ddr_print("\n");
+        }
+
 
 	// re-enable the offsets now that we are done loading
 	change_dll_offset_enable(node, lmc, 1);
