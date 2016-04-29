@@ -211,4 +211,6 @@
 		.endif
 	.endm
 
+#include <plat_macros.S>
+
 #endif /* __ASM_MACROS_S__ */
