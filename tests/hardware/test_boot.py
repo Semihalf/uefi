@@ -63,7 +63,7 @@ def wait_for_bootstub_messages(cnx):
     cnx.match("Cavium Init")
     cnx.match("===========")
     cnx.matchRE("BDK Version: .+\n")
-    cnx.matchRE("N0.LMC0 Configuration Completed: [0-9]+ MB")
+    cnx.matchRE("N0.LMC0 Configuration Completed: [0-9]+ MB", timeout=30)
     cnx.matchRE("N0.LMC1 Configuration Completed: [0-9]+ MB")
     cnx.matchRE("N0.LMC2 Configuration Completed: [0-9]+ MB")
     cnx.matchRE("N0.LMC3 Configuration Completed: [0-9]+ MB")
@@ -96,7 +96,7 @@ def wait_for_bootstub_messages(cnx):
         cnx.matchRE("N1.LMC1 Configuration Completed: [0-9]+ MB")
         cnx.matchRE("N1.LMC2 Configuration Completed: [0-9]+ MB")
         cnx.matchRE("N1.LMC3 Configuration Completed: [0-9]+ MB")
-        cnx.matchRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM")
+        cnx.matchRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=30)
     # Extra output allowed here
     cnx.waitfor("Loading image file '/fatfs/diagnostics.bin'", timeout=30)
     cnx.match("---")
