@@ -6,6 +6,9 @@ import time
 import traceback
 import connection
 
+bmc_user = "admin"
+bmc_password = "admin"
+
 #
 # Generic connection for a board. Serves as a base class for specific boards
 # below
@@ -123,10 +126,12 @@ class Board_CRB_1S(Board):
         Board.close(self)
 
     def powerCycle(self):
+        global bmc_user
+        global bmc_password
         self.log("Power cycle board")
-        os.system("ipmitool -H %s -U admin -P admin power off" % self.bmc)
+        os.system("ipmitool -H %s -U %s -P %s power off" % (self.bmc, bmc_user, bmc_password))
         time.sleep(7)
-        os.system("ipmitool -H %s -U admin -P admin power on" % self.bmc)
+        os.system("ipmitool -H %s -U %s -P %s power on" % (self.bmc, bmc_user, bmc_password))
 
 #
 # Class for controlling the CRB-2S
@@ -141,12 +146,22 @@ class Board_CRB_2S(Board):
         Board.close(self)
 
     def powerCycle(self):
+        global bmc_user
+        global bmc_password
         self.log("Power cycle board")
-        os.system("ipmitool -H %s -U admin -P admin power off" % self.bmc)
+        os.system("ipmitool -H %s -U %s -P %s power off" % (self.bmc, bmc_user, bmc_password))
         time.sleep(7)
-        os.system("ipmitool -H %s -U admin -P admin power on" % self.bmc)
+        os.system("ipmitool -H %s -U %s -P %s power on" % (self.bmc, bmc_user, bmc_password))
 
 def parseArgs():
+    global bmc_user
+    global bmc_password
+
+    if "BMC_USER" in os.environ:
+        bmc_user = os.environ["BMC_USER"]
+    if "BMC_PASSWORD" in os.environ:
+        bmc_password = os.environ["BMC_PASSWORD"]
+
     try:
         assert len(sys.argv) >= 2 # Remember 0 is program name
         if ("/" in sys.argv[1]) or (":" in sys.argv[1]):
