@@ -466,6 +466,17 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int fl
     bdk_dram_address_extract_info(p, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
     debug_print("test_dram_byte_hw: Starting at A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
 	      p, node_address, lmc, dimm, rank, bank, row, col);
+
+    // only check once per call, and ignore if no match...
+    if ((int)node != node_address) {
+        error_print("ERROR: Node address mismatch; ignoring...\n");
+        return 0;
+    }
+    if (lmc != ddr_interface_num) {
+        error_print("ERROR: LMC address mismatch\n");
+        return 0;
+    }
+
     /*
       7) Set PHY_CTL[PHY_RESET] = 1 (LMC automatically clears this as it’s a one-shot operation).
       This is to get into the habit of resetting PHY’s SILO to the original 0 location.
@@ -493,11 +504,6 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int fl
 #endif
 
 	bdk_dram_address_extract_info(p1, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
-
-	if ((int)node != node_address)
-	    error_print("ERROR: Node address mismatch\n");
-	if (lmc != ddr_interface_num)
-	    error_print("ERROR: LMC address mismatch\n");
 
 #if 1
         dbtrain_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DBTRAIN_CTL(ddr_interface_num));
@@ -1809,6 +1815,7 @@ static void dbi_switchover_interface(int node, int lmc)
 
         phys_addr = (lmc << 7);
         phys_addr |= rank_offset * active_ranks;
+        phys_addr = bdk_numa_get_address(node, phys_addr); // map to node
         active_ranks++;
 
         retries = 0;

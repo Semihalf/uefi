@@ -1596,6 +1596,7 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
 
 		phys_addr = (lmc << 7);
 		phys_addr |= dram_tune_rank_offset * active_ranks;
+                phys_addr = bdk_numa_get_address(node, phys_addr); // map to node
                 active_ranks++;
 
                 // NOTE: return is a now a bitmask of the erroring bytelanes..
