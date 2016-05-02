@@ -44,64 +44,6 @@ static void display_error(bdk_node_t node, const char *csr_name, int arg1, int a
         bdk_error("N%d %s[%s]\n", node, csr_name, field_name);
 }
 
-/*
- * construct_address_info builds a physical address from the FADR CSR fields.
- */
-#define EXTRACT(v, lsb, width) (((v) >> (lsb)) & ((1ull << (width)) - 1))
-#define INSERT(a, v, lsb, width) a|=(((v) & ((1ull << (width)) - 1)) << (lsb))
-
-static uint64_t construct_address_info(bdk_node_t node, int lmc, int dimm,
-				       int rank, int bank, int row, int col)
-
-{
-    uint64_t address = 0;
-
-    // insert node bits
-    INSERT(address, node, 40, 2); /* Address bits [41:40] */
-
-    /* xbits depends on number of LMCs */
-    int xbits = (__bdk_dram_get_num_lmc(node) == 4) ? 2 : 1;
-    int bank_lsb = 7 + xbits;
-
-    /* Figure out the bank field width */
-    int bank_width = __bdk_dram_get_num_bank_bits(node, lmc);
-
-    /* Extract additional info from the LMC_CONFIG CSR */
-    BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
-    int dimm_lsb     = 28 + lmcx_config.s.pbank_lsb + xbits;
-    int dimm_width   = 40 - dimm_lsb;
-    int rank_lsb     = dimm_lsb - lmcx_config.s.rank_ena;
-    int rank_width   = dimm_lsb - rank_lsb;
-    int row_lsb      = 14 + lmcx_config.s.row_lsb + xbits;
-    int row_width    = rank_lsb - row_lsb;
-    int col_hi_lsb   = bank_lsb + bank_width;
-    int col_hi_width = row_lsb - col_hi_lsb;
-
-    /* Insert some other parts of the address */
-    INSERT(address, dimm, dimm_lsb, dimm_width);
-    INSERT(address, rank, rank_lsb, rank_width);
-    INSERT(address, row,  row_lsb,  row_width);
-    INSERT(address, col >> 4, col_hi_lsb, col_hi_width);
-    INSERT(address, col, 3, 4);
-
-    /* bank calculation may be aliased... */
-    BDK_CSR_INIT(lmcx_control, node, BDK_LMCX_CONTROL(lmc));
-    int new_bank = bank;
-    if (lmcx_control.s.xor_bank)
-        new_bank ^= EXTRACT(address, 12 + xbits, bank_width);
-    INSERT(address, new_bank, bank_lsb, bank_width);
-      
-    /* Determine the actual C bits from the input LMC controller arg */
-    /* The input LMC number was probably aliased with other fields */
-    BDK_CSR_INIT(l2c_ctl, node, BDK_L2C_CTL);
-    int new_lmc = lmc;
-    if (!l2c_ctl.s.disidxalias)
-	new_lmc ^= EXTRACT(address, 20, xbits) ^ EXTRACT(address, 12, xbits);
-    INSERT(address, new_lmc, 7, xbits);
-
-    return address;
-}
-
 static void construct_phase_info(char *buffer, int fill_order, int fail_index, int err_bits)
 {
     int basic_phase, bitno, bitmask, phase_no, read_no;
@@ -180,6 +122,8 @@ ecc_syndrome_to_bytebit[256] = {
     [0x01] = 0x90, [0x02] = 0x91, [0x04] = 0x92, [0x08] = 0x93,
     [0x10] = 0x94, [0x20] = 0x95, [0x40] = 0x96, [0x80] = 0x97
 };
+
+#define EXTRACT(v, lsb, width) (((v) >> (lsb)) & ((1ull << (width)) - 1))
 
 static void check_cn88xx(bdk_node_t node)
 {
@@ -277,8 +221,8 @@ static void check_cn88xx(bdk_node_t node)
                 }
                 uint32_t frow = fadr.s.frow & __bdk_dram_get_row_mask(node, index);
                 uint32_t fcol = fadr.s.fcol & __bdk_dram_get_col_mask(node, index);
-                uint64_t where = construct_address_info(node, index, fadr.s.fdimm, fadr.s.fbunk,
-                                                        fadr.s.fbank, frow, fcol);
+                uint64_t where = bdk_dram_construct_address_info(node, index, fadr.s.fdimm, fadr.s.fbunk,
+                                                                 fadr.s.fbank, frow, fcol);
 		construct_phase_info(phasestr, fadr.s.fill_order, EXTRACT(fadr.s.fcol, 1, 3), err_bits);
 
                 bdk_error("N%d.LMC%d: ECC %s (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x,%s,%s)[0x%011lx]\n",

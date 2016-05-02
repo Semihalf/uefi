@@ -69,6 +69,22 @@ extern void bdk_dram_address_extract_info(uint64_t address, int *node, int *lmc,
     int *dimm, int *rank, int *bank, int *row, int *col);
 
 /**
+ * Construct a physical address given the node, LMC, DIMM, rank, bank, row, and column.
+ *
+ * @param address Physical address to decode
+ * @param node    Node the address was for
+ * @param lmc     LMC controller the address was for
+ * @param dimm    DIMM the address was for
+ * @param rank    RANK on the DIMM
+ * @param bank    BANK on the DIMM
+ * @param row     Row on the DIMM
+ * @param col     Column on the DIMM
+ */
+extern uint64_t
+bdk_dram_construct_address_info(bdk_node_t node, int lmc, int dimm,
+                                int rank, int bank, int row, int col);
+
+/**
  * Inject a DRAM error at a specific address in memory. The injection can either
  * be a single bit inside the byte, or a double bit error in the ECC byte. Double
  * bit errors may corrupt memory, causing software to crash. The corruption is
