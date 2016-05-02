@@ -227,7 +227,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 {
     const int MAX_A_CLK = 333000000; /* Max of 333Mhz */
 
-    /* SATA hasa fixed mapping for ports on CN88XX */
+    /* SATA has a fixed mapping for ports on CN88XX */
     int sata_port;
     switch (qlm)
     {
