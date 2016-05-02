@@ -6,7 +6,7 @@
     CN8890-2000BG2601-AAP-PR-Y-G
     CN XX XX X - XXX BG XXX - XX (- XX) (- X) - G
     |  |  |  |   |   |  |     |     |      |    ^ RoHS Option, G=RoHS 6/6
-    |  |  |  |   |   |  |     |     |      ^ Product Revision, blank for pass 1, Y=pass 2, W=pass 3
+    |  |  |  |   |   |  |     |     |      ^ Product Revision, blank for pass 1, Y=pass 2, W=pass 3, V=pass 4
     |  |  |  |   |   |  |     |     ^ Product Phase, blank=production, PR=Prototype, ES=Engineering Sample
     |  |  |  |   |   |  |     ^ Marketing Segment Option (SC, SNT, etc)
     |  |  |  |   |   |  ^ Number of balls on the package
@@ -474,8 +474,8 @@ const char* bdk_model_get_sku(int node)
     const char *bg_str          = "BG"; /* Default Ball Grid array */
     int         balls           = sku_info[match_index].num_balls; /* Num package balls */
     const char *segment         = sku_info[match_index].segment; /* Market segment */
-    const char *prod_phase      = ""; /* Default for production */
-    const char *prod_rev        = ""; /* Product revision */
+    char prod_phase[4];         /* Blank = production, PR = Prototype, ES = Engineering sample */
+    char prod_rev[5];           /* Product revision */
     const char *rohs_option     = "G"; /* RoHS is always G for current parts */
 
     /* Update the model number with the number of cores */
@@ -489,6 +489,9 @@ const char* bdk_model_get_sku(int node)
         rclk_limit = mio_fus_dat3.s.core_pll_mul * 2 * 50;
     }
 
+    /* FIXME: Hardcode production as there is no way to tell */
+    prod_phase[0] = 0;
+
     /* Read the Pass information from fuses. Note that pass info in
        MIO_FUS_DAT2[CHIP_ID] is encoded as
             bit[7] = Unused, zero
@@ -497,17 +500,51 @@ const char* bdk_model_get_sku(int node)
             bit[2..0] = Minor pass */
     BDK_CSR_INIT(mio_fus_dat2, node, BDK_MIO_FUS_DAT2);
     int major_pass = ((mio_fus_dat2.s.chip_id >> 3) & 7) + 1;
-    switch (major_pass)
+    int minor_pass = mio_fus_dat2.s.chip_id & 7;
+    if (major_pass == 1)
     {
-        case 2:
-            prod_rev = "-Y";
-            break;
-        case 3:
-            prod_rev = "-W";
-            break;
-        default:
-            prod_rev = "";
-            break;
+        /* Pass 1.x is special in that we don't show the implied 'X' */
+        if (minor_pass == 0)
+        {
+            /* Completely blank for 1.0 */
+            prod_rev[0] = 0;
+        }
+        else
+        {
+            /* If we are production and not pass 1.0, the product phase
+               changes from blank to "-P". The product revision then
+               follows the product phase without a '-' */
+            if (prod_phase[0] == 0)
+            {
+                /* Change product phase to "-P" */
+                prod_phase[0] = '-';
+                prod_phase[1] = 'P';
+                prod_phase[2] = 0;
+            }
+            /* No separator between phase and revision */
+            prod_rev[0] = '1';
+            prod_rev[1] = '0' + minor_pass;
+            prod_rev[2] = 0;
+        }
+    }
+    else
+    {
+        /* Pass 2.0 and above        12345678 */
+        const char pass_letter[8] = "XYWVUTSR";
+        prod_rev[0] = '-';
+        prod_rev[1] = pass_letter[major_pass-1];
+        if (minor_pass == 0)
+        {
+            /* Nothing after the letter code */
+            prod_rev[2] = 0;
+        }
+        else
+        {
+            /* Add major and minor after the letter code */
+            prod_rev[2] = '0' + major_pass;
+            prod_rev[3] = '0' + minor_pass;
+            prod_rev[4] = 0;
+        }
     }
 
     /* Read PNAME fuses, looking for SKU overrides */
