@@ -65,7 +65,7 @@ UsbBotInit (
   // Allocate the BOT context for USB_BOT_PROTOCOL and two endpoint descriptors.
   //
   UsbBot = AllocateZeroPool (sizeof (USB_BOT_PROTOCOL) + 2 * sizeof (EFI_USB_ENDPOINT_DESCRIPTOR));
-  ASSERT (UsbBot != NULL);
+  if (NULL == UsbBot) return EFI_OUT_OF_RESOURCES;
 
   UsbBot->UsbIo = UsbIo;
 
@@ -156,6 +156,7 @@ ON_ERROR:
   @retval Others                Failed to send the command to device
 
 **/
+static
 EFI_STATUS
 UsbBotSendCommand (
   IN USB_BOT_PROTOCOL         *UsbBot,

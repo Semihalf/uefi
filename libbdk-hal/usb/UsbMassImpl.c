@@ -870,7 +870,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
        __bdk_fs_fatfs_usbnotify(devIndex, 1);
     }
 
-    return Status;
+    return rc;
 
 err_exit:
     if (Transport && tContext)
