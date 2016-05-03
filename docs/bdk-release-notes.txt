@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.22-rc8 ==
+== thunder-release-v1.22-rc9 ==
 * Added support for CN88XX pass 2.1. Prior releases will crash when entering diagnostics on CN88XX pass 2.1 and higher.
 * Added support for measuring SERDES quality using a vertical eye measurement
 ** New traffic-gen command "margin_rx" for networking related SERDES
@@ -49,6 +49,7 @@ incorporated into each BDK release.
 ** Rewrite NIC allocation to use one VF per interface, not port* USB: Add new config option to specify the polarity of the usb gpio
 ** Change SERDES lane tuning to not override values when defaults are used
 ** Apply tuning to CCPI with KR training. Previously this was skipped
+** TX POST limit changed from 31 to 15. 15 is the highest legal value
 * PCIe
 ** Update PEM-21178 workaround as soem fields weren't covered
 ** Don't apply QLM tuning to PCIe Gen3 links
@@ -71,6 +72,7 @@ incorporated into each BDK release.
 ** Many messages renames to remove references to THUNDERX
 ** USB XHCI support for hubs and mass storage. Storage devices with FatFS volumes can be read/written.
 ** File menu now has an option to list files in BDK file systems.
+** Fixed issue where the device tree wasn't passed into diagnostics correctly if the machine had lots of DRAM
 
 == thunder-release-v1.21 ==
 * Redo handling of CCPI link init to support CN88XX pass 2.0.
