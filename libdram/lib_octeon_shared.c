@@ -925,6 +925,8 @@ int initialize_ddr_clock(bdk_node_t node,
 
 	    /* Put all LMCs into DRESET here; these are the reset values... */
             for (loop_interface_num = 0; loop_interface_num < 4; ++loop_interface_num) {
+                if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
+                    continue;
 
                 dll_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(loop_interface_num));
 
@@ -985,22 +987,27 @@ int initialize_ddr_clock(bdk_node_t node,
                           ddr_pll_ctl.s.dclk_invert);
             }
             
+            // always write LMC0 CSR, it must be active
             DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(0), ddr_pll_ctl.u);
             ddr_print("%-45s : 0x%016lx\n", "LMC0: DDR_PLL_CTL", ddr_pll_ctl.u);
 
-            // NOTE: 81xx has only 1 LMC...
-            // FIXME? what about 83XX in 1-LMC mode???
-            if (! CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
+            // only when LMC1 is active
+            // NOTE: 81xx has only 1 LMC, and 83xx can operate in 1-LMC mode
+            if (ddr_interface_mask & 0x2) {
+
                 ddr_pll_ctl.s.dclk_invert       ^= 1; /* DEFAULT: Toggle dclk_invert from LMC0 */
-                if ((s = lookup_env_parameter("ddr1_set_dclk_invert")) != NULL) { // override?
+
+                // allow override of LMC1 desired setting for DCLK_INVERT
+                if ((s = lookup_env_parameter("ddr1_set_dclk_invert")) != NULL) {
                     ddr_pll_ctl.s.dclk_invert = !!strtoul(s, NULL, 0);
                     ddr_print("LMC1: override DDR_PLL_CTL[dclk_invert] to %d\n",
                               ddr_pll_ctl.s.dclk_invert);
                 }
+
+                // always write LMC1 CSR when it is active
                 DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(1), ddr_pll_ctl.u);
                 ddr_print("%-45s : 0x%016lx\n", "LMC1: DDR_PLL_CTL", ddr_pll_ctl.u);
             }
-
 
             /*
              * 2. If the current DRAM contents are not preserved (see
@@ -1198,6 +1205,11 @@ int initialize_ddr_clock(bdk_node_t node,
 
 		bdk_wait_usec(25);          /* Wait 25 us */
 
+            } /* for (loop_interface_num = 0; loop_interface_num<4; ++loop_interface_num) */
+
+            for (loop_interface_num = 0; loop_interface_num<4; ++loop_interface_num) {
+                if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
+                    continue;
 		/*
 		 * 6.9.3 LMC CK Initialization
 		 *
@@ -1363,13 +1375,13 @@ int initialize_ddr_clock(bdk_node_t node,
              * ­ LMC0 and LMC1 DRESET initialization must occur after Step 5.
              */
 
-            /* TWO-LMC MODE BEFORE STEP 5 */
-            if (ddr_interface_mask == 0x3) {
+            if ((ddr_interface_mask == 0x1) || (ddr_interface_mask == 0x3)) {
+                /* ONE-LMC MODE FOR 81XX AND 83XX BEFORE STEP 5 */
+                /* TWO-LMC MODE BEFORE STEP 5 */
                 cn78xx_lmc_dreset_init(node, 0);
-            }
 
-            /* FOUR-LMC MODE BEFORE STEP 5 */
-            if (ddr_interface_mask == 0xf) {
+            } else if (ddr_interface_mask == 0xf) {
+                /* FOUR-LMC MODE BEFORE STEP 5 */
                 cn78xx_lmc_dreset_init(node, 2);
                 cn78xx_lmc_dreset_init(node, 3);
             }
@@ -1500,6 +1512,8 @@ int initialize_ddr_clock(bdk_node_t node,
 		BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(3));
             } /* if (ddr_interface_mask == 0xf) */
 
+
+            /* ONE-LMC MODE AFTER STEP 5 - NOTHING */
 
             /* TWO-LMC MODE AFTER STEP 5 */
             if (ddr_interface_mask == 0x3) {

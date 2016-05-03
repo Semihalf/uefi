@@ -4557,7 +4557,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #if DAC_OVERRIDE_EARLY
     // as a second step, after internal VREF training, before starting deskew training:
     // for DDR3 and THUNDER pass 2.x, override the DAC setting to 127
-    // FIXME: will need to add CN83XX (all) and CN81XX (all) at some point...
     if ((ddr_type == DDR3_DRAM) && !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
         load_dac_override(node, ddr_interface_num, 127, /* all */0x0A);
         ddr_print("N%d.LMC%d: Overriding DDR3 internal VREF DAC settings to 127 (early).\n",
@@ -4594,7 +4593,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #if !DAC_OVERRIDE_EARLY
     // as a final step in internal VREF training, after deskew training but before HW WL:
     // for DDR3 and THUNDER pass 2.x, override the DAC setting to 127
-    // FIXME: will need to add CN83XX (all) and CN81XX (all) at some point...
     if ((ddr_type == DDR3_DRAM) && !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
         load_dac_override(node, ddr_interface_num, 127, /* all */0x0A);
         ddr_print("N%d.LMC%d, Overriding DDR3 internal VREF DAC settings to 127 (late).\n",
@@ -6866,7 +6864,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
        LMCX_PHY_CTL2[DQS[0..8]_DSK_ADJ] > 4, set
        LMCX_EXT_CONFIG[DRIVE_ENA_BPRCH] = 1.
     */
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) { // only for 88XX pass 2
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) { // only for 88XX pass 2, not 81xx or 83xx
         bdk_lmcx_dll_ctl3_t dll_ctl3;
         bdk_lmcx_phy_ctl2_t phy_ctl2;
         bdk_lmcx_ext_config_t ext_config;
