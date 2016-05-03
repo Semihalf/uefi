@@ -53,7 +53,7 @@ def wait_for_bootstub_messages(cnx):
     cnx.match("D")
     cnx.match("Loading image file '/fatfs/init.bin'")
     cnx.match("---")
-
+    # Escape sequence here, hence wait below
     cnx.waitfor("Cavium SOC")
     cnx.match("Locking L2 cache")
     cnx.match("PASS: CRC32 verification")
@@ -97,11 +97,16 @@ def wait_for_bootstub_messages(cnx):
         cnx.matchRE("N1.LMC2 Configuration Completed: [0-9]+ MB")
         cnx.matchRE("N1.LMC3 Configuration Completed: [0-9]+ MB")
         cnx.matchRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=30)
-    # Extra output allowed here
-    cnx.waitfor("Loading image file '/fatfs/diagnostics.bin'", timeout=30)
+    for pcie in range(2*5):
+        try:
+            cnx.matchRE("N[01]\\.PCIe[0-9]: Link .+\n", timeout=5)
+        except:
+            break
+    cnx.match("Loading image file '/fatfs/diagnostics.bin'")
     cnx.match("---")
 
 def wait_for_bdk_boot(cnx):
+    # Escape sequence here, hence wait below
     cnx.waitfor("Cavium SOC")
     cnx.match("PASS: CRC32 verification")
     cnx.match("Transferring to thread scheduler")
@@ -109,8 +114,8 @@ def wait_for_bdk_boot(cnx):
     cnx.match("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
     cnx.match("Cavium Diagnostics")
     cnx.match("Copyright (C) 2010-2016 Cavium Inc.")
-    cnx.match("BDK Version:")
-    cnx.waitfor("=================================")
+    cnx.matchRE("BDK Version: .+\n")
+    cnx.match("=================================")
     cnx.match("Main Menu")
     cnx.match("=================================")
     # Extra output allowed here
@@ -141,7 +146,7 @@ def wait_for_main_menu(cnx):
     cnx.match("ccpi) CCPI options")
     # Extra output allowed here
     cnx.waitfor("rbt) Reboot")
-    cnx.waitfor("(INS)Menu choice []:")
+    cnx.match("(INS)Menu choice []:")
 
 def boot_normal(cnx):
     wait_for_bootstub_messages(cnx)
