@@ -594,7 +594,6 @@ XhcAsyncIsochronousTransfer (
   );
 
 
-int xhcPollRootHub(void *usb_root_hub,xhci_t* xhc);
 
 /**
  ** return cavium node id and physical interface number for a protocol instance

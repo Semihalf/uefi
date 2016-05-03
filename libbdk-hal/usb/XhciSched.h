@@ -759,18 +759,17 @@ typedef struct _INPUT_CONTEXT_64 {
   ENDPOINT_CONTEXT_64     EP[31];
 } INPUT_CONTEXT_64;
 
-#if 0
 /**
   Initialize the XHCI host controller for schedule.
 
   @param  Xhc        The XHCI Instance to be initialized.
 
+  @retval Zero on success non-zero on failure
 **/
-VOID
+int
 XhcInitSched (
   IN USB_XHCI_INSTANCE    *Xhc
   );
-
 /**
   Free the resouce allocated at initializing schedule.
 
@@ -781,23 +780,6 @@ VOID
 XhcFreeSched (
   IN USB_XHCI_INSTANCE    *Xhc
   );
-#else
-
-/*
- * Initialize host controller for schedule
- * @param xhc The XHC instance
- *
- * @return Zero on success non-zero on failure
- */
-int xhciInitSched(USB_XHCI_INSTANCE* xhc);
-
-/*
- * Free Host controller schedule resources
- * @param xhc The XHC instance
- *
- */
-void xhciFreeSched(USB_XHCI_INSTANCE* xhc);
-#endif
 
 /**
   Ring the door bell to notify XHCI there is a transaction to be executed through URB.
@@ -1114,50 +1096,6 @@ XhcBusDevAddrToSlotId (
   );
 
 /**
-  Assign and initialize the device slot for a new device.
-
-  @param  Xhc                 The XHCI Instance.
-  @param  ParentRouteChart    The route string pointed to the parent device.
-  @param  ParentPort          The port at which the device is located.
-  @param  RouteChart          The route string pointed to the device.
-  @param  DeviceSpeed         The device speed.
-
-  @retval EFI_SUCCESS   Successfully assign a slot to the device and assign an address to it.
-
-**/
-EFI_STATUS
-EFIAPI
-XhcInitializeDeviceSlot (
-  IN  USB_XHCI_INSTANCE         *Xhc,
-  IN  USB_DEV_ROUTE             ParentRouteChart,
-  IN  UINT16                    ParentPort,
-  IN  USB_DEV_ROUTE             RouteChart,
-  IN  UINT8                     DeviceSpeed
-  );
-
-/**
-  Assign and initialize the device slot for a new device.
-
-  @param  Xhc                 The XHCI Instance.
-  @param  ParentRouteChart    The route string pointed to the parent device.
-  @param  ParentPort          The port at which the device is located.
-  @param  RouteChart          The route string pointed to the device.
-  @param  DeviceSpeed         The device speed.
-
-  @retval EFI_SUCCESS   Successfully assign a slot to the device and assign an address to it.
-
-**/
-EFI_STATUS
-EFIAPI
-XhcInitializeDeviceSlot64 (
-  IN  USB_XHCI_INSTANCE         *Xhc,
-  IN  USB_DEV_ROUTE             ParentRouteChart,
-  IN  UINT16                    ParentPort,
-  IN  USB_DEV_ROUTE             RouteChart,
-  IN  UINT8                     DeviceSpeed
-  );
-
-/**
   Evaluate the endpoint 0 context through XHCI's Evaluate_Context cmd.
 
   @param  Xhc           The XHCI Instance.
@@ -1194,7 +1132,7 @@ XhcEvaluateContext64 (
   IN UINT32                   MaxPacketSize
   );
 
-
+#if defined(notdef_cavium)
 /**
   Disable the specified device slot.
 
@@ -1227,7 +1165,11 @@ XhcDisableSlotCmd64 (
   IN USB_XHCI_INSTANCE        *Xhc,
   IN UINT8                    SlotId
   );
-
+#else
+/*
+ * Merged XhcDisableSlotCmd and XhcDisableSlotCmd64 and made them static
+ */
+#endif
 
 /**
   Synchronize the specified transfer ring to update the enqueue and dequeue pointer.
@@ -1469,26 +1411,5 @@ XhcCreateTransferTrb (
   IN USB_XHCI_INSTANCE            *Xhc,
   IN URB                          *Urb
   );
-
-/**
-  Initialize the XHCI host controller for schedule.
-
-  @param  Xhc        The XHCI Instance to be initialized.
-
-**/
-VOID
-XhcInitSched (
-  IN USB_XHCI_INSTANCE    *Xhc
-    );
-/**
-  Free the resouce allocated at initializing schedule.
-
-  @param  Xhc        The XHCI Instance.
-
-**/
-VOID
-XhcFreeSched (
-  IN USB_XHCI_INSTANCE    *Xhc
-    );
 
 #endif

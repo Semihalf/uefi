@@ -264,10 +264,6 @@ const USB_CLEAR_PORT_MAP mUsbHubClearPortChangeMap[] = {
   {XHC_HUB_PORTSC_BHRC, Usb3PortBHPortResetChange}
 };
 
-int xhcPollRootHub(void *usb_root_hub,xhci_t* xhc) {
-    printf("no longer there use Xhc code\n");
-    return -1;
-}
 
 /**
   Clears a feature for the specified root hub port.

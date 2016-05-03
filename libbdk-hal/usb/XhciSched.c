@@ -998,11 +998,12 @@ XhcExecTransfer (
 //--------------------------------->
 /*
  * Initialize host controller for schedule
+ *
  * @param xhc The XHC instance
  *
  * @return Zero on success non-zero on failure
  */
-int xhciInitSched(xhci_t* xhc)
+int XhcInitSched(xhci_t* xhc)
 {
     int rc = 0;
 
@@ -1088,32 +1089,7 @@ out:
 
     return rc;
 }
-/**
-  Free XHCI event ring.
 
-  @param  xhc                 The XHCI Instance.
-  @param  EventRing           The event ring to be freed.
-
-**/
-static int
-
-xhcFreeEventRing (
-  IN  USB_XHCI_INSTANCE   *xhc,
-  IN  EVENT_RING          *EventRing
-)
-{
-  if(EventRing->EventRingSeg0 == NULL) {
-      return 0;
-  }
-
-  // Free EventRing Segment 0
-  free(EventRing->EventRingSeg0);
-  EventRing->EventRingSeg0 = NULL;
-
-  // Free ESRT table
-  free(EventRing->ERSTBase);
-  return 0;
-}
 /**
   Calculate the device context index by endpoint address and direction.
 
@@ -1142,34 +1118,6 @@ XhcEndpointToDci (
   }
 }
 
-/*
- * Free Host controller schedule resources
- * @param xhc The XHC instance
- *
- */
-void xhciFreeSched(xhci_t* xhc)
-{
-
-    unsigned MaxScratchPadBufs = xhc->MaxScratchPadBufs;
-    if (MaxScratchPadBufs && xhc->ScratchBuf) {
-        for( unsigned Index = 0; Index < MaxScratchPadBufs; Index++) {
-            free(
-                bdk_phys_to_ptr(xhc->ScratchBuf[Index])
-                );
-        }
-        free(xhc->ScratchBuf);
-        xhc->ScratchBuf = NULL;
-    }
-    // Clean cmd ring
-    if (xhc->CmdRing.RingSeg0 != NULL) {
-        free(xhc->CmdRing.RingSeg0);
-        xhc->CmdRing.RingSeg0 = NULL;
-    }
-    // Clean Event ring
-    xhcFreeEventRing (xhc,&xhc->EventRing);
-
-    _clean(xhc->DCBAA);
-}
 #undef _clean
 
 EFI_STATUS CreateTransferRing (
@@ -1359,6 +1307,7 @@ XhcBusDevAddrToSlotId (
   }
   return 0;
 }
+
 /**
   Disable the specified device slot.
 
@@ -1368,6 +1317,7 @@ XhcBusDevAddrToSlotId (
   @retval EFI_SUCCESS   Successfully disable the device slot.
 
 **/
+static
 EFI_STATUS
 XhcDisableSlotCmd (
   IN USB_XHCI_INSTANCE         *Xhc,
@@ -1480,6 +1430,12 @@ XhcDisableSlotCmd (
   return Status;
 }
 
+#if !defined(notdef_cavium)
+/*
+ * DisableSlotCmd and DisableSlotCMd64 are identical for us.
+ * The only part different between those has to do with pci memory management, we are not concerned with.
+ */
+#else
 /**
   Disable the specified device slot.
 
@@ -1600,6 +1556,7 @@ XhcDisableSlotCmd64 (
 
   return Status;
 }
+#endif
 
 /**
   Assign and initialize the device slot for a new device.
@@ -1613,6 +1570,7 @@ XhcDisableSlotCmd64 (
   @retval EFI_SUCCESS   Successfully assign a slot to the device and assign an address to it.
 
 **/
+static
 EFI_STATUS
 EFIAPI
 XhcInitializeDeviceSlot (
@@ -1856,7 +1814,7 @@ XhcInitializeDeviceSlot (
   @retval EFI_SUCCESS   Successfully assign a slot to the device and assign an address to it.
 
 **/
-EFI_STATUS
+static EFI_STATUS
 EFIAPI
 XhcInitializeDeviceSlot64 (
   IN  USB_XHCI_INSTANCE         *Xhc,
@@ -2087,25 +2045,8 @@ XhcInitializeDeviceSlot64 (
   return Status;
 }
 
-
-
 //------------------------------------------------>
 
-
-
-/**
-  Initialize the XHCI host controller for schedule.
-
-  @param  Xhc        The XHCI Instance to be initialized.
-
-**/
-VOID
-XhcInitSched (
-  IN USB_XHCI_INSTANCE    *Xhc
-  )
-{
-    xhciInitSched(Xhc);
-}
 
 /**
   System software shall use a Reset Endpoint Command (section 4.11.4.7) to remove the Halted
@@ -2237,6 +2178,7 @@ Done:
   @param  EventRing           The event ring to be freed.
 
 **/
+static
 EFI_STATUS
 EFIAPI
 XhcFreeEventRing (
@@ -2275,7 +2217,28 @@ XhcFreeSched (
   IN USB_XHCI_INSTANCE    *Xhc
   )
 {
-    xhciFreeSched(Xhc);
+     unsigned MaxScratchPadBufs = Xhc->MaxScratchPadBufs;
+    if (MaxScratchPadBufs && Xhc->ScratchBuf) {
+        for( unsigned Index = 0; Index < MaxScratchPadBufs; Index++) {
+            free(
+                bdk_phys_to_ptr(Xhc->ScratchBuf[Index])
+                );
+        }
+        free(Xhc->ScratchBuf);
+        Xhc->ScratchBuf = NULL;
+    }
+    // Clean cmd ring
+    if (Xhc->CmdRing.RingSeg0 != NULL) {
+        free(Xhc->CmdRing.RingSeg0);
+        Xhc->CmdRing.RingSeg0 = NULL;
+    }
+    // Clean Event ring
+    XhcFreeEventRing (Xhc,&Xhc->EventRing);
+
+    if(Xhc->DCBAA) {
+        free(Xhc->DCBAA);
+        Xhc->DCBAA = NULL;
+    }
 }
 
 
@@ -2596,13 +2559,17 @@ XhcPollPortStatusChange (
     }
     SlotId = XhcRouteStringToSlotId (Xhc, RouteChart);
     if (SlotId != 0) {
-        DEBUG((EFI_D_INFO,"%s:%d Disabling device slot n:%d u:%d s:%d\n",
-               __FUNCTION__, __LINE__, Xhc->node, Xhc->usb_port, SlotId));
+        DEBUG((EFI_D_INFO,"Disabling device slot n:%d u:%d s:%d\n",
+               Xhc->node, Xhc->usb_port, SlotId));
+#if defined(notdef_cavium)
         if (Xhc->hccparams.s.csz == 0) {
             Status = XhcDisableSlotCmd (Xhc, SlotId);
         } else {
             Status = XhcDisableSlotCmd64 (Xhc, SlotId);
         }
+#else
+        Status = XhcDisableSlotCmd (Xhc, SlotId);
+#endif
     }
    if (((PortState->PortStatus & USB_PORT_STAT_ENABLE) != 0) &&
       ((PortState->PortStatus & USB_PORT_STAT_CONNECTION) != 0)) {
@@ -2622,8 +2589,8 @@ XhcPollPortStatusChange (
     //
     SlotId = XhcRouteStringToSlotId (Xhc, RouteChart);
     if ((SlotId == 0) && ((PortState->PortChangeStatus & USB_PORT_STAT_C_RESET) != 0)) {
-        DEBUG((EFI_D_INFO,"%s:%d Initializing device slot n:%d u:%d s:%d speed %d\n",
-               __FUNCTION__, __LINE__, Xhc->node, Xhc->usb_port, Port, Speed));
+        DEBUG((EFI_D_INFO,"Initializing device slot n:%d u:%d s:%d speed %d\n",
+                Xhc->node, Xhc->usb_port, Port, Speed));
       if (Xhc->hccparams.s.csz == 0) {
         Status = XhcInitializeDeviceSlot (Xhc, ParentRouteChart, Port, RouteChart, Speed);
       } else {
@@ -2634,8 +2601,6 @@ XhcPollPortStatusChange (
 
   return Status;
 }
-
-
 
 /**
   Ring the door bell to notify XHCI there is a transaction to be executed through URB.

@@ -287,7 +287,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         thisHC->xhci_lock = &usb_global_data[node][usb_port].xhci_lock;
     }
 
-    if (0 != xhciInitSched(thisHC)) {
+    if (0 != XhcInitSched(thisHC)) {
         printf("Failed to initialize Scheduler for node %d usb_port %d\n",
                thisHC->node, thisHC->usb_port
             );
