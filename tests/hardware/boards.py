@@ -55,17 +55,20 @@ class Board:
         count = 0
         pass_count = 0
         fail_count = 0
+        fail_in_row = 0
         while True:
             count += 1
             print "Starting loop %d: Pass %d, Fail %d" % (count, pass_count, fail_count)
             try:
                 test_func(self)
                 pass_count += 1
+                fail_in_row = 0
             except (KeyboardInterrupt, SystemExit):
                 self.log("Abort forced during loop %d: Pass %d, Fail %d" % (count, pass_count, fail_count))
                 raise
             except:
                 fail_count += 1
+                fail_in_row += 1
                 ex_str = traceback.format_exc()
                 try:
                     self.waitfor("JUNK", timeout=1)
@@ -73,6 +76,9 @@ class Board:
                     pass
                 self.log("FAIL: Exception: %s" % ex_str)
             self.log("After loop %d: Pass %d, Fail %d" % (count, pass_count, fail_count))
+            if fail_in_row >= 10:
+                self.log("Failed %d in a row, stopping script" % (fail_in_row))
+                break
 
 #
 # Class for controlling EBB and EVB boards with MCUs that control power cycling
