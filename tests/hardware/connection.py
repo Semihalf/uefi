@@ -282,6 +282,8 @@ class GenericPort:
             if time.time() - start_time > timeout:
                 break
             match = regex.match(current)
+            if "\n" in current: # Don't allow line span
+                break
         if match:
             return match
         self.unget(current)
