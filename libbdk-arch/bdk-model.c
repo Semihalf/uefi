@@ -547,6 +547,26 @@ const char* bdk_model_get_sku(int node)
         }
     }
 
+    /* Special check for CN88XX pass 2.0 and 2.1. Documentation mistakenly
+       specified 2.0 as -PR and 2.1 as -Y. Rather than fix the docs, OPs has
+       decided to special case this SKU */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (major_pass == 2))
+    {
+        if (minor_pass == 0)
+        {
+            prod_phase[0] = '-'; /* SKU ends with -PR-Y-G */
+            prod_phase[1] = 'P';
+            prod_phase[2] = 'R';
+            prod_phase[3] = 0;
+        }
+        else if (minor_pass == 1)
+        {
+            prod_rev[0] = '-'; /* SKU ends with -Y-G */
+            prod_rev[1] = 'Y';
+            prod_rev[2] = 0;
+        }
+    }
+
     /* Read PNAME fuses, looking for SKU overrides */
     // FIXME: Implement PNAME reads
 
