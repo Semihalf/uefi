@@ -1462,7 +1462,7 @@ void __bdk_config_init(void)
     /* Regsiter X1 is expected to be a device tree when we boot. Check that
        the physical address seems correct, then load the device tree */
     if ((__bdk_init_reg_x1 > 0) &&          /* Not zero */
-        (__bdk_init_reg_x1 < 0x400000) &&   /* In the lower 4MB */
+        (__bdk_init_reg_x1 < 0x1000000) &&   /* In the lower 16MB */
         ((__bdk_init_reg_x1 & 0xfff) == 0)) /* Aligned on a 4KB boundary */
     {
         const void *fdt = (const void *)__bdk_init_reg_x1;
