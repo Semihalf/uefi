@@ -56,17 +56,20 @@ def wait_for_test_menu(cnx):
 #
 def wait_for_dram_test(cnx, test_name):
     cnx.match("Starting Test \"%s\" for" % test_name)
-    cnx.matchRE("\\[0x[0-9a-fA-F]*:0x[0-9a-fA-F]*\\] using [0-9]* core\\(s\\)")
+    cnx.matchRE("\\[0x[0-9a-fA-F]+:0x[0-9a-fA-F]+\\] using [0-9]* core\\(s\\)")
     timeout = 600; # Default to 10 min
-    if test_name == "Random XOR (224 Burst)":
-        timeout = 3600; # This test is slow, allow 60 min
-    cnx.waitfor("Node", timeout=timeout)
-    cnx.matchRE("0, LMC0: ops [0-9]*, cycles [0-9]*, used [0-9]*\\.[0-9]\\%")
+    while True:
+        try:
+            cnx.matchRE("[0-9]+\\.[0-9]% complete, testing \\[0x[0-9a-fA-F]+:0x[0-9a-fA-F]+\\]", timeout=timeout)
+        except:
+            break
+    cnx.matchRE("Node 0, LMC0: ops [0-9]*, cycles [0-9]*, used [0-9]*\\.[0-9]\\%", timeout=timeout)
     try:
+        # These messages vary by chip config
         for i in range(7):
-            cnx.matchRE("Node [0-1], LMC[0-3]: ops [0-9]*, cycles [0-9]*, used [0-9]*\\.[0-9]\\%", timeout=0.1)
+            cnx.matchRE("Node [0-1], LMC[0-3]: ops [0-9]*, cycles [0-9]*, used [0-9]*\\.[0-9]\\%", timeout=1)
         for i in range(8):
-            cnx.matchRE("Node [0-1], CCPI[0-2]: busy [0-9]*, total [0-9]*, used [0-9]*\\.[0-9]\\%", timeout=0.1)
+            cnx.matchRE("Node [0-1], CCPI[0-2]: busy [0-9]*, total [0-9]*, used [0-9]*\\.[0-9]\\%", timeout=1)
     except:
         pass
 
@@ -105,8 +108,7 @@ def dram_all(cnx):
     cnx.sendEcho("all")
     cnx.match("Pass 1 of 1")
     wait_for_all_dram_test(cnx)
-    cnx.match("All tests passed (time ")
-    cnx.waitfor(")")
+    cnx.matchRE("All tests passed \\(time [0-9]+:[0-9]+:[0-9]+\\)")
     wait_for_test_menu(cnx)
     cnx.sendEcho("quit")
     wait_for_main_menu(cnx)
@@ -127,8 +129,7 @@ def dram_short(cnx):
     cnx.sendEcho("all")
     cnx.match("Pass 1 of 1")
     wait_for_all_dram_test(cnx)
-    cnx.match("All tests passed (time ")
-    cnx.waitfor(")")
+    cnx.matchRE("All tests passed \\(time [0-9]+:[0-9]+:[0-9]+\\)")
     wait_for_test_menu(cnx)
     cnx.sendEcho("quit")
     wait_for_main_menu(cnx)
