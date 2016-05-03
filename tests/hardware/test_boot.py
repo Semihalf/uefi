@@ -67,7 +67,7 @@ def wait_for_bootstub_messages(cnx):
     cnx.matchRE("N0.LMC1 Configuration Completed: [0-9]+ MB")
     cnx.matchRE("N0.LMC2 Configuration Completed: [0-9]+ MB")
     cnx.matchRE("N0.LMC3 Configuration Completed: [0-9]+ MB")
-    cnx.matchRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM")
+    cnx.matchRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=60)
     try:
         cnx.match("Starting CCPI links")
     except:
@@ -96,7 +96,7 @@ def wait_for_bootstub_messages(cnx):
         cnx.matchRE("N1.LMC1 Configuration Completed: [0-9]+ MB")
         cnx.matchRE("N1.LMC2 Configuration Completed: [0-9]+ MB")
         cnx.matchRE("N1.LMC3 Configuration Completed: [0-9]+ MB")
-        cnx.matchRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=30)
+        cnx.matchRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=60)
     for pcie in range(2*5):
         try:
             cnx.matchRE("N[01]\\.PCIe[0-9]: Link .+\n", timeout=5)
