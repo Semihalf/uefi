@@ -58,6 +58,11 @@ class Log:
         self._write("*** " + data + "\n")
         print "*** " + data
 
+    def logDebug(self, data):
+        return
+        self._write("DBG " + data + "\n")
+        print "DBG " + data
+
 #
 # Implements a serial port connection. Used by GenericPort
 #
@@ -222,6 +227,7 @@ class GenericPort:
             pass
 
     def waitfor(self, str, timeout=1):
+        self.log.logDebug("WaitFor: %s" % str)
         complete = ""
         current = ""
         start_time = time.time()
@@ -232,9 +238,11 @@ class GenericPort:
                 current = current[256:]
             if time.time() - start_time > timeout:
                 raise Exception("Timeout")
+        self.log.logDebug("WaitFor done: %s" % str)
         return complete + current
 
     def waitforRE(self, str, timeout=1):
+        self.log.logDebug("WaitForRE: %s" % str)
         complete = ""
         current = ""
         regex = re.compile(str)
@@ -246,9 +254,11 @@ class GenericPort:
                 current = current[256:]
             if time.time() - start_time > timeout:
                 raise Exception("Timeout")
+        self.log.logDebug("WaitForRE done: %s" % str)
         return complete + current
 
     def match(self, correct, timeout=1):
+        self.log.logDebug("Match: %s" % correct)
         correct = correct.strip()
         r = self.readChar(timeout)
         while r in " \r\n\b":
@@ -264,8 +274,10 @@ class GenericPort:
             except:
                 self.unget(current)
                 raise
+        self.log.logDebug("Match done: %s" % correct)
 
     def matchRE(self, correct, timeout=1):
+        self.log.logDebug("MatchRE: %s" % correct)
         r = self.readChar(timeout)
         while r in " \r\n\b":
             r = self.readChar(timeout)
@@ -285,6 +297,7 @@ class GenericPort:
             if "\n" in current: # Don't allow line span
                 break
         if match:
+            self.log.logDebug("MatchRE done: %s" % correct)
             return match
         self.unget(current)
         if current:
