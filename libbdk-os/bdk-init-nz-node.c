@@ -321,10 +321,13 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
             /* Print the node banner at the top of the screen */
             bdk_dbg_uart_str("Node ");
             uart_dec1(node);
-            bdk_dbg_uart_str(" Pass ");
-            uart_dec1(major_pass);
-            bdk_dbg_uart_char('.');
-            uart_dec1(minor_pass);
+            if (BDK_DISPLAY_PASS)
+            {
+                bdk_dbg_uart_str(" Pass ");
+                uart_dec1(major_pass);
+                bdk_dbg_uart_char('.');
+                uart_dec1(minor_pass);
+            }
             bdk_dbg_uart_str(", CCPI Speed ");
             uart_dec2(baud_mhz / 100);
             uart_dec2(baud_mhz % 100);

@@ -79,8 +79,12 @@ void bdk_boot_info_strapping(bdk_node_t node)
             secure_image = ", Non-secure Boot";
     }
 
+    /* Production builds shouldn't display chip pass details */
+    if (BDK_DISPLAY_PASS)
+        printf("Chip:  0x%x Pass %d.%d%s\n", gicd_iidr.s.productid, major_pass,
+            minor_pass, package_str);
+
     printf(
-        "Chip:  0x%x Pass %d.%d%s\n"
         "SKU:   %s\n"
         "L2:    %d KB\n"
         "RCLK:  %lu Mhz\n"
@@ -88,7 +92,6 @@ void bdk_boot_info_strapping(bdk_node_t node)
         "Boot:  %s(%d)\n"
         "VRM:   %s\n"
         "Trust: %s%s\n",
-        gicd_iidr.s.productid, major_pass, minor_pass, package_str,
         bdk_model_get_sku(node),
         bdk_l2c_get_cache_size_bytes(node) >> 10,
         bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000,

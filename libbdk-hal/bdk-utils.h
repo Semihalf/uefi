@@ -20,6 +20,7 @@
 #define bdk_likely(x)      __builtin_expect(!!(x), 1)
 #define bdk_unlikely(x)    __builtin_expect(!!(x), 0)
 
+#define BDK_DISPLAY_PASS       1    /* Control the display of the detail chip pass info */
 #define BDK_CACHE_LINE_SIZE    (128)   // In bytes
 #define BDK_CACHE_LINE_MASK    (BDK_CACHE_LINE_SIZE - 1)   // In bytes
 #define BDK_CACHE_LINE_ALIGNED __attribute__ ((aligned (BDK_CACHE_LINE_SIZE)))
