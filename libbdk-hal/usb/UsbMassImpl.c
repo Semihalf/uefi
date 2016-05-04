@@ -860,7 +860,6 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
                             void **lock);
 
         cvmH2C_to_node(Bus->Usb2Hc, &node, &usb_port, (void**)&UsbMass->bus_lock);
-        DEBUG((EFI_D_INFO,"Initialized USB_MASS %p ifhandle %p @devindex %d\n", UsbMass, ifHandle, devIndex));
     }
     DEBUG((EFI_D_INFO,"Initialized USB_MASS %p ifhandle %p @devindex %d for node %u usb_port %d lock @%p\n", UsbMass, ifHandle, devIndex, (unsigned) node, usb_port,UsbMass->bus_lock ));
     int rc = bdk_fs_register_dev("usb",devIndex,&bdk_fs_usb_ops);
