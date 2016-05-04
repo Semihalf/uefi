@@ -188,7 +188,7 @@ UsbMassReadBlocks (
   }
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbMassReadBlocks: UsbBootReadBlocks (%d) -> Reset\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "UsbBootReadBlocks (%d) -> Reset\n", (int) Status));
     UsbMassReset (This, TRUE);
   }
 
@@ -308,7 +308,7 @@ UsbMassWriteBlocks (
   }
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbMassWriteBlocks: UsbBootWriteBlocks (%d) -> Reset\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "UsbBootWriteBlocks (%d) -> Reset\n", (int) Status));
     UsbMassReset (This, TRUE);
   }
 
@@ -410,7 +410,7 @@ UsbMassInitMultiLun (
 
   for (Index = 0; Index <= MaxLun; Index++) {
 
-    DEBUG ((EFI_D_INFO, "UsbMassInitMultiLun: Start to initialize No.%d logic unit\n", Index));
+    DEBUG ((EFI_D_INFO, "Start to initialize No.%d logic unit\n", Index));
 
     UsbIo   = NULL;
     UsbMass = AllocateZeroPool (sizeof (USB_MASS_DEVICE));
@@ -433,7 +433,7 @@ UsbMassInitMultiLun (
     //
     Status = UsbMassInitMedia (UsbMass);
     if ((EFI_ERROR (Status)) && (Status != EFI_NO_MEDIA)) {
-      DEBUG ((EFI_D_ERROR, "UsbMassInitMultiLun: UsbMassInitMedia (%d)\n", (int) Status));
+      DEBUG ((EFI_D_ERROR, "UsbMassInitMedia (%d)\n", (int) Status));
       FreePool (UsbMass);
       continue;
     }
@@ -450,7 +450,7 @@ UsbMassInitMultiLun (
     UsbMass->DevicePath = AppendDevicePathNode (DevicePath, &LunNode.Header);
 
     if (UsbMass->DevicePath == NULL) {
-      DEBUG ((EFI_D_ERROR, "UsbMassInitMultiLun: failed to create device logic unit device path\n"));
+      DEBUG ((EFI_D_ERROR, "failed to create device logic unit device path\n"));
       Status = EFI_OUT_OF_RESOURCES;
       FreePool (UsbMass);
       continue;
@@ -473,7 +473,7 @@ UsbMassInitMultiLun (
                     );
 
     if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "UsbMassInitMultiLun: InstallMultipleProtocolInterfaces (%d)\n", (int) Status));
+      DEBUG ((EFI_D_ERROR, "InstallMultipleProtocolInterfaces (%d)\n", (int) Status));
       FreePool (UsbMass->DevicePath);
       FreePool (UsbMass);
       continue;
@@ -492,7 +492,7 @@ UsbMassInitMultiLun (
                     );
 
     if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "UsbMassInitMultiLun: OpenUsbIoProtocol By Child (%d)\n", (int) Status));
+      DEBUG ((EFI_D_ERROR, "OpenUsbIoProtocol By Child (%d)\n", (int) Status));
       gBS->UninstallMultipleProtocolInterfaces (
              &UsbMass->Controller,
              &gEfiDevicePathProtocolGuid,
@@ -508,7 +508,7 @@ UsbMassInitMultiLun (
       continue;
     }
     ReturnStatus = EFI_SUCCESS;
-    DEBUG ((EFI_D_INFO, "UsbMassInitMultiLun: Success to initialize No.%d logic unit\n", Index));
+    DEBUG ((EFI_D_INFO, "Success to initialize No.%d logic unit\n", Index));
   }
 
   return ReturnStatus;
@@ -568,8 +568,8 @@ static int cvm_usb_open(__bdk_fs_dev_t *handle, int flags)
 
 static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
 {
-    DEBUG((EFI_D_BLKIO,"%s: H:%p-%d called %d bytes @%lu\n",
-           __FUNCTION__, handle, handle->dev_index, length,handle->location));
+    DEBUG((EFI_D_BLKIO," H:%p-%d called %d bytes @%lu\n",
+            handle, handle->dev_index, length,handle->location));
     USB_MASS_DEVICE *UsbMass = findUsbMass(handle->dev_index,true);
     if (NULL == UsbMass) return -1;
     EFI_BLOCK_IO_MEDIA  *Media = &UsbMass->BlockIoMedia;
@@ -592,7 +592,7 @@ static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
     if (head) {
         Status = UsbMassReadBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
-            DEBUG ((EFI_D_ERROR, "%s: Error (%d) reading first block\n", __FUNCTION__, (int) Status));
+            DEBUG ((EFI_D_ERROR, "Error (%d) reading first block\n", (int) Status));
             rc = 0;
             goto read_done;
         }
@@ -607,7 +607,7 @@ static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
     int numBlocks = length >> BlockShift;
     Status =  UsbMassReadBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, (numBlocks<<BlockShift), buffer);
     if (EFI_ERROR(Status)) {
-        DEBUG ((EFI_D_ERROR, "%s: Error (%d) reading middle blocks\n", __FUNCTION__, (int) Status));
+        DEBUG ((EFI_D_ERROR, "Error (%d) reading middle blocks\n", (int) Status));
         rc = 0;
         goto read_done;
     }
@@ -617,7 +617,7 @@ static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
         buffer = ((char*) buffer) + (numBlocks<<BlockShift);
         Status = UsbMassReadBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
-            DEBUG ((EFI_D_ERROR, "%s: Error (%d) reading tail block\n", __FUNCTION__, (int) Status));
+            DEBUG ((EFI_D_ERROR, "Error (%d) reading tail block\n",  (int) Status));
             rc = 0;
             goto read_done;
         }
@@ -631,8 +631,8 @@ read_done:
 
 static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
-    DEBUG((EFI_D_BLKIO,"%s: H:%p-%d called for %d bytes @%lu\n",
-           __FUNCTION__, handle, handle->dev_index, length,handle->location));
+    DEBUG((EFI_D_BLKIO,"H:%p-%d called for %d bytes @%lu\n",
+           handle, handle->dev_index, length,handle->location));
     USB_MASS_DEVICE *UsbMass = findUsbMass(handle->dev_index, true);
     if (NULL == UsbMass) return -1;
     EFI_BLOCK_IO_MEDIA  *Media = &UsbMass->BlockIoMedia;
@@ -640,7 +640,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     int rc = length; // assume we have written everything
     char *scratchbuf = NULL;
     if (Media->ReadOnly ) {
-        DEBUG ((EFI_D_ERROR, "%s: Write is called for read-only media\n", __FUNCTION__));
+        DEBUG ((EFI_D_ERROR, "Write is called for read-only media\n"));
         rc = 0;
         goto write_done;
     }
@@ -659,7 +659,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     if (head) {
         Status = UsbMassReadBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
-            DEBUG ((EFI_D_ERROR, "%s: Error (%d) reading first block\n", __FUNCTION__, (int) Status));
+            DEBUG ((EFI_D_ERROR, "Error (%d) reading first block\n", (int) Status));
             rc = 0;
             goto write_done;
         }
@@ -668,7 +668,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         memcpy(scratchbuf+head,buffer,lcopy);
         Status = UsbMassWriteBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
-            DEBUG ((EFI_D_ERROR, "%s: Error (%d) writing first block\n", __FUNCTION__, (int) Status));
+            DEBUG ((EFI_D_ERROR, "Error (%d) writing first block\n", (int) Status));
             rc = 0;
             goto write_done;
         }
@@ -680,7 +680,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     int numBlocks = length >> BlockShift;
     Status =  UsbMassWriteBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, (numBlocks<<BlockShift), buffer);
     if (EFI_ERROR(Status)) {
-        DEBUG ((EFI_D_ERROR, "%s: Error (%d) writing middle blocks\n", __FUNCTION__, (int) Status));
+        DEBUG ((EFI_D_ERROR, "Error (%d) writing middle blocks\n", (int) Status));
         rc = 0;
         goto write_done;
     }
@@ -689,14 +689,14 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         LBA += numBlocks;
         Status = UsbMassReadBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
-            DEBUG ((EFI_D_ERROR, "%s: Error (%d) reading last block\n", __FUNCTION__, (int) Status));
+            DEBUG ((EFI_D_ERROR, "Error (%d) reading last block\n", (int) Status));
             rc = 0;
             goto write_done;
         }
         memcpy(scratchbuf,buffer,length);
         Status =  UsbMassWriteBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, buffer);
         if (EFI_ERROR(Status)) {
-            DEBUG ((EFI_D_ERROR, "%s: Error (%d) writing last block\n", __FUNCTION__, (int) Status));
+            DEBUG ((EFI_D_ERROR, "Error (%d) writing last block\n", (int) Status));
             rc = 0;
             goto write_done;
         }
@@ -710,8 +710,8 @@ write_done:
 
 static int cvm_usb_close(__bdk_fs_dev_t *handle)
 {
-    DEBUG((EFI_D_BLKIO,"%s: H:%p %d \n",
-           __FUNCTION__, handle, handle->dev_index));
+    DEBUG((EFI_D_BLKIO," H:%p %d \n",
+           handle, handle->dev_index));
     USB_MASS_DEVICE *UsbMass = findUsbMass(handle->dev_index,false);
     if (NULL == UsbMass) return -1;
 
@@ -800,14 +800,14 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     for(unsigned ndx = 0; ndx < ARRAY_SIZE(musb_list); ndx++) {
         if (ifHandle == musb_list[ndx].ifHandle) {
             Status = EFI_ALREADY_STARTED;
-            DEBUG((EFI_D_ERROR, "%s: attempt to register ifHandle %p twice", __FUNCTION__,ifHandle));
+            DEBUG((EFI_D_ERROR, "attempt to register ifHandle %p twice", ifHandle));
             goto err_exit;
         }
         if ((NULL == musb_list[ndx].ifHandle) && (devIndex < 0) ) devIndex = ndx;
     }
     if (devIndex < 0) {
         bdk_rlock_unlock(&musb_list_lock);
-        DEBUG((EFI_D_ERROR, "%s: No space for ifHandle %p in device list", __FUNCTION__, ifHandle));
+        DEBUG((EFI_D_ERROR, "No space for ifHandle %p in device list",  ifHandle));
         Status =  EFI_OUT_OF_RESOURCES;
         goto err_exit;
     }
@@ -815,7 +815,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
         musb_list[devIndex].UsbMass = calloc(1,sizeof(*musb_list[devIndex].UsbMass));
     if (NULL == UsbMass) {
         bdk_rlock_unlock(&musb_list_lock);
-        DEBUG((EFI_D_ERROR, "%s: Failed to malloc USB_MASS_DEVICE for ifHandle %p ", __FUNCTION__, ifHandle));
+        DEBUG((EFI_D_ERROR, "Failed to malloc USB_MASS_DEVICE for ifHandle %p ", ifHandle));
         Status =  EFI_OUT_OF_RESOURCES;
         goto err_exit;
     }
@@ -834,7 +834,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
 
     Status = UsbMassInitMedia (UsbMass);
     if ((EFI_ERROR (Status)) && (Status != EFI_NO_MEDIA)) {
-        DEBUG ((EFI_D_ERROR, "UsbMassInitNonLun: UsbMassInitMedia (%d)\n", (int)Status));
+        DEBUG ((EFI_D_ERROR, "UsbMassInitMedia (%d)\n", (int)Status));
         free(UsbMass);
         bdk_rlock_lock(&musb_list_lock);
         musb_list[devIndex].ifHandle = NULL;
@@ -901,7 +901,7 @@ UsbMassIfStop(void *ifHandle)
     }
     bdk_rlock_unlock(&musb_list_lock);
     if (NULL == UsbMass) {
-        DEBUG((EFI_D_ERROR, "%s: Failed to find index for ifHandle %p in device list\n", __FUNCTION__, ifHandle));
+        DEBUG((EFI_D_ERROR, "Failed to find index for ifHandle %p in device list\n", ifHandle));
     } else {
         if (__bdk_fs_fatfs_usbnotify) {
             __bdk_fs_fatfs_usbnotify(devIndex, 0);

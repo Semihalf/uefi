@@ -137,7 +137,7 @@ UsbCreateInterface (
   UsbIf->DevicePath = AppendDevicePathNode (HubIf->DevicePath, &UsbNode.Header);
 
   if (UsbIf->DevicePath == NULL) {
-    DEBUG ((EFI_D_ERROR, "UsbCreateInterface: failed to create device path\n"));
+    DEBUG ((EFI_D_ERROR, "failed to create device path\n"));
 
     /* Status = EFI_OUT_OF_RESOURCES; */
     goto ON_ERROR;
@@ -154,7 +154,7 @@ UsbCreateInterface (
                   );
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbCreateInterface: failed to install UsbIo - %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "failed to install UsbIo - %d\n", (int) Status));
     goto ON_ERROR;
   }
 
@@ -175,7 +175,7 @@ UsbCreateInterface (
            NULL
            );
 
-    DEBUG ((EFI_D_ERROR, "UsbCreateInterface: failed to open host for child - %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "failed to open host for child - %d\n", (int) Status));
     goto ON_ERROR;
   }
 #else
@@ -274,7 +274,7 @@ UsbConnectDriver (
   // connect drivers with this interface
   //
   if (UsbIsHubInterface (UsbIf)) {
-    DEBUG ((EFI_D_INFO, "UsbConnectDriver: found a hub device\n"));
+    DEBUG ((EFI_D_INFO, "found a hub device\n"));
     Status = mUsbHubApi.Init (UsbIf);
 
   } else {
@@ -293,14 +293,14 @@ UsbConnectDriver (
     //
     if (UsbBusIsWantedUsbIO (UsbIf->Device->Bus, UsbIf)) {
       /* OldTpl            = UsbGetCurrentTpl (); */
-      /* DEBUG ((EFI_D_INFO, "UsbConnectDriver: TPL before connect is %d, %p\n", (UINT32)OldTpl, UsbIf->Handle)); */
+      /* DEBUG ((EFI_D_INFO, "TPL before connect is %d, %p\n", (UINT32)OldTpl, UsbIf->Handle)); */
 
       /* gBS->RestoreTPL (TPL_CALLBACK); */
 
         CAVIUM_NOTYET( Status            = gBS->ConnectController (UsbIf->Handle, NULL, NULL, TRUE); );
         UsbIf->IsManaged  = (BOOLEAN)!EFI_ERROR (Status);
 
-      /* DEBUG ((EFI_D_INFO, "UsbConnectDriver: TPL after connect is %d\n", (UINT32)UsbGetCurrentTpl())); */
+      /* DEBUG ((EFI_D_INFO, "TPL after connect is %d\n", (UINT32)UsbGetCurrentTpl())); */
       /* ASSERT (UsbGetCurrentTpl () == TPL_CALLBACK); */
 
       /* gBS->RaiseTPL (OldTpl); */
@@ -370,7 +370,7 @@ UsbSelectSetting (
   IfDesc->ActiveIndex = Index;
 
   ASSERT (Setting != NULL);
-  DEBUG ((EFI_D_INFO, "UsbSelectSetting: setting %d selected for interface %d\n",
+  DEBUG ((EFI_D_INFO, "setting %d selected for interface %d\n",
               Alternate, Setting->Desc.InterfaceNumber));
 
   //
@@ -429,7 +429,7 @@ UsbSelectConfig (
 
   Device->ActiveConfig = ConfigDesc;
 
-  DEBUG ((EFI_D_INFO, "UsbSelectConfig: config %d selected for device %d\n",
+  DEBUG ((EFI_D_INFO, "config %d selected for device %d\n",
               ConfigValue, Device->Address));
 
   //
@@ -464,7 +464,7 @@ UsbSelectConfig (
     Status = UsbConnectDriver (UsbIf);
 
     if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "UsbSelectConfig: failed to connect driver %d, ignored\n", (int) Status));
+      DEBUG ((EFI_D_ERROR, "failed to connect driver %d, ignored\n", (int) Status));
     }
   }
 
@@ -506,7 +506,7 @@ UsbDisconnectDriver (
     // or disconnect at CALLBACK.
     //
     OldTpl           = UsbGetCurrentTpl ();
-    DEBUG ((EFI_D_INFO, "UsbDisconnectDriver: old TPL is %d, %p\n", (UINT32)OldTpl, UsbIf->Handle));
+    DEBUG ((EFI_D_INFO, "old TPL is %d, %p\n", (UINT32)OldTpl, UsbIf->Handle));
 
     gBS->RestoreTPL (TPL_CALLBACK);
 
@@ -515,14 +515,14 @@ UsbDisconnectDriver (
       UsbIf->IsManaged = FALSE;
     }
 
-    DEBUG (( EFI_D_INFO, "UsbDisconnectDriver: TPL after disconnect is %d, %d\n", (UINT32)UsbGetCurrentTpl(), (int) Status));
+    DEBUG (( EFI_D_INFO, "TPL after disconnect is %d, %d\n", (UINT32)UsbGetCurrentTpl(), (int) Status));
     ASSERT (UsbGetCurrentTpl () == TPL_CALLBACK);
 
     gBS->RaiseTPL (OldTpl);
 #else
     UsbIf->IsManaged = FALSE;
     UsbMassIfStop(UsbIf);
-    DEBUG (( EFI_D_INFO, "UsbDisconnectDriver: Stopped UsbIf %p\n", UsbIf));
+    DEBUG (( EFI_D_INFO, "Stopped UsbIf %p\n", UsbIf));
 #endif
   }
 
@@ -612,7 +612,7 @@ UsbRemoveDevice (
     } else {
       Bus->Devices[Index]->DisconnectFail = TRUE;
       ReturnStatus = Status;
-      DEBUG ((EFI_D_INFO, "UsbRemoveDevice: failed to remove child %p at parent %p\n", Child, Device));
+      DEBUG ((EFI_D_INFO, "failed to remove child %p at parent %p\n", Child, Device));
     }
   }
 
@@ -623,7 +623,7 @@ UsbRemoveDevice (
   Status = UsbRemoveConfig (Device);
 
   if (!EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_INFO, "UsbRemoveDevice: device %d removed\n", Device->Address));
+    DEBUG (( EFI_D_INFO, "device %d removed\n", Device->Address));
 
     ASSERT (Device->Address < Bus->MaxDevices);
     Bus->Devices[Device->Address] = NULL;
@@ -720,7 +720,7 @@ UsbEnumerateNewDev (
   {
       Status = HubApi->GetPortStatus (HubIf, Port, &PortState);
       if (EFI_ERROR(Status)) {
-          DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed status debouncing port %d - %d\n", Port, (int) Status));
+          DEBUG ((EFI_D_ERROR, "failed status debouncing port %d - %d\n", Port, (int) Status));
           return Status;
       }
       if (!(PortState.PortChangeStatus & USB_PORT_STAT_C_CONNECTION) &&
@@ -736,7 +736,7 @@ UsbEnumerateNewDev (
       bdk_wait_usec(_DELTA * USB_BUS_1_MILLISECOND);
   }
   if (thold < _STABLE_THRESHOLD ) {
-      DEBUG ((EFI_D_WARN, "UsbEnumerateNewDev: failed to debounce port %d - same %d chg %d\n", Port, same, chg));
+      DEBUG ((EFI_D_WARN, "failed to debounce port %d - same %d chg %d\n", Port, same, chg));
   }
 #undef _WAIT_INTERVAL
 #undef _DELTA
@@ -750,11 +750,11 @@ UsbEnumerateNewDev (
   Status = HubApi->ResetPort (HubIf, Port);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to reset port %d - %d\n", Port, (int) Status));
+    DEBUG ((EFI_D_ERROR, "failed to reset port %d - %d\n", Port, (int) Status));
     return Status;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbEnumerateNewDev: hub port %d is reset\n", Port));
+  DEBUG (( EFI_D_INFO, "hub port %d is reset\n", Port));
 
   Child = UsbCreateDevice (HubIf, Port);
 
@@ -769,12 +769,12 @@ UsbEnumerateNewDev (
   Status = HubApi->GetPortStatus (HubIf, Port, &PortState);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to get speed of port %d\n", Port));
+    DEBUG ((EFI_D_ERROR, "failed to get speed of port %d\n", Port));
     goto ON_ERROR;
   }
 
   if (!USB_BIT_IS_SET (PortState.PortStatus, USB_PORT_STAT_CONNECTION)) {
-    DEBUG ((EFI_D_WARN, "UsbEnumerateNewDev: No device present at port %d - consider longer delay for hub port reset\n", Port));
+    DEBUG ((EFI_D_WARN, "No device present at port %d after reset - may be quircky USB3. Auto-retry\n", Port));
     goto ON_ERROR;
   } else if (USB_BIT_IS_SET (PortState.PortStatus, USB_PORT_STAT_SUPER_SPEED)){
     Child->Speed      = EFI_USB_SPEED_SUPER;
@@ -790,7 +790,7 @@ UsbEnumerateNewDev (
     Child->MaxPacket0 = 8;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbEnumerateNewDev: device is of %d speed\n", Child->Speed));
+  DEBUG (( EFI_D_INFO, "device is of %d speed\n", Child->Speed));
 
   if (((Child->Speed == EFI_USB_SPEED_LOW) || (Child->Speed == EFI_USB_SPEED_FULL)) &&
       (Parent->Speed == EFI_USB_SPEED_HIGH)) {
@@ -806,7 +806,7 @@ UsbEnumerateNewDev (
   } else {
     Child->Translator = Parent->Translator;
   }
-  DEBUG (( EFI_D_INFO, "UsbEnumerateNewDev: device uses translator (%d, %d)\n",
+  DEBUG (( EFI_D_INFO, "device uses translator (%d, %d)\n",
            Child->Translator.TranslatorHubAddress,
            Child->Translator.TranslatorPortNumber));
 
@@ -830,7 +830,7 @@ UsbEnumerateNewDev (
   }
 
   if (Address >= Bus->MaxDevices) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: address pool is full for port %d\n", Port));
+    DEBUG ((EFI_D_ERROR, "address pool is full for port %d\n", Port));
 
     Status = EFI_ACCESS_DENIED;
     goto ON_ERROR;
@@ -841,7 +841,7 @@ UsbEnumerateNewDev (
   Bus->Devices[Address] = Child;
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to set device address - %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "failed to set device address - %d\n", (int) Status));
     goto ON_ERROR;
   }
 #if defined(notdef_cavium)
@@ -849,7 +849,7 @@ UsbEnumerateNewDev (
 #else
   bdk_wait_usec(USB_SET_DEVICE_ADDRESS_STALL);
 #endif
-  DEBUG ((EFI_D_INFO, "UsbEnumerateNewDev: device is now ADDRESSED at %d\n", (int) Address));
+  DEBUG ((EFI_D_INFO, "device is now ADDRESSED at %d\n", (int) Address));
 
   //
   // Host sends a Get_Descriptor request to learn the max packet
@@ -858,11 +858,11 @@ UsbEnumerateNewDev (
   Status = UsbGetMaxPacketSize0 (Child);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to get max packet for EP 0 - %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "failed to get max packet for EP 0 - %d\n", (int) Status));
     goto ON_ERROR;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbEnumerateNewDev: max packet size for EP 0 is %d\n", Child->MaxPacket0));
+  DEBUG (( EFI_D_INFO, "max packet size for EP 0 is %d\n", Child->MaxPacket0));
 
   //
   // Host learns about the device's abilities by requesting device's
@@ -871,7 +871,7 @@ UsbEnumerateNewDev (
   Status = UsbBuildDescTable (Child);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to build descriptor table - %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "failed to build descriptor table - %d\n", (int) Status));
     goto ON_ERROR;
   }
 
@@ -883,11 +883,11 @@ UsbEnumerateNewDev (
   Status = UsbSetConfig (Child, Config);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to set configure %d - %d\n", Config, (int) Status));
+    DEBUG ((EFI_D_ERROR, "failed to set configure %d - %d\n", Config, (int) Status));
     goto ON_ERROR;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbEnumerateNewDev: device %d is now in CONFIGED state\n", (int) Address));
+  DEBUG (( EFI_D_INFO, "device %d is now in CONFIGED state\n", (int) Address));
 
   //
   // Host assigns and loads a device driver.
@@ -895,7 +895,7 @@ UsbEnumerateNewDev (
   Status = UsbSelectConfig (Child, Config);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumerateNewDev: failed to create interfaces - %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "failed to create interfaces - %d\n", (int) Status));
     goto ON_ERROR;
   }
 
@@ -959,7 +959,7 @@ UsbEnumeratePort (
   Status = HubApi->GetPortStatus (HubIf, Port, &PortState);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbEnumeratePort: failed to get state of port %d\n", Port));
+    DEBUG ((EFI_D_ERROR, "failed to get state of port %d\n", Port));
     return Status;
   }
 
@@ -971,7 +971,7 @@ UsbEnumeratePort (
     return EFI_SUCCESS;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbEnumeratePort: port %d state - %02x, change - %02x on %p\n",
+  DEBUG (( EFI_D_INFO, "port %d state - %02x, change - %02x on %p\n",
               Port, PortState.PortStatus, PortState.PortChangeStatus, HubIf));
 
   //
@@ -989,7 +989,7 @@ UsbEnumeratePort (
       //   which probably is caused by short circuit. It has to wait system hardware
       //   to perform recovery.
       //
-      DEBUG (( EFI_D_ERROR, "UsbEnumeratePort: Critical Over Current %d\n", Port));
+      DEBUG (( EFI_D_ERROR, "Critical Over Current %d\n", Port));
       return EFI_DEVICE_ERROR;
 
     }
@@ -999,7 +999,7 @@ UsbEnumeratePort (
     //   over current. As a result, all ports are nearly power-off, so
     //   it's necessary to detach and enumerate all ports again.
     //
-    DEBUG (( EFI_D_ERROR, "UsbEnumeratePort: 2.0 device Recovery Over Current %d\n", Port));
+    DEBUG (( EFI_D_ERROR, "2.0 device Recovery Over Current %d\n", Port));
   }
 
   if (USB_BIT_IS_SET (PortState.PortChangeStatus, USB_PORT_STAT_C_ENABLE)) {
@@ -1009,7 +1009,7 @@ UsbEnumeratePort (
     //   on 2.0 roothub does. When over-current has influence on 1.1 device, the port
     //   would be disabled, so it's also necessary to detach and enumerate again.
     //
-    DEBUG (( EFI_D_ERROR, "UsbEnumeratePort: 1.1 device Recovery Over Current %d\n", Port));
+    DEBUG (( EFI_D_ERROR, "1.1 device Recovery Over Current %d\n", Port));
   }
 
   if (USB_BIT_IS_SET (PortState.PortChangeStatus, USB_PORT_STAT_C_CONNECTION)) {
@@ -1017,7 +1017,7 @@ UsbEnumeratePort (
     // Case4:
     //   Device connected or disconnected normally.
     //
-    DEBUG ((EFI_D_INFO, "UsbEnumeratePort: Device Connect/Disconnect Normally %d\n", Port));
+    DEBUG ((EFI_D_INFO, "Device Connect/Disconnect Normally %d\n", Port));
   }
 
   //
@@ -1026,7 +1026,7 @@ UsbEnumeratePort (
   Child = UsbFindChild (HubIf, Port);
 
   if (Child != NULL) {
-    DEBUG (( EFI_D_INFO, "UsbEnumeratePort: device at port %d being removed from hub %p\n", Port, HubIf));
+    DEBUG (( EFI_D_INFO, "device at port %d being removed from hub %p\n", Port, HubIf));
     UsbRemoveDevice (Child);
   }
 
@@ -1034,11 +1034,11 @@ UsbEnumeratePort (
     //
     // Now, new device connected, enumerate and configure the device
     //
-    DEBUG (( EFI_D_INFO, "UsbEnumeratePort: new device connected at port %d\n", Port));
+    DEBUG (( EFI_D_INFO, "new device connected at port %d\n", Port));
     Status = UsbEnumerateNewDev (HubIf, Port);
 
   } else {
-    DEBUG (( EFI_D_INFO, "UsbEnumeratePort: device disconnected event on port %d\n", Port));
+    DEBUG (( EFI_D_INFO, "device disconnected event on port %d\n", Port));
   }
 
   HubApi->ClearPortChange (HubIf, Port);
@@ -1073,7 +1073,7 @@ UsbHubEnumeration (
   for (Index = 0; Index < HubIf->NumOfPort; Index++) {
     Child = UsbFindChild (HubIf, Index);
     if ((Child != NULL) && (Child->DisconnectFail == TRUE)) {
-      DEBUG (( EFI_D_INFO, "UsbEnumeratePort: The device disconnect fails at port %d from hub %p, try again\n", Index, HubIf));
+      DEBUG (( EFI_D_INFO, "The device disconnect fails at port %d from hub %p, try again\n", Index, HubIf));
       UsbRemoveDevice (Child);
     }
   }
@@ -1130,7 +1130,7 @@ UsbRootHubEnumeration (
   for (Index = 0; Index < RootHub->NumOfPort; Index++) {
     Child = UsbFindChild (RootHub, Index);
     if ((Child != NULL) && (Child->DisconnectFail == TRUE)) {
-        DEBUG (( EFI_D_INFO, "%s: The device disconnect fails at port %d from root hub %p, try again\n", __FUNCTION__, Index, RootHub));
+        DEBUG (( EFI_D_INFO, "The device disconnect failed at port %d from root hub %p, trying again\n", Index, RootHub));
       UsbRemoveDevice (Child);
     }
     UsbEnumeratePort (RootHub, Index);

@@ -151,7 +151,7 @@ UsbIoControlTransfer (
 
       goto ON_EXIT;
     }
-    DEBUG ((EFI_D_INFO, "UsbIoControlTransfer: configure changed!!! Do NOT use old UsbIo!!!\n"));
+    DEBUG ((EFI_D_INFO, "configure changed!!! Do NOT use old UsbIo!!!\n"));
 
     if (Dev->ActiveConfig != NULL) {
       UsbRemoveConfig (Dev);
@@ -823,7 +823,7 @@ UsbIoPortReset (
   Status = HubIf->HubApi->ResetPort (HubIf, Dev->ParentPort);
 
   if (EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_ERROR, "UsbIoPortReset: failed to reset hub port %d@hub  %d, %d \n",
+    DEBUG (( EFI_D_ERROR, "failed to reset hub port %d@hub  %d, %d \n",
                 Dev->ParentPort, Dev->ParentAddr, (int) Status));
 
     goto ON_EXIT;
@@ -849,13 +849,13 @@ UsbIoPortReset (
     //
     // It may fail due to device disconnection or other reasons.
     //
-    DEBUG (( EFI_D_ERROR, "UsbIoPortReset: failed to set address for device %d - %d\n",
+    DEBUG (( EFI_D_ERROR, "failed to set address for device %d - %d\n",
                 Dev->Address, (int) Status));
 
     goto ON_EXIT;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbIoPortReset: device is now ADDRESSED at %d\n", Dev->Address));
+  DEBUG (( EFI_D_INFO, "device is now ADDRESSED at %d\n", Dev->Address));
 
   //
   // Reset the current active configure, after this device
@@ -865,7 +865,7 @@ UsbIoPortReset (
     Status = UsbSetConfig (Dev, Dev->ActiveConfig->Desc.ConfigurationValue);
 
     if (EFI_ERROR (Status)) {
-      DEBUG (( EFI_D_ERROR, "UsbIoPortReset: failed to set configure for device %d - %d\n",
+      DEBUG (( EFI_D_ERROR, "failed to set configure for device %d - %d\n",
                   Dev->Address, (int) Status));
     }
   }
@@ -923,7 +923,7 @@ UsbBusBuildProtocol (
                   );
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to open device path %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "Failed to open device path %d\n", (int) Status));
 
     FreePool (UsbBus);
     return Status;
@@ -957,7 +957,7 @@ UsbBusBuildProtocol (
                    );
 
   if (EFI_ERROR (Status) && EFI_ERROR (Status2)) {
-    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to open USB_HC/USB2_HC %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "Failed to open USB_HC/USB2_HC %d\n", (int) Status));
 
     Status = EFI_DEVICE_ERROR;
     goto CLOSE_HC;
@@ -992,7 +992,7 @@ Status = EFI_SUCCESS;
                   );
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to install bus protocol %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "Failed to install bus protocol %d\n", (int) Status));
     goto CLOSE_HC;
   }
 #else
@@ -1043,13 +1043,13 @@ Status = EFI_SUCCESS;
   Status                  = mUsbRootHubApi.Init (RootIf);
 
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to init root hub %d\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "Failed to init root hub %d\n", (int) Status));
     goto FREE_ROOTHUB;
   }
 
   UsbBus->Devices[0] = RootHub;
 
-  DEBUG ((EFI_D_INFO, "UsbBusStart: usb bus started on %p, root hub %p\n", Controller, RootIf));
+  DEBUG ((EFI_D_INFO, "usb bus started on %p, root hub %p\n", Controller, RootIf));
   return EFI_SUCCESS;
 
 FREE_ROOTHUB:
@@ -1092,7 +1092,7 @@ CLOSE_HC:
 #endif
   FreePool (UsbBus);
 
-  DEBUG ((EFI_D_ERROR, "UsbBusStart: Failed to start bus driver %d\n", (int) Status));
+  DEBUG ((EFI_D_ERROR, "Failed to start bus driver %d\n", (int) Status));
   return Status;
 }
 #endif

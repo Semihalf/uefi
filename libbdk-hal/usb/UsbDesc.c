@@ -195,19 +195,19 @@ UsbCreateDesc (
   while ((Offset < Len) && (Head->Type != Type)) {
     Offset += Head->Len;
     if (Len <= Offset) {
-      DEBUG (( EFI_D_ERROR, "UsbCreateDesc: met mal-format descriptor, Beyond boundary!\n"));
+      DEBUG (( EFI_D_ERROR, "met mal-format descriptor, Beyond boundary!\n"));
       return NULL;
     }
     Head    = (USB_DESC_HEAD*)(DescBuf + Offset);
     if (Head->Len == 0) {
-      DEBUG (( EFI_D_ERROR, "UsbCreateDesc: met mal-format descriptor, Head->Len = 0!\n"));
+      DEBUG (( EFI_D_ERROR, "met mal-format descriptor, Head->Len = 0!\n"));
       return NULL;
     }
   }
 
   if ((Len <= Offset)      || (Len < Offset + DescLen) ||
       (Head->Type != Type) || (Head->Len != DescLen)) {
-    DEBUG (( EFI_D_ERROR, "UsbCreateDesc: met mal-format descriptor\n"));
+    DEBUG (( EFI_D_ERROR, "met mal-format descriptor\n"));
     return NULL;
   }
 
@@ -252,7 +252,7 @@ UsbParseInterfaceDesc (
   Setting   = UsbCreateDesc (DescBuf, Len, USB_DESC_TYPE_INTERFACE, &Used);
 
   if (Setting == NULL) {
-    DEBUG (( EFI_D_ERROR, "UsbParseInterfaceDesc: failed to create interface descriptor\n"));
+    DEBUG (( EFI_D_ERROR, "failed to create interface descriptor\n"));
     return NULL;
   }
 
@@ -263,7 +263,7 @@ UsbParseInterfaceDesc (
   //
   NumEp  = Setting->Desc.NumEndpoints;
 
-  DEBUG (( EFI_D_INFO, "UsbParseInterfaceDesc: interface %d(setting %d) has %d endpoints\n",
+  DEBUG (( EFI_D_INFO, "interface %d(setting %d) has %d endpoints\n",
               Setting->Desc.InterfaceNumber, Setting->Desc.AlternateSetting, (UINT32)NumEp));
 
   if (NumEp == 0) {
@@ -283,7 +283,7 @@ UsbParseInterfaceDesc (
     Ep = UsbCreateDesc (DescBuf + Offset, Len - Offset, USB_DESC_TYPE_ENDPOINT, &Used);
 
     if (Ep == NULL) {
-      DEBUG (( EFI_D_ERROR, "UsbParseInterfaceDesc: failed to create endpoint(index %d)\n", (UINT32)Index));
+      DEBUG (( EFI_D_ERROR, "failed to create endpoint(index %d)\n", (UINT32)Index));
       goto ON_ERROR;
     }
 
@@ -342,7 +342,7 @@ UsbParseConfigDesc (
     goto ON_ERROR;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbParseConfigDesc: config %d has %d interfaces\n",
+  DEBUG (( EFI_D_INFO, "config %d has %d interfaces\n",
                 Config->Desc.ConfigurationValue, (UINT32)NumIf));
 
   for (Index = 0; Index < NumIf; Index++) {
@@ -383,11 +383,11 @@ UsbParseConfigDesc (
     Setting = UsbParseInterfaceDesc (DescBuf, Len, &Consumed);
 
     if (Setting == NULL) {
-      DEBUG (( EFI_D_ERROR, "UsbParseConfigDesc: warning: failed to get interface setting, stop parsing now.\n"));
+      DEBUG (( EFI_D_ERROR, "warning: failed to get interface setting, stop parsing now.\n"));
       break;
 
     } else if (Setting->Desc.InterfaceNumber >= NumIf) {
-      DEBUG (( EFI_D_ERROR, "UsbParseConfigDesc: mal-formated interface descriptor\n"));
+      DEBUG (( EFI_D_ERROR, "mal-formated interface descriptor\n"));
 
       UsbFreeInterfaceDesc (Setting);
       goto ON_ERROR;
@@ -798,13 +798,13 @@ UsbGetOneConfig (
 #endif
 
   if (EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_ERROR, "UsbGetOneConfig: failed to get descript length(%d) %d\n",
+    DEBUG (( EFI_D_ERROR, "failed to get descript length(%d) %d\n",
                 Desc.TotalLength, (int) Status));
 
     return NULL;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbGetOneConfig: total length is %d\n", Desc.TotalLength));
+  DEBUG (( EFI_D_INFO, "total length is %d\n", Desc.TotalLength));
 
   Buf = AllocateZeroPool (Desc.TotalLength);
 
@@ -815,7 +815,7 @@ UsbGetOneConfig (
   Status = UsbCtrlGetDesc (UsbDev, USB_DESC_TYPE_CONFIG, Index, 0, Buf, Desc.TotalLength);
 
   if (EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_ERROR, "UsbGetOneConfig: failed to get full descript %d\n", (int) Status));
+    DEBUG (( EFI_D_ERROR, "failed to get full descript %d\n", (int) Status));
 
     FreePool (Buf);
     return NULL;
@@ -855,7 +855,7 @@ UsbBuildDescTable (
   Status = UsbGetDevDesc (UsbDev);
 
   if (EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_ERROR, "UsbBuildDescTable: failed to get device descriptor - %d\n", (int) Status));
+    DEBUG (( EFI_D_ERROR, "failed to get device descriptor - %d\n", (int) Status));
     return Status;
   }
 
@@ -870,7 +870,7 @@ UsbBuildDescTable (
     return EFI_OUT_OF_RESOURCES;
   }
 
-  DEBUG (( EFI_D_INFO, "UsbBuildDescTable: device has %d configures\n", NumConfig));
+  DEBUG (( EFI_D_INFO, "device has %d configures\n", NumConfig));
 
   //
   // Read each configurations, then parse them
@@ -879,7 +879,7 @@ UsbBuildDescTable (
     Config = UsbGetOneConfig (UsbDev, Index);
 
     if (Config == NULL) {
-      DEBUG (( EFI_D_ERROR, "UsbBuildDescTable: failed to get configure (index %d)\n", Index));
+      DEBUG (( EFI_D_ERROR, "failed to get configure (index %d)\n", Index));
 
       //
       // If we can get the default descriptor, it is likely that the
@@ -897,7 +897,7 @@ UsbBuildDescTable (
     FreePool (Config);
 
     if (ConfigDesc == NULL) {
-      DEBUG (( EFI_D_ERROR, "UsbBuildDescTable: failed to parse configure (index %d)\n", Index));
+      DEBUG (( EFI_D_ERROR, "failed to parse configure (index %d)\n", Index));
 
       //
       // If we can get the default descriptor, it is likely that the
@@ -920,7 +920,7 @@ UsbBuildDescTable (
   Status = UsbBuildLangTable (UsbDev);
 
   if (EFI_ERROR (Status)) {
-    DEBUG (( EFI_D_INFO, "UsbBuildDescTable: get language ID table %d\n", (int) Status));
+    DEBUG (( EFI_D_INFO, "get language ID table %d\n", (int) Status));
   }
 
   return EFI_SUCCESS;

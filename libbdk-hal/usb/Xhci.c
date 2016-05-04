@@ -390,7 +390,7 @@ XhcClearRootHubPortFeature (
   }
 
 ON_EXIT:
-  DEBUG ((EFI_D_INFO, "XhcClearRootHubPortFeature: status %d\n", (int) Status));
+  DEBUG ((EFI_D_INFO, "status %d\n", (int) Status));
   /* gBS->RestoreTPL (OldTpl); */
 
   return Status;
@@ -506,7 +506,7 @@ XhcSetRootHubPortFeature (
   }
 
 ON_EXIT:
-  DEBUG ((EFI_D_INFO, "XhcSetRootHubPortFeature: status %d\n", (int) Status));
+  DEBUG ((EFI_D_INFO, "status %d\n", (int) Status));
 #if defined(notdef_cavium)
   gBS->RestoreTPL (OldTpl);
 #endif
@@ -548,7 +548,7 @@ XhcGetCapability (
   *MaxSpeed       = EFI_USB_SPEED_SUPER;
   *PortNumber     = (UINT8) (/* Xhc->HcSParams1.Data.MaxPorts */ Xhc->hcsparams1.s.maxports);
   *Is64BitCapable = (UINT8) (/* Xhc->HcCParams.Data.Ac64 */ Xhc->hccparams.s.ac64);
-  DEBUG ((EFI_D_INFO, "XhcGetCapability: %d ports, 64 bit %d\n", *PortNumber, *Is64BitCapable));
+  DEBUG ((EFI_D_INFO, "%d ports, 64 bit %d\n", *PortNumber, *Is64BitCapable));
 
   /* gBS->RestoreTPL (OldTpl); */
 
@@ -652,7 +652,7 @@ XhcReset (
   }
 
 ON_EXIT:
-  DEBUG ((EFI_D_INFO, "XhcReset: status %d\n", (int) Status));
+  DEBUG ((EFI_D_INFO, "status %d\n", (int) Status));
   /* gBS->RestoreTPL (OldTpl); */
 
   return Status;
@@ -814,7 +814,7 @@ XhcGetState (
     *State = EfiUsbHcStateOperational;
   }
 
-  DEBUG ((EFI_D_INFO, "XhcGetState: current state %d\n", *State));
+  DEBUG ((EFI_D_INFO, "current state %d\n", *State));
   /* gBS->RestoreTPL (OldTpl); */
 
   return EFI_SUCCESS;
@@ -899,7 +899,7 @@ XhcSetState (
     Status = EFI_INVALID_PARAMETER;
   }
 
-  DEBUG ((EFI_D_INFO, "XhcSetState: status %d\n", (int) Status));
+  DEBUG ((EFI_D_INFO, "status %d\n", (int) Status));
 #if defined(notdef_cavium)
   gBS->RestoreTPL (OldTpl);
 #endif
@@ -1012,7 +1012,7 @@ XhcControlTransfer (
   Len             = 0;
 
   if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */bdk_unlikely(cvmXhcNotOK(Xhc))) {
-    DEBUG ((EFI_D_ERROR, "XhcControlTransfer: HC halted at entrance\n"));
+    DEBUG ((EFI_D_ERROR, "HC halted at entrance\n"));
     goto ON_EXIT;
   }
 
@@ -1080,7 +1080,7 @@ XhcControlTransfer (
           );
 
   if (Urb == NULL) {
-    DEBUG ((EFI_D_ERROR, "XhcControlTransfer: failed to create URB"));
+    DEBUG ((EFI_D_ERROR, "failed to create URB"));
     Status = EFI_OUT_OF_RESOURCES;
     goto ON_EXIT;
   }
@@ -1109,7 +1109,7 @@ XhcControlTransfer (
     } else if (*TransferResult == EFI_USB_ERR_STALL) {
       RecoveryStatus = XhcRecoverHaltedEndpoint(Xhc, Urb);
       if (EFI_ERROR (RecoveryStatus)) {
-        DEBUG ((EFI_D_ERROR, "XhcControlTransfer: XhcRecoverHaltedEndpoint failed\n"));
+        DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint failed\n"));
       }
       Status = EFI_DEVICE_ERROR;
       goto FREE_URB;
@@ -1199,7 +1199,7 @@ XhcControlTransfer (
         // Don't support multi-TT feature for super speed hub now.
         //
         MTT = 0;
-        DEBUG ((EFI_D_INFO, "XHCI: Don't support multi-TT feature for Hub at this time. (forcing MTT disable)\n"));
+        DEBUG ((EFI_D_INFO, "Don't support multi-TT feature for Hub at this time. (forcing MTT disable)\n"));
       } else {
         MTT = 0;
       }
@@ -1325,7 +1325,7 @@ FREE_URB:
 ON_EXIT:
 
   if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "XhcControlTransfer: error - %d, transfer - %x\n", (int)Status, *TransferResult));
+      DEBUG ((EFI_D_ERROR, "error - %d, transfer - %x\n", (int)Status, *TransferResult));
   }
 
   /* gBS->RestoreTPL (OldTpl); */
@@ -1414,7 +1414,7 @@ XhcBulkTransfer (
   Status          = EFI_DEVICE_ERROR;
 
   if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */ bdk_unlikely(cvmXhcNotOK(Xhc))) {
-    DEBUG ((EFI_D_ERROR, "XhcBulkTransfer: HC is halted\n"));
+    DEBUG ((EFI_D_ERROR, "HC is halted\n"));
     goto ON_EXIT;
   }
 
@@ -1445,7 +1445,7 @@ XhcBulkTransfer (
           );
 
   if (Urb == NULL) {
-    DEBUG ((EFI_D_ERROR, "XhcBulkTransfer: failed to create URB\n"));
+    DEBUG ((EFI_D_ERROR, "failed to create URB\n"));
     Status = EFI_OUT_OF_RESOURCES;
     goto ON_EXIT;
   }
@@ -1469,7 +1469,7 @@ XhcBulkTransfer (
     } else if (*TransferResult == EFI_USB_ERR_STALL) {
       RecoveryStatus = XhcRecoverHaltedEndpoint(Xhc, Urb);
       if (EFI_ERROR (RecoveryStatus)) {
-        DEBUG ((EFI_D_ERROR, "XhcBulkTransfer: XhcRecoverHaltedEndpoint failed\n"));
+        DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint failed\n"));
       }
       Status = EFI_DEVICE_ERROR;
     }
@@ -1484,7 +1484,7 @@ XhcBulkTransfer (
 ON_EXIT:
 
   if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "XhcBulkTransfer: error - %d, transfer - %x\n", (int)Status, *TransferResult));
+      DEBUG ((EFI_D_ERROR, "error - %d, transfer - %x\n", (int)Status, *TransferResult));
   }
   /* gBS->RestoreTPL (OldTpl); */
 
@@ -1589,14 +1589,14 @@ XhcAsyncInterruptTransfer (
     }
 
     Status = XhciDelAsyncIntTransfer (Xhc, DeviceAddress, EndPointAddress);
-    DEBUG ((EFI_D_INFO, "%s: remove old transfer for addr %d, Status = %d\n", __FUNCTION__, DeviceAddress, (int)Status));
+    DEBUG ((EFI_D_INFO, "remove old transfer for addr %d, Status = %d\n", DeviceAddress, (int)Status));
     goto ON_EXIT;
   }
 
   Status = EFI_SUCCESS;
 
   if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */bdk_unlikely(cvmXhcNotOK(Xhc))) {
-      DEBUG ((EFI_D_ERROR, "%s: HC is halt\n",__FUNCTION__));
+      DEBUG ((EFI_D_ERROR, "HC is halted\n"));
     Status = EFI_DEVICE_ERROR;
     goto ON_EXIT;
   }
@@ -1612,7 +1612,7 @@ XhcAsyncInterruptTransfer (
   Data = AllocateZeroPool (DataLength);
 
   if (Data == NULL) {
-    DEBUG ((EFI_D_ERROR, "XhcAsyncInterruptTransfer: failed to allocate buffer\n"));
+    DEBUG ((EFI_D_ERROR, "failed to allocate buffer\n"));
     Status = EFI_OUT_OF_RESOURCES;
     goto ON_EXIT;
   }
@@ -1632,7 +1632,7 @@ XhcAsyncInterruptTransfer (
           );
 
   if (Urb == NULL) {
-    DEBUG ((EFI_D_ERROR, "XhcAsyncInterruptTransfer: failed to create URB\n"));
+    DEBUG ((EFI_D_ERROR, "failed to create URB\n"));
     FreePool (Data);
     Status = EFI_OUT_OF_RESOURCES;
     goto ON_EXIT;
@@ -1732,7 +1732,7 @@ XhcSyncInterruptTransfer (
   Status          = EFI_DEVICE_ERROR;
 
   if (/* XhcIsHalt (Xhc) || XhcIsSysError (Xhc) */bdk_unlikely(cvmXhcNotOK(Xhc))) {
-    DEBUG ((EFI_D_ERROR, "EhcSyncInterruptTransfer: HC is halt\n"));
+    DEBUG ((EFI_D_ERROR, "HC is halt\n"));
     goto ON_EXIT;
   }
 
@@ -1759,7 +1759,7 @@ XhcSyncInterruptTransfer (
           );
 
   if (Urb == NULL) {
-    DEBUG ((EFI_D_ERROR, "XhcSyncInterruptTransfer: failed to create URB\n"));
+    DEBUG ((EFI_D_ERROR, "failed to create URB\n"));
     Status = EFI_OUT_OF_RESOURCES;
     goto ON_EXIT;
   }
@@ -1783,7 +1783,7 @@ XhcSyncInterruptTransfer (
     } else if (*TransferResult == EFI_USB_ERR_STALL) {
       RecoveryStatus = XhcRecoverHaltedEndpoint(Xhc, Urb);
       if (EFI_ERROR (RecoveryStatus)) {
-        DEBUG ((EFI_D_ERROR, "XhcSyncInterruptTransfer: XhcRecoverHaltedEndpoint failed\n"));
+        DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint failed\n"));
       }
       Status = EFI_DEVICE_ERROR;
     }
@@ -1797,7 +1797,7 @@ XhcSyncInterruptTransfer (
 
 ON_EXIT:
   if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "XhcSyncInterruptTransfer: error - %d, transfer - %x\n", (int)Status, *TransferResult));
+      DEBUG ((EFI_D_ERROR, "error - %d, transfer - %x\n", (int)Status, *TransferResult));
   }
   /* gBS->RestoreTPL (OldTpl); */
 

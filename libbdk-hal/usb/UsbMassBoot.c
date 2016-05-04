@@ -97,7 +97,7 @@ UsbBootRequestSense (
                         &CmdResult
                         );
   if (EFI_ERROR (Status) || CmdResult != USB_MASS_CMD_SUCCESS) {
-      DEBUG ((EFI_D_ERROR, "UsbBootRequestSense: (%d) CmdResult=0x%x\n", (int)Status, CmdResult));
+      DEBUG ((EFI_D_ERROR, "(%d) CmdResult=0x%x\n", (int)Status, CmdResult));
     if (!EFI_ERROR (Status)) {
       Status = EFI_DEVICE_ERROR;
     }
@@ -159,7 +159,7 @@ UsbBootRequestSense (
     break;
   }
 
-  DEBUG ((EFI_D_INFO, "UsbBootRequestSense: (%d) with sense key %x/%x/%x\n",
+  DEBUG ((EFI_D_INFO, "(%d) with sense key %x/%x/%x\n",
           (int) Status,
           USB_BOOT_SENSE_KEY (SenseData.SenseKey),
           SenseData.Asc,
@@ -218,7 +218,7 @@ UsbBootExecCmd (
                            );
 
   if (Status == EFI_TIMEOUT) {
-    DEBUG ((EFI_D_ERROR, "UsbBootExecCmd: Timeout to Exec 0x%x Cmd\n", *(UINT8 *)Cmd));
+    DEBUG ((EFI_D_ERROR, "Timeout to Exec 0x%x Cmd\n", *(UINT8 *)Cmd));
     return EFI_TIMEOUT;
   }
 
@@ -691,7 +691,7 @@ UsbBootGetParams (
 
   Status = UsbBootInquiry (UsbMass);
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbBootGetParams: UsbBootInquiry (%d)\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "UsbBootInquiry (%d)\n", (int) Status));
     return Status;
   }
 
@@ -703,7 +703,7 @@ UsbBootGetParams (
        (UsbMass->Pdt != USB_PDT_CDROM) &&
        (UsbMass->Pdt != USB_PDT_OPTICAL) &&
        (UsbMass->Pdt != USB_PDT_SIMPLE_DIRECT)) {
-    DEBUG ((EFI_D_ERROR, "UsbBootGetParams: Found an unsupported peripheral type[%d]\n", UsbMass->Pdt));
+    DEBUG ((EFI_D_ERROR, "Found an unsupported peripheral type[%d]\n", UsbMass->Pdt));
     return EFI_UNSUPPORTED;
   }
 
@@ -772,7 +772,7 @@ UsbBootDetectMedia (
 
   Status = UsbBootReadCapacity (UsbMass);
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbBootDetectMedia: UsbBootReadCapacity (%d)\n", (int) Status));
+    DEBUG ((EFI_D_ERROR, "UsbBootReadCapacity (%d)\n", (int) Status));
     goto ON_ERROR;
   }
 
@@ -900,7 +900,7 @@ UsbBootReadBlocks (
     if (EFI_ERROR (Status)) {
       return Status;
     }
-    DEBUG ((EFI_D_BLKIO, "UsbBootReadBlocks: LBA (0x%x), Blk (0x%x)\n", Lba, Count));
+    DEBUG ((EFI_D_BLKIO, "LBA (0x%x), Blk (0x%x)\n", Lba, Count));
     Lba        += Count;
     Buffer     += Count * BlockSize;
     TotalBlock -= Count;
@@ -976,7 +976,7 @@ UsbBootWriteBlocks (
     if (EFI_ERROR (Status)) {
       return Status;
     }
-    DEBUG ((EFI_D_BLKIO, "UsbBootWriteBlocks: LBA (0x%x), Blk (0x%x)\n", Lba, Count));
+    DEBUG ((EFI_D_BLKIO, "LBA (0x%x), Blk (0x%x)\n", Lba, Count));
 
     Lba        += Count;
     Buffer     += Count * BlockSize;
@@ -1050,7 +1050,7 @@ UsbBootReadBlocks16 (
     if (EFI_ERROR (Status)) {
       return Status;
     }
-    DEBUG ((EFI_D_BLKIO, "UsbBootReadBlocks16: LBA (0x%lx), Blk (0x%x)\n", (long unsigned int)Lba, Count));
+    DEBUG ((EFI_D_BLKIO, "LBA (0x%lx), Blk (0x%x)\n", (long unsigned int)Lba, Count));
     Lba        += Count;
     Buffer     += Count * BlockSize;
     TotalBlock -= Count;
@@ -1124,7 +1124,7 @@ UsbBootWriteBlocks16 (
     if (EFI_ERROR (Status)) {
       return Status;
     }
-    DEBUG ((EFI_D_BLKIO, "UsbBootWriteBlocks: LBA (0x%lx), Blk (0x%x)\n", (long unsigned int)Lba, Count));
+    DEBUG ((EFI_D_BLKIO, "LBA (0x%lx), Blk (0x%x)\n", (long unsigned int)Lba, Count));
     Lba        += Count;
     Buffer     += Count * BlockSize;
     TotalBlock -= Count;
