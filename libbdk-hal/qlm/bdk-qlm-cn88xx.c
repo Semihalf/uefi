@@ -510,7 +510,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_TIMER1MS(p),
             c.s.timv = a_clk / 1000);
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CAP(p),
-            c.s.sss = 1;
+            c.s.sss = 0; /* Disabled staggered spin up as in causes trouble with some drives (Samsung 840Pro SSD) */
             c.s.smps = 1);
         /* Set speed */
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(p),
