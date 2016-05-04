@@ -552,7 +552,7 @@ static int devtree_fixups(void *fdt)
             const char *new_compatible = "pci-host-ecam-generic";
             const int new_compatible_len = strlen(new_compatible);
             int fdt_node = -1;
-            fdt_node = fdt_node_offset_by_compatible(fdt, -1, "cavium,pci-host-thunder-pem");
+            fdt_node = fdt_node_offset_by_compatible(fdt, -1, "cavium,pci-host-thunder-ecam");
             while (fdt_node > 0)
             {
                 const char *fdt_node_name = fdt_get_name(fdt, fdt_node, NULL);
@@ -562,7 +562,7 @@ static int devtree_fixups(void *fdt)
                     return -1;
                 }
                 BDK_TRACE(FDT_OS, "    Changed %s[compatible] to %s\n", fdt_node_name, new_compatible);
-                fdt_node = fdt_node_offset_by_compatible(fdt, fdt_node, "cavium,pci-host-thunder-pem");
+                fdt_node = fdt_node_offset_by_compatible(fdt, fdt_node, "cavium,pci-host-thunder-ecam");
             }
         }
 
