@@ -38,7 +38,7 @@ endif
 #
 # Setup the compile flags
 #
-CPPFLAGS  = $(BDK_EXTRA_CPPFLAGS)
+CPPFLAGS  = -Wundef $(BDK_EXTRA_CPPFLAGS)
 CPPFLAGS += -I $(BDK_ROOT)/libbdk
 CPPFLAGS += -I $(BDK_ROOT)/liblua
 CPPFLAGS += -I $(BDK_ROOT)/libc/${LIBC_DIR}/include

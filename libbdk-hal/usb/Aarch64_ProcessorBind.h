@@ -18,6 +18,10 @@
 #ifndef __PROCESSOR_BIND_H__
 #define __PROCESSOR_BIND_H__
 
+#if !defined(_MSC_EXTENSIONS)
+#	define _MSC_EXTENSIONS 0 /* cavium - added to avoid warnings */
+#endif
+
 ///
 /// Define the processor type so other code can make processor based choices
 ///
