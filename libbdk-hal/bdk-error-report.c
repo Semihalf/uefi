@@ -184,7 +184,14 @@ static void check_cn88xx(bdk_node_t node)
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_sec_err);
             //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
             //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
-            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
+            //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
+            if (c.s.nxm_wr_err)
+            {
+                BDK_CSR_INIT(nxm_fadr, node, BDK_LMCX_NXM_FADR(index));
+                bdk_error("N%d.LMC%d: NXM_WR_ERR: [0x%016lx]\n",
+                              node, index, nxm_fadr.u);
+                CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
+            }
             /* A double bit error overwrites single info, so only
                report/count single bit errors if there hasn't been a
                double bit error */
