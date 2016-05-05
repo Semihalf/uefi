@@ -125,31 +125,35 @@ ecc_syndrome_to_bytebit[256] = {
 
 #define EXTRACT(v, lsb, width) (((v) >> (lsb)) & ((1ull << (width)) - 1))
 
-static void check_cn88xx(bdk_node_t node)
+static void check_cn8xxx_l2c_cbcs(bdk_node_t node, int limit)
 {
-    for (int index = 0; index < 4; index++)
-    {
-        {
-            BDK_CSR_INIT(c, node, BDK_L2C_CBCX_INT_W1C(index));
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, iowrdisoci);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, iorddisoci);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, mibdbe);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, mibsbe);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, rsddbe);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, rsdsbe);
-        }
-        {
-            BDK_CSR_INIT(w1c, node, BDK_L2C_MCIX_INT_W1C(index));
-            if (w1c.s.vbfdbe || w1c.s.vbfsbe) { // L2C_MCIX ECC errors
-                BDK_CSR_INIT(err, node, BDK_L2C_MCIX_ERR(index));
-                bdk_error("N%d.L2C_MCI%d: VBF ECC %s: [0x%016lx] \n",
-                          node, index, (w1c.s.vbfdbe) ? "double" : "single", err.u);
-                BDK_CSR_WRITE(node, BDK_L2C_MCIX_INT_W1C(index), w1c.u);
-            }
+    for (int index = 0; index < limit; index++) {
+        BDK_CSR_INIT(c, node, BDK_L2C_CBCX_INT_W1C(index));
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, iowrdisoci);
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, iorddisoci);
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, mibdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, mibsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, rsddbe);
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, rsdsbe);
+    }
+}
+
+static void check_cn8xxx_l2c_mcis(bdk_node_t node, int limit)
+{
+    for (int index = 0; index < limit; index++) {
+        BDK_CSR_INIT(w1c, node, BDK_L2C_MCIX_INT_W1C(index));
+        if (w1c.s.vbfdbe || w1c.s.vbfsbe) { // L2C_MCIX ECC errors
+            BDK_CSR_INIT(err, node, BDK_L2C_MCIX_ERR(index));
+            bdk_error("N%d.L2C_MCI%d: VBF ECC %s: [0x%016lx] \n",
+                      node, index, (w1c.s.vbfdbe) ? "double" : "single", err.u);
+            BDK_CSR_WRITE(node, BDK_L2C_MCIX_INT_W1C(index), w1c.u);
         }
     }
-    for (int index = 0; index < 8; index++)
-    {
+}
+
+static void check_cn8xxx_l2c_tads(bdk_node_t node, int limit)
+{
+    for (int index = 0; index < limit; index++) {
         BDK_CSR_INIT(c, node, BDK_L2C_TADX_INT_W1C(index));
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, wrdisoci);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, rddisoci);
@@ -169,77 +173,86 @@ static void check_cn88xx(bdk_node_t node)
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, l2ddbe);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, l2dsbe);
     }
+}
 
-    for (int index = 0; index < 4; index++)
-    {
-        BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(index));
-	/* LMC0 and LMC1 are always enabled, though we never set their INTF_EN bits */
-        if (((index < 2) || (lmcx_dll_ctl2.s.intf_en == 1)) && !lmcx_dll_ctl2.s.dreset)
-        {
-            BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
-            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, macram_ded_err);
-            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, macram_sec_err);
-            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ddr_err);
-            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_ded_err);
-            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_sec_err);
-            //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
-            //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
-            //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
-            if (c.s.nxm_wr_err)
-            {
-                BDK_CSR_INIT(nxm_fadr, node, BDK_LMCX_NXM_FADR(index));
-                bdk_error("N%d.LMC%d: NXM_WR_ERR: [0x%016lx]\n",
-                              node, index, nxm_fadr.u);
-                CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
-            }
-            /* A double bit error overwrites single info, so only
-               report/count single bit errors if there hasn't been a
-               double bit error */
-            if (c.s.ded_err || c.s.sec_err)
-            {
-                char *err_type;
-                char synstr[20];
-		char phasestr[8];
-		int err_bits;
-                BDK_CSR_INIT(fadr, node, BDK_LMCX_FADR(index));
-                BDK_CSR_INIT(ecc_synd, node, BDK_LMCX_ECC_SYND(index));
-                uint64_t syndrome = ecc_synd.u;
-                CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
-                CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
-                if (c.s.ded_err) { // if DED, count it and do not count SEC
-                    bdk_atomic_add64_nosync(&__bdk_dram_ecc_double_bit_errors[index], 1);
-                    err_type = "double";
-		    err_bits = c.s.ded_err;
-                    snprintf(synstr, sizeof(synstr), "DED=%X", err_bits);
-                } else { // must be just SEC, also extract the syndrome byte
-                    bdk_atomic_add64_nosync(&__bdk_dram_ecc_single_bit_errors[index], 1);
-                    err_type = "single";
-		    err_bits = c.s.sec_err;
-                    int i = err_bits;
-                    while ((i & 1) == 0) {syndrome >>= 8; i >>= 1; }
-		    syndrome &= 0xff;
-		    int bytebit = ecc_syndrome_to_bytebit[syndrome];
-		    if (bytebit != 0x00) {
-			snprintf(synstr, sizeof(synstr), "BYTE %d.%d/%X",
-				 ((bytebit >> 4) & 0x0f) - 1, bytebit & 0x0f, err_bits);
-		    } else {
-			snprintf(synstr, sizeof(synstr), "SYND 0x%02lx/%X", syndrome, err_bits);
-		    }
-                }
-                uint32_t frow = fadr.s.frow & __bdk_dram_get_row_mask(node, index);
-                uint32_t fcol = fadr.s.fcol & __bdk_dram_get_col_mask(node, index);
-                uint64_t where = bdk_dram_construct_address_info(node, index, fadr.s.fdimm, fadr.s.fbunk,
-                                                                 fadr.s.fbank, frow, fcol);
-		construct_phase_info(phasestr, fadr.s.fill_order, EXTRACT(fadr.s.fcol, 1, 3), err_bits);
+static void check_cn8xxx_lmc(bdk_node_t node, int index)
+{
+    BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
+    CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, macram_ded_err);
+    CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, macram_sec_err);
+    CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ddr_err);
+    CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_ded_err);
+    CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_sec_err);
+    //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
+    //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
+    //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
 
-                bdk_error("N%d.LMC%d: ECC %s (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x,%s,%s)[0x%011lx]\n",
-                          node, index, err_type,
-                          fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
-                          frow, fcol, phasestr, synstr, where);
-            }
-        }
+    if (c.s.nxm_wr_err) {
+        BDK_CSR_INIT(nxm_fadr, node, BDK_LMCX_NXM_FADR(index));
+        bdk_error("N%d.LMC%d: NXM_WR_ERR: [0x%016lx]\n",
+                  node, index, nxm_fadr.u);
+        CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
     }
 
+    /* A double bit error overwrites single info, so only
+       report/count single bit errors if there hasn't been a
+       double bit error */
+    if (c.s.ded_err || c.s.sec_err) {
+        char *err_type;
+        char synstr[20];
+        char phasestr[8];
+        int err_bits;
+        BDK_CSR_INIT(fadr, node, BDK_LMCX_FADR(index));
+        BDK_CSR_INIT(ecc_synd, node, BDK_LMCX_ECC_SYND(index));
+        uint64_t syndrome = ecc_synd.u;
+        CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
+        CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
+        if (c.s.ded_err) { // if DED, count it and do not count SEC
+            bdk_atomic_add64_nosync(&__bdk_dram_ecc_double_bit_errors[index], 1);
+            err_type = "double";
+            err_bits = c.s.ded_err;
+            snprintf(synstr, sizeof(synstr), "DED=%X", err_bits);
+        } else { // must be just SEC, also extract the syndrome byte
+            bdk_atomic_add64_nosync(&__bdk_dram_ecc_single_bit_errors[index], 1);
+            err_type = "single";
+            err_bits = c.s.sec_err;
+            int i = err_bits;
+            while ((i & 1) == 0) {syndrome >>= 8; i >>= 1; }
+            syndrome &= 0xff;
+            int bytebit = ecc_syndrome_to_bytebit[syndrome];
+            if (bytebit != 0x00) {
+                snprintf(synstr, sizeof(synstr), "BYTE %d.%d/%X",
+                         ((bytebit >> 4) & 0x0f) - 1, bytebit & 0x0f, err_bits);
+            } else {
+                snprintf(synstr, sizeof(synstr), "SYND 0x%02lx/%X", syndrome, err_bits);
+            }
+        }
+        uint32_t frow = fadr.s.frow & __bdk_dram_get_row_mask(node, index);
+        uint32_t fcol = fadr.s.fcol & __bdk_dram_get_col_mask(node, index);
+        uint64_t where = bdk_dram_construct_address_info(node, index, fadr.s.fdimm, fadr.s.fbunk,
+                                                         fadr.s.fbank, frow, fcol);
+        construct_phase_info(phasestr, fadr.s.fill_order, EXTRACT(fadr.s.fcol, 1, 3), err_bits);
+
+        bdk_error("N%d.LMC%d: ECC %s (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x,%s,%s)[0x%011lx]\n",
+                  node, index, err_type,
+                  fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
+                  frow, fcol, phasestr, synstr, where);
+    } /* if (c.s.ded_err || c.s.sec_err) */
+}
+
+static void check_cn88xx(bdk_node_t node)
+{
+    check_cn8xxx_l2c_cbcs(node, 4);
+    check_cn8xxx_l2c_mcis(node, 4);
+    check_cn8xxx_l2c_tads(node, 8);
+
+    for (int index = 0; index < 4; index++) {
+        BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(index));
+        /* LMC0 and LMC1 are always enabled, though we never set their INTF_EN bits */
+        if (((index < 2) || (lmcx_dll_ctl2.s.intf_en == 1)) && !lmcx_dll_ctl2.s.dreset) {
+            check_cn8xxx_lmc(node, index);
+        }
+    }
 
     BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
     extern int __bdk_disable_ccpi_error_report;
@@ -328,6 +341,47 @@ static void enable_cn88xx(bdk_node_t node)
     /* Do nothing for now */
 }
 
+//////////////
+// 83XX chip
+
+static void enable_cn83xx(bdk_node_t node)
+{
+    /* Do nothing for now */
+}
+
+static void check_cn83xx(bdk_node_t node)
+{
+    check_cn8xxx_l2c_cbcs(node, 2);
+    check_cn8xxx_l2c_mcis(node, 3);
+    check_cn8xxx_l2c_tads(node, 4);
+
+    check_cn8xxx_lmc(node, 0); // always do LMC0
+
+    /* check LMC1, it may not be enabled */
+    BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(1));
+    if ((lmcx_dll_ctl2.s.intf_en == 1) && !lmcx_dll_ctl2.s.dreset) {
+        check_cn8xxx_lmc(node, 1);
+    }
+}
+
+//////////////
+// 81XX chip
+
+static void enable_cn81xx(bdk_node_t node)
+{
+    /* Do nothing for now */
+}
+
+static void check_cn81xx(bdk_node_t node)
+{
+    check_cn8xxx_l2c_cbcs(node, 1);
+    check_cn8xxx_l2c_mcis(node, 1);
+    check_cn8xxx_l2c_tads(node, 1);
+
+    check_cn8xxx_lmc(node, 0);
+}
+
+// Generic Error Enable
 void (*bdk_error_check)(bdk_node_t node) = NULL;
 void bdk_error_enable(bdk_node_t node)
 {
@@ -339,6 +393,18 @@ void bdk_error_enable(bdk_node_t node)
             report_ccpi_recoverable_errors = 1;
         enable_cn88xx(node);
         check_cn88xx(node);
+        bdk_error_check = check_cn88xx;
+    }
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    {
+        enable_cn83xx(node);
+        check_cn83xx(node);
+        bdk_error_check = check_cn83xx;
+    }
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+    {
+        enable_cn81xx(node);
+        check_cn81xx(node);
         bdk_error_check = check_cn88xx;
     }
     else
