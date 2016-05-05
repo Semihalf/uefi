@@ -19,6 +19,13 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 typedef struct xhci_s USB_XHCI_INSTANCE;
 typedef struct _USB_DEV_CONTEXT USB_DEV_CONTEXT;
 #include "usb-xhci-compat.h"
+/*
+** When  BDK_XHCI_CSZ1_ONLY is defined to non-zero we compile out support for 32 byte xhci context.
+** - all cavium chips use ip with 64 byte context size (UAHC_HCCPARAMS.CSZ bit describes context size)
+** - support for it takes space
+*/
+#define BDK_XHCI_CSZ1_ONLY 1
+
 //mt20160315 - both usb and usb2 need to be included, usb must be first
 // had to hack some because they repeat definitions verbatim
 //#include "usb-industry.h" // USB3

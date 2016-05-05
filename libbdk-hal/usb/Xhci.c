@@ -204,7 +204,13 @@ xhci_t* createUsbXHci(bdk_node_t node, int usb_port)
     printf("64 bit capability %d Debug: %08x\n",thisXHC->hccparams.s.ac64, thisXHC->DebugCapSupOffset);
 
 #endif
-
+#if defined(BDK_XHCI_CSZ1_ONLY) && (BDK_XHCI_CSZ1_ONLY)
+    if (0 == thisXHC->hccparams.s.csz) {
+        bdk_warn("Support for 32 byte context size is compiled out\n"
+                 "Please complain to software provider\n");
+        goto err_exit;
+    }
+#endif
     if ( thisXHC->hcsparams1.s.maxslots > CAVIUM_XHCI_MAXSLOTS) {
         bdk_warn("XHCI hcsparams1.maxslots(%d) exceeds configured maximum(%d)\n"
                  "Please complain to software provider\n"
@@ -1163,12 +1169,17 @@ XhcControlTransfer (
                 (Xhc->UsbDevContext[SlotId].InputContext &&
                  ((INPUT_CONTEXT*)Xhc->UsbDevContext[SlotId].InputContext)->EP[0].MaxPacketSize != MaxPacket0);
         }
+
         if (doEval) {
+#if defined(BDK_XHCI_CSZ1_ONLY) && (BDK_XHCI_CSZ1_ONLY)
+            Status = XhcEvaluateContext64 (Xhc, SlotId, MaxPacket0);
+#else
             if (Xhc->/* HcCParams.Data.Csz */hccparams.s.csz == 0) {
                 Status = XhcEvaluateContext (Xhc, SlotId, MaxPacket0);
             } else {
                 Status = XhcEvaluateContext64 (Xhc, SlotId, MaxPacket0);
             }
+#endif
         }
     } else if (DescriptorType == USB_DESC_TYPE_CONFIG) {
       ASSERT (Data != NULL);
@@ -1203,12 +1214,15 @@ XhcControlTransfer (
       } else {
         MTT = 0;
       }
-
+#if defined(BDK_XHCI_CSZ1_ONLY) && (BDK_XHCI_CSZ1_ONLY)
+      Status = XhcConfigHubContext64 (Xhc, SlotId, HubDesc->NumPorts, TTT, MTT);
+#else
       if (Xhc->/* HcCParams.Data.Csz */hccparams.s.csz == 0) {
         Status = XhcConfigHubContext (Xhc, SlotId, HubDesc->NumPorts, TTT, MTT);
       } else {
         Status = XhcConfigHubContext64 (Xhc, SlotId, HubDesc->NumPorts, TTT, MTT);
       }
+#endif
     }
   } else if ((Request->Request     == USB_REQ_SET_CONFIG) &&
              (Request->RequestType == USB_REQUEST_TYPE (EfiUsbNoData, USB_REQ_TYPE_STANDARD, USB_TARGET_DEVICE))) {
@@ -1217,11 +1231,15 @@ XhcControlTransfer (
     //
     for (Index = 0; Index < Xhc->UsbDevContext[SlotId].DevDesc.NumConfigurations; Index++) {
       if (Xhc->UsbDevContext[SlotId].ConfDesc[Index]->ConfigurationValue == (UINT8)Request->Value) {
+#if defined(BDK_XHCI_CSZ1_ONLY) && (BDK_XHCI_CSZ1_ONLY)
+          Status = XhcSetConfigCmd64 (Xhc, SlotId, DeviceSpeed, Xhc->UsbDevContext[SlotId].ConfDesc[Index]);
+#else
         if (Xhc->/* HcCParams.Data.Csz */hccparams.s.csz == 0) {
           Status = XhcSetConfigCmd (Xhc, SlotId, DeviceSpeed, Xhc->UsbDevContext[SlotId].ConfDesc[Index]);
         } else {
           Status = XhcSetConfigCmd64 (Xhc, SlotId, DeviceSpeed, Xhc->UsbDevContext[SlotId].ConfDesc[Index]);
         }
+#endif
         break;
       }
     }
@@ -1233,11 +1251,16 @@ XhcControlTransfer (
     // Request->Index indicates Interface to set
     //
     if (Xhc->UsbDevContext[SlotId].ActiveAlternateSetting[(UINT8) Request->Index] != (UINT8) Request->Value) {
+#if defined(BDK_XHCI_CSZ1_ONLY) && (BDK_XHCI_CSZ1_ONLY)
+        Status = XhcSetInterface64 (Xhc, SlotId, DeviceSpeed, Xhc->UsbDevContext[SlotId].ConfDesc[Xhc->UsbDevContext[SlotId].ActiveConfiguration - 1], Request);
+#else
       if (Xhc->/* HcCParams.Data.Csz */hccparams.s.csz == 0) {
         Status = XhcSetInterface (Xhc, SlotId, DeviceSpeed, Xhc->UsbDevContext[SlotId].ConfDesc[Xhc->UsbDevContext[SlotId].ActiveConfiguration - 1], Request);
       } else {
         Status = XhcSetInterface64 (Xhc, SlotId, DeviceSpeed, Xhc->UsbDevContext[SlotId].ConfDesc[Xhc->UsbDevContext[SlotId].ActiveConfiguration - 1], Request);
       }
+
+#endif
     }
   } else if ((Request->Request     == USB_REQ_GET_STATUS) &&
              (Request->RequestType == USB_REQUEST_TYPE (EfiUsbDataIn, USB_REQ_TYPE_CLASS, USB_TARGET_OTHER))) {

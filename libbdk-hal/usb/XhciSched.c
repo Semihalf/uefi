@@ -346,11 +346,15 @@ XhcCreateTransferTrb (
   EPRing    = (TRANSFER_RING *)(UINTN) Xhc->UsbDevContext[SlotId].EndpointTransferRing[Dci-1];
   Urb->Ring = EPRing;
   OutputContext = Xhc->UsbDevContext[SlotId].OutputContext;
+#if defined(BDK_XHCI_CSZ1_ONLY) && (BDK_XHCI_CSZ1_ONLY)
+  EPType  = (UINT8) ((DEVICE_CONTEXT_64 *)OutputContext)->EP[Dci-1].EPType;
+#else
   if (Xhc->hccparams.s.csz == 0) {
     EPType  = (UINT8) ((DEVICE_CONTEXT *)OutputContext)->EP[Dci-1].EPType;
   } else {
     EPType  = (UINT8) ((DEVICE_CONTEXT_64 *)OutputContext)->EP[Dci-1].EPType;
   }
+#endif
 
   if (Urb->Data != NULL) {
 #if defined(notdef_cavium)
@@ -1557,7 +1561,7 @@ XhcDisableSlotCmd64 (
   return Status;
 }
 #endif
-
+#if !defined(BDK_XHCI_CSZ1_ONLY) || (0 == BDK_XHCI_CSZ1_ONLY)
 /**
   Assign and initialize the device slot for a new device.
 
@@ -1801,7 +1805,7 @@ XhcInitializeDeviceSlot (
 
   return Status;
 }
-
+#endif
 /**
   Assign and initialize the device slot for a new device.
 
@@ -2591,12 +2595,17 @@ XhcPollPortStatusChange (
     if ((SlotId == 0) && ((PortState->PortChangeStatus & USB_PORT_STAT_C_RESET) != 0)) {
         DEBUG((EFI_D_INFO,"Initializing device slot n:%d u:%d s:%d speed %d\n",
                 Xhc->node, Xhc->usb_port, Port, Speed));
+#if defined(BDK_XHCI_CSZ1_ONLY) && (BDK_XHCI_CSZ1_ONLY)
+      Status = XhcInitializeDeviceSlot64 (Xhc, ParentRouteChart, Port, RouteChart, Speed);
+#else
       if (Xhc->hccparams.s.csz == 0) {
         Status = XhcInitializeDeviceSlot (Xhc, ParentRouteChart, Port, RouteChart, Speed);
       } else {
         Status = XhcInitializeDeviceSlot64 (Xhc, ParentRouteChart, Port, RouteChart, Speed);
       }
+#endif
     }
+
   }
 
   return Status;
@@ -2626,7 +2635,7 @@ RingIntTransferDoorBell (
   return EFI_SUCCESS;
 }
 
-
+#if !defined(BDK_XHCI_CSZ1_ONLY) || (0 == BDK_XHCI_CSZ1_ONLY)
 /**
   Initialize endpoint context in input context.
 
@@ -2794,7 +2803,7 @@ XhcInitializeEndpointContext (
 
   return MaxDci;
 }
-
+#endif
 /**
   Initialize endpoint context in input context.
 
@@ -2963,7 +2972,7 @@ XhcInitializeEndpointContext64 (
   return MaxDci;
 }
 
-
+#if !defined(BDK_XHCI_CSZ1_ONLY) || (0 == BDK_XHCI_CSZ1_ONLY)
 /**
   Configure all the device endpoints through XHCI's Configure_Endpoint cmd.
 
@@ -3052,7 +3061,7 @@ XhcSetConfigCmd (
 
   return Status;
 }
-
+#endif
 /**
   Configure all the device endpoints through XHCI's Configure_Endpoint cmd.
 
@@ -3189,6 +3198,7 @@ XhcStopEndpoint (
   return Status;
 }
 
+#if !defined(BDK_XHCI_CSZ1_ONLY) || (0 == BDK_XHCI_CSZ1_ONLY)
 /**
   Set interface through XHCI's Configure_Endpoint cmd.
 
@@ -3393,6 +3403,7 @@ XhcSetInterface (
 
   return Status;
 }
+#endif
 
 /**
   Reset endpoint through XHCI's Reset_Endpoint cmd.
@@ -3701,7 +3712,7 @@ XhcSetInterface64 (
 
   return Status;
 }
-
+#if !defined(BDK_XHCI_CSZ1_ONLY) || (0 == BDK_XHCI_CSZ1_ONLY)
 /**
   Evaluate the endpoint 0 context through XHCI's Evaluate_Context cmd.
 
@@ -3760,6 +3771,7 @@ XhcEvaluateContext (
   }
   return Status;
 }
+#endif
 
 /**
   Evaluate the endpoint 0 context through XHCI's Evaluate_Context cmd.
@@ -3820,7 +3832,7 @@ XhcEvaluateContext64 (
   return Status;
 }
 
-
+#if !defined(BDK_XHCI_CSZ1_ONLY) || (0 == BDK_XHCI_CSZ1_ONLY)
 /**
   Evaluate the slot context for hub device through XHCI's Configure_Endpoint cmd.
 
@@ -3892,6 +3904,7 @@ XhcConfigHubContext (
   }
   return Status;
 }
+#endif
 
 /**
   Evaluate the slot context for hub device through XHCI's Configure_Endpoint cmd.
