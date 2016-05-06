@@ -823,7 +823,7 @@ XhcCheckUrbResult (
       case TRB_COMPLETION_STALL_ERROR:
         CheckedUrb->Result  |= EFI_USB_ERR_STALL;
         CheckedUrb->Finished = TRUE;
-        DEBUG ((EFI_D_ERROR, "STALL_ERROR! Completecode = %x\n",EvtTrb->Completecode));
+        DEBUG ((EFI_D_WARN, "STALL_ERROR! Completecode = %x\n",EvtTrb->Completecode));
         goto EXIT;
 
       case TRB_COMPLETION_BABBLE_ERROR:
@@ -852,7 +852,7 @@ XhcCheckUrbResult (
             (TRBType == TRB_TYPE_ISOCH)) {
           CheckedUrb->Completed += (((TRANSFER_TRB_NORMAL*)TRBPtr)->Length - EvtTrb->Length);
         } else if(EvtTrb->Completecode == TRB_COMPLETION_SHORT_PACKET &&  Urb->Ep.Type != XHC_BULK_TRANSFER) {
-            DEBUG ((EFI_D_ERROR, "short packet happens! EpType %u TrbType %d\n",
+            DEBUG ((EFI_D_WARN, "short packet happens! EpType %u TrbType %d\n",
                     (unsigned) Urb->Ep.Type, (unsigned) TRBPtr->Type  ));
         }
         break;
