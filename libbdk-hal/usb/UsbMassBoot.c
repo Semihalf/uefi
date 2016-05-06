@@ -61,6 +61,7 @@ static inline uint32_t ReadUnaligned32(const uint32_t *tgt) { return *tgt;}
   @retval EFI_MEDIA_CHANGED      The device media has been changed.
 
 **/
+static
 EFI_STATUS
 UsbBootRequestSense (
   IN USB_MASS_DEVICE          *UsbMass
@@ -189,6 +190,7 @@ UsbBootRequestSense (
   @retval Others                 Command execution failed.
 
 **/
+static
 EFI_STATUS
 UsbBootExecCmd (
   IN USB_MASS_DEVICE            *UsbMass,
@@ -258,6 +260,7 @@ UsbBootExecCmd (
   @retval Others                 Command execution failed after retrial.
 
 **/
+static
 EFI_STATUS
 UsbBootExecCmdWithRetry (
   IN USB_MASS_DEVICE          *UsbMass,
@@ -372,6 +375,7 @@ EXIT:
   @retval Others                 Device not ready.
 
 **/
+static
 EFI_STATUS
 UsbBootIsUnitReady (
   IN USB_MASS_DEVICE            *UsbMass
@@ -406,6 +410,7 @@ UsbBootIsUnitReady (
   @retval Others                 INQUIRY Command is not executed successfully.
 
 **/
+static
 EFI_STATUS
 UsbBootInquiry (
   IN USB_MASS_DEVICE            *UsbMass
@@ -466,6 +471,7 @@ UsbBootInquiry (
   @retval Other                  READ CAPACITY 16 bytes command execution failed.
 
 **/
+static
 EFI_STATUS
 UsbBootReadCapacity16 (
   IN USB_MASS_DEVICE            *UsbMass
@@ -548,6 +554,7 @@ UsbBootReadCapacity16 (
   @retval Other                  READ CAPACITY command execution failed.
 
 **/
+static
 EFI_STATUS
 UsbBootReadCapacity (
   IN USB_MASS_DEVICE          *UsbMass
@@ -618,6 +625,7 @@ UsbBootReadCapacity (
   @retval Other                  Command execution failed.
 
 **/
+static
 EFI_STATUS
 UsbScsiModeSense (
   IN USB_MASS_DEVICE          *UsbMass

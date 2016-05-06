@@ -238,6 +238,7 @@ UsbBotSendCommand (
   @retval Others                Failed to transfer data
 
 **/
+static
 EFI_STATUS
 UsbBotDataTransfer (
   IN USB_BOT_PROTOCOL         *UsbBot,
@@ -316,6 +317,7 @@ UsbBotDataTransfer (
   @retval Other          Error occurred when trying to get status.
 
 **/
+static
 EFI_STATUS
 UsbBotGetStatus (
   IN  USB_BOT_PROTOCOL      *UsbBot,

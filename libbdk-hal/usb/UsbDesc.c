@@ -28,6 +28,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
   @param  Setting               The descriptor to free.
 
 **/
+static 
 VOID
 UsbFreeInterfaceDesc (
   IN USB_INTERFACE_SETTING  *Setting
@@ -67,6 +68,7 @@ UsbFreeInterfaceDesc (
   @param  Config                The configuration descriptor to free.
 
 **/
+static
 VOID
 UsbFreeConfigDesc (
   IN USB_CONFIG_DESC      *Config
@@ -145,6 +147,7 @@ UsbFreeDevDesc (
   @return Created descriptor or NULL.
 
 **/
+static
 VOID *
 UsbCreateDesc (
   IN  UINT8               *DescBuf,
@@ -234,6 +237,7 @@ UsbCreateDesc (
   @return The create interface setting or NULL if failed.
 
 **/
+static
 USB_INTERFACE_SETTING *
 UsbParseInterfaceDesc (
   IN  UINT8               *DescBuf,
@@ -311,6 +315,7 @@ ON_ERROR:
   @return The created configuration descriptor.
 
 **/
+static
 USB_CONFIG_DESC *
 UsbParseConfigDesc (
   IN UINT8                *DescBuf,
@@ -499,6 +504,7 @@ UsbCtrlRequest (
   @retval Others                Failed to retrieve the descriptor.
 
 **/
+static
 EFI_STATUS
 UsbCtrlGetDesc (
   IN  USB_DEVICE          *UsbDev,
@@ -776,6 +782,7 @@ ON_EXIT:
   @return The created configuration descriptor.
 
 **/
+static
 EFI_USB_CONFIG_DESCRIPTOR *
 UsbGetOneConfig (
   IN USB_DEVICE           *UsbDev,

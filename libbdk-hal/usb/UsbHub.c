@@ -583,6 +583,7 @@ UsbIsHubInterface (
   @retval EFI_OUT_OF_RESOURCES  Failed to allocate resource.
 
 **/
+static
 EFI_STATUS
 EFIAPI
 UsbOnHubInterrupt (
@@ -1159,7 +1160,12 @@ UsbRootHubInit (
     gBS->CloseEvent (HubIf->HubNotify);
   }
 #else
-  CAVIUM_NOTYET("root hub Init is done, did not trigger enumeration");
+  // Enumeration is controlled by async thread. we do not trigger enumeration inline
+  // Uncommenting statement below would trigger enumeration
+/*
+  if (HubIf->HubNotify)
+      HubIf->HubNotify(0,HubIf);
+*/
 #endif
   return Status;
 }

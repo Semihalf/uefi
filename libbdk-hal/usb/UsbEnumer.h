@@ -155,7 +155,7 @@ EFI_STATUS
 UsbRemoveConfig (
   IN USB_DEVICE           *Device
   );
-
+#if defined(notdef_cavium)
 /**
   Remove the device and all its children from the bus.
 
@@ -168,7 +168,9 @@ EFI_STATUS
 UsbRemoveDevice (
   IN USB_DEVICE           *Device
   );
-
+#else
+// made static
+#endif
 /**
   Enumerate all the changed hub ports.
 

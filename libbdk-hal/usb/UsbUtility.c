@@ -127,7 +127,7 @@ UsbHcReset (
   return Status;
 }
 
-
+#if defined(notdef_cavium) /* Unused */
 /**
   Get the current operation state of the host controller.
 
@@ -158,7 +158,7 @@ UsbHcGetState (
 
   return Status;
 }
-
+#endif
 
 /**
   Set the host controller operation state.
@@ -606,7 +606,7 @@ UsbHcSyncInterruptTransfer (
   return Status;
 }
 
-
+#if defined(notdef_cavium) /* Unused */
 /**
   Execute a synchronous Isochronous USB transfer.
 
@@ -641,7 +641,6 @@ UsbHcIsochronousTransfer (
 {
   return EFI_UNSUPPORTED;
 }
-
 
 /**
   Queue an asynchronous isochronous transfer.
@@ -679,7 +678,7 @@ UsbHcAsyncIsochronousTransfer (
 {
   return EFI_UNSUPPORTED;
 }
-
+#endif
 
 
 
@@ -691,6 +690,7 @@ UsbHcAsyncIsochronousTransfer (
   @return            A new device path which only contain the Usb part of the DevicePath.
 
 **/
+static
 EFI_DEVICE_PATH_PROTOCOL *
 EFIAPI
 GetUsbDPFromFullDP (
@@ -768,6 +768,7 @@ GetUsbDPFromFullDP (
   @retval FALSE      there is no DEVICE_PATH_LIST_ITEM in UsbIoDPList which contains the passed in UsbDP.
 
 **/
+static
 BOOLEAN
 EFIAPI
 SearchUsbDPInList (
@@ -852,7 +853,7 @@ AddUsbDPToList (
 
   return EFI_SUCCESS;
 }
-
+#if defined(notdef_cavium) /* Unused */
 /**
   Check whether usb device, whose interface is UsbIf, matches the usb class which indicated by
   UsbClassDevicePathPtr whose is a short form usb class device path.
@@ -1022,7 +1023,7 @@ MatchUsbWwid (
 #endif
   return FALSE;
 }
-
+#endif
 /**
   Free a DEVICE_PATH_LIST_ITEM list.
 
@@ -1142,6 +1143,7 @@ UsbBusAddWantedUsbIoDP (
 
 }
 
+#if defined(notdef_cavium) /* Unused */
 /**
   Check whether a usb child device is the wanted device in a bus.
 
@@ -1247,4 +1249,4 @@ UsbBusIsWantedUsbIO (
     return FALSE;
   }
 }
-
+#endif /* defined(notdef_cavium) */

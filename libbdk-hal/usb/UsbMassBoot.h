@@ -242,6 +242,7 @@ UsbBootGetParams (
   IN USB_MASS_DEVICE          *UsbMass
   );
 
+#if defined(notdef_cavium)
 /**
   Execute TEST UNIT READY command to check if the device is ready.
 
@@ -251,11 +252,14 @@ UsbBootGetParams (
   @retval Others                 Device not ready.
 
 **/
+static
 EFI_STATUS
 UsbBootIsUnitReady (
   IN USB_MASS_DEVICE          *UsbMass
   );
-
+#else
+// made static
+#endif
 /**
   Detect whether the removable media is present and whether it has changed.
 

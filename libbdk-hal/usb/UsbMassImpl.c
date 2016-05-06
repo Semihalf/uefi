@@ -388,6 +388,7 @@ UsbMassInitMedia (
   @retval EFI_NOT_FOUND        Fail to initialize any of multiple LUNs.
 
 **/
+static
 EFI_STATUS
 UsbMassInitMultiLun (
   IN EFI_DRIVER_BINDING_PROTOCOL   *This,

@@ -54,6 +54,7 @@ UsbGetEndpointDesc (
   @param  UsbIf                 The USB interface to free.
 
 **/
+static
 VOID
 UsbFreeInterface (
   IN USB_INTERFACE        *UsbIf
@@ -91,6 +92,7 @@ UsbFreeInterface (
   @return The created USB interface for the descriptor, or NULL.
 
 **/
+static
 USB_INTERFACE *
 UsbCreateInterface (
   IN USB_DEVICE           *Device,
@@ -199,6 +201,7 @@ ON_ERROR:
   @param  Device                The USB device to free.
 
 **/
+static
 VOID
 UsbFreeDevice (
   IN USB_DEVICE           *Device
@@ -224,6 +227,7 @@ UsbFreeDevice (
   @return Created USB device, Or NULL.
 
 **/
+static
 USB_DEVICE *
 UsbCreateDevice (
   IN USB_INTERFACE        *ParentIf,
@@ -260,6 +264,7 @@ UsbCreateDevice (
   @return Others            Failed to locate a driver for this interface.
 
 **/
+static
 EFI_STATUS
 UsbConnectDriver (
   IN USB_INTERFACE        *UsbIf
@@ -480,6 +485,7 @@ UsbSelectConfig (
   @param  UsbIf                 The interface to disconnect driver from.
 
 **/
+static
 EFI_STATUS
 UsbDisconnectDriver (
   IN USB_INTERFACE        *UsbIf
@@ -580,6 +586,7 @@ UsbRemoveConfig (
   @retval EFI_SUCCESS           The device is removed.
 
 **/
+static
 EFI_STATUS
 UsbRemoveDevice (
   IN USB_DEVICE           *Device
@@ -644,6 +651,7 @@ UsbRemoveDevice (
   @return The device on the hub's port, or NULL if there is none.
 
 **/
+static
 USB_DEVICE *
 UsbFindChild (
   IN USB_INTERFACE        *HubIf,
@@ -684,6 +692,7 @@ UsbFindChild (
   @retval Others                Failed to enumerate the device.
 
 **/
+static
 EFI_STATUS
 UsbEnumerateNewDev (
   IN USB_INTERFACE        *HubIf,
@@ -898,7 +907,7 @@ UsbEnumerateNewDev (
     DEBUG ((EFI_D_ERROR, "failed to create interfaces - %d\n", (int) Status));
     goto ON_ERROR;
   }
-
+#if defined(notdef_cavium)
   //
   // Report Status Code to indicate USB device has been detected by hotplug
   //
@@ -907,6 +916,7 @@ UsbEnumerateNewDev (
     (EFI_IO_BUS_USB | EFI_IOB_PC_HOTPLUG),
     Bus->DevicePath
     );
+#endif
   return EFI_SUCCESS;
 
 ON_ERROR:
@@ -939,6 +949,7 @@ ON_ERROR:
   @retval Others                Failed to enumerate the device.
 
 **/
+static
 EFI_STATUS
 UsbEnumeratePort (
   IN USB_INTERFACE        *HubIf,
