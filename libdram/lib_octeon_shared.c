@@ -248,9 +248,7 @@ static const uint64_t test_pattern[] = {
 };
 #endif  /* !DO_LIKE_RANDOM_XOR */
 
-#define test_dram_byte_print ddr_print
-
-int test_dram_byte(uint64_t p, uint64_t bitmask)
+int test_dram_byte(bdk_node_t node, int lmc, uint64_t p, uint64_t bitmask)
 {
     uint64_t p1, p2, d1, d2;
     uint64_t v, v1;
@@ -268,6 +266,10 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
     // When doing in parallel, the caller must provide full 8-byte bitmask.
     // Byte lanes may be clear in the mask to indicate no testing on that lane.
     datamask = bitmask;
+
+    // final address must include LMC and node
+    p |= (lmc<<7); /* Map address into proper interface */
+    p = bdk_numa_get_address(node, p); /* Map to node */
 
     // Not on THUNDER:	p |= 1ull<<63;
 
@@ -339,9 +341,9 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
 		v1 = ~v;
 #endif
 
-		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
-		 *            p1, v, p2, v1);
-		 */
+		debug_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
+		            p1, v, p2, v1);
+
 		__bdk_dram_write64(p1, v);
 		__bdk_dram_write64(p2, v1);
 
@@ -381,9 +383,8 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
 		d1 = __bdk_dram_read64(p1);
 		d2 = ~__bdk_dram_read64(p2);
 #endif
-		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
-		 *             p1, d1, p2, d2);
-		 */
+		debug_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
+                            p1, d1, p2, d2);
 
 		xor = ((d1 ^ v) | (d2 ^ v)) & datamask; // union of error bits only in active byte lanes
 
@@ -456,6 +457,10 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int fl
      */
     // NOTE: this step done in the calling routine(s)...
 
+    // final address must include LMC and node
+    p |= (ddr_interface_num << 7); /* Map address into proper interface */
+    p = bdk_numa_get_address(node, p); /* Map to node */
+
     /* Add offset to both test regions to not clobber u-boot stuff
      * when running from L2 for NAND boot.
      */
@@ -464,7 +469,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int fl
     errors = 0;
 
     bdk_dram_address_extract_info(p, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
-    debug_print("test_dram_byte_hw: Starting at A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
+    VB_PRT(VBL_DEV2, "test_dram_byte_hw: Starting at A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
 	      p, node_address, lmc, dimm, rank, bank, row, col);
 
     // only check once per call, and ignore if no match...
@@ -510,7 +515,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int fl
         dbtrain_ctl.s.column_a       = col;
         dbtrain_ctl.s.row_a          = row;
         dbtrain_ctl.s.bg             = (bank >> 2) & 3;
-        dbtrain_ctl.s.prank          = rank;
+        dbtrain_ctl.s.prank          = (dimm * 2) + rank; // FIXME? 
         dbtrain_ctl.s.activate       = (flags == 0) ? 0 : 1;
         dbtrain_ctl.s.write_ena      = 1;
         dbtrain_ctl.s.read_cmd_count = 31; // max count pass 1.x
@@ -1827,9 +1832,11 @@ static void dbi_switchover_interface(int node, int lmc)
         if (!(rank_mask & (1 << rankx)))
             continue;
 
-        phys_addr = (lmc << 7);
-        phys_addr |= rank_offset * active_ranks;
-        phys_addr = bdk_numa_get_address(node, phys_addr); // map to node
+        phys_addr = rank_offset * active_ranks;
+        // FIXME: now done by test_dram_byte_hw()
+        //phys_addr |= (lmc << 7);
+        //phys_addr = bdk_numa_get_address(node, phys_addr); // map to node
+
         active_ranks++;
 
         retries = 0;

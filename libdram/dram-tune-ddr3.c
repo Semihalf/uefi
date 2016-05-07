@@ -1503,6 +1503,40 @@ int dram_tune_byte_bursts = DEFAULT_BYTE_BURSTS;
 #endif
 
 static void
+setup_hw_pattern(bdk_node_t node, int lmc, const uint64_t *pattern_p)
+{
+    /*
+      3) Setup GENERAL_PURPOSE[0-2] registers with the data pattern of choice.
+      a. GENERAL_PURPOSE0[DATA<63:0>] – sets the initial lower (rising edge) 64 bits of data.
+      b. GENERAL_PURPOSE1[DATA<63:0>] – sets the initial upper (falling edge) 64 bits of data.
+      c. GENERAL_PURPOSE2[DATA<15:0>] – sets the initial lower (rising edge <7:0>) and upper
+      (falling edge <15:8>) ECC data.
+    */
+    DRAM_CSR_MODIFY(general_purpose0, node, BDK_LMCX_GENERAL_PURPOSE0(lmc), 
+                    general_purpose0.s.data = pattern_p[0]);
+    DRAM_CSR_MODIFY(general_purpose1, node, BDK_LMCX_GENERAL_PURPOSE1(lmc),
+                    general_purpose1.s.data = pattern_p[1]);
+    DRAM_CSR_MODIFY(general_purpose2, node, BDK_LMCX_GENERAL_PURPOSE2(lmc),
+                    general_purpose2.s.data = pattern_p[2]);
+}
+
+int
+run_test_hw_patterns(bdk_node_t node, int lmc, uint64_t phys_addr, int flags)
+{
+    int pattern;
+    const uint64_t *pattern_p;
+    int errors = 0;
+
+    for (pattern = 0; pattern < NUM_BYTE_PATTERNS; pattern++) {
+	pattern_p = byte_patterns[pattern];
+        setup_hw_pattern(node, lmc, pattern_p);
+
+        errors |= test_dram_byte_hw(node, lmc, phys_addr, 0); // FIXME: flags?
+    }
+    return errors;
+}
+
+static void
 hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
                           int lmc, int bytelane, int ddr_interface_64b)
 {
@@ -1549,6 +1583,7 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
 
 	pattern_p = byte_patterns[pattern];
 
+#if 0
 	/*
 	  3) Setup GENERAL_PURPOSE[0-2] registers with the data pattern of choice.
 	  a. GENERAL_PURPOSE0[DATA<63:0>] – sets the initial lower (rising edge) 64 bits of data.
@@ -1562,6 +1597,9 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
 			general_purpose1.s.data = pattern_p[1]);
 	DRAM_CSR_MODIFY(general_purpose2, node, BDK_LMCX_GENERAL_PURPOSE2(lmc),
 			general_purpose2.s.data = pattern_p[2]);
+#else
+        setup_hw_pattern(node, lmc, pattern_p);
+#endif
 
 	// now loop through all legal values for the DLL byte offset...
 
@@ -1590,13 +1628,16 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    off_errors = 0; // errors for this byte_offset, all ranks
 
             active_ranks = 0;
+
 	    for (rankx = 0; rankx < 4; rankx++) {
                 if (!(rank_mask & (1 << rankx)))
                     continue;
 
-		phys_addr = (lmc << 7);
-		phys_addr |= dram_tune_rank_offset * active_ranks;
-                phys_addr = bdk_numa_get_address(node, phys_addr); // map to node
+		phys_addr = dram_tune_rank_offset * active_ranks;
+		// FIXME: now done by test_dram_byte_hw()
+                //phys_addr |= (lmc << 7);
+                //phys_addr = bdk_numa_get_address(node, phys_addr); // map to node
+
                 active_ranks++;
 
                 // NOTE: return is a now a bitmask of the erroring bytelanes..

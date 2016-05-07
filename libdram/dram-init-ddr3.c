@@ -6929,14 +6929,20 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             "   ",
             "(1)"
         };
+        int sw_wlevel_hw = 1; // FIXME: make the default now?
 #pragma pack(pop)
+
+        if ((s = lookup_env_parameter("ddr_sw_wlevel_hw")) != NULL) {
+            sw_wlevel_hw = !!strtoul(s, NULL, 0);
+        }
 
         if ((s = lookup_env_parameter("ddr_software_wlevel")) != NULL) {
             sw_wlevel_enable = strtoul(s, NULL, 0);
         }
 
         if (sw_wlevel_enable)
-            ddr_print("N%d.LMC%d: Performing software Write-Leveling\n", node, ddr_interface_num);
+            ddr_print("N%d.LMC%d: Performing software Write-Leveling %s\n",
+                      node, ddr_interface_num, (sw_wlevel_hw) ? "with H/W assist" : "");
 
 	/* Get the measured_vref setting from the config, check for an override... */
 	/* NOTE: measured_vref=1 (ON) means force use of MEASURED Vref... */
@@ -7110,12 +7116,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    byte_test_status[byte] = WL_ESTIMATED;
 
                 if (wlevel_bitmask_errors == 0) {
+
                     /* Determine address of DRAM to test for pass 1 of software write leveling. */
                     rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
-                    rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
-                    rank_addr = bdk_numa_get_address(node, rank_addr);
-                    debug_print("N%d.LMC%d.R%d: Active Rank %d Address: 0x%lx\n",
-			      node, ddr_interface_num, rankx, active_rank, rank_addr);
+                    // FIXME: these now put in by test_dram_byte()
+                    //rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
+                    //rank_addr = bdk_numa_get_address(node, rank_addr);
+                    VB_PRT(VBL_DEV2, "N%d.LMC%d.R%d: Active Rank %d Address: 0x%lx\n",
+                           node, ddr_interface_num, rankx, active_rank, rank_addr);
 
 		    { // start parallel write-leveling block for delay high-order bits
 			int errors = 0;
@@ -7151,8 +7159,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    bdk_watchdog_poke();
 
 			    // do the test
-			    errors = test_dram_byte(rank_addr, bytemask);
-			    debug_print("WL pass1: test_dram_byte returned 0x%x\n", errors);
+                            if (sw_wlevel_hw) {
+                                errors = run_test_hw_patterns(node, ddr_interface_num, rank_addr, 0) & 0xff; // FIXME? ignore ECC
+                                errors &= bytes_todo; // keep only the ones we are doing, HW test does not use bytemask
+                            } else
+                                errors = test_dram_byte(node, ddr_interface_num, rank_addr, bytemask);
+
+			    VB_PRT(VBL_DEV2, "WL pass1: test_dram_byte returned 0x%x\n", errors);
 
 			    // remember, errors will not be returned for byte-lanes that have maxxed out...
 			    no_errors_count = (errors == 0) ? no_errors_count + 1 : 0; // bump or reset
@@ -7383,7 +7396,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    bdk_watchdog_poke();
 
 			    // do the test
-			    errors = test_dram_byte(rank_addr, bytemask);
+			    // do the test
+                            if (sw_wlevel_hw)
+                                errors = run_test_hw_patterns(node, ddr_interface_num, rank_addr, 0) & 0xff; // FIXME?
+                            else
+                                errors = test_dram_byte(node, ddr_interface_num, rank_addr, bytemask);
+
 			    debug_print("SWL pass 2: test_dram_byte returned 0x%x\n", errors);
 
 			    // check errors by byte
@@ -7485,7 +7503,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		{
 		    uint64_t datamask = (ddr_interface_64b) ? 0xffffffffffffffffULL : 0x00000000ffffffffULL;
 
-		    errors = test_dram_byte(rank_addr, datamask);
+                    // do the test
+                    if (sw_wlevel_hw)
+                        errors = run_test_hw_patterns(node, ddr_interface_num, rank_addr, 0) & 0xff; // FIXME?
+                    else
+                        errors = test_dram_byte(node, ddr_interface_num, rank_addr, datamask);
+
 		    if (errors) {
 			ddr_print("N%d.LMC%d.R%d: Wlevel Rank Final Test errors 0x%x\n",
 			      node, ddr_interface_num, rankx, errors);
