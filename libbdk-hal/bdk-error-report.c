@@ -403,9 +403,9 @@ void bdk_error_enable(bdk_node_t node)
     }
     else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
     {
-        enable_cn81xx(node);
-        check_cn81xx(node);
-        bdk_error_check = check_cn88xx;
+        //enable_cn81xx(node);
+        //check_cn81xx(node);
+        //bdk_error_check = check_cn88xx;
     }
     else
         bdk_error("Error reporting not implemented for this chip\n");
