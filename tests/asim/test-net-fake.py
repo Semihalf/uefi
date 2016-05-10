@@ -19,7 +19,12 @@ try:
     sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL)
 except:
     sys.setdlopenflags(0x00002|0x00100)
-sys.path.append(ASIM + "/shim/python")
+
+if os.path.isdir(ASIM + "/shim/python"):
+    sys.path.append(ASIM + "/shim/python")
+else:
+    sys.path.append(ASIM + "/bin/python")
+
 os.environ["ASIM_LIBRARY_PATH"] = ASIM + "/lib"
 
 pipe_r, pipe_w = os.pipe()
