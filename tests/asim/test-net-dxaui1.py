@@ -21,10 +21,8 @@ except:
     sys.setdlopenflags(0x00002|0x00100)
 
 if os.path.isdir(ASIM + "/shim/python"):
-    print("%s %s"% (ASIM , "/shim/python"))
     sys.path.append(ASIM + "/shim/python")
 else:
-    print("%s %s"% (ASIM , "/bin/python"))
     sys.path.append(ASIM + "/bin/python")
 
 os.environ["ASIM_LIBRARY_PATH"] = ASIM + "/lib"
