@@ -737,10 +737,10 @@ static void dram_tuning_thread2(int arg, void *arg1)
     }
 
     debug_print("Node %d, core %d, Testing area 1 at 0x%011lx, area 2 at 0x%011lx\n",
-		node, core, base_address + AREA_BASE_OFFSET,
-		base_address + AREA_BASE_OFFSET + dram_tune_rank_offset);
+                node, core, base_address + AREA_BASE_OFFSET,
+                base_address + AREA_BASE_OFFSET + dram_tune_rank_offset);
 
-    errs = dram_tuning_mem_xor2(base_address, bytemask, (num_lmcs == 4) ? 2 : 1);
+    errs = dram_tuning_mem_xor2(base_address, bytemask, (num_lmcs >> 1)); // 4->2, 2->1, 1->0
     //errs = dram_tuning_mem_rows(base_address, bytemask);
 
     /* Report that we're done */
@@ -1557,6 +1557,7 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
     int pat_beg, pat_end;
     int rank_beg, rank_end;
     int byte_lo, byte_hi;
+    uint64_t hw_rank_offset;
 
     if (bytelane == 0x0A) { // all bytelanes
         byte_lo = 0;
@@ -1568,10 +1569,10 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
     rank_mask = lmcx_config.s.init_status;
     // this should be correct for 1 or 2 ranks, 1 or 2 DIMMs
-    dram_tune_rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
+    hw_rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
 
     debug_print("N%d: %s: starting LMC%d with rank offset 0x%lx\n",
-                node, __FUNCTION__, lmc, dram_tune_rank_offset);
+                node, __FUNCTION__, lmc, hw_rank_offset);
 
     // start of pattern loop
     // we do the set of tests for each pattern supplied...
@@ -1633,7 +1634,7 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
                 if (!(rank_mask & (1 << rankx)))
                     continue;
 
-		phys_addr = dram_tune_rank_offset * active_ranks;
+		phys_addr = hw_rank_offset * active_ranks;
 		// FIXME: now done by test_dram_byte_hw()
                 //phys_addr |= (lmc << 7);
                 //phys_addr = bdk_numa_get_address(node, phys_addr); // map to node
