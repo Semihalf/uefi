@@ -853,6 +853,8 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
         correct_lanes = 32;
     else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         correct_lanes = 22;
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        correct_lanes = 8;
     if (lanes != correct_lanes)
     {
         bdk_error("QLM Config: Unexpected number of lanes (%d) from MCU\n", lanes);
