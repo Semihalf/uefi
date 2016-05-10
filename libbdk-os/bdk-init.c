@@ -230,13 +230,19 @@ void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1, uint64_t r
             l2c_tadx_int.u = 0;
             l2c_tadx_int.s.rddislmc = 1;
             BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(0), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(1), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(2), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(3), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(4), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(5), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(6), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(7), l2c_tadx_int.u);
+            if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) || CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+            {
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(1), l2c_tadx_int.u);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(2), l2c_tadx_int.u);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(3), l2c_tadx_int.u);
+            }
+            if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+            {
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(4), l2c_tadx_int.u);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(5), l2c_tadx_int.u);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(6), l2c_tadx_int.u);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(7), l2c_tadx_int.u);
+            }
         }
 
         /* Validate the image CRC */
