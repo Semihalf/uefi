@@ -221,20 +221,20 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         bool is_kr = __bdk_qlm_is_lane_kr(node, qlm, 0);
         switch (cmrx_config.s.lmac_type)
         {
-            case 0x0: return BDK_QLM_MODE_SGMII_2X1;
-            case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differntiate between XAUI and DXAUI */
-            case 0x2: return BDK_QLM_MODE_RXAUI_1X2;
-            case 0x3:
+            case BDK_BGX_LMAC_TYPES_E_SGMII: return BDK_QLM_MODE_SGMII_2X1;
+            case BDK_BGX_LMAC_TYPES_E_XAUI: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differntiate between XAUI and DXAUI */
+            case BDK_BGX_LMAC_TYPES_E_RXAUI: return BDK_QLM_MODE_RXAUI_1X2;
+            case BDK_BGX_LMAC_TYPES_E_TENG_R:
                 if (is_kr)
                     return BDK_QLM_MODE_10G_KR_2X1;
                 else
                     return BDK_QLM_MODE_XFI_2X1;
-            case 0x4:
+            case BDK_BGX_LMAC_TYPES_E_FORTYG_R:
                 if (is_kr)
                     return BDK_QLM_MODE_40G_KR4_1X4;
                 else
                     return BDK_QLM_MODE_XLAUI_1X4;
-            case 0x6: return BDK_QLM_MODE_QSGMII_4X1;
+            case BDK_BGX_LMAC_TYPES_E_QSGMII: return BDK_QLM_MODE_QSGMII_4X1;
             default:  return BDK_QLM_MODE_DISABLED;
         }
     }
@@ -719,42 +719,42 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         }
         case BDK_QLM_MODE_SGMII_2X1:
-            lmac_type = 0; /* SGMII */
+            lmac_type = BDK_BGX_LMAC_TYPES_E_SGMII; /* SGMII */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("SGMII", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
         case BDK_QLM_MODE_XAUI_1X4:
-            lmac_type = 1; /* XAUI */
+            lmac_type = BDK_BGX_LMAC_TYPES_E_XAUI; /* XAUI */
             is_bgx = 5;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
         case BDK_QLM_MODE_RXAUI_1X2:
-            lmac_type = 2; /* RXAUI */
+            lmac_type = BDK_BGX_LMAC_TYPES_E_RXAUI; /* RXAUI */
             is_bgx = 3;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("RXAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
         case BDK_QLM_MODE_XFI_2X1:
-            lmac_type = 3; /* 10G_R */
+            lmac_type = BDK_BGX_LMAC_TYPES_E_TENG_R; /* 10G_R */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XFI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
         case BDK_QLM_MODE_XLAUI_1X4:
-            lmac_type = 4; /* 40G_R */
+            lmac_type = BDK_BGX_LMAC_TYPES_E_FORTYG_R; /* 40G_R */
             is_bgx = 5;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XLAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
         case BDK_QLM_MODE_10G_KR_2X1:
-            lmac_type = 3; /* 10G_R */
+            lmac_type = BDK_BGX_LMAC_TYPES_E_TENG_R; /* 10G_R */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("10G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
@@ -762,7 +762,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             kr_mode = 1;
             break;
         case BDK_QLM_MODE_40G_KR4_1X4:
-            lmac_type = 4; /* 40G_R */
+            lmac_type = BDK_BGX_LMAC_TYPES_E_FORTYG_R; /* 40G_R */
             is_bgx = 5;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("40G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
@@ -770,7 +770,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             kr_mode = 1;
             break;
         case BDK_QLM_MODE_QSGMII_4X1:
-            lmac_type = 6; /* QSGMII */
+            lmac_type = BDK_BGX_LMAC_TYPES_E_QSGMII; /* QSGMII */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("QSGMII", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
