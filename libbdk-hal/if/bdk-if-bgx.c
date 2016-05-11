@@ -1620,11 +1620,19 @@ static uint64_t if_get_lane_mask(bdk_if_handle_t handle)
         case BGX_MODE_10G_KR:
         {
             BDK_CSR_INIT(cmrx, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, handle->index));
+            int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
+            int num_lanes = bdk_qlm_get_lanes(handle->node, qlm);
+            if (cmrx.s.lane_to_sds >= num_lanes)
+                return 1ull << ((cmrx.s.lane_to_sds & 3) - 2); /* One lane on second DLM */
             return 1ull << (cmrx.s.lane_to_sds & 3); /* One lane */
         }
         case BGX_MODE_RXAUI:
         {
             BDK_CSR_INIT(cmrx, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, handle->index));
+            int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
+            int num_lanes = bdk_qlm_get_lanes(handle->node, qlm);
+            if (cmrx.s.lane_to_sds >= num_lanes)
+                return 3ull << ((cmrx.s.lane_to_sds & 3) - 2); /* Two lanes on second DLM */
             return 3ull << (cmrx.s.lane_to_sds & 3); /* Two lanes */
         }
         case BGX_MODE_XAUI:
