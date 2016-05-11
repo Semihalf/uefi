@@ -916,11 +916,15 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
                     qlm_mode = BDK_QLM_MODE_DISABLED;
                     break;
                 case 0x0101: /* PCIe Host */
-                    qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 : BDK_QLM_MODE_PCIE_1X4;
+                    qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 :
+                               (width == 4) ? BDK_QLM_MODE_PCIE_1X4 :
+                               BDK_QLM_MODE_PCIE_1X2;
                     use_ref = REF_100MHZ;
                     break;
                 case 0x0102: /* PCIe Endpoint */
-                    qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 : BDK_QLM_MODE_PCIE_1X4;
+                    qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 :
+                               (width == 4) ? BDK_QLM_MODE_PCIE_1X4 :
+                               BDK_QLM_MODE_PCIE_1X2;
                     qlm_flags = BDK_QLM_MODE_FLAG_ENDPOINT;
                     use_ref = 0; /* Use the external reference for EP mode */
                     break;
