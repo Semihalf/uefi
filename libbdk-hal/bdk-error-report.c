@@ -68,7 +68,7 @@ static void construct_phase_info(char *buffer, int fill_order, int fail_index, i
     bitno = 0;
     bitmask = err_bits & 15;
     while (!(bitmask & 1)) { bitno++; bitmask >>= 1; } // FIXME: better error detect
-    
+
     //printf("basic phase = %d or %d\n", basic_phase, basic_phase + 1);
     //printf("bitno phase = %d or %d\n", bitno, bitno + 4);
 
@@ -403,9 +403,9 @@ void bdk_error_enable(bdk_node_t node)
     }
     else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
     {
-        //enable_cn81xx(node);
-        //check_cn81xx(node);
-        //bdk_error_check = check_cn88xx;
+        enable_cn81xx(node);
+        check_cn81xx(node);
+        bdk_error_check = check_cn81xx;
     }
     else
         bdk_error("Error reporting not implemented for this chip\n");
