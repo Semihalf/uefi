@@ -30,12 +30,13 @@ static void ecam_walk_internal_bus(bdk_node_t node, int ecam, int bus)
         device.dev = dev;
         device.func = 0;
 
-        /* Only visit devices that exist */
         uint32_t device_id = bdk_ecam_read32(&device, BDK_PCCPF_XXX_ID);
-        if (device_id == (uint32_t)-1)
-            continue;
 
-        bdk_device_add(device.node, device.ecam, device.bus, device.dev, device.func);
+        /* Only add devices that exist. Our internal devices can have function
+           zero missing. The all ones we get back matches the multi-function
+           check, but not a bridge. This means the later code works fine */
+        if (device_id != (uint32_t)-1)
+            bdk_device_add(device.node, device.ecam, device.bus, device.dev, device.func);
 
         /* Check for Multi function and Bridge devices */
         BDK_CSR_DEFINE(clsize, BDK_PCCPF_XXX_CLSIZE);
