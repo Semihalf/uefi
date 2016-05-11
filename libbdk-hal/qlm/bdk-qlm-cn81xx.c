@@ -178,7 +178,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             case 3: /* Either PEM1 x4 or PEM2 x2 */
             {
                 /* Can be last 2 lanes of PEM1 */
-                BDK_CSR_INIT(pem1_cfg, node, BDK_PEMX_CFG(2));
+                BDK_CSR_INIT(pem1_cfg, node, BDK_PEMX_CFG(1));
                 if (pem1_cfg.s.lanes4)
                     return BDK_QLM_MODE_PCIE_1X4; /* PEM1 x4 */
                 /* Can be 2 lanes of PEM2 */
