@@ -93,6 +93,11 @@ static bdk_smi_x_rd_dat_t __bdk_mdio_read_rd_dat(const bdk_device_t *device, int
 int bdk_mdio_read(bdk_node_t node, int bus_id, int phy_id, int location)
 {
     const bdk_device_t *device = bdk_device_lookup(node, MDIO_DEVID, 0);
+    if (!device)
+    {
+        bdk_error("MDIO: ECAM device not found\n");
+        return -1;
+    }
     bdk_smi_x_cmd_t smi_cmd;
     bdk_smi_x_rd_dat_t smi_rd;
 
@@ -128,6 +133,11 @@ int bdk_mdio_read(bdk_node_t node, int bus_id, int phy_id, int location)
 int bdk_mdio_write(bdk_node_t node, int bus_id, int phy_id, int location, int val)
 {
     const bdk_device_t *device = bdk_device_lookup(node, MDIO_DEVID, 0);
+    if (!device)
+    {
+        bdk_error("MDIO: ECAM device not found\n");
+        return -1;
+    }
     bdk_smi_x_cmd_t smi_cmd;
     bdk_smi_x_wr_dat_t smi_wr;
 
@@ -165,6 +175,11 @@ int bdk_mdio_write(bdk_node_t node, int bus_id, int phy_id, int location, int va
 int bdk_mdio_45_read(bdk_node_t node, int bus_id, int phy_id, int device, int location)
 {
     const bdk_device_t *ecam_device = bdk_device_lookup(node, MDIO_DEVID, 0);
+    if (!ecam_device)
+    {
+        bdk_error("MDIO: ECAM device not found\n");
+        return -1;
+    }
     bdk_smi_x_cmd_t smi_cmd;
     bdk_smi_x_rd_dat_t smi_rd;
     bdk_smi_x_wr_dat_t smi_wr;
@@ -227,6 +242,11 @@ int bdk_mdio_45_write(bdk_node_t node, int bus_id, int phy_id, int device, int l
                                      int val)
 {
     const bdk_device_t *ecam_device = bdk_device_lookup(node, MDIO_DEVID, 0);
+    if (!ecam_device)
+    {
+        bdk_error("MDIO: ECAM device not found\n");
+        return -1;
+    }
     bdk_smi_x_cmd_t smi_cmd;
     bdk_smi_x_wr_dat_t smi_wr;
 
