@@ -718,6 +718,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             }
             break;
         }
+        case BDK_QLM_MODE_SGMII_4X1:
         case BDK_QLM_MODE_SGMII_2X1:
             lmac_type = BDK_BGX_LMAC_TYPES_E_SGMII; /* SGMII */
             is_bgx = 1;
@@ -732,6 +733,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             if (lane_mode == -1)
                 return -1;
             break;
+        case BDK_QLM_MODE_RXAUI_2X2:
         case BDK_QLM_MODE_RXAUI_1X2:
             lmac_type = BDK_BGX_LMAC_TYPES_E_RXAUI; /* RXAUI */
             is_bgx = 3;
@@ -739,6 +741,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             if (lane_mode == -1)
                 return -1;
             break;
+        case BDK_QLM_MODE_XFI_4X1:
         case BDK_QLM_MODE_XFI_2X1:
             lmac_type = BDK_BGX_LMAC_TYPES_E_TENG_R; /* 10G_R */
             is_bgx = 1;
@@ -753,6 +756,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             if (lane_mode == -1)
                 return -1;
             break;
+        case BDK_QLM_MODE_10G_KR_4X1:
         case BDK_QLM_MODE_10G_KR_2X1:
             lmac_type = BDK_BGX_LMAC_TYPES_E_TENG_R; /* 10G_R */
             is_bgx = 1;
