@@ -1224,16 +1224,16 @@ int __bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int
         return -1;
     }
 
-    if (tx_pre != -1)
+    if ((tx_pre != -1) && (tx_post == -1))
     {
-        if (tx_post == -1)
-            bdk_error("N%d.QLM%d: Lane %d: A TX_PRE(%d) value was provided without providing a TX_POST value.  Both must be provided.\n", node, qlm, lane, tx_pre);
+        BDK_CSR_INIT(emphasis, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane));
+        tx_post = emphasis.s.cfg_tx_premptap >> 4;
     }
 
-    if (tx_post != -1)
+    if ((tx_post != -1) && (tx_pre == -1))
     {
-        if (tx_pre == -1)
-            bdk_error("N%d.QLM%d: Lane %d: A TX_POST(%d) value was provided without providing a TX_PRE value.  Both must be provided.\n", node, qlm, lane, tx_post);
+        BDK_CSR_INIT(emphasis, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane));
+        tx_pre = emphasis.s.cfg_tx_premptap & 0xf;
     }
 
     BDK_TRACE(QLM, "N%d.QLM%d: Lane %d: TX_SWING=%d, TX_PRE=%d, TX_POST=%d, TX_GAIN=%d, TX_VBOOST=%d\n",
