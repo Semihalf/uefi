@@ -378,7 +378,9 @@ static void check_cn81xx(bdk_node_t node)
     check_cn8xxx_l2c_mcis(node, 1);
     check_cn8xxx_l2c_tads(node, 1);
 
-    check_cn8xxx_lmc(node, 0);
+    BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(0));
+    if (!lmcx_dll_ctl2.s.dreset)
+        check_cn8xxx_lmc(node, 0);
 }
 
 // Generic Error Enable
