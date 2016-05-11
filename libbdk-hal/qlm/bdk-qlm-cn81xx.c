@@ -122,7 +122,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                 {
                     BDK_CSR_INIT(pem1_cfg, node, BDK_PEMX_CFG(1));
                     BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(3));
-                    if (!pem1_cfg.s.lanes8 && gserx_cfg.s.pcie)
+                    if (!pem1_cfg.s.lanes4 && gserx_cfg.s.pcie)
                         return 3; /* PEM2 is on DLM3 */
                     else
                         return -1; /* PEM2 is disabled */
@@ -160,7 +160,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             case 0: /* PEM0 */
             {
                 BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
-                if (pemx_cfg.s.lanes8)
+                if (pemx_cfg.s.lanes4)
                     return BDK_QLM_MODE_PCIE_1X4; /* PEM0 x4 */
                 else
                     return BDK_QLM_MODE_PCIE_1X2; /* PEM0 x2 */
@@ -170,7 +170,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             case 2: /* Either PEM1 x4 or PEM1 x2 */
             {
                 BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(1));
-                if (pemx_cfg.s.lanes8)
+                if (pemx_cfg.s.lanes4)
                     return BDK_QLM_MODE_PCIE_1X4; /* PEM1 x4 */
                 else
                     return BDK_QLM_MODE_PCIE_1X2; /* PEM1 x2 */
@@ -178,8 +178,8 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             case 3: /* Either PEM1 x4 or PEM2 x2 */
             {
                 /* Can be last 2 lanes of PEM1 */
-                BDK_CSR_INIT(pem1_cfg, node, BDK_PEMX_CFG(1));
-                if (pem1_cfg.s.lanes8)
+                BDK_CSR_INIT(pem1_cfg, node, BDK_PEMX_CFG(2));
+                if (pem1_cfg.s.lanes4)
                     return BDK_QLM_MODE_PCIE_1X4; /* PEM1 x4 */
                 /* Can be 2 lanes of PEM2 */
                 return BDK_QLM_MODE_PCIE_1X2; /* PEM2 x2 */
@@ -673,7 +673,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 0, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
-                        c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X4);
+                        c.s.lanes4 = (mode == BDK_QLM_MODE_PCIE_1X4);
                         c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
@@ -693,7 +693,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 1, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(1),
-                        c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X4);
+                        c.s.lanes4 = (mode == BDK_QLM_MODE_PCIE_1X4);
                         c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
                     /* x4 mode waits for DLM3 setup before turning on the PEM */
@@ -716,7 +716,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                         __bdk_qlm_setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(2),
-                            c.s.lanes8 = 0;
+                            c.s.lanes4 = 0;
                             c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                             c.s.md = cfg_md);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2),
@@ -949,7 +949,7 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
             case 3: /* PEM1 or PEM2 */
             {
                 BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(1));
-                if (pemx_cfg.s.lanes8)
+                if (pemx_cfg.s.lanes4)
                     pem = 1;
                 else
                     pem = 2;
