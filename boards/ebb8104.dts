@@ -76,6 +76,8 @@ cavium,bdk {
 	PHY-ADDRESS.N0.BGX1.P1 = "0xff000109";
 	PHY-ADDRESS.N0.BGX1.P2 = "0xff00010a";
 	PHY-ADDRESS.N0.BGX1.P3 = "0xff00010b";
+        // RGMII PHY address
+	PHY-ADDRESS.N0.BGX2.P0 = "0xff000003";
 
 	/* Independent enables for each on-chip BGX port. Use this to
 	disable ports that are not wired on a board. Default is that all
