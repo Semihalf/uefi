@@ -52,6 +52,7 @@ USB_CHANGE_FEATURE_MAP  mRootHubFeatureMap[] = {
   @retval Others                Failed to set the depth.
 
 **/
+static
 EFI_STATUS
 UsbHubCtrlSetHubDepth (
   IN  USB_DEVICE          *HubDev,
@@ -85,6 +86,7 @@ UsbHubCtrlSetHubDepth (
   @retval Others                Failed to clear the feature.
 
 **/
+static
 EFI_STATUS
 UsbHubCtrlClearHubFeature (
   IN USB_DEVICE           *HubDev,
@@ -120,6 +122,7 @@ UsbHubCtrlClearHubFeature (
   @retval Others                Failed to clear the feature.
 
 **/
+static
 EFI_STATUS
 UsbHubCtrlClearPortFeature (
   IN USB_DEVICE           *HubDev,
@@ -209,6 +212,7 @@ UsbHubCtrlClearTTBuffer (
   @retval Others                Failed to retrieve the hub descriptor.
 
 **/
+static
 EFI_STATUS
 UsbHubCtrlGetSuperSpeedHubDesc (
   IN  USB_DEVICE          *HubDev,
@@ -245,6 +249,7 @@ UsbHubCtrlGetSuperSpeedHubDesc (
   @retval Others                Failed to retrieve the hub descriptor.
 
 **/
+static
 EFI_STATUS
 UsbHubCtrlGetHubDesc (
   IN  USB_DEVICE          *HubDev,
@@ -280,6 +285,7 @@ UsbHubCtrlGetHubDesc (
   @retval Others                Failed to get the hub status.
 
 **/
+static
 EFI_STATUS
 UsbHubCtrlGetHubStatus (
   IN  USB_DEVICE          *HubDev,
@@ -315,6 +321,7 @@ UsbHubCtrlGetHubStatus (
   @retval Others                Failed to retrieve the port state.
 
 **/
+static
 EFI_STATUS
 UsbHubCtrlGetPortStatus (
   IN  USB_DEVICE          *HubDev,
@@ -379,7 +386,7 @@ UsbHubCtrlResetTT (
   return Status;
 }
 
-
+#if 0 /* Unused */
 /**
   Usb hub control transfer to set the hub feature.
 
@@ -412,7 +419,7 @@ UsbHubCtrlSetHubFeature (
 
   return Status;
 }
-
+#endif
 
 /**
   Usb hub control transfer to set the port feature.
@@ -425,6 +432,7 @@ UsbHubCtrlSetHubFeature (
   @retval Others                Failed to set the feature.
 
 **/
+static
 EFI_STATUS
 UsbHubCtrlSetPortFeature (
   IN USB_DEVICE           *HubDev,
@@ -453,7 +461,6 @@ UsbHubCtrlSetPortFeature (
   return Status;
 }
 
-
 /**
   Read the whole usb hub descriptor. It is necessary
   to do it in two steps because hub descriptor is of
@@ -466,6 +473,7 @@ UsbHubCtrlSetPortFeature (
   @retval Others                Failed to read the hub descriptor.
 
 **/
+static
 EFI_STATUS
 UsbHubReadDesc (
   IN  USB_DEVICE              *HubDev,
