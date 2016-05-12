@@ -124,7 +124,10 @@ static int if_probe(bdk_if_handle_t handle)
 
 static int get_phy_address(bdk_if_handle_t handle)
 {
-    return bdk_config_get_int(BDK_CONFIG_PHY_ADDRESS, handle->node, handle->interface, handle->index);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return bdk_config_get_int(BDK_CONFIG_PHY_ADDRESS, handle->node, handle->interface + 2, handle->index);
+    else
+        return -1;
 }
 
 static int sgmii_link(bdk_if_handle_t handle)
