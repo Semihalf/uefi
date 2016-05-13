@@ -6,7 +6,7 @@ BDK_REQUIRE_DEFINE(CORTINA);
 int bdk_cortina_get_fw_date(bdk_node_t node, int bus_id, int phy_id, int die_id,
                             uint16_t *date0, uint16_t *date1, uint16_t *date2)
 {
-    cs_uint32 slice = MK_SLICE(bus_id, phy_id, die_id);
+    cs_uint32 slice = MK_SLICE(node, bus_id, phy_id, die_id);
     int rv;
 
     rv  = cs4224_reg_get(slice, CS4224_GLOBAL_UCODE_TIMESTAMP0, (cs_uint16 *) date0);
@@ -30,7 +30,7 @@ int bdk_cortina_print_ts(bdk_node_t node, int bus_id, int phy_id, int die_id)
 int bdk_cortina_update_eeprom(bdk_node_t node, int bus_id, int phy_id, int chn_id,
                               const char *file_name)
 {
-    cs_uint32 slice = MK_SLICE(bus_id, phy_id, chn_id);
+    cs_uint32 slice = MK_SLICE(node, bus_id, phy_id, chn_id);
     int rv;
 
     rv = cs4224_ucode_data_prgm_from_file_bin(slice, file_name);
@@ -84,7 +84,7 @@ void bdk_cortina_show_phy_modes(bdk_node_t node, int bus_id, int phy_id)
     int ch;
     for (ch = 0; ch < 8; ch++)
     {
-        cs_uint32 slice = MK_SLICE(bus_id, phy_id, ch);
+        cs_uint32 slice = MK_SLICE(node, bus_id, phy_id, ch);
         cs4224_reg_get_channel(slice, CS4224_PP_LINE_SDS_DSP_MSEQ_SPARE22_LSB, &mode_line);
         cs4224_reg_get_channel(slice, CS4224_PP_HOST_SDS_DSP_MSEQ_SPARE22_LSB, &mode_host);
         printf("CORTINA: PHY %d (Channel %d) Mode: HOST %s (0x%04x)  -  LINE %s (0x0%04x)\n",
@@ -94,7 +94,7 @@ void bdk_cortina_show_phy_modes(bdk_node_t node, int bus_id, int phy_id)
 
 int bdk_cortina_switch_optical_mode_line(bdk_node_t node, int bus_id, int phy_id, int chn_id)
 {
-    cs_uint32 slice = MK_SLICE(bus_id, phy_id, chn_id);
+    cs_uint32 slice = MK_SLICE(node, bus_id, phy_id, chn_id);
 
     /* switch from DAC to SR mode */
     /* page 17 2.a */
@@ -113,7 +113,7 @@ int bdk_cortina_switch_optical_mode_line(bdk_node_t node, int bus_id, int phy_id
 
 int bdk_cortina_switch_optical_mode_host(bdk_node_t node, int bus_id, int phy_id, int chn_id)
 {
-    cs_uint32 slice = MK_SLICE(bus_id, phy_id, chn_id);
+    cs_uint32 slice = MK_SLICE(node, bus_id, phy_id, chn_id);
 
     /* page 17 2.d */
     cs4224_reg_set_channel(slice, CS4224_PP_HOST_SDS_DSP_MSEQ_SPARE22_MSB, 0x0000);
@@ -131,7 +131,7 @@ int bdk_cortina_switch_optical_mode_host(bdk_node_t node, int bus_id, int phy_id
 
 int bdk_cortina_switch_copper_mode_line(bdk_node_t node, int bus_id, int phy_id, int chn_id)
 {
-    cs_uint32 slice = MK_SLICE(bus_id, phy_id, chn_id);
+    cs_uint32 slice = MK_SLICE(node, bus_id, phy_id, chn_id);
 
     /* switch from DAC to SR mode */
     cs4224_reg_set_channel(slice, CS4224_PP_LINE_SDS_DSP_MSEQ_SPARE24_LSB, 0x0005);
@@ -145,7 +145,7 @@ int bdk_cortina_switch_copper_mode_line(bdk_node_t node, int bus_id, int phy_id,
 
 int bdk_cortina_switch_copper_mode_host(bdk_node_t node, int bus_id, int phy_id, int chn_id)
 {
-    cs_uint32 slice = MK_SLICE(bus_id, phy_id, chn_id);
+    cs_uint32 slice = MK_SLICE(node, bus_id, phy_id, chn_id);
 
     cs4224_reg_set_channel(slice, CS4224_PP_HOST_SDS_DSP_MSEQ_SPARE24_LSB, 0x0005);
     if (bdk_cortina_wait_activity_completed(slice, CS4224_PP_HOST_SDS_DSP_MSEQ_SPARE24_LSB))

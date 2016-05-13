@@ -12,10 +12,10 @@
 
 /* Make a CS api 'slice' from MDIO bus, phy and dev)  These are decoded
  * cs_rtos.c by the Thunder specific read/write functions. */
-#define MK_SLICE(bus, phy, chn) (((bus & 0xff) << 24) | ((phy & 0xffff) << 8) | (chn & 0xff))
+#define MK_SLICE(node, bus, phy, chn) (((node & 0xff) << 28) | ((bus & 0xff) << 24) | ((phy & 0xffff) << 8) | (chn & 0xff))
 
-#define SLICE_TO_NODE(s) bdk_numa_local()
-#define SLICE_TO_BUS(s)  (((s) >> 24) & 0xFF)
+#define SLICE_TO_NODE(s) (((s) >> 28) & 0xF)
+#define SLICE_TO_BUS(s)  (((s) >> 24) & 0xF)
 #define SLICE_TO_PHY(s)  (((s) >> 8 ) & 0xFFFF)
 #define SLICE_TO_DIE(s)  ( (s)        & 0x01)
 

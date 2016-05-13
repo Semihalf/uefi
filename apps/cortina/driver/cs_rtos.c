@@ -41,7 +41,7 @@
  *
  *    API Version Number: 3.7.8
  ****************************************************************************/
-#include <bdk.h>
+#include "cortina-bdk.h"
 #include "cs_rtos.h"
 
 /* Include any necessary library files when building the driver */
@@ -182,7 +182,7 @@ cs_status CS_VERIFY_ENDIANESS()
 
 cs_status cs4224_reg_set(cs_uint32 slice, cs_uint32 addr, cs_uint16 data)
 {
-    int status = bdk_mdio_45_write(bdk_numa_local(), (slice>>24) & 0xff, ((slice>>8) & 0xFFFF) | (slice & 0x1), 0, addr, (int)data);
+    int status = bdk_mdio_45_write(SLICE_TO_NODE(slice), SLICE_TO_BUS(slice), SLICE_TO_PHY(slice) | SLICE_TO_DIE(slice), 0, addr, (int)data);
 //    printf("MDIO write, slice = 0x%08x, addr = 0x%08x, data = 0x%04x\n", slice, addr, data);
     if (status == -1)
     {
@@ -195,7 +195,7 @@ cs_status cs4224_reg_set(cs_uint32 slice, cs_uint32 addr, cs_uint16 data)
 
 cs_status cs4224_reg_get(cs_uint32 slice, cs_uint32 addr, cs_uint16* data)
 {
-    int read_data = bdk_mdio_45_read(bdk_numa_local(), (slice>>24) & 0xff, ((slice>>8) & 0xFFFF) | (slice & 0x1), 0, addr);
+    int read_data = bdk_mdio_45_read(SLICE_TO_NODE(slice), SLICE_TO_BUS(slice), SLICE_TO_PHY(slice) | SLICE_TO_DIE(slice), 0, addr);
     *data = (cs_uint16) read_data;
 //    printf("MDIO  read, slice = 0x%08x, addr = 0x%08x, data = 0x%04x\n", slice, addr, *data);
     if (read_data == -1)
