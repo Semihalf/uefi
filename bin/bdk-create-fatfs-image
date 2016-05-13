@@ -119,29 +119,33 @@ dd bs=64K seek=8 if=${FATFS_TMP} of=${OUT_FILE} conv=notrunc 2> /dev/null || exi
 # Create a partition table in the file
 # Note that FatFS currnetly only looks at the first partition
 # Partition 1: FAT12 covering 512KB to 4MB
+#    c          DOS compatibilty mode
 #    n          New partition
 #    p          Primary
 #    1          Primary 1
-#    1024       Start at sector 1024, 512KB
-#    8191       End at sector 8191, 4MB
+#    128        Start at sector 128, 512KB
+#    1023       End at sector 1023, 4MB
 #    t          Change type
 #    1          FAT12
 #    w          Write changes
-${FDISK} -u -C 1 ${OUT_FILE} &>/dev/null <<EOF
+${FDISK} -u -C 1 -b 4096 -c ${OUT_FILE} &>/dev/null <<EOF
+c
 n
 p
 1
-1024
-8191
+128
+1023
 t
 1
 w
 EOF
 
+
+# Display the final partition layout and files
+#${FDISK} -l ${OUT_FILE}
+#${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} ls
+
 # Clean up
 rm ${FATFS_TMP}
-
-# Display the final partition layout
-#${FDISK} -l ${OUT_FILE}
 exit 0
 

@@ -2,10 +2,10 @@
 #include <string.h>
 #include <errno.h>
 
-#include "integer.h"
+#include "ff.h"
 #include "diskio_img_file.h"
 
-#define SECTOR_SIZE		512
+#define SECTOR_SIZE		_MAX_SS
 
 static FILE       *img_fp        = NULL;
 static const char *img_file_name = NULL;
@@ -133,7 +133,9 @@ DRESULT diskio_img_file_ioctl(BYTE pdrv, BYTE cmd, void *buff)
 		case GET_BLOCK_SIZE:
 			*((DWORD *) buff) = 1; /* non flash memory */
 			break;
-
+                case GET_SECTOR_SIZE:
+                    *((WORD*) buff) = SECTOR_SIZE;
+                    break;
 		default:
 			printf("WARNING: Unhandled ioctl() command %d in diskio_img_file_ioctl()\n", cmd);
 			return RES_PARERR;

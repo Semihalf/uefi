@@ -175,6 +175,11 @@ static int ls(int argc, char **argv)
 
 	DIR dir;
 	FILINFO info;
+        unsigned int TotalSize = 0,
+            bs512=0,
+            bs1024=0,
+            bs2048=0,
+            bs4096=0;
 #if _USE_LFN
 	char lfn[_MAX_LFN + 1] = {0};
 	info.lfname = lfn;
@@ -188,15 +193,22 @@ static int ls(int argc, char **argv)
 #if _USE_LFN
 		printf("%s%s%s%s", path, pd, info.fname, dirstr);
 		if (info.lfname[0])
-			printf("    (%s%s%s%s)", path, pd, info.lfname, dirstr);
-		printf("\n");
+                    printf("    (%s%s%s%s)", path, pd, info.lfname, dirstr);
+		printf(" %u\n",(unsigned int) info.fsize );
 #else
-		printf("%s%s%s%s\n", path, pd, info.fname, dirstr);
+		printf("%s%s%s%s %u\n", path, pd, info.fname, dirstr, (unsigned int) info.fsize);
 #endif
+                TotalSize += info.fsize;
+                bs512 += (info.fsize + 511)/512;
+                bs1024 += (info.fsize + 1023)/1024;
+                bs2048 += (info.fsize + 2047)/2048;
+                bs4096 += (info.fsize + 4095)/4096;
 		res = f_findnext(&dir, &info);
 	}
 
 	f_closedir(&dir);
+        printf("Total  Bytes:%u bs512:%u bs1024:%u bs2048:%u bs4096:%u\n", TotalSize,
+               bs512,bs1024,bs2048,bs4096);
 	return 0;
 }
 
