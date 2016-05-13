@@ -15,7 +15,7 @@ ifneq ($(MAKECMDGOALS),distclean)
 endif
 endif
 
-images/cortina.img:
+images/cortina.img: images/cortina-latest.txt
 	images/cortina-convert.py images/cortina-latest.txt images/cortina.img
 
 clean:
