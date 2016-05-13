@@ -117,6 +117,10 @@ static int if_init(bdk_if_handle_t handle)
     if (handle->nic_id)
     {
         BDK_CSR_INIT(lbkx_const, handle->node, BDK_LBKX_CONST(handle->interface));
+        /* Errata LBK-FIXME LBKX_CONST[buf_size] is wrong. The value is suppose
+           to be 0x3000, not 0x1000 */
+        if (lbkx_const.s.buf_size == 0x1000)
+            lbkx_const.s.buf_size = 0x3000;
         if (bdk_nic_port_init(handle, BDK_NIC_TYPE_LBK, lbkx_const.s.buf_size))
             return -1;
     }
