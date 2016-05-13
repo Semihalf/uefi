@@ -133,7 +133,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
                 break;
             case BDK_QLM_MODE_QSGMII_4X1:
                 /* 4 ports on DLM5 */
-                num_ports += 1;
+                num_ports += 4;
                 break;
             default:
                 /* Invalid mode, no ports */
@@ -153,7 +153,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
                 break;
             case BDK_QLM_MODE_QSGMII_4X1:
                 /* 4 ports on DLM6 */
-                num_ports += 1;
+                num_ports += 4;
                 break;
             default:
                 /* Invalid mode, no ports */
@@ -188,7 +188,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
                 break;
             case BDK_QLM_MODE_QSGMII_4X1:
                 /* 4 ports on DLM0 */
-                num_ports += 1;
+                num_ports += 4;
                 break;
             default:
                 /* Invalid mode, no ports */
@@ -208,7 +208,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
                 break;
             case BDK_QLM_MODE_QSGMII_4X1:
                 /* 4 ports on DLM1 */
-                num_ports += 1;
+                num_ports += 4;
                 break;
             default:
                 /* Invalid mode, no ports */
@@ -243,7 +243,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
                 break;
             case BDK_QLM_MODE_QSGMII_4X1:
                 /* 4 ports on DLM2 */
-                num_ports += 1;
+                num_ports += 4;
                 break;
             default:
                 /* Invalid mode, no ports */
@@ -263,7 +263,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
                 break;
             case BDK_QLM_MODE_QSGMII_4X1:
                 /* 4 ports on DLM3 */
-                num_ports += 1;
+                num_ports += 4;
                 break;
             default:
                 /* Invalid mode, no ports */
@@ -271,6 +271,12 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
         }
         priv->num_port = num_ports;
     }
+
+    /* It is possible for the above code to count more than 4 ports when QSGMII
+       is used. Since the hardware can only support 4 ports, we limit ourselves
+       to 4. The higher ports are unavailable */
+    if (priv->num_port > 4)
+        priv->num_port = 4;
 
     /* Make sure the BGX LMAC type is programmed correctly. The QLM code doesn't
        program all of them */
