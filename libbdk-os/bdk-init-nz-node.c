@@ -236,7 +236,7 @@ void __bdk_init_ccpi_early(int is_master)
         /* Errata (GSER-26636) 10G-KR/40G-KR - Inverted Tx Coefficient Direction Change */
         __bdk_qlm_errata_gser_26636(node, ccpi_qlm + 8, baud_mhz);
         /* Errata (GSER-27140) SERDES temperature drift sensitivity in receiver */
-        __bdk_qlm_errata_gser_27140(node, ccpi_qlm + 8, baud_mhz, true);
+        __bdk_qlm_errata_gser_27140(node, ccpi_qlm + 8, baud_mhz, -1);
         /* Errata (GSER-27882) GSER 10GBASE-KR Transmit Equalizer */
         /* Applied in loop below */
     }

@@ -83,12 +83,12 @@ extern int __bdk_qlm_errata_gser_26636(bdk_node_t node, int qlm, int baud_mhz);
  * @param node     Note to apply errata fix to
  * @param qlm      QLM to apply errata fix to
  * @param baud_mhz QLM baud rate in Mhz
- * @param short_channel
- *                 Is channel short or long
+ * @param channel_loss
+ *                 Insertion loss at Nyquist rate (e.g. 5.125Ghz for XFI/XLAUI) in dB
  *
  * @return Zero on success, negative on failure
  */
-extern int __bdk_qlm_errata_gser_27140(bdk_node_t node, int qlm, int baud_mhz, bool short_channel);
+extern int __bdk_qlm_errata_gser_27140(bdk_node_t node, int qlm, int baud_mhz, int channel_loss);
 
 /**
  * Errata GSER-27882 -GSER 10GBASE-KR Transmit Equalizer

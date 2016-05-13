@@ -245,15 +245,19 @@ int __bdk_qlm_errata_gser_26636(bdk_node_t node, int qlm, int baud_mhz)
  * @param node     Note to apply errata fix to
  * @param qlm      QLM to apply errata fix to
  * @param baud_mhz QLM baud rate in Mhz
- * @param short_channel
- *                 Is channel short or long
+ * @param channel_loss
+ *                 Insertion loss at Nyquist rate (e.g. 5.125Ghz for XFI/XLAUI) in dB
  *
  * @return Zero on success, negative on failure
  */
-int __bdk_qlm_errata_gser_27140(bdk_node_t node, int qlm, int baud_mhz, bool short_channel)
+int __bdk_qlm_errata_gser_27140(bdk_node_t node, int qlm, int baud_mhz, int channel_loss)
 {
     if (baud_mhz != 10312)
         return 0;
+
+    /* A channel loss of -1 means the loss is unknown. A short channel is
+       considered to have loss between 0 and 10 dB */
+    bool short_channel = (channel_loss >= 0) && (channel_loss <= 10);
 
     /* I. For each GSER QLM: */
     /* Workaround GSER-27140: */

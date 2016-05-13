@@ -216,6 +216,12 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "Setting of GSERX_LANEX_TX_CFG_3[CFG_TX_VBOOST_EN] for the QLM. This\n"
             "should only be used for QLMs used for BGX and CCPI not using KR\n"
             "training.",
+    [BDK_CONFIG_QLM_CHANNEL_LOSS] =
+            "The insertion loss at Nyquist rate (e.g. 5.125Ghz for XFI/XLAUI) in\n"
+            "dB should be passed into the channel loss attribute. For CN8XXX,\n"
+            "this attribute is only used for XFI/10GBASE-KR and\n"
+            "XLAUI/40GBASE-KR4 links. If no channel loss attribute is provided\n"
+            "the default value assumes a loss of greater than 10dB.",
     /* DRAM configuration options */
     [BDK_CONFIG_DDR_SPEED] =
             "Speed grade to use for DRAM in MT/s. Hardware may adjust this value\n"

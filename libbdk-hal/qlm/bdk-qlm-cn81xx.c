@@ -864,7 +864,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* cdrlock will be checked in the BGX */
 
     /* Errata (GSER-27140) SERDES temperature drift sensitivity in receiver */
-    __bdk_qlm_errata_gser_27140(node, qlm, baud_mhz, false);
+    int channel_loss = bdk_config_get_int(BDK_CONFIG_QLM_CHANNEL_LOSS, node, qlm);
+    __bdk_qlm_errata_gser_27140(node, qlm, baud_mhz, channel_loss);
 
     /* Apply any custom tuning */
     __bdk_qlm_tune(node, qlm, mode, baud_mhz);

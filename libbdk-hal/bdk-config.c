@@ -241,6 +241,13 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = -1,
         .max_value = 1,
     },
+    [BDK_CONFIG_QLM_CHANNEL_LOSS] = {
+        .format = "QLM-CHANNEL-LOSS.N%d.QLM%d", /* Parameters: Node, QLM */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = -1, /* Default will use Cavium defaults */
+        .min_value = -1,
+        .max_value = 40,
+    },
 
     /* DRAM configuration options */
     [BDK_CONFIG_DDR_SPEED] = {

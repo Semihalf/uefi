@@ -56,6 +56,7 @@ typedef enum
     BDK_CONFIG_QLM_TUNING_TX_PREMPTAP, /* Parameters: Node, QLM, Lane */
     BDK_CONFIG_QLM_TUNING_TX_GAIN,  /* Parameters: Node, QLM, Lane */
     BDK_CONFIG_QLM_TUNING_TX_VBOOST, /* Parameters: Node, QLM, Lane */
+    BDK_CONFIG_QLM_CHANNEL_LOSS,    /* Parameters: Node, QLM */
 
     /* DRAM configuration options */
     BDK_CONFIG_DDR_SPEED,                                           /* Parameters: Node */
