@@ -1355,7 +1355,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
             else if (baud_mhz == 10312)
             {
                 /* From lab measurements of EBB8800 at 10.3125G */
-                swing = 0xd;
+                swing = 0x7;
             }
         }
 
@@ -1375,7 +1375,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
             else if (baud_mhz == 10312)
             {
                 /* From lab measurements of EBB8800 at 10.3125G */
-                premptap = 0xd0;
+                premptap = 0x70;
             }
         }
 
