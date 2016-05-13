@@ -109,10 +109,19 @@ uint64_t bdk_dram_get_top_of_bdk(void)
      */
     extern caddr_t sbrk(int incr);
     uint64_t top_of_bdk = (bdk_ptr_to_phys(sbrk(0)) & bdk_build_mask(40));
-    /* Give 4MB of extra so the BDK has room to grow */
-    top_of_bdk += 4 << 20;
-    /* Align it on a 64KB boundary */
-    top_of_bdk >>= 16;
-    top_of_bdk <<= 16;
+    uint64_t l2_size = bdk_l2c_get_cache_size_bytes(bdk_numa_master());
+    if (top_of_bdk <= l2_size)
+    {
+        /* Early BDK code takes care of the first L2 sized area of memory */
+        top_of_bdk = l2_size;
+    }
+    else
+    {
+        /* Give 4MB of extra so the BDK has room to grow */
+        top_of_bdk += 4 << 20;
+        /* Align it on a 64KB boundary */
+        top_of_bdk >>= 16;
+        top_of_bdk <<= 16;
+    }
     return top_of_bdk;
 }
