@@ -58,6 +58,10 @@ static int rgx_setup_one_time(bdk_if_handle_t handle)
 {
     const rgx_priv_t *priv = (rgx_priv_t *)handle->priv;
 
+    /* Set LMAC type as the hardware default is wrong */
+    BDK_CSR_MODIFY(c, handle->node, BDK_RGXX_CMRX_CONFIG(handle->interface, handle->index),
+        c.s.lmac_type = 5);
+
     /* Strip FCS */
     BDK_CSR_MODIFY(c, handle->node, BDK_RGXX_CMR_GLOBAL_CONFIG(handle->interface),
         c.s.fcs_strip = 1);
