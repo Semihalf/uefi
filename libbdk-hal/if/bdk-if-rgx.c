@@ -447,8 +447,10 @@ static int if_init(bdk_if_handle_t handle)
         c.s.align = !txx_append.s.preamble);
 
     int bytes_per_port;
-    //BDK_CSR_INIT(rgxx_const, handle->node, BDK_RGXX_CONST(handle->interface));
-    bytes_per_port = 4096; /* FIXME: RGMII NIC credits */
+    BDK_CSR_INIT(rgxx_const, handle->node, BDK_RGXX_CONST(handle->interface));
+    bytes_per_port = rgxx_const.s.tx_fifosz;
+    if (bytes_per_port == 0)
+        bytes_per_port = 0x3000;
     if (bdk_nic_port_init(handle, BDK_NIC_TYPE_RGMII, bytes_per_port))
         return -1;
 
