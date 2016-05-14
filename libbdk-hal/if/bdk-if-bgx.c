@@ -10,6 +10,7 @@
 typedef enum
 {
     BGX_MODE_SGMII, /* 1 lane, 1.250 Gbaud */
+    BGX_MODE_QSGMII, /* 4 ports on 1 lane, 5.0 Gbaud */
     BGX_MODE_XAUI,  /* 4 lanes, 3.125 Gbaud */
     BGX_MODE_DXAUI, /* 4 lanes, 6.250 Gbaud */
     BGX_MODE_RXAUI, /* 2 lanes, 6.250 Gbaud */
@@ -59,7 +60,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
         case BDK_QLM_MODE_QSGMII_4X1:
             lmac_type = BDK_BGX_LMAC_TYPES_E_QSGMII;
             priv->num_port = 4;
-            priv->mode = BGX_MODE_SGMII;
+            priv->mode = BGX_MODE_QSGMII;
             /* Disparity check enable. When LMAC_TYPE=QSGMII the running
                disparity check should be disabled to prevent propogation
                across ports. */
@@ -112,176 +113,51 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
             break;
     }
 
-    /* BGX2 of CN83XX is special in that it combines two DLMs. */
-    if ((interface == 2) && CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    /* Handle where BGX spans two DLMs. This happens on all interfaces for
+       CN81XX and for BGX2(DLM5-6) on CN83XX */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) ||
+        (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (interface == 2)))
     {
-        bdk_qlm_modes_t qlm_mode5 = bdk_qlm_get_mode(node, 5);
-        bdk_qlm_modes_t qlm_mode6 = bdk_qlm_get_mode(node, 6);
         int num_ports = 0;
-        switch (qlm_mode5)
+        int base_qlm = CAVIUM_IS_MODEL(CAVIUM_CN83XX) ? 5 : (qlm & 2);
+        for (int dlm = base_qlm; dlm <= base_qlm + 1; dlm++)
         {
-            case BDK_QLM_MODE_SGMII_2X1:
-            case BDK_QLM_MODE_XFI_2X1:
-            case BDK_QLM_MODE_10G_KR_2X1:
-                /* 2 ports on DLM5 */
-                num_ports += 2;
-                break;
-            case BDK_QLM_MODE_RXAUI_1X2:
-                /* 1 port on DLM5 */
-                num_ports += 1;
-                break;
-            case BDK_QLM_MODE_XAUI_1X4:
-            case BDK_QLM_MODE_XLAUI_1X4:
-            case BDK_QLM_MODE_40G_KR4_1X4:
-                /* 1 port on DLM5+DLM6 */
-                num_ports += 1;
-                break;
-            case BDK_QLM_MODE_QSGMII_4X1:
-                /* 4 ports on DLM5 */
-                num_ports += 4;
-                break;
-            default:
-                /* Invalid mode, no ports */
-                break;
+            switch (bdk_qlm_get_mode(node, dlm))
+            {
+                case BDK_QLM_MODE_SGMII_2X1:
+                case BDK_QLM_MODE_XFI_2X1:
+                case BDK_QLM_MODE_10G_KR_2X1:
+                    /* 2 ports on DLM */
+                    num_ports += 2;
+                    break;
+                case BDK_QLM_MODE_RXAUI_1X2:
+                    /* 1 port on DLM */
+                    num_ports += 1;
+                    break;
+                case BDK_QLM_MODE_XAUI_1X4:
+                case BDK_QLM_MODE_XLAUI_1X4:
+                case BDK_QLM_MODE_40G_KR4_1X4:
+                    /* 1 port on across DLMs */
+                    num_ports += 1;
+                    dlm++; /* No need to check next DLM */
+                    break;
+                case BDK_QLM_MODE_QSGMII_4X1:
+                    /* 4 ports on DLM */
+                    num_ports += 4;
+                    dlm++; /* No need to check next DLM */
+                    break;
+                default:
+                    /* Invalid mode, no ports */
+                    break;
+            }
         }
-        switch (qlm_mode6)
-        {
-            case BDK_QLM_MODE_SGMII_2X1:
-            case BDK_QLM_MODE_XFI_2X1:
-            case BDK_QLM_MODE_10G_KR_2X1:
-                /* 2 ports on DLM6 */
-                num_ports += 2;
-                break;
-            case BDK_QLM_MODE_RXAUI_1X2:
-                /* 1 port on DLM6 */
-                num_ports += 1;
-                break;
-            case BDK_QLM_MODE_QSGMII_4X1:
-                /* 4 ports on DLM6 */
-                num_ports += 4;
-                break;
-            default:
-                /* Invalid mode, no ports */
-                break;
-        }
+        /* It is possible for the above code to count more than 4 ports when QSGMII
+           is used. Since the hardware can only support 4 ports, we limit ourselves
+           to 4. The higher ports are unavailable */
+        if (num_ports > 4)
+            num_ports = 4;
         priv->num_port = num_ports;
     }
-
-    /* BGX0 of CN81XX is special in that it combines two DLMs. */
-    if ((interface == 0) && CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-    {
-        bdk_qlm_modes_t qlm_mode0 = bdk_qlm_get_mode(node, 0);
-        bdk_qlm_modes_t qlm_mode1 = bdk_qlm_get_mode(node, 1);
-        int num_ports = 0;
-        switch (qlm_mode0)
-        {
-            case BDK_QLM_MODE_SGMII_2X1:
-            case BDK_QLM_MODE_XFI_2X1:
-            case BDK_QLM_MODE_10G_KR_2X1:
-                /* 2 ports on DLM0 */
-                num_ports += 2;
-                break;
-            case BDK_QLM_MODE_RXAUI_1X2:
-                /* 1 port on DLM0 */
-                num_ports += 1;
-                break;
-            case BDK_QLM_MODE_XAUI_1X4:
-            case BDK_QLM_MODE_XLAUI_1X4:
-            case BDK_QLM_MODE_40G_KR4_1X4:
-                /* 1 port on DLM0+DLM1 */
-                num_ports += 1;
-                break;
-            case BDK_QLM_MODE_QSGMII_4X1:
-                /* 4 ports on DLM0 */
-                num_ports += 4;
-                break;
-            default:
-                /* Invalid mode, no ports */
-                break;
-        }
-        switch (qlm_mode1)
-        {
-            case BDK_QLM_MODE_SGMII_2X1:
-            case BDK_QLM_MODE_XFI_2X1:
-            case BDK_QLM_MODE_10G_KR_2X1:
-                /* 2 ports on DLM1 */
-                num_ports += 2;
-                break;
-            case BDK_QLM_MODE_RXAUI_1X2:
-                /* 1 port on DLM1 */
-                num_ports += 1;
-                break;
-            case BDK_QLM_MODE_QSGMII_4X1:
-                /* 4 ports on DLM1 */
-                num_ports += 4;
-                break;
-            default:
-                /* Invalid mode, no ports */
-                break;
-        }
-        priv->num_port = num_ports;
-    }
-
-    /* BGX1 of CN81XX is special in that it combines two DLMs. */
-    if ((interface == 1) && CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-    {
-        bdk_qlm_modes_t qlm_mode2 = bdk_qlm_get_mode(node, 2);
-        bdk_qlm_modes_t qlm_mode3 = bdk_qlm_get_mode(node, 3);
-        int num_ports = 0;
-        switch (qlm_mode2)
-        {
-            case BDK_QLM_MODE_SGMII_2X1:
-            case BDK_QLM_MODE_XFI_2X1:
-            case BDK_QLM_MODE_10G_KR_2X1:
-                /* 2 ports on DLM2 */
-                num_ports += 2;
-                break;
-            case BDK_QLM_MODE_RXAUI_1X2:
-                /* 1 port on DLM2 */
-                num_ports += 1;
-                break;
-            case BDK_QLM_MODE_XAUI_1X4:
-            case BDK_QLM_MODE_XLAUI_1X4:
-            case BDK_QLM_MODE_40G_KR4_1X4:
-                /* 1 port on DLM2+DLM3 */
-                num_ports += 1;
-                break;
-            case BDK_QLM_MODE_QSGMII_4X1:
-                /* 4 ports on DLM2 */
-                num_ports += 4;
-                break;
-            default:
-                /* Invalid mode, no ports */
-                break;
-        }
-        switch (qlm_mode3)
-        {
-            case BDK_QLM_MODE_SGMII_2X1:
-            case BDK_QLM_MODE_XFI_2X1:
-            case BDK_QLM_MODE_10G_KR_2X1:
-                /* 2 ports on DLM3 */
-                num_ports += 2;
-                break;
-            case BDK_QLM_MODE_RXAUI_1X2:
-                /* 1 port on DLM3 */
-                num_ports += 1;
-                break;
-            case BDK_QLM_MODE_QSGMII_4X1:
-                /* 4 ports on DLM3 */
-                num_ports += 4;
-                break;
-            default:
-                /* Invalid mode, no ports */
-                break;
-        }
-        priv->num_port = num_ports;
-    }
-
-    /* It is possible for the above code to count more than 4 ports when QSGMII
-       is used. Since the hardware can only support 4 ports, we limit ourselves
-       to 4. The higher ports are unavailable */
-    if (priv->num_port > 4)
-        priv->num_port = 4;
 
     /* Make sure the BGX LMAC type is programmed correctly. The QLM code doesn't
        program all of them */
@@ -387,84 +263,35 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     switch (priv->mode)
     {
         case BGX_MODE_SGMII:
+        case BGX_MODE_QSGMII:
         case BGX_MODE_XFI:
         case BGX_MODE_10G_KR:
             /* This normally uses 1 lane for each port, mapping directly
                to BGX index */
             lane_to_sds = handle->index;
-            /* DLM6 on CN83XX is a very special case. Its mapping changes
-               based on what DLM5 has on it, which shares the same BGX2 */
-            if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (qlm == 6))
+            /* CN81XX: DLM1/DLM3 index to lane mapping change based on what
+               DLM0/DLM2 has on it, which shares the same BGX */
+            /* CN83XX: DLM6 index to lane mapping change based on what DLM5 has
+               on it, which shares the same BGX2 */
+            if ((CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((qlm == 1) || (qlm == 3))) ||
+                (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (qlm == 6)))
             {
-                if (bdk_qlm_get_mode(handle->node, 5) == BDK_QLM_MODE_RXAUI_1X2)
+                switch (bdk_qlm_get_mode(handle->node, qlm - 1))
                 {
-                    /* RXAUI on DLM5 means index 0 is for DLM5 and index 1 and
-                       higher is for DLM6 */
-                    lane_to_sds = handle->index + 1;
-                }
-                else if (0 /*rgmii_first*/ && (handle->index < 3))
-                {
-                    /* We have RGMII, so the index is 1-2. The only way this
-                       can happen is if DLM5 is disabled. DLM6 maps to lanes
-                       2-3, so add 2 to the index */
-                    lane_to_sds = handle->index + 2;
-                }
-                else if (handle->index < 2)
-                {
-                    /* The index is 0-1. The only way this can happen is if
-                       DLM5 is disabled. DLM6 maps to lanes 2-3, so add 2
-                       to the index */
-                    lane_to_sds = handle->index + 2;
-                }
-            }
-            /* DLM1 on CN81XX is a very special case. Its mapping changes
-               based on what DLM0 has on it, which shares the same BGX0 */
-            if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 1))
-            {
-                if (bdk_qlm_get_mode(handle->node, 0) == BDK_QLM_MODE_RXAUI_1X2)
-                {
-                    /* RXAUI on DLM0 means index 0 is for DLM0 and index 1 and
-                       higher is for DLM1 */
-                    lane_to_sds = handle->index + 1;
-                }
-                else if (0 /*rgmii_first*/ && (handle->index < 3))
-                {
-                    /* We have RGMII, so the index is 1-2. The only way this
-                       can happen is if DLM0 is disabled. DLM1 maps to lanes
-                       2-3, so add 2 to the index */
-                    lane_to_sds = handle->index + 2;
-                }
-                else if (handle->index < 2)
-                {
-                    /* The index is 0-1. The only way this can happen is if
-                       DLM0 is disabled. DLM1 maps to lanes 2-3, so add 2
-                       to the index */
-                    lane_to_sds = handle->index + 2;
-                }
-            }
-            /* DLM3 on CN81XX is a very special case. Its mapping changes
-               based on what DLM2 has on it, which shares the same BGX1 */
-            if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (qlm == 3))
-            {
-                if (bdk_qlm_get_mode(handle->node, 2) == BDK_QLM_MODE_RXAUI_1X2)
-                {
-                    /* RXAUI on DLM2 means index 0 is for DLM2 and index 1 and
-                       higher is for DLM3 */
-                    lane_to_sds = handle->index + 1;
-                }
-                else if (0 /*rgmii_first*/ && (handle->index < 3))
-                {
-                    /* We have RGMII, so the index is 1-2. The only way this
-                       can happen is if DLM2 is disabled. DLM3 maps to lanes
-                       2-3, so add 2 to the index */
-                    lane_to_sds = handle->index + 2;
-                }
-                else if (handle->index < 2)
-                {
-                    /* The index is 0-1. The only way this can happen is if
-                       DLM2 is disabled. DLM3 maps to lanes 2-3, so add 2
-                       to the index */
-                    lane_to_sds = handle->index + 2;
+                    case BDK_QLM_MODE_SGMII_2X1:
+                    case BDK_QLM_MODE_XFI_2X1:
+                    case BDK_QLM_MODE_10G_KR_2X1:
+                        /* Index 2+ maps to lanes 2+ */
+                        lane_to_sds = handle->index;
+                        break;
+                    case BDK_QLM_MODE_RXAUI_1X2:
+                        /* Index 1+ maps to lanes 2+ */
+                        lane_to_sds = handle->index + 1;
+                        break;
+                    default:
+                        /* Index 0+ maps to lanes 2+ */
+                        lane_to_sds = handle->index + 2;
+                        break;
                 }
             }
             break;
@@ -585,6 +412,12 @@ static int if_probe(bdk_if_handle_t handle)
                 name_format = "SGMII%d.%d";
             else
                 name_format = "N%d.SGMII%d.%d";
+            break;
+        case BGX_MODE_QSGMII:
+            if (bdk_numa_is_only_one())
+                name_format = "QSGMII%d.%d";
+            else
+                name_format = "N%d.QSGMII%d.%d";
             break;
         case BGX_MODE_XAUI:
             if (bdk_numa_is_only_one())
@@ -1277,9 +1110,9 @@ static int if_init(bdk_if_handle_t handle)
     if (bgx_setup_one_time(handle))
         return -1;
 
-    if (priv->mode != BGX_MODE_SGMII)
+    if ((priv->mode != BGX_MODE_SGMII) && (priv->mode != BGX_MODE_QSGMII))
     {
-        /* Everything other than SGMII */
+        /* Everything other than SGMII/QSGMII */
         xaui_init(handle);
     }
 
@@ -1523,7 +1356,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
     bdk_if_link_t result;
     result.u64 = 0;
 
-    if (priv->mode == BGX_MODE_SGMII)
+    if ((priv->mode == BGX_MODE_SGMII) || (priv->mode == BGX_MODE_QSGMII))
         result = if_link_get_sgmii(handle);
     else
         result = if_link_get_xaui(handle);
@@ -1533,7 +1366,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 {
     const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-    if (priv->mode == BGX_MODE_SGMII)
+    if ((priv->mode == BGX_MODE_SGMII) || (priv->mode == BGX_MODE_QSGMII))
     {
         int status = sgmii_link(handle);
         if (status == 0)
@@ -1560,7 +1393,7 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv->port),
         c.s.int_beat_gen = (loopback & BDK_IF_LOOPBACK_INTERNAL));
 
-    if (priv->mode == BGX_MODE_SGMII)
+    if ((priv->mode == BGX_MODE_SGMII) || (priv->mode == BGX_MODE_QSGMII))
     {
         BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(handle->interface, priv->port),
             c.s.loopbck1 = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
@@ -1631,6 +1464,7 @@ static uint64_t if_get_lane_mask(bdk_if_handle_t handle)
     switch (priv->mode)
     {
         case BGX_MODE_SGMII:
+        case BGX_MODE_QSGMII:
         case BGX_MODE_XFI:
         case BGX_MODE_10G_KR:
         {
