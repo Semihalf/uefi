@@ -91,6 +91,7 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
 #include "bdk-csrs-l2c_tad.h"
 #include "bdk-csrs-lbk.h"
 #include "bdk-csrs-lmc.h"
+#include "bdk-csrs-mcc.h"
 #include "bdk-csrs-mio_boot.h"
 #include "bdk-csrs-mio_emm.h"
 #include "bdk-csrs-mio_fus.h"

@@ -701,7 +701,8 @@ union bdk_ddf_inst_match_s
                                                                  If 0x0, this record block is not used, and DDF_COMP_E::NO_RB is returned.
 
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
-                                                                 <48> for forward compatibility. */
+                                                                 <48> for forward compatibility.
+                                                                 Bits <1:0> are ignored by hardware and assumed to be 0. */
 #else /* Word 4 - Little Endian */
         uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
                                                                  For DDF_OP_E::RABS_SET instruction, pointer to data to change.
@@ -709,7 +710,8 @@ union bdk_ddf_inst_match_s
                                                                  If 0x0, this record block is not used, and DDF_COMP_E::NO_RB is returned.
 
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
-                                                                 <48> for forward compatibility. */
+                                                                 <48> for forward compatibility.
+                                                                 Bits <1:0> are ignored by hardware and assumed to be 0. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t reserved_320_383      : 64;
@@ -900,7 +902,8 @@ union bdk_ddf_inst_match_s
                                                                  If 0x0, this record block is not used, and DDF_COMP_E::NO_RB is returned.
 
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
-                                                                 <48> for forward compatibility. */
+                                                                 <48> for forward compatibility.
+                                                                 Bits <1:0> are ignored by hardware and assumed to be 0. */
 #else /* Word 4 - Little Endian */
         uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
                                                                  For DDF_OP_E::RABS_SET instruction, pointer to data to change.
@@ -908,7 +911,8 @@ union bdk_ddf_inst_match_s
                                                                  If 0x0, this record block is not used, and DDF_COMP_E::NO_RB is returned.
 
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
-                                                                 <48> for forward compatibility. */
+                                                                 <48> for forward compatibility.
+                                                                 Bits <1:0> are ignored by hardware and assumed to be 0. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t reserved_320_383      : 64;
@@ -1150,158 +1154,7 @@ union bdk_ddf_res_find_s
         uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
 #endif /* Word 5 - End */
     } s;
-    /* struct bdk_ddf_res_find_s_s cn8; */
-    struct bdk_ddf_res_find_s_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_55_63        : 9;
-        uint64_t cuckoo                : 7;  /**< [ 54: 48] Number of cuckoo replacements made on insert. Valid only for DDF_OP_E::FIND_INS. */
-        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of ways in which the item was found using the secondary bucket
-                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
-                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
-                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of ways in which the item was found using the primary bucket
-                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
-                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
-                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t hitvict               : 8;  /**< [ 31: 24] Hit victim-ways. Bitmask of ways in which the item was found as a victim, else clear.
-                                                                 For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or [HITVIC] will
-                                                                 be set indicating the set/inserted/deleted location.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
-                                                                 for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
-                                                                 clear. */
-        uint64_t reserved_17_21        : 5;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
-                                                                 DDF_INST_FIND_S[DONEINT]. */
-        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
-        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
-                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by
-                                                                 checking for a nonzero value.
-
-                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
-#else /* Word 0 - Little Endian */
-        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
-                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by
-                                                                 checking for a nonzero value.
-
-                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
-        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
-                                                                 DDF_INST_FIND_S[DONEINT]. */
-        uint64_t reserved_17_21        : 5;
-        uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
-                                                                 for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
-                                                                 clear. */
-        uint64_t hitvict               : 8;  /**< [ 31: 24] Hit victim-ways. Bitmask of ways in which the item was found as a victim, else clear.
-                                                                 For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or [HITVIC] will
-                                                                 be set indicating the set/inserted/deleted location.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of ways in which the item was found using the primary bucket
-                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
-                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
-                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of ways in which the item was found using the secondary bucket
-                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
-                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
-                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t cuckoo                : 7;  /**< [ 54: 48] Number of cuckoo replacements made on insert. Valid only for DDF_OP_E::FIND_INS. */
-        uint64_t reserved_55_63        : 9;
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_118_127      : 10;
-        uint64_t bktb                  : 6;  /**< [117:112] BucketB number of the nest that is returned in [RDATA0]..[3]. Valid only for a
-                                                                 DDF_OP_E::FIND_INS or FEMPTY_INS that results in a cuckoo displacement as indicated by
-                                                                 [COMPCODE] of DDF_COMP_E::FULL. The key for the displaced nest can be reconstructed from
-                                                                 DDF_RES_FIND_S::RANK, DDF_RES_FIND_S::BKTB and [RDATA0]..[3]. */
-        uint64_t reserved_110_111      : 2;
-        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
-        uint64_t reserved_102_103      : 2;
-        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
-        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
-#else /* Word 1 - Little Endian */
-        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
-        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
-        uint64_t reserved_102_103      : 2;
-        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
-        uint64_t reserved_110_111      : 2;
-        uint64_t bktb                  : 6;  /**< [117:112] BucketB number of the nest that is returned in [RDATA0]..[3]. Valid only for a
-                                                                 DDF_OP_E::FIND_INS or FEMPTY_INS that results in a cuckoo displacement as indicated by
-                                                                 [COMPCODE] of DDF_COMP_E::FULL. The key for the displaced nest can be reconstructed from
-                                                                 DDF_RES_FIND_S::RANK, DDF_RES_FIND_S::BKTB and [RDATA0]..[3]. */
-        uint64_t reserved_118_127      : 10;
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key data bytes read from the nest or header before any update.
-
-                                                                 If multiple hits resulted from a DDF_OP_E::FIND the nest data from [NEST] from the lowest
-                                                                 matching way is returned.
-
-                                                                 If both [HITP] and [HITS] are set in the lowest matching way, the primary nest is
-                                                                 returned.
-
-                                                                 For DDF_OP_E::FABS_SET the nest or header data as selected by [WAY],[PBKT],[NEST],[VICTEN]
-                                                                 from [KEYDATA0]..[3] is returned.
-
-                                                                 The data is read from the nest before any updates take place, including empty nest inserts
-                                                                 where RDATA will be all zeroes. RDATA will also be all zeroes if [HITP], [HITS] and [HITV]
-                                                                 are clear, except for a FEMPTY_INS or FIND_INS that returns DDF_COMP_E::FULL. In this case
-                                                                 RDATA0..3 will contain the unplaced/displaced key data.
-
-                                                                 [RDATA0]..[3] is only written if DDF_RES_FIND_S::RR is set. */
-#else /* Word 2 - Little Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key data bytes read from the nest or header before any update.
-
-                                                                 If multiple hits resulted from a DDF_OP_E::FIND the nest data from [NEST] from the lowest
-                                                                 matching way is returned.
-
-                                                                 If both [HITP] and [HITS] are set in the lowest matching way, the primary nest is
-                                                                 returned.
-
-                                                                 For DDF_OP_E::FABS_SET the nest or header data as selected by [WAY],[PBKT],[NEST],[VICTEN]
-                                                                 from [KEYDATA0]..[3] is returned.
-
-                                                                 The data is read from the nest before any updates take place, including empty nest inserts
-                                                                 where RDATA will be all zeroes. RDATA will also be all zeroes if [HITP], [HITS] and [HITV]
-                                                                 are clear, except for a FEMPTY_INS or FIND_INS that returns DDF_COMP_E::FULL. In this case
-                                                                 RDATA0..3 will contain the unplaced/displaced key data.
-
-                                                                 [RDATA0]..[3] is only written if DDF_RES_FIND_S::RR is set. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
-#else /* Word 3 - Little Endian */
-        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
-#else /* Word 4 - Little Endian */
-        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
-#else /* Word 5 - Little Endian */
-        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
-#endif /* Word 5 - End */
-    } cn9;
+    /* struct bdk_ddf_res_find_s_s cn; */
 };
 
 /**
@@ -1793,53 +1646,7 @@ typedef union
                                                                  <60> = Reserved. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddfx_pf_bp_test_s cn8; */
-    struct bdk_ddfx_pf_bp_test_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = NCBI requests.
-                                                                 <62> = Instruction prefetching.
-                                                                 <61> = Reserved.
-                                                                 <60> = Reserved. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   <23:22> = BP_CFG3.
-                                                                   <21:20> = BP_CFG2.
-                                                                   <19:18> = BP_CFG1.
-                                                                   <17:16> = BP_CFG0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   <23:22> = BP_CFG3.
-                                                                   <21:20> = BP_CFG2.
-                                                                   <19:18> = BP_CFG1.
-                                                                   <17:16> = BP_CFG0. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = NCBI requests.
-                                                                 <62> = Instruction prefetching.
-                                                                 <61> = Reserved.
-                                                                 <60> = Reserved. */
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_ddfx_pf_bp_test_s cn; */
 } bdk_ddfx_pf_bp_test_t;
 
 static inline uint64_t BDK_DDFX_PF_BP_TEST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3995,7 +3802,9 @@ typedef union
     struct bdk_ddfx_vqx_misc_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_7_63         : 57;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[FAULT]. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
@@ -4007,7 +3816,9 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[HWERR]. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[FAULT]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_ena_w1c_s cn; */
@@ -4042,7 +3853,9 @@ typedef union
     struct bdk_ddfx_vqx_misc_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_7_63         : 57;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[FAULT]. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
@@ -4054,7 +3867,9 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[HWERR]. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[FAULT]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_ena_w1s_s cn; */
@@ -4089,7 +3904,9 @@ typedef union
     struct bdk_ddfx_vqx_misc_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_7_63         : 57;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Translation fault detected. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reserved. Never set by DDF hardware. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
@@ -4103,7 +3920,9 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reserved. Never set by DDF hardware. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Translation fault detected. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_int_s cn; */
@@ -4138,7 +3957,9 @@ typedef union
     struct bdk_ddfx_vqx_misc_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_7_63         : 57;
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[FAULT]. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[HWERR]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
@@ -4150,7 +3971,9 @@ typedef union
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[HWERR]. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[FAULT]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_int_w1s_s cn; */

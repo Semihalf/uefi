@@ -4185,12 +4185,24 @@ typedef union
         uint32_t txswing               : 1;  /**< [  6:  6](R/W) TX swing. Refer to the PIPE3 specification. */
         uint32_t txmargin              : 3;  /**< [  5:  3](R/W) TX margin. Refer to the PIPE3 specification, table 5-3. */
         uint32_t txdeemphasis          : 2;  /**< [  2:  1](R/W) TX de-emphasis. The value driven to the PHY is controlled by the LTSSM during USB3
-                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3. */
+                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBH()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBH()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved. */
         uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
 #else /* Word 0 - Little Endian */
         uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
         uint32_t txdeemphasis          : 2;  /**< [  2:  1](R/W) TX de-emphasis. The value driven to the PHY is controlled by the LTSSM during USB3
-                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3. */
+                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBH()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBH()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved. */
         uint32_t txmargin              : 3;  /**< [  5:  3](R/W) TX margin. Refer to the PIPE3 specification, table 5-3. */
         uint32_t txswing               : 1;  /**< [  6:  6](R/W) TX swing. Refer to the PIPE3 specification. */
         uint32_t ssicen                : 1;  /**< [  7:  7](R/W) SSIC is not supported. This bit must be set to 0. */
@@ -6986,7 +6998,8 @@ typedef union
                                                                  Setting this bus to 0x0 disables masking. The value should be defined when the PHY is in
                                                                  reset. Changing this value during operation might disrupt normal operation of the link. */
         uint64_t pcs_tx_deemph_3p5db   : 6;  /**< [ 31: 26](R/W) Fine-tune transmitter driver deemphasis when set to 3.5db.
-                                                                 This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
+                                                                 This static value sets the TX driver deemphasis value when
+                                                                 USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] is set to
                                                                  0x1 (according to the PIPE3 specification). The values for transmit deemphasis are derived
                                                                  from the following equation:
 
@@ -6995,12 +7008,13 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
         uint64_t pcs_tx_deemph_6db     : 6;  /**< [ 25: 20](R/W) Fine-tune transmitter driver deemphasis when set to 6 db.
-                                                                 This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
+                                                                 This static value sets the TX driver deemphasis value when
+                                                                 USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] is set to
                                                                  0x2 (according to the PIPE3 specification). This bus is provided for completeness and as a
                                                                  second potential launch amplitude. The values for transmit deemphasis are derived from the
                                                                  following equation:
@@ -7010,7 +7024,7 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
@@ -7021,7 +7035,7 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
@@ -7053,12 +7067,13 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
         uint64_t pcs_tx_deemph_6db     : 6;  /**< [ 25: 20](R/W) Fine-tune transmitter driver deemphasis when set to 6 db.
-                                                                 This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
+                                                                 This static value sets the TX driver deemphasis value when
+                                                                 USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] is set to
                                                                  0x2 (according to the PIPE3 specification). This bus is provided for completeness and as a
                                                                  second potential launch amplitude. The values for transmit deemphasis are derived from the
                                                                  following equation:
@@ -7068,12 +7083,13 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
         uint64_t pcs_tx_deemph_3p5db   : 6;  /**< [ 31: 26](R/W) Fine-tune transmitter driver deemphasis when set to 3.5db.
-                                                                 This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
+                                                                 This static value sets the TX driver deemphasis value when
+                                                                 USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] is set to
                                                                  0x1 (according to the PIPE3 specification). The values for transmit deemphasis are derived
                                                                  from the following equation:
 
@@ -7082,7 +7098,7 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBH()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */

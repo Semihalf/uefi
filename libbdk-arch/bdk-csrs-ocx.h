@@ -140,6 +140,8 @@ static inline uint64_t BDK_OCX_COM_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e0110000f0ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e0110000f0ll;
     __bdk_csr_fatal("OCX_COM_BIST_STATUS", 0, 0, 0, 0, 0);
 }
 
@@ -184,6 +186,8 @@ static inline uint64_t BDK_OCX_COM_DUAL_SORT_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t BDK_OCX_COM_DUAL_SORT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e011000008ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e011000008ll;
     __bdk_csr_fatal("OCX_COM_DUAL_SORT", 0, 0, 0, 0, 0);
 }
@@ -266,6 +270,8 @@ static inline uint64_t BDK_OCX_COM_INT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e011000100ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e011000100ll;
     __bdk_csr_fatal("OCX_COM_INT", 0, 0, 0, 0, 0);
 }
 
@@ -319,6 +325,8 @@ static inline uint64_t BDK_OCX_COM_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_OCX_COM_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e011000118ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e011000118ll;
     __bdk_csr_fatal("OCX_COM_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -374,6 +382,8 @@ static inline uint64_t BDK_OCX_COM_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e011000110ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e011000110ll;
     __bdk_csr_fatal("OCX_COM_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -427,6 +437,8 @@ static inline uint64_t BDK_OCX_COM_INT_W1S_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_OCX_COM_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e011000108ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e011000108ll;
     __bdk_csr_fatal("OCX_COM_INT_W1S", 0, 0, 0, 0, 0);
 }
@@ -530,6 +542,8 @@ static inline uint64_t BDK_OCX_COM_LINKX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011000020ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011000020ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_COM_LINKX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -602,6 +616,8 @@ static inline uint64_t BDK_OCX_COM_LINKX_INT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011000120ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011000120ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_COM_LINKX_INT", 1, a, 0, 0, 0);
 }
 
@@ -664,6 +680,8 @@ static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1C(unsigned long a) __attribut
 static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011000180ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011000180ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_COM_LINKX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -728,6 +746,8 @@ static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011000160ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011000160ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_COM_LINKX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -791,6 +811,8 @@ static inline uint64_t BDK_OCX_COM_LINKX_INT_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011000140ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011000140ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_COM_LINKX_INT_W1S", 1, a, 0, 0, 0);
 }
 
@@ -829,6 +851,8 @@ static inline uint64_t BDK_OCX_COM_LINK_TIMER_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_OCX_COM_LINK_TIMER_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e011000010ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e011000010ll;
     __bdk_csr_fatal("OCX_COM_LINK_TIMER", 0, 0, 0, 0, 0);
 }
@@ -897,6 +921,8 @@ static inline uint64_t BDK_OCX_COM_NODE_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e011000000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e011000000ll;
     __bdk_csr_fatal("OCX_COM_NODE", 0, 0, 0, 0, 0);
 }
 
@@ -953,6 +979,8 @@ static inline uint64_t BDK_OCX_DLLX_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e011000080ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e011000080ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("OCX_DLLX_STATUS", 1, a, 0, 0, 0);
 }
 
@@ -990,6 +1018,8 @@ static inline uint64_t BDK_OCX_FRCX_STAT0(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_OCX_FRCX_STAT0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
+        return 0x87e01100fa00ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
         return 0x87e01100fa00ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("OCX_FRCX_STAT0", 1, a, 0, 0, 0);
 }
@@ -1029,6 +1059,8 @@ static inline uint64_t BDK_OCX_FRCX_STAT1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e01100fa80ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
+        return 0x87e01100fa80ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("OCX_FRCX_STAT1", 1, a, 0, 0, 0);
 }
 
@@ -1065,6 +1097,8 @@ static inline uint64_t BDK_OCX_FRCX_STAT2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e01100fb00ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
+        return 0x87e01100fb00ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("OCX_FRCX_STAT2", 1, a, 0, 0, 0);
 }
 
@@ -1100,6 +1134,8 @@ static inline uint64_t BDK_OCX_FRCX_STAT3(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_OCX_FRCX_STAT3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
+        return 0x87e01100fb80ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
         return 0x87e01100fb80ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("OCX_FRCX_STAT3", 1, a, 0, 0, 0);
 }
@@ -1144,6 +1180,8 @@ static inline uint64_t BDK_OCX_LNEX_BAD_CNT(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_OCX_LNEX_BAD_CNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008028ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008028ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_BAD_CNT", 1, a, 0, 0, 0);
 }
@@ -1190,6 +1228,8 @@ static inline uint64_t BDK_OCX_LNEX_CFG(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_OCX_LNEX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008000ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008000ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_CFG", 1, a, 0, 0, 0);
 }
@@ -1249,6 +1289,8 @@ static inline uint64_t BDK_OCX_LNEX_INT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e011008018ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e011008018ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_INT", 1, a, 0, 0, 0);
 }
 
@@ -1271,7 +1313,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t disp_err              : 1;  /**< [  9:  9](RAZ) Reserved. */
+        uint64_t disp_err              : 1;  /**< [  9:  9](R/W) Enable bit for RX disparity error encountered. */
         uint64_t bad_64b67b            : 1;  /**< [  8:  8](R/W) Enable bit for bad 64B/67B codeword encountered. */
         uint64_t stat_cnt_ovfl         : 1;  /**< [  7:  7](R/W) Enable bit for RX lane statistic counter overflow. */
         uint64_t stat_msg              : 1;  /**< [  6:  6](R/W) Enable bit for status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). */
@@ -1293,16 +1335,16 @@ typedef union
         uint64_t stat_msg              : 1;  /**< [  6:  6](R/W) Enable bit for status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). */
         uint64_t stat_cnt_ovfl         : 1;  /**< [  7:  7](R/W) Enable bit for RX lane statistic counter overflow. */
         uint64_t bad_64b67b            : 1;  /**< [  8:  8](R/W) Enable bit for bad 64B/67B codeword encountered. */
-        uint64_t disp_err              : 1;  /**< [  9:  9](RAZ) Reserved. */
+        uint64_t disp_err              : 1;  /**< [  9:  9](R/W) Enable bit for RX disparity error encountered. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ocx_lnex_int_en_s cn88xxp1; */
-    struct bdk_ocx_lnex_int_en_cn88xxp2
+    /* struct bdk_ocx_lnex_int_en_s cn88xxp2; */
+    struct bdk_ocx_lnex_int_en_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t disp_err              : 1;  /**< [  9:  9](R/W) Enable bit for RX disparity error encountered. */
+        uint64_t disp_err              : 1;  /**< [  9:  9](RAZ) Reserved. */
         uint64_t bad_64b67b            : 1;  /**< [  8:  8](R/W) Enable bit for bad 64B/67B codeword encountered. */
         uint64_t stat_cnt_ovfl         : 1;  /**< [  7:  7](R/W) Enable bit for RX lane statistic counter overflow. */
         uint64_t stat_msg              : 1;  /**< [  6:  6](R/W) Enable bit for status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). */
@@ -1324,16 +1366,19 @@ typedef union
         uint64_t stat_msg              : 1;  /**< [  6:  6](R/W) Enable bit for status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). */
         uint64_t stat_cnt_ovfl         : 1;  /**< [  7:  7](R/W) Enable bit for RX lane statistic counter overflow. */
         uint64_t bad_64b67b            : 1;  /**< [  8:  8](R/W) Enable bit for bad 64B/67B codeword encountered. */
-        uint64_t disp_err              : 1;  /**< [  9:  9](R/W) Enable bit for RX disparity error encountered. */
+        uint64_t disp_err              : 1;  /**< [  9:  9](RAZ) Reserved. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn88xxp1;
+    /* struct bdk_ocx_lnex_int_en_s cn9; */
 } bdk_ocx_lnex_int_en_t;
 
 static inline uint64_t BDK_OCX_LNEX_INT_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_INT_EN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008020ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008020ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_INT_EN", 1, a, 0, 0, 0);
 }
@@ -1373,6 +1418,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT00(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e011008040ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e011008040ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT00", 1, a, 0, 0, 0);
 }
 
@@ -1410,6 +1457,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT01(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_LNEX_STAT01(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008048ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008048ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT01", 1, a, 0, 0, 0);
 }
@@ -1449,6 +1498,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT02(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e011008050ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e011008050ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT02", 1, a, 0, 0, 0);
 }
 
@@ -1486,6 +1537,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT03(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_LNEX_STAT03(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008058ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008058ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT03", 1, a, 0, 0, 0);
 }
@@ -1525,6 +1578,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT04(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e011008060ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e011008060ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT04", 1, a, 0, 0, 0);
 }
 
@@ -1562,6 +1617,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT05(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_LNEX_STAT05(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008068ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008068ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT05", 1, a, 0, 0, 0);
 }
@@ -1601,6 +1658,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT06(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e011008070ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e011008070ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT06", 1, a, 0, 0, 0);
 }
 
@@ -1638,6 +1697,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT07(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_LNEX_STAT07(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008078ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008078ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT07", 1, a, 0, 0, 0);
 }
@@ -1679,6 +1740,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT08(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e011008080ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e011008080ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT08", 1, a, 0, 0, 0);
 }
 
@@ -1716,6 +1779,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT09(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_LNEX_STAT09(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008088ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008088ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT09", 1, a, 0, 0, 0);
 }
@@ -1755,6 +1820,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT10(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e011008090ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e011008090ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT10", 1, a, 0, 0, 0);
 }
 
@@ -1792,6 +1859,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT11(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_LNEX_STAT11(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008098ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008098ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT11", 1, a, 0, 0, 0);
 }
@@ -1831,6 +1900,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT12(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e0110080a0ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e0110080a0ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT12", 1, a, 0, 0, 0);
 }
 
@@ -1869,6 +1940,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT13(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e0110080a8ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e0110080a8ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT13", 1, a, 0, 0, 0);
 }
 
@@ -1906,6 +1979,8 @@ static inline uint64_t BDK_OCX_LNEX_STAT14(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_LNEX_STAT14(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e0110080b0ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e0110080b0ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STAT14", 1, a, 0, 0, 0);
 }
@@ -1946,6 +2021,8 @@ static inline uint64_t BDK_OCX_LNEX_STATUS(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_LNEX_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e011008008ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e011008008ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STATUS", 1, a, 0, 0, 0);
 }
@@ -2005,6 +2082,8 @@ static inline uint64_t BDK_OCX_LNEX_STS_MSG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e011008010ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e011008010ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_STS_MSG", 1, a, 0, 0, 0);
 }
 
@@ -2050,6 +2129,8 @@ static inline uint64_t BDK_OCX_LNEX_TRN_CTL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_OCX_LNEX_TRN_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e0110080d0ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e0110080d0ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_TRN_CTL", 1, a, 0, 0, 0);
 }
@@ -2101,6 +2182,8 @@ static inline uint64_t BDK_OCX_LNEX_TRN_LD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
         return 0x87e0110080c0ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
+        return 0x87e0110080c0ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_TRN_LD", 1, a, 0, 0, 0);
 }
 
@@ -2148,6 +2231,8 @@ static inline uint64_t BDK_OCX_LNEX_TRN_LP(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_LNEX_TRN_LP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=23))
+        return 0x87e0110080c8ll + 0x100ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
         return 0x87e0110080c8ll + 0x100ll * ((a) & 0x1f);
     __bdk_csr_fatal("OCX_LNEX_TRN_LP", 1, a, 0, 0, 0);
 }
@@ -2244,6 +2329,8 @@ static inline uint64_t BDK_OCX_LNE_DBG_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e01100ff00ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e01100ff00ll;
     __bdk_csr_fatal("OCX_LNE_DBG", 0, 0, 0, 0, 0);
 }
 
@@ -2325,11 +2412,13 @@ typedef union
         uint64_t lane_rev              : 1;  /**< [  8:  8](R/W/H) RX lane reversal.   When enabled, lane destriping is performed from the most significant
                                                                  lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
                                                                  [LANE_REV]. */
-        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](RAZ) Reserved. */
+        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.  When enabled, [LANE_REV] will be updated by
+                                                                 hardware. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](RAZ) Reserved. */
+        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.  When enabled, [LANE_REV] will be updated by
+                                                                 hardware. */
         uint64_t lane_rev              : 1;  /**< [  8:  8](R/W/H) RX lane reversal.   When enabled, lane destriping is performed from the most significant
                                                                  lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
                                                                  [LANE_REV]. */
@@ -2392,8 +2481,8 @@ typedef union
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ocx_lnkx_cfg_s cn88xxp1; */
-    struct bdk_ocx_lnkx_cfg_cn88xxp2
+    /* struct bdk_ocx_lnkx_cfg_s cn88xxp2; */
+    struct bdk_ocx_lnkx_cfg_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
@@ -2456,13 +2545,11 @@ typedef union
         uint64_t lane_rev              : 1;  /**< [  8:  8](R/W/H) RX lane reversal.   When enabled, lane destriping is performed from the most significant
                                                                  lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
                                                                  [LANE_REV]. */
-        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.  When enabled, [LANE_REV] will be updated by
-                                                                 hardware. */
+        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](RAZ) Reserved. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](R/W) Automatically detect RX lane reversal.  When enabled, [LANE_REV] will be updated by
-                                                                 hardware. */
+        uint64_t lane_rev_auto         : 1;  /**< [  7:  7](RAZ) Reserved. */
         uint64_t lane_rev              : 1;  /**< [  8:  8](R/W/H) RX lane reversal.   When enabled, lane destriping is performed from the most significant
                                                                  lane enabled to least significant lane enabled [QLM_SELECT] must be zero before changing
                                                                  [LANE_REV]. */
@@ -2524,13 +2611,16 @@ typedef union
                                                                  This field is not affected by soft or warm reset. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn88xxp1;
+    /* struct bdk_ocx_lnkx_cfg_s cn9; */
 } bdk_ocx_lnkx_cfg_t;
 
 static inline uint64_t BDK_OCX_LNKX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNKX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e01100f900ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e01100f900ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_LNKX_CFG", 1, a, 0, 0, 0);
 }
@@ -2569,6 +2659,8 @@ static inline uint64_t BDK_OCX_MSIX_PBAX(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_OCX_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
+        return 0x87e011ff0000ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x87e011ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("OCX_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -2627,6 +2719,8 @@ static inline uint64_t BDK_OCX_MSIX_VECX_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e011f00000ll + 0x10ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x87e011f00000ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -2667,6 +2761,8 @@ static inline uint64_t BDK_OCX_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pu
 static inline uint64_t BDK_OCX_MSIX_VECX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e011f00008ll + 0x10ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
         return 0x87e011f00008ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -2770,6 +2866,8 @@ static inline uint64_t BDK_OCX_PP_CMD_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e0110000c8ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e0110000c8ll;
     __bdk_csr_fatal("OCX_PP_CMD", 0, 0, 0, 0, 0);
 }
 
@@ -2808,6 +2906,8 @@ static inline uint64_t BDK_OCX_PP_RD_DATA_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e0110000d0ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e0110000d0ll;
     __bdk_csr_fatal("OCX_PP_RD_DATA", 0, 0, 0, 0, 0);
 }
 
@@ -2845,6 +2945,8 @@ static inline uint64_t BDK_OCX_PP_WR_DATA_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t BDK_OCX_PP_WR_DATA_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e0110000c0ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e0110000c0ll;
     __bdk_csr_fatal("OCX_PP_WR_DATA", 0, 0, 0, 0, 0);
 }
@@ -2976,6 +3078,8 @@ static inline uint64_t BDK_OCX_QLMX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e01100f800ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
+        return 0x87e01100f800ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("OCX_QLMX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -3015,6 +3119,8 @@ static inline uint64_t BDK_OCX_RLKX_ALIGN(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_OCX_RLKX_ALIGN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011018060ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011018060ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_ALIGN", 1, a, 0, 0, 0);
 }
@@ -3057,6 +3163,8 @@ static inline uint64_t BDK_OCX_RLKX_BLK_ERR(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_OCX_RLKX_BLK_ERR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011018050ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011018050ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_BLK_ERR", 1, a, 0, 0, 0);
 }
@@ -3101,6 +3209,8 @@ static inline uint64_t BDK_OCX_RLKX_ECC_CTL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_OCX_RLKX_ECC_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011018018ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011018018ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_ECC_CTL", 1, a, 0, 0, 0);
 }
@@ -3160,6 +3270,8 @@ static inline uint64_t BDK_OCX_RLKX_ENABLES(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011018000ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011018000ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_ENABLES", 1, a, 0, 0, 0);
 }
 
@@ -3198,6 +3310,8 @@ static inline uint64_t BDK_OCX_RLKX_FIFOX_CNT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=13)))
         return 0x87e011018100ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=13)))
+        return 0x87e011018100ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("OCX_RLKX_FIFOX_CNT", 2, a, b, 0, 0);
 }
 
@@ -3234,6 +3348,8 @@ static inline uint64_t BDK_OCX_RLKX_KEY_HIGHX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=2)))
         return 0x87e011018208ll + 0x2000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=2)))
+        return 0x87e011018208ll + 0x2000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_KEY_HIGHX", 2, a, b, 0, 0);
 }
 
@@ -3269,6 +3385,8 @@ static inline uint64_t BDK_OCX_RLKX_KEY_LOWX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_OCX_RLKX_KEY_LOWX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=2)))
+        return 0x87e011018200ll + 0x2000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=2)))
         return 0x87e011018200ll + 0x2000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_KEY_LOWX", 2, a, b, 0, 0);
 }
@@ -3312,6 +3430,8 @@ static inline uint64_t BDK_OCX_RLKX_LNK_DATA(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011018028ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011018028ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_LNK_DATA", 1, a, 0, 0, 0);
 }
 
@@ -3352,6 +3472,8 @@ static inline uint64_t BDK_OCX_RLKX_MCD_CTL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_OCX_RLKX_MCD_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011018020ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011018020ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_MCD_CTL", 1, a, 0, 0, 0);
 }
@@ -3397,6 +3519,8 @@ static inline uint64_t BDK_OCX_RLKX_PROTECT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e0110182c0ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e0110182c0ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_PROTECT", 1, a, 0, 0, 0);
 }
 
@@ -3433,6 +3557,8 @@ static inline uint64_t BDK_OCX_RLKX_SALT_HIGH(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011018288ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011018288ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_SALT_HIGH", 1, a, 0, 0, 0);
 }
 
@@ -3468,6 +3594,8 @@ static inline uint64_t BDK_OCX_RLKX_SALT_LOW(unsigned long a) __attribute__ ((pu
 static inline uint64_t BDK_OCX_RLKX_SALT_LOW(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011018280ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011018280ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_RLKX_SALT_LOW", 1, a, 0, 0, 0);
 }
@@ -3521,6 +3649,8 @@ static inline uint64_t BDK_OCX_STRAP_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         return 0x87e01100ff08ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e01100ff08ll;
     __bdk_csr_fatal("OCX_STRAP", 0, 0, 0, 0, 0);
 }
 
@@ -3562,6 +3692,8 @@ static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long a) __attribute__ (
 static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011010008ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011010008ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -3605,6 +3737,8 @@ static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=2))
+        return 0x87e011010030ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011010030ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_BYP_CTL", 1, a, 0, 0, 0);
 }
@@ -3654,6 +3788,8 @@ static inline uint64_t BDK_OCX_TLKX_ECC_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011010018ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011010018ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_ECC_CTL", 1, a, 0, 0, 0);
 }
 
@@ -3689,6 +3825,8 @@ static inline uint64_t BDK_OCX_TLKX_FIFOX_CNT(unsigned long a, unsigned long b) 
 static inline uint64_t BDK_OCX_TLKX_FIFOX_CNT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=13)))
+        return 0x87e011010100ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=13)))
         return 0x87e011010100ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("OCX_TLKX_FIFOX_CNT", 2, a, b, 0, 0);
 }
@@ -3726,6 +3864,8 @@ static inline uint64_t BDK_OCX_TLKX_KEY_HIGHX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=2)))
         return 0x87e011010708ll + 0x2000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=2)))
+        return 0x87e011010708ll + 0x2000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_KEY_HIGHX", 2, a, b, 0, 0);
 }
 
@@ -3761,6 +3901,8 @@ static inline uint64_t BDK_OCX_TLKX_KEY_LOWX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_OCX_TLKX_KEY_LOWX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=2)))
+        return 0x87e011010700ll + 0x2000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=2)))
         return 0x87e011010700ll + 0x2000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_KEY_LOWX", 2, a, b, 0, 0);
 }
@@ -3800,6 +3942,8 @@ static inline uint64_t BDK_OCX_TLKX_LNK_DATA(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011010028ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011010028ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_LNK_DATA", 1, a, 0, 0, 0);
 }
 
@@ -3835,6 +3979,8 @@ static inline uint64_t BDK_OCX_TLKX_LNK_VCX_CNT(unsigned long a, unsigned long b
 static inline uint64_t BDK_OCX_TLKX_LNK_VCX_CNT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=13)))
+        return 0x87e011010200ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=13)))
         return 0x87e011010200ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("OCX_TLKX_LNK_VCX_CNT", 2, a, b, 0, 0);
 }
@@ -3879,6 +4025,8 @@ static inline uint64_t BDK_OCX_TLKX_MCD_CTL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_OCX_TLKX_MCD_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011010020ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011010020ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_MCD_CTL", 1, a, 0, 0, 0);
 }
@@ -3944,6 +4092,8 @@ static inline uint64_t BDK_OCX_TLKX_PROTECT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e0110107c0ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e0110107c0ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_PROTECT", 1, a, 0, 0, 0);
 }
 
@@ -3979,6 +4129,8 @@ static inline uint64_t BDK_OCX_TLKX_RTN_VCX_CNT(unsigned long a, unsigned long b
 static inline uint64_t BDK_OCX_TLKX_RTN_VCX_CNT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=13)))
+        return 0x87e011010300ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=13)))
         return 0x87e011010300ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("OCX_TLKX_RTN_VCX_CNT", 2, a, b, 0, 0);
 }
@@ -4016,6 +4168,8 @@ static inline uint64_t BDK_OCX_TLKX_SALT_HIGH(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011010788ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011010788ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_SALT_HIGH", 1, a, 0, 0, 0);
 }
 
@@ -4051,6 +4205,8 @@ static inline uint64_t BDK_OCX_TLKX_SALT_LOW(unsigned long a) __attribute__ ((pu
 static inline uint64_t BDK_OCX_TLKX_SALT_LOW(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011010780ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011010780ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_SALT_LOW", 1, a, 0, 0, 0);
 }
@@ -4096,6 +4252,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011010040ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011010040ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_STAT_CTL", 1, a, 0, 0, 0);
 }
 
@@ -4131,6 +4289,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_DATA_CNT(unsigned long a) __attribute__
 static inline uint64_t BDK_OCX_TLKX_STAT_DATA_CNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011010408ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011010408ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_STAT_DATA_CNT", 1, a, 0, 0, 0);
 }
@@ -4168,6 +4328,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_ERR_CNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011010420ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011010420ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_STAT_ERR_CNT", 1, a, 0, 0, 0);
 }
 
@@ -4204,6 +4366,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_IDLE_CNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011010400ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011010400ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_STAT_IDLE_CNT", 1, a, 0, 0, 0);
 }
 
@@ -4239,6 +4403,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_MATX_CNT(unsigned long a, unsigned long
 static inline uint64_t BDK_OCX_TLKX_STAT_MATX_CNT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=3)))
+        return 0x87e011010440ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
         return 0x87e011010440ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_STAT_MATX_CNT", 2, a, b, 0, 0);
 }
@@ -4292,6 +4458,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_MATCHX(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=3)))
         return 0x87e011010080ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
+        return 0x87e011010080ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_STAT_MATCHX", 2, a, b, 0, 0);
 }
 
@@ -4328,6 +4496,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_RETRY_CNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e011010418ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
+        return 0x87e011010418ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_STAT_RETRY_CNT", 1, a, 0, 0, 0);
 }
 
@@ -4363,6 +4533,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_SYNC_CNT(unsigned long a) __attribute__
 static inline uint64_t BDK_OCX_TLKX_STAT_SYNC_CNT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011010410ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011010410ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_STAT_SYNC_CNT", 1, a, 0, 0, 0);
 }
@@ -4401,6 +4573,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CMD(unsigned long a, unsigned long 
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CMD(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=5)))
+        return 0x87e011010480ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=5)))
         return 0x87e011010480ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("OCX_TLKX_STAT_VCX_CMD", 2, a, b, 0, 0);
 }
@@ -4442,6 +4616,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CON(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=13)))
         return 0x87e011010580ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=13)))
+        return 0x87e011010580ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("OCX_TLKX_STAT_VCX_CON", 2, a, b, 0, 0);
 }
 
@@ -4477,6 +4653,8 @@ static inline uint64_t BDK_OCX_TLKX_STAT_VCX_PKT(unsigned long a, unsigned long 
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_PKT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=13)))
+        return 0x87e011010500ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=13)))
         return 0x87e011010500ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("OCX_TLKX_STAT_VCX_PKT", 2, a, b, 0, 0);
 }
@@ -4541,6 +4719,8 @@ static inline uint64_t BDK_OCX_TLKX_STATUS(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_OCX_TLKX_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
+        return 0x87e011010000ll + 0x2000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e011010000ll + 0x2000ll * ((a) & 0x3);
     __bdk_csr_fatal("OCX_TLKX_STATUS", 1, a, 0, 0, 0);
 }
@@ -4645,6 +4825,8 @@ static inline uint64_t BDK_OCX_WIN_CMD_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e011000048ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e011000048ll;
     __bdk_csr_fatal("OCX_WIN_CMD", 0, 0, 0, 0, 0);
 }
 
@@ -4681,6 +4863,8 @@ static inline uint64_t BDK_OCX_WIN_RD_DATA_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_OCX_WIN_RD_DATA_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e011000050ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e011000050ll;
     __bdk_csr_fatal("OCX_WIN_RD_DATA", 0, 0, 0, 0, 0);
 }
@@ -4722,6 +4906,8 @@ static inline uint64_t BDK_OCX_WIN_TIMER_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e011000058ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e011000058ll;
     __bdk_csr_fatal("OCX_WIN_TIMER", 0, 0, 0, 0, 0);
 }
 
@@ -4758,6 +4944,8 @@ static inline uint64_t BDK_OCX_WIN_WR_DATA_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_OCX_WIN_WR_DATA_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e011000040ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e011000040ll;
     __bdk_csr_fatal("OCX_WIN_WR_DATA", 0, 0, 0, 0, 0);
 }

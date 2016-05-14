@@ -2847,11 +2847,13 @@ typedef union
     struct bdk_nic_pf_const1_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
+        uint64_t reserved_24_63        : 40;
+        uint64_t mcam_entries          : 12; /**< [ 23: 12](RO) Thie field represents the number of MCAM entries. */
         uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
 #else /* Word 0 - Little Endian */
         uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
-        uint64_t reserved_12_63        : 52;
+        uint64_t mcam_entries          : 12; /**< [ 23: 12](RO) Thie field represents the number of MCAM entries. */
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn9;
 } bdk_nic_pf_const1_t;
@@ -9252,7 +9254,7 @@ static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long a)
         return 0x843000100000ll + 0x10ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=191))
         return 0x843000100000ll + 0x10ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=191))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=255))
         return 0x843000100000ll + 0x10ll * ((a) & 0xff);
     __bdk_csr_fatal("NIC_PF_MCAMX_ENA", 1, a, 0, 0, 0);
 }
@@ -9332,7 +9334,7 @@ static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long a, unsigned long b
         return 0x843000110000ll + 0x40ll * ((a) & 0xff) + 8ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=191) && (b<=5)))
         return 0x843000110000ll + 0x40ll * ((a) & 0xff) + 8ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=191) && (b<=5)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=255) && (b<=5)))
         return 0x843000110000ll + 0x40ll * ((a) & 0xff) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_PF_MCAMX_MX_DATA", 2, a, b, 0, 0);
 }
@@ -11598,27 +11600,36 @@ typedef union
     struct bdk_nic_pf_rx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t cqe_rx2_ena           : 1;  /**< [  0:  0](R/W) Enable the NIC_CQE_RX2_S extension in CQM RX messages.
-                                                                 0 = Deprecated, only for backward compatibility.
-                                                                 1 = Enabled. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t cqe_rx2_ena           : 1;  /**< [  0:  0](R/W) Enable the NIC_CQE_RX2_S extension in CQM RX messages.
-                                                                 0 = Deprecated, only for backward compatibility.
-                                                                 1 = Enabled. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_pf_rx_cfg_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_1_63         : 63;
+        uint64_t cqe_rx2_disable       : 1;  /**< [  0:  0](RAZ) Always 0. NIC_CQE_RX2_S extension in CQM RX messages is always enabled. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t cqe_rx2_disable       : 1;  /**< [  0:  0](RAZ) Always 0. NIC_CQE_RX2_S extension in CQM RX messages is always enabled. */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cn9;
     /* struct bdk_nic_pf_rx_cfg_cn9 cn81xx; */
-    /* struct bdk_nic_pf_rx_cfg_s cn88xx; */
+    struct bdk_nic_pf_rx_cfg_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t cqe_rx2_ena           : 1;  /**< [  0:  0](R/W) Enable the NIC_CQE_RX2_S extension in CQM RX messages.
+                                                                 0 = Deprecated, only for backward compatibility.
+                                                                 1 = Enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t cqe_rx2_ena           : 1;  /**< [  0:  0](R/W) Enable the NIC_CQE_RX2_S extension in CQM RX messages.
+                                                                 0 = Deprecated, only for backward compatibility.
+                                                                 1 = Enabled. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn88xx;
     /* struct bdk_nic_pf_rx_cfg_cn9 cn83xx; */
 } bdk_nic_pf_rx_cfg_t;
 
@@ -13682,6 +13693,22 @@ typedef union
     struct bdk_nic_pf_tl4ax_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t tl4a                  : 8;  /**< [  7:  0](R/W) TL4 aggregation group. Index of TL3 that pulls from this TL4 group (TL4G), i.e. lowest
+                                                                 numbered TL4G in this aggregation group. If this TL4G is not part of an aggregation group,
+                                                                 TL4A must match the TL4G number (the index of this register). Resets to equal the index of
+                                                                 this register. TL4A<7> is the same as TL4G<7>, and so is not stored here. */
+#else /* Word 0 - Little Endian */
+        uint64_t tl4a                  : 8;  /**< [  7:  0](R/W) TL4 aggregation group. Index of TL3 that pulls from this TL4 group (TL4G), i.e. lowest
+                                                                 numbered TL4G in this aggregation group. If this TL4G is not part of an aggregation group,
+                                                                 TL4A must match the TL4G number (the index of this register). Resets to equal the index of
+                                                                 this register. TL4A<7> is the same as TL4G<7>, and so is not stored here. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_pf_tl4ax_cfg_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t tl4a                  : 7;  /**< [  6:  0](R/W) TL4 aggregation group. Index of TL3 that pulls from this TL4 group (TL4G), i.e. lowest
                                                                  numbered TL4G in this aggregation group. If this TL4G is not part of an aggregation group,
@@ -13694,8 +13721,8 @@ typedef union
                                                                  this register. TL4A<7> is the same as TL4G<7>, and so is not stored here. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_tl4ax_cfg_s cn; */
+    } cn8;
+    /* struct bdk_nic_pf_tl4ax_cfg_s cn9; */
 } bdk_nic_pf_tl4ax_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a) __attribute__ ((pure, always_inline));

@@ -145,9 +145,11 @@ typedef union
                                                                  to SLI/DPI soon thereafter.
                                                                  Bus master enable mimics the behavor of PEM()_FLR_PF_STOPREQ. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
-        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable. */
+        uint32_t isae                  : 1;  /**< [  0:  0](RO) I/O space access enable.
+                                                                 There are no I/O bars supported. */
 #else /* Word 0 - Little Endian */
-        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable. */
+        uint32_t isae                  : 1;  /**< [  0:  0](RO) I/O space access enable.
+                                                                 There are no I/O bars supported. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VF's try to master the bus when this bit is
                                                                  not set,
@@ -4007,79 +4009,42 @@ typedef union
     struct bdk_pcieepx_cfg089_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t reserved_31           : 1;
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/H) Lane 1 upstream port receiver preset hint. */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/H) Lane 1 upstream port transmitter preset. */
+        uint32_t reserved_23           : 1;
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO) Lane 1 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO) Lane 1 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_15           : 1;
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/H) Lane 0 upstream port receiver preset hint. */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/H) Lane 0 upstream port transmitter preset. */
+        uint32_t reserved_7            : 1;
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO) Lane 0 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO) Lane 0 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO) Lane 0 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO) Lane 0 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_7            : 1;
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/H) Lane 0 upstream port transmitter preset. */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/H) Lane 0 upstream port receiver preset hint. */
+        uint32_t reserved_15           : 1;
+        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO) Lane 1 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO) Lane 1 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_23           : 1;
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/H) Lane 1 upstream port transmitter preset. */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/H) Lane 1 upstream port receiver preset hint. */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg089_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/H) Lane 1 upstream port receiver preset hint. */
-        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/H) Lane 1 upstream port transmitter preset. */
-        uint32_t reserved_23           : 1;
-        uint32_t l1drph                : 3;  /**< [ 22: 20](RO) Lane 1 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO) Lane 1 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_15           : 1;
-        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/H) Lane 0 upstream port receiver preset hint. */
-        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/H) Lane 0 upstream port transmitter preset. */
-        uint32_t reserved_7            : 1;
-        uint32_t l0drph                : 3;  /**< [  6:  4](RO) Lane 0 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO) Lane 0 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-#else /* Word 0 - Little Endian */
-        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO) Lane 0 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l0drph                : 3;  /**< [  6:  4](RO) Lane 0 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_7            : 1;
-        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/H) Lane 0 upstream port transmitter preset. */
-        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/H) Lane 0 upstream port receiver preset hint. */
-        uint32_t reserved_15           : 1;
-        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO) Lane 1 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l1drph                : 3;  /**< [ 22: 20](RO) Lane 1 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_23           : 1;
-        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/H) Lane 1 upstream port transmitter preset. */
-        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/H) Lane 1 upstream port receiver preset hint. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn8;
-    struct bdk_pcieepx_cfg089_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t l1dph                 : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l1dtp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_23           : 1;
-        uint32_t reserved_20_22        : 3;
-        uint32_t reserved_16_19        : 4;
-        uint32_t reserved_15           : 1;
-        uint32_t l0dph                 : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l0dtp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_7            : 1;
-        uint32_t reserved_4_6          : 3;
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t reserved_4_6          : 3;
-        uint32_t reserved_7            : 1;
-        uint32_t l0dtp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l0dph                 : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_15           : 1;
-        uint32_t reserved_16_19        : 4;
-        uint32_t reserved_20_22        : 3;
-        uint32_t reserved_23           : 1;
-        uint32_t l1dtp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l1dph                 : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_pcieepx_cfg089_s cn; */
 } bdk_pcieepx_cfg089_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG089(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4110,79 +4075,42 @@ typedef union
     struct bdk_pcieepx_cfg090_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t reserved_31           : 1;
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/H) Lane 3 upstream port receiver preset hint. */
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/H) Lane 3 upstream port transmitter preset. */
+        uint32_t reserved_23           : 1;
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO) Lane 3 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO) Lane 3 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_15           : 1;
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/H) Lane 2 upstream port receiver preset hint. */
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/H) Lane 2 upstream port transmitter preset. */
+        uint32_t reserved_7            : 1;
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO) Lane 2 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO) Lane 2 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO) Lane 2 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO) Lane 2 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_7            : 1;
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/H) Lane 2 upstream port transmitter preset. */
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/H) Lane 2 upstream port receiver preset hint. */
+        uint32_t reserved_15           : 1;
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO) Lane 3 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO) Lane 3 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_23           : 1;
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/H) Lane 3 upstream port transmitter preset. */
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/H) Lane 3 upstream port receiver preset hint. */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg090_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/H) Lane 3 upstream port receiver preset hint. */
-        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/H) Lane 3 upstream port transmitter preset. */
-        uint32_t reserved_23           : 1;
-        uint32_t l3drph                : 3;  /**< [ 22: 20](RO) Lane 3 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO) Lane 3 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_15           : 1;
-        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/H) Lane 2 upstream port receiver preset hint. */
-        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/H) Lane 2 upstream port transmitter preset. */
-        uint32_t reserved_7            : 1;
-        uint32_t l2drph                : 3;  /**< [  6:  4](RO) Lane 2 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO) Lane 2 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-#else /* Word 0 - Little Endian */
-        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO) Lane 2 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l2drph                : 3;  /**< [  6:  4](RO) Lane 2 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_7            : 1;
-        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/H) Lane 2 upstream port transmitter preset. */
-        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/H) Lane 2 upstream port receiver preset hint. */
-        uint32_t reserved_15           : 1;
-        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO) Lane 3 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l3drph                : 3;  /**< [ 22: 20](RO) Lane 3 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_23           : 1;
-        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/H) Lane 3 upstream port transmitter preset. */
-        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/H) Lane 3 upstream port receiver preset hint. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn8;
-    struct bdk_pcieepx_cfg090_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t l3dph                 : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l3dtp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_23           : 1;
-        uint32_t reserved_20_22        : 3;
-        uint32_t reserved_16_19        : 4;
-        uint32_t reserved_15           : 1;
-        uint32_t l2dph                 : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l2dtp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_7            : 1;
-        uint32_t reserved_4_6          : 3;
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t reserved_4_6          : 3;
-        uint32_t reserved_7            : 1;
-        uint32_t l2dtp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l2dph                 : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_15           : 1;
-        uint32_t reserved_16_19        : 4;
-        uint32_t reserved_20_22        : 3;
-        uint32_t reserved_23           : 1;
-        uint32_t l3dtp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l3dph                 : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_pcieepx_cfg090_s cn; */
 } bdk_pcieepx_cfg090_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG090(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4213,79 +4141,42 @@ typedef union
     struct bdk_pcieepx_cfg091_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t reserved_31           : 1;
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/H) Lane 5 upstream port receiver preset hint. */
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/H) Lane 5 upstream port transmitter preset. */
+        uint32_t reserved_23           : 1;
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO) Lane 5 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO) Lane 5 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_15           : 1;
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/H) Lane 4 upstream port receiver preset hint. */
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/H) Lane 4 upstream port transmitter preset. */
+        uint32_t reserved_7            : 1;
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO) Lane 4 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO) Lane 4 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO) Lane 4 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO) Lane 4 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_7            : 1;
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/H) Lane 4 upstream port transmitter preset. */
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/H) Lane 4 upstream port receiver preset hint. */
+        uint32_t reserved_15           : 1;
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO) Lane 5 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO) Lane 5 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_23           : 1;
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/H) Lane 5 upstream port transmitter preset. */
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/H) Lane 5 upstream port receiver preset hint. */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg091_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/H) Lane 5 upstream port receiver preset hint. */
-        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/H) Lane 5 upstream port transmitter preset. */
-        uint32_t reserved_23           : 1;
-        uint32_t l5drph                : 3;  /**< [ 22: 20](RO) Lane 5 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO) Lane 5 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_15           : 1;
-        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/H) Lane 4 upstream port receiver preset hint. */
-        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/H) Lane 4 upstream port transmitter preset. */
-        uint32_t reserved_7            : 1;
-        uint32_t l4drph                : 3;  /**< [  6:  4](RO) Lane 4 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO) Lane 4 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-#else /* Word 0 - Little Endian */
-        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO) Lane 4 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l4drph                : 3;  /**< [  6:  4](RO) Lane 4 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_7            : 1;
-        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/H) Lane 4 upstream port transmitter preset. */
-        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/H) Lane 4 upstream port receiver preset hint. */
-        uint32_t reserved_15           : 1;
-        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO) Lane 5 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l5drph                : 3;  /**< [ 22: 20](RO) Lane 5 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_23           : 1;
-        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/H) Lane 5 upstream port transmitter preset. */
-        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/H) Lane 5 upstream port receiver preset hint. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn8;
-    struct bdk_pcieepx_cfg091_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t l5dph                 : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l5dtp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_23           : 1;
-        uint32_t reserved_20_22        : 3;
-        uint32_t reserved_16_19        : 4;
-        uint32_t reserved_15           : 1;
-        uint32_t l4dph                 : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l4dtp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_7            : 1;
-        uint32_t reserved_4_6          : 3;
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t reserved_4_6          : 3;
-        uint32_t reserved_7            : 1;
-        uint32_t l4dtp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l4dph                 : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_15           : 1;
-        uint32_t reserved_16_19        : 4;
-        uint32_t reserved_20_22        : 3;
-        uint32_t reserved_23           : 1;
-        uint32_t l5dtp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l5dph                 : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_pcieepx_cfg091_s cn; */
 } bdk_pcieepx_cfg091_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG091(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4316,79 +4207,42 @@ typedef union
     struct bdk_pcieepx_cfg092_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t reserved_31           : 1;
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/H) Lane 7 upstream port receiver preset hint. */
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/H) Lane 7 upstream port transmitter preset. */
+        uint32_t reserved_23           : 1;
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO) Lane 7 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO) Lane 7 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_15           : 1;
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/H) Lane 6 upstream port receiver preset hint. */
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/H) Lane 6 upstream port transmitter preset. */
+        uint32_t reserved_7            : 1;
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO) Lane 6 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO) Lane 6 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO) Lane 6 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO) Lane 6 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_7            : 1;
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/H) Lane 6 upstream port transmitter preset. */
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/H) Lane 6 upstream port receiver preset hint. */
+        uint32_t reserved_15           : 1;
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO) Lane 7 downstream port transmitter preset.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO) Lane 7 downstream port receiver preset hint.
+                                                                 This field reserved if Port is operating as a Upstream Port. */
+        uint32_t reserved_23           : 1;
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/H) Lane 7 upstream port transmitter preset. */
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/H) Lane 7 upstream port receiver preset hint. */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg092_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/H) Lane 7 upstream port receiver preset hint. */
-        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/H) Lane 7 upstream port transmitter preset. */
-        uint32_t reserved_23           : 1;
-        uint32_t l7drph                : 3;  /**< [ 22: 20](RO) Lane 7 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO) Lane 7 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_15           : 1;
-        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/H) Lane 6 upstream port receiver preset hint. */
-        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/H) Lane 6 upstream port transmitter preset. */
-        uint32_t reserved_7            : 1;
-        uint32_t l6drph                : 3;  /**< [  6:  4](RO) Lane 6 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO) Lane 6 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-#else /* Word 0 - Little Endian */
-        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO) Lane 6 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l6drph                : 3;  /**< [  6:  4](RO) Lane 6 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_7            : 1;
-        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/H) Lane 6 upstream port transmitter preset. */
-        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/H) Lane 6 upstream port receiver preset hint. */
-        uint32_t reserved_15           : 1;
-        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO) Lane 7 downstream port transmitter preset.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t l7drph                : 3;  /**< [ 22: 20](RO) Lane 7 downstream port receiver preset hint.
-                                                                 This field reserved if Port is operating as a Upstream Port. */
-        uint32_t reserved_23           : 1;
-        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/H) Lane 7 upstream port transmitter preset. */
-        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/H) Lane 7 upstream port receiver preset hint. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn8;
-    struct bdk_pcieepx_cfg092_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t l7dph                 : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l7dtp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_23           : 1;
-        uint32_t reserved_20_22        : 3;
-        uint32_t reserved_16_19        : 4;
-        uint32_t reserved_15           : 1;
-        uint32_t l6dph                 : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l6dtp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_7            : 1;
-        uint32_t reserved_4_6          : 3;
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t reserved_4_6          : 3;
-        uint32_t reserved_7            : 1;
-        uint32_t l6dtp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l6dph                 : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_15           : 1;
-        uint32_t reserved_16_19        : 4;
-        uint32_t reserved_20_22        : 3;
-        uint32_t reserved_23           : 1;
-        uint32_t l7dtp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l7dph                 : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_pcieepx_cfg092_s cn; */
 } bdk_pcieepx_cfg092_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG092(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10540,7 +10394,7 @@ typedef union
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
+                                                                 indicates low swing. When set to 0, indicates full swing. */
         uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
         uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
         uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
@@ -10607,14 +10461,14 @@ typedef union
         uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
         uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
+                                                                 indicates low swing. When set to 0, indicates full swing. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
         uint32_t reserved_21_31        : 11;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg515_cn8
+    struct bdk_pcieepx_cfg515_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_22_31        : 10;
@@ -10697,91 +10551,7 @@ typedef union
         uint32_t reserved_21           : 1;
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
-    } cn8;
-    struct bdk_pcieepx_cfg515_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_22_31        : 10;
-        uint32_t reserved_21           : 1;
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
-        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
-                                                                 with the compliance receive bit assert (equal to 1). */
-        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
-        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
-        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
-                                                                 physical lane is connected to logical Lane0 by the flip
-                                                                 operation performed in detect.
-                                                                   0x0 = Reserved.
-                                                                   0x1 = Connect logical Lane0 to physical lane 1.
-                                                                   0x2 = Connect logical Lane0 to physical lane 3.
-                                                                   0x3 = Connect logical Lane0 to physical lane 7.
-                                                                   0x4 = Connect logical Lane0 to physical lane 15.
-                                                                   0x5 - 0x7 = Reserved. */
-        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
-                                                                 lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
-                                                                 detect a receiver. Indicates the number of lanes to check for
-                                                                 exit from electrical idle in Polling.Active and L2.Idle.
-                                                                 0x1 = 1 lane.
-                                                                 0x2 = 2 lanes.
-                                                                 0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
-        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
-                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
-                                                                 PHY's ability to recover synchronization after a low power state.
-
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
-#else /* Word 0 - Little Endian */
-        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
-                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
-                                                                 PHY's ability to recover synchronization after a low power state.
-
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
-        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
-                                                                 lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
-                                                                 detect a receiver. Indicates the number of lanes to check for
-                                                                 exit from electrical idle in Polling.Active and L2.Idle.
-                                                                 0x1 = 1 lane.
-                                                                 0x2 = 2 lanes.
-                                                                 0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
-        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
-                                                                 physical lane is connected to logical Lane0 by the flip
-                                                                 operation performed in detect.
-                                                                   0x0 = Reserved.
-                                                                   0x1 = Connect logical Lane0 to physical lane 1.
-                                                                   0x2 = Connect logical Lane0 to physical lane 3.
-                                                                   0x3 = Connect logical Lane0 to physical lane 7.
-                                                                   0x4 = Connect logical Lane0 to physical lane 15.
-                                                                   0x5 - 0x7 = Reserved. */
-        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
-        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
-        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
-                                                                 with the compliance receive bit assert (equal to 1). */
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports. */
-        uint32_t reserved_21           : 1;
-        uint32_t reserved_22_31        : 10;
-#endif /* Word 0 - End */
-    } cn9;
+    } cn;
 } bdk_pcieepx_cfg515_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG515(unsigned long a) __attribute__ ((pure, always_inline));

@@ -2455,8 +2455,7 @@ typedef union
 
                                                                  For CNXXXX not supported. */
         uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
-                                                                 The reset value depends on the number of cores fuse-enabled in this part.
-                                                                 For CNXXXX this trace unit can support up to 6 processors. */
+                                                                 The reset value depends on the number of cores fuse-enabled in this part. */
         uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if the implementation can support stall control:
                                                                    0 = The system does not support stall control of the PE.
                                                                    1 = The system can support stall control of the PE.
@@ -2513,15 +2512,87 @@ typedef union
 
                                                                  CNXXXX supports stalling the PE. */
         uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
-                                                                 The reset value depends on the number of cores fuse-enabled in this part.
-                                                                 For CNXXXX this trace unit can support up to 6 processors. */
+                                                                 The reset value depends on the number of cores fuse-enabled in this part. */
         uint32_t noovflw               : 1;  /**< [ 31: 31](RO) Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
 
                                                                  For CNXXXX not supported. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_trcx_trcidr3_s cn83xx; */
-    /* struct bdk_trcx_trcidr3_cn81xx cn88xxp2; */
+    struct bdk_trcx_trcidr3_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t noovflw               : 1;  /**< [ 31: 31](RO) Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
+
+                                                                 For CNXXXX not supported. */
+        uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
+                                                                 The reset value depends on the number of cores fuse-enabled in this part.
+                                                                 For CNXXXX this trace unit can support up to 6 processors. */
+        uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if the implementation can support stall control:
+                                                                   0 = The system does not support stall control of the PE.
+                                                                   1 = The system can support stall control of the PE.
+
+                                                                 CNXXXX supports stalling the PE. */
+        uint32_t stallctl              : 1;  /**< [ 26: 26](RO) Indicates if the implementation can support stall control. */
+        uint32_t syncpr                : 1;  /**< [ 25: 25](RO) Indicates if an implementation has a fixed synchronization period:
+                                                                   0 = TRC()_TRCSYNCPR is read-write so software can change the synchronization period.
+                                                                   1 = TRC()_TRCSYNCPR is read-only so the synchronization period is fixed. */
+        uint32_t trcerr                : 1;  /**< [ 24: 24](RO) Indicates if TRC()_TRCVICTLR[TRCERR] is supported.
+
+                                                                 For CNXXXX not supported, this means system errors are not traced. */
+        uint32_t elns                  : 4;  /**< [ 23: 20](RO) In nonsecure state, each bit indicates whether instruction tracing is supported
+                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_NS] and
+                                                                 TRC()_TRCVICTLR[EXLEVEL_NS] are supported. */
+        uint32_t els                   : 4;  /**< [ 19: 16](RO) In secure state, each bit indicates whether instruction tracing is supported
+                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_S] and
+                                                                 TRC()_TRCVICTLR[EXLEVEL_S] are supported.
+
+                                                                 For CNXXXX, secure exception level tracing of EL0, EL1, and EL3 is supported. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t reserved_12_13        : 2;
+        uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in
+                                                                 TRC()_TRCCCCTLR[THRESHOLD]. When cycle counting in the instruction trace is
+                                                                 supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
+                                                                 is 0x1, otherwise it is 0x0.
+
+                                                                 For CNXXXX, no support for cycle counting so this field is not applicable. */
+#else /* Word 0 - Little Endian */
+        uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in
+                                                                 TRC()_TRCCCCTLR[THRESHOLD]. When cycle counting in the instruction trace is
+                                                                 supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
+                                                                 is 0x1, otherwise it is 0x0.
+
+                                                                 For CNXXXX, no support for cycle counting so this field is not applicable. */
+        uint32_t reserved_12_13        : 2;
+        uint32_t reserved_14_15        : 2;
+        uint32_t els                   : 4;  /**< [ 19: 16](RO) In secure state, each bit indicates whether instruction tracing is supported
+                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_S] and
+                                                                 TRC()_TRCVICTLR[EXLEVEL_S] are supported.
+
+                                                                 For CNXXXX, secure exception level tracing of EL0, EL1, and EL3 is supported. */
+        uint32_t elns                  : 4;  /**< [ 23: 20](RO) In nonsecure state, each bit indicates whether instruction tracing is supported
+                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_NS] and
+                                                                 TRC()_TRCVICTLR[EXLEVEL_NS] are supported. */
+        uint32_t trcerr                : 1;  /**< [ 24: 24](RO) Indicates if TRC()_TRCVICTLR[TRCERR] is supported.
+
+                                                                 For CNXXXX not supported, this means system errors are not traced. */
+        uint32_t syncpr                : 1;  /**< [ 25: 25](RO) Indicates if an implementation has a fixed synchronization period:
+                                                                   0 = TRC()_TRCSYNCPR is read-write so software can change the synchronization period.
+                                                                   1 = TRC()_TRCSYNCPR is read-only so the synchronization period is fixed. */
+        uint32_t stallctl              : 1;  /**< [ 26: 26](RO) Indicates if the implementation can support stall control. */
+        uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if the implementation can support stall control:
+                                                                   0 = The system does not support stall control of the PE.
+                                                                   1 = The system can support stall control of the PE.
+
+                                                                 CNXXXX supports stalling the PE. */
+        uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
+                                                                 The reset value depends on the number of cores fuse-enabled in this part.
+                                                                 For CNXXXX this trace unit can support up to 6 processors. */
+        uint32_t noovflw               : 1;  /**< [ 31: 31](RO) Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
+
+                                                                 For CNXXXX not supported. */
+#endif /* Word 0 - End */
+    } cn88xxp2;
 } bdk_trcx_trcidr3_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3338,7 +3409,38 @@ typedef union
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_trcx_trcpdcr_cn81xx cn88xx; */
+    struct bdk_trcx_trcpdcr_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t reserved_3            : 1;
+        uint32_t inen                  : 3;  /**< [  2:  0](R/W) Input trigger <n> to output channel <x> enable.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = Input trigger <n> will not generate an event on output channel
+                                                                     <x>.
+                                                                 1 = Input trigger <n> will generate an event on output channel
+                                                                     <x>.
+
+                                                                 In CNXXXX TRC()_TRCINEN(3..31) are ignored as there are only 3 channels. */
+#else /* Word 0 - Little Endian */
+        uint32_t inen                  : 3;  /**< [  2:  0](R/W) Input trigger <n> to output channel <x> enable.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = Input trigger <n> will not generate an event on output channel
+                                                                     <x>.
+                                                                 1 = Input trigger <n> will generate an event on output channel
+                                                                     <x>.
+
+                                                                 In CNXXXX TRC()_TRCINEN(3..31) are ignored as there are only 3 channels. */
+        uint32_t reserved_3            : 1;
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } cn88xx;
     /* struct bdk_trcx_trcpdcr_s cn83xx; */
 } bdk_trcx_trcpdcr_t;
 
@@ -3467,7 +3569,38 @@ typedef union
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_trcx_trcpdsr_cn81xx cn88xx; */
+    struct bdk_trcx_trcpdsr_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t reserved_3_5          : 3;
+        uint32_t outen                 : 3;  /**< [  2:  0](R/W) Input channel <x> to output trigger <n> enable.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = An event on input channel <x> will not cause output trigger
+                                                                     <n> to be asserted.
+                                                                 1 = An event on input channel <x> will cause output trigger <n> to
+                                                                     be asserted.
+
+                                                                 In CNXXXX TRC()_TRCOUTEN(3..31) are ignored as there are only 3 channels. */
+#else /* Word 0 - Little Endian */
+        uint32_t outen                 : 3;  /**< [  2:  0](R/W) Input channel <x> to output trigger <n> enable.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = An event on input channel <x> will not cause output trigger
+                                                                     <n> to be asserted.
+                                                                 1 = An event on input channel <x> will cause output trigger <n> to
+                                                                     be asserted.
+
+                                                                 In CNXXXX TRC()_TRCOUTEN(3..31) are ignored as there are only 3 channels. */
+        uint32_t reserved_3_5          : 3;
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } cn88xx;
     /* struct bdk_trcx_trcpdsr_cn9 cn83xx; */
 } bdk_trcx_trcpdsr_t;
 

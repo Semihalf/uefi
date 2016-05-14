@@ -8952,7 +8952,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t link_drain            : 1;  /**< [  3:  3](R/W) Enable dropping of full packets to allow BGX and PKO/NIC to drain their FIFOs. */
+        uint64_t link_drain            : 1;  /**< [  3:  3](R/W) Enable dropping of full packets to allow BGX and PKO/NIC to drain their FIFOs.
+                                                                 For diagnostic use only. */
         uint64_t tx_fc_type            : 1;  /**< [  2:  2](R/W) Transmit side flow control type select.
                                                                  0 = GMI MAC transmits ITU G.999.1 pause frames.
                                                                  1 = GMI MAC transmits 802.3 pause frames. */
@@ -8968,7 +8969,8 @@ typedef union
         uint64_t tx_fc_type            : 1;  /**< [  2:  2](R/W) Transmit side flow control type select.
                                                                  0 = GMI MAC transmits ITU G.999.1 pause frames.
                                                                  1 = GMI MAC transmits 802.3 pause frames. */
-        uint64_t link_drain            : 1;  /**< [  3:  3](R/W) Enable dropping of full packets to allow BGX and PKO/NIC to drain their FIFOs. */
+        uint64_t link_drain            : 1;  /**< [  3:  3](R/W) Enable dropping of full packets to allow BGX and PKO/NIC to drain their FIFOs.
+                                                                 For diagnostic use only. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;

@@ -86,6 +86,7 @@
 #define BDK_ZIP_COMP_E_DSTOP (3)
 #define BDK_ZIP_COMP_E_DTRUNC (2)
 #define BDK_ZIP_COMP_E_FATAL (0xb)
+#define BDK_ZIP_COMP_E_HCTX_ERR (0xe)
 #define BDK_ZIP_COMP_E_INSTR_ERR (0xd)
 #define BDK_ZIP_COMP_E_ITRUNC (4)
 #define BDK_ZIP_COMP_E_NLEN (6)
@@ -250,7 +251,12 @@ union bdk_zip_hash_s
         uint64_t reserved_317_319      : 3;
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t reserved_383          : 1;
+        uint64_t sha1                  : 1;  /**< [383:383] SHA1.
+
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [SHA1] written by the previous chunk's
+                                                                 instruction.
+
+                                                                 When ZIP_INST_S[BF] is set, ignored by ZIP. */
         uint64_t wcnt                  : 7;  /**< [382:376] Word count. When ZIP_INST_S[HMIF] is set, ZIP writes [WCNT].
 
                                                                  When ZIP_INST_S[BF] is clear, ZIP reads [WCNT] written by the previous chunk's
@@ -259,14 +265,14 @@ union bdk_zip_hash_s
                                                                  When ZIP_INST_S[BF] is set, ignored by ZIP. */
         uint64_t leftover              : 56; /**< [375:320] Left over. When ZIP_INST_S[HMIF] is set, ZIP writes [LEFTOVER].
 
-                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [LEFTOVER] written by previous chink's
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [LEFTOVER] written by the previous chunk's
                                                                  instruction.
 
                                                                  When ZIP_INST_S[BF] is set, ignored by ZIP. */
 #else /* Word 5 - Little Endian */
         uint64_t leftover              : 56; /**< [375:320] Left over. When ZIP_INST_S[HMIF] is set, ZIP writes [LEFTOVER].
 
-                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [LEFTOVER] written by previous chink's
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [LEFTOVER] written by the previous chunk's
                                                                  instruction.
 
                                                                  When ZIP_INST_S[BF] is set, ignored by ZIP. */
@@ -276,12 +282,29 @@ union bdk_zip_hash_s
                                                                  instruction.
 
                                                                  When ZIP_INST_S[BF] is set, ignored by ZIP. */
-        uint64_t reserved_383          : 1;
+        uint64_t sha1                  : 1;  /**< [383:383] SHA1.
+
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [SHA1] written by the previous chunk's
+                                                                 instruction.
+
+                                                                 When ZIP_INST_S[BF] is set, ignored by ZIP. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t reserved_384_447      : 64;
+        uint64_t reserved_385_447      : 63;
+        uint64_t herr                  : 1;  /**< [384:384] HASH ERROR.
+
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [HERR] written by the previous chunk's
+                                                                 instruction.
+
+                                                                 When ZIP_INST_S[BF] is set, ignored by ZIP. */
 #else /* Word 6 - Little Endian */
-        uint64_t reserved_384_447      : 64;
+        uint64_t herr                  : 1;  /**< [384:384] HASH ERROR.
+
+                                                                 When ZIP_INST_S[BF] is clear, ZIP reads [HERR] written by the previous chunk's
+                                                                 instruction.
+
+                                                                 When ZIP_INST_S[BF] is set, ignored by ZIP. */
+        uint64_t reserved_385_447      : 63;
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t reserved_448_511      : 64;
@@ -3394,6 +3417,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
+        uint64_t reserved_38_62        : 25;
+        uint64_t ist                   : 6;  /**< [ 37: 32](RO/H) State of current instruction that is executing. */
+        uint64_t nie                   : 32; /**< [ 31:  0](RO/H) Number of instructions executed on this core. */
+#else /* Word 0 - Little Endian */
+        uint64_t nie                   : 32; /**< [ 31:  0](RO/H) Number of instructions executed on this core. */
+        uint64_t ist                   : 6;  /**< [ 37: 32](RO/H) State of current instruction that is executing. */
+        uint64_t reserved_38_62        : 25;
+        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_zip_dbg_corex_sta_s cn9; */
+    struct bdk_zip_dbg_corex_sta_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
         uint64_t reserved_37_62        : 26;
         uint64_t ist                   : 5;  /**< [ 36: 32](RO/H) State of current instruction that is executing. */
         uint64_t nie                   : 32; /**< [ 31:  0](RO/H) Number of instructions executed on this core. */
@@ -3403,8 +3441,8 @@ typedef union
         uint64_t reserved_37_62        : 26;
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_dbg_corex_sta_s cn; */
+    } cn88xx;
+    /* struct bdk_zip_dbg_corex_sta_s cn83xx; */
 } bdk_zip_dbg_corex_sta_t;
 
 static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long a) __attribute__ ((pure, always_inline));

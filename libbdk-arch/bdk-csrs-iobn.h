@@ -748,6 +748,7 @@ typedef union
                                                                      SLI requests to any other address (non-KEY_MEM(0..2047))
                                                                      will be redirected to ECAM0_NOP_ZF. */
         uint64_t sli_off               : 1;  /**< [  4:  4](R/W) SLI isolation.
+                                                                 Resets to one in trusted mode, else zero.
                                                                  0 = Operation of NCBI transactions are not impacted.
                                                                  1 = NCBI transactions initiating at the SLI are disabled and
                                                                      turn into accesses to ECAM0_NOP_ZF. When set, this bit
@@ -804,6 +805,7 @@ typedef union
         uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
                                                                  outstanding request to receive responses. */
         uint64_t sli_off               : 1;  /**< [  4:  4](R/W) SLI isolation.
+                                                                 Resets to one in trusted mode, else zero.
                                                                  0 = Operation of NCBI transactions are not impacted.
                                                                  1 = NCBI transactions initiating at the SLI are disabled and
                                                                      turn into accesses to ECAM0_NOP_ZF. When set, this bit

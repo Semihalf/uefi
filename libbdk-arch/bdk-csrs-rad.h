@@ -2818,7 +2818,8 @@ typedef union
     struct bdk_rad_vfx_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t dat_err               : 1;  /**< [  3:  3](R/W1C/H) An error was detected in memory access. */
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) PF to VF mailbox interrupt. Set when RAD_VF(0)_PF_MBOX(0)
                                                                  is written. */
         uint64_t done                  : 1;  /**< [  1:  1](RO/H) Done interrupt. See RAD_VQ()_DONE_CNT[DONE].  Note this bit is read-only, to acknowledge
@@ -2832,7 +2833,8 @@ typedef union
                                                                  RAD_VQ()_DONE_CNT[DONE]. */
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) PF to VF mailbox interrupt. Set when RAD_VF(0)_PF_MBOX(0)
                                                                  is written. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t dat_err               : 1;  /**< [  3:  3](R/W1C/H) An error was detected in memory access. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_int_s cn; */
@@ -2867,7 +2869,8 @@ typedef union
     struct bdk_rad_vfx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t dat_err               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RAD_VF()_INT[ERR]. */
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RAD_VF()_INT[MBOX]. */
         uint64_t done                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RAD_VF()_INT[DONE]. */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RAD_VF()_INT[DOORBELL]. */
@@ -2875,7 +2878,8 @@ typedef union
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RAD_VF()_INT[DOORBELL]. */
         uint64_t done                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RAD_VF()_INT[DONE]. */
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RAD_VF()_INT[MBOX]. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t dat_err               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RAD_VF()_INT[ERR]. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_int_ena_w1c_s cn; */
@@ -2910,7 +2914,8 @@ typedef union
     struct bdk_rad_vfx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t dat_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RAD_VF()_INT[ERR]. */
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RAD_VF()_INT[MBOX]. */
         uint64_t done                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RAD_VF()_INT[DONE]. */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RAD_VF()_INT[DOORBELL]. */
@@ -2918,7 +2923,8 @@ typedef union
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RAD_VF()_INT[DOORBELL]. */
         uint64_t done                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RAD_VF()_INT[DONE]. */
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RAD_VF()_INT[MBOX]. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t dat_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RAD_VF()_INT[ERR]. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_int_ena_w1s_s cn; */
@@ -2952,7 +2958,8 @@ typedef union
     struct bdk_rad_vfx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t dat_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RAD_VF()_INT[ERR]. */
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RAD_VF()_INT[MBOX]. */
         uint64_t done                  : 1;  /**< [  1:  1](RO/H) Done interrupt. See RAD_VQ()_DONE_CNT[DONE]. */
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RAD_VF()_INT[DOORBELL]. */
@@ -2960,7 +2967,8 @@ typedef union
         uint64_t doorbell              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RAD_VF()_INT[DOORBELL]. */
         uint64_t done                  : 1;  /**< [  1:  1](RO/H) Done interrupt. See RAD_VQ()_DONE_CNT[DONE]. */
         uint64_t mbox                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RAD_VF()_INT[MBOX]. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t dat_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RAD_VF()_INT[ERR]. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_int_w1s_s cn; */

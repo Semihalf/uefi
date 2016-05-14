@@ -100,6 +100,61 @@ static inline uint64_t BDK_CCUX_PIC_ECO(unsigned long a)
 #define arguments_BDK_CCUX_PIC_ECO(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) ccu#_pic_mlc_tag
+ *
+ * Mid-Level Cache Tag Data Registers
+ * This register holds the tag information for IS:LTGI commands.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ccux_pic_mlc_tag_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_59_63        : 5;
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t reserved_49_57        : 9;
+        uint64_t parity                : 2;  /**< [ 48: 47](R/W/H) The tag parity. */
+        uint64_t reserved_43_46        : 4;
+        uint64_t tag                   : 26; /**< [ 42: 17](R/W/H) The tag. TAG<42:17> is the corresponding bits from the MLC+LMC internal MLC/DRAM byte
+                                                                 address. */
+        uint64_t reserved_6_16         : 11;
+        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID. */
+        uint64_t val                   : 1;  /**< [  3:  3](R/W/H) The tag valid bit. */
+        uint64_t reserved_0_2          : 3;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_2          : 3;
+        uint64_t val                   : 1;  /**< [  3:  3](R/W/H) The tag valid bit. */
+        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID. */
+        uint64_t reserved_6_16         : 11;
+        uint64_t tag                   : 26; /**< [ 42: 17](R/W/H) The tag. TAG<42:17> is the corresponding bits from the MLC+LMC internal MLC/DRAM byte
+                                                                 address. */
+        uint64_t reserved_43_46        : 4;
+        uint64_t parity                : 2;  /**< [ 48: 47](R/W/H) The tag parity. */
+        uint64_t reserved_49_57        : 9;
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t reserved_59_63        : 5;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ccux_pic_mlc_tag_s cn; */
+} bdk_ccux_pic_mlc_tag_t;
+
+static inline uint64_t BDK_CCUX_PIC_MLC_TAG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CCUX_PIC_MLC_TAG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=8))
+        return 0x87e050100010ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("CCUX_PIC_MLC_TAG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CCUX_PIC_MLC_TAG(a) bdk_ccux_pic_mlc_tag_t
+#define bustype_BDK_CCUX_PIC_MLC_TAG(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_CCUX_PIC_MLC_TAG(a) "CCUX_PIC_MLC_TAG"
+#define device_bar_BDK_CCUX_PIC_MLC_TAG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CCUX_PIC_MLC_TAG(a) (a)
+#define arguments_BDK_CCUX_PIC_MLC_TAG(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) ccu#_pic_scratch
  *
  * INTERNAL: CCU PIC General Purpose Scratch Register

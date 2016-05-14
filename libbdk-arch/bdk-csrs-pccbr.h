@@ -622,7 +622,7 @@ static inline uint64_t BDK_PCCBR_XXX_REV_FUNC(void)
  * Register (PCCBR) pccbr_xxx_vsec_cap_hdr
  *
  * PCC Bridge Vendor-Specific Capability Header Register
- * This register is the header of the 16-byte Cavium ThunderX family bridge capability
+ * This register is the header of the 16-byte {ProductLine} family bridge capability
  * structure.
  */
 typedef union
@@ -728,9 +728,9 @@ typedef union
                                                                  Matches PCCPF_XXX_VSEC_ID[LEN], so extra bytes allocated and unused at the end
                                                                  of the structure. */
         uint32_t rev                   : 4;  /**< [ 19: 16](RO) Vendor-specific revision. */
-        uint32_t id                    : 16; /**< [ 15:  0](RO) Vendor-specific ID. Indicates the ThunderX family bridge VSEC ID. */
+        uint32_t id                    : 16; /**< [ 15:  0](RO) Vendor-specific ID. Indicates the {ProductLine} family bridge VSEC ID. */
 #else /* Word 0 - Little Endian */
-        uint32_t id                    : 16; /**< [ 15:  0](RO) Vendor-specific ID. Indicates the ThunderX family bridge VSEC ID. */
+        uint32_t id                    : 16; /**< [ 15:  0](RO) Vendor-specific ID. Indicates the {ProductLine} family bridge VSEC ID. */
         uint32_t rev                   : 4;  /**< [ 19: 16](RO) Vendor-specific revision. */
         uint32_t len                   : 12; /**< [ 31: 20](RO) Number of bytes in the entire VSEC structure including PCCBR_XXX_VSEC_CAP_HDR.
                                                                  Internal:

@@ -8799,7 +8799,30 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_slix_s2m_macx_ctl_cn81xx cn88xx; */
-    /* struct bdk_slix_s2m_macx_ctl_s cn83xx; */
+    struct bdk_slix_s2m_macx_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ccnt                  : 8;  /**< [ 31: 24](R/W) CPL-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
+        uint64_t ncnt                  : 8;  /**< [ 23: 16](R/W) NP-TLP FIFO credits. Legal values are 0x5 to 0x20. For diagnostic use only. */
+        uint64_t pcnt                  : 8;  /**< [ 15:  8](R/W) P-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
+        uint64_t tags                  : 8;  /**< [  7:  0](R/W) Number of tags available for MAC.
+                                                                 One tag is needed for each outbound TLP that requires a CPL TLP.
+                                                                 This field should only be written as part of a reset sequence and before issuing any read
+                                                                 operations, CFGs, or I/O transactions from the core(s). For diagnostic use only.
+                                                                 Legal values are 1 to 32. */
+#else /* Word 0 - Little Endian */
+        uint64_t tags                  : 8;  /**< [  7:  0](R/W) Number of tags available for MAC.
+                                                                 One tag is needed for each outbound TLP that requires a CPL TLP.
+                                                                 This field should only be written as part of a reset sequence and before issuing any read
+                                                                 operations, CFGs, or I/O transactions from the core(s). For diagnostic use only.
+                                                                 Legal values are 1 to 32. */
+        uint64_t pcnt                  : 8;  /**< [ 15:  8](R/W) P-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
+        uint64_t ncnt                  : 8;  /**< [ 23: 16](R/W) NP-TLP FIFO credits. Legal values are 0x5 to 0x20. For diagnostic use only. */
+        uint64_t ccnt                  : 8;  /**< [ 31: 24](R/W) CPL-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_slix_s2m_macx_ctl_t;
 
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

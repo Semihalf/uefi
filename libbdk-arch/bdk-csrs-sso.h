@@ -1424,7 +1424,8 @@ typedef union
         uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1C/H) Add work dropped due to QTL being disabled, 0x0. */
         uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Add work dropped due to WQP being 0x0. */
         uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to wrong command/DID requested. */
-        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Received add work with tag specified as EMPTY. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Set when (a) received add work with tag type is specified as EMPTY, or (b) when
+                                                                 SSO_AW_INP_CTL[WA_DIS] is set and work is added from disabled coprocessor. */
         uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Add work to disabled hardware-group. An ADDWQ was received and dropped to a
                                                                  hardware-group with SSO_GRP()_IAQ_THR[RSVD_THR] = 0. */
         uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Bad-fill-packet NCB error. NCB detected error on fill data. */
@@ -1444,7 +1445,8 @@ typedef union
         uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Bad-fill-packet NCB error. NCB detected error on fill data. */
         uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Add work to disabled hardware-group. An ADDWQ was received and dropped to a
                                                                  hardware-group with SSO_GRP()_IAQ_THR[RSVD_THR] = 0. */
-        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Received add work with tag specified as EMPTY. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Set when (a) received add work with tag type is specified as EMPTY, or (b) when
+                                                                 SSO_AW_INP_CTL[WA_DIS] is set and work is added from disabled coprocessor. */
         uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to wrong command/DID requested. */
         uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Add work dropped due to WQP being 0x0. */
         uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1C/H) Add work dropped due to QTL being disabled, 0x0. */

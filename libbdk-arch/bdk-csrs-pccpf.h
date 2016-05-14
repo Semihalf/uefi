@@ -2809,7 +2809,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4U_FUNC(void)
  * Register (PCCPF) pccpf_xxx_vsec_cap_hdr
  *
  * PCC PF Vendor-Specific Capability Header Register
- * This register is the header of the 64-byte Cavium ThunderX family PF capability
+ * This register is the header of the 64-byte {ProductLine} family PF capability
  * structure.
  */
 typedef union
@@ -2932,9 +2932,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t len                   : 12; /**< [ 31: 20](RO) Number of bytes in the entire VSEC structure including PCCPF_XXX_VSEC_CAP_HDR. */
         uint32_t rev                   : 4;  /**< [ 19: 16](RO) Vendor-specific revision. */
-        uint32_t id                    : 16; /**< [ 15:  0](RO) Vendor-specific ID. Indicates the ThunderX family VSEC ID. */
+        uint32_t id                    : 16; /**< [ 15:  0](RO) Vendor-specific ID. Indicates the {ProductLine} family VSEC ID. */
 #else /* Word 0 - Little Endian */
-        uint32_t id                    : 16; /**< [ 15:  0](RO) Vendor-specific ID. Indicates the ThunderX family VSEC ID. */
+        uint32_t id                    : 16; /**< [ 15:  0](RO) Vendor-specific ID. Indicates the {ProductLine} family VSEC ID. */
         uint32_t rev                   : 4;  /**< [ 19: 16](RO) Vendor-specific revision. */
         uint32_t len                   : 12; /**< [ 31: 20](RO) Number of bytes in the entire VSEC structure including PCCPF_XXX_VSEC_CAP_HDR. */
 #endif /* Word 0 - End */

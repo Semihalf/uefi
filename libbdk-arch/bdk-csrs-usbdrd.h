@@ -6342,12 +6342,36 @@ typedef union
         uint32_t txswing               : 1;  /**< [  6:  6](R/W) TX swing. Refer to the PIPE3 specification. */
         uint32_t txmargin              : 3;  /**< [  5:  3](R/W) TX margin. Refer to the PIPE3 specification, table 5-3. */
         uint32_t txdeemphasis          : 2;  /**< [  2:  1](R/W) TX de-emphasis. The value driven to the PHY is controlled by the LTSSM during USB3
-                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3. */
+                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved. */
         uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
 #else /* Word 0 - Little Endian */
         uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
         uint32_t txdeemphasis          : 2;  /**< [  2:  1](R/W) TX de-emphasis. The value driven to the PHY is controlled by the LTSSM during USB3
-                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3. */
+                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved. */
         uint32_t txmargin              : 3;  /**< [  5:  3](R/W) TX margin. Refer to the PIPE3 specification, table 5-3. */
         uint32_t txswing               : 1;  /**< [  6:  6](R/W) TX swing. Refer to the PIPE3 specification. */
         uint32_t ssicen                : 1;  /**< [  7:  7](R/W) SSIC is not supported. This bit must be set to 0. */
@@ -6501,7 +6525,334 @@ typedef union
                                                                  this bit to 1, the software needs to clear this bit. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbdrdx_uahc_gusb3pipectlx_s cn; */
+    struct bdk_usbdrdx_uahc_gusb3pipectlx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) USB3 PHY soft reset (PHYSoftRst). When set to 1, initiates a PHY soft reset. After setting
+                                                                 this bit to 1, the software needs to clear this bit. */
+        uint32_t hstprtcmpl            : 1;  /**< [ 30: 30](R/W) Host port compliance. Setting this bit to 1 enables placing the SuperSpeed port link into
+                                                                 a compliance state, which allows testing of the PIPE PHY compliance patterns without
+                                                                 having to have a test fixture on the USB 3.0 cable. By default, this bit should be set to
+                                                                 0.
+
+                                                                 In compliance-lab testing, the SuperSpeed port link enters compliance after failing the
+                                                                 first polling sequence after power on. Set this bit to 0 when you run compliance tests.
+
+                                                                 The sequence for using this functionality is as follows:
+                                                                 * Disconnect any plugged-in devices.
+                                                                 * Set USBDRD()_UAHC_USBCMD[HCRST] = 1 or power-on-chip reset.
+                                                                 * Set USBDRD()_UAHC_PORTSC()[PP] = 0.
+                                                                 * Set HSTPRTCMPL = 1. This places the link into compliance state.
+
+                                                                 To advance the compliance pattern, follow this sequence (toggle HSTPRTCMPL):
+                                                                 * Set HSTPRTCMPL = 0.
+                                                                 * Set HSTPRTCMPL = 1. This advances the link to the next compliance pattern.
+
+                                                                 To exit from the compliance state, set USBDRD()_UAHC_USBCMD[HCRST] = 1 or power-on-chip
+                                                                 reset. */
+        uint32_t u2ssinactp3ok         : 1;  /**< [ 29: 29](R/W) P3 OK for U2/SS.Inactive:
+                                                                 0 = During link state U2/SS.Inactive, put PHY in P2 (default).
+                                                                 1 = During link state U2/SS.Inactive, put PHY in P3. */
+        uint32_t disrxdetp3            : 1;  /**< [ 28: 28](R/W) Disables receiver detection in P3. If PHY is in P3 and the core needs to perform receiver
+                                                                 detection:
+                                                                 0 = Core performs receiver detection in P3 (default).
+                                                                 1 = Core changes the PHY power state to P2 and then performs receiver detection. After
+                                                                 receiver detection, core changes PHY power state to P3. */
+        uint32_t ux_exit_in_px         : 1;  /**< [ 27: 27](R/W) UX exit in Px:
+                                                                 0 = Core does U1/U2/U3 exit in PHY power state P0 (default behavior).
+                                                                 1 = Core does U1/U2/U3 exit in PHY power state P1/P2/P3 respectively.
+
+                                                                 This bit is added for SuperSpeed PHY workaround where SuperSpeed PHY injects a glitch on
+                                                                 pipe3_RxElecIdle while receiving Ux exit LFPS, and pipe3_PowerDown change is in progress.
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t ping_enchance_en      : 1;  /**< [ 26: 26](R/W) Ping enhancement enable. When set to 1, the downstream-port U1-ping-receive timeout
+                                                                 becomes 500 ms instead of 300 ms. Minimum Ping.LFPS receive duration is 8 ns (one mac3_clk
+                                                                 cycle). This field is valid for the downstream port only.
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t u1u2exitfail_to_recov : 1;  /**< [ 25: 25](R/W) U1U2exit fail to recovery. When set to 1, and U1/U2 LFPS handshake fails, the LTSSM
+                                                                 transitions from U1/U2 to recovery instead of SS.inactive.
+                                                                 If recovery fails, then the LTSSM can enter SS.Inactive. This is an enhancement only. It
+                                                                 prevents interoperability issue if the remote link does not do the proper handshake. */
+        uint32_t request_p1p2p3        : 1;  /**< [ 24: 24](R/W) Always request P1/P2/P3 for U1/U2/U3.
+                                                                 0 = if immediate Ux exit (remotely initiated, or locally initiated) happens, the core does
+                                                                 not request P1/P2/P3 power state change.
+                                                                 1 = the core always requests PHY power change from P0 to P1/P2/P3 during U0 to U1/U2/U3
+                                                                 transition.
+
+                                                                 Internal:
+                                                                 Note: This bit should be set to 1 for Synopsys PHY. For third-party SuperSpeed
+                                                                 PHY, check with your PHY vendor. */
+        uint32_t startrxdetu3rxdet     : 1;  /**< [ 23: 23](WO) Start receiver detection in U3/Rx.Detect.
+                                                                 If DISRXDETU3RXDET is set to 1 during reset, and the link is in U3 or Rx.Detect state, the
+                                                                 core starts receiver detection on rising edge of this bit.
+                                                                 This bit is valid for downstream ports only, and this feature must not be enabled for
+                                                                 normal operation.
+
+                                                                 Internal:
+                                                                 If have to use this feature, contact Synopsys. */
+        uint32_t disrxdetu3rxdet       : 1;  /**< [ 22: 22](R/W) Disable receiver detection in U3/Rx.Detect. When set to 1, the core does not do receiver
+                                                                 detection in U3 or Rx.Detect state. If STARTRXDETU3RXDET is set to 1 during reset,
+                                                                 receiver detection starts manually.
+                                                                 This bit is valid for downstream ports only, and this feature must not be enabled for
+                                                                 normal operation.
+
+                                                                 Internal:
+                                                                 If have to use this feature, contact Synopsys. */
+        uint32_t delaypx               : 3;  /**< [ 21: 19](R/W) Delay P1P2P3. Delay P0 to P1/P2/P3 request when entering U1/U2/U3 until (DELAYPX * 8)
+                                                                 8B10B error occurs, or Pipe3_RxValid drops to 0.
+                                                                 DELAYPXTRANSENTERUX must reset to 1 to enable this functionality.
+
+                                                                 Internal:
+                                                                 Should always be 0x1 for a Synopsys PHY. */
+        uint32_t delaypxtransenterux   : 1;  /**< [ 18: 18](R/W) Delay PHY power change from P0 to P1/P2/P3 when link state changing from U0 to U1/U2/U3
+                                                                 respectively.
+                                                                 0 = when entering U1/U2/U3, transition to P1/P2/P3 without checking for Pipe3_RxElecIlde
+                                                                 and pipe3_RxValid.
+                                                                 1 = when entering U1/U2/U3, delay the transition to P1/P2/P3 until the pipe3 signals,
+                                                                 Pipe3_RxElecIlde is 1 and pipe3_RxValid is 0.
+
+                                                                 Internal:
+                                                                 Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
+                                                                 party SuperSpeed PHY. */
+        uint32_t suspend_en            : 1;  /**< [ 17: 17](R/W) Suspend USB3.0 SuperSpeed PHY (Suspend_en). When set to 1, and if suspend conditions are
+                                                                 valid, the USB 3.0 PHY enters suspend mode. */
+        uint32_t datwidth              : 2;  /**< [ 16: 15](RO) PIPE data width.
+                                                                 0x0 = 32 bits.
+                                                                 0x1 = 16 bits.
+                                                                 0x2 = 8 bits.
+                                                                 0x3 = reserved.
+
+                                                                 One clock cycle after reset, these bits receive the value seen on the pipe3_DataBusWidth.
+                                                                 This will always be 0x0.
+
+                                                                 Internal:
+                                                                 The simulation testbench uses the coreConsultant parameter to configure the VIP.
+                                                                 INTERNAL: These bits in the coreConsultant parameter should match your PHY data width and
+                                                                 the pipe3_DataBusWidth port. */
+        uint32_t abortrxdetinu2        : 1;  /**< [ 14: 14](R/W) Abort RX Detect in U2. When set to 1, and the link state is U2, the core aborts receiver
+                                                                 detection if it receives U2 exit LFPS from the remote link partner.
+
+                                                                 This bit is for downstream port only.
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t skiprxdet             : 1;  /**< [ 13: 13](R/W) Skip RX detect. When set to 1, the core skips RX detection if pipe3_RxElecIdle is low.
+                                                                 Skip is defined as waiting for the appropriate timeout, then repeating the operation. */
+        uint32_t lfpsp0algn            : 1;  /**< [ 12: 12](R/W) LFPS P0 align. When set to 1:
+                                                                 * the core deasserts LFPS transmission on the clock edge that it requests Phy power state
+                                                                 0 when exiting U1, U2, or U3 low power states. Otherwise, LFPS transmission is asserted
+                                                                 one clock earlier.
+                                                                 * the core requests symbol transmission two pipe3_rx_pclks periods after the PHY asserts
+                                                                 PhyStatus as a result of the PHY switching from P1 or P2 state to P0 state.
+                                                                 For USB 3.0 host, this is not required. */
+        uint32_t p3p2tranok            : 1;  /**< [ 11: 11](R/W) P3 P2 transitions OK.
+                                                                 0 = P0 is always entered as an intermediate state during transitions between P2 and P3, as
+                                                                 defined in the PIPE3 specification.
+                                                                 1 = the core transitions directly from Phy power state P2 to P3 or from state P3 to P2.
+
+                                                                 According to PIPE3 specification, any direct transition between P3 and P2 is illegal.
+
+                                                                 Internal:
+                                                                 This bit is used only for some non-Synopsys PHYs that cannot do LFPS in P3.
+                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t p3exsigp2             : 1;  /**< [ 10: 10](R/W) P3 exit signal in P2. When set to 1, the core always changes the PHY power state to P2,
+                                                                 before attempting a U3 exit handshake.
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t lfpsfilt              : 1;  /**< [  9:  9](R/W) LFPS filter. When set to 1, filter LFPS reception with pipe3_RxValid in PHY power state
+                                                                 P0, ignore LFPS reception from the PHY unless both pipe3_Rxelecidle and pipe3_RxValid are
+                                                                 deasserted. */
+        uint32_t rxdet2polllfpsctrl    : 1;  /**< [  8:  8](R/W) RX_DETECT to Polling.
+                                                                 0 = Enables a 400 us delay to start polling LFPS after RX_DETECT. This allows VCM offset
+                                                                 to settle to a proper level.
+                                                                 1 = Disables the 400 us delay to start polling LFPS after RX_DETECT. */
+        uint32_t ssicen                : 1;  /**< [  7:  7](R/W) SSIC is not supported. This bit must be set to 0. */
+        uint32_t txswing               : 1;  /**< [  6:  6](R/W) TX swing. Refer to the PIPE3 specification. */
+        uint32_t txmargin              : 3;  /**< [  5:  3](R/W) TX margin. Refer to the PIPE3 specification, table 5-3. */
+        uint32_t txdeemphasis          : 2;  /**< [  2:  1](R/W) TX de-emphasis. The value driven to the PHY is controlled by the LTSSM during USB3
+                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved. */
+        uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
+#else /* Word 0 - Little Endian */
+        uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
+        uint32_t txdeemphasis          : 2;  /**< [  2:  1](R/W) TX de-emphasis. The value driven to the PHY is controlled by the LTSSM during USB3
+                                                                 compliance mode. Refer to the PIPE3 specification, table 5-3.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved. */
+        uint32_t txmargin              : 3;  /**< [  5:  3](R/W) TX margin. Refer to the PIPE3 specification, table 5-3. */
+        uint32_t txswing               : 1;  /**< [  6:  6](R/W) TX swing. Refer to the PIPE3 specification. */
+        uint32_t ssicen                : 1;  /**< [  7:  7](R/W) SSIC is not supported. This bit must be set to 0. */
+        uint32_t rxdet2polllfpsctrl    : 1;  /**< [  8:  8](R/W) RX_DETECT to Polling.
+                                                                 0 = Enables a 400 us delay to start polling LFPS after RX_DETECT. This allows VCM offset
+                                                                 to settle to a proper level.
+                                                                 1 = Disables the 400 us delay to start polling LFPS after RX_DETECT. */
+        uint32_t lfpsfilt              : 1;  /**< [  9:  9](R/W) LFPS filter. When set to 1, filter LFPS reception with pipe3_RxValid in PHY power state
+                                                                 P0, ignore LFPS reception from the PHY unless both pipe3_Rxelecidle and pipe3_RxValid are
+                                                                 deasserted. */
+        uint32_t p3exsigp2             : 1;  /**< [ 10: 10](R/W) P3 exit signal in P2. When set to 1, the core always changes the PHY power state to P2,
+                                                                 before attempting a U3 exit handshake.
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t p3p2tranok            : 1;  /**< [ 11: 11](R/W) P3 P2 transitions OK.
+                                                                 0 = P0 is always entered as an intermediate state during transitions between P2 and P3, as
+                                                                 defined in the PIPE3 specification.
+                                                                 1 = the core transitions directly from Phy power state P2 to P3 or from state P3 to P2.
+
+                                                                 According to PIPE3 specification, any direct transition between P3 and P2 is illegal.
+
+                                                                 Internal:
+                                                                 This bit is used only for some non-Synopsys PHYs that cannot do LFPS in P3.
+                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t lfpsp0algn            : 1;  /**< [ 12: 12](R/W) LFPS P0 align. When set to 1:
+                                                                 * the core deasserts LFPS transmission on the clock edge that it requests Phy power state
+                                                                 0 when exiting U1, U2, or U3 low power states. Otherwise, LFPS transmission is asserted
+                                                                 one clock earlier.
+                                                                 * the core requests symbol transmission two pipe3_rx_pclks periods after the PHY asserts
+                                                                 PhyStatus as a result of the PHY switching from P1 or P2 state to P0 state.
+                                                                 For USB 3.0 host, this is not required. */
+        uint32_t skiprxdet             : 1;  /**< [ 13: 13](R/W) Skip RX detect. When set to 1, the core skips RX detection if pipe3_RxElecIdle is low.
+                                                                 Skip is defined as waiting for the appropriate timeout, then repeating the operation. */
+        uint32_t abortrxdetinu2        : 1;  /**< [ 14: 14](R/W) Abort RX Detect in U2. When set to 1, and the link state is U2, the core aborts receiver
+                                                                 detection if it receives U2 exit LFPS from the remote link partner.
+
+                                                                 This bit is for downstream port only.
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t datwidth              : 2;  /**< [ 16: 15](RO) PIPE data width.
+                                                                 0x0 = 32 bits.
+                                                                 0x1 = 16 bits.
+                                                                 0x2 = 8 bits.
+                                                                 0x3 = reserved.
+
+                                                                 One clock cycle after reset, these bits receive the value seen on the pipe3_DataBusWidth.
+                                                                 This will always be 0x0.
+
+                                                                 Internal:
+                                                                 The simulation testbench uses the coreConsultant parameter to configure the VIP.
+                                                                 INTERNAL: These bits in the coreConsultant parameter should match your PHY data width and
+                                                                 the pipe3_DataBusWidth port. */
+        uint32_t suspend_en            : 1;  /**< [ 17: 17](R/W) Suspend USB3.0 SuperSpeed PHY (Suspend_en). When set to 1, and if suspend conditions are
+                                                                 valid, the USB 3.0 PHY enters suspend mode. */
+        uint32_t delaypxtransenterux   : 1;  /**< [ 18: 18](R/W) Delay PHY power change from P0 to P1/P2/P3 when link state changing from U0 to U1/U2/U3
+                                                                 respectively.
+                                                                 0 = when entering U1/U2/U3, transition to P1/P2/P3 without checking for Pipe3_RxElecIlde
+                                                                 and pipe3_RxValid.
+                                                                 1 = when entering U1/U2/U3, delay the transition to P1/P2/P3 until the pipe3 signals,
+                                                                 Pipe3_RxElecIlde is 1 and pipe3_RxValid is 0.
+
+                                                                 Internal:
+                                                                 Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
+                                                                 party SuperSpeed PHY. */
+        uint32_t delaypx               : 3;  /**< [ 21: 19](R/W) Delay P1P2P3. Delay P0 to P1/P2/P3 request when entering U1/U2/U3 until (DELAYPX * 8)
+                                                                 8B10B error occurs, or Pipe3_RxValid drops to 0.
+                                                                 DELAYPXTRANSENTERUX must reset to 1 to enable this functionality.
+
+                                                                 Internal:
+                                                                 Should always be 0x1 for a Synopsys PHY. */
+        uint32_t disrxdetu3rxdet       : 1;  /**< [ 22: 22](R/W) Disable receiver detection in U3/Rx.Detect. When set to 1, the core does not do receiver
+                                                                 detection in U3 or Rx.Detect state. If STARTRXDETU3RXDET is set to 1 during reset,
+                                                                 receiver detection starts manually.
+                                                                 This bit is valid for downstream ports only, and this feature must not be enabled for
+                                                                 normal operation.
+
+                                                                 Internal:
+                                                                 If have to use this feature, contact Synopsys. */
+        uint32_t startrxdetu3rxdet     : 1;  /**< [ 23: 23](WO) Start receiver detection in U3/Rx.Detect.
+                                                                 If DISRXDETU3RXDET is set to 1 during reset, and the link is in U3 or Rx.Detect state, the
+                                                                 core starts receiver detection on rising edge of this bit.
+                                                                 This bit is valid for downstream ports only, and this feature must not be enabled for
+                                                                 normal operation.
+
+                                                                 Internal:
+                                                                 If have to use this feature, contact Synopsys. */
+        uint32_t request_p1p2p3        : 1;  /**< [ 24: 24](R/W) Always request P1/P2/P3 for U1/U2/U3.
+                                                                 0 = if immediate Ux exit (remotely initiated, or locally initiated) happens, the core does
+                                                                 not request P1/P2/P3 power state change.
+                                                                 1 = the core always requests PHY power change from P0 to P1/P2/P3 during U0 to U1/U2/U3
+                                                                 transition.
+
+                                                                 Internal:
+                                                                 Note: This bit should be set to 1 for Synopsys PHY. For third-party SuperSpeed
+                                                                 PHY, check with your PHY vendor. */
+        uint32_t u1u2exitfail_to_recov : 1;  /**< [ 25: 25](R/W) U1U2exit fail to recovery. When set to 1, and U1/U2 LFPS handshake fails, the LTSSM
+                                                                 transitions from U1/U2 to recovery instead of SS.inactive.
+                                                                 If recovery fails, then the LTSSM can enter SS.Inactive. This is an enhancement only. It
+                                                                 prevents interoperability issue if the remote link does not do the proper handshake. */
+        uint32_t ping_enchance_en      : 1;  /**< [ 26: 26](R/W) Ping enhancement enable. When set to 1, the downstream-port U1-ping-receive timeout
+                                                                 becomes 500 ms instead of 300 ms. Minimum Ping.LFPS receive duration is 8 ns (one mac3_clk
+                                                                 cycle). This field is valid for the downstream port only.
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t ux_exit_in_px         : 1;  /**< [ 27: 27](R/W) UX exit in Px:
+                                                                 0 = Core does U1/U2/U3 exit in PHY power state P0 (default behavior).
+                                                                 1 = Core does U1/U2/U3 exit in PHY power state P1/P2/P3 respectively.
+
+                                                                 This bit is added for SuperSpeed PHY workaround where SuperSpeed PHY injects a glitch on
+                                                                 pipe3_RxElecIdle while receiving Ux exit LFPS, and pipe3_PowerDown change is in progress.
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+                                                                 Synopsys PHY. */
+        uint32_t disrxdetp3            : 1;  /**< [ 28: 28](R/W) Disables receiver detection in P3. If PHY is in P3 and the core needs to perform receiver
+                                                                 detection:
+                                                                 0 = Core performs receiver detection in P3 (default).
+                                                                 1 = Core changes the PHY power state to P2 and then performs receiver detection. After
+                                                                 receiver detection, core changes PHY power state to P3. */
+        uint32_t u2ssinactp3ok         : 1;  /**< [ 29: 29](R/W) P3 OK for U2/SS.Inactive:
+                                                                 0 = During link state U2/SS.Inactive, put PHY in P2 (default).
+                                                                 1 = During link state U2/SS.Inactive, put PHY in P3. */
+        uint32_t hstprtcmpl            : 1;  /**< [ 30: 30](R/W) Host port compliance. Setting this bit to 1 enables placing the SuperSpeed port link into
+                                                                 a compliance state, which allows testing of the PIPE PHY compliance patterns without
+                                                                 having to have a test fixture on the USB 3.0 cable. By default, this bit should be set to
+                                                                 0.
+
+                                                                 In compliance-lab testing, the SuperSpeed port link enters compliance after failing the
+                                                                 first polling sequence after power on. Set this bit to 0 when you run compliance tests.
+
+                                                                 The sequence for using this functionality is as follows:
+                                                                 * Disconnect any plugged-in devices.
+                                                                 * Set USBDRD()_UAHC_USBCMD[HCRST] = 1 or power-on-chip reset.
+                                                                 * Set USBDRD()_UAHC_PORTSC()[PP] = 0.
+                                                                 * Set HSTPRTCMPL = 1. This places the link into compliance state.
+
+                                                                 To advance the compliance pattern, follow this sequence (toggle HSTPRTCMPL):
+                                                                 * Set HSTPRTCMPL = 0.
+                                                                 * Set HSTPRTCMPL = 1. This advances the link to the next compliance pattern.
+
+                                                                 To exit from the compliance state, set USBDRD()_UAHC_USBCMD[HCRST] = 1 or power-on-chip
+                                                                 reset. */
+        uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) USB3 PHY soft reset (PHYSoftRst). When set to 1, initiates a PHY soft reset. After setting
+                                                                 this bit to 1, the software needs to clear this bit. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_usbdrdx_uahc_gusb3pipectlx_s cn83xx; */
+    /* struct bdk_usbdrdx_uahc_gusb3pipectlx_s cn9; */
 } bdk_usbdrdx_uahc_gusb3pipectlx_t;
 
 static inline uint64_t BDK_USBDRDX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -10128,7 +10479,8 @@ typedef union
                                                                  Setting this bus to 0x0 disables masking. The value should be defined when the PHY is in
                                                                  reset. Changing this value during operation might disrupt normal operation of the link. */
         uint64_t pcs_tx_deemph_3p5db   : 6;  /**< [ 31: 26](R/W) Fine-tune transmitter driver deemphasis when set to 3.5db.
-                                                                 This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
+                                                                 This static value sets the TX driver deemphasis value when
+                                                                 USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] is set to
                                                                  0x1 (according to the PIPE3 specification). The values for transmit deemphasis are derived
                                                                  from the following equation:
 
@@ -10137,13 +10489,14 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
         uint64_t pcs_tx_deemph_6db     : 6;  /**< [ 25: 20](R/W) Fine-tune transmitter driver deemphasis when set to 6 db.
-                                                                 This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
-                                                                 0x2 (according to the PIPE3 specification). This bus is provided for completeness and as a
+                                                                 This static value sets the TX driver deemphasis value when
+                                                                 USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS]  is set to
+                                                                 0x0 (according to the PIPE3 specification). This bus is provided for completeness and as a
                                                                  second potential launch amplitude. The values for transmit deemphasis are derived from the
                                                                  following equation:
 
@@ -10152,7 +10505,7 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
@@ -10163,7 +10516,7 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
@@ -10195,13 +10548,14 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
         uint64_t pcs_tx_deemph_6db     : 6;  /**< [ 25: 20](R/W) Fine-tune transmitter driver deemphasis when set to 6 db.
-                                                                 This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
-                                                                 0x2 (according to the PIPE3 specification). This bus is provided for completeness and as a
+                                                                 This static value sets the TX driver deemphasis value when
+                                                                 USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS]  is set to
+                                                                 0x0 (according to the PIPE3 specification). This bus is provided for completeness and as a
                                                                  second potential launch amplitude. The values for transmit deemphasis are derived from the
                                                                  following equation:
 
@@ -10210,12 +10564,13 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */
         uint64_t pcs_tx_deemph_3p5db   : 6;  /**< [ 31: 26](R/W) Fine-tune transmitter driver deemphasis when set to 3.5db.
-                                                                 This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
+                                                                 This static value sets the TX driver deemphasis value when
+                                                                 USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] is set to
                                                                  0x1 (according to the PIPE3 specification). The values for transmit deemphasis are derived
                                                                  from the following equation:
 
@@ -10224,7 +10579,7 @@ typedef union
                                                                  In general, the parameter controls are static signals to be set prior to taking the PHY
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
-                                                                 after the pipeP_tx_deemph[1:0] input changes.
+                                                                 after USBDRD()_UAHC_GUSB3PIPECTL()[TXDEEMPHASIS] changes.
 
                                                                  Internal:
                                                                  Default value is package dependant. */

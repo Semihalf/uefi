@@ -1475,89 +1475,6 @@ static inline uint64_t BDK_DPIX_DBE_INT_W1S(unsigned long a)
 #define arguments_BDK_DPIX_DBE_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) dpi#_dma#_counts
- *
- * DPI DMA Instruction Counts Registers
- * These registers provide values for determining the number of instructions in the local
- * instruction FIFO.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_dmax_counts_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_39_63        : 25;
-        uint64_t fcnt                  : 7;  /**< [ 38: 32](RO/H) FIFO count. Specifies the number of words in the instruction FIFO locally cached within DPI. */
-        uint64_t dbell                 : 32; /**< [ 31:  0](RO/H) Doorbell. Specifies the number of available words of instructions to read. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbell                 : 32; /**< [ 31:  0](RO/H) Doorbell. Specifies the number of available words of instructions to read. */
-        uint64_t fcnt                  : 7;  /**< [ 38: 32](RO/H) FIFO count. Specifies the number of words in the instruction FIFO locally cached within DPI. */
-        uint64_t reserved_39_63        : 25;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dmax_counts_s cn; */
-} bdk_dpix_dmax_counts_t;
-
-static inline uint64_t BDK_DPIX_DMAX_COUNTS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_DMAX_COUNTS(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
-        return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    __bdk_csr_fatal("DPIX_DMAX_COUNTS", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_DPIX_DMAX_COUNTS(a,b) bdk_dpix_dmax_counts_t
-#define bustype_BDK_DPIX_DMAX_COUNTS(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_DMAX_COUNTS(a,b) "DPIX_DMAX_COUNTS"
-#define device_bar_BDK_DPIX_DMAX_COUNTS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_DMAX_COUNTS(a,b) (a)
-#define arguments_BDK_DPIX_DMAX_COUNTS(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_dma#_dbell
- *
- * DPI DMA Doorbell Registers
- * This is the door bell register for the eight DMA instruction queues.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_dmax_dbell_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t dbell                 : 16; /**< [ 15:  0](WO/H) Doorbell value. The value written to this register is added to the number of eight-byte
-                                                                 words to be read and processed for the low-priority DMA queue. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbell                 : 16; /**< [ 15:  0](WO/H) Doorbell value. The value written to this register is added to the number of eight-byte
-                                                                 words to be read and processed for the low-priority DMA queue. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dmax_dbell_s cn; */
-} bdk_dpix_dmax_dbell_t;
-
-static inline uint64_t BDK_DPIX_DMAX_DBELL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_DMAX_DBELL(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
-        return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    __bdk_csr_fatal("DPIX_DMAX_DBELL", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_DPIX_DMAX_DBELL(a,b) bdk_dpix_dmax_dbell_t
-#define bustype_BDK_DPIX_DMAX_DBELL(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_DMAX_DBELL(a,b) "DPIX_DMAX_DBELL"
-#define device_bar_BDK_DPIX_DMAX_DBELL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_DMAX_DBELL(a,b) (a)
-#define arguments_BDK_DPIX_DMAX_DBELL(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB) dpi#_dma#_err_rsp_status
  *
  * DPI DMA Error Response Status Register
@@ -1617,15 +1534,13 @@ typedef union
     struct bdk_dpix_dmax_ibuff_csize_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t idle                  : 1;  /**< [ 63: 63](RO/H) DMA request queue is idle. When asserted, the associated request queue is idle. */
-        uint64_t reserved_14_62        : 49;
+        uint64_t reserved_14_63        : 50;
         uint64_t csize                 : 14; /**< [ 13:  0](R/W) The size in 8-byte words of the DMA instruction chunk. This value should only be written
                                                                  at known times in order to prevent corruption of the instruction queue. */
 #else /* Word 0 - Little Endian */
         uint64_t csize                 : 14; /**< [ 13:  0](R/W) The size in 8-byte words of the DMA instruction chunk. This value should only be written
                                                                  at known times in order to prevent corruption of the instruction queue. */
-        uint64_t reserved_14_62        : 49;
-        uint64_t idle                  : 1;  /**< [ 63: 63](RO/H) DMA request queue is idle. When asserted, the associated request queue is idle. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_ibuff_csize_s cn; */
@@ -1647,57 +1562,6 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long 
 #define device_bar_BDK_DPIX_DMAX_IBUFF_CSIZE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_IBUFF_CSIZE(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_IBUFF_CSIZE(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_dma#_ibuff_saddr
- *
- * DPI DMA Instruction-Buffer Starting-Address Registers
- * These registers provide the address to start reading instructions for the eight DMA
- * instruction queues. These register should only be written to when the specified queue is
- * disabled (DPI()_REQQ_GBL_EN[QEN]).
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_dmax_ibuff_saddr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
-                                                                 <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
-                                                                 SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
-                                                                 the queue's doorbell (DPI()_DMA()_COUNTS[DBELL]) and its tail pointer
-                                                                 (DPI()_DMA()_NADDR[ADDR]). */
-        uint64_t reserved_0_6          : 7;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_6          : 7;
-        uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
-                                                                 <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
-                                                                 SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
-                                                                 the queue's doorbell (DPI()_DMA()_COUNTS[DBELL]) and its tail pointer
-                                                                 (DPI()_DMA()_NADDR[ADDR]). */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dmax_ibuff_saddr_s cn; */
-} bdk_dpix_dmax_ibuff_saddr_t;
-
-static inline uint64_t BDK_DPIX_DMAX_IBUFF_SADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_DMAX_IBUFF_SADDR(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000010ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
-        return 0x86e000000010ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    __bdk_csr_fatal("DPIX_DMAX_IBUFF_SADDR", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) bdk_dpix_dmax_ibuff_saddr_t
-#define bustype_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) "DPIX_DMAX_IBUFF_SADDR"
-#define device_bar_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) (a)
-#define arguments_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) dpi#_dma#_ids
@@ -1809,87 +1673,6 @@ static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b)
 #define arguments_BDK_DPIX_DMAX_IFLIGHT(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) dpi#_dma#_iwbusy
- *
- * DPI DMA Instruction Word Busy Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_dmax_iwbusy_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t iwbusy                : 1;  /**< [  0:  0](RO/H) Indicates that there are valid instructions in the request queue local
-                                                                 cache. These instructions will be dropped if DPI()_DMA()_QRST[QRST] is set for
-                                                                 the corresponding request queue. */
-#else /* Word 0 - Little Endian */
-        uint64_t iwbusy                : 1;  /**< [  0:  0](RO/H) Indicates that there are valid instructions in the request queue local
-                                                                 cache. These instructions will be dropped if DPI()_DMA()_QRST[QRST] is set for
-                                                                 the corresponding request queue. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dmax_iwbusy_s cn; */
-} bdk_dpix_dmax_iwbusy_t;
-
-static inline uint64_t BDK_DPIX_DMAX_IWBUSY(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_DMAX_IWBUSY(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000428ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
-        return 0x86e000000428ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    __bdk_csr_fatal("DPIX_DMAX_IWBUSY", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_DPIX_DMAX_IWBUSY(a,b) bdk_dpix_dmax_iwbusy_t
-#define bustype_BDK_DPIX_DMAX_IWBUSY(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_DMAX_IWBUSY(a,b) "DPIX_DMAX_IWBUSY"
-#define device_bar_BDK_DPIX_DMAX_IWBUSY(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_DMAX_IWBUSY(a,b) (a)
-#define arguments_BDK_DPIX_DMAX_IWBUSY(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_dma#_naddr
- *
- * DPI DMA Next Ichunk Address Registers
- * These registers provide the L2C addresses to read the next Ichunk data.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_dmax_naddr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions.  For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions.  For diagnostic use only. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dmax_naddr_s cn; */
-} bdk_dpix_dmax_naddr_t;
-
-static inline uint64_t BDK_DPIX_DMAX_NADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_DMAX_NADDR(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
-        return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    __bdk_csr_fatal("DPIX_DMAX_NADDR", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_DPIX_DMAX_NADDR(a,b) bdk_dpix_dmax_naddr_t
-#define bustype_BDK_DPIX_DMAX_NADDR(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_DMAX_NADDR(a,b) "DPIX_DMAX_NADDR"
-#define device_bar_BDK_DPIX_DMAX_NADDR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_DMAX_NADDR(a,b) (a)
-#define arguments_BDK_DPIX_DMAX_NADDR(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB) dpi#_dma#_qrst
  *
  * DPI DMA Instruction Queue Reset Register
@@ -1903,11 +1686,11 @@ typedef union
         uint64_t reserved_1_63         : 63;
         uint64_t qrst                  : 1;  /**< [  0:  0](R/W1/H) Resets the instruction queue to clear out the local cache, reset the pointer
                                                                  inside the chunk, and clear the doorbell count. Has no effect unless the
-                                                                 corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_DMA()_IBUFF_CSIZE[IDLE]=1. */
+                                                                 corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_DMA()_SADDR[IDLE]=1. */
 #else /* Word 0 - Little Endian */
         uint64_t qrst                  : 1;  /**< [  0:  0](R/W1/H) Resets the instruction queue to clear out the local cache, reset the pointer
                                                                  inside the chunk, and clear the doorbell count. Has no effect unless the
-                                                                 corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_DMA()_IBUFF_CSIZE[IDLE]=1. */
+                                                                 corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_DMA()_SADDR[IDLE]=1. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2004,71 +1787,6 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b)
 #define device_bar_BDK_DPIX_DMAX_REQBNK1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_REQBNK1(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_REQBNK1(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_dma#_reqq_ctl
- *
- * DPI DMA Request Queue Control Register
- * This register contains the control bits for transactions on the eight request queues.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_dmax_reqq_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction Descriptor Big Endian mode. When set, Instructions data will come from memory
-                                                                 in Big Endian format and the bytes will be reversed before being used in DPI. */
-        uint64_t reserved_9_11         : 3;
-        uint64_t st_cmd                : 1;  /**< [  8:  8](R/W) When DPI issues a store full line command to the L2C that is to be cached, this field
-                                                                 select the type of store command to use:
-                                                                 0 = STF.
-                                                                 1 = STY. */
-        uint64_t reserved_2_7          : 6;
-        uint64_t ld_cmd                : 2;  /**< [  1:  0](R/W) When DPI issues a load command to the L2C that is to be cached, this field select the type
-                                                                 of load command to use:
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-#else /* Word 0 - Little Endian */
-        uint64_t ld_cmd                : 2;  /**< [  1:  0](R/W) When DPI issues a load command to the L2C that is to be cached, this field select the type
-                                                                 of load command to use:
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t reserved_2_7          : 6;
-        uint64_t st_cmd                : 1;  /**< [  8:  8](R/W) When DPI issues a store full line command to the L2C that is to be cached, this field
-                                                                 select the type of store command to use:
-                                                                 0 = STF.
-                                                                 1 = STY. */
-        uint64_t reserved_9_11         : 3;
-        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction Descriptor Big Endian mode. When set, Instructions data will come from memory
-                                                                 in Big Endian format and the bytes will be reversed before being used in DPI. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dmax_reqq_ctl_s cn; */
-} bdk_dpix_dmax_reqq_ctl_t;
-
-static inline uint64_t BDK_DPIX_DMAX_REQQ_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_DMAX_REQQ_CTL(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
-        return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
-    __bdk_csr_fatal("DPIX_DMAX_REQQ_CTL", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_DPIX_DMAX_REQQ_CTL(a,b) bdk_dpix_dmax_reqq_ctl_t
-#define bustype_BDK_DPIX_DMAX_REQQ_CTL(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_DMAX_REQQ_CTL(a,b) "DPIX_DMAX_REQQ_CTL"
-#define device_bar_BDK_DPIX_DMAX_REQQ_CTL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_DMAX_REQQ_CTL(a,b) (a)
-#define arguments_BDK_DPIX_DMAX_REQQ_CTL(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) dpi#_dma_cc#_cnt
@@ -3185,7 +2903,11 @@ typedef union
     struct bdk_dpix_ncbx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_22_63        : 42;
+        uint64_t rd_fifo_threshold     : 6;  /**< [ 21: 16](R/W) NCB read response data FIFO priority threshold. Allows the RDB memory arbiter to switch
+                                                                 priority away from reads to NCB writes to ensure the NCB response FIFO does not overflow.
+                                                                 This value can range from 0 to 32, 0x0 disables this feature. */
+        uint64_t reserved_6_15         : 10;
         uint64_t molr                  : 6;  /**< [  5:  0](R/W) Max outstanding load requests. Limits the number of outstanding load requests on the I/O
                                                                  Interconnect. This value can range from 1 to 32. Setting a value of 0 halts all read
                                                                  traffic to the I/O Interconnect. There are no restrictions on when this value can be
@@ -3195,7 +2917,11 @@ typedef union
                                                                  Interconnect. This value can range from 1 to 32. Setting a value of 0 halts all read
                                                                  traffic to the I/O Interconnect. There are no restrictions on when this value can be
                                                                  changed. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_6_15         : 10;
+        uint64_t rd_fifo_threshold     : 6;  /**< [ 21: 16](R/W) NCB read response data FIFO priority threshold. Allows the RDB memory arbiter to switch
+                                                                 priority away from reads to NCB writes to ensure the NCB response FIFO does not overflow.
+                                                                 This value can range from 0 to 32, 0x0 disables this feature. */
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_ncbx_cfg_s cn; */
@@ -3259,7 +2985,7 @@ static inline uint64_t BDK_DPIX_PKT_ERR_RSP(unsigned long a)
 /**
  * Register (NCB) dpi#_req_err_rsp
  *
- * DPI Instruction Queue ErrorResponse Register
+ * DPI Instruction Queue Error Response Register
  */
 typedef union
 {
@@ -3337,82 +3063,6 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RSP_EN(unsigned long a)
 #define device_bar_BDK_DPIX_REQ_ERR_RSP_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_ERR_RSP_EN(a) (a)
 #define arguments_BDK_DPIX_REQ_ERR_RSP_EN(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) dpi#_req_err_rst
- *
- * INTERNAL: DPI Instruction Queue Reset Error Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_req_err_rst_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t qerr                  : 8;  /**< [  7:  0](RAZ) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t qerr                  : 8;  /**< [  7:  0](RAZ) Reserved. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_req_err_rst_s cn; */
-} bdk_dpix_req_err_rst_t;
-
-static inline uint64_t BDK_DPIX_REQ_ERR_RST(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_REQ_ERR_RST(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004080ll + 0x10000000000ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x86e000004080ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_REQ_ERR_RST", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DPIX_REQ_ERR_RST(a) bdk_dpix_req_err_rst_t
-#define bustype_BDK_DPIX_REQ_ERR_RST(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_REQ_ERR_RST(a) "DPIX_REQ_ERR_RST"
-#define device_bar_BDK_DPIX_REQ_ERR_RST(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_REQ_ERR_RST(a) (a)
-#define arguments_BDK_DPIX_REQ_ERR_RST(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) dpi#_req_err_rst_en
- *
- * INTERNAL: DPI Instruction Queue Reset Error Enable Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_req_err_rst_en_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t en                    : 8;  /**< [  7:  0](RAZ) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t en                    : 8;  /**< [  7:  0](RAZ) Reserved. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_req_err_rst_en_s cn; */
-} bdk_dpix_req_err_rst_en_t;
-
-static inline uint64_t BDK_DPIX_REQ_ERR_RST_EN(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_REQ_ERR_RST_EN(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004090ll + 0x10000000000ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x86e000004090ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_REQ_ERR_RST_EN", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DPIX_REQ_ERR_RST_EN(a) bdk_dpix_req_err_rst_en_t
-#define bustype_BDK_DPIX_REQ_ERR_RST_EN(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_REQ_ERR_RST_EN(a) "DPIX_REQ_ERR_RST_EN"
-#define device_bar_BDK_DPIX_REQ_ERR_RST_EN(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_REQ_ERR_RST_EN(a) (a)
-#define arguments_BDK_DPIX_REQ_ERR_RST_EN(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_req_gbl_en
@@ -4037,5 +3687,287 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long
 #define device_bar_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) (a)
 #define arguments_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vdma#_counts
+ *
+ * DPI DMA Instruction Counts Registers
+ * These registers provide values for determining the number of instructions in the local
+ * instruction FIFO.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vdmax_counts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_39_63        : 25;
+        uint64_t fcnt                  : 7;  /**< [ 38: 32](RO/H) FIFO count. Specifies the number of words in the instruction FIFO locally cached within DPI. */
+        uint64_t dbell                 : 32; /**< [ 31:  0](RO/H) Doorbell. Specifies the number of available words of instructions to read. */
+#else /* Word 0 - Little Endian */
+        uint64_t dbell                 : 32; /**< [ 31:  0](RO/H) Doorbell. Specifies the number of available words of instructions to read. */
+        uint64_t fcnt                  : 7;  /**< [ 38: 32](RO/H) FIFO count. Specifies the number of words in the instruction FIFO locally cached within DPI. */
+        uint64_t reserved_39_63        : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vdmax_counts_s cn; */
+} bdk_dpix_vdmax_counts_t;
+
+static inline uint64_t BDK_DPIX_VDMAX_COUNTS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VDMAX_COUNTS(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
+        return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VDMAX_COUNTS", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VDMAX_COUNTS(a,b) bdk_dpix_vdmax_counts_t
+#define bustype_BDK_DPIX_VDMAX_COUNTS(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VDMAX_COUNTS(a,b) "DPIX_VDMAX_COUNTS"
+#define device_bar_BDK_DPIX_VDMAX_COUNTS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_VDMAX_COUNTS(a,b) (a)
+#define arguments_BDK_DPIX_VDMAX_COUNTS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vdma#_dbell
+ *
+ * DPI DMA Doorbell Registers
+ * This is the door bell register for the eight DMA instruction queues.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vdmax_dbell_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t dbell                 : 16; /**< [ 15:  0](WO/H) Doorbell value. The value written to this register is added to the number of eight-byte
+                                                                 words to be read and processed for the low-priority DMA queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t dbell                 : 16; /**< [ 15:  0](WO/H) Doorbell value. The value written to this register is added to the number of eight-byte
+                                                                 words to be read and processed for the low-priority DMA queue. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vdmax_dbell_s cn; */
+} bdk_dpix_vdmax_dbell_t;
+
+static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
+        return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VDMAX_DBELL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VDMAX_DBELL(a,b) bdk_dpix_vdmax_dbell_t
+#define bustype_BDK_DPIX_VDMAX_DBELL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VDMAX_DBELL(a,b) "DPIX_VDMAX_DBELL"
+#define device_bar_BDK_DPIX_VDMAX_DBELL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_VDMAX_DBELL(a,b) (a)
+#define arguments_BDK_DPIX_VDMAX_DBELL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vdma#_iwbusy
+ *
+ * DPI DMA Instruction Word Busy Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vdmax_iwbusy_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t iwbusy                : 1;  /**< [  0:  0](RO/H) Indicates that there are valid instructions in the request queue local
+                                                                 cache. These instructions will be dropped if DPI()_DMA()_QRST[QRST] is set for
+                                                                 the corresponding request queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t iwbusy                : 1;  /**< [  0:  0](RO/H) Indicates that there are valid instructions in the request queue local
+                                                                 cache. These instructions will be dropped if DPI()_DMA()_QRST[QRST] is set for
+                                                                 the corresponding request queue. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vdmax_iwbusy_s cn; */
+} bdk_dpix_vdmax_iwbusy_t;
+
+static inline uint64_t BDK_DPIX_VDMAX_IWBUSY(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VDMAX_IWBUSY(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000028ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
+        return 0x86e000000028ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VDMAX_IWBUSY", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VDMAX_IWBUSY(a,b) bdk_dpix_vdmax_iwbusy_t
+#define bustype_BDK_DPIX_VDMAX_IWBUSY(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VDMAX_IWBUSY(a,b) "DPIX_VDMAX_IWBUSY"
+#define device_bar_BDK_DPIX_VDMAX_IWBUSY(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_VDMAX_IWBUSY(a,b) (a)
+#define arguments_BDK_DPIX_VDMAX_IWBUSY(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vdma#_naddr
+ *
+ * DPI DMA Next Ichunk Address Registers
+ * These registers provide the L2C addresses to read the next Ichunk data.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vdmax_naddr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions.  For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions.  For diagnostic use only. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vdmax_naddr_s cn; */
+} bdk_dpix_vdmax_naddr_t;
+
+static inline uint64_t BDK_DPIX_VDMAX_NADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VDMAX_NADDR(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
+        return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VDMAX_NADDR", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VDMAX_NADDR(a,b) bdk_dpix_vdmax_naddr_t
+#define bustype_BDK_DPIX_VDMAX_NADDR(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VDMAX_NADDR(a,b) "DPIX_VDMAX_NADDR"
+#define device_bar_BDK_DPIX_VDMAX_NADDR(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_VDMAX_NADDR(a,b) (a)
+#define arguments_BDK_DPIX_VDMAX_NADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vdma#_reqq_ctl
+ *
+ * DPI DMA Request Queue Control Register
+ * This register contains the control bits for transactions on the eight request queues.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vdmax_reqq_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction Descriptor Big Endian mode. When set, Instructions data will come from memory
+                                                                 in Big Endian format and the bytes will be reversed before being used in DPI. */
+        uint64_t reserved_9_11         : 3;
+        uint64_t st_cmd                : 1;  /**< [  8:  8](R/W) When DPI issues a store full line command to the L2C that is to be cached, this field
+                                                                 select the type of store command to use:
+                                                                 0 = STF.
+                                                                 1 = STY. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t ld_cmd                : 2;  /**< [  1:  0](R/W) When DPI issues a load command to the L2C that is to be cached, this field select the type
+                                                                 of load command to use:
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+#else /* Word 0 - Little Endian */
+        uint64_t ld_cmd                : 2;  /**< [  1:  0](R/W) When DPI issues a load command to the L2C that is to be cached, this field select the type
+                                                                 of load command to use:
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t st_cmd                : 1;  /**< [  8:  8](R/W) When DPI issues a store full line command to the L2C that is to be cached, this field
+                                                                 select the type of store command to use:
+                                                                 0 = STF.
+                                                                 1 = STY. */
+        uint64_t reserved_9_11         : 3;
+        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction Descriptor Big Endian mode. When set, Instructions data will come from memory
+                                                                 in Big Endian format and the bytes will be reversed before being used in DPI. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vdmax_reqq_ctl_s cn; */
+} bdk_dpix_vdmax_reqq_ctl_t;
+
+static inline uint64_t BDK_DPIX_VDMAX_REQQ_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VDMAX_REQQ_CTL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
+        return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VDMAX_REQQ_CTL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VDMAX_REQQ_CTL(a,b) bdk_dpix_vdmax_reqq_ctl_t
+#define bustype_BDK_DPIX_VDMAX_REQQ_CTL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VDMAX_REQQ_CTL(a,b) "DPIX_VDMAX_REQQ_CTL"
+#define device_bar_BDK_DPIX_VDMAX_REQQ_CTL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_VDMAX_REQQ_CTL(a,b) (a)
+#define arguments_BDK_DPIX_VDMAX_REQQ_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vdma#_saddr
+ *
+ * DPI DMA Instruction-Buffer Starting-Address Registers
+ * These registers provide the address to start reading instructions for the eight DMA
+ * instruction queues. These register should only be written to when the specified queue is
+ * disabled (DPI()_REQQ_GBL_EN[QEN]).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vdmax_saddr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t idle                  : 1;  /**< [ 63: 63](RO/H) DMA request queue is idle. When asserted, the associated request queue is idle. */
+        uint64_t reserved_49_62        : 14;
+        uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
+                                                                 <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
+                                                                 SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
+                                                                 the queue's doorbell (DPI()_DMA()_COUNTS[DBELL]) and its tail pointer
+                                                                 (DPI()_DMA()_NADDR[ADDR]). */
+        uint64_t reserved_0_6          : 7;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_6          : 7;
+        uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
+                                                                 <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
+                                                                 SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
+                                                                 the queue's doorbell (DPI()_DMA()_COUNTS[DBELL]) and its tail pointer
+                                                                 (DPI()_DMA()_NADDR[ADDR]). */
+        uint64_t reserved_49_62        : 14;
+        uint64_t idle                  : 1;  /**< [ 63: 63](RO/H) DMA request queue is idle. When asserted, the associated request queue is idle. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vdmax_saddr_s cn; */
+} bdk_dpix_vdmax_saddr_t;
+
+static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000010ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
+        return 0x86e000000010ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VDMAX_SADDR", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VDMAX_SADDR(a,b) bdk_dpix_vdmax_saddr_t
+#define bustype_BDK_DPIX_VDMAX_SADDR(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VDMAX_SADDR(a,b) "DPIX_VDMAX_SADDR"
+#define device_bar_BDK_DPIX_VDMAX_SADDR(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_VDMAX_SADDR(a,b) (a)
+#define arguments_BDK_DPIX_VDMAX_SADDR(a,b) (a),(b),-1,-1
 
 #endif /* __BDK_CSRS_DPI_H__ */

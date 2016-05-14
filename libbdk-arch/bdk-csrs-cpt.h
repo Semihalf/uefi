@@ -122,7 +122,10 @@
  */
 #define BDK_CPT_PF_INT_VEC_E_ECC0 (0)
 #define BDK_CPT_PF_INT_VEC_E_EXEC (1)
-#define BDK_CPT_PF_INT_VEC_E_MBOXX(a) (2 + (a))
+#define BDK_CPT_PF_INT_VEC_E_MBOXX_CN81XX(a) (2 + (a))
+#define BDK_CPT_PF_INT_VEC_E_MBOXX_CN83XX(a) (3 + (a))
+#define BDK_CPT_PF_INT_VEC_E_MBOXX_CN9(a) (3 + (a))
+#define BDK_CPT_PF_INT_VEC_E_UCERR (2)
 
 /**
  * Enumeration cpt_rams_e
@@ -719,6 +722,48 @@ static inline uint64_t BDK_CPTX_PF_ACTIVE_CYCLES_PC(unsigned long a)
 #define arguments_BDK_CPTX_PF_ACTIVE_CYCLES_PC(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) cpt#_pf_active_vf#
+ *
+ * CPT PF Active VF Register
+ * This register will be non-zero if the engine is allocated to a VF.  In the
+ * event of a UCERR, this register can be consulted to determine whether any
+ * action is required for the VF.  This register should be cleared by software
+ * before re-enabling an engine.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_active_vfx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t vfnum                 : 7;  /**< [  6:  0](R/W/H) VF number. 0x0 unless the engine has been allocated to a VF. */
+#else /* Word 0 - Little Endian */
+        uint64_t vfnum                 : 7;  /**< [  6:  0](R/W/H) VF number. 0x0 unless the engine has been allocated to a VF. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_active_vfx_s cn; */
+} bdk_cptx_pf_active_vfx_t;
+
+static inline uint64_t BDK_CPTX_PF_ACTIVE_VFX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_ACTIVE_VFX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=47)))
+        return 0x872000001000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=47)))
+        return 0x872000001000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
+    __bdk_csr_fatal("CPTX_PF_ACTIVE_VFX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_ACTIVE_VFX(a,b) bdk_cptx_pf_active_vfx_t
+#define bustype_BDK_CPTX_PF_ACTIVE_VFX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_ACTIVE_VFX(a,b) "CPTX_PF_ACTIVE_VFX"
+#define device_bar_BDK_CPTX_PF_ACTIVE_VFX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CPTX_PF_ACTIVE_VFX(a,b) (a)
+#define arguments_BDK_CPTX_PF_ACTIVE_VFX(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) cpt#_pf_bist_status
  *
  * CPT PF Control Bist Status Register
@@ -814,53 +859,7 @@ typedef union
                                                                  <60> = Reserved. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_bp_test_s cn8; */
-    struct bdk_cptx_pf_bp_test_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = NCBI requests.
-                                                                 <62> = Instruction prefetching.
-                                                                 <61> = Reserved.
-                                                                 <60> = Reserved. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   <23:22> = BP_CFG3.
-                                                                   <21:20> = BP_CFG2.
-                                                                   <19:18> = BP_CFG1.
-                                                                   <17:16> = BP_CFG0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   <23:22> = BP_CFG3.
-                                                                   <21:20> = BP_CFG2.
-                                                                   <19:18> = BP_CFG1.
-                                                                   <17:16> = BP_CFG0. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = NCBI requests.
-                                                                 <62> = Instruction prefetching.
-                                                                 <61> = Reserved.
-                                                                 <60> = Reserved. */
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_cptx_pf_bp_test_s cn; */
 } bdk_cptx_pf_bp_test_t;
 
 static inline uint64_t BDK_CPTX_PF_BP_TEST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -894,7 +893,11 @@ typedef union
     struct bdk_cptx_pf_constants_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_41_63        : 23;
+        uint64_t ucerr                 : 1;  /**< [ 40: 40](RO) Set if CPT()_PF_UCERR_INT exits.
+                                                                 0 = CPT_PF_INT_VEC_E::EXEC is immediately followed by CPT_PF_INT_VEC_E::MBOX().
+                                                                 1 = CPT_PF_INT_VEC_E::EXEC is immediately followed by CPT_PF_INT_VEC_E::UCERR,
+                                                                 which is immediately followed by CPT_PF_INT_VEC_E::MBOX(). */
         uint64_t epcis                 : 8;  /**< [ 39: 32](RO) Number of EPCI busses. */
         uint64_t grps                  : 8;  /**< [ 31: 24](RO) Number of engine groups implemented. */
         uint64_t ae                    : 8;  /**< [ 23: 16](RO/H) Number of AEs. In CNXXXX, for CPT0 returns 0x0, for CPT1 returns 0x18, or less
@@ -910,13 +913,21 @@ typedef union
                                                                  if there are fuse-disables. */
         uint64_t grps                  : 8;  /**< [ 31: 24](RO) Number of engine groups implemented. */
         uint64_t epcis                 : 8;  /**< [ 39: 32](RO) Number of EPCI busses. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t ucerr                 : 1;  /**< [ 40: 40](RO) Set if CPT()_PF_UCERR_INT exits.
+                                                                 0 = CPT_PF_INT_VEC_E::EXEC is immediately followed by CPT_PF_INT_VEC_E::MBOX().
+                                                                 1 = CPT_PF_INT_VEC_E::EXEC is immediately followed by CPT_PF_INT_VEC_E::UCERR,
+                                                                 which is immediately followed by CPT_PF_INT_VEC_E::MBOX(). */
+        uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cptx_pf_constants_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_41_63        : 23;
+        uint64_t ucerr                 : 1;  /**< [ 40: 40](RO) Set if CPT()_PF_UCERR_INT exits.
+                                                                 0 = CPT_PF_INT_VEC_E::EXEC is immediately followed by CPT_PF_INT_VEC_E::MBOX().
+                                                                 1 = CPT_PF_INT_VEC_E::EXEC is immediately followed by CPT_PF_INT_VEC_E::UCERR,
+                                                                 which is immediately followed by CPT_PF_INT_VEC_E::MBOX(). */
         uint64_t epcis                 : 8;  /**< [ 39: 32](RO) Number of EPCI busses. */
         uint64_t grps                  : 8;  /**< [ 31: 24](RO) Number of engine groups implemented. */
         uint64_t ae                    : 8;  /**< [ 23: 16](RO/H) Number of AEs. In CNXXXX, returns 0x6 or less if there are fuse-disables. */
@@ -928,7 +939,11 @@ typedef union
         uint64_t ae                    : 8;  /**< [ 23: 16](RO/H) Number of AEs. In CNXXXX, returns 0x6 or less if there are fuse-disables. */
         uint64_t grps                  : 8;  /**< [ 31: 24](RO) Number of engine groups implemented. */
         uint64_t epcis                 : 8;  /**< [ 39: 32](RO) Number of EPCI busses. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t ucerr                 : 1;  /**< [ 40: 40](RO) Set if CPT()_PF_UCERR_INT exits.
+                                                                 0 = CPT_PF_INT_VEC_E::EXEC is immediately followed by CPT_PF_INT_VEC_E::MBOX().
+                                                                 1 = CPT_PF_INT_VEC_E::EXEC is immediately followed by CPT_PF_INT_VEC_E::UCERR,
+                                                                 which is immediately followed by CPT_PF_INT_VEC_E::MBOX(). */
+        uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_constants_s cn83xx; */
@@ -2006,7 +2021,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_BUSY(unsigned long a)
 /**
  * Register (NCB) cpt#_pf_exec_ena_w1c
  *
- * CPT PF Mailbox Enable Clear Registers
+ * CPT PF Exec Unit Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -2054,7 +2069,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_ENA_W1C(unsigned long a)
 /**
  * Register (NCB) cpt#_pf_exec_ena_w1s
  *
- * CPT PF Mailbox Enable Set Registers
+ * CPT PF Exec Unit Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -2263,6 +2278,22 @@ typedef union
     struct bdk_cptx_pf_exec_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t exec                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per engine. Each bit is set when the associated engine
+                                                                 receives an error indication (fault) during a microcode fetch.
+
+                                                                 If CPT()_PF_ACTIVE_VF()[VFNUM] is nonzero, indicates that the engine was active
+                                                                 for a queue and software must reset that queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t exec                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per engine. Each bit is set when the associated engine
+                                                                 receives an error indication (fault) during a microcode fetch.
+
+                                                                 If CPT()_PF_ACTIVE_VF()[VFNUM] is nonzero, indicates that the engine was active
+                                                                 for a queue and software must reset that queue. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_cptx_pf_exec_int_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t exec                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per engine. Each bit is set
                                                                   when the associated engine issues an error
                                                                   request.  The most recent error information
@@ -2273,8 +2304,9 @@ typedef union
                                                                   request.  The most recent error information
                                                                   can be found in CPT()_PF_EXEC_INFO. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cptx_pf_exec_int_s cn; */
+    } cn81xx;
+    /* struct bdk_cptx_pf_exec_int_s cn83xx; */
+    /* struct bdk_cptx_pf_exec_int_s cn9; */
 } bdk_cptx_pf_exec_int_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_INT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2299,7 +2331,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_INT(unsigned long a)
 /**
  * Register (NCB) cpt#_pf_exec_int_w1s
  *
- * CPT PF Mailbox Interrupt Set Registers
+ * CPT PF Exec Unit Interrupt Set Registers
  * This register sets interrupt bits.
  */
 typedef union
@@ -2758,9 +2790,9 @@ static inline uint64_t BDK_CPTX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
         return 0x872010000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=2)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x872010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=2)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
         return 0x872010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("CPTX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -2803,9 +2835,9 @@ static inline uint64_t BDK_CPTX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
         return 0x872010000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=2)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x872010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=2)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
         return 0x872010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("CPTX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -3004,94 +3036,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_qx_ctl_s cn83xx; */
-    struct bdk_cptx_pf_qx_ctl_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set.
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and CPT()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be 8*n + 1, where n is the number of instructions per buffer segment. */
-        uint64_t reserved_11_31        : 21;
-        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
-
-                                                                 0 = When CPT()_VQ()_MISC_INT[HWERR], CPT()_VQ()_MISC_INT[SWERR],
-                                                                 CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
-                                                                 CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
-                                                                 CPT()_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
-                                                                 pipelining, additional instructions may have been processed between the
-                                                                 instruction causing the error and the next instruction in the disabled queue
-                                                                 (the instruction at CPT()_VQ()_SADDR).
-
-                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
-        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
-                                                                 pointers, and result structures are stored in big-endian format in memory. */
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
-
-                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
-                                                                 line hits and is is dirty will cause the line to be written back before being
-                                                                 replaced.
-
-                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
-                                                                 when fetching the last word of instructions; as a result the line will not be
-                                                                 written back when replaced.  This improves performance, but software must not
-                                                                 read the instructions after they are posted to the hardware.
-
-                                                                 Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t reserved_4_6          : 3;
-        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
-                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
-                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
-#else /* Word 0 - Little Endian */
-        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
-                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
-                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
-        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t reserved_4_6          : 3;
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
-
-                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
-                                                                 line hits and is is dirty will cause the line to be written back before being
-                                                                 replaced.
-
-                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
-                                                                 when fetching the last word of instructions; as a result the line will not be
-                                                                 written back when replaced.  This improves performance, but software must not
-                                                                 read the instructions after they are posted to the hardware.
-
-                                                                 Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big-endian control. When set, instructions, instruction next chunk
-                                                                 pointers, and result structures are stored in big-endian format in memory. */
-        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
-
-                                                                 0 = When CPT()_VQ()_MISC_INT[HWERR], CPT()_VQ()_MISC_INT[SWERR],
-                                                                 CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
-                                                                 CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
-                                                                 CPT()_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
-                                                                 pipelining, additional instructions may have been processed between the
-                                                                 instruction causing the error and the next instruction in the disabled queue
-                                                                 (the instruction at CPT()_VQ()_SADDR).
-
-                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
-        uint64_t reserved_11_31        : 21;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be 8*n + 1, where n is the number of instructions per buffer segment. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set.
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and CPT()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t reserved_60_63        : 4;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_cptx_pf_qx_ctl_s cn9; */
 } bdk_cptx_pf_qx_ctl_t;
 
 static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3432,6 +3377,163 @@ static inline uint64_t BDK_CPTX_PF_RESET(unsigned long a)
 #define device_bar_BDK_CPTX_PF_RESET(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_RESET(a) (a)
 #define arguments_BDK_CPTX_PF_RESET(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_ucerr_ena_w1c
+ *
+ * CPT PF UC Error Interrupt Enable Clear Registers
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_ucerr_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT(0..1)_PF_UCERR_INT[UCERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT(0..1)_PF_UCERR_INT[UCERR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_ucerr_ena_w1c_s cn; */
+} bdk_cptx_pf_ucerr_ena_w1c_t;
+
+static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1C(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8720000005c0ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x8720000005c0ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_UCERR_ENA_W1C", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_UCERR_ENA_W1C(a) bdk_cptx_pf_ucerr_ena_w1c_t
+#define bustype_BDK_CPTX_PF_UCERR_ENA_W1C(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_UCERR_ENA_W1C(a) "CPTX_PF_UCERR_ENA_W1C"
+#define device_bar_BDK_CPTX_PF_UCERR_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CPTX_PF_UCERR_ENA_W1C(a) (a)
+#define arguments_BDK_CPTX_PF_UCERR_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_ucerr_ena_w1s
+ *
+ * CPT PF UC Error Interrupt Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_ucerr_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT(0..1)_PF_UCERR_INT[UCERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT(0..1)_PF_UCERR_INT[UCERR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_ucerr_ena_w1s_s cn; */
+} bdk_cptx_pf_ucerr_ena_w1s_t;
+
+static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8720000005e0ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x8720000005e0ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_UCERR_ENA_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_UCERR_ENA_W1S(a) bdk_cptx_pf_ucerr_ena_w1s_t
+#define bustype_BDK_CPTX_PF_UCERR_ENA_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_UCERR_ENA_W1S(a) "CPTX_PF_UCERR_ENA_W1S"
+#define device_bar_BDK_CPTX_PF_UCERR_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CPTX_PF_UCERR_ENA_W1S(a) (a)
+#define arguments_BDK_CPTX_PF_UCERR_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_ucerr_int
+ *
+ * CPT PF UC Error Interrupt Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_ucerr_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per engine. Each bit is set
+                                                                  when the associated engine receives an error
+                                                                  indication (Fault) during a microcode fetch.
+                                                                 If CPT(0..1)_PF_ACTIVE_VF(ENG) indicates that
+                                                                  the engine was active for a queue (non-zero),
+                                                                  software must reset that queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per engine. Each bit is set
+                                                                  when the associated engine receives an error
+                                                                  indication (Fault) during a microcode fetch.
+                                                                 If CPT(0..1)_PF_ACTIVE_VF(ENG) indicates that
+                                                                  the engine was active for a queue (non-zero),
+                                                                  software must reset that queue. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_ucerr_int_s cn; */
+} bdk_cptx_pf_ucerr_int_t;
+
+static inline uint64_t BDK_CPTX_PF_UCERR_INT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_UCERR_INT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872000000580ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x872000000580ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_UCERR_INT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_UCERR_INT(a) bdk_cptx_pf_ucerr_int_t
+#define bustype_BDK_CPTX_PF_UCERR_INT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_UCERR_INT(a) "CPTX_PF_UCERR_INT"
+#define device_bar_BDK_CPTX_PF_UCERR_INT(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CPTX_PF_UCERR_INT(a) (a)
+#define arguments_BDK_CPTX_PF_UCERR_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_ucerr_int_w1s
+ *
+ * CPT PF UC Error Interrupt Set Registers
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_ucerr_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT(0..1)_PF_UCERR_INT[UCERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT(0..1)_PF_UCERR_INT[UCERR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_ucerr_int_w1s_s cn; */
+} bdk_cptx_pf_ucerr_int_w1s_t;
+
+static inline uint64_t BDK_CPTX_PF_UCERR_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_UCERR_INT_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8720000005a0ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x8720000005a0ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_UCERR_INT_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_UCERR_INT_W1S(a) bdk_cptx_pf_ucerr_int_w1s_t
+#define bustype_BDK_CPTX_PF_UCERR_INT_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_UCERR_INT_W1S(a) "CPTX_PF_UCERR_INT_W1S"
+#define device_bar_BDK_CPTX_PF_UCERR_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CPTX_PF_UCERR_INT_W1S(a) (a)
+#define arguments_BDK_CPTX_PF_UCERR_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) cpt#_pf_vf#_mbox#
@@ -4265,26 +4367,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_vqx_misc_ena_w1c_s cn83xx; */
-    struct bdk_cptx_vqx_misc_ena_w1c_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
-        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[DOVF]. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[MBOX]. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[MBOX]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[DOVF]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_cptx_vqx_misc_ena_w1c_s cn9; */
 } bdk_cptx_vqx_misc_ena_w1c_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -4356,26 +4439,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_vqx_misc_ena_w1s_s cn83xx; */
-    struct bdk_cptx_vqx_misc_ena_w1s_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
-        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[DOVF]. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[MBOX]. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[MBOX]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[DOVF]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_cptx_vqx_misc_ena_w1s_s cn9; */
 } bdk_cptx_vqx_misc_ena_w1s_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -4451,28 +4515,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_vqx_misc_int_s cn83xx; */
-    struct bdk_cptx_vqx_misc_int_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
-        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT()_VF()_PF_MBOX(0)
-                                                                 is written. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT()_VF()_PF_MBOX(0)
-                                                                 is written. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
-        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1C/H) Software error from engines. */
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Hardware error from engines. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_cptx_vqx_misc_int_s cn9; */
 } bdk_cptx_vqx_misc_int_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -4544,26 +4587,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_vqx_misc_int_w1s_s cn83xx; */
-    struct bdk_cptx_vqx_misc_int_w1s_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
-        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[DOVF]. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[MBOX]. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[MBOX]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[DOVF]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[IRDE]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[NWRP]. */
-        uint64_t swerr                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[SWERR]. */
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT(0..1)_VQ(0..63)_MISC_INT[HWERR]. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_cptx_vqx_misc_int_w1s_s cn9; */
 } bdk_cptx_vqx_misc_int_w1s_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

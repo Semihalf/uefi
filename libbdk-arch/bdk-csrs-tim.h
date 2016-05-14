@@ -483,81 +483,109 @@ typedef union
     struct bdk_tim_bp_test_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
+        uint64_t reserved_12_63        : 52;
+        uint64_t ncb_wqe_bp            : 1;  /**< [ 11: 11](R/W) NCB WQE CSR FIFO backpressure.
+                                                                 When asserted, the tim.tim_ncb.tim_wqe FIFO valid
+                                                                 (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill. */
         uint64_t ncbmux_dstmem_bp      : 1;  /**< [ 10: 10](R/W) NCBMUX DSTMEM FIFO backpressure.
                                                                  When asserted, the tim.tim_csr.tim_csr_ncbmux.ncb_dstmem FIFO
-                                                                 is blocked from receiving any more requests from the
-                                                                 NCBO-to-CSR path. Only the RSL path can be used when this
-                                                                 bit is set. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 Only the RSL path can be used when this bit is set. */
         uint64_t ncbmux_ctlmem_bp      : 1;  /**< [  9:  9](R/W) NCBMUX CTLMEM FIFO backpressure.
                                                                  When asserted, the tim.tim_csr.tim_csr_ncbmux.ncb_ctlmem FIFO
-                                                                 is blocked from receiving any more requests from the
-                                                                 NCBO-to-CSR path. This also blocks requests to the
-                                                                 tim.tim_csr.tim_csr_ncbmux.ncb_datmem FIFO. Only the RSL path
-                                                                 can be used when this bit is set. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 Only the RSL path can be used when this bit is set. */
         uint64_t ncb_fpa_bp            : 1;  /**< [  8:  8](R/W) NCB CSR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_csrf FIFO
-                                                                 is blocked from receiving any more responses from the
-                                                                 CSR path. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill. */
         uint64_t ncb_sta_bp            : 4;  /**< [  7:  4](R/W) NCB STA backpressure.
                                                                  When asserted, this blocks specific STAs (3-0) from sending
                                                                  requests. This combines the tim.tim_ncb.tim_ncb_tag.sfsta[3:0]_fifo
                                                                  and tim.tim_ncb.tim_ncb_tag.nwfsta[3:0]_fifo backpressuring. */
         uint64_t ncb_csrf_bp           : 1;  /**< [  3:  3](R/W) NCB CSR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_csrf FIFO
-                                                                 is blocked from receiving any more responses from the
-                                                                 CSR path. Only the RSL path can be used when this
-                                                                 bit is set, for reads or writes that require responses. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 Only the RSL path can be used for access when this bit is
+                                                                 set. All NCB-based CSR accesses will not respond, and NCB
+                                                                 credits will not be returned, once the downstream FIFOs
+                                                                 fill up. */
         uint64_t ncb_lslr_bp           : 1;  /**< [  2:  2](R/W) NCB LSLR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.lslr_mem FIFO
-                                                                 is blocked from receiving any more requests from the STA
-                                                                 engines. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 This will stop requests from the STA engines, when the
+                                                                 FIFO reaches full. */
         uint64_t ncbi_rsp_gnt_bp       : 1;  /**< [  1:  1](R/W) NCBI response grant FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_cgntf FIFO
-                                                                 is blocked from receiving any more requests from the CSR
-                                                                 queue responses from the CSRs. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 Only the RSL path can be used for access when this bit is
+                                                                 set. All NCB-based CSR accesses will not respond, and NCB
+                                                                 credits will not be returned, once the downstream FIFOs
+                                                                 fill up. */
         uint64_t ncbi_req_gnt_bp       : 1;  /**< [  0:  0](R/W) NCBI request grant FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_lgntf FIFO
-                                                                 is blocked from receiving any more requests from the LSLR
-                                                                 queue requests from the STA engines. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 This will stop requests from the STA engines, when both
+                                                                 this FIFO, and the LSLR FIFO reaches full. */
 #else /* Word 0 - Little Endian */
         uint64_t ncbi_req_gnt_bp       : 1;  /**< [  0:  0](R/W) NCBI request grant FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_lgntf FIFO
-                                                                 is blocked from receiving any more requests from the LSLR
-                                                                 queue requests from the STA engines. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 This will stop requests from the STA engines, when both
+                                                                 this FIFO, and the LSLR FIFO reaches full. */
         uint64_t ncbi_rsp_gnt_bp       : 1;  /**< [  1:  1](R/W) NCBI response grant FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_cgntf FIFO
-                                                                 is blocked from receiving any more requests from the CSR
-                                                                 queue responses from the CSRs. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 Only the RSL path can be used for access when this bit is
+                                                                 set. All NCB-based CSR accesses will not respond, and NCB
+                                                                 credits will not be returned, once the downstream FIFOs
+                                                                 fill up. */
         uint64_t ncb_lslr_bp           : 1;  /**< [  2:  2](R/W) NCB LSLR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.lslr_mem FIFO
-                                                                 is blocked from receiving any more requests from the STA
-                                                                 engines. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 This will stop requests from the STA engines, when the
+                                                                 FIFO reaches full. */
         uint64_t ncb_csrf_bp           : 1;  /**< [  3:  3](R/W) NCB CSR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_csrf FIFO
-                                                                 is blocked from receiving any more responses from the
-                                                                 CSR path. Only the RSL path can be used when this
-                                                                 bit is set, for reads or writes that require responses. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 Only the RSL path can be used for access when this bit is
+                                                                 set. All NCB-based CSR accesses will not respond, and NCB
+                                                                 credits will not be returned, once the downstream FIFOs
+                                                                 fill up. */
         uint64_t ncb_sta_bp            : 4;  /**< [  7:  4](R/W) NCB STA backpressure.
                                                                  When asserted, this blocks specific STAs (3-0) from sending
                                                                  requests. This combines the tim.tim_ncb.tim_ncb_tag.sfsta[3:0]_fifo
                                                                  and tim.tim_ncb.tim_ncb_tag.nwfsta[3:0]_fifo backpressuring. */
         uint64_t ncb_fpa_bp            : 1;  /**< [  8:  8](R/W) NCB CSR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_csrf FIFO
-                                                                 is blocked from receiving any more responses from the
-                                                                 CSR path. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill. */
         uint64_t ncbmux_ctlmem_bp      : 1;  /**< [  9:  9](R/W) NCBMUX CTLMEM FIFO backpressure.
                                                                  When asserted, the tim.tim_csr.tim_csr_ncbmux.ncb_ctlmem FIFO
-                                                                 is blocked from receiving any more requests from the
-                                                                 NCBO-to-CSR path. This also blocks requests to the
-                                                                 tim.tim_csr.tim_csr_ncbmux.ncb_datmem FIFO. Only the RSL path
-                                                                 can be used when this bit is set. */
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 Only the RSL path can be used when this bit is set. */
         uint64_t ncbmux_dstmem_bp      : 1;  /**< [ 10: 10](R/W) NCBMUX DSTMEM FIFO backpressure.
                                                                  When asserted, the tim.tim_csr.tim_csr_ncbmux.ncb_dstmem FIFO
-                                                                 is blocked from receiving any more requests from the
-                                                                 NCBO-to-CSR path. Only the RSL path can be used when this
-                                                                 bit is set. */
-        uint64_t reserved_11_63        : 53;
+                                                                 valid (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 Only the RSL path can be used when this bit is set. */
+        uint64_t ncb_wqe_bp            : 1;  /**< [ 11: 11](R/W) NCB WQE CSR FIFO backpressure.
+                                                                 When asserted, the tim.tim_ncb.tim_wqe FIFO valid
+                                                                 (an entry is in the FIFO) is blocked. This creates
+                                                                 no popping of the FIFO, allowing it to fill. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bp_test_s cn; */
@@ -1384,13 +1412,15 @@ typedef union
                                                                  [EXPIRE_OFFSET] is unpredictable after TIM_RING()_CTL1[CLK_SRC] changes or
                                                                  TIM_RING()_CTL1[ENA] transitions from 1 to 0, and must be reprogrammed before
                                                                  (re-) setting TIM_RING()_CTL1[ENA]. */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions. Minimum value is
-                                                                 256. Minimum time which this interval is recommended to represent is 1 usec, or
-                                                                 1 usec for every 64 entries in the bucket. whichever is greater. */
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles, GTI or PTP clocks, or GPIO transitions.
+                                                                 Minimum value is 256 for GPIO rings, 300 for GTI and PTP rings, and 512 for
+                                                                 SCLK rings. Minimum time which this interval is recommended to represent is
+                                                                 1 usec, or 1 usec for every 64 entries in the bucket, whichever is greater. */
 #else /* Word 0 - Little Endian */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions. Minimum value is
-                                                                 256. Minimum time which this interval is recommended to represent is 1 usec, or
-                                                                 1 usec for every 64 entries in the bucket. whichever is greater. */
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles, GTI or PTP clocks, or GPIO transitions.
+                                                                 Minimum value is 256 for GPIO rings, 300 for GTI and PTP rings, and 512 for
+                                                                 SCLK rings. Minimum time which this interval is recommended to represent is
+                                                                 1 usec, or 1 usec for every 64 entries in the bucket, whichever is greater. */
         uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_VRING()_REL
                                                                  for the position relative to current time.
 

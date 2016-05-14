@@ -147,6 +147,63 @@ typedef union
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
+        uint32_t isae                  : 1;  /**< [  0:  0](RO) I/O space access enable.
+                                                                 There are no I/O bars supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t isae                  : 1;  /**< [  0:  0](RO) I/O space access enable.
+                                                                 There are no I/O bars supported. */
+        uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t per                   : 1;  /**< [  6:  6](R/W) Parity error response. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t see                   : 1;  /**< [  8:  8](R/W) SERR# enable. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](R/W) INTx assertion disable. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO) INTx status. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t reserved_22           : 1;
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg001_s cn9; */
+    struct bdk_pciercx_cfg001_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t reserved_22           : 1;
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO) INTx status. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](R/W) INTx assertion disable. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t see                   : 1;  /**< [  8:  8](R/W) SERR# enable. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t per                   : 1;  /**< [  6:  6](R/W) Parity error response. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
+        uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
         uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable. */
 #else /* Word 0 - Little Endian */
         uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable. */
@@ -174,8 +231,64 @@ typedef union
         uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
         uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg001_s cn; */
+    } cn81xx;
+    /* struct bdk_pciercx_cfg001_cn81xx cn88xx; */
+    struct bdk_pciercx_cfg001_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t reserved_22           : 1;
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO) INTx status. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](R/W) INTx assertion disable. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t see                   : 1;  /**< [  8:  8](R/W) SERR# enable. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t per                   : 1;  /**< [  6:  6](R/W) Parity error response. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
+        uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
+        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable.
+                                                                 There are no I/O bars supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable.
+                                                                 There are no I/O bars supported. */
+        uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t per                   : 1;  /**< [  6:  6](R/W) Parity error response. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t see                   : 1;  /**< [  8:  8](R/W) SERR# enable. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](R/W) INTx assertion disable. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO) INTx status. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t reserved_22           : 1;
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pciercx_cfg001_t;
 
 static inline uint64_t BDK_PCIERCX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6411,41 +6524,27 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15_19        : 5;
-        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_7            : 1;
-        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
 #else /* Word 0 - Little Endian */
-        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_7            : 1;
-        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15_19        : 5;
-        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -6453,80 +6552,80 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l1ddtp                : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15           : 1;
-        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_7            : 1;
-        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
 #else /* Word 0 - Little Endian */
-        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_7            : 1;
-        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15           : 1;
-        uint32_t l1ddtp                : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn9;
-    /* struct bdk_pciercx_cfg089_cn9 cn81xx; */
-    /* struct bdk_pciercx_cfg089_cn9 cn88xx; */
-    struct bdk_pciercx_cfg089_cn83xx
+    struct bdk_pciercx_cfg089_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
         uint32_t reserved_23           : 1;
-        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l1ddtp                : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_15           : 1;
-        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
         uint32_t reserved_7            : 1;
-        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_7            : 1;
-        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_15           : 1;
-        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l1ddtp                : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_23           : 1;
-        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg089_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg089_cn9 cn83xx; */
 } bdk_pciercx_cfg089_t;
 
 static inline uint64_t BDK_PCIERCX_CFG089(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6562,81 +6661,81 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15           : 1;
-        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. How */
         uint32_t reserved_7            : 1;
-        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
 #else /* Word 0 - Little Endian */
-        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_7            : 1;
-        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. How */
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15           : 1;
-        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg090_s cn9; */
-    /* struct bdk_pciercx_cfg090_s cn81xx; */
-    /* struct bdk_pciercx_cfg090_s cn88xx; */
-    struct bdk_pciercx_cfg090_cn83xx
+    struct bdk_pciercx_cfg090_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
         uint32_t reserved_23           : 1;
-        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_15           : 1;
-        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. How */
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
         uint32_t reserved_7            : 1;
-        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_7            : 1;
-        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. How */
-        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_15           : 1;
-        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_23           : 1;
-        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg090_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg090_s cn83xx; */
 } bdk_pciercx_cfg090_t;
 
 static inline uint64_t BDK_PCIERCX_CFG090(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6672,81 +6771,81 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15           : 1;
-        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_7            : 1;
-        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
 #else /* Word 0 - Little Endian */
-        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_7            : 1;
-        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15           : 1;
-        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg091_s cn9; */
-    /* struct bdk_pciercx_cfg091_s cn81xx; */
-    /* struct bdk_pciercx_cfg091_s cn88xx; */
-    struct bdk_pciercx_cfg091_cn83xx
+    struct bdk_pciercx_cfg091_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
         uint32_t reserved_23           : 1;
-        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_15           : 1;
-        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
         uint32_t reserved_7            : 1;
-        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_7            : 1;
-        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_15           : 1;
-        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_23           : 1;
-        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg091_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg091_s cn83xx; */
 } bdk_pciercx_cfg091_t;
 
 static inline uint64_t BDK_PCIERCX_CFG091(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6782,81 +6881,81 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15           : 1;
-        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
         uint32_t reserved_7            : 1;
-        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
 #else /* Word 0 - Little Endian */
-        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_7            : 1;
-        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_15           : 1;
-        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
-        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_23           : 1;
-        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
-                                                                 the application must not change this field. */
-        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
-                                                                 However, the application must not change this field. */
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg092_s cn9; */
-    /* struct bdk_pciercx_cfg092_s cn81xx; */
-    /* struct bdk_pciercx_cfg092_s cn88xx; */
-    struct bdk_pciercx_cfg092_cn83xx
+    struct bdk_pciercx_cfg092_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
         uint32_t reserved_23           : 1;
-        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_15           : 1;
-        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
         uint32_t reserved_7            : 1;
-        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
-        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL/H) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL/H) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_7            : 1;
-        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL/H) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL/H) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_15           : 1;
-        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL/H) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL/H) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_23           : 1;
-        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. */
-        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR. */
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL/H) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_WR. However,
+                                                                 the application must not change this field. */
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL/H) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg092_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg092_s cn83xx; */
 } bdk_pciercx_cfg092_t;
 
 static inline uint64_t BDK_PCIERCX_CFG092(unsigned long a) __attribute__ ((pure, always_inline));
@@ -13027,7 +13126,7 @@ typedef union
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
+                                                                 indicates low swing. When set to 0, indicates full swing. */
         uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
         uint32_t reserved_8_16         : 9;
         uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
@@ -13048,7 +13147,7 @@ typedef union
         uint32_t reserved_8_16         : 9;
         uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
+                                                                 indicates low swing. When set to 0, indicates full swing. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
@@ -13068,7 +13167,7 @@ typedef union
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
+                                                                 indicates low swing. When set to 0, indicates full swing. */
         uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
         uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
         uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
@@ -13135,7 +13234,7 @@ typedef union
         uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
         uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates full swing. When set to 0, indicates low swing. */
+                                                                 indicates low swing. When set to 0, indicates full swing. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
@@ -13249,94 +13348,7 @@ typedef union
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_pciercx_cfg515_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_22_31        : 10;
-        uint32_t reserved_21           : 1;
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
-                                                                 1 = -3.5 dB.
-                                                                 0 = -6 dB. */
-        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
-                                                                 with the compliance receive bit assert (equal to 1). */
-        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates low swing. When set to 0, indicates full swing. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
-        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
-        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
-                                                                 physical lane is connected to logical Lane0 by the flip
-                                                                 operation performed in detect.
-                                                                   0x0 = Reserved.
-                                                                   0x1 = Connect logical Lane0 to physical lane 1.
-                                                                   0x2 = Connect logical Lane0 to physical lane 3.
-                                                                   0x3 = Connect logical Lane0 to physical lane 7.
-                                                                   0x4 = Connect logical Lane0 to physical lane 15.
-                                                                   0x5 - 0x7 = Reserved. */
-        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
-                                                                 lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
-                                                                 detect a receiver. Indicates the number of lanes to check for
-                                                                 exit from electrical idle in Polling.Active and L2.Idle.
-                                                                 0x1 = 1 lane.
-                                                                 0x2 = 2 lanes.
-                                                                 0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
-        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
-                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
-                                                                 PHY's ability to recover synchronization after a low power state.
-
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
-#else /* Word 0 - Little Endian */
-        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
-                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
-                                                                 PHY's ability to recover synchronization after a low power state.
-
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
-        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
-                                                                 lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
-                                                                 detect a receiver. Indicates the number of lanes to check for
-                                                                 exit from electrical idle in Polling.Active and L2.Idle.
-                                                                 0x1 = 1 lane.
-                                                                 0x2 = 2 lanes.
-                                                                 0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
-        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
-                                                                 physical lane is connected to logical Lane0 by the flip
-                                                                 operation performed in detect.
-                                                                   0x0 = Reserved.
-                                                                   0x1 = Connect logical Lane0 to physical lane 1.
-                                                                   0x2 = Connect logical Lane0 to physical lane 3.
-                                                                   0x3 = Connect logical Lane0 to physical lane 7.
-                                                                   0x4 = Connect logical Lane0 to physical lane 15.
-                                                                   0x5 - 0x7 = Reserved. */
-        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
-        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
-                                                                 indicates low swing. When set to 0, indicates full swing. */
-        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
-                                                                 with the compliance receive bit assert (equal to 1). */
-        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
-                                                                 1 = -3.5 dB.
-                                                                 0 = -6 dB. */
-        uint32_t reserved_21           : 1;
-        uint32_t reserved_22_31        : 10;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg515_cn9 cn83xx; */
 } bdk_pciercx_cfg515_t;
 
 static inline uint64_t BDK_PCIERCX_CFG515(unsigned long a) __attribute__ ((pure, always_inline));

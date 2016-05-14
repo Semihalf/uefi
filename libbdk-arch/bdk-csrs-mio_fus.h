@@ -69,6 +69,8 @@
  * Enumerates the fuse numbers.
  */
 #define BDK_MIO_FUS_FUSE_NUM_E_BAR2_SZ_CONF (0x54)
+#define BDK_MIO_FUS_FUSE_NUM_E_BGX2_DIS (0xe5)
+#define BDK_MIO_FUS_FUSE_NUM_E_BGX3_DIS (0xe6)
 #define BDK_MIO_FUS_FUSE_NUM_E_BGX_DISX(a) (0x6c + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(a) (0x40 + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_CMB_RCLK_BYP_SELECT (0x266)
@@ -77,6 +79,7 @@
 #define BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(a) (0x684 + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(a) (0x6b4 + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(a) (0x680 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_DDF_DIS (0xe4)
 #define BDK_MIO_FUS_FUSE_NUM_E_DESX(a) (0x3c0 + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_DFA_INFO_CLMX(a) (0x5e + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_DFA_INFO_DTEX(a) (0x5b + (a))
@@ -134,6 +137,7 @@
 #define BDK_MIO_FUS_FUSE_NUM_E_RSVD183X(a) (0xb7 + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_RSVD189X(a) (0xbd + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_RSVD228X(a) (0xe4 + (a))
+#define BDK_MIO_FUS_FUSE_NUM_E_RSVD231X(a) (0xe7 + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_RSVD3056X(a) (0xbf0 + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_RSVD570X(a) (0x23a + (a))
 #define BDK_MIO_FUS_FUSE_NUM_E_RSVD628X(a) (0x274 + (a))
@@ -284,14 +288,18 @@ typedef union
                                                                  0x2 = RTL simulator.
                                                                  0x3 = ASIM.
                                                                  0x4-0x7 = reserved. */
-        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Reserved.
+                                                                 Internal:
+                                                                 Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling. */
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
                                                                  Internal:
-                                                                 fuse[99]. */
+                                                                 fuse[99]. Fuse information - Ignore trusted-mode disable. */
         uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Reserved.
+                                                                 Internal:
+                                                                 Fuse information - Power limit. */
         uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
         uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
                                                                  Internal:
@@ -347,18 +355,26 @@ typedef union
                                                                    <11> = SATA4-5 disable.
                                                                    <12> = Reserved. */
         uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM disable:
-                                                                   <6> = PEM0 disable.
-                                                                   <7> = PEM1 disable
-                                                                   <8> = PEM2-3 disable. */
+                                                                   <6> = PEM0-1 disable.
+                                                                   <7> = PEM2 disable
+                                                                   <8> = PEM3 disable. */
         uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
-        uint64_t reserved_0_4          : 5;
+        uint64_t tim_dis               : 1;  /**< [  4:  4](RO) Fuse information TIM disable. */
+        uint64_t bgx3_dis              : 1;  /**< [  3:  3](RO) Fuse information BGX3 disable. */
+        uint64_t bgx2_dis              : 1;  /**< [  2:  2](RO) Fuse information BGX2 disable. */
+        uint64_t ddf_dis               : 1;  /**< [  1:  1](RO) Fuse information DDF disable. */
+        uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_4          : 5;
+        uint64_t reserved_0            : 1;
+        uint64_t ddf_dis               : 1;  /**< [  1:  1](RO) Fuse information DDF disable. */
+        uint64_t bgx2_dis              : 1;  /**< [  2:  2](RO) Fuse information BGX2 disable. */
+        uint64_t bgx3_dis              : 1;  /**< [  3:  3](RO) Fuse information BGX3 disable. */
+        uint64_t tim_dis               : 1;  /**< [  4:  4](RO) Fuse information TIM disable. */
         uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
         uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM disable:
-                                                                   <6> = PEM0 disable.
-                                                                   <7> = PEM1 disable
-                                                                   <8> = PEM2-3 disable. */
+                                                                   <6> = PEM0-1 disable.
+                                                                   <7> = PEM2 disable
+                                                                   <8> = PEM3 disable. */
         uint64_t sata_dis              : 4;  /**< [ 12:  9](RO) Fuse information - SATA disable:
                                                                    <9> = SATA0-1 disable.
                                                                    <10> = SATA2-3 disable.
@@ -413,12 +429,16 @@ typedef union
                                                                  Internal:
                                                                  Tied to 0. */
         uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
-        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Reserved.
                                                                  Internal:
-                                                                 fuse[99]. */
-        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+                                                                 Fuse information - Power limit. */
+        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
+                                                                 Internal:
+                                                                 fuse[99]. Fuse information - Ignore trusted-mode disable. */
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Reserved.
+                                                                 Internal:
+                                                                 Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling. */
         uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
@@ -443,11 +463,13 @@ typedef union
                                                                  0x3 = ASIM.
                                                                  0x4-0x7 = reserved. */
         uint64_t reserved_48_55        : 8;
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
                                                                  Internal:
-                                                                 fuse[99]. */
+                                                                 fuse[99]. Fuse information - Ignore trusted-mode disable. */
         uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Reserved.
+                                                                 Internal:
+                                                                 Fuse information - Power limit. */
         uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
         uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
                                                                  Internal:
@@ -561,11 +583,13 @@ typedef union
                                                                  Internal:
                                                                  Tied to 0. */
         uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
-        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Reserved.
                                                                  Internal:
-                                                                 fuse[99]. */
+                                                                 Fuse information - Power limit. */
+        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
+                                                                 Internal:
+                                                                 fuse[99]. Fuse information - Ignore trusted-mode disable. */
         uint64_t reserved_48_55        : 8;
         uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
                                                                  Provides software a means of determining the platform at run time.
@@ -589,21 +613,25 @@ typedef union
                                                                  0x2 = RTL simulator.
                                                                  0x3 = ASIM.
                                                                  0x4-0x7 = reserved. */
-        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Reserved.
+                                                                 Internal:
+                                                                 Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling. */
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
                                                                  Internal:
-                                                                 fuse[99]. */
+                                                                 fuse[99]. Fuse information - Ignore trusted-mode disable. */
         uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Reserved.
+                                                                 Internal:
+                                                                 Fuse information - Power limit. */
         uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
         uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
                                                                  Internal:
                                                                  Tied to 0. */
         uint64_t raid_en               : 1;  /**< [ 32: 32](RO) Fuse information - RAID enabled. */
         uint64_t reserved_31           : 1;
-        uint64_t lmc_mode32            : 1;  /**< [ 30: 30](RO) DRAM controller is limited to 32/36 bit wide parts.
+        uint64_t lmc_mode32            : 1;  /**< [ 30: 30](RO) DRAM controller is limited to 32/36 bit wide parts.  In CN80XX always set.
                                                                  Internal:
                                                                  30 = fuse[75]. */
         uint64_t reserved_29           : 1;
@@ -661,11 +689,11 @@ typedef union
                                                                    <6> = PEM0 disable.
                                                                    <7> = PEM1 disable
                                                                    <8> = PEM2 disable. */
-        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
+        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. LMC1 not present in CN80XX/CN81XX, so clear. */
         uint64_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_4          : 5;
-        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. */
+        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC1 disabled. LMC1 not present in CN80XX/CN81XX, so clear. */
         uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM disable:
                                                                    <6> = PEM0 disable.
                                                                    <7> = PEM1 disable
@@ -721,7 +749,7 @@ typedef union
         uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
         uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
         uint64_t reserved_29           : 1;
-        uint64_t lmc_mode32            : 1;  /**< [ 30: 30](RO) DRAM controller is limited to 32/36 bit wide parts.
+        uint64_t lmc_mode32            : 1;  /**< [ 30: 30](RO) DRAM controller is limited to 32/36 bit wide parts.  In CN80XX always set.
                                                                  Internal:
                                                                  30 = fuse[75]. */
         uint64_t reserved_31           : 1;
@@ -730,12 +758,16 @@ typedef union
                                                                  Internal:
                                                                  Tied to 0. */
         uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
-        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Reserved.
                                                                  Internal:
-                                                                 fuse[99]. */
-        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+                                                                 Fuse information - Power limit. */
+        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
+                                                                 Internal:
+                                                                 fuse[99]. Fuse information - Ignore trusted-mode disable. */
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Reserved.
+                                                                 Internal:
+                                                                 Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling. */
         uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
@@ -763,11 +795,13 @@ typedef union
         uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling. */
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
                                                                  Internal:
-                                                                 fuse[99]. */
+                                                                 fuse[99]. Fuse information - Ignore trusted-mode disable. */
         uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Reserved.
+                                                                 Internal:
+                                                                 Fuse information - Power limit. */
         uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
         uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
                                                                  Internal:
@@ -881,11 +915,13 @@ typedef union
                                                                  Internal:
                                                                  Tied to 0. */
         uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
-        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
-        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
-        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Reserved.
                                                                  Internal:
-                                                                 fuse[99]. */
+                                                                 Fuse information - Power limit. */
+        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
+                                                                 Internal:
+                                                                 fuse[99]. Fuse information - Ignore trusted-mode disable. */
         uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling. */
@@ -933,7 +969,7 @@ typedef union
         uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
         uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
         uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
-        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
+        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Fuse information - Select alternate PLL matrix. */
         uint64_t pll_bwadj_denom       : 2;  /**< [ 39: 38](RO) Select CLKF denominator for BWADJ value.
                                                                     0x0 = Selects CLKF/4.
                                                                     0x1 = Selects CLKF/2.
@@ -1009,7 +1045,7 @@ typedef union
                                                                     0x0 = Selects CLKF/4.
                                                                     0x1 = Selects CLKF/2.
                                                                     0x2 = Selects CLKF/8. */
-        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
+        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Fuse information - Select alternate PLL matrix. */
         uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
         uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
         uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
@@ -1030,7 +1066,7 @@ typedef union
         uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
         uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
         uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
-        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
+        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Fuse information - Select alternate PLL matrix. */
         uint64_t pll_bwadj_denom       : 2;  /**< [ 39: 38](RO) Select CLKF denominator for BWADJ value.
                                                                     0x0 = Selects CLKF/4.
                                                                     0x1 = Selects CLKF/2.
@@ -1106,7 +1142,7 @@ typedef union
                                                                     0x0 = Selects CLKF/4.
                                                                     0x1 = Selects CLKF/2.
                                                                     0x2 = Selects CLKF/8. */
-        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
+        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Fuse information - Select alternate PLL matrix. */
         uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
         uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
         uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
@@ -1126,7 +1162,7 @@ typedef union
         uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
         uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
         uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
-        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
+        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Fuse information - Select alternate PLL matrix. */
         uint64_t pll_bwadj_denom       : 2;  /**< [ 39: 38](RO) Select CLKF denominator for BWADJ value.
                                                                     0x0 = Selects CLKF/4.
                                                                     0x1 = Selects CLKF/2.
@@ -1198,7 +1234,7 @@ typedef union
                                                                     0x0 = Selects CLKF/4.
                                                                     0x1 = Selects CLKF/2.
                                                                     0x2 = Selects CLKF/8. */
-        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
+        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Fuse information - Select alternate PLL matrix. */
         uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
         uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
         uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
@@ -1357,6 +1393,8 @@ static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void)
  * This register contains PLL status and controls for the MSC_CLKOUT and
  * MSC_SYS_CLKOUT pins.  The fields are reset to zero on a cold reset.
  * the values are preserved on both a warm and soft reset.
+ * MSC_CLKOUT and MSC_SYS_CLKOUT are for diagnostic use only and must
+ * not be used to clock external components.
  */
 typedef union
 {

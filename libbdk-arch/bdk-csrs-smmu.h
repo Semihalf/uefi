@@ -8039,8 +8039,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_CAPR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_CAPR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
-        return 0x830000100d88ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
+        return 0x830000100d88ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
     __bdk_csr_fatal("SMMUX_PMCGX_CAPR", 2, a, b, 0, 0);
 }
 
@@ -8073,8 +8073,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_CNTENCLR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_CNTENCLR0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
-        return 0x830000100c20ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
+        return 0x830000100c20ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
     __bdk_csr_fatal("SMMUX_PMCGX_CNTENCLR0", 2, a, b, 0, 0);
 }
 
@@ -8107,8 +8107,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_CNTENSET0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_CNTENSET0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
-        return 0x830000100c00ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
+        return 0x830000100c00ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
     __bdk_csr_fatal("SMMUX_PMCGX_CNTENSET0", 2, a, b, 0, 0);
 }
 
@@ -8141,8 +8141,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_EVCNTRX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_EVCNTRX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1) && (c<=63)))
-        return 0x830000100000ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1) + 8ll * ((c) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3) && (c<=1)))
+        return 0x830000100000ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_EVCNTRX", 3, a, b, c, 0);
 }
 
@@ -8233,8 +8233,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_EVTYPERX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_EVTYPERX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1) && (c<=63)))
-        return 0x830000100400ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1) + 4ll * ((c) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3) && (c<=1)))
+        return 0x830000100400ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3) + 4ll * ((c) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_EVTYPERX", 3, a, b, c, 0);
 }
 
@@ -8267,8 +8267,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_INTENCLR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_INTENCLR0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
-        return 0x830000100c60ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
+        return 0x830000100c60ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
     __bdk_csr_fatal("SMMUX_PMCGX_INTENCLR0", 2, a, b, 0, 0);
 }
 
@@ -8301,8 +8301,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_INTENSET0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_INTENSET0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
-        return 0x830000100c40ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
+        return 0x830000100c40ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
     __bdk_csr_fatal("SMMUX_PMCGX_INTENSET0", 2, a, b, 0, 0);
 }
 
@@ -8335,8 +8335,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_OVSCLR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_OVSCLR0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
-        return 0x830000100c80ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
+        return 0x830000100c80ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
     __bdk_csr_fatal("SMMUX_PMCGX_OVSCLR0", 2, a, b, 0, 0);
 }
 
@@ -8369,8 +8369,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_OVSSET0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_OVSSET0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
-        return 0x830000100cc0ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
+        return 0x830000100cc0ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
     __bdk_csr_fatal("SMMUX_PMCGX_OVSSET0", 2, a, b, 0, 0);
 }
 
@@ -8431,8 +8431,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_SCR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_SCR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
-        return 0x830000100df8ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3)))
+        return 0x830000100df8ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
     __bdk_csr_fatal("SMMUX_PMCGX_SCR", 2, a, b, 0, 0);
 }
 
@@ -8501,8 +8501,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_SMRX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_SMRX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1) && (c<=63)))
-        return 0x830000100a00ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1) + 4ll * ((c) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3) && (c<=1)))
+        return 0x830000100a00ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3) + 4ll * ((c) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_SMRX", 3, a, b, c, 0);
 }
 
@@ -8535,8 +8535,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_PMCGX_SVRX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PMCGX_SVRX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1) && (c<=63)))
-        return 0x830000100600ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x1) + 8ll * ((c) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=3) && (c<=1)))
+        return 0x830000100600ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("SMMUX_PMCGX_SVRX", 3, a, b, c, 0);
 }
 

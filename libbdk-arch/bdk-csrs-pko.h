@@ -10002,11 +10002,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t fillb_sm              : 5;  /**< [  8:  4](RO/H) Fill buffer state machine state. */
-        uint64_t reserved_3            : 1;
-        uint64_t iobp0_credit_cntr     : 3;  /**< [  2:  0](RO/H) IOBP0 read request credit counter. */
+        uint64_t credit_cntr           : 4;  /**< [  3:  0](RO/H) PKO_PDM_NCB_PDMP_LD read request credit counter. */
 #else /* Word 0 - Little Endian */
-        uint64_t iobp0_credit_cntr     : 3;  /**< [  2:  0](RO/H) IOBP0 read request credit counter. */
-        uint64_t reserved_3            : 1;
+        uint64_t credit_cntr           : 4;  /**< [  3:  0](RO/H) PKO_PDM_NCB_PDMP_LD read request credit counter. */
         uint64_t fillb_sm              : 5;  /**< [  8:  4](RO/H) Fill buffer state machine state. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */

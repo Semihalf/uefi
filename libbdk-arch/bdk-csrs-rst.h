@@ -812,7 +812,11 @@ typedef union
         uint64_t reserved_11_63        : 53;
         uint64_t pf_flr_chip           : 1;  /**< [ 10: 10](R/W) Controls whether corresponding controller PF Function Level Reset causes a chip warm
                                                                  reset like CHIP_RESET_L. A warm/soft reset does not change this field.
-                                                                 On cold reset, this field is initialized to 0. */
+                                                                 On cold reset, this field is initialized as follows:
+
+                                                                 _ 0 when RST_CTL()[HOST_MODE] = 1.
+
+                                                                 _ 1 when RST_CTL()[HOST_MODE] = 0. */
         uint64_t prst_link             : 1;  /**< [  9:  9](R/W) Controls whether corresponding controller link-down or hot-reset causes the assertion of
                                                                  RST_SOFT_PRST()[SOFT_PRST].
                                                                  A warm/soft reset does not change this field. On cold reset, this field is initialized to
@@ -932,7 +936,11 @@ typedef union
                                                                  0. */
         uint64_t pf_flr_chip           : 1;  /**< [ 10: 10](R/W) Controls whether corresponding controller PF Function Level Reset causes a chip warm
                                                                  reset like CHIP_RESET_L. A warm/soft reset does not change this field.
-                                                                 On cold reset, this field is initialized to 0. */
+                                                                 On cold reset, this field is initialized as follows:
+
+                                                                 _ 0 when RST_CTL()[HOST_MODE] = 1.
+
+                                                                 _ 1 when RST_CTL()[HOST_MODE] = 0. */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
