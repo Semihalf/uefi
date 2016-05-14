@@ -944,8 +944,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     __bdk_qlm_errata_gser_26636(node, qlm, baud_mhz);
 
     /* Errata (GSER-27140) SERDES temperature drift sensitivity in receiver */
-    int channel_loss = bdk_config_get_int(BDK_CONFIG_QLM_CHANNEL_LOSS, node, qlm);
-    __bdk_qlm_errata_gser_27140(node, qlm, baud_mhz, channel_loss);
+    //int channel_loss = bdk_config_get_int(BDK_CONFIG_QLM_CHANNEL_LOSS, node, qlm);
+    //__bdk_qlm_errata_gser_27140(node, qlm, baud_mhz, channel_loss);
 
     /* Errata (GSER-27882) GSER 10GBASE-KR Transmit Equalizer */
     /* Applied in bdk-if-bgx.c */
