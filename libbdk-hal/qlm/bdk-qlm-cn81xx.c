@@ -58,7 +58,13 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                         else if (gserx_cfg.s.bgx_dual) /* 2 lanes together */
                             qlm = (index >= 1) ? 1 : 0;
                         else /* All lanes independent */
-                            qlm = (index >= 2) ? 1 : 0;
+                        {
+                            bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, 0);
+                            if (mode == BDK_QLM_MODE_QSGMII_4X1)
+                                qlm = 0;
+                            else
+                                qlm = (index >= 2) ? 1 : 0;
+                        }
                     }
                     else
                         qlm = 1;
@@ -76,7 +82,13 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                         else if (gserx_cfg.s.bgx_dual) /* 2 lanes together */
                             qlm = (index >= 1) ? 3 : 2;
                         else /* All lanes independent */
-                            qlm = (index >= 2) ? 3 : 2;
+                        {
+                            bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, 2);
+                            if (mode == BDK_QLM_MODE_QSGMII_4X1)
+                                qlm = 2;
+                            else
+                                qlm = (index >= 2) ? 3 : 2;
+                        }
                     }
                     else
                         qlm = 3;
