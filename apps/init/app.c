@@ -317,6 +317,13 @@ int main(int argc, const char **argv)
     bdk_boot_twsi();
     bdk_boot_mdio();
 
+    /* Program Vetesse PHYs */
+    for (bdk_node_t n = BDK_NODE_0; n < BDK_NUMA_MAX_NODES; n++)
+    {
+        if (bdk_numa_exists(n))
+            bdk_if_phy_vetesse_setup(n);
+    }
+
     /* Poke the watchdog */
     bdk_watchdog_poke();
 

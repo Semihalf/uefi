@@ -203,6 +203,7 @@ extern const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle);
 extern bdk_if_link_t __bdk_if_phy_get(bdk_node_t dev_node, int phy_addr);
 extern int bdk_if_get_queue_depth(bdk_if_handle_t handle);
 extern int bdk_if_link_wait_all(uint64_t timeout_us);
+extern int bdk_if_phy_vetesse_setup(bdk_node_t node);
 
 extern int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet);
 extern void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_t receiver, void *arg);
