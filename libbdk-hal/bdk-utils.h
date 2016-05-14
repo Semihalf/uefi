@@ -82,6 +82,7 @@ static inline int64_t bdk_extracts(uint64_t input, int lsb, int width)
  *
  * @return Number with inserted bits
  */
+static inline uint64_t bdk_insert(uint64_t original, uint64_t input, int lsb, int width) __attribute__((always_inline));
 static inline uint64_t bdk_insert(uint64_t original, uint64_t input, int lsb, int width)
 {
     uint64_t mask = bdk_build_mask(width);
