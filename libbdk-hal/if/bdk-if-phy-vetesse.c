@@ -129,7 +129,6 @@ static uint8_t patch_arr[] = {
     0xc2, 0x04, 0xc2, 0x03, 0x22, 0x22
 };
 
-
 /**
  * Setup Vitesse PHYs
  * This function sets up one port in a Vitesse VSC8574 for
@@ -163,7 +162,7 @@ static void setup_vitesse_phy(bdk_node_t node, int mdio_bus, int phy_addr, bool 
     bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0);
     // Reg23, 10:8 Select copper
     int reg23 = bdk_mdio_read(node, mdio_bus, phy_addr, 23);
-    reg23 = bdk_insert(23, 0, 8, 3);
+    reg23 = bdk_insert(reg23, 0, 8, 3);
     bdk_mdio_write(node, mdio_bus, phy_addr, 23, reg23);
     // Reg0, Reset
     int reg0 = bdk_mdio_read(node, mdio_bus, phy_addr, 0);
@@ -177,15 +176,18 @@ static void setup_vitesse_phy(bdk_node_t node, int mdio_bus, int phy_addr, bool 
     // Near end loopback (Thunder side)
     if (LOOP_INTERNAL)
     {
-        reg0 = bdk_mdio_read(node, mdio_bus, phy_addr, 0);
-        reg0 = bdk_insert(reg0, 1, 14, 1);
-        bdk_mdio_write(node, mdio_bus, phy_addr, 0, reg0);
+        for (int port = 0; port < 4; port++)
+        {
+            reg0 = bdk_mdio_read(node, mdio_bus, phy_addr + port, 0);
+            reg0 = bdk_insert(reg0, 1, 14, 1);
+            bdk_mdio_write(node, mdio_bus, phy_addr + port, 0, reg0);
+        }
     }
 
     // Far end loopback (External side)
     if (LOOP_EXTERNAL)
     {
-        for (int port=0; port < 4; port++)
+        for (int port = 0; port < 4; port++)
         {
             reg23 = bdk_mdio_read(node, mdio_bus, phy_addr + port, 23);
             reg23 = bdk_insert(reg23, 1, 3, 1);
@@ -216,7 +218,7 @@ static void wr_masked(bdk_node_t node, int mdio_bus, int phy_addr, int reg, int 
     int vmask = value & mask;
     int newv = old & nmask;
     newv = newv | vmask;
-    bdk_mdio_write(node, mdio_bus, phy_addr, reg, value);
+    bdk_mdio_write(node, mdio_bus, phy_addr, reg, newv);
 }
 
 static void vitesse_program(bdk_node_t node, int mdio_bus, int phy_addr)
@@ -234,6 +236,8 @@ static void vitesse_program(bdk_node_t node, int mdio_bus, int phy_addr)
         reg18g = bdk_mdio_read(node, mdio_bus, phy_addr, 18);
         timeout = timeout - 1;
     }
+    if (timeout == 0)
+        bdk_error("Vetesse: Timeout waiting for complete\n");
 
     bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0x0000);
     bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0x0010);
@@ -278,6 +282,8 @@ static void vitesse_program(bdk_node_t node, int mdio_bus, int phy_addr)
         reg18g = bdk_mdio_read(node, mdio_bus, phy_addr, 18);
         timeout = timeout - 1;
     }
+    if (timeout == 0)
+        bdk_error("Vetesse: Timeout waiting for complete\n");
 
     bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0x0001);
 
