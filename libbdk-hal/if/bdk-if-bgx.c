@@ -524,6 +524,7 @@ static int sgmii_link(bdk_if_handle_t handle)
         if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
             BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_PCS_MRX_STATUS(bgx_block, bgx_index), an_cpt, ==, 1, 10000))
         {
+            BDK_TRACE(BGX, "%s: Waiting for SGMII auto-neg to finish\n", handle->name);
             return -1;
         }
     }
