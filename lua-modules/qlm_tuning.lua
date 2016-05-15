@@ -241,7 +241,10 @@ local function do_prbs(mode)
         end
         if key and (key >= '0') and (key <= '3') then
             local lane = tonumber(key)
-            cavium.c.bdk_qlm_eye_display(menu.node, qlm_tuning.qlm, lane, 1, nil)
+            local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_tuning.qlm)
+            if lane < num_lanes then
+                cavium.c.bdk_qlm_eye_display(menu.node, qlm_tuning.qlm, lane, 1, nil)
+            end
         end
     until (key == 'x') or (key == 'X') or (key == 'q') or (key == 'Q')
 
