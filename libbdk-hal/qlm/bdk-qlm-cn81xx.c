@@ -886,40 +886,17 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* Apply any custom tuning */
     __bdk_qlm_tune(node, qlm, mode, baud_mhz);
 
-    /* If we're setting up the first QLM of a PCIe x4 interface, go ahead and
-       setup the other inteface automatically */
-    if (mode == BDK_QLM_MODE_PCIE_1X4)
+    /* Some modes require 4 lanes, which spans DLMs. For these modes, we need
+       to setup the second DLM at the same time we setup the first. The second
+       DLM also must use the same reference clock as the first */
+    bool paired_dlm = ((qlm & 1) == 0) && /* We're on the first (even) DLM */
+        ((mode == BDK_QLM_MODE_PCIE_1X4) || /* We're using a 4 lane mode */
+         (mode == BDK_QLM_MODE_XAUI_1X4) ||
+         (mode == BDK_QLM_MODE_XLAUI_1X4) ||
+         (mode == BDK_QLM_MODE_40G_KR4_1X4));
+    if (paired_dlm)
     {
-        switch (qlm)
-        {
-            case 0: /* PEM0 across DLM0-1 */
-            case 2: /* PEM1 across DLM2-3 */
-                /* Use the same reference clock for the second QLM */
-                BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
-                    BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
-                return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
-        }
-    }
-
-    /* If we're setting up the first DLM of a 4 lane interface on DLM0, go
-       ahead and setup the other inteface automatically */
-    if ((qlm == 0) && ((mode == BDK_QLM_MODE_XAUI_1X4) ||
-                       (mode == BDK_QLM_MODE_XLAUI_1X4) ||
-                       (mode == BDK_QLM_MODE_40G_KR4_1X4)))
-    {
-        /* Use the same reference clock for the second DLM */
-        BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
-            BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
-        return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
-    }
-
-    /* If we're setting up the first DLM of a 4 lane interface on DLM2, go
-       ahead and setup the other inteface automatically */
-    if ((qlm == 2) && ((mode == BDK_QLM_MODE_XAUI_1X4) ||
-                       (mode == BDK_QLM_MODE_XLAUI_1X4) ||
-                       (mode == BDK_QLM_MODE_40G_KR4_1X4)))
-    {
-        /* Use the same reference clock for the second DLM */
+        /* Use the same reference clock for the second QLM */
         BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
             BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
         return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
