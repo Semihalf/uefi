@@ -15,6 +15,7 @@ bmc_password = "admin"
 #
 class Board:
     def __init__(self, console, logObject):
+        self.chip_model = None
         self.logging = logObject
         self.console = connection.GenericPort(console, self.logging)
 
@@ -114,10 +115,14 @@ class Board_EVB(Board):
         for m in mcu_list:
             m.sendEcho("echo mcu_responded")
             m.match("mcu_responded")
-            m.waitforRE("EBB88.. MCU Command>")
+            result = m.waitforRE("EBB[0-9]{4} MCU Command>")
+            if "EBB81" in result:
+                self.chip_model = "CN81XX"
+            else:
+                self.chip_model = "CN88XX"
             m.sendEcho("P -f -r")
         for m in mcu_list:
-            m.waitforRE("EBB88.. MCU Command>", timeout=15)
+            m.waitforRE("EBB[0-9]{4} MCU Command>", timeout=15)
 
 #
 # Class for controlling the CRB-1S
@@ -125,6 +130,7 @@ class Board_EVB(Board):
 class Board_CRB_1S(Board):
     def __init__(self, console, bmc, logObject):
         Board.__init__(self, console, logObject)
+        self.chip_model = "CN88XX"
         self.bmc = bmc
         self.multinode = False
 
@@ -145,6 +151,7 @@ class Board_CRB_1S(Board):
 class Board_CRB_2S(Board):
     def __init__(self, console, bmc, logObject):
         Board.__init__(self, console, logObject)
+        self.chip_model = "CN88XX"
         self.bmc = bmc
         self.multinode = True
 

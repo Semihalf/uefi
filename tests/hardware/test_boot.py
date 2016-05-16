@@ -16,14 +16,15 @@ def wait_for_bootstub_messages(cnx):
     cnx.matchRE("Board Model:    .+\n")
     cnx.matchRE("Board Revision: .+\n")
     cnx.matchRE("Board Serial:   .+\n")
-    cnx.match("Node:  0")
-    try:
-        cnx.match("(Fixed)")
-    except:
-        pass
-    cnx.matchRE("Chip:  0xa1 Pass [1-7]\\.[0-7]")
+    if cnx.chip_model == "CN88XX":
+        cnx.match("Node:  0")
+        try:
+            cnx.match("(Fixed)")
+        except:
+            pass
+    cnx.matchRE("Chip:  0xa[1-9] Pass [1-7]\\.[0-7]")
     cnx.matchRE("SKU:   CN[0-9]+-[0-9]+BG[0-9]+-[A-Z]+(-PR)?(-[Y-Z][0-8]*)?-G")
-    cnx.match("L2:    16384 KB")
+    cnx.matchRE("L2:    [0-9]+ KB")
     cnx.matchRE("RCLK:  [0-9]+ Mhz")
     cnx.matchRE("SCLK:  [0-9]+ Mhz")
     cnx.match("Boot:  SPI24(5)")
@@ -32,7 +33,8 @@ def wait_for_bootstub_messages(cnx):
     except:
         cnx.match("VRM:   Enabled")
     cnx.match("Trust: Disabled, Non-secure Boot")
-    cnx.matchRE("CCPI: .+\n")
+    if cnx.chip_model == "CN88XX":
+        cnx.matchRE("CCPI: .+\n")
     cnx.match("Press 'B' within 10 seconds for boot menu")
     cnx.write("B")
 
@@ -64,9 +66,10 @@ def wait_for_bootstub_messages(cnx):
     cnx.match("===========")
     cnx.matchRE("BDK Version: .+\n")
     cnx.matchRE("N0.LMC0 Configuration Completed: [0-9]+ MB", timeout=30)
-    cnx.matchRE("N0.LMC1 Configuration Completed: [0-9]+ MB")
-    cnx.matchRE("N0.LMC2 Configuration Completed: [0-9]+ MB")
-    cnx.matchRE("N0.LMC3 Configuration Completed: [0-9]+ MB")
+    if cnx.chip_model == "CN88XX":
+        cnx.matchRE("N0.LMC1 Configuration Completed: [0-9]+ MB")
+        cnx.matchRE("N0.LMC2 Configuration Completed: [0-9]+ MB")
+        cnx.matchRE("N0.LMC3 Configuration Completed: [0-9]+ MB")
     cnx.matchRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=60)
     try:
         cnx.match("Starting CCPI links")
@@ -80,9 +83,9 @@ def wait_for_bootstub_messages(cnx):
             cnx.match("(Fixed)")
         except:
             pass
-        cnx.matchRE("Chip:  0xa1 Pass [1-2]\\.[0-1]")
+        cnx.matchRE("Chip:  0xa[1-9] Pass [1-2]\\.[0-1]")
         cnx.matchRE("SKU:   CN[0-9]+-[0-9]+BG[0-9]+-[A-Z]+(-PR)?(-[Y-Z][0-8]*)?-G")
-        cnx.match("L2:    16384 KB")
+        cnx.matchRE("L2:    [0-9]+ KB")
         cnx.matchRE("RCLK:  [0-9]+ Mhz")
         cnx.matchRE("SCLK:  [0-9]+ Mhz")
         cnx.match("Boot:  SPI24(5)")
