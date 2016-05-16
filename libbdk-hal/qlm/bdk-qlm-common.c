@@ -934,7 +934,7 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
                     break;
                 case 0x1100: /* QSGMII */
                     qlm_mode = BDK_QLM_MODE_QSGMII_4X1;
-                    use_ref = REF_100MHZ;
+                    use_ref = REF_156MHZ;
                     break;
                 case 0x2000: /* XAUI */
                     qlm_mode = BDK_QLM_MODE_XAUI_1X4;
