@@ -32,6 +32,7 @@ local PCICONFIG_INT_LINE            = 0x3c
 local PCICONFIG_INT_PIN             = 0x3d
 local PCICONFIG_MIN_GNT             = 0x3e
 local PCICONFIG_MAX_LAT             = 0x3f
+local PCICONFIG_E_CAP_HDR           = 0x100
 
 -- Config registers for bridges/switches
 local PCICONFIG_PRIMARY_BUS         = 0x18
@@ -176,6 +177,40 @@ local function create_device(root, bus, deviceid, func)
     end
 
     --
+    -- Retrieve next device pointer from ari chain if there is one
+    --
+    function newdev:ari_next()
+        local has_pcie = false
+        local cap_loc = self:read8(PCICONFIG_CAP_PTR)
+        while (cap_loc ~= 0) do
+            local cap_id = self:read8(cap_loc)
+            local cap_next = self:read8(cap_loc + 1)
+            if cap_id == 0x10 then
+                has_pcie = true
+                break
+            end
+            cap_loc = cap_next
+        end
+        if has_pcie then
+            cap_loc = PCICONFIG_E_CAP_HDR
+            while (cap_loc ~= 0) do
+                local cap = self:read32(cap_loc)
+                local cap_id = bit64.bextract(cap, 0, 15)
+                local cap_next = bit64.bextract(cap, 20, 31)
+                if cap_id == 0xe then
+                    local ari_cap_reg = self:read16(cap_loc+4)
+                    local ari_cap_next = bit64.bextract(ari_cap_reg, 8, 15)
+                    local next_dev = bit64.bextract(ari_cap_next, 3, 7)
+                    local next_func = bit64.bextract(ari_cap_next, 0, 2)
+                    return next_dev,next_func
+                end
+                cap_loc = cap_next
+            end
+        end
+        return nil,nil
+    end
+
+    --
     -- Scan for devices behind this one on a subordinate bus. The scan is
     -- recursive.
     --
@@ -193,6 +228,23 @@ local function create_device(root, bus, deviceid, func)
                 -- Add the new device to my children
                 table.insert(self.devices, device)
                 -- Scan for other functions on multifunction devices
+                if deviceid == 0 then
+                    -- Check for ARI chain on device 0
+                    local nd,nf = device:ari_next()
+                    if nd then
+                         while ((0 ~= nd) or (0 ~= nf)) do
+                            device = create_device(self.root, self.busnum, nd, nf)
+                            if device then
+                              -- Add the new device to my children
+                                table.insert(self.devices, device)
+                                nd,nf = device:ari_next()
+                            else
+                                break
+                            end
+                        end
+                        return
+                    end
+                end
                 if device.ismultifunction then
                     for func = 1,7 do
                         -- Try and create a device
@@ -520,7 +572,7 @@ local function create_device(root, bus, deviceid, func)
 
         -- Display the PCIe capabilities headers
         if has_pcie then
-            cap_loc = 0x100
+            cap_loc = PCICONFIG_E_CAP_HDR
             while cap_loc ~= 0 do
                 local cap = self:read32(cap_loc)
                 local cap_id = bit64.bextract(cap, 0, 15)
