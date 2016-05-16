@@ -176,23 +176,17 @@ static void setup_vitesse_phy(bdk_node_t node, int mdio_bus, int phy_addr, bool 
     // Near end loopback (Thunder side)
     if (LOOP_INTERNAL)
     {
-        for (int port = 0; port < 4; port++)
-        {
-            reg0 = bdk_mdio_read(node, mdio_bus, phy_addr + port, 0);
-            reg0 = bdk_insert(reg0, 1, 14, 1);
-            bdk_mdio_write(node, mdio_bus, phy_addr + port, 0, reg0);
-        }
+        reg0 = bdk_mdio_read(node, mdio_bus, phy_addr, 0);
+        reg0 = bdk_insert(reg0, 1, 14, 1);
+        bdk_mdio_write(node, mdio_bus, phy_addr, 0, reg0);
     }
 
     // Far end loopback (External side)
     if (LOOP_EXTERNAL)
     {
-        for (int port = 0; port < 4; port++)
-        {
-            reg23 = bdk_mdio_read(node, mdio_bus, phy_addr + port, 23);
-            reg23 = bdk_insert(reg23, 1, 3, 1);
-            bdk_mdio_write(node, mdio_bus, phy_addr + port, 23, reg23);
-        }
+        reg23 = bdk_mdio_read(node, mdio_bus, phy_addr, 23);
+        reg23 = bdk_insert(reg23, 1, 3, 1);
+        bdk_mdio_write(node, mdio_bus, phy_addr, 23, reg23);
     }
 
     // Dump registers
@@ -312,7 +306,14 @@ static void vetesse_setup(bdk_node_t node, int qlm, int mdio_bus, int phy_addr)
     vitesse_program(node, mdio_bus, phy_addr);
 
     /* Switch the Vitesse PHY to the correct mode */
-    setup_vitesse_phy(node, mdio_bus, phy_addr, (qlm_mode == BDK_QLM_MODE_QSGMII_4X1));
+    bool is_qsgmii = (qlm_mode == BDK_QLM_MODE_QSGMII_4X1);
+    if (is_qsgmii)
+    {
+        for (int port = 0; port < 4; port++)
+            setup_vitesse_phy(node, mdio_bus, phy_addr + port, true);
+    }
+    else
+        setup_vitesse_phy(node, mdio_bus, phy_addr, false);
 }
 
 int bdk_if_phy_vetesse_setup(bdk_node_t node)
