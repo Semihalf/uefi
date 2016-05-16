@@ -1204,12 +1204,15 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     bdk_if_link_t result;
 
     result.u64 = 0;
 
     int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
     int speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm) * 8 / 10;
+    if (priv->mode == BGX_MODE_QSGMII) /* 4 ports on one lane, divide speed */
+        speed /= 4;
 
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
     {
