@@ -145,8 +145,8 @@ int __bdk_qlm_measure_refclock(bdk_node_t node, int qlm)
         }
         else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         {
-            /* BGX on DLM0-1, everything else needs a 100Mhz ref */
-            if ((qlm == 0) || (qlm == 1))
+            /* BGX on DLM0-2, everything else needs a 100Mhz ref */
+            if (qlm <= 2)
                 return REF_156MHZ;
             else
                 return REF_100MHZ;
