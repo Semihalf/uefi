@@ -52,9 +52,8 @@ static void ecam_walk_internal_bus(bdk_node_t node, int ecam, int bus)
                 /* Check if we're past all functions */
                 device.func = func;
                 uint32_t device_id = bdk_ecam_read32(&device, BDK_PCCPF_XXX_ID);
-                if (device_id == (uint32_t)-1)
-                    break;
-                bdk_device_add(device.node, device.ecam, device.bus, device.dev, device.func);
+                if (device_id != (uint32_t)-1)
+                    bdk_device_add(device.node, device.ecam, device.bus, device.dev, device.func);
             }
             device.func = 0;
         }
