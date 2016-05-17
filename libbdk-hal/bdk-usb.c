@@ -141,7 +141,7 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
     {
         BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
             c.s.ref_clk_fsel = 0x27;
-            c.s.mpll_multiplier = 0x0;
+            c.s.mpll_multiplier = 0x19;
             c.s.ref_clk_sel = 2;
             c.s.ref_clk_div2 = 0);
         BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
