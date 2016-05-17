@@ -564,8 +564,101 @@ local function create_device(root, bus, deviceid, func)
             if cap_id == 0x11 then
                 printf("%s        MSI-X\n", indent)
             end
+            -- Extended Allocation
             if cap_id == 0x14 then
                 printf("%s        Enhanced Allocation\n", indent)
+                local nument = self:read8(cap_loc + 2)
+                nument = bit64.bextract(nument,0,5)
+                if self.isbridge then
+                    local SecBus = self:read8(cap_loc+4)
+                    local PriBus = self:read8(cap_loc+5)
+                    printf("%s        EA PriBus %d SecBus %d\n", indent, PriBus,SecBus)
+                    cap_loc = cap_loc + 4
+                end
+                cap_loc = cap_loc + 4
+                for ntry = 1,nument do
+                    local ea_data = self:read32(cap_loc)
+                    local es = bit64.bextract(ea_data,0,2)
+                    local bei = bit64.bextract(ea_data,4,7)
+                    local pp = bit64.bextract(ea_data,8,15)
+                    local sp = bit64.bextract(ea_data,16,23)
+                    local wr = bit64.bextract(ea_data,30,30)
+                    local en = bit64.bextract(ea_data,31,31)
+                   --printf("%s->      EA Entry@%04x %d %08x es:%d bei:%d pp:%d sp:%d wr:%d en:%d\n",
+                    --       indent, cap_loc, ntry, ea_data,
+                    --       es,bei,pp,sp,wr,en)
+                    -- ignore entries with no body
+                    if (0 == es) then goto next_ea end
+                     cap_loc = cap_loc + 4
+                    local w_data = {}
+                    for w = 1,es do
+                        w_data[w] = self:read32(cap_loc)
+                        -- printf("%s        EA data@%04x %d:%d %08x\n", indent, cap_loc, ntry, w, w_data[w])
+                        cap_loc = cap_loc + 4
+                    end
+                    -- if entry is disabled we do not report, check after skipping through the body of entry
+                    if 0 == en then goto next_ea end
+                    local prop
+                    if (pp > 7) and (pp < 0xfd) then
+                        prop = sp
+                    else
+                        prop = pp
+                    end
+
+                    local is_base64 = 0
+                    local is_offset64 = 0
+                    local propname
+                    if prop == 0 then
+                        propname = "Memory"
+                    elseif prop == 1 then
+                        propname = "Prefetchable Memory"
+                    elseif prop == 2 then
+                        propname = "IO"
+                    elseif prop == 3 then
+                        propname = "Prefetchable VFIO"
+                    elseif prop == 4 then
+                        propname = "VF Memory"
+                    elseif prop == 5 then
+                        propname = "Bridge Memory"
+                    elseif prop == 6 then
+                        propname = "Prefetchable Bridge Memory"
+                    elseif prop == 7 then
+                        propname = "Bridge IO"
+                    elseif (prop < 0xfd) then
+                        propname = string.format("RFU(0x%02x)", prop)
+                    else
+                        propname = string.format("Resreved (0x%02x)", prop)
+                    end
+                    local barname
+                    if (bei < 6) then
+                        barname = string.format("BAR%d", bei)
+                    elseif (bei >= 9) and (bei < 15) then
+                        barname = string.format("VF BAR%d", bei-9)
+                    elseif bei == 8 then
+                        barname = "ROM"
+                    else
+                        barname = string.format("BEI%d",bei)
+                    end
+                    is_base64 = bit64.bextract(w_data[1],1,1)
+                    local base = string.format("%08x",bit64.bextract(w_data[1],2,31) * 4)
+                    local maxoffset = ""
+                    if es > 1 then
+                        is_offset64 = bit64.bextract(w_data[2],1,1)
+                        maxoffset = string.format("%08x",(bit64.bextract(w_data[2],2,31) * 4) + 3)
+                    end
+                    if (es > 2) then
+                        if is_base64 then
+                            base = string.format("%08x",w_data[3]) .. base
+                        elseif is_offset64 then
+                            maxoffset = string.format("%08x",w_data[3]) .. maxoffset
+                        end
+                        if (es > 3) and is_offset64 then
+                            maxoffset = string.format("%08x",w_data[4]) .. maxoffset
+                        end
+                    end
+                    printf("%s        %s Base:%s Limit:%s [%s]\n",indent, barname,base, maxoffset, propname)
+                    ::next_ea::
+                end
             end
             cap_loc = cap_next
         end
