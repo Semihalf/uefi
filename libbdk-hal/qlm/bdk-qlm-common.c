@@ -511,7 +511,7 @@ void __bdk_qlm_init_mode_table(bdk_node_t node, int qlm)
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
             case BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
-                pll_mode_0.s.pll_icp = 0x3;
+                pll_mode_0.s.pll_icp = 0x1; /* Per Scott McIlhenny 5/17/2016 (t81) */
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0xa;
 
@@ -530,7 +530,7 @@ void __bdk_qlm_init_mode_table(bdk_node_t node, int qlm)
                 lane_mode_0.s.rx_mode = 0x3;
 
                 lane_mode_1.s.vma_fine_cfg_sel = 0x0;
-                lane_mode_1.s.vma_mm = 0x0;
+                lane_mode_1.s.vma_mm = 0x1; /* Per Scott McIlhenny 5/17/2016 (t81) */
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
