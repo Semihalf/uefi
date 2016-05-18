@@ -115,8 +115,8 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
 
     /* Handle where BGX spans two DLMs. This happens on all interfaces for
        CN81XX and for BGX2(DLM5-6) on CN83XX */
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) ||
-        (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (interface == 2)))
+    if ((qlm != -1) && (CAVIUM_IS_MODEL(CAVIUM_CN81XX) ||
+        (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (interface == 2))))
     {
         int num_ports = 0;
         int base_qlm = CAVIUM_IS_MODEL(CAVIUM_CN83XX) ? 5 : (qlm & 2);
