@@ -111,10 +111,11 @@ extern int __bdk_qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop);
 /**
  * Initialize the QLM mode table
  *
- * @param node   Node to initialize
- * @param qlm    Which QLM
+ * @param node    Node to initialize
+ * @param qlm     Which QLM
+ * @param ref_clk Reference clock of the QLM in Hz
  */
-extern void __bdk_qlm_init_mode_table(bdk_node_t node, int qlm);
+extern void __bdk_qlm_init_mode_table(bdk_node_t node, int qlm, int ref_clk);
 
 /**
  * Given a valid PEM number, return its speed in Gbaud

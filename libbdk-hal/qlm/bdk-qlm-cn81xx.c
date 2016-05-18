@@ -792,9 +792,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         case BDK_QLM_MODE_QSGMII_4X1:
             lmac_type = BDK_BGX_LMAC_TYPES_E_QSGMII; /* QSGMII */
             is_bgx = 1;
-            lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("QSGMII", qlm, ref_clk, baud_mhz);
-            if (lane_mode == -1)
-                return -1;
+            lane_mode = BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII;
             break;
         case BDK_QLM_MODE_SATA_2X1:
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm), c.s.lmode = BDK_GSER_LMODE_E_R_8G_REFCLK100);
@@ -849,7 +847,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     bdk_wait_usec(1);
 
     /* Configure the gser pll */
-    __bdk_qlm_init_mode_table(node, qlm);
+    __bdk_qlm_init_mode_table(node, qlm, ref_clk);
 
     /* Remember which lanes are using KR over BGX */
     if (is_bgx)

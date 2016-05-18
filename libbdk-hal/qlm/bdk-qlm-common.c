@@ -389,10 +389,11 @@ int __bdk_qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
 /**
  * Initialize the QLM mode table
  *
- * @param node   Node to initialize
- * @param qlm    Which QLM
+ * @param node    Node to initialize
+ * @param qlm     Which QLM
+ * @param ref_clk Reference clock of the QLM in Hz
  */
-void __bdk_qlm_init_mode_table(bdk_node_t node, int qlm)
+void __bdk_qlm_init_mode_table(bdk_node_t node, int qlm, int ref_clk)
 {
     /* The QLM PLLs are controlled by an array of parameters indexed
        by the QLM mode for each QLM. We need to fill in these tables.
@@ -519,7 +520,20 @@ void __bdk_qlm_init_mode_table(bdk_node_t node, int qlm)
                 pll_mode_1.s.pll_cpadj = 0x2;
                 pll_mode_1.s.pll_pcie3en = 0x0;
                 pll_mode_1.s.pll_opr = 0x0;
-                pll_mode_1.s.pll_div = 0x10;
+                /* QSGMII is a special case. We use the same table entry for
+                   100Mhz and 125Mhz clocks as the normal 156Mhz */
+                switch (ref_clk)
+                {
+                    case REF_100MHZ:
+                        pll_mode_1.s.pll_div = 0x19;
+                        break;
+                    case REF_125MHZ:
+                        pll_mode_1.s.pll_div = 0x14;
+                        break;
+                    default: /* REF_156MHZ */
+                        pll_mode_1.s.pll_div = 0x10;
+                        break;
+                }
 
                 lane_mode_0.s.ctle = 0x0;
                 lane_mode_0.s.pcie = 0x0;
@@ -934,7 +948,7 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
                     break;
                 case 0x1100: /* QSGMII */
                     qlm_mode = BDK_QLM_MODE_QSGMII_4X1;
-                    use_ref = REF_156MHZ;
+                    use_ref = REF_100MHZ;
                     break;
                 case 0x2000: /* XAUI */
                     qlm_mode = BDK_QLM_MODE_XAUI_1X4;

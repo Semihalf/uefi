@@ -906,7 +906,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     bdk_wait_usec(1);
 
     /* Configure the gser pll */
-    __bdk_qlm_init_mode_table(node, qlm);
+    __bdk_qlm_init_mode_table(node, qlm, ref_clk);
 
     /* Remember which lanes are using KR over BGX */
     if (is_bgx)
