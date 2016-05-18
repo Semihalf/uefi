@@ -308,6 +308,12 @@ static int init(bdk_device_t *device)
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
         return 0;
 
+    /* Change drive strength bits to fix issues when a QLM cable
+       is connected, creating a long spur path */
+    BDK_CSR_MODIFY(c, device->node, BDK_SMI_DRV_CTL,
+        c.s.pctl = 7; /* 30 ohm */
+        c.s.nctl = 7); /* 30 ohm */
+
     for (int i = 0; i < 2; i++)
         BDK_BAR_MODIFY(c, device, BDK_SMI_X_EN(i), c.s.en = 1);
 
