@@ -49,12 +49,20 @@ local function set_range_length()
     end
 end
 
-local function run_one_test(test_number)
+local function run_one_test(test_number, show_result)
     local length = range_length
     if length == -1 then
         length = 0x10000000000
     end
-    return cavium.c.bdk_dram_test(test_number, range_start, length, test_flags)
+    local errors = cavium.c.bdk_dram_test(test_number, range_start, length, test_flags)
+    if show_result then
+        if errors == 0 then
+            printf("Test passed\n")
+        else
+            printf("Test reported %d errors\n", errors)
+        end
+    end
+    return errors
 end
 
 local function run_all_tests()
@@ -66,7 +74,7 @@ local function run_all_tests()
         if not name then
             break
         end
-        one_errors = run_one_test(test_number)
+        one_errors = run_one_test(test_number, false)
 	errors = errors + one_errors
         if (one_errors ~= 0) and not bit64.btest(test_flags, cavium.DRAM_TEST_NO_STOP_ERROR) then
 	    break
@@ -95,7 +103,7 @@ local function run_special_tests()
         if not name then
             break
         end
-        one_errors = run_one_test(test_number)
+        one_errors = run_one_test(test_number, false)
 	errors = errors + one_errors
         if (one_errors ~= 0) and not bit64.btest(test_flags, cavium.DRAM_TEST_NO_STOP_ERROR) then
 	    break
@@ -115,7 +123,7 @@ local function run_special_tests()
     return errors
 end
 
-local function do_test(test_func, arg)
+local function do_test(test_func, arg, show_errors)
     local total = range_repeat
     if total == -1 then
         total = 0x7fffffffffffffff
@@ -129,7 +137,7 @@ local function do_test(test_func, arg)
         else
             printf("Pass %d of %d\n", count, total)
         end
-        local errors = test_func(arg)
+        local errors = test_func(arg, show_errors)
 	sum_errors = sum_errors + errors
         -- print running summary if more than 1 pass was to be made and there have been errors
         if (count < total) and (sum_errors ~= 0) then
@@ -180,7 +188,7 @@ repeat
         if not name then
             break
         end
-        m:item("test%d" % test_number, name, do_test, run_one_test, test_number)
+        m:item("test%d" % test_number, name, do_test, run_one_test, test_number, true)
     end
     m:item("spec", "Run special DRAM tests", do_test, run_special_tests, nil)
 
