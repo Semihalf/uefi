@@ -14,6 +14,8 @@
 
 #include "SdMmcPciHcDxe.h"
 
+#include <Library/IoLib.h>
+
 /**
   Send command GO_IDLE_STATE to the device to make it go to Idle State.
 
@@ -464,7 +466,9 @@ SdCardSelect (
 
   SdMmcCmdBlk.CommandIndex = SD_SELECT_DESELECT_CARD;
   SdMmcCmdBlk.CommandType  = SdMmcCommandTypeAc;
+  if (Rca != 0) {
   SdMmcCmdBlk.ResponseType = SdMmcResponseTypeR1b;
+  }
   SdMmcCmdBlk.CommandArgument = (UINT32)Rca << 16;
 
   Status = SdMmcPassThruPassThru (PassThru, Slot, &Packet, NULL);
@@ -602,7 +606,8 @@ SdCardSwitch (
   IN UINT8                              CommandSystem,
   IN UINT8                              DriveStrength,
   IN UINT8                              PowerLimit,
-  IN BOOLEAN                            Mode
+  IN BOOLEAN                            Mode,
+  OUT UINT8                             *SwitchResp
   )
 {
   EFI_SD_MMC_COMMAND_BLOCK              SdMmcCmdBlk;
@@ -610,7 +615,6 @@ SdCardSwitch (
   EFI_SD_MMC_PASS_THRU_COMMAND_PACKET   Packet;
   EFI_STATUS                            Status;
   UINT32                                ModeValue;
-  UINT8                                 Data[64];
 
   ZeroMem (&SdMmcCmdBlk, sizeof (SdMmcCmdBlk));
   ZeroMem (&SdMmcStatusBlk, sizeof (SdMmcStatusBlk));
@@ -629,8 +633,8 @@ SdCardSwitch (
                                 ((DriveStrength & 0xF) << 8) | ((DriveStrength & 0xF) << 12) | \
                                 ModeValue;
 
-  Packet.InDataBuffer     = Data;
-  Packet.InTransferLength = sizeof (Data);
+  Packet.InDataBuffer     = SwitchResp;
+  Packet.InTransferLength = 64;
 
   Status = SdMmcPassThruPassThru (PassThru, Slot, &Packet, NULL);
 
@@ -882,6 +886,7 @@ SdCardSetBusMode (
   UINT8                        AccessMode;
   UINT8                        HostCtrl1;
   UINT8                        HostCtrl2;
+  UINT8                        SwitchResp[64];
   SD_MMC_HC_PRIVATE_DATA       *Private;
 
   Private = SD_MMC_HC_PRIVATE_FROM_THIS (PassThru);
@@ -893,6 +898,9 @@ SdCardSetBusMode (
     return Status;
   }
 
+  // Wait 1ms before switching bus width
+  gBS->Stall (1000);
+
   BusWidth = 4;
 
   Status = SdCardSwitchBusWidth (PciIo, PassThru, Slot, Rca, BusWidth);
@@ -900,30 +908,44 @@ SdCardSetBusMode (
     return Status;
   }
 
+  // Get the supported bus speed from SWITCH cmd return data group #1.
+  //
+  Status = SdCardSwitch (PassThru, Slot, 0xF, 0xF, 0xF, 0xF, FALSE, SwitchResp);
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
   //
   // Calculate supported bus speed/bus width/clock frequency.
   //
   ClockFreq = 0;
-  if (S18A && (Capability->Sdr104 != 0)) {
+  if (S18A && (Capability->Sdr104 != 0) && ((SwitchResp[13] & BIT3) != 0)) {
     ClockFreq = 208;
     AccessMode = 3;
-  } else if (S18A && (Capability->Sdr50 != 0)) {
+  } else if (S18A && (Capability->Sdr50 != 0) && ((SwitchResp[13] & BIT2) != 0)) {
     ClockFreq = 100;
     AccessMode = 2;
-  } else if (S18A && (Capability->Ddr50 != 0)) {
+  } else if (S18A && (Capability->Ddr50 != 0)&& ((SwitchResp[13] & BIT4) != 0)) {
     ClockFreq = 50;
     AccessMode = 4;
-  } else {
+  } else if ((SwitchResp[13] & BIT1) != 0) {
     ClockFreq = 50;
     AccessMode = 1;
+  } else {
+    ClockFreq = 25;
+    AccessMode = 0;
   }
 
-  DEBUG ((EFI_D_INFO, "SdCardSetBusMode: AccessMode %d ClockFreq %d BusWidth %d\n", AccessMode, ClockFreq, BusWidth));
-
-  Status = SdCardSwitch (PassThru, Slot, AccessMode, 0, 0, 0, TRUE);
+  Status = SdCardSwitch (PassThru, Slot, AccessMode, 0xF, 0xF, 0xF, TRUE, SwitchResp);
   if (EFI_ERROR (Status)) {
     return Status;
   }
+
+  if ((SwitchResp[16] & 0xF) != AccessMode) {
+    DEBUG ((EFI_D_ERROR, "SdCardSetBusMode: Switch to AccessMode %d ClockFreq %d BusWidth %d fails! The Switch response is 0x%1x\n", AccessMode, ClockFreq, BusWidth, SwitchResp[16] & 0xF));
+    return EFI_DEVICE_ERROR;
+  }
+
+  DEBUG ((EFI_D_INFO, "SdCardSetBusMode: Switch to AccessMode %d ClockFreq %d BusWidth %d\n", AccessMode, ClockFreq, BusWidth));
 
   //
   // Set to Hight Speed timing
@@ -941,6 +963,7 @@ SdCardSetBusMode (
   if (EFI_ERROR (Status)) {
     return Status;
   }
+
   HostCtrl2 = AccessMode;
   Status = SdMmcHcOrMmio (PciIo, Slot, SD_MMC_HC_HOST_CTRL2, sizeof (HostCtrl2), &HostCtrl2);
   if (EFI_ERROR (Status)) {
@@ -989,12 +1012,13 @@ SdCardIdentification (
   BOOLEAN                        S18r;
   UINT64                         MaxCurrent;
   UINT16                         ControllerVer;
-  UINT8                          PowerCtrl;
-  UINT32                         PresentState;
-  UINT8                          HostCtrl2;
 
   PciIo    = Private->PciIo;
   PassThru = &Private->PassThru;
+
+  // Set slowest clock
+  SdMmcHcClockSupply (PciIo, Slot, 400, Private->Capability[Slot]);
+
   //
   // 1. Send Cmd0 to the device
   //
@@ -1003,6 +1027,7 @@ SdCardIdentification (
     DEBUG ((EFI_D_INFO, "SdCardIdentification: Executing Cmd0 fails with %r\n", Status));
     return Status;
   }
+
   //
   // 2. Send Cmd8 to the device
   //
@@ -1080,59 +1105,6 @@ SdCardIdentification (
     }
   } while ((Ocr & BIT31) == 0);
 
-  //
-  // 6. If the S18A bit is set and the Host Controller supports 1.8V signaling
-  //    (One of support bits is set to 1: SDR50, SDR104 or DDR50 in the
-  //    Capabilities register), switch its voltage to 1.8V.
-  //
-  if ((Private->Capability[Slot].Sdr50 != 0 ||
-       Private->Capability[Slot].Sdr104 != 0 ||
-       Private->Capability[Slot].Ddr50 != 0) &&
-       ((Ocr & BIT24) != 0)) {
-    Status = SdCardVoltageSwitch (PassThru, Slot);
-    if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "SdCardIdentification: Executing SdCardVoltageSwitch fails with %r\n", Status));
-      Status = EFI_DEVICE_ERROR;
-      goto Error;
-    } else {
-      Status = SdMmcHcStopClock (PciIo, Slot);
-      if (EFI_ERROR (Status)) {
-        Status = EFI_DEVICE_ERROR;
-        goto Error;
-      }
-
-      SdMmcHcRwMmio (PciIo, Slot, SD_MMC_HC_PRESENT_STATE, TRUE, sizeof (PresentState), &PresentState);
-      if (((PresentState >> 20) & 0xF) != 0) {
-        DEBUG ((EFI_D_ERROR, "SdCardIdentification: SwitchVoltage fails with PresentState = 0x%x\n", PresentState));
-        Status = EFI_DEVICE_ERROR;
-        goto Error;
-      }
-      HostCtrl2  = BIT3;
-      SdMmcHcOrMmio (PciIo, Slot, SD_MMC_HC_HOST_CTRL2, sizeof (HostCtrl2), &HostCtrl2);
-
-      gBS->Stall (5000);
-
-      SdMmcHcRwMmio (PciIo, Slot, SD_MMC_HC_HOST_CTRL2, TRUE, sizeof (HostCtrl2), &HostCtrl2);
-      if ((HostCtrl2 & BIT3) == 0) {
-        DEBUG ((EFI_D_ERROR, "SdCardIdentification: SwitchVoltage fails with HostCtrl2 = 0x%x\n", HostCtrl2));
-        Status = EFI_DEVICE_ERROR;
-        goto Error;
-      }
-
-      SdMmcHcInitClockFreq (PciIo, Slot, Private->Capability[Slot]);
-
-      gBS->Stall (1);
-
-      SdMmcHcRwMmio (PciIo, Slot, SD_MMC_HC_PRESENT_STATE, TRUE, sizeof (PresentState), &PresentState);
-      if (((PresentState >> 20) & 0xF) != 0xF) {
-        DEBUG ((EFI_D_ERROR, "SdCardIdentification: SwitchVoltage fails with PresentState = 0x%x, It should be 0xF\n", PresentState));
-        Status = EFI_DEVICE_ERROR;
-        goto Error;
-      }
-    }
-    DEBUG ((EFI_D_INFO, "SdCardIdentification: Switch to 1.8v signal voltage success\n"));
-  }
-
   Status = SdCardAllSendCid (PassThru, Slot);
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "SdCardIdentification: Executing SdCardAllSendCid fails with %r\n", Status));
@@ -1153,13 +1125,5 @@ SdCardIdentification (
   Status = SdCardSetBusMode (PciIo, PassThru, Slot, Rca, ((Ocr & BIT24) != 0));
 
   return Status;
-
-Error:
-  //
-  // Set SD Bus Power = 0
-  //
-  PowerCtrl = (UINT8)~BIT0;
-  Status = SdMmcHcAndMmio (PciIo, Slot, SD_MMC_HC_POWER_CTRL, sizeof (PowerCtrl), &PowerCtrl);
-  return EFI_DEVICE_ERROR;
 }
 

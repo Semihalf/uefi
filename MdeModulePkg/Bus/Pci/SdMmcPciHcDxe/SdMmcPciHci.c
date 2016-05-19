@@ -17,6 +17,7 @@
 
 #include "SdMmcPciHcDxe.h"
 
+#include <Library/IoLib.h>
 /**
   Dump the content of SD/MMC host controller's Capability Register.
 
@@ -529,6 +530,9 @@ SdMmcHcGetCapability (
 
   CopyMem (Capability, &Cap, sizeof (Cap));
 
+  // Max Clk Freq
+  Capability->BaseClkFreq = 0xFF;
+
   return EFI_SUCCESS;
 }
 
@@ -704,7 +708,8 @@ SdMmcHcClockSupply (
   //
   ASSERT (Capability.BaseClkFreq != 0);
 
-  BaseClkFreq = Capability.BaseClkFreq;
+  // Fmax = 400 MHz
+  BaseClkFreq = 400;
   if ((ClockFreq > (BaseClkFreq * 1000)) || (ClockFreq == 0)) {
     return EFI_INVALID_PARAMETER;
   }
@@ -1303,6 +1308,11 @@ SdMmcCreateTrb (
     Trb->Mode = SdMmcPioMode;
   }
 
+  // Hardcode no DMA
+  if (Trb->Mode != SdMmcNoData) {
+    Trb->Mode = SdMmcAdmaMode;
+  }
+
   if (Event != NULL) {
     OldTpl = gBS->RaiseTPL (TPL_CALLBACK);
     InsertTailList (&Private->Queue, &Trb->TrbList);
@@ -1665,6 +1675,7 @@ SdMmcCheckTrbResult (
   //
   // Check Trb execution result by reading Normal Interrupt Status register.
   //
+
   Status = SdMmcHcRwMmio (
              Private->PciIo,
              Trb->Slot,
