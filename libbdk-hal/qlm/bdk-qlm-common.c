@@ -1253,77 +1253,58 @@ int __bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int
     BDK_TRACE(QLM, "N%d.QLM%d: Lane %d: TX_SWING=%d, TX_PRE=%d, TX_POST=%d, TX_GAIN=%d, TX_VBOOST=%d\n",
         node, qlm, lane, tx_swing, tx_pre, tx_post, tx_gain, tx_vboost);
 
-    bool did_update = false;
-    /* Get current settings */
-    BDK_CSR_INIT(cfg_0, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane));
-    BDK_CSR_INIT(cfg_1, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane));
-    BDK_CSR_INIT(pre_emphasis, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane));
+    /* Manual Tx Swing and Tx Equalization Programming Steps */
 
-    /* Apply TX Swing settings */
+    /* To perform a subsequent Tx swing and Tx equalization adjustment:
+        a) Disable the Tx coefficient request override enable */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+        c.s.cfg_tx_coeff_req_ovrrd_en = 0;
+        c.s.cfg_tx_vboost_en_ovrrd_en = 0);
+    /* b) Issue a Control Interface Configuration Override request */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+        c.s.ctlifc_ovrrd_req = 1);
+
+    /* 1) Enable Tx swing and Tx emphasis overrides */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+        c.s.tx_swing_ovrrd_en = (tx_swing != -1);
+        c.s.tx_premptap_ovrrd_val = (tx_pre != -1) && (tx_post != -1);
+        c.s.tx_vboost_en_ovrrd_en = (tx_vboost != -1)); /* Vboost override */
+    /* 2) Program the Tx swing and Tx emphasis Pre-cursor and Post-cursor values */
     if (tx_swing != -1)
-    {
-        /* Only update if something has changed */
-        if (cfg_0.s.cfg_tx_swing != tx_swing)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
-                c.s.cfg_tx_swing = tx_swing);
-            did_update = 1;
-        }
-        if (!cfg_1.s.tx_swing_ovrrd_en)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                c.s.tx_swing_ovrrd_en = 1);
-            did_update = 1;
-        }
-    }
-
-    /* Apply TX Premptap settings */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+            c.s.cfg_tx_swing = tx_swing);
     if ((tx_pre != -1) && (tx_post != -1))
-    {
-        int premptap = (tx_post << 4) | tx_pre;
-        /* Only update if something has changed */
-        if (pre_emphasis.s.cfg_tx_premptap != premptap)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
-                c.s.cfg_tx_premptap = premptap);
-            did_update = 1;
-        }
-        if (!cfg_1.s.tx_premptap_ovrrd_val)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                c.s.tx_premptap_ovrrd_val = 1);
-            did_update = 1;
-        }
-    }
-
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+            c.s.cfg_tx_premptap = (tx_post << 4) | tx_pre);
     /* Apply TX gain settings */
     if (tx_gain != -1)
-    {
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_3(qlm, lane),
             c.s.pcs_sds_tx_gain = tx_gain);
-        did_update = 1;
-    }
-
     /* Apply TX vboost settings */
     if (tx_vboost != -1)
-    {
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_3(qlm, lane),
             c.s.cfg_tx_vboost_en = tx_vboost);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-            c.s.tx_vboost_en_ovrrd_en = 1);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_0(qlm, lane),
-            c.s.cfg_tx_vboost_en_ovrrd_val = tx_vboost;
-            c.s.cfg_tx_coeff_req_ovrrd_val = tx_vboost);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
-            c.s.cfg_tx_vboost_en_ovrrd_en = 1;
-            c.s.cfg_tx_coeff_req_ovrrd_en = 1;
-            c.s.ctlifc_ovrrd_req = 1);
-        did_update = 1;
-    }
-
-    if (did_update)
-        bdk_wait_usec(10);
-
+    /* 3) Program override for the Tx coefficient request */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_0(qlm, lane),
+	 if (((tx_pre != -1) && (tx_post != -1)) || (tx_swing != -1))
+	     c.s.cfg_tx_coeff_req_ovrrd_val = 1;
+        if (tx_vboost != -1)
+            c.s.cfg_tx_vboost_en_ovrrd_val = 1;
+        );
+    /* 4) Enable the Tx coefficient request override enable */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+	 if (((tx_pre != -1) && (tx_post != -1)) || (tx_swing != -1))
+	     c.s.cfg_tx_coeff_req_ovrrd_en = 1;
+        if (tx_vboost != -1)
+            c.s.cfg_tx_vboost_en_ovrrd_en = 1
+        );
+    /* 5) Issue a Control Interface Configuration Override request to start
+        the Tx equalizer Optimization cycle which applies the new Tx swing
+        and equalization settings */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+        c.s.ctlifc_ovrrd_req = 1);
+    /* The new Tx swing and Pre-cursor and Post-cursor settings will now take
+       effect. */
     return 0;
 }
 
