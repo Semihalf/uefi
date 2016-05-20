@@ -1255,15 +1255,6 @@ int __bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int
 
     /* Manual Tx Swing and Tx Equalization Programming Steps */
 
-    /* To perform a subsequent Tx swing and Tx equalization adjustment:
-        a) Disable the Tx coefficient request override enable */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
-        c.s.cfg_tx_coeff_req_ovrrd_en = 0;
-        c.s.cfg_tx_vboost_en_ovrrd_en = 0);
-    /* b) Issue a Control Interface Configuration Override request */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
-        c.s.ctlifc_ovrrd_req = 1);
-
     /* 1) Enable Tx swing and Tx emphasis overrides */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
         c.s.tx_swing_ovrrd_en = (tx_swing != -1);
@@ -1301,6 +1292,14 @@ int __bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int
     /* 5) Issue a Control Interface Configuration Override request to start
         the Tx equalizer Optimization cycle which applies the new Tx swing
         and equalization settings */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+        c.s.ctlifc_ovrrd_req = 1);
+
+    /* 6) Prepare for a subsequent Tx swing and Tx equalization adjustment:
+        a) Disable the Tx coefficient request override enable */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+        c.s.cfg_tx_coeff_req_ovrrd_en = 0);
+    /* b) Issue a Control Interface Configuration Override request */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
         c.s.ctlifc_ovrrd_req = 1);
     /* The new Tx swing and Pre-cursor and Post-cursor settings will now take
