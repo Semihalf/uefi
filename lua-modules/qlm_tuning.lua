@@ -403,15 +403,15 @@ end
 local function adjust_eye_params()
     local num_zeros = cavium.c.bdk_config_get_int(cavium.CONFIG_EYE_ZEROS)
     num_zeros = menu.prompt_number("Number of consecutive zeros that starts an eye", num_zeros, 1, 63)
-    cavium.c.bdk_brd_cfg_set_int(num_zeros, "QLM.EYE.NUM_ZEROS")
+    cavium.c.bdk_config_set_int(num_zeros, cavium.CONFIG_EYE_ZEROS)
 
     local settle_time = cavium.c.bdk_config_get_int(cavium.CONFIG_EYE_SETTLE_TIME);
-    settle_time = menu.prompt_number("Time (us) to settle between location movements", settle_time, 1, 100000)
-    cavium.c.bdk_brd_cfg_set_int(settle_time, "QLM.EYE.SETTLE_TIME");
+    settle_time = menu.prompt_number("Time (us) to settle between location movements", settle_time, 20, 100000)
+    cavium.c.bdk_config_set_int(settle_time, cavium.CONFIG_EYE_SETTLE_TIME)
 
     local sample_time = cavium.c.bdk_config_get_int(cavium.CONFIG_EYE_SAMPLE_TIME);
-    sample_time = menu.prompt_number("Time (us) to count errors at each location", sample_time, 1, 10000000)
-    cavium.c.bdk_brd_cfg_set_int(sample_time, "QLM.EYE.SAMPLE_TIME");
+    sample_time = menu.prompt_number("Time (us) to count errors at each location", sample_time, 20, 10000000)
+    cavium.c.bdk_config_set_int(sample_time, cavium.CONFIG_EYE_SAMPLE_TIME)
 end
 
 local function do_loopback()
