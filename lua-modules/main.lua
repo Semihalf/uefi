@@ -66,7 +66,9 @@ m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 m:item("tg",    "Traffic Generator",        do_trafficgen)
 m:item("burn",  "Power Burn options",       menu.dofile, "power_burn_menu")
-m:item("ccpi",  "CCPI options",             menu.dofile, "ccpi_menu")
+if cavium.is_model(cavium.CN88XX) then
+    m:item("ccpi",  "CCPI options",         menu.dofile, "ccpi_menu")
+end
 -- Look for a custom board test file
 local board = cavium.c.bdk_config_get_str(cavium.CONFIG_BOARD_MODEL)
 local board_test_name = ("board-test-%s" % board):lower()
