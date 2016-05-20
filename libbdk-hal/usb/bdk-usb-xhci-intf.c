@@ -59,6 +59,7 @@ void async_request_monitor(int unused, void *ctl)
     BDK_WMB;
 
     p->root_hub_poll_delta = USB_ROOTHUB_POLL_INTERVAL * bdk_clock_get_rate(bdk_numa_local(),BDK_CLOCK_TIME) / 1000000 ;
+    p->root_hub_enum_timestamp = bdk_clock_get_count(BDK_CLOCK_TIME);
     while(1)
     {
         bdk_wait_usec(XHC_ASYNC_TIMER_INTERVAL);
@@ -379,11 +380,8 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     }
     // This portion of init would be done at the end of driver init
     // - start xhci host controller hardware
-    // - set base timestamp for root hub enumeration
     // - start thread which handles async interrupt transfers from subordinate hubs and root hub enumeration
     cvmXhcStart(thisHC);
-
-    usb_global_data[node][usb_port].root_hub_enum_timestamp = bdk_clock_get_count(BDK_CLOCK_TIME);
 
     // Default stack is too small for async monitor - it issues callbacks into mass storage
 #define _ASYNC_STACK_SIZE (6 * 1024)
