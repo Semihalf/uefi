@@ -281,7 +281,7 @@ static void check_cn88xx(bdk_node_t node)
                 BDK_CSR_INIT(c, node, BDK_OCX_LNEX_INT(lane));
                 if (report_ccpi_recoverable_errors)
                 {
-                    CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, disp_err);
+                    CLEAR_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, disp_err); /* Harmless and fires during init */
                     CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, bad_64b67b);
                     CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, crc32_err);
                 }
